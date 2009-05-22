@@ -1,0 +1,7 @@
+XBitHack off
+
+<Files *.js>
+order deny,allow
+deny from all
+</Files>
+

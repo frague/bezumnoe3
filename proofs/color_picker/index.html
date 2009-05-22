@@ -1,0 +1,66 @@
+<html>
+<body>
+	<style>
+		.ColorPicker {
+			border:solid 1px black;
+			margin:0;
+			padding:0;
+			border-collapse: collapse;
+		}
+		.ColorPicker td {
+			width:10px;
+			height:10px;
+			margin:0;
+			padding:0;
+			border:0;
+		}
+	</style>
+
+	<div id="picker"></div>
+
+	<script>
+		var bw = new Array("0","2","4","6","8","A","C","D","E","F");
+		var ones = new Array("19","33","4C","66","99", "99", "99","B2","CC","E5");
+		var twos = new Array("33","66","99","CC","E5", "FF", "33","66","99","CC");
+		var line = new Array(" 002"," 012"," 022"," 021"," 020"," 120"," 220"," 210"," 200"," 201"," 202"," 102");
+		var d = document;
+
+		function ColorPicker() {
+			var el = d.getElementById("picker");
+			if (el) {
+				var table = d.createElement("table");
+				var t = d.createElement("tbody");
+				table.appendChild(t);
+				table.className = "ColorPicker";
+
+				for (var i = 0, l = bw.length; i < l; i++) {
+					MakeRow(t, i);
+				}
+				el.appendChild(table);
+			}
+		};
+
+		function MakeRow(table, index) {
+			var row = table.insertRow(index);
+			var grey = row.insertCell(0);
+			grey.style.backgroundColor = "#" + bw[index] + bw[index] + bw[index] + bw[index] + bw[index] + bw[index];
+			var zero = "00";
+			if (index > 5) {
+				zero = "FF";
+			}
+			for (var i = 0, l = line.length; i < l; i++) {
+				var color = "#";
+				var rgb = line[i];
+				for (var j = 1; j <=3; j++) {
+					var comp = (zero == "FF" ? 2 - 1 * rgb.charAt(j) : 1 * rgb.charAt(j));
+					color += (comp ? (comp == 1 ? ones[index] : twos[index]) : zero);
+				}
+				var cell = row.insertCell(i + 1);
+				cell.style.backgroundColor = color;
+			}
+		};
+
+		ColorPicker();
+	</script>
+</body>
+</html>

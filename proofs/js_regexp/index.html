@@ -1,0 +1,16 @@
+<script>
+
+var brClean = new RegExp("(<br[^>]*>)", "g");
+var aClean = new RegExp("(<[/]*a[^>]*>)", "g");
+
+text = "\"Изображение \"http://bezumnoe.ru/images/photos/какая-либо_фотка.jpg\" не может быть показано, так как содержит ошибки.\"<br />\nчистить кэш?))<br />\n<br /><a href=\'javascript:void(0)\' onclick=\'ForumReply(this,33979)\'>Ответить</a>";
+
+alert(text);
+text = text.replace(brClean, "");
+
+alert(text);
+text = text.replace(aClean, "");
+
+alert(text);
+
+</script>

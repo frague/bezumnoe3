@@ -1,0 +1,476 @@
+body {
+	padding:0;
+	margin:0;
+}
+
+body, td, input, textarea, select, password {
+	font:10pt tahoma;
+}
+
+a {
+	color:orangered;
+}
+
+a img {
+	border:0;
+}
+
+a.Link, span.imageLink a {
+	text-decoration:none;
+	border-bottom: dotted 1px orangered;
+}
+
+span.imageLink {
+	padding: 6px 0 2px 22px;
+	background-image: url(/3/img/icons/image_icon.gif);
+	background-repeat:no-repeat;
+}
+
+/* Common formatting */
+
+.Centered {
+	text-align:center;
+}
+
+.Middle {
+	vertical-align:middle;
+}
+
+.Nowrap {
+	white-space:nowrap;
+}
+
+.Small {
+	font-size:70%;
+}
+
+.White {
+	color:white;
+}
+.Red {
+	color:red;
+}
+.Right {
+	text-align:right;
+}
+
+.Bold {
+	font-weight:bold;
+}
+
+.Button {
+	margin-right:2px;
+}
+
+.NoBorder {
+	border:none;
+}
+
+.Wide {
+	width:100%;
+}
+
+/* Tabs */
+
+ul.Tabs {
+	padding:0;
+	margin:0 0 0 4px;
+	border:0;
+}
+
+.Tabs li {
+	float:left;
+	background-color:black;
+	border:solid 1px #303030;
+	border-top:none;
+	padding: 4px 6px 4px 6px;
+	margin:0 2px 0 0;
+	position:relative;
+	list-style:none;
+	font-size:8pt;
+}
+
+.Tabs li.Selected {
+	border:solid 1px #404040;
+	border-top:none;
+	background-color:#111111;
+	padding: 5px 6px 5px 6px;
+	top:-1px;
+	/*font-weight:bold;*/
+}
+
+.Tabs li a, .Tabs li span {
+	color:#A0A0A0;
+	text-decoration:none;
+	margin:0;
+	padding:0;
+}
+
+.Tabs li.Selected span {
+	color:white;
+}
+
+.Tabs li.HasUnread {
+	background-color: #5C0000;
+}
+
+.TabTopic {
+	text-align:center;
+	background-color:#C3D83F;
+	color:black;
+	margin:0;
+	padding:0;
+	border:solid 1px #111111;
+}
+
+.TabTopic div {
+	font-size:10pt;
+	font-weight:normal;
+	padding: 4px;
+	margin:0;
+}
+
+.TabTopic a {
+	color:black;
+}
+
+.TabTopic.Alert {
+	background-color:#FF602B;
+}
+
+.TabTopic em {
+	color: #D63400;
+	padding-right:4px;
+	font-weight:bold;
+	font-style:normal;
+}
+
+
+
+.Tabs li a.CloseSign {
+	font-family:arial;
+	position:relative;
+	top:-4px;
+	color:red;
+	text-decoration:none;
+	margin-left:2px;
+}
+
+div.ConfirmButtons {
+	text-align:center;
+	padding-bottom:20px;
+}
+
+.ConfirmButtons a {
+	padding: 0 10px 0 10px;
+}
+
+/* UL link icons */
+ul.Links li a, .LeftPadded {
+	padding-left:15px;
+}
+
+a.Delete {
+	background: url(/3/img/icons/delete.gif) no-repeat;
+}
+
+a.Remove {
+	padding-left:15px;
+	background: url(/3/img/icons/delete.gif) no-repeat;
+}
+
+a.Refresh {
+	background: url(/3/img/icons/refresh.gif) no-repeat;
+	color:#8AC21E;
+}
+
+a.Arrow {
+	padding-left:15px;
+	background: url(/3/img/icons/arrow.gif) no-repeat;
+	color:white;
+}
+
+a.Add {
+	padding-left:15px;
+	background: url(/3/img/icons/add.gif) no-repeat;
+	color:#E2EF29;
+}
+
+ul.Links li, ul#UsersContainer li, ul.NoDots li {
+	list-style:none;
+}
+
+/* Loading indicator */
+.LoadingIndicator {
+	height:100px;
+	background:url(/3/img/clock.gif) no-repeat center center;
+/*	background:url(/3/img/pbar.gif) no-repeat center center;*/
+}
+
+/* Confirmations & Alerts */
+
+.ConfirmContainer {
+	width:400px;
+	background-color:#101010;
+	border:solid 1px #404040;
+}
+
+.ConfirmContainer h1 {
+	font-size:16pt;
+	background-color:#202020;
+	padding:4px;
+	margin:0 0 10px 0;
+}
+
+.ConfirmContainer h4 {
+	font-size:12pt;
+	padding:4px;
+	margin:0;
+	color:red;
+}
+
+.ConfirmContainer div {
+	padding:0 8px 0 8px;
+	margin-bottom:10px;
+	font-size:10pt;
+}
+
+/* Pager styles */
+.Pager {
+	width:400px;
+	margin:10px auto 10px;
+	padding:10px;
+	border:solid 1px #404040;
+	background-color:#111111;
+	text-align:center;
+}
+
+.Pager a, .Pager span {
+	padding:2px;
+	margin: 0 2px 0 2px;
+}
+
+.Pager span {
+	color:white;
+	background-color:#F3771F;
+	font-weight:bold;
+}
+
+/* Spoilers */
+div.Spoiler {
+	border: solid 1px #404040;
+	background-color:#222222;
+	margin-top:4px;
+}
+.Spoiler a.Title {
+	text-decoration:none;
+	display:block;
+}
+.Spoiler .Title h4 {
+	margin:0;
+	padding:4px;
+	padding-left:20px;
+	font-size:8pt;
+	font-weight:normal;
+}
+.Spoiler .RelatedDiv {
+	padding:4px;
+}
+
+.Spoiler.Opened .Title h4 {
+	background: #303030 url(/3/img/icons/opened.gif) no-repeat;
+	color:white;
+}
+.Spoiler.Opened a.Title  {
+	color:white;
+}
+.Spoiler.Opened .RelatedDiv, .Spoiler.Closed .AlertsHolder {
+	display:block;
+}
+
+.Spoiler.Closed .Title h4 {
+	background: #202020 url(/3/img/icons/closed.gif) no-repeat;
+	color:#808080;
+}
+.Spoiler.Closed a.Title  {
+	color:#A0A0A0;
+}
+.Spoiler.Closed .RelatedDiv, .Spoiler.Closed .AlertsHolder {
+	display:none;
+}
+/* Spoilers End */
+
+.UploadFrame {
+	width:1px;
+	height:1px;
+	border;1px;
+	display:none;
+}
+
+/* Color Picker */
+
+table.ColorPicker {
+	position:absolute;
+	display:inline;
+	border:solid 1px #404040;
+	margin:0 0 0 4px;
+	padding:0;
+	border-collapse:collapse;
+}
+
+table.ColorPicker tr td {
+	width:8px;
+	height:8px;
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+/* Date Picker & Calendar */
+
+.Date {
+	width:80px;
+}
+
+.DateTime {
+	width:120px;
+}
+
+.Color {
+	width:100px;
+}
+
+.DatePicker {
+	position:absolute;
+	z-index:1000;
+	display:inline;
+	border:solid 1px #404040;
+	margin:0 0 0 4px;
+	padding:1px;
+	border-collapse:collapse;
+	background:white;
+}
+
+table.Calendar {
+	border:none;
+	border-spacing:0;
+	color:black;
+}
+
+div.DatePicker table.Calendar tr {
+	background-color:white;
+}
+
+div.DatePicker table.Calendar td, div.DatePicker table.Calendar th {
+	border:none;
+	padding:0;
+	margin:0;
+	font-size:9pt;
+}
+div.DatePicker table.Calendar td {
+	width:16px;
+	text-align:right;
+	font-size:10pt;
+}
+div.DatePicker table.Calendar td a {
+	display:block;
+	padding:2px;
+	color:black;
+}
+
+div.DatePicker table.Calendar td a:hover {
+	background:#FFB700;
+	color:white;
+}
+
+div.DatePicker table.Calendar td a.Selected {
+	font-weight:bold;
+	color:#FF4114;
+}
+
+div.DatePicker table.Calendar th {
+	padding:2px;
+	color:#EEE;
+	background:#FD3F12;
+	white-space:nowrap;
+}
+
+div.DatePicker table.Calendar th a {
+	color:white;
+}
+
+div.DatePicker table.Calendar th select {
+	color:white;
+	background:#FD3F12;
+	font-weight:bold;
+	width:auto;
+}
+
+
+
+.PickerButton {
+	padding-left:6px;
+}
+.PickerButton img {
+/*	position:relative;
+	top:4px;*/
+	width:20px;
+	height:20px;
+	vertical-align:bottom;
+}
+
+.UserInfo li a.Close {
+	font-family:arial;
+	text-decoration:none;
+	color:red;
+	display:block;
+	width:9px;
+	height:11px;
+	z-index:1000;
+	position:absolute;
+	right:4px;
+}
+.UserInfo li a.Close:hover {
+	background-color:transparent;
+}
+
+.ListChanges {
+	margin:0;
+	padding:0 0 0 20px;
+}
+
+.ListChanges li {
+	list-style:none;
+}
+
+.ListChanges b, #BannedAddresses b {
+	color:#FF832B;
+}
+
+/* Forum & comments reply form */
+
+#Hider {
+	display:none;
+}
+
+#ReplyForm {
+	width:80%;
+	margin: 0 auto;
+}
+#ReplyForm h4 {
+	font-size:10pt;
+}
+
+.Logged {
+	width:250px;
+	padding:4px;
+	text-align:center;
+	float:right;
+	margin:10px;
+	background-color:#eee;
+	border:solid 1px #ccc;
+}
+
+.Error {
+	color:red;
+}

@@ -1,0 +1,300 @@
+body {
+	color:white;
+	background:black;
+	background-image:url(/3/img/bg_main.gif);
+	padding:8px;
+}
+
+h1 {
+	color:#F0D71C;
+	font-size:12pt;
+	margin:0;
+	padding:0;
+}
+
+h2 {
+	font-size:10pt;
+	margin:0;
+	padding:0;
+}
+
+h3 {
+	font-size:8.5pt;
+	margin:0;
+	padding:0;
+	font-style:italic;
+}
+
+h4 {
+	display:block;
+	font-weight:bold;
+	font-size:80%;
+	color:#F2B259;
+	margin:0;
+	padding:0;
+	margin-top:6px;
+}
+
+label {
+	border-bottom:dashed 1px #404040;
+	cursor:pointer;
+	cursor:hand;
+}
+
+td, th {
+	vertical-align:top;
+}
+
+th {
+	font-size:10pt;
+/*	width:20%;*/
+}
+
+select, textarea, .Wide {
+	width:100%;
+}
+
+strong {
+	color:white;
+}
+
+a.Link, span.imageLink a {
+	color:white;
+}
+
+#OptionsContainer {
+	position:absolute;
+}
+
+#OptionsContent {
+	border:solid 1px #404040;
+	padding:4px;
+	background-color:#111111;
+	overflow:auto;
+}
+
+#AlertContainer {
+	position:absolute;
+	z-index:200;
+	padding:0;
+	margin:0;
+	border:0;
+	background-image:url(/3/img/dot.gif);
+}
+
+#AlertContainer td {
+	vertical-align:middle;
+}
+
+.Comments {
+	width:25%;
+	font-size:8pt;
+}
+
+img.Photo {
+	margin:4px;
+	border:solid 4px #404040;
+}
+
+.AlertsHolder {
+	padding:0;
+	margin:0;
+}
+
+.AlertsContainer {
+	background-color:#E9B649;
+	color:black;
+	margin:0;
+	padding:0;
+}
+.AlertsContainer p {
+	font-weight:bold;
+	white-space:nowrap;
+	padding:0 40px 0 40px;
+	margin:0;
+	display:block;
+}
+
+.AlertsContainer p.Error {
+	color:red;
+}
+
+p.Note {
+	padding:0;
+	margin:0;
+	font-size:8pt;
+	color:#808080;
+	font-family:"Arial Narrow";
+}
+
+#fontExample {
+	border: solid 1px #404040;
+	margin-top:2px;
+	padding:8px;
+	background-color:#202020;
+}
+#fontExample p {
+	padding: 10px 0 0 0;
+	margin:0;
+}
+
+#AdminSection {
+	padding: 4px;
+	background-color:#181818;
+	border:solid 1px #404040;
+}
+
+#AdminSection table {
+	width:98%;
+	margin:0 auto;
+}
+
+#COMMENT {
+	font-size:80%;
+}
+
+#BanStatus {
+	font-size:8pt;
+	color:orangered;
+}
+ul#UsersContainer li a b {
+	color:white;
+}
+#STATUS_ID {
+	background-color:#111111;
+	color:white;
+}
+
+/* Journal Messages */
+table.Wide {
+	width:98%;
+}
+
+table.Grid {
+	width:98%;
+	border-top:solid 1px #505050;
+	border-left:solid 1px #505050;
+	margin:4px auto;
+}
+
+table.Grid tr {
+	background-color:#303030;
+}
+
+table.Grid tr.Warning {
+	background-color:#403030;
+}
+
+table.Grid tr.Dark {
+	background-color:#202020;
+}
+
+table.Grid tr.Dark.Warning {
+	background-color:#302020;
+}
+
+table.Grid th, table.Grid td {
+	border-bottom:solid 1px #505050;
+	border-right:solid 1px #505050;
+	font-size:8pt;
+	padding:4px;
+}
+
+table.Grid th {
+	color:white;
+	background-color:#F3771F;
+	text-align:center;
+}
+
+#MessagesGrid h2 {
+	font-size:10pt;
+	padding:0;
+	margin:0;
+}
+
+#MessagesGrid h2.Private {
+	color:#FF472B;
+	padding-left:26px;
+	background:url(/3/img/icons/eye.gif) no-repeat;
+}
+
+#MessagesGrid h2.Friends {
+	color:#BAF31F;
+	padding-left:26px;
+	background:url(/3/img/icons/friends.gif) no-repeat;
+}
+/* Journal Messages End */
+
+/* Journal Templates */
+
+#templates textarea {
+	font-family:"Lucida Console",System,Courier;
+	font-size:9pt;
+	width:100%;
+	height:50px;
+}
+
+#templates textarea.Maximized {
+	height:300px;
+}
+
+/* Journal Templates End */
+
+
+#CommentsGrid span {
+	font-size:9pt;
+	padding:0;
+	margin:0;
+}
+
+#CommentsGrid div {
+	padding: 4px 0 0 50px;
+	text-align:right;
+}
+
+#CommentsGrid tr.Hidden h2, #CommentsGrid tr.Hidden span {
+	font-style:italic;
+	color:#FCEC73;
+}
+
+#CommentsGrid tr.Deleted td {
+	text-decoration:line-through;
+	background-color:#651313;
+}
+
+#FRAMESET img {
+	display:block;
+	margin:0 auto;
+}
+
+.StatusColor {
+	float:left;
+	width:16px;
+	height:10px;
+	border:solid 1px black;
+	padding:0;
+	margin:0 4px;
+}
+.NewsDescription {
+	height:70px;
+	margin-top:4px;
+}
+
+/* User manager table */
+
+#UsersContainer a {
+	font-weight:bold;
+	color:white;
+}
+#UsersContainer a b {
+	background-color:#505050;
+}
+#UsersContainer ul {
+	list-style-type: none;
+	padding-left:10px;
+	margin-top:4px;
+}
+#UsersContainer ul a {
+	font-weight:normal;
+	color:#FFD446;
+}

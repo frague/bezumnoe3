@@ -1,0 +1,63 @@
+body {
+	color:white;
+	background:black;
+	background-image:url(/3/img/bg_main.gif);
+	padding:8px;
+}
+
+#WakeupContainer {
+	overflow:auto;
+}
+
+#WakeupContainer, #WakeupReply {
+	position:absolute;
+	border:solid 1px #404040;
+	padding:0;
+	margin:0;
+	background-color:#111111;
+}
+
+h1 {
+	font-size:12pt;
+	margin:10px 10px 4px 10px;
+	padding:0;
+}
+
+#WakeupContainer strong {
+	display:block;
+	padding:4px;
+	clear:both;
+}
+
+#WakeupContainer p {
+	text-align: right;
+	margin:4px;
+}
+
+#WakeupContainer p span {
+	display:block;
+	font-size:60%;
+}
+
+#WakeupContainer a {
+	color:white;
+}
+
+#WakeupContainer .Reply {
+	color:orange;
+	display:block;
+	float:left;
+	margin:4px;
+}
+
+#status {
+	display:block;
+	padding-left:10px;
+	font-size:8pt;
+}
+.Fail {
+	color:red;
+}
+.Succeed {
+	color:lime;
+}

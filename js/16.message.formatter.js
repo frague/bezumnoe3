@@ -1,0 +1,35 @@
+//1.3
+/*
+	Replaces #pvt#, #info# and #add# chunks with
+	proper links
+*/
+
+function MakePrivateLink(id, name) {
+	return "<a " + voidHref + " onclick=\"AR(" + id + ",'" + name + "')\">#</a>";
+};
+
+function MakeLink(name) {
+	return "<a " + voidHref + " onclick=\"_('" + name + "')\">" + name + "</a>";
+};
+
+function MakeInfoLink(id, name) {
+	return "<a " + voidHref + " onclick=\"Info('" + id + "')\">" + name + "</a>";
+};
+
+function GetUserStyle(id) {
+	if (users) {
+		var user = users.Get(id);
+		if (user && user.Settings.Font && user.Settings.Font.ToCSS) {
+			return "style='" + user.Settings.Font.ToCSS(me) + "'";
+		}
+	}
+	return "";
+}
+
+function Format(text, person_id, person_name) {
+	text = text.replace("#style#", GetUserStyle(person_id));
+	text = text.replace("#info#", MakeInfoLink(person_id, person_name));
+	text = text.replace("#pvt#", MakePrivateLink(person_id, person_name));
+	text = text.replace("#add#", MakeLink(person_name));
+	return text;
+};

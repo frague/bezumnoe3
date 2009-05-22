@@ -1,0 +1,334 @@
+//6.5
+/*
+	User options UI and helper methods
+*/
+
+// Options base class
+
+function OptionsBase() {
+	this.defaultValues = [];
+};
+
+/* Gathering object properties from UI controls */
+
+OptionsBase.prototype.GatherOne = function(name, property) {
+	el = this.Inputs ? this.Inputs[name] : "";
+
+	var prop = property ? property : name;
+	if (el) {
+		if (el.type == "text" || el.type == "password" || el.type == "hidden" || el.type == "select-one" || el.type == "textarea") {
+			this[prop] = el.value;
+			return MakeParametersPair(name, el.value);
+		} else if (el.type == "checkbox" || el.type == "radio") {
+			this[prop] = el.checked;
+			return MakeParametersPair(name, el.checked ? 1 : 0);
+		}
+		if (el.className == "Radios") {
+			var value = GetRadioValue(el);
+			this[prop] = value;
+			return MakeParametersPair(name, value);
+		}
+	} else if (this[name] != "undefined") {
+		return MakeParametersPair(name, this[name]);	// In case if no real controls relate to object
+	}
+	return "";
+};
+
+OptionsBase.prototype.GatherFields = function(fields) {
+	this.FindRelatedControls();
+	if (!fields) {
+		if (!this.properties) {
+			this.properties = this.fields;	// In case if properties differs from elements ids
+		}
+		fields = this.fields;
+		properties = this.properties;
+	} else {
+		properties = fields;
+	}
+
+	var el;
+	var result = "";
+	for (var i = 0,l = fields.length; i < l; i++) {
+		result += this.GatherOne(fields[i], properties[i]);
+	}
+	return result;
+};
+
+OptionsBase.prototype.BaseGather = function() {
+	var result = this.GatherFields();
+	if (this.alt_fields) {
+		result += this.GatherFields(this.alt_fields);
+	}
+	return result;
+};
+
+OptionsBase.prototype.Gather = function() {	// Method to override
+	return this.BaseGather();
+};
+
+/* Filling object properties with values from source array */
+
+OptionsBase.prototype.FillBase = function(source, fields) {
+	if (!fields) {
+		fields = this.fields;
+	} else {
+		this.alt_fields = fields;
+	}
+
+	var doClear = 0;
+	if (!source || !source.length) {
+		source = this.defaultValues;	// Do reset fields to default values
+	}
+	if (source.length != fields.length) {
+		doClear = 1;
+	}
+	
+	var el;
+	for (var i = 0,l = fields.length; i < l; i++) {
+		this[fields[i]] = doClear ? "" : source[i];
+	}
+};
+
+OptionsBase.prototype.FillFrom = function(source, fields) {		// Method to override
+	this.FillBase(source, fields);
+};
+
+/* Binding tba controls with object's properties */
+
+OptionsBase.prototype.FindRelatedControls = function(force) {
+	if ((force || !this.Inputs) && this.Tab) {
+		this.Inputs = IndexElementChildElements(this.Tab.RelatedDiv);
+	}
+};
+
+OptionsBase.prototype.BindFields = function(fields) {
+	this.FindRelatedControls();
+	var el;
+	for (var i = 0, l = fields.length; i < l; i++) {
+		var field = fields[i];
+		var value = this[field];
+		if (value == "undefined") {
+			value = "";
+		}
+		this.SetTabElementValue(field, value);
+	}
+};
+
+OptionsBase.prototype.BaseBind = function() {
+	this.BindFields(this.fields);
+	if (this.alt_fields) {
+		this.BindFields(this.alt_fields);
+	}
+};
+
+OptionsBase.prototype.Bind = function() {	// Method to override
+	return this.BaseBind();
+};
+
+OptionsBase.prototype.AssignObjectTo = function(id, obj, name) {
+	this.FindRelatedControls();
+	var el = this.Inputs[id];
+	if (el) {
+		el[name] = obj;
+	}
+};
+
+OptionsBase.prototype.AssignTabTo = function(id) {
+	this.AssignObjectTo(id, this.Tab, "Tab");
+};
+
+OptionsBase.prototype.AssignSelfTo = function(id) {
+	this.AssignObjectTo(id, this, "obj");
+};
+
+OptionsBase.prototype.SetTabElementValue = function(element, value) {
+	this.FindRelatedControls();
+	var el = this.Inputs[element];
+	if (el) {
+		if (el.type == "text" || el.type == "hidden" || el.type == "select-one" || el.type == "textarea") {
+			el.value = value;
+			return;
+		} else if (el.type == "checkbox" || el.type == "radio") {
+			el.checked = value;
+			return;
+		}
+
+		if (el.className == "Radios") {
+			SetRadioValue(el, value);
+		} else {
+			el.innerHTML = value;
+		}
+	}
+};
+
+OptionsBase.prototype.DisplayTabElement = function(element, state) {
+	var el = this.Inputs[element];
+	if (el) {
+		DisplayElement(el, state);
+	}
+};
+
+OptionsBase.prototype.Clear = function() {
+	this.FindRelatedControls();
+	for (var i = 0,l = this.fields.length; i < l; i++) {
+		this[this.fields[i]] = "";
+	}
+};
+
+OptionsBase.prototype.Reset = function() {
+	if (!this.defaultValues || this.defaultValues.length < this.fields.length) {
+		return;
+	}
+	this.FindRelatedControls();
+	for (var i = 0,l = this.fields.length; i < l; i++) {
+		this.SetTabElementValue(this.fields[i], this.defaultValues[i]);
+	}
+};
+
+/* Request methods */
+
+OptionsBase.prototype.BaseRequest = function(params, callback) {
+	if (!params) {
+		params = "";
+	}
+	params += MakeParametersPair("USER_ID", this.USER_ID);
+	sendRequest(this.ServicePath, callback ? callback : this.RequestCallback, params, this);
+};
+
+OptionsBase.prototype.Request = function(params, callback) {	/* Method to override */
+	this.BaseRequest(params, callback);
+};
+
+OptionsBase.prototype.Save = function(callback) {
+	var params = this.Gather();
+	params += MakeParametersPair("go", "save");
+	this.Request(params, callback);
+};
+
+OptionsBase.prototype.Delete = function(callback) {
+	var params = this.Gather();
+	params += MakeParametersPair("go", "delete");
+	this.Request(params, callback);
+};
+
+
+
+/* Common callback */
+
+OptionsBase.prototype.RequestBaseCallback = function(req, obj) {
+	this.data = [];
+	this.Total = 0;
+	if (obj) {
+		obj.Tab.Alerts.Clear();
+		eval(req.responseText);
+	}
+};
+
+OptionsBase.prototype.GroupAssign = function(method, items) {
+	if (this[method]) {
+		for (var i = 0, l = items.length; i < l; i++) {
+			this[method](items[i]);
+		}
+	}
+};
+
+OptionsBase.prototype.GroupSelfAssign = function(items) {
+	this.GroupAssign("AssignSelfTo", items);
+};
+
+OptionsBase.prototype.GroupTabAssign = function(items) {
+	this.GroupAssign("AssignTabTo", items);
+};
+
+
+OptionsBase.prototype.UpdateToPrintableDate = function(field) {
+	this.SetTabElementValue(field, ParseDate(this[field]).ToPrintableString(1));
+};
+
+/* Helper methods */
+
+var optionsWindow;
+function ShowOptions() {
+	if (!optionsWindow || optionsWindow.closed) {
+		optionsWindow = open("options", "options", "width=600,height=400,toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=1");
+	}
+	optionsWindow.focus();
+};
+
+/* Static content requestor */
+
+var cachedContent = new Array();
+function RequestContent(name, callback, obj) {
+	var req;
+	if (cachedContent[name] && callback) {
+		var req = new Object();
+		req.responseText = cachedContent[name];
+		callback(req, obj);
+	} else {
+		req = sendRequest("/3/prototype/options/" + name + ".php", callback, "", obj);
+	}
+	return req;
+};
+
+function KeepRequestedContent(name, value) {
+	cachedContent[name] = value;
+};
+
+/* Load template template_name with data for user_id into tab */
+
+function LoadAndBindObjectToTab(tab, user_id, obj, obj_class, callback, login) {
+	obj.USER_ID = Math.round(user_id);
+	obj.LOGIN = login;
+
+	tab[obj_class] = obj;
+	tab.Alerts = new Alerts(tab.TopicDiv);
+	obj.Tab = tab;
+	if (obj.Template) {
+		RequestContent(obj.Template, callback, tab);
+	}
+};
+
+function CreateUserTab(id, login, init_function, prefix, parameter, tab_id) {
+	if (!tab_id) {
+		tab_id = tabs.tabsCollection.LastId + 1;
+	}
+	var tab = tabs.tabsCollection.Get(tab_id);
+	if (!tab) {
+		tabs.Add(new Tab(tab_id, (prefix ? prefix : "") + (prefix && login ? " " : "") + login));
+
+		SwitchToTab(tab_id);
+		tabs.Print();
+
+		var tab = tabs.tabsCollection.Get(tab_id);
+		tab.PARAMETER = parameter;
+		init_function(tab, id, login);
+	} else {
+		SwitchToTab(tab_id);
+		tabs.Print();
+	}
+};
+
+/* Making initial actions after template loading */
+
+function ObjectOnLoad(req, tab, obj_class) {
+	if (tab) {
+		var obj = tab[obj_class];
+		text = req;
+		if (req.responseText) {
+			text = req.responseText;
+			KeepRequestedContent(obj.Template, text);
+		}
+		tab.RelatedDiv.innerHTML = text;
+		tab.InitUploadFrame();
+		obj.Request();
+	}
+};
+
+/* Common methods */
+
+function ReRequestData(a) {
+	if (a.obj) {
+		a.obj.Tab.Alerts.Clear();
+		a.obj.Request();
+	}
+};

@@ -1,0 +1,72 @@
+body, input, textarea, select, td, th {
+	font-family: "Arial Narrow", arial, tahona;
+	font-size: 9pt;
+}
+
+p {
+	font-size:10pt;
+	margin:0;
+	padding:0;
+}
+
+input, textarea, select {
+	background-color: #F0F0FF;
+}
+
+h1, h2, h3, h4 {
+	padding:0;
+	margin:0;
+}
+
+h1 {
+	width:100%;
+	text-decoration:underline;
+	color:orangered;
+	font-size:16pt;
+}
+
+h2 {
+	font-size:14pt;
+}
+h3 {
+	font-size:12pt;
+	color: #4C6F1E;
+}
+
+h4 {
+	font-size:10pt;
+}
+
+ul, ol {
+	padding-bottom: 4px;
+}
+
+ul ol, ol ol, ul ul, ol ul {
+	font-size:80%;
+}
+
+ul > li {
+	list-style-image: url(../img/ul.gif);
+}
+
+.Error, .Red {
+	color: red;
+}
+
+
+/* Rooms js */
+
+.current {
+	font-weight: bold;
+}
+
+.testArea {
+	border:dotted 1px #808080;
+	padding:4px;
+}
+
+.Column {
+	width:200px;
+	vertical-align:top;
+	float:left;
+}
