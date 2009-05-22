@@ -17,11 +17,20 @@
 	if ($user_id == $user->User->Id || $user->IsAdmin()) {
 		if ($user_id == $user->User->Id) {
 			$targetUser = $user->User;
+			$targetStatus = $user->Status;
 		} else {
 			$targetUser = new User($user_id);
 			$targetUser->Retrieve();
+
+			$targetStatus = new Status($targetUser->StatusId);
+			$targetStatus->Retrieve();
+
+			if ($targetStatus->IsAdmin() && !$user->IsSuperAdmin()) {
+				$targetUser->Clear();
+			}
 		}
 		if ($targetUser->IsEmpty()) {
+			echo "co.AlertType=true;co.Show(\"\", \"Нет доступа к профилю\", \"У админов нет доступа к профилям других администраторов и хранителей чата.\");CloseTab(obj.Tab.Id);";
 			return;
 		}
 
@@ -114,9 +123,8 @@
 						if ($user->Status->Rights > $targetStatus->Rights) {
 							$bannedBy = $targetUser->BannedBy;
 							if ($targetUser->FillBanInfoFromHash($_POST, $user->User)) {
-
 								// Write log
-								if (!$bannedBy && $targetUser->BannedBy) {
+								if (IdIsNull($bannedBy) && $targetUser->BannedBy) {
 									LogBan($targetUser->Id, $targetUser->BanReason, $user->User->Login, $targetUser->BannedTill);
 								} else if ($bannedBy && !$targetUser->BannedBy) {
 									LogBanEnd($targetUser->Id, $user->User->Login);

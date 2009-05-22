@@ -18,10 +18,11 @@
 
 		$user = GetAuthorizedUser($dbMain, true);
 
+		if ($user->IsAdmin()) {
+			$isAdmin = true;
+		}
 		if ($user->IsSuperAdmin()) {
 			$isSuperAdmin = true;
-		} else if ($user->IsAdmin()) {
-			$isAdmin = true;
 		}
 
     }

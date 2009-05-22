@@ -44,15 +44,11 @@ class UserComplete extends EntityBase {
 	}
 
 	function IsAdmin() {
-	  global $AdminRights;
-
-		return $this->Status->Rights >= $AdminRights;
+		return $this->Status->IsAdmin();
 	}
 
 	function IsSuperAdmin() {
-	  global $AdminRights;
-
-		return $this->Status->Rights > $AdminRights;
+		return $this->Status->IsSuperAdmin();
 	}
 
 	function CheckSum($extended = false) {

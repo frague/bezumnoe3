@@ -37,14 +37,14 @@
 <h4>Город:</h4>
 <input name="CITY" id="CITY" maxlength="100" class="Wide" />
 
-<h4>Адрес в интернете:</h4>
+<h4>Адрес сайта в интернете:</h4>
 <input name="URL" id="URL" maxlength="255" class="Wide" />
 
 <h4>ICQ:</h4>
 <input name="ICQ" id="ICQ" maxlength="20" class="Wide" />
 
 <h4>О себе:</h4>
-<textarea name="ABOUT" id="ABOUT" rows="6"></textarea>
+<textarea name="ABOUT" id="ABOUT" rows="6" onclick="Maximize(this)"></textarea>
 
 		</td><td>
 <h4>Фотография:</h4>
@@ -108,7 +108,7 @@
 
 	<div id="BanDetails" style="display:none">
 		<h4>Причина бана:</h4>
-		<input name="BAN_REASON" id="BAN_REASON" class="Wide" />
+		<textarea name="BAN_REASON" id="BAN_REASON" class="Wide" rows="3"></textarea>
 
 		<h4>Срок бана:</h4>
 		<input name="BANNED_TILL" id="BANNED_TILL" />

@@ -1,4 +1,4 @@
-//3.1
+//3.2
 /*
 	Tab class. Entity of Tabs one.
 */
@@ -23,7 +23,8 @@
 	TabBase.prototype.AddSubmitButton = function(method, holder) {
 		var m1 = d.createElement("div");
 		m1.className = "ConfirmButtons";
-		m1.appendChild(MakeButton(method, "ok_button.gif", this));
+		this.SubmitButton = MakeButton(method, "ok_button.gif", this);
+		m1.appendChild(this.SubmitButton);
 		this[holder ? holder : "RelatedDiv"].appendChild(m1);
 	};
 

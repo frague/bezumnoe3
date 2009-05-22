@@ -1,7 +1,7 @@
 <?
     require "menu_base.php";
 
-	if ($user->IsEmpty()) {
+	if ($user->IsEmpty() && !$user->IsAdmin()) {
 		exit();
 	}
 

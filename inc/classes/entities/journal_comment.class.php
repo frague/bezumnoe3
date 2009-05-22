@@ -16,7 +16,7 @@ class JournalComment extends JournalRecord {
 "\",\"".JsQuote($this->Author).
 "\",\"".JsQuote($title).
 "\",\"".JsQuote($content).
-"\",\"".JsQuote($this->Date).
+"\",\"".JsQuote(PrintableDate($this->Date)).
 "\",".round($this->Type).",".round($this->IsDeleted).")";
 	}
 	

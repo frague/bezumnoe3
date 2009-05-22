@@ -39,7 +39,7 @@
 	};
 
 	function LogBan($userId, $reason, $adminLogin, $till = "") {
-		 SaveLog("<i>Бан ".($reason ? "с формулировкой &laquo;".$reason."&raquo;" : "без указания причины").($till ? " до ".$till : "")."</i>", $userId, $adminLogin);
+		 SaveLog("<i>Бан ".($reason ? "с формулировкой &laquo;".$reason."&raquo;" : "без указания причины").($till ? " до ".PrintableDate($till) : "")."</i>", $userId, $adminLogin);
 	}
 
 	function LogBanEnd($userId, $adminLogin) {

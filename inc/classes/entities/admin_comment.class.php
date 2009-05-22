@@ -81,7 +81,7 @@ class AdminComment extends EntityBase {
 	}
 
 	function ToJs($login) {
-		return "new acdto(\"".JsQuote($this->Date).
+		return "new acdto(\"".JsQuote(PrintableDate($this->Date)).
 "\",\"".JsQuote($this->Content).
 "\",\"".JsQuote($this->AdminLogin).
 "\",".round($this->Severity).($login ? ",\"".JsQuote($login)."\"" : "").

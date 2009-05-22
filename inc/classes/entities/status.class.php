@@ -32,6 +32,18 @@ class Status extends EntityBase {
 		$this->IsSpecial = 0;
 	}
 
+	function IsAdmin() {
+	  global $AdminRights;
+
+		return $this->Rights >= $AdminRights;
+	}
+
+	function IsSuperAdmin() {
+	  global $AdminRights;
+
+		return $this->Rights > $AdminRights;
+	}
+
 	function CheckSum($extended = false) {
 		$cs = 0;
 		$cs += CheckSum($this->Rights);

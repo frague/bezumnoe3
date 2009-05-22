@@ -1,4 +1,4 @@
-//4.0
+//4.6
 /*
 	User Manager admin functionality
 */
@@ -26,7 +26,7 @@ Userman.prototype.RequestCallback = function(req, obj) {
 		if (obj.more) {
 			obj.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
 		} else {
-			if (!obj.data || !obj.data.length) {
+			if ((!obj.data || !obj.data.length) && userSearched) {
 				obj.Tab.Alerts.Add("Пользователи не найдены.");
 			}
 		}
@@ -49,18 +49,6 @@ udto.prototype.ToString = function(index, obj) {
 	var name = this.Login + (this.Nickname ? "&nbsp;(" + this.Nickname + ")" : "");
 	td1.appendChild(umDisplayName(this, name, td1, obj));
 	tr.appendChild(td1);
-
-/*	var td2 = d.createElement("td");
-	td2.className = "Centered";
-
-	td2.appendChild(MakeButton("AddFriendlyJournal(" + this.Id + ",this)", "icons/add_friend.gif", obj, "", "Добавить дружественный журнал"));
-	td2.appendChild(MakeButton("AddForbiddenCommenter(" + this.Id + ",this)", "icons/remove_user.gif", obj, "", "Запретить комментировать"));
-
-	if (me && me.Rights >= adminRights) {
-		umAddUserButtons(this, td2);
-	}
-	tr.appendChild(td2);*/
-
 	return tr;
 };
 
@@ -71,11 +59,13 @@ function umDisplayName(userDTO, name, td, obj) {
 	a.innerHTML = name;
 	a.href = voidLink;
 	a.onclick = function(){ShowUserMenu(this, userDTO.Id, userDTO.Login, td, obj)};
+	a.className = "Closed";
 	return a;
 };
 
 var userMenu;
 function ShowUserMenu(a, id, login, container, obj) {
+	a.blur();
 	if (HideUserMenu(id)) {
 		return;
 	};
@@ -84,19 +74,25 @@ function ShowUserMenu(a, id, login, container, obj) {
 	userMenu.Container = container;
 	userMenu.Id = id;
 	userMenu.onclick = HideUserMenu;
+	userMenu.Link = a;
 
-	if (me && me.Rights >= adminRights) {
+	if (window.umViewProfile) {
 		userMenu.appendChild(MakeUserMenuLink(umViewProfile(id, login, obj)));
-	}
+	};
+	if (window.umAddUserButtons) {
+		userMenu.appendChild(umAddUserButtons(id, login, obj));
+	};
 
 	userMenu.appendChild(MakeUserMenuLink(MakeButtonLink("AddFriendlyJournal(" + id + ",this)", "Добавить дружественный журнал", obj, "")));
 	userMenu.appendChild(MakeUserMenuLink(MakeButtonLink("AddForbiddenCommenter(" + id + ",this)", "Запретить комментировать", obj, "")));
 
 	insertAfter(userMenu, a);
+	a.className = "Opened";
 };
 
 function HideUserMenu(id) {
 	if (userMenu) {
+		userMenu.Link.className = "Closed";
 		var i = userMenu.Id;
 		userMenu.Container.removeChild(userMenu);
 		userMenu = "";
@@ -134,6 +130,7 @@ function UsermanOnLoad(req, tab) {
 
 var lastValue = " ";
 var usersTimer;
+var userSearched = 0;
 
 function GetUsers(input) {
 	if (usersTimer) {
@@ -146,6 +143,7 @@ function DoRequest(input) {
 	var userManager = input.Tab.Userman;
 	if (userManager) {
 		if (input) {
+			userSearched = 1;
 			if (input.value == lastValue) {
 				return;
 			}

@@ -27,6 +27,10 @@
 			echo "Banned('".JsQuote($user->User->BanReason)."', '".JsQuote($bannerName)."', ".JsQuote($user->User->BannedBy).", '".JsQuote($user->User->BannedTill)."');";
 		}
 	}
+	if ($user->User->KickMessages) {
+		echo "Kicked('".JsQuote($user->User->KickMessages)."');";
+		exit;
+	}
 
 
 	$s = "";

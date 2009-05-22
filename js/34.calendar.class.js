@@ -1,4 +1,4 @@
-//3.6
+//3.7
 /*
 	Date picker fuctionality.
 */
@@ -289,6 +289,9 @@ Calendar.prototype.Select = function(a) {
 /*-------------------------------------------------*/
 
 function DatePicker(input, with_time) {
+	if (!input) {
+		return;
+	}
 	this.Visible = true;
 	this.WithTime = with_time;
 	this.Input = input;

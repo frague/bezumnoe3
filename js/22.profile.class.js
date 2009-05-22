@@ -132,12 +132,14 @@ function ProfileOnLoad(req, tab) {
 		}
 
 		/* Date pickers */
-		var a = new DatePicker(tp.Inputs["BIRTHDAY"]);
-		var b = new DatePicker(tp.Inputs["BANNED_TILL"], 1);
+		new DatePicker(tp.Inputs["BIRTHDAY"]);
+		new DatePicker(tp.Inputs["BANNED_TILL"], 1);
 
 		/* Admin comments spoiler */
-		var acs = new Spoiler(1, "Комментарии администраторов	&	логи", 0, 0, function(tab) {LoadAndBindAdminCommentsToTab(tab,tp.USER_ID)});
-		acs.ToString(tp.Inputs["AdminComments"]);
+		if (me.IsAdmin()) {
+			var acs = new Spoiler(1, "Комментарии администраторов	&	логи", 0, 0, function(tab) {LoadAndBindAdminCommentsToTab(tab,tp.USER_ID)});
+			acs.ToString(tp.Inputs["AdminComments"]);
+	   	}
 
 		/* Submit button */
 		tab.AddSubmitButton("SaveProfile(this)");

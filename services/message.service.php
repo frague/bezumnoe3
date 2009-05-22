@@ -70,7 +70,7 @@
 
 							$n = $targetUser->GetUserCurrentName();
 							if ($user->Status->Rights >= $targetStatus->Rights) {
-								$targetUser->GoOffline();
+								$targetUser->Kick($message, $user->DisplayedName());
 								$msg = new SystemMessage($user->DisplayedName()." выгоняет из чата ".$n.($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
 							} else {
 								$msg = new PrivateSystemMessage("Невозможно выгнать пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);

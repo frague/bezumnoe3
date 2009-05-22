@@ -55,8 +55,8 @@ Nickname.prototype.CreateViewControls = function() {
 		this.Input.setAttribute("maxlength", name_length);
 		this.Div.appendChild(this.Input);
 		if (this.Id) {
-			this.Div.appendChild(this.CreateButton("accept_icon.gif", "StopEditing(true)"));
-			this.Div.appendChild(this.CreateButton("delete_icon.gif", "StopEditing(false)"));
+			this.Div.appendChild(this.CreateButton("icons/done.gif", "StopEditing(true)"));
+			this.Div.appendChild(this.CreateButton("icons/cancel.gif", "StopEditing(false)"));
 		}
 	}
 };

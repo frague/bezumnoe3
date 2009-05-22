@@ -19,7 +19,6 @@ function LoadAndBindAdminOptionsToTab(tab, user_id) {
 	LoadAndBindObjectToTab(tab, user_id, new AdminOptions(), "AdminOptions", AdminOptionsOnLoad);
 };
 
-
 function AdminOptionsOnLoad(req, tab) {
 	if (tab) {
 		ObjectOnLoad(req, tab, "AdminOptions");

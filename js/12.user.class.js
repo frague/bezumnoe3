@@ -1,4 +1,4 @@
-//4.7
+//4.8
 /*
 	Represents user entity on client-side.
 */
@@ -15,6 +15,7 @@ function User(id, login, room_id, room_is_permitted, ip, away_message, ban_reaso
 
 	this.SessionAddress = ip;
 	this.AwayMessage = away_message;
+
 	this.BanReason = ban_reason;
 	this.BannedBy = banned_by;
 
@@ -36,6 +37,7 @@ User.prototype.CheckSum = function() {
 	cs += CheckSum(this.RoomIsPermitted);
 
 	cs += CheckSum(this.AwayMessage);
+
 	cs += CheckSum(this.BanReason);
 	cs += CheckSum(this.BannedBy);
 

@@ -18,6 +18,8 @@
 <h4>Поиск по комнатам:</h4>
 <select name="BY_ROOM" id="BY_ROOM" onchange="GetUsers(this)" class="Wide"><option></select>
 
+<div id="ExtendedCriteria">
+</div>
 		
 		</td><td>
 <h4>Результаты поиска:</h4>

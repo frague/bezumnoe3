@@ -19,6 +19,7 @@ class User extends EntityBase {
 	const BANNED_TILL = "BANNED_TILL";
 	const BAN_REASON = "BAN_REASON";
 	const BANNED_BY = "BANNED_BY";
+	const KICK_MESSAGES = "KICK_MESSAGES";
 	const GUID = "GUID";
 	
 
@@ -38,6 +39,7 @@ class User extends EntityBase {
 	var $BannedTill;
 	var $BanReason;
 	var $BannedBy;
+	var $KickMessages;
 	var $Guid;
 
 	// Fields
@@ -56,6 +58,7 @@ class User extends EntityBase {
 		$this->RoomId = -1;
 		$this->RoomIsPermitted = 0;
 		$this->StatusId = -1;
+		$this->KickMessages = "";
 		$this->Guid = "";
 
 		$this->BackFromAway();
@@ -122,6 +125,9 @@ class User extends EntityBase {
 		$this->SessionAddress = GetRequestAddress();
 		$this->TouchSession();
 		$this->BackFromAway();
+
+		// Clear kick messages upon (re)logging.
+		$this->KickMessages = "";
 	}
 
 	function TouchSession() {
@@ -136,6 +142,17 @@ class User extends EntityBase {
 		if (!$this->IsEmpty() && $this->IsConnected()) {
 			$this->Save();
 		}
+	}
+
+	function Kick($reason, $admin_name) {
+	  global $db;
+		
+		if (!$this->IsConnected()) {
+			return false;
+		}
+		$message = "<li> <b>".$admin_name."</b>".($reason ? ", &laquo;".$reason."&raquo;" : "")."\n";
+		$this->KickMessages .= $message;
+		$q = $db->Query($this->KickExpression($message));
 	}
 
 	function Ban($reason, $till, $admin_id) {
@@ -156,12 +173,12 @@ class User extends EntityBase {
 
 	function FillBanInfoFromHash($hash, $user) {
 		if ($hash[BANNED]) {
-			if (!$hash[self::BANNED_BY]) {
+			if (IdIsNull($hash[self::BANNED_BY])) {
 				$this->Ban(UTF8toWin1251($hash[self::BAN_REASON]), $hash[self::BANNED_TILL], $user->Id);	// TODO: Parse date
 				return true;
 			}
 		} else {
-			if ($hash[self::BANNED_BY]) {
+			if (!IdIsNull($hash[self::BANNED_BY])) {
 				$this->StopBan();
 				return true;
 			}
@@ -202,6 +219,7 @@ class User extends EntityBase {
 		$this->BanReason = $result->Get(self::BAN_REASON);
 		$this->BannedTill = $result->Get(self::BANNED_TILL);
 		$this->BannedBy = $result->GetNullableId(self::BANNED_BY);
+		$this->KickMessages = $result->Get(self::KICK_MESSAGES);
 		$this->Guid = $result->Get(self::GUID);
 	}
 
@@ -264,6 +282,7 @@ class User extends EntityBase {
 		$s.= "<li>".self::BAN_REASON.": ".$this->BanReason."</li>\n";
 		$s.= "<li>".self::BANNED_TILL.": ".$this->BannedTill."</li>\n";
 		$s.= "<li>".self::BANNED_BY.": ".$this->BannedBy."</li>\n";
+		$s.= "<li>".self::KICK_MESSAGES.": ".$this->KickMessages."</li>\n";
 		$s.= "<li>".self::GUID.": ".$this->Guid."</li>\n";
 		$s.= "<li>Checksum: ".$this->CheckSum()."\n";
 		if ($this->IsEmpty()) {
@@ -295,7 +314,8 @@ JsQuote($this->StatusId)."\",\"".
 JsQuote($this->BannedBy)."\",\"".
 JsQuote($this->BanReason)."\",\"".
 JsQuote($this->BannedTill)."\",\"".
-JsQuote($admin)."\")";
+JsQuote($admin)."\",\"".
+JsQuote($this->KickMessages)."\")";
 		return $s;
 	}
 
@@ -316,6 +336,7 @@ JsQuote($admin)."\")";
 	t1.".self::BANNED_TILL.",
 	t1.".self::BAN_REASON.",
 	t1.".self::BANNED_BY.",
+	t1.".self::KICK_MESSAGES.",
 	t1.".self::GUID."
 FROM 
 	".$this->table." AS t1 
@@ -337,6 +358,7 @@ WHERE
 ".self::BANNED_TILL.",
 ".self::BAN_REASON.",
 ".self::BANNED_BY.",
+".self::KICK_MESSAGES.",
 ".self::GUID."
 )
 VALUES
@@ -353,6 +375,7 @@ VALUES
 ".Nullable(SqlQuote($this->BannedTill)).",
 ".Nullable(SqlQuote($this->BanReason)).",
 ".NullableId($this->BannedBy).",
+'".SqlQuote($this->KickMessages)."',
 '".SqlQuote($this->Guid)."'
 )";
 	}
@@ -374,6 +397,7 @@ VALUES
 	".self::BANNED_TILL."=".Nullable(SqlQuote($this->BannedTill)).",
 	".self::BAN_REASON."=".NullableId(SqlQuote($this->BanReason)).",
 	".self::BANNED_BY."=".NullableId($this->BannedBy).",
+	".self::KICK_MESSAGES."='".Nullable(SqlQuote($this->KickMessages))."',
 	".self::GUID."='".SqlQuote($this->Guid)."'
 WHERE 
 	".self::USER_ID."=".SqlQuote($this->Id);
@@ -386,6 +410,10 @@ WHERE
 
 	function PongExpression($doClear) {
 		return "UPDATE ".$this->table." SET ".self::SESSION_PONG."='".($doClear ? "" : date())."' WHERE ".self::USER_ID."=".$this->Id;
+	}
+
+	function KickExpression($message) {
+		return "UPDATE ".$this->table." SET ".self::KICK_MESSAGES."=CONCAT(".self::KICK_MESSAGES.", '".SqlQuote($message)."') WHERE ".self::USER_ID."=".$this->Id;
 	}
 
 	function ExpireCondition() {

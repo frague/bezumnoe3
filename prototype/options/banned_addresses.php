@@ -37,7 +37,7 @@
 			<input name="TILL" id="TILL" maxlength="10" />
 		</td><td>
 			<h4>Комментарий:</h4>
-			<input name="COMMENT" id="COMMENT" class="Wide" />
+			<textarea name="COMMENT" id="COMMENT" class="Wide" rows="3"></textarea>
 			<p class="Note">Не забывайте указывать, какова причина закрытия того или иного адреса.</p>
 		</td></tr></table>
 

@@ -234,7 +234,7 @@ table.Grid th {
 	height:50px;
 }
 
-#templates textarea.Maximized {
+textarea.Maximized, #templates textarea.Maximized {
 	height:300px;
 }
 
@@ -286,12 +286,26 @@ table.Grid th {
 	font-weight:bold;
 	color:white;
 }
+
+#UsersContainer a.Opened, #UsersContainer a.Closed {
+	display:block;
+	padding-left:20px;
+}
+
+#UsersContainer a.Opened {
+	background: url(/3/img/icons/opened_nopad.gif) no-repeat;
+}
+
+#UsersContainer a.Closed {
+	background: url(/3/img/icons/closed_nopad.gif) no-repeat;
+}
+
 #UsersContainer a b {
 	background-color:#505050;
 }
 #UsersContainer ul {
-	list-style-type: none;
-	padding-left:10px;
+	list-style-image: url(/3/img/li_small_yellow.gif);
+	padding-left:20px;
 	margin-top:4px;
 }
 #UsersContainer ul a {

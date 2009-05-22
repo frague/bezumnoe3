@@ -1,4 +1,4 @@
-//6.2
+//6.4
 /*
 	List of forbidden addresses
 */
@@ -71,32 +71,32 @@ badto.prototype.ToString = function(index, obj) {
 	var tr = MakeGridRow(index);
 
 	var td1 = d.createElement("td");
-		var h2 = d.createElement("h2");
-		h2.innerHTML = this.Content;
+	var h2 = d.createElement("h2");
+	h2.innerHTML = this.Content;
 	td1.appendChild(h2);
 	td1.appendChild(d.createTextNode("(" + this.Type + ")"));
 	tr.appendChild(td1);
 
 	var td2 = d.createElement("td");
-		td2.appendChild(MakeDiv((this.Comment ? "&laquo;" + this.Comment + "&raquo;" + (this.Admin ? ",	" : "") : "") + (this.Admin ? this.Admin : ""), "h2"));
-		td2.appendChild(MakeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " по " + this.Till.ToPrintableString() : "")));
+	td2.appendChild(MakeDiv((this.Comment ? "&laquo;" + this.Comment + "&raquo;" + (this.Admin ? ",	" : "") : "") + (this.Admin ? this.Admin : ""), "h2"));
+	td2.appendChild(MakeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " по " + this.Till.ToPrintableString() : "")));
 
-		result = "";
-		var comma = false;
-		for (var i = 0; i < 3; i++) {
-			if (this.Bans[i]) {
-				result += (comma ? ",	" : "") + this.BanNames[i];
-				comma = true;
-			}
+	result = "";
+	var comma = false;
+	for (var i = 0; i < 3; i++) {
+		if (this.Bans[i]) {
+			result += (comma ? ",	" : "") + this.BanNames[i];
+			comma = true;
 		}
+	}
 		
-		td2.appendChild(MakeDiv("Запрет:	<b>" + result + "</b>"));
+	td2.appendChild(MakeDiv("Запрет:	<b>" + result + "</b>"));
 	tr.appendChild(td2);
 
 	var td3 = d.createElement("td");
 	td3.className = "Centered";
-		td3.appendChild(MakeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
-		td3.appendChild(MakeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));
+	td3.appendChild(MakeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
+	td3.appendChild(MakeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));
 	tr.appendChild(td3);
 	
 	return tr;
@@ -116,13 +116,12 @@ function BannedAddressesOnLoad(req, tab) {
 		var ba = tab.BannedAddresses;
 		ba.GroupSelfAssign(["RefreshBannedAddresses", "ResetBannedAddresses"]);
 
-		BindEnterTo(ba.Inputs["COMMENT"], saveButton);
-		BindEnterTo(ba.Inputs["CONTENT"], saveButton);
-
 		new DatePicker(ba.Inputs["TILL"]);
 
 		/* Submit button */
 		tab.AddSubmitButton("SaveBan(this)");
+		BindEnterTo(ba.Inputs["CONTENT"], tab.SubmitButton);
+		BindEnterTo(ba.Inputs["TILL"], tab.SubmitButton);
 	}
 };
 

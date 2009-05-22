@@ -359,12 +359,18 @@ function Quit() {
 	co.Show("./", "Сессия завершена", "Ваша сессия в чате завершена. Повторите авторизацию для повторного входа в чат.", "", true);
 };
 
+function Kicked(reason) {
+	StopPings();
+	co.AlertType = true;
+	co.Show("./", "Вас выгнали из чата", "<h4>Формулировка:</h4><ul>" + reason + "</ul>");
+};
+
 function Banned(reason, admin, admin_id, till) {
 	StopPings();
 	co.AlertType = true;
 	var s = Format("Администратор #info# забанил вас " + (till ? "до " + till : ""), admin_id, admin);
 	s += (reason ? " по причине <h4>&laquo;" + reason + "&raquo;</h4>" : "");
-	s += "<br>Пожалуйста, ознакомьтесь с <a href=/rulezz.html>правилами</a> чата.<br>До свидания.";
+	s += ".<br>Пожалуйста, ознакомьтесь с <a href=/rulezz.html>правилами</a> чата.<br>До свидания.";
 	co.Show("/rulezz.html", "Пользователь забанен", s);
 };
 
