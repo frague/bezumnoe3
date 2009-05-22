@@ -144,6 +144,7 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 	t1.".User::BANNED_TILL.",
 	t1.".User::BAN_REASON.",
 	t1.".User::BANNED_BY.",
+	t1.".User::KICK_MESSAGES.",
 	t1.".User::GUID.",
 
 	t2.".Nickname::TITLE.",

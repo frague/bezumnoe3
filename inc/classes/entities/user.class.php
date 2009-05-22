@@ -152,7 +152,7 @@ class User extends EntityBase {
 		}
 		$message = "<li> <b>".$admin_name."</b>".($reason ? ", &laquo;".$reason."&raquo;" : "")."\n";
 		$this->KickMessages .= $message;
-		$q = $db->Query($this->KickExpression($message));
+		$db->Query($this->KickExpression($message));
 	}
 
 	function Ban($reason, $till, $admin_id) {
@@ -397,7 +397,7 @@ VALUES
 	".self::BANNED_TILL."=".Nullable(SqlQuote($this->BannedTill)).",
 	".self::BAN_REASON."=".NullableId(SqlQuote($this->BanReason)).",
 	".self::BANNED_BY."=".NullableId($this->BannedBy).",
-	".self::KICK_MESSAGES."='".Nullable(SqlQuote($this->KickMessages))."',
+	".self::KICK_MESSAGES."='".SqlQuote($this->KickMessages)."',
 	".self::GUID."='".SqlQuote($this->Guid)."'
 WHERE 
 	".self::USER_ID."=".SqlQuote($this->Id);

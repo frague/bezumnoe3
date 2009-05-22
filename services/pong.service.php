@@ -29,6 +29,7 @@
 	}
 	if ($user->User->KickMessages) {
 		echo "Kicked('".JsQuote($user->User->KickMessages)."');";
+		$user->User->GoOffline();
 		exit;
 	}
 

@@ -362,7 +362,7 @@ function Quit() {
 function Kicked(reason) {
 	StopPings();
 	co.AlertType = true;
-	co.Show("./", "Вас выгнали из чата", "<h4>Формулировка:</h4><ul>" + reason + "</ul>");
+	co.Show("./", "Вас выгнали из чата", "Формулировка:<ul class='Kicked'>" + reason + "</ul>");
 };
 
 function Banned(reason, admin, admin_id, till) {
