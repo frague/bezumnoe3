@@ -495,7 +495,7 @@ WHERE ##CONDITION##";
 		$index = substr($this->Index, 0, 4);
 
 		return "SELECT 
-	COUNT(1), SUM(IS_DELETED)
+	COUNT(1) AS TOTAL, SUM(IS_DELETED) AS DELETED
 FROM 
 	".$this->table." 
 WHERE 

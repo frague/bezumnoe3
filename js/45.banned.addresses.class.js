@@ -1,4 +1,4 @@
-//6.4
+//6.5
 /*
 	List of forbidden addresses
 */
@@ -10,6 +10,7 @@ function BannedAddresses() {
 	this.ServicePath = servicesPath + "banned.addresses.service.php";
 	this.Template = "banned_addresses";
 	this.GridId = "BannedAddresses";
+	this.ClassName = this.GridId;
 	this.Columns = 3;
 };
 
@@ -50,6 +51,20 @@ BannedAddresses.prototype.SetFormName = function(name) {
 		name = "Добавить запрет:";
 	}
 	this.SetTabElementValue("FORM_TITLE", name);
+};
+
+BannedAddresses.prototype.TemplateLoaded = function(req) {
+	BannedAddrsList = this;
+	this.TemplateBaseLoaded(req);
+
+	this.GroupSelfAssign(["RefreshBannedAddresses", "ResetBannedAddresses"]);
+
+	new DatePicker(this.Inputs["TILL"]);
+
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveBan(this)", "", this);
+	BindEnterTo(this.Inputs["CONTENT"], this.Tab.SubmitButton);
+	BindEnterTo(this.Inputs["TILL"], this.Tab.SubmitButton);
 };
 
 /* Banned Address Data Transfer Object */
@@ -102,33 +117,10 @@ badto.prototype.ToString = function(index, obj) {
 	return tr;
 };
 
-/* Helper methods */
-
-function LoadAndBindBannedAddressesToTab(tab, user_id) {
-	BannedAddrsList = new BannedAddresses();
-	LoadAndBindObjectToTab(tab, "", BannedAddrsList, "BannedAddresses", BannedAddressesOnLoad);
-};
-
-function BannedAddressesOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "BannedAddresses");
-
-		var ba = tab.BannedAddresses;
-		ba.GroupSelfAssign(["RefreshBannedAddresses", "ResetBannedAddresses"]);
-
-		new DatePicker(ba.Inputs["TILL"]);
-
-		/* Submit button */
-		tab.AddSubmitButton("SaveBan(this)");
-		BindEnterTo(ba.Inputs["CONTENT"], tab.SubmitButton);
-		BindEnterTo(ba.Inputs["TILL"], tab.SubmitButton);
-	}
-};
-
 /* Client events methods */
 
 function SaveBan(a) {
-	a.obj.BannedAddresses.Save();
+	a.obj.Save();
 };
 
 function SendItemRequest(a, id, go) {

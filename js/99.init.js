@@ -1,4 +1,4 @@
-//1.7
+//1.8
 /* 
 	Chat properties initialization 
 */
@@ -35,10 +35,10 @@ function InitMenu(div) {
 	var menu = new MenuItemsCollection(true);
 	var main = new MenuItem(1, "Команды");
 
-	main.SubItems.Items.Add(new MenuItem(1, "/me сообщение", "MI('me')"));
+/*	main.SubItems.Items.Add(new MenuItem(1, "/me сообщение", "MI('me')"));
 		var w = new MenuItem(2, "Вейкап");
 		w.SubItems.Items.Add(new MenuItem(1, "Поиск...", "", 1));
-		main.SubItems.Items.Add(w);
+		main.SubItems.Items.Add(w);*/
 	main.SubItems.Items.Add(new MenuItem(3, "Отойти&nbsp;(Away)", "MI('away')"));
 	main.SubItems.Items.Add(new MenuItem(4, "Сменить статус", "MI('status')"));
 

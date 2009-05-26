@@ -35,16 +35,19 @@ if (opener) {
 		CurrentTab = ProfileTab;
 		tabs.Add(CurrentTab);
 
-		tabs.Add(new Tab(2, "Настройки", 1, "", function(tab){LoadAndBindSettingsToTab(tab,me.Id)}));
+		tabs.Add(new Tab(2, "Настройки", 1, "", function(tab){new Settings().LoadTemplate(tab, me.Id)}));
 
-		var journalTab = new Tab(3, "Журнал", 1, "", function(tab){LoadAndBindJournalToTab(tab,me.Id)});
+		var journalTab = new Tab(3, "Журнал", 1, "", function(tab){new Journal().LoadTemplate(tab, me.Id)});
 		tabs.Add(journalTab);
 
-		UsersTab = new Tab(6, "Пользователи", 1, "", function(tab){LoadAndBindUsermanToTab(tab,me.Id)});
+		WakeupsTab = new Tab(5, "Сообщения", 1, "", function(tab){new Wakeups().LoadTemplate(tab, me.Id)});
+		tabs.Add(WakeupsTab);
+
+		UsersTab = new Tab(6, "Пользователи", 1, "", function(tab){new Userman().LoadTemplate(tab,me.Id)});
 		tabs.Add(UsersTab);
 
 		if (me.Rights >= adminRights) {
-			MainTab = new Tab(7, "Администрирование", 1, "", function(tab){LoadAndBindAdminOptionsToTab(tab,me.Id)});
+			MainTab = new Tab(7, "Администрирование", 1, "", function(tab){new AdminOptions().LoadTemplate(tab, me.Id)});
 			tabs.Add(MainTab);
 		} else {
         	MainTab = UsersTab;
@@ -52,7 +55,7 @@ if (opener) {
 
 		tabs.Print();
 
-		LoadAndBindProfileToTab(ProfileTab, me.Id);	// Loading profile to 1st tab
+		new Profile().LoadTemplate(ProfileTab, me.Id);	// Loading profile to 1st tab
 	} else {
 		alert("Меню работает только пока вы находитесь в чате.");
 	}

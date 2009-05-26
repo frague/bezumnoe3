@@ -1,4 +1,4 @@
-//3.1
+//3.3
 /*
 	Journal comments grid. Edit & delete buttons.
 */
@@ -6,6 +6,7 @@
 function JournalComments() {
 	this.ServicePath = servicesPath + "journal.comments.service.php";
 	this.Template = "journal_comments";
+	this.ClassName = "JournalComments";
 	this.Columns = 3;
 };
 
@@ -22,8 +23,28 @@ JournalComments.prototype.InitPager = function() {
 JournalComments.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
-		obj.Bind(obj.data, 0);
+		obj.Bind(obj.data, obj.Total);
 	}
+};
+
+JournalComments.prototype.LoadTemplate = function(tab, user_id, login) {
+	// Important!
+	this.jrdto = tab.PARAMETER;
+	this.TITLE = this.jrdto.Title;
+
+	/* Update tab title */
+	tab.Title = "Комментарии к&nbsp;&laquo;" + this.jrdto.Title.substr(0, 10) + "...&raquo;";
+	tab.Alt = this.jrdto.Title;
+	tabs.Print();
+
+	this.LoadBaseTemplate(tab, user_id, login);
+};
+
+JournalComments.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+
+	this.AssignTabTo("buttonSearch");
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
 };
 
 /* Journal Record Data Transfer Object */
@@ -69,32 +90,6 @@ jcdto.prototype.ToString = function(index, obj) {
 	return tr;
 };
 
-/* Helper methods */
-
-function LoadAndBindJournalCommentsToTab(tab, user_id, login) {
-	var jc = new JournalComments();
-	// Important!
-	jc.jrdto = tab.PARAMETER;
-	jc.TITLE = jc.jrdto.Title;
-
-	/* Update tab title */
-	tab.Title = "Комментарии к&nbsp;&laquo;" + jc.jrdto.Title.substr(0, 10) + "...&raquo;";
-	tab.Alt = jc.jrdto.Title;
-	tabs.Print();
-
-	LoadAndBindObjectToTab(tab, user_id, jc, "JournalComments", JournalCommentsOnLoad, login);
-};
-
-function JournalCommentsOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "JournalComments");
-
-		var jc = tab.JournalComments;
-		jc.AssignTabTo("buttonSearch");
-		BindEnterTo(jc.Inputs["SEARCH"], jc.Inputs["buttonSearch"]);
-	}
-};
-
 /* Actions */
 
 function DeleteCommentConfirmed(obj, id) {
@@ -113,7 +108,7 @@ function DeleteCommentConfirmed(obj, id) {
 
 function ShowMessageComments(a) {
 	var tab_id = "c" + a.jrdto.Id;
-	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, LoadAndBindJournalCommentsToTab, "Комментарии в журнале", a.jrdto, tab_id);
+	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(), "Комментарии в журнале", a.jrdto, tab_id);
 };
 
 /* Confirms */

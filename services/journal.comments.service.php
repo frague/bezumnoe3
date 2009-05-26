@@ -61,11 +61,9 @@
 			);
 			$comment->UpdateAnswersCount();
 			echo JsAlert("Комментарий удалён.");
-//			echo "jc.jrdto.Comments=".$number.";";
 		};
 	}
 
-//	$q = $comment->GetByRecordId($post_id, $from, $amount, $search);
 	$q = $comment->GetByIndex($journal->Id, $user, $record->Index, $from, $amount, $isOwner);
 
 	$result = "this.data=[";
@@ -79,6 +77,14 @@
 		}
 	}
 	$result .= "];";
+
+	// Comments total number
+	$q = $record->GetByCondition("", $record->CountAnswersExpression());
+	if ($q->NumRows()) {
+		$q->NextResult();
+		$Total = $q->Get("TOTAL") - $q->Get("DELETED") - 1;
+		$result .= "this.Total=".$Total.";";
+	}
 
 	echo $result;
 ?>

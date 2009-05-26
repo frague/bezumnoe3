@@ -139,7 +139,7 @@ class Profile extends EntityBase {
 		if (!$user || $user->IsEmpty()) {
 			return;
 		}
-		$s = "new Array(\"".
+		$s = "[\"".
 JsQuote($user->Login)."\", \"".
 JsQuote($this->Email)."\", \"".
 JsQuote($this->Name)."\", \"".
@@ -152,7 +152,7 @@ JsQuote($this->Photo)."\", \"".
 JsQuote($this->Avatar)."\", \"".
 JsQuote($this->About)."\",  \"".
 JsQuote($this->Registered)."\",  \"".
-JsQuote($this->LastVisit)."\")";
+JsQuote($this->LastVisit)."\"]";
 		return $s;
 	}
 

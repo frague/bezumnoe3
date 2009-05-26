@@ -1,4 +1,4 @@
-//2.7
+//2.8
 /*
 	Create/edit blog post in separate tab.
 */
@@ -9,6 +9,7 @@ function JournalPost() {
 	this.fields = new Array("RECORD_ID", "TITLE", "CONTENT", "DATE", "TYPE", "IS_COMMENTABLE");
 	this.defaultValues = new Array("-1", "", "", new Date().ToString(true), "0", "1");
 	this.ServicePath = post_service;
+	this.ClassName = "JournalPost";
 	this.Template = "journal_post";
 	mceInitialized = 0;
 };
@@ -61,47 +62,38 @@ JournalPost.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+JournalPost.prototype.TemplateLoaded = function(req) {
+	this.Tab.JournalPost.RECORD_ID = 1 * this.Tab.PARAMETER;
+
+	this.TemplateBaseLoaded(req);
+
+	this.SetTabElementValue("LOGIN", this.LOGIN);
+
+	// Create content field
+	this.ContentField = CreateElement("textarea", "CONTENT" + Math.random(10000));
+	this.ContentField.className = "Editable";
+	this.ContentField.rows = 30;
+	if (this.Inputs["ContentHolder"]) {
+		this.Inputs["ContentHolder"].appendChild(this.ContentField);
+	}
+
+	// Radios group rename
+	RenameRadioGroup(this.Inputs["TYPE"]);
+
+	// DatePicker
+	this.Inputs["DATE"].value = new Date().ToString(1);
+	var a = new DatePicker(this.Inputs["DATE"], 1);
+
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveJournalPost(this)", "", this);
+};
+
 
 /* Helper methods */
 
-function LoadAndBindJournalPostToTab(tab, user_id, login) {
-	LoadAndBindObjectToTab(tab, user_id, new JournalPost(), "JournalPost", JournalPostOnLoad, login);
-};
-
-function JournalPostOnLoad(req, tab) {
-	if (tab) {
-		tab.JournalPost.RECORD_ID = 1 * tab.PARAMETER;
-
-		ObjectOnLoad(req, tab, "JournalPost");
-
-		var tj = tab.JournalPost;
-		tj.SetTabElementValue("LOGIN", tj.LOGIN);
-
-		// Create content field
-		tj.ContentField = CreateElement("textarea", "CONTENT" + Math.random(10000));
-		tj.ContentField.className = "Editable";
-		tj.ContentField.rows = 30;
-		if (tj.Inputs["ContentHolder"]) {
-			tj.Inputs["ContentHolder"].appendChild(tj.ContentField);
-		}
-
-		// Radios group rename
-		RenameRadioGroup(tj.Inputs["TYPE"]);
-
-		// DatePicker
-		tj.Inputs["DATE"].value = new Date().ToString(1);
-		var a = new DatePicker(tj.Inputs["DATE"], 1);
-
-		/* Submit button */
-		tab.AddSubmitButton("SaveJournalPost(this)");
-	}
-};
-
-
 function SaveJournalPost(a) {
 	if (a.obj) {
-		var jp = a.obj.JournalPost;		
-		jp.Save();
+		a.obj.Save();
 	}
 };
 
@@ -109,6 +101,6 @@ function EditJournalPost(obj, post_id) {
 	if (obj) {
 		var login = obj.LOGIN ? obj.LOGIN : "";
 		var tab_id = "post" + post_id;
-		CreateUserTab(obj.USER_ID, login, LoadAndBindJournalPostToTab, "Пост в журнал", post_id, tab_id);
+		CreateUserTab(obj.USER_ID, login, new JournalPost(), "Пост в журнал", post_id, tab_id);
 	}
 };

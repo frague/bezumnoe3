@@ -1,4 +1,4 @@
-//4.6
+//4.7
 /*
 	User Manager admin functionality
 */
@@ -7,6 +7,7 @@ function Userman() {
 	this.fields = new Array("BY_NAME", "BY_ROOM", "BY_STATUS");
 	this.ServicePath = servicesPath + "users.service.php";
 	this.Template = "userman";
+	this.ClassName = "Userman";
 
 	this.GridId = "UsersContainer";
 	this.Columns = 2;
@@ -32,6 +33,23 @@ Userman.prototype.RequestCallback = function(req, obj) {
 		}
 	}
 };
+
+Userman.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+
+	this.AssignTabTo("BY_NAME");
+	var by_room = this.Inputs["BY_ROOM"];
+	if (by_room) {
+		this.AssignTabTo("BY_ROOM");
+		if (opener.rooms) {
+			opener.rooms.Gather(by_room);
+		} else {
+			/* TODO: Request via Ajax or something */
+		}
+	}
+};
+
+
 
 /* User DTO */
 
@@ -105,27 +123,6 @@ function MakeUserMenuLink(el) {
 	var li = d.createElement("li");
 	li.appendChild(el);
 	return li;
-};
-
-function LoadAndBindUsermanToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new Userman(), "Userman", UsermanOnLoad);
-};
-
-function UsermanOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "Userman");
-
-		tab.Userman.AssignTabTo("BY_NAME");
-		var by_room = tab.Userman.Inputs["BY_ROOM"];
-		if (by_room) {
-			tab.Userman.AssignTabTo("BY_ROOM");
-			if (opener.rooms) {
-				opener.rooms.Gather(by_room);
-			} else {
-				/* TODO: Request via Ajax or something */
-			}
-		}
-	}
 };
 
 var lastValue = " ";

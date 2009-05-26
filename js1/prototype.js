@@ -77,20 +77,8 @@ function MoveToRoom(id) {
 };
 
 function MakeNewRoomSpoiler(container) {
-	newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){LoadAndBindNewRoomToTab(tab,me.Id)});
+	newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().LoadTemplate(tab, me.Id)});
 	newRoomTab.ToString(container);
-};
-
-function NewRoomCallback(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "RoomLightweight");
-
-		DisplayElement("AdminOnly", me && me.Rights >= adminRights);
-
-		var nr = newRoomTab.RoomLightweight;
-		nr.AssignTabTo("linkAdd");
-		BindEnterTo(nr.Inputs["NEW_ROOM"], nr.Inputs["linkAdd"]);
-	}
 };
 
 /* Topic */

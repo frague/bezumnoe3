@@ -29,16 +29,14 @@
 
 			echo JsAlert("Ќастройки шаблона сохранены.");
 			break;
-		default:
-			if ($template->IsEmpty()) {
-				echo JsAlert("ѕользовательский шаблон не существует - вз€т шаблон по умолчанию.");
-				$skin = new JournalSkin();
-				$skin->GetDefault();
-				$template->GetById($skin->TemplateId);
-			}
-			echo "this.data=".$template->ToJs().";";
-			echo "this.skinTemplateId=".round($settings->SkinTemplateId).";";
-			break;
 	}	
+	if ($template->IsEmpty()) {
+		echo JsAlert("ѕользовательский шаблон не существует - вз€т шаблон по умолчанию.");
+		$skin = new JournalSkin();
+		$skin->GetDefault();
+		$template->GetById($skin->TemplateId);
+	}
+	echo "this.data=".$template->ToJs().";";
+	echo "this.skinTemplateId=".round($settings->SkinTemplateId).";";
 
 ?>

@@ -294,12 +294,12 @@ class User extends EntityBase {
 	}
 
 	function ToJsAdminFields() {
-		$s = "new Array(\"".
+		$s = "[\"".
 self::SESSION_ADDRESS."\",\"".
 self::STATUS_ID."\",\"".
 self::BANNED_BY."\",\"".
 self::BAN_REASON."\",\"".
-self::BANNED_TILL."\",\"ADMIN\")";
+self::BANNED_TILL."\",\"ADMIN\"]";
 		return $s;
 	}
 
@@ -308,14 +308,13 @@ self::BANNED_TILL."\",\"ADMIN\")";
 		if ($this->BannedBy) {
 			$admin = $this->GetUserLogin($this->BannedBy);
 		}
-		$s = "new Array(\"".
+		$s = "[\"".
 JsQuote($this->SessionAddress)."\",\"".
 JsQuote($this->StatusId)."\",\"".
 JsQuote($this->BannedBy)."\",\"".
 JsQuote($this->BanReason)."\",\"".
 JsQuote($this->BannedTill)."\",\"".
-JsQuote($admin)."\",\"".
-JsQuote($this->KickMessages)."\")";
+JsQuote($admin)."\"]";
 		return $s;
 	}
 

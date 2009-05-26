@@ -1,4 +1,4 @@
-//1.6
+//1.8
 /*
 	Journal functionality: Blog templates, messages, settings
 */
@@ -7,6 +7,7 @@ var MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler;
 
 function Journal() {
 	this.Template = "journal";
+	this.ClassName = "Journal";
 };
 
 Journal.prototype = new OptionsBase();
@@ -14,33 +15,26 @@ Journal.prototype = new OptionsBase();
 Journal.prototype.Request = function() {
 };
 
+Journal.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
 
-function LoadAndBindJournalToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new Journal(), "Journal", JournalOnLoad);
-};
+	this.FindRelatedControls();
+	this.AssignTabTo("linkNewPost");
 
-function JournalOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "Journal");
-
-		var tj = tab.Journal;
-		tj.FindRelatedControls();
-		tj.AssignTabTo("linkNewPost");
-
-		var spoilers = tab.Journal.Inputs["Spoilers"];
-		if (spoilers) {
-			MessagesSpoiler = new Spoiler(1, "Сообщения", 0, 0, function(tab) {LoadAndBindJournalMessagesToTab(tab,me.Id,me.Login)});
-			TemplatesSpoiler = new Spoiler(2, "Шаблоны отображения", 0, 0, function(tab) {LoadAndBindJournalTemplatesToTab(tab,me.Id)});
-			SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {LoadAndBindJournalSettingsToTab(tab,me.Id)});
+	var spoilers = this.Inputs["Spoilers"];
+	if (spoilers) {
+		MessagesSpoiler = new Spoiler(1, "Сообщения", 0, 0, function(tab) {new JournalMessages().LoadTemplate(tab, me.Id, me.Login)});
+		TemplatesSpoiler = new Spoiler(2, "Шаблоны отображения", 0, 0, function(tab) {new JournalTemplates().LoadTemplate(tab, me.Id)});
+		SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {new JournalSettings().LoadTemplate(tab, me.Id)});
 			
-			MessagesSpoiler.ToString(spoilers);
-			TemplatesSpoiler.ToString(spoilers);
-			SettingsSpoiler.ToString(spoilers);
-		}
-		InitMCE();
+		MessagesSpoiler.ToString(spoilers);
+		TemplatesSpoiler.ToString(spoilers);
+		SettingsSpoiler.ToString(spoilers);
 	}
+	InitMCE();
 };
 
+// tinyMCE initialization
 function InitMCE() {
 	tinyMCE.init({
 		mode : "textareas",

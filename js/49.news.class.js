@@ -1,4 +1,4 @@
-//2.1
+//2.3
 /*
 	Displaying/managing news sections
 */
@@ -6,6 +6,7 @@
 function News() {
 	this.fields = ["OWNER_ID", "TITLE", "DESCRIPTION"];
 	this.ServicePath = servicesPath + "news.service.php";
+	this.ClassName = "News";
 	this.Template = "news";
 	this.GridId = "NewsGrid";
 	this.Columns = 2;
@@ -20,6 +21,13 @@ News.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data);
 	}
+};
+
+News.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+	this.GroupSelfAssign(["AddNews", "RefreshNews"]);
+
+	this.Tab.NewsItems = this.Inputs["NewsItems"];
 };
 
 /* News Data Transfer Object */
@@ -75,19 +83,6 @@ ndto.prototype.ToEditView = function(index, obj) {
 
 /* Helper methods */
 
-function LoadAndBindNewsToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new News(), "News", NewsOnLoad);
-};
-
-function NewsOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "News");
-		tab.News.GroupSelfAssign(["AddNews", "RefreshNews"]);
-
-		tab.NewsItems = tab.News.Inputs["NewsItems"];
-	}
-};
-
 function AddNews(a) {
 	if (a.obj) {
 		a.obj.AddRow(new ndto(0, "Новый раздел", ""));
@@ -101,6 +96,6 @@ function ShowNewsRecords(a) {
 		var s = new Spoiler(0, a.obj.Title, 0, 1);
 		s.ToString(tab.NewsItems);
 
-		LoadAndBindNewsRecordsToTab(s, a.obj.Id);
+		new NewsRecords().LoadTemplate(s, a.obj.Id);
 	}
 };

@@ -1,4 +1,4 @@
-//3.8
+//3.9
 /*
 	Special statuses management
 */
@@ -7,6 +7,7 @@ function Statuses() {
 	this.fields = ["STATUS_ID", "RIGHTS", "COLOR", "TITLE"];
 	this.ServicePath = servicesPath + "statuses.service.php";
 	this.Template = "statuses";
+	this.ClassName = "Statuses";
 	this.GridId = "StatusesGrid";
 	this.Columns = 4;
 };
@@ -20,6 +21,11 @@ Statuses.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data);
 	}
+};
+
+Statuses.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+	this.GroupSelfAssign(["AddStatus", "RefreshStatuses"]);
 };
 
 /* Status Data Transfer Object */
@@ -85,18 +91,6 @@ sdto.prototype.ToEditView = function(index, obj) {
 
 
 /* Helper methods */
-
-function LoadAndBindStatusesToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new Statuses(), "Statuses", StatusesOnLoad);
-};
-
-function StatusesOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "Statuses");
-
-		tab.Statuses.GroupSelfAssign(["AddStatus", "RefreshStatuses"]);
-	}
-};
 
 function AddStatus(a) {
 	if (a.obj) {

@@ -22,8 +22,6 @@ class Wakeup extends EntityBase {
 	var $Message;
 	var $IsRead;
 
-	// Fields
-
 	function Wakeup($text="", $fromUserId = -1, $toUserId = -1) {
 		$this->table = self::table;
 		parent::__construct("", self::WAKEUP_ID);
@@ -31,6 +29,8 @@ class Wakeup extends EntityBase {
 		$this->Message = $text;
 		$this->FromUserId = $fromUserId;
 		$this->ToUserId = $toUserId;
+
+		$this->SearchTemplate = "(t1.".self::MESSAGE." LIKE '%#WORD#%' OR ".self::FROM_USER_NAME." LIKE '%#WORD#%' OR ".self::TO_USER_NAME." LIKE '%#WORD#%')";
 	}
 
 	function Clear() {
@@ -42,6 +42,10 @@ class Wakeup extends EntityBase {
 		$this->IsRead = 0;
 	}
 
+	function IsIncoming($userId) {
+		return $this->ToUserId == $userId;
+	}
+	
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::WAKEUP_ID);
 		$this->FromUserId = $result->Get(self::FROM_USER_ID);
@@ -53,7 +57,26 @@ class Wakeup extends EntityBase {
 		$this->IsRead = $result->Get(self::IS_READ);
 	}
 
-	function GetForUser($user, $wakeup_id=0) {
+	
+	/* Search */
+	function CountForUser($userId, $search) {
+		$q = $this->GetByCondition();
+		return 0;
+	}
+
+	function GetForUser($userId, $from = 0, $limit, $search) {
+		$from = round($from);
+		$limit = round($limit);
+
+	  	return $this->GetByCondition(
+	  		$this->ReadUserWakeupsExpression($userId).
+	  		($condition ? $condition : "").
+	  		" LIMIT ".($from ? $from."," : "").$limit
+	  	); 
+	}
+	/* ------ */
+
+	function FillForUser($user, $wakeup_id = 0) {
 		if (!$user->IsEmpty()) {
 			$wakeup_id = round($wakeup_id);
 			return $this->FillByCondition($this->ReadUserWakeupsExpression($user->Id).($wakeup_id > 0 ? " AND t1.".self::WAKEUP_ID."=".$wakeup_id : ""));
@@ -95,6 +118,22 @@ WHERE t1.".self::TO_USER_ID."=".$user->Id." AND t1.".self::IS_READ."<>1 ORDER BY
 		}
 
 		$s.= "</ul>";
+		return $s;
+	}
+
+	function ToJs($userId = 0) {
+		$isIncoming = $this->IsIncoming($userId);
+		$id = $isIncoming ? $this->FromUserId : $this->ToUserId;
+		$name = $isIncoming ? $this->FromUserName : $this->ToUserName;
+
+		$s = "new wdto(".
+round($this->Id).",".
+round($id).",\"".
+JsQuote($name)."\",".
+Boolean($isIncoming).",\"".
+PrintableDate($this->Date)."\",\"".
+JsQuote($this->Message)."\",".
+Boolean($this->IsRead).")";
 		return $s;
 	}
 
@@ -160,6 +199,23 @@ WHERE
 
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::WAKEUP_ID."=".SqlQuote($this->Id);
+	}
+
+	function SearchCountExpression() {
+		return "SELECT COUNT(1)
+FROM 
+	".$this->table." AS t1 
+LEFT JOIN ".User::table." AS t2
+	ON t2.".User::USER_ID."=t1.".self::FROM_USER_ID."
+LEFT JOIN ".User::table." AS t3
+	ON t3.".User::USER_ID."=t1.".self::TO_USER_ID."
+LEFT JOIN ".Nickname::table." AS t4
+	ON (t4.".Nickname::USER_ID."=t1.".self::FROM_USER_ID." AND t4.".Nickname::IS_SELECTED."=1)
+LEFT JOIN ".Nickname::table." AS t5
+	ON (t5.".Nickname::USER_ID."=t1.".self::TO_USER_ID." AND t5.".Nickname::IS_SELECTED."=1)
+WHERE
+	##CONDITION##
+";
 	}
 }
 

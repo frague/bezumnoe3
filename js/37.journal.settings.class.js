@@ -1,4 +1,4 @@
-//1.6
+//1.7
 /*
 	Journal settings of user menu.
 */
@@ -7,6 +7,7 @@ function JournalSettings() {
 	this.fields = new Array("ALIAS", "REQUESTED_ALIAS");
 	this.ServicePath = servicesPath + "journal.settings.service.php";
 	this.Template = "journal_settings";
+	this.ClassName = "JournalSettings";
 };
 
 JournalSettings.prototype = new OptionsBase();
@@ -21,37 +22,30 @@ JournalSettings.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+JournalSettings.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+
+	this.AssignTabTo("linkRefresh");
+
+	/* Request friendly journals & forbidden commenters lists */
+	this.FindRelatedControls();
+
+	this.Tab.FriendlyJournalsHolder = this.Inputs["friendlyBlogs"];
+	LoadFriendlyJournals(this.Tab);
+	this.Tab.ForbiddenCommentersHolder = this.Inputs["forbiddenCommenters"];
+	LoadForbiddenCommenters(this.Tab);
+
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveJournalSettings(this)", "", this);
+};
 
 
 /* Helper methods */
 
-function LoadAndBindJournalSettingsToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new JournalSettings(), "JournalSettings", JournalSettingsOnLoad);
-};
-
-function JournalSettingsOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "JournalSettings");
-
-		var tjs = tab.JournalSettings;
-		tjs.AssignTabTo("linkRefresh");
-
-		/* Request friendly journals & forbidden commenters lists */
-		tjs.FindRelatedControls();
-
-		tab.FriendlyJournalsHolder = tjs.Inputs["friendlyBlogs"];
-		LoadFriendlyJournals(tab);
-		tab.ForbiddenCommentersHolder = tjs.Inputs["forbiddenCommenters"];
-		LoadForbiddenCommenters(tab);
-
-		/* Submit button */
-		tab.AddSubmitButton("SaveJournalSettings(this)");
-	}
-};
 
 function SaveJournalSettings(a) {
 	if (a.obj) {
-		a.obj.JournalSettings.Save();
+		a.obj.Save();
 	}
 };
 

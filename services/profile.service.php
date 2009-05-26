@@ -14,7 +14,9 @@
 	$tabId = $_POST["tab_id"];
 	$photo = $_FILES["PHOTO1"];
 
-	if ($user_id == $user->User->Id || $user->IsAdmin()) {
+	$ownProfile = ($user_id == $user->User->Id);
+
+	if ($ownProfile || $user->IsAdmin()) {
 		if ($user_id == $user->User->Id) {
 			$targetUser = $user->User;
 			$targetStatus = $user->Status;
@@ -95,7 +97,7 @@
 					}
 					
 					/* Admin's functionality (Ban & Status) */
-					if ($user->IsAdmin()) {
+					if (!$ownProfile && $user->IsAdmin()) {
 						$targetStatus = new Status($targetUser->StatusId);
 						$targetStatus->Retrieve();
 

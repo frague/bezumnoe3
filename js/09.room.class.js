@@ -1,4 +1,4 @@
-//2.8
+//2.9
 /*
 	Represents room entity on client-side.
 */
@@ -120,19 +120,19 @@ function RoomLightweight() {
 	this.fields = new Array("NEW_ROOM", "IS_PRIVATE", "IS_LOCKED");
 	this.ServicePath = servicesPath + "room.service.php";
 	this.Template = "add_room";
+	this.ClassName = "AddRoom";
 };
 
 RoomLightweight.prototype = new OptionsBase();
 
-RoomLightweight.prototype.RequestCallback = function(req, tab) {
-	var room = tab.RoomLightweight;
+RoomLightweight.prototype.RequestCallback = function(req, obj) {
 	if (req.responseText) {
-		room.SetRoomStatus(req.responseText);
+		obj.SetRoomStatus(req.responseText);
 	} else {
-		room.SetRoomStatus("");
-		room.Clear();
-		room.Bind();
-		tab.Display(false);
+		obj.SetRoomStatus("");
+		obj.Clear();
+		obj.Bind();
+		obj.Tab.Display(false);
 		PrintRooms();
    	}
 };
@@ -156,14 +156,19 @@ RoomLightweight.prototype.SetRoomStatus = function(text) {
 	}
 };
 
-/* Room lightweight link actions */
+RoomLightweight.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
 
-function LoadAndBindNewRoomToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, me.Id, new RoomLightweight(), "RoomLightweight", NewRoomCallback);
+	DisplayElement("AdminOnly", me && me.Rights >= adminRights);
+
+	this.AssignTabTo("linkAdd");
+	BindEnterTo(this.Inputs["NEW_ROOM"], this.Inputs["linkAdd"]);
 };
+
+/* Room lightweight link actions */
 
 function AddRoom(a) {
 	if (a.Tab) {
-		a.Tab.RoomLightweight.Save();
+		a.Tab.AddRoom.Save();
 	}
 };

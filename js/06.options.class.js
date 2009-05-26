@@ -1,4 +1,4 @@
-//6.5
+//7.3
 /*
 	User options UI and helper methods
 */
@@ -7,6 +7,40 @@
 
 function OptionsBase() {
 	this.defaultValues = [];
+};
+
+// Loading Template
+OptionsBase.prototype.LoadTemplate = function(tab, user_id, login) {	// To be overriden
+	this.LoadBaseTemplate(tab, user_id, login);
+};
+
+OptionsBase.prototype.LoadBaseTemplate = function(tab, user_id, login) {
+	this.USER_ID = Math.round(user_id);
+	this.LOGIN = login;
+
+	tab[this.ClassName] = this;
+	tab.Alerts = new Alerts(tab.TopicDiv);
+	this.Tab = tab;
+
+	if (this.Template) {
+		RequestContent(this);
+	}
+};
+
+// Template Callbacks
+OptionsBase.prototype.TemplateLoaded = function(req) {	// To be overriden
+	this.TemplateBaseLoaded(req);
+};
+
+OptionsBase.prototype.TemplateBaseLoaded = function(req) {
+	text = req;
+	if (req.responseText) {
+		text = req.responseText;
+		KeepRequestedContent(this.Template, text);
+	}
+	this.Tab.RelatedDiv.innerHTML = text;
+	this.Tab.InitUploadFrame();
+	this.Request();
 };
 
 /* Gathering object properties from UI controls */
@@ -212,7 +246,6 @@ OptionsBase.prototype.Delete = function(callback) {
 };
 
 
-
 /* Common callback */
 
 OptionsBase.prototype.RequestBaseCallback = function(req, obj) {
@@ -258,14 +291,15 @@ function ShowOptions() {
 /* Static content requestor */
 
 var cachedContent = new Array();
-function RequestContent(name, callback, obj) {
+function RequestContent(obj) {
 	var req;
-	if (cachedContent[name] && callback) {
+	if (cachedContent[obj.Template] && obj.TemplateLoaded) {
 		var req = new Object();
-		req.responseText = cachedContent[name];
-		callback(req, obj);
+		req.responseText = cachedContent[obj.Template];
+		obj.TemplateLoaded(req);
 	} else {
-		req = sendRequest("/3/prototype/options/" + name + ".php", callback, "", obj);
+		// No callback passed as parameter. Supposed to be taken from Obj.
+		req = sendRequest("/3/prototype/options/" + obj.Template + ".php", "", "", obj);
 	}
 	return req;
 };
@@ -283,12 +317,13 @@ function LoadAndBindObjectToTab(tab, user_id, obj, obj_class, callback, login) {
 	tab[obj_class] = obj;
 	tab.Alerts = new Alerts(tab.TopicDiv);
 	obj.Tab = tab;
+
 	if (obj.Template) {
-		RequestContent(obj.Template, callback, tab);
+		RequestContent(obj);
 	}
 };
 
-function CreateUserTab(id, login, init_function, prefix, parameter, tab_id) {
+function CreateUserTab(id, login, obj, prefix, parameter, tab_id) {
 	if (!tab_id) {
 		tab_id = tabs.tabsCollection.LastId + 1;
 	}
@@ -301,26 +336,10 @@ function CreateUserTab(id, login, init_function, prefix, parameter, tab_id) {
 
 		var tab = tabs.tabsCollection.Get(tab_id);
 		tab.PARAMETER = parameter;
-		init_function(tab, id, login);
+		obj.LoadTemplate(tab, id, login);
 	} else {
 		SwitchToTab(tab_id);
 		tabs.Print();
-	}
-};
-
-/* Making initial actions after template loading */
-
-function ObjectOnLoad(req, tab, obj_class) {
-	if (tab) {
-		var obj = tab[obj_class];
-		text = req;
-		if (req.responseText) {
-			text = req.responseText;
-			KeepRequestedContent(obj.Template, text);
-		}
-		tab.RelatedDiv.innerHTML = text;
-		tab.InitUploadFrame();
-		obj.Request();
 	}
 };
 
@@ -330,5 +349,14 @@ function ReRequestData(a) {
 	if (a.obj) {
 		a.obj.Tab.Alerts.Clear();
 		a.obj.Request();
+	}
+};
+
+function ResetFilter(a) {
+	if (a.obj) {
+		var ac = a.obj;
+		ac.SetTabElementValue("DATE", "");
+		ac.SetTabElementValue("SEARCH", "");
+		ac.Request();
 	}
 };

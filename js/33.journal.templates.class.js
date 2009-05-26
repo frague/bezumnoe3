@@ -1,4 +1,4 @@
-//2.6
+//2.7
 /*
 	Journal templates: Global markup, single message & stylesheets.
 */
@@ -7,6 +7,7 @@ function JournalTemplates() {
 	this.fields = new Array("BODY", "MESSAGE", "CSS");
 	this.ServicePath = servicesPath + "journal.templates.service.php";
 	this.Template = "journal_templates";
+	this.ClassName = "JournalTemplates";
 };
 
 JournalTemplates.prototype = new OptionsBase();
@@ -38,22 +39,13 @@ JournalTemplates.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
-/* Helper methods */
+JournalTemplates.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
 
-function LoadAndBindJournalTemplatesToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new JournalTemplates(), "JournalTemplates", JournalTemplatesOnLoad);
-};
+	this.AssignTabTo("SKIN_TEMPLATE_ID");
 
-function JournalTemplatesOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "JournalTemplates");
-
-		var jt = tab.JournalTemplates;
-		jt.AssignTabTo("SKIN_TEMPLATE_ID");
-
-		/* Submit button */
-		tab.AddSubmitButton("SaveJournalTemplate(this)");
-	}
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveJournalTemplate(this)", "", this);
 };
 
 /* Actions */
@@ -85,7 +77,7 @@ function PreviewSkin(select) {
 
 function SaveJournalTemplate(a) {
 	if (a.obj) {
-		a.obj.JournalTemplates.Save();
+		a.obj.Save();
 	}
 };
 

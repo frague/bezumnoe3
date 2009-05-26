@@ -1,4 +1,4 @@
-//4.1
+//4.2
 /*
 	Journal messages grid. Edit & delete buttons.
 */
@@ -10,6 +10,7 @@ function JournalMessages() {
 	this.fields = new Array("SEARCH", "LOGIN");
 	this.ServicePath = servicesPath + "journal.messages.service.php";
 	this.Template = "journal_messages";
+	this.ClassName = "JournalMessages";
 
 	this.GridId = "MessagesGrid";
 
@@ -28,6 +29,14 @@ JournalMessages.prototype.RequestCallback = function(req, obj) {
 		obj.Bind(obj.data, obj.Total);
 	}
 };
+
+JournalMessages.prototypeTemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+
+	this.GroupSelfAssign(["buttonSearch", "ResetFilter"]);
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
+};
+
 
 /* Journal Record Data Transfer Object */
 
@@ -74,22 +83,6 @@ jrdto.prototype.ToString = function(index, obj) {
 	tr.appendChild(td3);
 	
 	return tr;
-};
-
-/* Helper methods */
-
-function LoadAndBindJournalMessagesToTab(tab, user_id, login) {
-	LoadAndBindObjectToTab(tab, user_id, new JournalMessages(), "JournalMessages", JournalMessagesOnLoad, login);
-};
-
-function JournalMessagesOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "JournalMessages");
-
-		var jm = tab.JournalMessages;
-		jm.GroupSelfAssign(["buttonSearch", "ResetFilter"]);
-		BindEnterTo(jm.Inputs["SEARCH"], jm.Inputs["buttonSearch"]);
-	}
 };
 
 /* Actions */

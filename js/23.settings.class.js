@@ -1,4 +1,4 @@
-//3.5
+//3.6
 /*
 	Represents settings entity on client-side.
 */
@@ -18,6 +18,7 @@ function Settings(status, ignore_colors, ignore_sizes, ignore_fonts, ignore_styl
 	this.fields = new Array("LOGIN", "STATUS", "IGNORE_COLORS", "IGNORE_FONT_SIZE", "IGNORE_FONTS", "IGNORE_FONT_STYLE", "RECEIVE_WAKEUPS", "FRAMESET", "ENTER_MESSAGE", "QUIT_MESSAGE", "FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED");
 	this.ServicePath = servicesPath + "settings.service.php";
 	this.Template = "usersettings";
+	this.ClassName = "Settings";
 };
 
 Settings.prototype = new OptionsBase();
@@ -51,37 +52,29 @@ Settings.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+Settings.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+	this.AssignSelfTo("linkRefresh");
 
-/* Load & bind user profile to Tab */
+	// Create Font object
+	font = new Font();
+	font.Inputs = this.Inputs;
+	setTimeout("UpdateFontView()", 1000);	// Set delay for IE
 
-function LoadAndBindSettingsToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new Settings(), "Settings", SettingsOnLoad);
-};
-
-function SettingsOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "Settings");
-		tab.Settings.AssignSelfTo("linkRefresh");
-
-		// Create Font object
-		font = new Font();
-		font.Inputs = tab.Settings.Inputs;
-		setTimeout("UpdateFontView()", 1000);	// Set delay for IE
-
-		// Init ColorPicker
-		var cp = new ColorPicker("FONT_COLOR");
+	// Init ColorPicker
+//	var cp = new ColorPicker("FONT_COLOR");
+	new ColorPicker("FONT_COLOR");
 		
-		/* Submit button */
-		tab.AddSubmitButton("SaveSettings(this)");
-	}
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveSettings(this)", "", this);
 };
 
 /* Save settings */
 
 function SaveSettings(a) {
 	if (a.obj) {
-		a.obj.Alerts.Clear();
-		a.obj.Settings.Save();
+		a.obj.Tab.Alerts.Clear();
+		a.obj.Save();
 	}
 };
 

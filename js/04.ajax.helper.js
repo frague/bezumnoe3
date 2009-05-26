@@ -1,4 +1,4 @@
-//1.4
+//1.5
 
 function sendRequest(url, callback, postData, obj) {
 	var req = createXMLHTTPObject();
@@ -19,7 +19,13 @@ function sendRequest(url, callback, postData, obj) {
 			if (req.status != 200 && req.status != 304) {
 				return;
 			}
-			callback(req, obj);
+			if (callback) {
+				// Callback passed as parameter
+				callback(req, obj);
+			} else if (obj && obj.TemplateLoaded) {
+				// Template render callback
+				obj.TemplateLoaded(req);
+			}
 		} catch (e) {
 			DebugLine("Exception: " + e.Description);
 		}

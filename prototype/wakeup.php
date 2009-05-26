@@ -12,7 +12,7 @@
 	$wakeup_id = round($_GET["id"]);
 	$wakeup = new Wakeup();
 	if (!$user->IsEmpty() && $wakeup_id > 0) {
-		$wakeup->GetForUser($user->User, $wakeup_id);
+		$wakeup->FillForUser($user->User, $wakeup_id);
 		if (!$wakeup->IsEmpty() && !$wakeup->IsRead) {
 			$wakeup->IsRead = 1;
 			$wakeup->Save();

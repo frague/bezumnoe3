@@ -1,4 +1,4 @@
-//4.8
+//5.0
 /*
 	List of admin comments to user (ban, rights changes etc.)
 */
@@ -6,6 +6,7 @@
 function AdminComments() {
 	this.fields = ["ADMIN_COMMENT", "DATE", "SEARCH"];
 	this.ServicePath = servicesPath + "admin.comments.service.php";
+	this.ClassName = "AdminComments";
 	this.Template = "admin_comments";
 	this.GridId = "AdminCommentsGrid";
 	this.Columns = 2;
@@ -26,6 +27,23 @@ AdminComments.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+// Template loading
+AdminComments.prototype.TemplateLoaded = function(req) {
+	this.TemplateBaseLoaded(req);
+
+	this.AssignTabTo("AddComment");
+	this.GroupSelfAssign(["RefreshAdminComments", "ResetFilter"]);
+
+	new DatePicker(this.Inputs["DATE"]);
+
+	BindEnterTo(this.Inputs["ADMIN_COMMENT"], this.Inputs["AddComment"]);
+	BindEnterTo(this.Inputs["DATE"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["RefreshAdminComments"]);
+
+	if (this.Init) {
+		this.Init();
+	}
+};
 
 /* Admin comment Data Transfer Object */
 
@@ -57,30 +75,6 @@ acdto.prototype.ToString = function(index, obj) {
 
 /* Helper methods */
 
-function LoadAndBindAdminCommentsToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new AdminComments(), "AdminComments", AdminCommentsOnLoad);
-};
-
-function AdminCommentsOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "AdminComments");
-
-		var ac = tab.AdminComments;
-		ac.AssignTabTo("AddComment");
-		ac.GroupSelfAssign(["RefreshAdminComments", "ResetFilter"]);
-
-		new DatePicker(ac.Inputs["DATE"]);
-
-		BindEnterTo(ac.Inputs["ADMIN_COMMENT"], ac.Inputs["AddComment"]);
-		BindEnterTo(ac.Inputs["DATE"], ac.Inputs["RefreshAdminComments"]);
-		BindEnterTo(ac.Inputs["SEARCH"], ac.Inputs["RefreshAdminComments"]);
-
-		if (ac.Init) {
-			ac.Init();
-		}
-	}
-};
-
 function AddComment(img) {
 	if (img && img.Tab && img.Tab.AdminComments) {
 		img.Tab.AdminComments.Save(AdminCommentSaved);
@@ -91,15 +85,5 @@ function AdminCommentSaved(req, obj) {
 	if (obj) {
 		obj.SetTabElementValue("ADMIN_COMMENT", "");
 		obj.RequestCallback(req, obj);
-	}
-};
-
-function ResetFilter(a) {
-// Caution! Used in Journal Messages also
-	if (a.obj) {
-		var ac = a.obj;
-		ac.SetTabElementValue("DATE", "");
-		ac.SetTabElementValue("SEARCH", "");
-		ac.Request();
 	}
 };

@@ -20,15 +20,18 @@
 		}
 	};
 
-	TabBase.prototype.AddSubmitButton = function(method, holder) {
+	/* obj - object to be assigned as a.obj (Tab by default) */
+	TabBase.prototype.AddSubmitButton = function(method, holder, obj) {
 		var m1 = d.createElement("div");
 		m1.className = "ConfirmButtons";
-		this.SubmitButton = MakeButton(method, "ok_button.gif", this);
+		this.SubmitButton = MakeButton(method, "ok_button.gif", obj ? obj : this);
 		m1.appendChild(this.SubmitButton);
 		this[holder ? holder : "RelatedDiv"].appendChild(m1);
 	};
 
 	/* Tab class */
+	Tab.prototype = new TabBase();
+
 	function Tab(id, title, is_locked, is_private, on_select) {
 		this.Id = id;
 		this.Title = title;
@@ -45,8 +48,6 @@
 			this.recepients.Add(new Recepient(id, title, 1));
 		}
 	};
-
-	Tab.prototype = new TabBase();
 
 	Tab.prototype.ToString = function(index) {
 		var isSelected = CurrentTab.Id == this.Id;

@@ -1,4 +1,4 @@
-//6.3
+//6.6
 /*
 	User profile data & helper methods
 */
@@ -7,6 +7,7 @@ function Profile() {
 	this.fields = new Array("LOGIN", "EMAIL", "NAME", "GENDER", "BIRTHDAY", "CITY", "ICQ", "URL", "PHOTO", "AVATAR", "ABOUT", "REGISTERED", "LAST_VISIT");
 	this.ServicePath = servicesPath + "profile.service.php";
 	this.Template = "userdata";
+	this.ClassName = "Profile";	// Optimize?
 };
 
 Profile.prototype = new OptionsBase();
@@ -29,10 +30,10 @@ Profile.prototype.Bind = function() {
 	this.BindImage(this.Photo1);
 	this.BindImage(this.Avatar1);
 
+	/* Ban Status */
 	this.SetTabElementValue("BANNED", this.BANNED_BY > 0);
 	this.DisplayTabElement("BanDetails", !this.ADMIN && this.BANNED_BY > 0);
 
-	/* Ban status */
 	var ban_status = "";
 	if (this.ADMIN) {
 		ban_status += "Пользователь забанен администратором&nbsp;<b>" + this.ADMIN + "</b>";
@@ -103,47 +104,38 @@ function ImageLoaded(e) {
 	e.Profile.PrintLoadedImage(e.Img);
 };
 
+// Loading template
+Profile.prototype.TemplateLoaded = function(req) {
+    this.TemplateBaseLoaded(req);
 
-/* Load & bind user profile to Tab */
+	/* Init images (photo & avatar) */
+	this.Tab.InitUploadFrame("AvatarUploadFrame");
 
-function LoadAndBindProfileToTab(tab, user_id) {
-	LoadAndBindObjectToTab(tab, user_id, new Profile(), "Profile", ProfileOnLoad);
-}
+	/* Assign Tab to links */
+	this.Photo1 = new Img("PHOTO", "Photo", "uploadForm", this.Tab.UploadFrame, userPhotosPath, 300);
+	this.Avatar1 = new Img("AVATAR", "Avatar", "avatarUploadForm", this.Tab.AvatarUploadFrame, avatarsPath, 120);
 
-function ProfileOnLoad(req, tab) {
-	if (tab) {
-		ObjectOnLoad(req, tab, "Profile");
+	this.GroupTabAssign(["linkDeletePhoto", "linkDeleteAvatar", "BANNED", "PASSWORD"]);
+	this.GroupSelfAssign(["linkRefresh", "linkLockIP"]);
 
-		var tp = tab.Profile;
-
-		/* Init images (photo & avatar) */
-		tab.InitUploadFrame("AvatarUploadFrame");
-
-		/* Assign Tab to links */
-		tp.Photo1 = new Img("PHOTO", "Photo", "uploadForm", tab.UploadFrame, userPhotosPath, 300);
-		tp.Avatar1 = new Img("AVATAR", "Avatar", "avatarUploadForm", tab.AvatarUploadFrame, avatarsPath, 120);
-
-		tp.GroupTabAssign(["linkDeletePhoto", "linkDeleteAvatar", "BANNED", "PASSWORD"]);
-		tp.GroupSelfAssign(["linkRefresh", "linkLockIP"]);
-
-		/* Viewing my profile hide Status & Ban sections */
-		if (tp.USER_ID == me.Id) {
-			tp.DisplayTabElement("NotForMe", false);
-		}
-
-		/* Date pickers */
-		new DatePicker(tp.Inputs["BIRTHDAY"]);
-		new DatePicker(tp.Inputs["BANNED_TILL"], 1);
-
-		/* Admin comments spoiler */
-		if (me.IsAdmin()) {
-			var acs = new Spoiler(1, "Комментарии администраторов	&	логи", 0, 0, function(tab) {LoadAndBindAdminCommentsToTab(tab,tp.USER_ID)});
-			acs.ToString(tp.Inputs["AdminComments"]);
-	   	}
-
-		/* Submit button */
-		tab.AddSubmitButton("SaveProfile(this)");
+	/* Viewing my profile hide Status & Ban sections */
+	if (this.USER_ID == me.Id) {
+		this.DisplayTabElement("NotForMe", false);
 	}
+
+	/* Date pickers */
+	new DatePicker(this.Inputs["BIRTHDAY"]);
+	new DatePicker(this.Inputs["BANNED_TILL"], 1);
+
+	/* Admin comments spoiler */
+	if (me.IsAdmin()) {
+		var acs = new Spoiler(1, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().LoadTemplate(tab, this.USER_ID)});
+		acs.USER_ID = this.USER_ID;
+		acs.ToString(this.Inputs["AdminComments"]);
+   	}
+
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveProfile(this)", "", this);
 };
 
 /* Save profile */
@@ -163,15 +155,14 @@ function UploadImage(profile, img) {
 
 function SaveProfile(a) {
 	if (a.obj) {
-		a.obj.Alerts.Clear();
+		a.obj.Tab.Alerts.Clear();
 
 		/* Saving Photo & Avatar */
-		var p = a.obj.Profile;
-		UploadImage(p, p.Photo1);
-		UploadImage(p, p.Avatar1);
+		UploadImage(a.obj, a.obj.Photo1);
+		UploadImage(a.obj, a.obj.Avatar1);
 
 		/* Saving profile */
-		a.obj.Profile.Save(ProfileSaved);
+		a.obj.Save(ProfileSaved);
 	}
 };
 
