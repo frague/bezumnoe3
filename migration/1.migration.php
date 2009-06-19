@@ -2,6 +2,7 @@
 
 	$root = "../";
 	require_once $root."references.php";
+	require_once "step_tracking.php";
 
 	set_time_limit(120);
 
@@ -54,7 +55,7 @@
 	/* Functions */
 
 
-	echo "<h2>Migration:</h2>";
+//	echo "<h2>Migration:</h2>";
 	
 	echo "<h3>Truncate tables</h3>";
 	$q = $db->Query("TRUNCATE TABLE ".User::table);
@@ -104,6 +105,7 @@
 						$user->StatusId = $status->Id;
 					} else {
 						error("Status ".$statusNum." not found!");
+						AddError("Status '".$statusNum."' not found!", 1);
 					}
 				} else {
 				    $user->StatusId = $statuses["r".$rights];
@@ -124,7 +126,7 @@
 				}
 				/* ... for post-processing  */
 
-			    echo "<li>".$user->Login;
+//			    echo "<li>".$user->Login;
 
 			    /* Profile */
 			    $profile = new Profile();
@@ -139,8 +141,8 @@
 				if ($lines[11] && $lines[11] != "http://") {
 					$profile->Url = $lines[11];
 				}
-				$profile->Registered = DateFromTime($lines[13]);
-				$profile->LastVisit = DateFromTime($lines[14]);
+				$profile->Registered = @DateFromTime($lines[13]);
+				$profile->LastVisit = @DateFromTime($lines[14]);
 				$profile->Generation = $lines[21];
 
 				$profile->About = str_replace("<br>", "\n", $lines[28]);
@@ -196,10 +198,13 @@
 			    $counter++;
 			} else {
 				error("Error saving user ".$user->Login);
+				Failed("Error saving user ".$user->Login);
 			}
 		}
 	}
-	echo "</ol>".$counter." records found.";
+//	echo "</ol>";
+	echo $counter." records found.";
+	AddError($counter." Users have been migrated.");
 
 	/* Tree nodes */
 	echo "<h3>Saving users relations:</h3>";
@@ -225,6 +230,6 @@
 	}
 
 	echo "Migration completed!";
-
+	Passed();
 
 ?>

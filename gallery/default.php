@@ -9,7 +9,12 @@
 
 
 	$gallery = new Gallery();
-	$q = $gallery->GetByCondition("1=1");
+	if ($someoneIsLogged) {
+		$q = $gallery->GetByConditionWithUserAccess("1=1", $user->User->Id);
+	} else {
+		$q = $gallery->GetByCondition("1=1");
+	}
+
 	echo "<ul class='Forums'>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

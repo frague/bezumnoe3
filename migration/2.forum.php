@@ -2,6 +2,7 @@
 
 	$root = "../";
 	require_once $root."references.php";
+	require_once "step_tracking.php";
 
 	set_time_limit(120);
 
@@ -83,10 +84,11 @@
 		$record->AnswersCount = $q->Get("TOPIC_ANSWERS");
 		$record->Save();
 		if (!($i%1000)) {
-			echo ".";
+//			echo ".";
 		}
 	}
 	echo "<li>".$i;
+	AddError($i." forums records have been migrated.");
 	echo "</ol>";
 
 	echo "<h3>Journal records & comments:</h3>";
@@ -112,7 +114,7 @@
 			$journal->Description = "Журнал";
 			$journal->TotalCount = $q->Get("RECORDS");
 			$journal->Save();
-			echo "<li value='".$journal->Id."'>".$journal->Title." (".$journal->TotalCount.")<br>";
+//			echo "<li value='".$journal->Id."'>".$journal->Title." (".$journal->TotalCount.")<br>";
 
 			// Journal friends
 			$q2 = $db->Query("SELECT * FROM _journal_friends WHERE login='".SqlQuote($login)."'");
@@ -176,12 +178,14 @@
 					$record1->Save();
 				}
 
-				echo "|";
+//				echo "|";
 			}
 		}
 	}
 	echo "</ol>";
 	
-	echo "Update completed!";
+//	echo "Update completed!";
+	Passed();
+	
 
 ?>

@@ -10,14 +10,29 @@
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
 
 	$forum = new Forum();
-	$q = $forum->GetByCondition("1=1");
+	if ($someoneIsLogged) {
+		$q = $forum->GetByConditionWithUserAccess("1=1", $user->User->Id);
+	} else {
+		$q = $forum->GetByCondition("1=1");
+	}
 	echo "<ul class='Forums'>";
+
+	$forumUser = new ForumUser();
+
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$forum->FillFromResult($q);
 
-		echo "<li>";
-		$forum->DoPrint("forum.php", $yesterday);
+		$access = 1 - $forum->IsProtected;
+		if ($someoneIsLogged) {
+			$forumUser->FillFromResult($q);
+			$access = $forum->LoggedUsersAccess($forumUser);
+		}
+
+		if ($access > Forum::NO_ACCESS) {
+			echo "<li>";
+			$forum->DoPrint("forum.php", $yesterday);
+		}
 	}
 	echo "</ul>";
 

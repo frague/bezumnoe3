@@ -34,7 +34,14 @@
 		$journal->TotalCount = 10;
 	}
 
-	$q = $record->GetJournalTopics($user, $from, $amount, $journal->Id, $search);
+	$access = Forum::NO_ACCESS;
+	if ($user->IsSuperAdmin()) {
+		$access = Forum::FULL_ACCESS;
+	} else {
+		$access = $journal->GetAccess($user->User->Id);
+	}
+	
+	$q = $record->GetJournalTopics($access, $from, $amount, $journal->Id, $search);
 
 	$result = "this.data = [";
 	for ($i = 0; $i < $q->NumRows(); $i++) {

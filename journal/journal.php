@@ -43,6 +43,19 @@
 		$forumId = $journal->Id;
 	}
 
+	// Checking if journal is protected and logged user has access to it
+	$access = 1 - $journal->IsProtected;
+	if ($someoneIsLogged) {
+		$access = $journal->GetAccess($user->User->Id);
+	}
+	
+	if ($access == Journal::NO_ACCESS) {
+		error("У вас нет доступа к журналу.");
+		Foot();
+		die;
+	}
+	
+
 	/* -------------- Getting Journal Template -------------- */
 
 	$template = new JournalTemplate();
@@ -103,7 +116,7 @@
 		DisplayRecord($record);
 		$addTitle =  $record->Title;
 	} else {
-		$q = $message->GetJournalTopics($user, $showFrom, $shownMessages, $forumId);
+		$q = $message->GetJournalTopics($access, $showFrom, $shownMessages, $forumId);
 		$messagesFound = $q->NumRows();
 
 		for ($i = 0; $i < $messagesFound; $i++) {
@@ -201,9 +214,5 @@
 			$bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
 		}
 	}
-
-
-
-
 
 ?>

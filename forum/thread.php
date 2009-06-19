@@ -17,17 +17,23 @@
 
 	$forum = new Forum($record->ForumId);
 	$forum->Retrieve();
+	if ($forum->IsEmpty()) {
+		DieWith404();
+	}
 
 	Head($record->Title, "forum.css", "forum.js");
 	require_once $root."references.php";
 
-	$postAccess = IsPostingAllowed();
+	$access = 1 - $forum->IsProtected;
+	if ($someoneIsLogged) {
+		$access = $forum->GetAccess($user->User->Id);
+	}
+
 	$forum->DoPrint("forum.php");
 
 	$messagesPerPage = 20;
 	$level = 0;
 
-	$forumAccess = GetForumAccess($forum);
 	$answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
 
 	$q = $record->GetByIndex(
@@ -36,7 +42,7 @@
 		$record->Index, 
 		$from * $messagesPerPage, 
 		$messagesPerPage,
-		$forumAccess);
+		$access);
 
 	echo ($forum->IsHidden ? "" : "<style>#IsProtected {display:none;}</style>");
 	echo "<ul class='Thread'>";

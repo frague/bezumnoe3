@@ -46,34 +46,82 @@ round($this->Type).",".
 Boolean($this->IsCommentable).");";
 	}
 
-	function GetJournalRecords($user, $from = 0, $limit, $condition) {
+	// ----- Single Journal -----
+	// Gets journal records by condition
+	function GetJournalRecords($access, $from = 0, $limit, $condition) {
 		$from = round($from);
 		$limit = round($limit);
 
 	  	return $this->GetByCondition(
 	  		$condition." LIMIT ".($from ? $from."," : "").$limit,
-	  		$this->JournalPostsExpression($user)
+	  		$this->JournalPostsExpression($access)
 	  	); 
 	}
 	
-	function GetJournalTopics($user, $from = 0, $limit, $forumId = 0, $condition = "") {
+	// Gets journal topics by condition
+	function GetJournalTopics($access, $from = 0, $limit, $forumId = 0, $condition = "") {
 		$forumId = round($forumId);
 	  	return $this->GetJournalRecords(
-	  		$user, 
+	  		$access, 
 	  		$from,
 	  		$limit,
-	  		($condition ? $condition." AND " : "").($forumId > 0 ? "t1.".self::FORUM_ID."=".$forumId." AND " : "")."LENGTH(t1.".self::INDEX.")=4
+	  		($condition ? $condition." AND " : "").
+	  		($forumId > 0 ? "t1.".self::FORUM_ID."=".$forumId." AND " : "")."LENGTH(t1.".self::INDEX.")=4
 	  		ORDER BY t1.".self::DATE." DESC"
 	  	); 
 	}
+
+	// ----- Multiple Journals -----
+	// Gets records from different journals with user access
+	// by condition
+	function GetMixedJournalsRecords($userId, $from = 0, $limit, $condition) {
+		$from = round($from);
+		$limit = round($limit);
+
+	  	return $this->GetByCondition(
+	  		$this->AccessExpression($userId, "t5", "t4")." AND ".
+	  		$condition.
+	  		" LIMIT ".($from ? $from."," : "").$limit,
+	  		$this->MixedJournalsPostsExpression()
+	  	); 
+	}
 	
-	function JournalPostsExpression($user) {
+	// Gets journal topics by condition
+	function GetMixedJournalsTopics($userId, $from = 0, $limit, $condition = "") {
+		$forumId = round($forumId);
+	  	return $this->GetMixedJournalsRecords(
+	  		$userId, 
+	  		$from,
+	  		$limit,
+	  		($condition ? $condition." AND " : "").
+	  		"LENGTH(t1.".self::INDEX.")=4
+	  		ORDER BY t1.".self::DATE." DESC"
+	  	); 
+	}
+
+	//------ SQL ------
+
+	// Journal postst SQL expression
+	function JournalPostsExpression($access) {
 		return str_replace(
 		"WHERE",
-		"LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
+		"	LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE 
 	t5.".Journal::TYPE."='".Journal::TYPE_JOURNAL."' AND ",
-		$this->ReadThreadExpression($user));
+		$this->ReadThreadExpression($access));
+	}
+
+	// Journal posts from different journals with access expression
+	function MixedJournalsPostsExpression() {
+		$userId = round($userId);
+
+		return str_replace(
+		"WHERE",
+		"\n	LEFT JOIN ".ForumUser::table." AS t4 ON t4.".ForumUser::USER_ID."=".$userId." AND t4.".ForumUser::FORUM_ID."=t1.".JournalRecord::RECORD_ID."
+	LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
+WHERE 
+	t5.".Journal::TYPE."='".Journal::TYPE_JOURNAL."' AND ",
+		$this->ReadExpression());
 	}
 }
 

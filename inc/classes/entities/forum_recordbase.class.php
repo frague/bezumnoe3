@@ -190,25 +190,29 @@ class ForumRecordBase extends EntityBase {
 		return $result;
 	}
 
-	function GetForumThreads($forumId, $user, $from = 0, $amount = 0, $is_owner = 0) {
+	// Gets forum's top-level threads
+	function GetForumThreads($forumId, $access, $from = 0, $amount = 0) {
 		return $this->GetByCondition("
 			t1.".self::FORUM_ID."=".round($forumId)." AND 
 			LENGTH(t1.".self::INDEX.") = 4
 			ORDER BY ".self::UPDATE_DATE." DESC".
 			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 
-			$this->ReadThreadExpression($user, $is_owner), "", 1);
+			$this->ReadThreadExpression($access), 1, 1);
 	}
 
-	function GetForumThreadsCount($forumId, $user) {		// MOVE TO FORUM CLASS ?
+
+	// Gets threads count for given forum
+	function GetForumThreadsCount($forumId) {		// MOVE TO FORUM CLASS ?
 	  global $db;
 
-	  	$q = $db->Query($this->CountForumThreadsExpression($forumId, $user));
+	  	$q = $db->Query($this->CountForumThreadsExpression($forumId, Forum::FULL_ACCESS));
 	  	$q->NextResult();
 	  	return $q->Get(self::THREADS_COUNT);
 	}
 	
-	function GetByIndex($forumId, $user, $index, $from, $amount, $is_owner = 0) {
+	// Gets forum thread by index (first 4 digits)
+	function GetByIndex($forumId, $access, $index, $from, $amount) {
 		$index = preg_replace("[^0-9_]", "", $index);
 		if (!$index) {
 			return;
@@ -216,11 +220,10 @@ class ForumRecordBase extends EntityBase {
 
 		return $this->GetByCondition("
 			t1.".self::FORUM_ID."=".round($forumId)." AND 
-			t1.".self::INDEX." LIKE '".$index."%'".
-			($is_owner ? "" : " AND t1.".self::IS_DELETED."<>1")."
+			t1.".self::INDEX." LIKE '".$index."%'
 			ORDER BY ".$this->ThreadOrderExpression()."
 			LIMIT ".($from ? $from."," : "").$amount,
-			$this->ReadThreadExpression($user, $is_owner));
+			$this->ReadThreadExpression($access));
 	}
 
 	function GetReplyRecord($replyId, $forumId) {
@@ -255,7 +258,7 @@ class ForumRecordBase extends EntityBase {
 			$this->GetAdditionalUserDataExpression()
 		);
 	}
-
+	
 	function UpdateAnswersCount() {
 	  global $db;
 	  	
@@ -387,23 +390,65 @@ WHERE
 	##CONDITION##";
 	}
 
-	function ReadThreadExpression($user, $is_owner = 0) {
+	// Transforms read expression into read thread one
+	function ReadThreadExpression($access = Forum::NO_ACCESS) {
 		$s = str_replace("FROM", ",
 	t2.".Profile::AVATAR.",
 	t3.".JournalSettings::ALIAS.",
-	t3.".JournalSettings::LAST_MESSAGE_DATE.",
-	t4.".ForumUser::FORUM_ID." IS NOT NULL
+	t3.".JournalSettings::LAST_MESSAGE_DATE."
 FROM", $this->ReadExpression());
+
 		$s = str_replace("WHERE", "
 	LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
 	LEFT JOIN ".JournalSettings::table." AS t3 ON t3.".JournalSettings::USER_ID."=t1.".self::USER_ID."
-	LEFT JOIN ".ForumUser::table." AS t4 ON t4.".ForumUser::FORUM_ID."=t1.".self::FORUM_ID." AND t4.".ForumUser::USER_ID."=".round($user->User->Id)."
 WHERE
-	".self::GetDeletedCondition($user)." AND 
-	".($is_owner ? "" : self::GetLoggedCondition($user)." AND "),
+	".self::AccessCondition($access),
 	$s);
-
 		return $s;
+	}
+
+	// Makes condition from access
+	function AccessCondition($access = Forum::NO_ACCESS) {
+		$hideDeleted = "t1.".self::IS_DELETED."<>1";
+		switch ($access) {
+			case Forum::FULL_ACCESS:
+				return "1=1 AND ";
+			case Forum::READ_ONLY_ACCESS:
+				return "t1.".self::TYPE."='".self::TYPE_PUBLIC."' AND ".$hideDeleted." AND ";
+			case Forum::READ_ADD_ACCESS:
+				return "(t1.".self::TYPE."='".self::TYPE_PUBLIC."' OR t1.".self::TYPE."='".self::TYPE_FRIENDS_ONLY."') AND ".$hideDeleted." AND ";
+			default:
+				return "1<>1 AND ";
+		}
+	}
+
+	// Makes SQL expression to determine acces to records
+	// mixed from different forums
+	function AccessExpression($userId, $forumTable, $forumUserTable, $forumRecordTable = "t1", $seeDeleted = 0) {
+		$hideDeleted = "(".$forumRecordTable.".".self::IS_DELETED."<>1)";
+		$userId = round($userId);
+		$result = "";
+		if ($userId) {
+			// Access for given User ID
+			$result .= "((";
+			// Public forum, public messages
+			$result .= "(((".$forumTable.".".Forum::IS_PROTECTED."<>1 AND ".$forumRecordTable.".".self::TYPE."='".self::TYPE_PUBLIC."') OR ";
+			// Forum user
+			$result .= "(".$forumUserTable.".".ForumUser::IS_MODERATOR."=0 AND (".$forumRecordTable.".".self::TYPE."='".self::TYPE_PUBLIC."' OR ".$forumRecordTable.".".self::TYPE."='".self::TYPE_PROTECTED."'))) AND ".$hideDeleted.") OR ";
+			// Forum moderator
+			$result .= "(".$forumUserTable.".".ForumUser::IS_MODERATOR."=1) OR ";
+		    // Forum owner
+			$result .= "(".$forumTable.".".Forum::LINKED_ID."='".$userId."'))";	
+			$result .= $seeDeleted ? ")" : " AND ".$hideDeleted.")";
+		} else {
+			// Anonymous access
+			// Public forum
+			$result .= "((".$forumTable.".".Forum::IS_PROTECTED."<>1) AND ";
+			// And public messages
+			$result .= "(".$forumRecordTable.".".self::TYPE."='".self::TYPE_PUBLIC."') AND ";
+			$result .= $hideDeleted.")";
+		}
+		return $result;
 	}
 
 	function CreateExpression() {
@@ -504,8 +549,9 @@ WHERE
 GROUP BY NULL";
 	}
 
-	function CountForumThreadsExpression($forumId, $user) {
-		$result = $this->ReadThreadExpression($user);
+	// Expression to count forum threads
+	function CountForumThreadsExpression($forumId, $access = Forum::NO_ACCESS) {
+		$result = $this->ReadThreadExpression($access);
 		$result = substr($result, strpos($result, "FROM"));
 		$result = "SELECT 
 	COUNT(".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND 

@@ -20,6 +20,12 @@ class ForumBase extends EntityBase {
 	const TYPE_JOURNAL	= "journal";
 	const TYPE_GALLERY	= "gallery";
 
+	// Type access
+	const NO_ACCESS			= 0;
+	const READ_ONLY_ACCESS	= 1;
+	const READ_ADD_ACCESS	= 2;
+	const FULL_ACCESS		= 3;
+
 	// Properties
 	var $Type;
 	var $Title;
@@ -94,6 +100,67 @@ class ForumBase extends EntityBase {
 		return $q->Get(self::UNREAD_COUNT);
 	}
 
+	// Gets forum(s) by condition
+	// joined with access data for given user
+	function GetByConditionWithUserAccess($condition, $userId) {
+		$user_id = round($user_id);
+		if (!$userId) {
+			return $this->GetByCondition($condition);
+		}
+
+		$expression = str_replace("FROM", 
+",
+t2.".ForumUser::USER_ID.",
+t2.".ForumUser::IS_MODERATOR."
+FROM", 
+$this->ReadExpression());
+		$expression = str_replace(
+"WHERE", 
+"	LEFT JOIN ".ForumUser::table." AS t2 ON t2.".ForumUser::USER_ID."=".$userId." AND t2.".ForumUser::FORUM_ID."=t1.".self::FORUM_ID."
+WHERE", 
+$expression);
+		return $this->GetByCondition($condition, $expression);
+	}
+
+	// Gets forum access for given user or anonymous one
+	function GetAccess($userId = 0) {
+		$userId = round($userId);
+		if ($this->IsEmpty()) {
+			return self::NO_ACCESS;
+		}
+
+		if ($userId == 0) {
+			if (!$this->IsProtected) {
+				return self::READ_ONLY_ACCESS;
+			}
+			return self::NO_ACCESS;
+		} else {
+			if ($this->LinkedId == $userId) {
+		   		return self::FULL_ACCESS;
+			}
+			$forumUser = new ForumUser();
+			$forumUser->GetFor($userId, $this->Id);
+			return $this->LoggedUsersAccess($forumUser);
+		}
+	}
+
+	// Returns access level for logged user with given
+	// relation to forum
+	function LoggedUsersAccess($forumUser) {
+		if ($forumUser->IsFull()) {
+			if ($forumUser->IsModerator) {
+				return self::FULL_ACCESS;
+			} else {
+				return self::READ_ADD_ACCESS;
+			}
+		} else {
+			if ($this->IsProtected) {
+				return self::NO_ACCESS;
+			} else {
+				return self::READ_ADD_ACCESS;
+			}
+		}
+	}
 
 	/*********** SQL ***********/
 
@@ -176,6 +243,8 @@ WHERE
 		return "DELETE FROM ".$this->table." WHERE ".self::FORUM_ID."=".SqlQuote($this->Id);
 	}
 
+
+	// !!!!!! Review
 	function UpdateThreadsCountExpression() {
 		if ($this->IsEmpty()) {
 			return "";

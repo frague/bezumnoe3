@@ -20,9 +20,10 @@ class JournalComment extends JournalRecord {
 "\",".round($this->Type).",".round($this->IsDeleted).")";
 	}
 	
-	function GetJournalComments($user, $from = 0, $limit = 20) {
+	// Gets comments for single journal
+	function GetJournalComments($access, $from = 0, $limit = 20) {
 	  	return $this->GetJournalRecords(
-	  		$user, 
+	  		$access, 
 	  		$from,
 	  		$limit, 
 	  		"LENGTH(t1.".self::INDEX.") <> 4
@@ -30,6 +31,16 @@ class JournalComment extends JournalRecord {
 	  	); 
 	}
 	
+	// Gets comments from multiple journals with access logic
+	function GetMixedJournalsComments($userId, $from = 0, $limit = 20) {
+	  	return $this->GetMixedJournalsRecords(
+	  		$userId, 
+	  		$from,
+	  		$limit, 
+	  		"LENGTH(t1.".self::INDEX.") <> 4
+	  		ORDER BY t1.".self::DATE." DESC"
+	  	); 
+	}
 
 	/* Static Methods */
 

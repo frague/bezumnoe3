@@ -35,28 +35,23 @@
 		DieWith404();
 	}
 
-	$isFriend = 0;
-	if (!$user->IsEmpty()) {
-		if ($journal->LinkedId == $user->User->Id) {	// Owner
-			$isFriend = 1;
-		} else {
-			$friendship = new JournalFriend();
-			$friendship->FillByJournalAndUser($journal->Id, $user->User->Id);
-			if ($friendship->IsFull()) {
-				$isFriend = 1;
-			}
-		}
+	// Checking if journal is protected and logged user has access to it
+	$access = 1 - $journal->IsProtected;
+	if ($someoneIsLogged) {
+		$access = $journal->GetAccess($user->User->Id);
 	}
-
-	if (!$record->VisibleTo($user, $isFriend)) {	// 111
-		DieWith404();
+	
+	if ($access == Journal::NO_ACCESS) {
+		Head("Ошибка", "forum.css", "forum.js");
+		error("У вас нет доступа к журналу.");
+		Foot();
+		die;
 	}
-
 
 	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js");
 	require_once $root."references.php";
 
-	$postAccess = IsPostingAllowed();
+	$postAccess = ($access >= Journal::READ_ADD_ACCESS);
 
 	echo $record->ToPrint($author);
 
@@ -67,18 +62,15 @@
 
 	echo "<h3>Комментарии:</h3>";
 
-	$forumAccess = GetForumAccess($journal);
 	$answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
 
 	$comment = new JournalComment();
 	$q = $comment->GetByIndex(
 		$record->ForumId, 
-		$user,
+		$access,
 		$record->Index, 
 		$from * $messagesPerPage, 
-		$messagesPerPage,
-		$forumAccess);
-
+		$messagesPerPage);
 
 	echo "<div class='NewThread'>";
 	echo "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>";

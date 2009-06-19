@@ -1,7 +1,7 @@
 <?php
 
 	$record = new JournalRecord();
-	$q = $record->GetJournalTopics($user, 0, 20);
+	$q = $record->GetMixedJournalsTopics($user->User->Id, 0, 20);
 
 	echo "<h4>Новые сообщения:</h4>";
 	echo "<ul>";

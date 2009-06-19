@@ -18,6 +18,18 @@
 	$gallery = new Gallery();
 	$gallery->GetById($galleryId);
 
+
+	$access = 1 - $gallery->IsProtected;
+	if ($someoneIsLogged) {
+		$access = $gallery->GetAccess($user->User->Id);
+	}
+	
+	if ($access == Gallery::NO_ACCESS) {
+		error("У вас нет доступа к форуму.");
+		Foot();
+		die;
+	}
+
 	Head($gallery->Title, "gallery.css", "");
 
 	echo $gallery->DoPrint();

@@ -6,6 +6,7 @@
 <?
 	$root = "../";
 	require_once $root."references.php";
+	require_once "step_tracking.php";
 
 	set_time_limit(120);
 
@@ -32,34 +33,8 @@
 		$allUsersGUIDs[$login] = $q->Get("GUID");
 	}
 
-/*	// Friends
-	echo "<h3>Moving friends:</h3>";
-	$q = $db->Query("SELECT * FROM _journal_friends");
-	echo "<ul type=square>";
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
 
-		$login = $q->Get("login");
-		$friends = $q->Get("friends");
-		$user_id = $allUsersIds[$login];
-		if ($user_id) {
-			$friends = split(",", $friends);
-			for ($k = 0; $k < sizeof($friends); $k++) {
-				$friend_id = $allUsersIds[$friends[$k]];
-				if ($friend_id) {
-					$f = new JournalFriend($user_id, $friend_id);
-					$f->Save();
-				}
-			}
-			echo "<li> User <b>".$login."</b> saved";
-		} else {
-			echo "<li style='color:red'> User <b>".$login."</b> does not exist. Skipping...";
-		}
-	}
-	echo "</ul>";*/
-
-
-	// Records
+	// Settings
 	echo "<h3>Journal Settings:</h3>";
 	$q = $db->Query("SELECT * FROM _journal ORDER BY login ASC, id ASC");
 	echo "<ul type=square>";
@@ -89,7 +64,7 @@
 					$s->Alias = eregi("^[0-9a-z\-\=\_]+$", $lastUser) ? $lastUser : $allUsersGUIDs[$lastUser];
 					$s->LastMessageDate = $messageDate;
 					$s->Save();
-					echo "<li> <b>".$lastUser."</b> journal settings have been saved.";
+//					echo "<li> <b>".$lastUser."</b> journal settings have been saved.";
 				}
 			}
 			$lastUser = $user;
@@ -108,45 +83,6 @@
 		$userRecords++;
 
 		$PostId = $q->Get("id");
-
-/*		$record = new JournalRecord();
-		$record->Id = $PostId;
-		$record->UserId = $lastUserId;
-		$record->Title = $q->Get("title");
-		$record->Content = $q->Get("content");
-
-		$messageDate = DateFromTime($q->Get("moment"));
-		$record->Date = $messageDate;
-
-
-		$type = $q->Get("kind");
-		$record->Type = ($type == "pu" ? 0 : ($type == "fr" ? 1 : 2));
-		$record->CommentsAllowed = 1;*/
-
-
-		/* Migrate post comments */
-
-/*		$q1 = $db->Query("SELECT * FROM _journal_comments WHERE post_id=".$PostId." ORDER BY date ASC");
-		$comments = $q1->NumRows();
-		$last_comment_date = "";
-		for ($k = 0; $k < $comments; $k++) {
-			$q1->NextResult();
-			$comment = new JournalComment();
-
-			$comment->RecordId = $PostId;
-			$commenter = $q1->Get("author");
-			if ($allUsersIds[$commenter]) {
-				$comment->UserId = $allUsersIds[$commenter];
-			} else {
-				$comment->NotLoggedName = $commenter;
-			}
-			$last_comment_date = DateFromTime($q1->Get("date"));
-			$comment->Date = $last_comment_date;
-			$comment->Content = $q1->Get("comment");
-			//$comment->Save();
-		}*/
-
-		//$record->Save($record->MigrateExpression($comments, $last_comment_date));
 	}
 
 	echo "</ul>";
@@ -174,6 +110,7 @@
 
 		if (!$id && !$isSkin) {
 			echo "<li style='color:red'> <b>".$user."</b> has no records in journal";
+			AddError("<b>".$user."</b> has no records in journal");
 			continue;
 		}
 		
@@ -189,10 +126,10 @@
 			$t->Save();
 			$templateNames[$lastUser] = $t->Id;
 
-			echo "<li> <b>".str_replace("<", "&lt;", $lastUser)."</b> saved";
+/*			echo "<li> <b>".str_replace("<", "&lt;", $lastUser)."</b> saved";
 			if (!$t->UserId) {
 				echo " (skin ".$t->Id.")";
-			}
+			}*/
 
 			$t = new JournalTemplate();
 			$lastUser = $user;
@@ -255,6 +192,7 @@
 
 		} else {
 			echo "<li style='color:red'> <b>".str_replace("<", "&lt;", $name)."</b> skin not found";
+			AddError("<b>".str_replace("<", "&lt;", $name)."</b> journal skin not found", 1);
 		}
 	}
 
@@ -282,10 +220,11 @@
 					if (!$s->IsEmpty()) {
 						$s->SkinTemplateId = $template_id;
 						$s->Save();
-						echo "<li> <b>".$user."</b> skin '".$template."' (".$template_id.") info moved";
+//						echo "<li> <b>".$user."</b> skin '".$template."' (".$template_id.") info moved";
 					}
 				} else {
 					echo "<li style='color:red'> <b>".$template."</b> (".$template_id.") template not found.";
+					AddError("<b>".$template."</b> (".$template_id.") journal template not found.");
 				}
 			}
 
@@ -297,11 +236,12 @@
 				if (!$p->IsEmpty()) {
 					$p->Avatar = $avatar;
 					$p->Save();
-					echo "<li> ".$user."'s avatar saved.";
+//					echo "<li> ".$user."'s avatar saved.";
 				}
 			}
 		} else {
 			echo "<li style='color:red'> <b>".str_replace("<", "&lt;", $user)."</b> has no records - ignored.";
+			AddError("Journal of <b>".str_replace("<", "&lt;", $user)."</b> has no records - ignored.");
 		}
 
 	}
@@ -310,5 +250,5 @@
 
 	echo "Migration completed!";
 
-
+	Passed();
 ?>

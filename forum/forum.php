@@ -9,8 +9,9 @@
 
 	$forum = new Forum($forum_id);
 	$forum->Retrieve();
+
 	if ($forum->IsEmpty()) {
-		$forum->FillByCondition("t1.".Forum::TYPE."='".Forum::TYPE_FORUM."'");
+		DieWith404();
 	}
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
@@ -18,11 +19,19 @@
 	Head($forum->Title, "forum.css", "forum.js");
 	require_once $root."references.php";
 
-	$postAccess = IsPostingAllowed();
+	$access = 1 - $forum->IsProtected;
+	if ($someoneIsLogged) {
+		$access = $forum->GetAccess($user->User->Id);
+	}
+	
+	if ($access == Forum::NO_ACCESS) {
+		error("У вас нет доступа к форуму.");
+		Foot();
+		die;
+	}
 	
 	$forum->DoPrint("forum.php");
 
-	$forumAccess = GetForumAccess($forum);
 	$threadsPerPage = 20;
 
 	$record = new ForumRecord();
@@ -31,7 +40,7 @@
 		$user,
 		$from * $threadsPerPage, 
 		$threadsPerPage,
-		$forumAccess);
+		$access);
 
 	echo "<style>#buttonCite".($forum->IsHidden ? "" : ", #IsProtected")." {display:none;}</style>";
 	echo "<div class='NewThread'>";
