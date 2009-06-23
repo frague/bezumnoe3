@@ -9,13 +9,31 @@
 
 	$wakeup = new Wakeup();
 
-	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $wakeup->SearchTemplate);
+	// Dates condition
+	$d = $_POST["DATE"];
+	if ($d) {
+		$t = ParseDate($d);
+		if ($t !== false) {
+			$condition = "t1.".Wakeup::DATE." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
+		}
+	}
+
+	// Search keywords
+	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $comment->SearchTemplate);
+	if ($search) {
+		$condition .= ($condition ? " AND " : "").$search;
+	}
+
+	if (!$condition) {
+		$condition = "1=1";
+	}
+
 	if ($search) {
 		$amount = 10;
 		$wakeup->TotalCount = 10;
 	}
 	
-	$q = $wakeup->GetForUser($user->User->Id, $from, $amount, $search);
+	$q = $wakeup->GetForUser($user->User->Id, $from, $amount, $condition);
 	$total = $q->NumRows();
 	
 	echo "this.data=[";

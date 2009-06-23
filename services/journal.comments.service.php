@@ -44,7 +44,7 @@
 		die;
 	}
 
-	$isOwner = ($user->IsSuperAdmin() || $journal->LinkedId == $user->User->Id) ? 1 : 0;
+	$access = $journal->GetAccess($user->User->Id);
 
 	$comment = new JournalComment();
 	if ($go == "delete" && $id) {
@@ -64,7 +64,7 @@
 		};
 	}
 
-	$q = $comment->GetByIndex($journal->Id, $user, $record->Index, $from, $amount, $isOwner);
+	$q = $comment->GetByIndex($journal->Id, $access, $record->Index, $from, $amount);
 
 	$result = "this.data=[";
 	$threadCount = $q->NumRows();

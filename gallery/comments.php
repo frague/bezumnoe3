@@ -27,7 +27,7 @@
 	}
 
 
-	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js");
+	Head($record->Title, "forum.css", "forum.js");
 	require_once $root."references.php";
 
 	echo $record->ToPrint($PathToGalleries.$gallery->Description, 0);
@@ -64,7 +64,7 @@
 				$alias = $q->Get(JournalSettings::ALIAS);
 				$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
 
-				echo "<a name='cm".$record->Id."'></a>";
+				//echo "<a name='cm".$record->Id."'></a>";
 				echo $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
 				$level = $record->Level;
 			}

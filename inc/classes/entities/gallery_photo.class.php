@@ -43,23 +43,23 @@ round($this->Type).",".
 Boolean($this->IsCommentable).");";
 	}
 
-	function GetGalleryPhotos($user, $from = 0, $limit, $condition) {
+	function GetGalleryPhotos($access, $from = 0, $limit, $condition) {
 		$from = round($from);
 		$limit = round($limit);
 
 	  	return $this->GetByCondition(
 	  		$condition." LIMIT ".($from ? $from."," : "").$limit,
-	  		$this->GalleryPhotosExpression($user)
+	  		$this->GalleryPhotosExpression($access)
 	  	); 
 	}
 	
-	function GalleryPhotosExpression($user) {
+	function GalleryPhotosExpression($access) {
 		return str_replace(
 		"WHERE",
 		"LEFT JOIN ".Gallery::table." AS t5 ON t5.".Gallery::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE 
 	t5.".Journal::TYPE."='".Journal::TYPE_GALLERY."' AND ",
-		$this->ReadThreadExpression($user));
+		$this->ReadThreadExpression($access));
 	}
 }
 

@@ -13,7 +13,7 @@
 	/* Functions */
 
 
-	echo "<h2>Journal records migration:</h2>";
+	echo "<h2>Настройки журналов:</h2>";
 	
 	echo "<h3>Truncate tables</h3>";
 	$q = $db->Query("TRUNCATE TABLE ".JournalTemplate::table);
@@ -35,7 +35,7 @@
 
 
 	// Settings
-	echo "<h3>Journal Settings:</h3>";
+	echo "<h3>Настройки (1/2):</h3>";
 	$q = $db->Query("SELECT * FROM _journal ORDER BY login ASC, id ASC");
 	echo "<ul type=square>";
 
@@ -89,7 +89,7 @@
 
 	/* Templates */
 
-	echo "<h3>Moving templates:</h3>";
+	echo "<h3>Шаблоны:</h3>";
 
 	$q = $db->Query("SELECT * FROM _journal_templates ORDER BY login");
 	echo "<ul type=square>";
@@ -109,8 +109,8 @@
 		$isSkin = (strpos($user, "<") !== false);
 
 		if (!$id && !$isSkin) {
-			echo "<li style='color:red'> <b>".$user."</b> has no records in journal";
-			AddError("<b>".$user."</b> has no records in journal");
+			echo "У пользователя <b>".$user."</b> нет записей в журнале. Игнорирую.";
+			AddError("У пользователя <b>".$user."</b> нет записей в журнале. Игнорирую.");
 			continue;
 		}
 		
@@ -160,7 +160,7 @@
 	echo "</ul>";
 
 	if ($defaultTemplate && !$defaultTemplate->IsEmpty()) {
-		echo "<h3>Update partially empty templates:</h3>";
+		echo "<h3>Дополняем неполные шаблоны:</h3>";
 		$q = $db->Query("UPDATE ".JournalTemplate::table." SET ".JournalTemplate::BODY."='".SqlQuote($defaultTemplate->Body)."' WHERE ".JournalTemplate::BODY."=''");
 		$q = $db->Query("UPDATE ".JournalTemplate::table." SET ".JournalTemplate::MESSAGE."='".SqlQuote($defaultTemplate->Message)."' WHERE ".JournalTemplate::MESSAGE."=''");
 		$q = $db->Query("UPDATE ".JournalTemplate::table." SET ".JournalTemplate::CSS."='".SqlQuote($defaultTemplate->Css)."' WHERE ".JournalTemplate::CSS."=''");
@@ -169,7 +169,7 @@
 
 	/* Skins */
 	
-	echo "<h3>Moving skins:</h3>";
+	echo "<h3>Предустановленные шаблоны:</h3>";
 	echo "<ul>";
 	$q = $db->Query("select * from _journal_skins order by id asc");
 
@@ -188,18 +188,17 @@
 			$skin->IsDefault = ($name == "default" ? 1 : 0);
 			$skin->IsFriendly = $skin->IsDefault;
 			$skin->Save();
-			echo "<li> Skin saved:".$skin;
-
+			echo "<li> Сохранён шаблон: ".$skin;
 		} else {
-			echo "<li style='color:red'> <b>".str_replace("<", "&lt;", $name)."</b> skin not found";
-			AddError("<b>".str_replace("<", "&lt;", $name)."</b> journal skin not found", 1);
+			echo "<li> Шаблон <b>".str_replace("<", "&lt;", $name)."</b> не найден.";
+			AddError("Шаблон <b>".str_replace("<", "&lt;", $name)."</b> не найден.", 1);
 		}
 	}
 
 	
 	echo "</ul>";
 
-	echo "<h3>Moving settings:</h3>";
+	echo "<h3>Настройки (2/2):</h3>";
 	echo "<ul>";
 	$q = $db->Query("select * from _journal_settings order by id asc");
 	
@@ -240,15 +239,13 @@
 				}
 			}
 		} else {
-			echo "<li style='color:red'> <b>".str_replace("<", "&lt;", $user)."</b> has no records - ignored.";
-			AddError("Journal of <b>".str_replace("<", "&lt;", $user)."</b> has no records - ignored.");
+			echo "<li> В журнале <b>".str_replace("<", "&lt;", $user)."</b> нет записей. Игнорирую.";
+			AddError("В журнале <b>".str_replace("<", "&lt;", $user)."</b> нет записей. Игнорирую.");
 		}
 
 	}
 
 	echo "</ul>";
-
-	echo "Migration completed!";
 
 	Passed();
 ?>

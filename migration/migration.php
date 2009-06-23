@@ -1,13 +1,12 @@
 <?
 
 	$root = "../";
+	require "../inc/ui_parts/templates.php";
+	Head("Миграция данных", "forum.css", "");
+
 	require_once $root."references.php";
 
-?><html>
-	<head>
-		<title>Migration</title>
-		<script language="javascript" src="migration.js"></script>
-	</head>
+?>	<script language="javascript" src="migration.js"></script>
 	<style>
 		h4 {margin:4px 0 0 0; padding:0;}
 		#indicator { padding:10px 0 0 0; }
@@ -19,8 +18,8 @@
 		#errors {font-size:8pt;}
 	</style>
 	<body>
-		<h3>Data migration</h3>
-		Click "the button" to start the migration process: <input type="button" value="the button" onclick="Init(this);" />
+		<h3>Миграция данных</h3>
+		Нажмите на кнопку для начала процесса миграции: <input type="button" value="Начать" onclick="Init(this);" />
 
 		<div id="indicator"></div>
 		<div id="description"></div>
@@ -30,8 +29,11 @@
 		<iframe width="100%" height="300px" id="steps">
 		</iframe>
 
-		Error log:
+		Лог:
 		<div id="errors"></div>
 
-	</body>
-</html>
+<?php
+
+	Foot();
+
+?>

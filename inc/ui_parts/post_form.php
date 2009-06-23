@@ -1,6 +1,6 @@
 <div id="Hider">
 	<div id="ReplyForm"><?
-		if (!$postAccess) {
+		if (!IsPostingAllowed()) {
 
 	?>
 		<span class="Warning">Вам закрыт доступ к публикации сообщений.</span>
@@ -26,7 +26,10 @@
 	<?
 		} else {
 	?>
-		<span class="Warning">Для публикации сообщений в форуме необходимо <a href="/3/prototype">авторизоваться</a> в системе.</span>
+		<span class="Warning">
+			Для публикации сообщений и комментариев необходимо <a href="/3/prototype">авторизоваться</a> в чате.<br />
+			Если у вас нет аккаунта в чате, пожалуйста <a href="/3/prototype/register.php">зарегистрируйтесь</a>.
+		</span>
 
 	<?
 		}

@@ -7,9 +7,9 @@
 	set_time_limit(120);
 
 
-	echo "<h2>Copying Forum records to new tables:</h2>";
+	echo "<h2>Копирование форумов:</h2>";
 
-	echo "<h3>Clear tables:</h3>";
+	echo "<h3>Очистка таблиц:</h3>";
 
 	$q = $db->Query("TRUNCATE TABLE ".Forum::table);
 	$q = $db->Query("TRUNCATE TABLE ".ForumRecord::table);
@@ -28,7 +28,7 @@
 	}
 	
 	
-	echo "<h3>FORUMS:</h3>";
+	echo "<h3>Форумы:</h3>";
 
 	$q = $db->Query("SELECT * FROM _forum_caths ORDER BY id ASC");
 	echo "<ol>";
@@ -56,7 +56,7 @@
 	}
 	echo "</ol>";
 
-	echo "<h3>Forum records:</h3>";
+	echo "<h3>Записи в форумах:</h3>";
 
 	$q = $db->Query("SELECT * FROM _forum ORDER BY id ASC");
 	echo "<ol>";
@@ -88,10 +88,10 @@
 		}
 	}
 	echo "<li>".$i;
-	AddError($i." forums records have been migrated.");
+	AddError("Перенесено записей: ".$i);
 	echo "</ol>";
 
-	echo "<h3>Journal records & comments:</h3>";
+	echo "<h3>Записи и комментарии в журналах:</h3>";
 
 	$q = $db->Query("SELECT 
 		t1.login,
@@ -111,7 +111,7 @@
 			$journal = new Journal();
 			$journal->Title = $login;
 			$journal->LinkedId = $id;
-			$journal->Description = "Журнал";
+			$journal->Description = "Персональный журнал";
 			$journal->TotalCount = $q->Get("RECORDS");
 			$journal->Save();
 //			echo "<li value='".$journal->Id."'>".$journal->Title." (".$journal->TotalCount.")<br>";

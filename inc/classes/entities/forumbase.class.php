@@ -168,7 +168,12 @@ $expression);
 	// Could be overridden for different types of forums
 	  global $db;
 
-		$db->Query(str_replace("##CONDITION##", ForumRecord::FORUM_ID."=".round($this->Id), $record->DeleteThreadExpression()));
+	    $rec = new ForumRecord();
+
+		$db->Query(str_replace(
+			"##CONDITION##", 
+			ForumRecord::FORUM_ID."=".round($this->Id), 
+			$rec->DeleteThreadExpression()));
 	}
 
 	function Delete() {
@@ -256,9 +261,7 @@ SET ".self::TOTAL_COUNT."=(
 	FROM 
 		".ForumRecord::table." 
 	WHERE 
-		".ForumRecord::FORUM_ID."=".$this->Id." AND
-		LENGTH(".ForumRecord::INDEX.")=4 AND
-		".self::IS_PROTECTED."<>1
+		".ForumRecord::FORUM_ID."=".$this->Id." AND LENGTH(".ForumRecord::INDEX.")=4
 	)
 WHERE
 	".self::FORUM_ID."=".$this->Id;

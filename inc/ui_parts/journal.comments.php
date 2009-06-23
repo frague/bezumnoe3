@@ -2,8 +2,9 @@
 
 	echo "<h4>Комментарии в журналах:</h4>";
 
+	$userId = $someoneIsLogged ? $user->User->Id : -1;
 	$comment = new JournalComment();
-	$q = $comment->GetJournalComments($user);
+	$q = $comment->GetMixedJournalsComments($userId);
 
 	$lastIndex = "";
 	$condition = "";
@@ -34,7 +35,7 @@
 	}
 
 	$topic = new JournalRecord();
-	$q = $topic->GetJournalRecords($user, 0, 20, $condition);
+	$q = $topic->GetMixedJournalsRecords($userId, 0, 20, $condition);
 	$topics = array();
 
 	for ($i = 0; $i < $q->NumRows(); $i++) {

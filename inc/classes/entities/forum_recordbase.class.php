@@ -198,7 +198,7 @@ class ForumRecordBase extends EntityBase {
 			ORDER BY ".self::UPDATE_DATE." DESC".
 			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 
-			$this->ReadThreadExpression($access), 1, 1);
+			$this->ReadThreadExpression($access), "", 1);
 	}
 
 

@@ -20,12 +20,11 @@
 		}
 		$forumId = $record->ForumId;
 		$settings->GetByUserId($record->UserId);
-	}
-	
-	if ($alias) {
+	} elseif ($alias) {
 		if ($settings->IsEmpty()) {
 			$settings->GetByAlias($alias);
-		} elseif ($settings->Alias != $alias) {
+		}
+		if ($settings->Alias != $alias) {
 			DieWith404();
 		}
 	}
@@ -34,15 +33,13 @@
 		DieWith404();
 	}
 
-	if (!$forumId) {
-		$journal = new Journal();
-		$journal->GetByUserId($settings->UserId);
-		if (!$journal->IsFull()) {
-			DieWith404();
-		}
-		$forumId = $journal->Id;
+	$journal = new Journal();
+	$journal->GetByUserId($settings->UserId);
+	if (!$journal->IsFull()) {
+		DieWith404();
 	}
-
+	$forumId = $journal->Id;
+	
 	// Checking if journal is protected and logged user has access to it
 	$access = 1 - $journal->IsProtected;
 	if ($someoneIsLogged) {

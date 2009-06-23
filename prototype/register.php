@@ -200,7 +200,7 @@
 	<tr>
 		<td></td>
 		<td>
-			<input name="ACCEPT" id="ACCEPT" type="checkbox"> Я прочитал <a href="rules.php">правила чата</a> и обязуюсь их соблюдать
+			<input name="ACCEPT" id="ACCEPT" type="checkbox"> Я прочитал(а) <a href="rules.php">правила чата</a> и обязуюсь их соблюдать
 		</td>
 	</tr>
 	<tr>

@@ -22,7 +22,7 @@
 		$rights = array(0, 1, 2, 3, 4, 5, 6, 10, 11, 20, 25, 50, 75);
 		$colors = array("#808080", "White", "Yellow", "Yellow", "Yellow", "Yellow", "Yellow", "Yellow", "#7F9537", "Orange", "#7F9537", "#7F9537", "#7F9537");
 
-		echo "<h3>Statuses initialization</h3>";
+		echo "<h3>Инициализация статусов:</h3>";
 		for ($i = 0; $i < sizeof($rights); $i++) {
 			$r = $rights[$i];
 			$status = new Status();
@@ -57,7 +57,7 @@
 
 //	echo "<h2>Migration:</h2>";
 	
-	echo "<h3>Truncate tables</h3>";
+	echo "<h3>Очистка таблиц:</h3>";
 	$q = $db->Query("TRUNCATE TABLE ".User::table);
 	$q = $db->Query("TRUNCATE TABLE ".Profile::table);
 	$q = $db->Query("TRUNCATE TABLE ".Settings::table);
@@ -73,11 +73,11 @@
 
 	InitStatuses();
 
-	echo "<h3>Parse users records on file system</h3>";
+	echo "<h3>Перенос существующих пользователей:</h3>";
 
 	$dirHandler = opendir($usersDir);
 	$counter = 0;
-	echo "<b>Saved users:</b><ol>";
+	echo "<ol>";
 	while (($userFile = readdir($dirHandler)) !== false) {
 		if (!is_dir($usersDir.$userFile) && $userFile != "index.usr") {
 		    $fileContents = fopen ($usersDir.$userFile, "r");
@@ -104,8 +104,8 @@
 					    }
 						$user->StatusId = $status->Id;
 					} else {
-						error("Status ".$statusNum." not found!");
-						AddError("Status '".$statusNum."' not found!", 1);
+						error("Статус \"".$statusNum."\" не найден.");
+						AddError("Статус \"".$statusNum."\" не найден.", 1);
 					}
 				} else {
 				    $user->StatusId = $statuses["r".$rights];
@@ -197,17 +197,17 @@
 
 			    $counter++;
 			} else {
-				error("Error saving user ".$user->Login);
-				Failed("Error saving user ".$user->Login);
+				error("Не удалось сохранить данные по пользователю \"".$user->Login."\"");
+				Failed("Не удалось сохранить данные по пользователю \"".$user->Login."\"");
 			}
 		}
 	}
-//	echo "</ol>";
-	echo $counter." records found.";
-	AddError($counter." Users have been migrated.");
+	echo "</ol>";
+	echo "Пользователей перенесено: ".$counter;
+	AddError("Пользователей перенесено: ".$counter);
 
 	/* Tree nodes */
-	echo "<h3>Saving users relations:</h3>";
+	echo "<h3>Сохранение родственных связей:</h3>";
 
 	while (list($id, $relations) = each($UserRelatives)) {
 		$relationsSplit = split("&", $relations);
@@ -228,8 +228,6 @@
 		}
 //		echo "</ul>";
 	}
-
-	echo "Migration completed!";
 	Passed();
 
 ?>

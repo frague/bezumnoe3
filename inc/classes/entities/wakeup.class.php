@@ -64,13 +64,13 @@ class Wakeup extends EntityBase {
 		return 0;
 	}
 
-	function GetForUser($userId, $from = 0, $limit, $search) {
+	function GetForUser($userId, $from = 0, $limit, $condition) {
 		$from = round($from);
 		$limit = round($limit);
 
 	  	return $this->GetByCondition(
 	  		$this->ReadUserWakeupsExpression($userId).
-	  		($condition ? $condition : "").
+	  		($condition ? " AND ".$condition : "").
 	  		" LIMIT ".($from ? $from."," : "").$limit
 	  	); 
 	}

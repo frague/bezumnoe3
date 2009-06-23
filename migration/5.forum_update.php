@@ -14,9 +14,9 @@
 	set_time_limit(120);
 
 
-	echo "<h2>Forum author IDs update:</h2>";
+	echo "<h2>ƒобавление ID пользователей в записи форума:</h2>";
 	
-	echo "<h3>Update <u>OLD</u> forum with user avatars data:</h3>";
+	echo "<h3>ƒобавление в старых форумах ссылок на аватары пользователей:</h3>";
 
 	$q = $db->Query("SELECT 
 	DISTINCT(t1.author),
@@ -44,7 +44,7 @@ WHERE
 	echo "</ol>";
 
 
-	echo "<h2>Forum counts update:</h2>";
+	echo "<h3>ќбновление количества записей в форумах:</h3>";
 
 	$forum = new ForumBase();
 	$q = $forum->GetByCondition("1=1");
@@ -65,13 +65,12 @@ WHERE
 			$record->UpdateAnswersCount();
 			$c++;
 		}
-//		echo "<li> ".$forum->Title." contains ".$c." threads.";
+		echo "<li> “ем в форуме ".$forum->Title.": ".$c;
 		$db->Query($forum->UpdateThreadsCountExpression());
 	}
 
 	echo "</ol>";
 	
-	echo "Update completed!";
 	Passed();
 
 ?>
