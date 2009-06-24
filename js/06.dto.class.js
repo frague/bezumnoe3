@@ -89,14 +89,16 @@ EditableDTO.prototype.Delete = function() {
 
 /* ---------------------------- */
 
-EditableDTO.prototype.MakeButtonsCell = function() {
+EditableDTO.prototype.MakeButtonsCell = function(hideEdit) {
 	var td = d.createElement("td");
 	td.className = "Middle Centered";
 	if (this.EditView) {
 		td.appendChild(MakeButton("this.obj.Save()", "icons/done.gif", this));
 		td.appendChild(MakeButton("this.obj.CancelEditing()", "icons/cancel.gif", this));
 	} else {
-		td.appendChild(MakeButton("this.obj.Edit()", "icons/edit.gif", this));
+		if (!hideEdit) {
+			td.appendChild(MakeButton("this.obj.Edit()", "icons/edit.gif", this));
+		}
 		td.appendChild(MakeButton("this.obj.Delete()", "delete_icon.gif", this));
 	}
 	return td;

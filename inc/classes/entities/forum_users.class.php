@@ -6,12 +6,12 @@ class ForumUser extends EntityBase {
 
 	const FORUM_ID = "FORUM_ID";
 	const USER_ID = "USER_ID";
-	const IS_MODERATOR = "IS_MODERATOR";
+	const ACCESS = "ACCESS";
 
 	// Properties
 	var $ForumId;
 	var $UserId;
-	var $IsModerator;
+	var $Access;
 
 	function ForumUser($userId = -1, $forumId = -1) {
 		$this->table = self::table;
@@ -24,17 +24,26 @@ class ForumUser extends EntityBase {
 	function Clear() {
 		$this->UserId = -1;
 		$this->ForumId = -1;
-		$this->IsModerator = 0;
+		$this->Access = 0;
+		
+		$this->Login = "";
 	}
 
 	function IsFull() {
 		return $this->UserId > 0 && $this->ForumId > 0;
 	}
 
+	// Specifies if current access is moderatorial
+	function IsModerator() {
+		return $this->IsFull() && $this->Access == ForumBase::FULL_ACCESS;
+	}
+
 	function FillFromResult($result) {
 		$this->UserId = $result->Get(self::USER_ID);
 		$this->ForumId = $result->Get(self::FORUM_ID);
-		$this->IsModerator = $result->Get(self::IS_MODERATOR);
+		$this->Access = $result->Get(self::ACCESS);
+
+		$this->Login = $result->Get(User::LOGIN);
 	}
 
 	function GetByUserId($userId) {
@@ -47,6 +56,14 @@ class ForumUser extends EntityBase {
 
 	function GetFor($userId, $forumId) {
 		$this->FillByCondition("t1.".self::USER_ID."=".round($userId)." AND t1.".self::FORUM_ID."=".round($forumId)." LIMIT 1");
+	}
+
+	function ToJs() {
+		return "new fadto(\"".
+JsQuote($this->ForumId)."\",\"".
+JsQuote($this->UserId)."\",\"".
+JsQuote($this->Login)."\",\"".
+JsQuote($this->Access)."\")";
 	}
 
 	function Save() {
@@ -88,7 +105,7 @@ WHERE
 		$s = "<ul type=square>";
 		$s.= "<li>".self::USER_ID.": ".$this->UserId."</li>\n";
 		$s.= "<li>".self::FORUM_ID.": ".$this->ForumId."</li>\n";
-		$s.= "<li>".self::IS_MODERATOR.": ".$this->IsModerator."</li>\n";
+		$s.= "<li>".self::ACCESS.": ".$this->Access."</li>\n";
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>ForumUser is not saved!</b>";
 		}
@@ -101,9 +118,11 @@ WHERE
 		return "SELECT 
 	t1.".self::USER_ID.",
 	t1.".self::FORUM_ID.",
-	t1.".self::IS_MODERATOR."
+	t1.".self::ACCESS.",
+	t2.".User::LOGIN."
 FROM
 	".$this->table." AS t1 
+	LEFT JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
 WHERE
 	##CONDITION##";
 	}
@@ -112,12 +131,12 @@ WHERE
 		return "INSERT INTO ".$this->table." 
 (".self::USER_ID.", 
 ".self::FORUM_ID.",
-".self::IS_MODERATOR."
+".self::ACCESS."
 )
 VALUES
 (".round($this->UserId).", 
 ".round($this->ForumId).",
-".Boolean($this->IsModerator)."
+".round($this->Access)."
 )";
 	}
 

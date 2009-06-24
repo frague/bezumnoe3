@@ -434,9 +434,9 @@ WHERE
 			// Public forum, public messages
 			$result .= "(((".$forumTable.".".Forum::IS_PROTECTED."<>1 AND ".$forumRecordTable.".".self::TYPE."='".self::TYPE_PUBLIC."') OR ";
 			// Forum user
-			$result .= "(".$forumUserTable.".".ForumUser::IS_MODERATOR."=0 AND (".$forumRecordTable.".".self::TYPE."='".self::TYPE_PUBLIC."' OR ".$forumRecordTable.".".self::TYPE."='".self::TYPE_PROTECTED."'))) AND ".$hideDeleted.") OR ";
+			$result .= "(".$forumUserTable.".".ForumUser::ACCESS."=".Forum::READ_ONLY_ACCESS." AND (".$forumRecordTable.".".self::TYPE."='".self::TYPE_PUBLIC."' OR ".$forumRecordTable.".".self::TYPE."='".self::TYPE_PROTECTED."'))) AND ".$hideDeleted.") OR ";
 			// Forum moderator
-			$result .= "(".$forumUserTable.".".ForumUser::IS_MODERATOR."=1) OR ";
+			$result .= "(".$forumUserTable.".".ForumUser::ACCESS."=".Forum::FULL_ACCESS.") OR ";
 		    // Forum owner
 			$result .= "(".$forumTable.".".Forum::LINKED_ID."='".$userId."'))";	
 			$result .= $seeDeleted ? ")" : " AND ".$hideDeleted.")";

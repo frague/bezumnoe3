@@ -19,7 +19,7 @@
 				echo JsAlert("Изменения сохранены.");
 
 				// Write log
-				LogAddressBan($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList());
+				LogAddressBan($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList(), $ban->Comment);
 			}
 			break;
 		case "edit":
@@ -34,6 +34,11 @@
 		case "delete":
 			if ($id) {
 				$ban->Id = $id;
+				$ban->Retrieve();
+
+				// Write log
+				LogAddressBanEnd($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList());
+
 				$ban->Delete();
 				echo JsAlert("Запрет снят.");
 			}

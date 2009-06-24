@@ -22,31 +22,7 @@
 <input id="REQUESTED_ALIAS" name="REQUESTED_ALIAS" class="Wide" maxlength="20" />
 
 		</td></tr>
-
-	<tr>
-		<td>
-
-<h4>Дружественные журналы:</h4>
-<p class="Note">Сообщения журналов из этого списка будут отображться в вашей "френдленте". Обозначенные пользователи также смогут просматривать ваши сообщения "только для друзей".</p>
-
-<ul class="Links" id="friendlyBlogs"></ul>
-
-<ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="LoadFriendlyJournals(this)" id="linkRefresh" class="Refresh">Обновить список</a>
-</ul>
-
-		
-		</td><td>
-
-<h4>Запрет на комментирование вашего журнала:</h4>
-<p class="Note">Указанные пользователи не смогут оставлять комментарии к сообщениям вашего журнала.</p>
-
-<ul class="Links"  id="forbiddenCommenters"></ul>
-		
-<ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="LoadForbiddenCommenters(this)" id="linkRefresh" class="Refresh">Обновить список</a>
-</ul>
-		</td></tr></table>
+</table>
 
 <br />
 <br />

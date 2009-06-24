@@ -32,6 +32,9 @@
 		$id = $q->Get("id");
 		$gallery->Title = $q->Get("description");
 		$gallery->Description = $q->Get("cat");
+		if (!$mz->IsEmpty()) {
+			$gallery->LinkedId = $mz->Id;
+		}
 		$gallery->Save();
 
 		echo "<li> ".$gallery->Title;

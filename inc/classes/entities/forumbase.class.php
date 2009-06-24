@@ -23,6 +23,7 @@ class ForumBase extends EntityBase {
 	// Type access
 	const NO_ACCESS			= 0;
 	const READ_ONLY_ACCESS	= 1;
+	const FRIENDLY_ACCESS	= 1;
 	const READ_ADD_ACCESS	= 2;
 	const FULL_ACCESS		= 3;
 
@@ -100,6 +101,13 @@ class ForumBase extends EntityBase {
 		return $q->Get(self::UNREAD_COUNT);
 	}
 
+	// Fill record for given user
+	function GetByUserId($user_id) {
+		return $this->FillByCondition(
+			"t1.".self::LINKED_ID."=".round($user_id).
+			($this->Type ? " AND t1.".self::TYPE."='".$this->Type."'" : ""));
+	}
+	
 	// Gets forum(s) by condition
 	// joined with access data for given user
 	function GetByConditionWithUserAccess($condition, $userId) {
@@ -111,7 +119,7 @@ class ForumBase extends EntityBase {
 		$expression = str_replace("FROM", 
 ",
 t2.".ForumUser::USER_ID.",
-t2.".ForumUser::IS_MODERATOR."
+t2.".ForumUser::ACCESS."
 FROM", 
 $this->ReadExpression());
 		$expression = str_replace(
@@ -148,7 +156,7 @@ $expression);
 	// relation to forum
 	function LoggedUsersAccess($forumUser) {
 		if ($forumUser->IsFull()) {
-			if ($forumUser->IsModerator) {
+			if ($forumUser->IsModerator()) {
 				return self::FULL_ACCESS;
 			} else {
 				return self::READ_ADD_ACCESS;

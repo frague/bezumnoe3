@@ -1,4 +1,4 @@
-//4.7
+//4.8
 /*
 	User Manager admin functionality
 */
@@ -130,6 +130,10 @@ var usersTimer;
 var userSearched = 0;
 
 function GetUsers(input) {
+	if (!input || input.length < 2) {
+		return;
+	}
+
 	if (usersTimer) {
 		clearTimeout(usersTimer);
 	}

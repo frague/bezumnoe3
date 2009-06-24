@@ -30,7 +30,6 @@
 	require_once $root."inc/classes/entities/journal_skin.class.php";
 	require_once $root."inc/classes/entities/journal_settings.class.php";
 	require_once $root."inc/classes/entities/journal_friend.class.php";
-	require_once $root."inc/classes/entities/journal_forbidden_commenter.class.php";
 	require_once $root."inc/classes/entities/admin_comment.class.php";
 	require_once $root."inc/classes/entities/banned_address.class.php";
 	require_once $root."inc/classes/entities/news.class.php";

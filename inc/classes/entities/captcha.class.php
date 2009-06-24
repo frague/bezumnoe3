@@ -37,7 +37,7 @@ class Captcha extends EntityBase {
 	function FillFromResult($result) {
 		$this->UserId = $result->Get(self::USER_ID);
 		$this->ForumId = $result->Get(self::FORUM_ID);
-		$this->IsModerator = $result->Get(self::IS_MODERATOR);
+		$this->IsModerator = $result->Get(self::ACCESS);
 	}
 
 	function GetByUserId($userId) {
@@ -91,7 +91,7 @@ WHERE
 		$s = "<ul type=square>";
 		$s.= "<li>".self::USER_ID.": ".$this->UserId."</li>\n";
 		$s.= "<li>".self::FORUM_ID.": ".$this->ForumId."</li>\n";
-		$s.= "<li>".self::IS_MODERATOR.": ".$this->IsModerator."</li>\n";
+		$s.= "<li>".self::ACCESS.": ".$this->Access."</li>\n";
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>ForumUser is not saved!</b>";
 		}
@@ -104,7 +104,7 @@ WHERE
 		return "SELECT 
 	t1.".self::USER_ID.",
 	t1.".self::FORUM_ID.",
-	t1.".self::IS_MODERATOR."
+	t1.".self::ACCESS."
 FROM
 	".$this->table." AS t1 
 WHERE
@@ -115,7 +115,7 @@ WHERE
 		return "INSERT INTO ".$this->table." 
 (".self::USER_ID.", 
 ".self::FORUM_ID.",
-".self::IS_MODERATOR."
+".self::ACCESS."
 )
 VALUES
 (".round($this->UserId).", 

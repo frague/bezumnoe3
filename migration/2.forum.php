@@ -6,6 +6,8 @@
 
 	set_time_limit(120);
 
+	$mz = new User();
+	$mz->FillByCondition(User::LOGIN."='Мартовский Заяц'");
 
 	echo "<h2>Копирование форумов:</h2>";
 
@@ -40,6 +42,9 @@
 		$forum->Description = $q->Get("description");
 		$forum->IsProtected = $q->Get("is_closed");
 		$forum->TotalCount = $q->Get("TOTAL_COUNT");
+		if (!$mz->IsEmpty()) {
+			$forum->LinkedId = $mz->Id;
+		}
 		$forum->GetByCondition("", $forum->MigrateExpression());
 
 		echo "<li value='".$forum->Id."'>".$forum->Title;
@@ -50,6 +55,7 @@
 			$friend_id = $allUsersIds[$q1->Get("login")];
 			if ($friend_id) {
 				$f = new ForumUser($friend_id, $forum->Id);
+				$f->Access = FORUM::READ_ADD_ACCESS;
 				$f->Save();
 			}
 		}
@@ -127,6 +133,7 @@
 					$friend_id = $allUsersIds[$friends[$k]];
 					if ($friend_id) {
 						$f = new JournalFriend($friend_id, $journal->Id);
+						$f->Access = Journal::FRIENDLY_ACCESS;
 						$f->Save();
 					}
 				}

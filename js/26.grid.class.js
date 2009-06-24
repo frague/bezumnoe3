@@ -1,4 +1,4 @@
-//5.9
+//6.1
 /*
 	Base class for grids with[out] pager.
 */
@@ -45,6 +45,10 @@ Grid.prototype.FindTableBase = function() {
 
 Grid.prototype.FindTable = function() {	// Method to override
 	return this.FindTableBase();
+};
+
+Grid.prototype.AddItem = function(dto) {
+	this.CurrentContent[this.CurrentContent.length] = dto;
 };
 
 Grid.prototype.ClearRecords = function(show_indicator) {
@@ -94,6 +98,11 @@ Grid.prototype.DoBind = function(content) {
 };
 
 Grid.prototype.Bind = function(content) {
+	return this.DoBind(content);
+};
+
+Grid.prototype.Refresh = function() {
+	var content = this.CurrentContent;
 	return this.DoBind(content);
 };
 
@@ -176,7 +185,7 @@ function __edit(id) {
 	for (var i = 0,l = this.CurrentContent.length; i < l; i++) {
 		this.CurrentContent[i].EditView = (this.CurrentContent[i].Id == id) ? 1 : 0;
 	}
-	this.DoBind(this.CurrentContent);
+	this.Refresh();
 };
 
 function __cancelEditing() {
@@ -188,7 +197,7 @@ function __cancelEditing() {
 
 function __addRow(dto) {
 	if (!this.HasEmptyRow) {
-		this.CurrentContent[this.CurrentContent.length] = dto;
+		this.AddItem(dto);
 		this.DoBind(this.CurrentContent);
 		this.Edit(0);
 		this.HasEmptyRow = true;

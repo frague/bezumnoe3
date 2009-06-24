@@ -9,7 +9,7 @@ class JournalFriend extends ForumUser {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::FORUM_ID.": ".$this->ForumId."</li>\n";
 		$s.= "<li>".self::USER_ID.": ".$this->UserId."</li>\n";
-		$s.= "<li>".self::IS_MODERATOR.": ".$this->IsModerator."</li>\n";
+		$s.= "<li>".self::ACCESS.": ".$this->Access."</li>\n";
 
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>Journal friend is not saved!</b>";

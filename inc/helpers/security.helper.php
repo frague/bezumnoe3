@@ -102,7 +102,7 @@
 
 		$access = new ForumUser();
 		$access->GetFor($user->Id, $forum->Id);
-		return ($access->IsFull() ? ($access->IsModerator ? 2 : 1) : 0);
+		return ($access->IsFull() ? ($access->IsModerator() ? 2 : 1) : 0);
 	}
 
 	

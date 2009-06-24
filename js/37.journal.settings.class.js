@@ -30,10 +30,11 @@ JournalSettings.prototype.TemplateLoaded = function(req) {
 	/* Request friendly journals & forbidden commenters lists */
 	this.FindRelatedControls();
 
+	/*
 	this.Tab.FriendlyJournalsHolder = this.Inputs["friendlyBlogs"];
 	LoadFriendlyJournals(this.Tab);
 	this.Tab.ForbiddenCommentersHolder = this.Inputs["forbiddenCommenters"];
-	LoadForbiddenCommenters(this.Tab);
+	LoadForbiddenCommenters(this.Tab);*/
 
 	/* Submit button */
 	this.Tab.AddSubmitButton("SaveJournalSettings(this)", "", this);

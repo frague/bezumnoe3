@@ -50,8 +50,12 @@
 		SaveLog("<i>Смена статуса:<br>с ".$oldStatus->ToLog()." на ".$newStatus->ToLog()."</i>", $userId, $adminLogin);
 	}
 
-	function LogAddressBan($userId, $adminLogin, $content, $parts) {
-		SaveLog("<i>Адрес ".$content." забанен (".$parts.")</i>", $userId, $adminLogin, 1);
+	function LogAddressBan($userId, $adminLogin, $content, $parts, $reason = "") {
+		SaveLog("<i>Адрес ".$content." забанен (".$parts.")".($reason ? "<br>&laquo;".$reason."&raquo;" : "")."</i>", $userId, $adminLogin, 1);
+	}
+
+	function LogAddressBanEnd($userId, $adminLogin, $content, $parts) {
+		SaveLog("<i>Адрес ".$content." разбанен (".$parts.")</i>", $userId, $adminLogin, 0);
 	}
 
 	// Common admin logs (no AdminLogin & UserId defined)

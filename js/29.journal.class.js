@@ -26,10 +26,12 @@ Journal.prototype.TemplateLoaded = function(req) {
 		MessagesSpoiler = new Spoiler(1, "Сообщения", 0, 0, function(tab) {new JournalMessages().LoadTemplate(tab, me.Id, me.Login)});
 		TemplatesSpoiler = new Spoiler(2, "Шаблоны отображения", 0, 0, function(tab) {new JournalTemplates().LoadTemplate(tab, me.Id)});
 		SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {new JournalSettings().LoadTemplate(tab, me.Id)});
+		AccessSpoiler = new Spoiler(4, "Доступ / дружественные журналы", 0, 0, function(tab) {new ForumAccess().LoadTemplate(tab, me.Id)});
 			
 		MessagesSpoiler.ToString(spoilers);
 		TemplatesSpoiler.ToString(spoilers);
 		SettingsSpoiler.ToString(spoilers);
+		AccessSpoiler.ToString(spoilers);
 	}
 	InitMCE();
 };
