@@ -108,7 +108,7 @@
 
 							/* Status has changed */
 							if (!$newStatus->IsEmpty() && $newStatus->Id != $targetStatus->Id) {
-								if ($targetStatus->Rights < $user->Status->Rights && $newStatus->Rights < $user->Status->Rights) {
+								if ($user->IsSuperAdmin() || $newStatus->Rights <= 11) {
 
 									// Write log
 									LogStatusChange($targetUser->Id, $targetStatus, $newStatus, $user->User->Login);

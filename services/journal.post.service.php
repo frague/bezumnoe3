@@ -4,52 +4,54 @@
 	$user = GetAuthorizedUser(true);
 
 	$post_id = round($_POST["RECORD_ID"]);
-
-	if (!$post_id && $go != "save") {
-		exit;
-	}
+	$forum_id = round($_POST["FORUM_ID"]);
 
 	if (!$user || $user->IsEmpty() || !$user_id) {
 		exit;
 	}
 
-	if ($user_id == $user->User->Id || $user->Status->Rights > $AdminRights) {
-		if ($user_id == $user->User->Id) {
-			$targetUser = $user->User;
+	$forum = new ForumBase();
+	$record = new ForumRecordBase();
+	if ($post_id) {
+		$record->GetById($post_id);
+		if (!$record->IsEmpty()) {
+			$forum->GetById($record->ForumId);
 		} else {
-			$targetUser = new User($user_id);
-			$targetUser->Retrieve();
+			echo JsAlert("Пост не найден!", 1);
+			die;
 		}
-		if ($targetUser->IsEmpty()) {
-			return;
-		}
+	} elseif ($forum_id) {
+		$forum->GetById($forum_id);
 	} else {
-		exit;
+		$forum->GetByUserId($user->User->Id);
 	}
 
-	$journal = new Journal();
-	$journal->GetByUserId($targetUser->Id);
-	if (!$journal->IsFull()) {
-		echo JsAlert("Журнал пользователя не найден!", 1);
+	if ($forum->IsEmpty()) {
+		echo JsAlert("Журнал не найден!", 1);
 		die;
 	}
 
+	$access = $forum->GetAccess($user->User->Id);
+	if ($access != Forum::FULL_ACCESS && $access != Forum::READ_ADD_ACCESS) {
+		echo JsAlert("У вас нет доступа к указанному журналу!", 1);
+		die;
+	}
 
-	$record = new JournalRecord();
+	
+	if (!$post_id && $go != "save") {
+		exit;
+	}
 
 	switch ($go) {
 		case "save":
-			if ($post_id) {
-				$record->GetById($post_id);
-			}
-
-			$record->FillFromHash($_POST);
-			if ($record->UserId != $targetUser->Id) {
-				echo JsAlert("Неверное указание пользователя!", 1);
+			if (!$user->IsSuperAdmin() && $post_id && $access != Forum::FULL_ACCESS && $record->UserId != $user->User->Id) {
+				echo JsAlert("Вы можете редактировать только собственные сообщения!", 1);
 				die;
 			}
 
-			$record->ForumId = $journal->Id;
+			$record->FillFromHash($_POST);
+
+			$record->ForumId = $forum->Id;
 			if ($record->IsEmpty()) {
 				$record->Author = $targetUser->Login;
 				$record->SaveAsTopic();
@@ -62,27 +64,18 @@
 
 			break;
 		case "delete":
+			if (!$user->IsSuperAdmin() && $access != Forum::FULL_ACCESS && $record->UserId != $user->User->Id) { 
+				echo JsAlert("Недостаточно прав для удаления!", 1);
+				die;
+			}
+			echo JsAlert("Сообщение &laquo;".$record->Title."&raquo; удалено.");
+			$record->GetByCondition(
+					ForumRecord::INDEX." LIKE '".substr($record->Index, 0, 4)."%' AND
+					".ForumRecord::FORUM_ID."=".$forum->Id,
+					$record->DeleteThreadExpression()
+				);
 		default:
-			$record->GetById($post_id);
-
-			if ($record->IsEmpty()) {
-				echo JsAlert("Пост не найден!", 1);
-				die;
-			}
-			if ($record->UserId != $targetUser->Id) { 
-				echo JsAlert("Запрошен пост, не принадлежащий пользователю!", 1);
-				die;
-			}
-			if ($go == "delete") {
-				echo JsAlert("Сообщение &laquo;".$record->Title."&raquo; удалено.");
-				$record->GetByCondition(
-						ForumRecord::INDEX." LIKE '".substr($record->Index, 0, 4)."%' AND
-						".ForumRecord::FORUM_ID."=".$journal->Id,
-						$record->DeleteThreadExpression()
-					);
-			} else {
-				echo "this.data=".$record->ToFullJs();
-			}
+			echo "this.data=".$record->ToFullJs();
 			break;
 	}
 

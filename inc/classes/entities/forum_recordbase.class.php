@@ -190,8 +190,35 @@ class ForumRecordBase extends EntityBase {
 		return $result;
 	}
 
+	function ToFullJs() {
+		return "[\"".
+round($this->Id)."\",\"".
+JsQuote($this->Title)."\",\"".
+JsQuote($this->Content)."\",\"".
+JsQuote($this->Date)."\",".
+round($this->Type).",".
+Boolean($this->IsCommentable).",".
+round($this->ForumId)."];";
+	}
+
+	function ToJs($mark = "") {
+		$title = strip_tags($this->Title);
+		$content = substr(strip_tags($this->Content), 0, 100);
+/*		if ($mark) {
+			$title = HightlightWords($title, $mark);
+			$content = HightlightWords($content, $mark);
+		}*/
+		return "new jrdto(\"".
+JsQuote($this->Id)."\",\"".
+JsQuote($title)."\",\"".
+JsQuote($content)."\",\"".
+JsQuote($this->Date)."\",".
+$this->AnswersCount.",".
+round($this->Type).")";
+	}
+
 	// Gets forum's top-level threads
-	function GetForumThreads($forumId, $access, $from = 0, $amount = 0) {
+	function GetForumThreads($forumId, $access, $from = 0, $amount = 0, $search = "") {
 		return $this->GetByCondition("
 			t1.".self::FORUM_ID."=".round($forumId)." AND 
 			LENGTH(t1.".self::INDEX.") = 4

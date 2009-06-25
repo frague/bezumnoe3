@@ -7,6 +7,15 @@
 
 <table class="Wide">
 	<tr>
+		<td colspan="2">
+<h4>Название журнала:</h4>
+<input id="TITLE" name="TITLE" class="Wide" /><br />
+		
+<h4>Краткое описание:</h4>
+<textarea id="DESCRIPTION" rows="5" class="Wide"></textarea>
+		
+		</td></tr>
+	<tr>
 		<td width="50%">
 
 <h4>Алиас:</h4>

@@ -1,4 +1,4 @@
-//4.8
+//5.0
 /*
 	User Manager admin functionality
 */
@@ -88,21 +88,28 @@ function ShowUserMenu(a, id, login, container, obj) {
 		return;
 	};
 
-	userMenu = d.createElement("ul");
+	userMenu = d.createElement("table");
+	userMenu.className = "UserMenu";
 	userMenu.Container = container;
 	userMenu.Id = id;
 	userMenu.onclick = HideUserMenu;
 	userMenu.Link = a;
+	
+	var tr = d.createElement("tr");
 
-	if (window.umViewProfile) {
-		userMenu.appendChild(MakeUserMenuLink(umViewProfile(id, login, obj)));
-	};
-	if (window.umAddUserButtons) {
-		userMenu.appendChild(umAddUserButtons(id, login, obj));
+	if (window.umExtraButtons) {
+		tr.appendChild(umExtraButtons(id, login, obj));
 	};
 
-	userMenu.appendChild(MakeUserMenuLink(MakeButtonLink("AddFriendlyJournal(" + id + ",this)", "Добавить дружественный журнал", obj, "")));
-	userMenu.appendChild(MakeUserMenuLink(MakeButtonLink("AddForbiddenCommenter(" + id + ",this)", "Запретить комментировать", obj, "")));
+	var td = MakeSection("Журнал:");
+	var ul = d.createElement("ul");
+	ul.appendChild(MakeUserMenuLink(MakeButtonLink("AddForumAccess(" + id + ",''," + FRIENDLY_ACCESS + ",this.obj)", "Добавить в друзья", obj, "")));
+	ul.appendChild(MakeUserMenuLink(MakeButtonLink("AddForumAccess(" + id + ",''," + READ_ADD_ACCESS + ",this.obj)", "Дать эксклюзивный доступ", obj, "")));
+	ul.appendChild(MakeUserMenuLink(MakeButtonLink("AddForumAccess(" + id + ",''," + NO_ACCESS + ",this.obj)", "Запретить комментировать", obj, "")));
+
+	td.appendChild(ul);
+	tr.appendChild(td);
+	userMenu.appendChild(tr);
 
 	insertAfter(userMenu, a);
 	a.className = "Opened";
@@ -119,6 +126,14 @@ function HideUserMenu(id) {
 	return false;
 };
 
+function MakeSection(title) {
+	var td = d.createElement("td");
+	var h3 = d.createElement("h4");
+	h3.innerHTML = title;
+	td.appendChild(h3);
+	return td;
+};
+
 function MakeUserMenuLink(el) {
 	var li = d.createElement("li");
 	li.appendChild(el);
@@ -130,7 +145,7 @@ var usersTimer;
 var userSearched = 0;
 
 function GetUsers(input) {
-	if (!input || input.length < 2) {
+	if (!input) {
 		return;
 	}
 

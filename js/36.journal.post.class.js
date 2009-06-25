@@ -6,7 +6,7 @@
 var post_service = servicesPath + "journal.post.service.php";
 
 function JournalPost() {
-	this.fields = new Array("RECORD_ID", "TITLE", "CONTENT", "DATE", "TYPE", "IS_COMMENTABLE");
+	this.fields = new Array("RECORD_ID", "TITLE", "CONTENT", "DATE", "TYPE", "IS_COMMENTABLE", "FORUM_ID");
 	this.defaultValues = new Array("-1", "", "", new Date().ToString(true), "0", "1");
 	this.ServicePath = post_service;
 	this.ClassName = "JournalPost";

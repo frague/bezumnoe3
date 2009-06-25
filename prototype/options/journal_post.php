@@ -4,6 +4,8 @@
 ?>
 <h2>Сообщение в журнал <span id="LOGIN">%username%</span></h2>
 
+<input id="FORUM_ID" name="FORUM_ID" type="hidden">
+
 <h4>Дата и время:</h4>
 <input id="DATE" name="DATE" maxlength="10">
 

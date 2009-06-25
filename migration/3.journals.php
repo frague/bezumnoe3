@@ -206,7 +206,7 @@
 		$q->NextResult();
 	
 		$user = $q->Get("login");
-		$id = $usersIds[$user];
+		$id = $allUsersIds[$user];
 		if ($id) {
 			// Template
 			$template = $q->Get("template_name");
@@ -229,6 +229,7 @@
 
 			// Avatar
 			$avatar = $q->Get("avatar");
+
 			if ($avatar) {
 				$p = new Profile($id);
 				$p->Retrieve();

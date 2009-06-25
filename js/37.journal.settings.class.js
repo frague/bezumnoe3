@@ -1,10 +1,10 @@
-//1.7
+//1.8
 /*
 	Journal settings of user menu.
 */
 
 function JournalSettings() {
-	this.fields = new Array("ALIAS", "REQUESTED_ALIAS");
+	this.fields = new Array("ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION");
 	this.ServicePath = servicesPath + "journal.settings.service.php";
 	this.Template = "journal_settings";
 	this.ClassName = "JournalSettings";

@@ -9,44 +9,31 @@
 
 	$search = substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024);
 
-	if ($user_id == $user->User->Id || $user->Status->Rights > $AdminRights) {
-		if ($user_id == $user->User->Id) {
-			$targetUser = $user->User;
-		} else {
-			$targetUser = new User($user_id);
-			$targetUser->Retrieve();
-		}
-		if ($targetUser->IsEmpty()) {
-			return;
-		}
-	} else {
-		die;
-	}
-
 	$post_id = round($_POST["RECORD_ID"]);
 
 	$record = new JournalRecord($post_id);
 	$record->Retrieve();
 	if ($record->IsEmpty()) {
-		echo JsAlert("Пост не найден!", 1);
+		echo JsAlert("Запись не найдена!", 1);
 		die;
 	}
 
-	if ($record->UserId != $targetUser->Id) {
-		echo JsAlert("Запрошен пост, не принадлежащий пользователю!", 1);
+	$forum = new ForumBase($record->ForumId);
+	$forum->Retrieve();
+	if ($forum->IsEmpty()) {
+		echo JsAlert("Журнал (форум) не существует!", 1);
 		die;
 	}
 
-	$journal = new Journal($record->ForumId);
-	$journal->Retrieve();
-	if ($journal->IsEmpty()) {
-		echo JsAlert("Журнал не существует!", 1);
+	$access = $forum->GetAccess($user->User->Id);
+	
+	if ($access != Forum::READ_ADD_ACCESS && $access != Forum::FULL_ACCESS) {
+		echo JsAlert("Нет доступа к комментариям!", 1);
 		die;
 	}
-
-	$access = $journal->GetAccess($user->User->Id);
 
 	$comment = new JournalComment();
+
 	if ($go == "delete" && $id) {
 		$comment->GetById($id);
 		if ($comment->IsEmpty()) {
@@ -56,7 +43,7 @@
 		} else {
 			$comment->GetByCondition(
 				ForumRecord::INDEX." LIKE '".$comment->Index."%' AND
-				".ForumRecord::FORUM_ID."=".$journal->Id,
+				".ForumRecord::FORUM_ID."=".$forum->Id,
 				$comment->DeleteThreadExpression()
 			);
 			$comment->UpdateAnswersCount();
@@ -64,7 +51,7 @@
 		};
 	}
 
-	$q = $comment->GetByIndex($journal->Id, $access, $record->Index, $from, $amount);
+	$q = $comment->GetByIndex($forum->Id, $access, $record->Index, $from, $amount);
 
 	$result = "this.data=[";
 	$threadCount = $q->NumRows();

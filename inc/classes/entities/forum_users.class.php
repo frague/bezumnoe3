@@ -58,12 +58,16 @@ class ForumUser extends EntityBase {
 		$this->FillByCondition("t1.".self::USER_ID."=".round($userId)." AND t1.".self::FORUM_ID."=".round($forumId)." LIMIT 1");
 	}
 
+	function GetUserForums($userId) {
+		return $this->GetByCondition("1", $this->UserForumsExpression($userId));
+	}
+
 	function ToJs() {
 		return "new fadto(\"".
 JsQuote($this->ForumId)."\",\"".
 JsQuote($this->UserId)."\",\"".
-JsQuote($this->Login)."\",\"".
-JsQuote($this->Access)."\")";
+JsQuote($this->Login)."\",".
+JsQuote($this->Access).")";
 	}
 
 	function Save() {
@@ -141,7 +145,11 @@ VALUES
 	}
 
 	function UpdateExpression() {
-		return "";
+		return "UPDATE ".$this->table." SET
+	".self::USER_ID."=".round($this->UserId).", 
+	".self::FORUM_ID."=".round($this->ForumId).",
+	".self::ACCESS."=".round($this->Access)."
+WHERE ##CONDITION##";
 	}
 
 	function DeleteExpression() {
@@ -151,11 +159,33 @@ WHERE
 	".self::FORUM_ID."=".SqlQuote($this->ForumId);
 	}
 
-	function DeleteForForumExpression($FORUM_id) {
+	function DeleteForForumExpression($forumId) {
 		return "DELETE FROM ".$this->table."
 WHERE
-	".self::FORUM_ID."=".round($forum_id);
+	".self::FORUM_ID."=".round($forumId);
+	}
+
+	// Expression to get user forums
+	function UserForumsExpression($userId) {
+		$user_id = round($userId);
+
+		return "SELECT DISTINCT
+	t2.".Forum::FORUM_ID.",
+	t2.".Forum::TITLE.",
+	t2.".Forum::TYPE.",
+	t1.".self::ACCESS.",
+	t3.".User::LOGIN."
+FROM
+	".Forum::table." AS t2
+	LEFT JOIN ".self::table." AS t1 ON t2.".Forum::FORUM_ID."=t1.".self::FORUM_ID."
+	LEFT JOIN ".User::table." AS t3 ON t3.".User::USER_ID."=t2.".Forum::LINKED_ID."
+WHERE 
+	(t2.".Forum::LINKED_ID."=".$userId.") OR 
+	(t1.".self::USER_ID."=".$userId." AND (t1.".self::ACCESS."=".Forum::FULL_ACCESS." OR 
+	t1.".self::ACCESS."=".Forum::READ_ADD_ACCESS."))
+ORDER BY t2.".Forum::TYPE.", t2.".Forum::FORUM_ID;
 	}
 }
 
 ?>
+                                       	

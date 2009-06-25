@@ -306,9 +306,16 @@ textarea.Maximized, #templates textarea.Maximized {
 #UsersContainer ul {
 	list-style-image: url(/3/img/li_small_yellow.gif);
 	padding-left:20px;
-	margin-top:4px;
+	margin-top:2px;
 }
 #UsersContainer ul a {
 	font-weight:normal;
-	color:#FFD446;
+	color:#EEEEEE;
+	/*color:#FFD446;*/
 }
+
+table.UserMenu, table.UserMenu tr, table.UserMenu td {
+	border:0;
+	background:none;
+}
+

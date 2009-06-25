@@ -252,7 +252,8 @@ OptionsBase.prototype.RequestBaseCallback = function(req, obj) {
 	this.data = [];
 	this.Total = 0;
 	if (obj) {
-		obj.Tab.Alerts.Clear();
+		var tabObject = obj.Tab;
+		tabObject.Alerts.Clear();
 		eval(req.responseText);
 	}
 };

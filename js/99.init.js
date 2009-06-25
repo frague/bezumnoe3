@@ -28,6 +28,21 @@ function ArrayPush(a, p) {
 	return a.length;
 };
 
+// DOM Helper methods
+
+function AddSelectOption(select, name, value, selected) {
+	var opt = d.createElement("option");
+	opt.value = value;
+	opt.text = name;
+	opt.selected = selected ? true : false;
+
+	try {
+    	select.add(opt, null); // standards compliant; doesn't work in IE
+	} catch (ex) {
+    	select.add(opt); // IE only
+	}
+};
+
 // OnLoad actions
 
 var menuInitilized = 0;

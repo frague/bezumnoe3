@@ -365,7 +365,7 @@ function Banned(reason, admin, admin_id, till) {
 function Forbidden(reason) {
 	StopPings();
 	co.AlertType = true;
-	co.Show(".", "Доступ в чат закрыт", "Администратор закрыл для вас доступ в чат"+($reason ? "<br>с формулировкой &laquo;" + reason + "&raquo;" : "");
+	co.Show(".", "Доступ в чат закрыт", "Администратор закрыл для вас доступ в чат" + ($reason ? "<br>с формулировкой &laquo;" + reason + "&raquo;" : ""));
 };
 
 function ChangeName() {

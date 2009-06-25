@@ -20,32 +20,6 @@ class JournalRecord extends ForumRecordBase {
 		return JournalSettings::MakeLink($alias, $title, $this);
 	}
 
-	function ToJs($mark = "") {
-		$title = strip_tags($this->Title);
-		$content = substr(strip_tags($this->Content), 0, 100);
-/*		if ($mark) {
-			$title = HightlightWords($title, $mark);
-			$content = HightlightWords($content, $mark);
-		}*/
-		return "new jrdto(\"".
-JsQuote($this->Id)."\",\"".
-JsQuote($title)."\",\"".
-JsQuote($content)."\",\"".
-JsQuote($this->Date)."\",".
-$this->AnswersCount.",".
-round($this->Type).")";
-	}
-
-	function ToFullJs() {
-		return "new Array(\"".
-round($this->Id)."\",\"".
-JsQuote($this->Title)."\",\"".
-JsQuote($this->Content)."\",\"".
-JsQuote($this->Date)."\",".
-round($this->Type).",".
-Boolean($this->IsCommentable).");";
-	}
-
 	// ----- Single Journal -----
 	// Gets journal records by condition
 	function GetJournalRecords($access, $from = 0, $limit, $condition) {

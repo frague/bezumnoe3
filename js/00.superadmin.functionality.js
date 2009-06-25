@@ -7,8 +7,8 @@
 
 /* Usermanager admins' section */
 
-function umAddUserButtons(id, login, obj) {
-	return MakeUserMenuLink(MakeButtonLink("ShowBlog(" + id + ",\"" + login + "\")", "Журнал", obj, ""));
+function umAdditionalExtraButtons(el, id, login, obj) {
+	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowBlog(" + id + ",\"" + login + "\")", "Журнал", obj, "")));
 };
 
 /* Journal */
@@ -26,7 +26,7 @@ var spoilerInits = [
 	function(tab) {new BannedAddresses().LoadTemplate(tab)},
 	function(tab) {new SystemLog().LoadTemplate(tab)},
 	function(tab) {new Statuses().LoadTemplate(tab)}
-];		// TODO: Optimize!
+];
 
 
 

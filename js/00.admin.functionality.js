@@ -7,13 +7,21 @@
 /* Options Admin tab */
 
 function CreateAdminTab() {
-	return new Tab(7, "Администрирование", 1, "", function(tab){new AdminOptions().LoadTemplate(tab, me.Id)})
+	return new Tab(7, "Администрирование", 1, "", function(tab) {new AdminOptions().LoadTemplate(tab, me.Id)})
 };
 
 /* Usermanager admins' section */
 
-function umViewProfile(id, login, obj) {
-	return MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "Профиль", obj, "");
+function umExtraButtons(id, login, obj) {
+ 	var td = MakeSection("Опции администратора:");
+ 	var ul = d.createElement("ul");
+
+	ul.appendChild(MakeUserMenuLink(MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "Профиль", obj, "")));
+	if (window.umAdditionalExtraButtons) {
+		umAdditionalExtraButtons(ul, id, login, obj);
+	}
+	td.appendChild(ul);
+	return td;
 };
 
 function ShowUser(id, name) {
@@ -25,7 +33,7 @@ function ShowUser(id, name) {
 
 var spoilerNames = ["Запреты"];
 var spoilerInits = [
-	function(tab) {LoadAndBindBannedAddressesToTab(tab)}
+	function(tab) {new BannedAddresses().LoadTemplate(tab)}
 ];
 
 

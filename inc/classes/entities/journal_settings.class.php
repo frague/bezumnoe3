@@ -68,10 +68,12 @@ class JournalSettings extends EntityBase {
 		return $s;
 	}
 
-	function ToJs() {
+	function ToJs($title = "", $description = "") {
 		$s = "[\"".
 JsQuote($this->Alias)."\", \"".
-JsQuote($this->RequestedAlias)."\"]";
+JsQuote($this->RequestedAlias)."\", \"".
+JsQuote($title)."\", \"".
+JsQuote($description)."\"]";
 		return $s;
 	}
 

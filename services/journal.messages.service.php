@@ -7,43 +7,59 @@
 		exit;
 	}
 
-	if ($user_id == $user->User->Id || $user->Status->Rights > $AdminRights) {
-		if ($user_id == $user->User->Id) {
-			$targetUser = $user->User;
-		} else {
+	$forum_id = round($_POST["FORUM_ID"]);
+
+	if ($forum_id) {
+		$forum = new ForumBase($forum_id);
+		$forum->Retrieve();
+	} else {
+		$forum = new Journal();
+		if ($user_id) {
 			$targetUser = new User($user_id);
 			$targetUser->Retrieve();
+			if (!$targetUser->IsEmpty()) {
+				$forum->GetByUserId($targetUser->Id);
+			}
 		}
-		if ($targetUser->IsEmpty()) {
-			return;
-		}
-	} else {
-		exit;
 	}
 
-	$journal = new Journal();
-	$journal->GetByUserId($targetUser->Id);
-	if ($journal->IsEmpty()) {
-		exit;
+	if ($forum->IsEmpty()) {
+		echo JsAlert("Журнал пользователя не найден!", 1);
+		die;
 	}
 
-	$record = new JournalRecord();
+	$access = $forum->GetAccess($user->User->Id);
+	if ($access != Forum::FULL_ACCESS && $access != Forum::READ_ADD_ACCESS) {
+		echo JsAlert("У вас нет доступа к указанному журналу!", 1);
+		die;
+	}
+
+	if (!$forum_id && $user_id == $user->User->Id) {
+		/* Reading allowed forums */
+		$fu = new ForumUser();
+		$q = $fu->GetUserForums($user->User->Id);
+		echo "this.forums=[";
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			echo ($i ? "," : "")."new fldto(".
+$q->Get(ForumUser::FORUM_ID).",\"".
+$q->Get(ForumUser::ACCESS)."\",\"".
+JsQuote($q->Get(Forum::TITLE))."\",\"".
+substr($q->Get(Forum::TYPE), 0, 1)."\",\"".
+JsQuote($q->Get(User::LOGIN))."\")";
+		}
+		echo "];";
+	}
+
+	$record = new ForumRecordBase();
 	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $record->SearchTemplate);
 	if ($search) {
 		$amount = 10;
-		$journal->TotalCount = 10;
+		$forum->TotalCount = 10;
 	}
 
-	$access = Forum::NO_ACCESS;
-	if ($user->IsSuperAdmin()) {
-		$access = Forum::FULL_ACCESS;
-	} else {
-		$access = $journal->GetAccess($user->User->Id);
-	}
-	
-	$q = $record->GetJournalTopics($access, $from, $amount, $journal->Id, $search);
-
-	$result = "this.data = [";
+	$q = $record->GetForumThreads($forum->Id, $access, $from, $amount);
+	$result = "this.data=[";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$record->FillFromResult($q);
@@ -51,7 +67,8 @@
 	}
 	$result .= "];";
 
-	$result .= "this.Total=".$journal->TotalCount.";";
+	$result .= "this.Total=".$forum->TotalCount.";";
+	$result .= "this.FORUM_ID=".$forum->Id.";";
 
 	echo $result;
 
