@@ -5,7 +5,7 @@ class JournalSettings extends EntityBase {
 	const table = "journal_settings";
 
 	const JOURNAL_SETTINGS_ID = "JOURNAL_SETTINGS_ID";
-	const USER_ID = "USER_ID";
+	const FORUM_ID = "FORUM_ID";
 	const ALIAS = "ALIAS";
 	const REQUESTED_ALIAS = "REQUESTED_ALIAS";
 	const SKIN_TEMPLATE_ID = "SKIN_TEMPLATE_ID";
@@ -14,7 +14,7 @@ class JournalSettings extends EntityBase {
 	const PARAMETER = "alias";
 
 	// Properties
-	var $UserId;
+	var $ForumId;
 	var $Alias;
 	var $RequestedAlias;
 	var $SkinTemplateId;
@@ -28,7 +28,7 @@ class JournalSettings extends EntityBase {
 
 	function Clear() {
 		$this->Id = -1;
-		$this->UserId = -1;
+		$this->ForumId = -1;
 		$this->Alias = "";
 		$this->RequestedAlias = "";
 		$this->SkinTemplateId = -1;
@@ -37,7 +37,7 @@ class JournalSettings extends EntityBase {
 
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::JOURNAL_SETTINGS_ID);
-		$this->UserId = $result->Get(self::USER_ID);
+		$this->ForumId = $result->Get(self::FORUM_ID);
 		$this->Alias = $result->Get(self::ALIAS);
 		$this->RequestedAlias = $result->Get(self::REQUESTED_ALIAS);
 		$this->SkinTemplateId = $result->GetNullableId(self::SKIN_TEMPLATE_ID);
@@ -48,14 +48,14 @@ class JournalSettings extends EntityBase {
 		return $this->FillByCondition(self::ALIAS."='".SqlQuote(substr($alias, 0, 20))."'");
 	}
 
-	function GetByUserId($user_id) {
-		return $this->FillByCondition(self::USER_ID."=".round($user_id));
+	function GetByForumId($forumId) {
+		return $this->FillByCondition(self::FORUM_ID."=".round($forumId));
 	}
 
 	function __tostring() {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::JOURNAL_SETTINGS_ID." = ".$this->Id."</li>\n";
-		$s.= "<li>".self::USER_ID." = ".$this->UserId."</li>\n";
+		$s.= "<li>".self::FORUM_ID." = ".$this->ForumId."</li>\n";
 		$s.= "<li>".self::ALIAS." = ".$this->Alias."</li>\n";
 		$s.= "<li>".self::REQUESTED_ALIAS." = ".$this->RequestedAlias."</li>\n";
 		$s.= "<li>".self::SKIN_TEMPLATE_ID." = ".$this->SkinTemplateId."</li>\n";
@@ -70,8 +70,8 @@ class JournalSettings extends EntityBase {
 
 	function ToJs($title = "", $description = "") {
 		$s = "[\"".
-JsQuote($this->Alias)."\", \"".
-JsQuote($this->RequestedAlias)."\", \"".
+JsQuote($this->Alias)."\",\"".
+JsQuote($this->RequestedAlias)."\",\"".
 JsQuote($title)."\", \"".
 JsQuote($description)."\"]";
 		return $s;
@@ -86,7 +86,7 @@ JsQuote($description)."\"]";
 	function ReadExpression() {
 		return "SELECT 
 	t1.".self::JOURNAL_SETTINGS_ID.",
-	t1.".self::USER_ID.",
+	t1.".self::FORUM_ID.",
 	t1.".self::ALIAS.",
 	t1.".self::REQUESTED_ALIAS.",
 	t1.".self::SKIN_TEMPLATE_ID.",
@@ -99,14 +99,14 @@ WHERE
 
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
-(".self::USER_ID.", 
+(".self::FORUM_ID.", 
 ".self::ALIAS.", 
 ".self::REQUESTED_ALIAS.", 
 ".self::SKIN_TEMPLATE_ID.", 
 ".self::LAST_MESSAGE_DATE."
 )
 VALUES
-(".round($this->UserId).", 
+(".round($this->ForumId).", 
 ".Nullable($this->Alias).", 
 ".Nullable($this->RequestedAlias).", 
 ".NullableId($this->SkinTemplateId).", 
@@ -116,7 +116,7 @@ VALUES
 
 	function UpdateExpression() {
 		$result = "UPDATE ".$this->table." SET 
-".self::USER_ID."=".SqlQuote($this->UserId).", 
+".self::FORUM_ID."=".SqlQuote($this->ForumId).", 
 ".self::ALIAS."=".Nullable($this->Alias).", 
 ".self::REQUESTED_ALIAS."=".Nullable($this->RequestedAlias).", 
 ".self::SKIN_TEMPLATE_ID."=".NullableId($this->SkinTemplateId).", 
@@ -132,13 +132,14 @@ WHERE
 
 	function GetJournalDataExpression() {
 		return "SELECT
-t1.".self::USER_ID.",
+t1.".self::FORUM_ID.",
 t1.".self::ALIAS.",
 t1.".self::LAST_MESSAGE_DATE.",
-t2.".User::LOGIN."
+t3.".User::LOGIN."
 	FROM 
 ".self::table." t1
-LEFT JOIN ".User::table." t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
+LEFT JOIN ".Forum::table." t2 ON t2.".Forum::FORUM_ID."=t1.".self::FORUM_ID."
+LEFT JOIN ".User::table." t3 ON t3.".User::USER_ID."=t2.".Forum::LINKED_ID."
 	WHERE
 ##CONDITION##";
 	}
@@ -146,12 +147,12 @@ LEFT JOIN ".User::table." t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
 	function GetUpdatedTemplatesExpression() {
 		$result = str_replace("FROM",
 		",
-t3.".JournalTemplate::UPDATED."
+t5.".JournalTemplate::UPDATED."
 	FROM",
 		$this->GetJournalDataExpression());
 
 		$result = str_replace("WHERE",
-		"LEFT JOIN ".JournalTemplate::table." t3 ON t3.".JournalTemplate::USER_ID."=t1.".self::USER_ID."
+		"LEFT JOIN ".JournalTemplate::table." t5 ON t5.".JournalTemplate::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE",
 		$result);
 

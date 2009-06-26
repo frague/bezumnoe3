@@ -7,7 +7,7 @@
 var journalMessagesObj;
 
 function JournalMessages() {
-	this.fields = ["SEARCH", "LOGIN", "FORUM_ID", "SHOW_FORUMS", "SHOW_JOURNALS", "SHOW_GALLERIES"];
+	this.fields = ["SEARCH", "LOGIN", "FORUM_ID"];
 	this.ServicePath = servicesPath + "journal.messages.service.php";
 	this.Template = "journal_messages";
 	this.ClassName = "JournalMessages";
@@ -28,61 +28,25 @@ JournalMessages.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
-
-		if (!this.ForumsLoaded) {
-			obj.DisplayTabElement("TARGET", (obj.forums && obj.forums.length > 0));
-			if (obj.forums) {
-				obj.BindForums();
-				this.ForumsLoaded = 1;
-			}
-		}
-	}
-};
-
-JournalMessages.prototype.BindForums = function(request) {
-	var select = this.Inputs["FORUM_ID"];
-	var showForums = this.Inputs["SHOW_FORUMS"].checked;
-	var showJournals = this.Inputs["SHOW_JOURNALS"].checked;
-	var showGalleries = this.Inputs["SHOW_GALLERIES"].checked;
-
-	if (select) {
-		select.innerHTML = "";
-		for (i = 0, l = this.forums.length; i < l; i++) {
-			var item = this.forums[i];
-			switch (item.TYPE) {
-				case "f":
-					if (!showForums) {
-						continue;
-					}
-					break;
-				case "g":
-					if (!showGalleries) {
-						continue;
-					}
-					break;
-				case "j":
-					if (!showJournals) {
-						continue;
-					}
-					break;
-			}
-			item.ToString(i, this, select);
-			
-		}
-		if (request) {
-			this.Request();
-		}
 	}
 };
 
 JournalMessages.prototype.TemplateLoaded = function(req) {
+	// Bind tab react
+	this.Tab.Reactor = this;
+	this.FORUM_ID = this.Tab.FORUM_ID;
+
 	this.TemplateBaseLoaded(req);
 
-	this.GroupSelfAssign(["buttonSearch", "ResetFilter", "FORUM_ID", "SHOW_FORUMS", "SHOW_JOURNALS", "SHOW_GALLERIES"]);
-	this.DisplayTabElement("TARGET", 0);
+	this.GroupSelfAssign(["buttonSearch", "ResetFilter"]);
 	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
+
 };
 
+JournalMessages.prototype.React = function() {
+	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Request();
+};
 
 /* Journal Record Data Transfer Object */
 
@@ -130,29 +94,6 @@ jrdto.prototype.ToString = function(index, obj) {
 	
 	return tr;
 };
-
-/* Forum line DTO */
-
-function fldto(forum_id, access, title, type, login) {
-	this.fields = ["FORUM_ID", "ACCESS", "TITLE", "TYPE", "LOGIN"];
-	this.Init(arguments);
-};
-
-fldto.prototype = new DTO();
-
-fldto.prototype.ToString = function(index, obj, select) {
-    var prefix = "[Форум] ";
-	switch (this.TYPE) {
-		case "g":
-			prefix = "[Галерея] ";
-			break;
-		case "j":
-			prefix = "[Журнал] ";
-			break;
-	}
-	AddSelectOption(select, prefix + " \"" + this.TITLE + "\" " + " (" + this.LOGIN + ")", this.FORUM_ID, this.FORUM_ID == obj.FORUM_ID);
-};
-
 
 /* Actions */
 

@@ -7,16 +7,36 @@
 		exit;
 	}
 
+	$journal = new Journal($forum_id);
+	$journal->Retrieve();
+
+	if ($journal->IsEmpty()) {
+		echo "this.is_journal=0;";
+		if ($go) {
+			echo JsAlert("Настройки шаблонов сохраняются только для журналов.", 1);
+		} else {
+			echo JsAlert("Журнал не найден.");
+		}
+		die;
+	}
+
+	$access = $journal->GetAccess($user->User->Id);
+	if ($access != Forum::FULL_ACCESS && !$user->IsSuperAdmin()) {
+		echo "this.is_journal=0;";
+		echo JsAlert("Нет доступа к настройкам журнала!", 1);
+		exit;
+	}
+	
 	$template = new JournalTemplate();
-	$template->FillByUserId($user->User->Id);
+	$template->FillByForumId($journal->Id);
 
 	$settings = new JournalSettings();
-	$settings->GetByUserId($user->User->Id);
+	$settings->GetByForumId($journal->Id);
 
 	switch ($go) {
 		case "save":
 			if ($template->IsEmpty()) {
-				$template->UserId = $user->User->Id;
+				$template->ForumId = $journal->Id;
 			}
 			$template->Body = UTF8toWin1251($_POST[JournalTemplate::BODY]);
 			$template->Message = UTF8toWin1251($_POST[JournalTemplate::MESSAGE]);
@@ -38,5 +58,6 @@
 	}
 	echo "this.data=".$template->ToJs().";";
 	echo "this.skinTemplateId=".round($settings->SkinTemplateId).";";
+	echo "this.is_journal=1;";
 
 ?>

@@ -14,6 +14,7 @@
 
 	$go = $_POST["go"];
 	$user_id = round($_POST["USER_ID"]);
+	$forum_id = round($_POST["FORUM_ID"]);
 	$owner_id = round($_POST["OWNER_ID"]);
 	$state = round($_POST["state"]);
 	$id = round($_POST["id"]);

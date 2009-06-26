@@ -1,4 +1,4 @@
-//1.8
+//1.9
 /*
 	Spoiler class.
 	Displays/hides logical piece of content on demand.
@@ -10,6 +10,7 @@ function Spoiler(id, title, height, is_opened, on_select) {
 	this.Height = height;
 	this.IsOpened = is_opened ? 1 : 0;
 	this.OnSelect = on_select;
+	this.Locked = 0;
 };
 
 Spoiler.prototype = new TabBase();
@@ -47,6 +48,9 @@ Spoiler.prototype.ToString = function(holder) {
 };
 
 Spoiler.prototype.Display = function(state) {
+	if (this.Disabled) {
+		return;
+	}
 	this.IsOpened = state;
 	this.Holder.className = "Spoiler " + (this.IsOpened ? "Opened" : "Closed");
 };

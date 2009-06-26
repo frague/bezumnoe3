@@ -7,8 +7,6 @@
 		exit;
 	}
 
-	$forum_id = round($_POST["FORUM_ID"]);
-
 	if ($forum_id) {
 		$forum = new ForumBase($forum_id);
 		$forum->Retrieve();

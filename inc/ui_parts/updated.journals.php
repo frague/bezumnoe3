@@ -2,7 +2,7 @@
 
 	$settings = new JournalSettings();
 	$q = $settings->GetByCondition(
-		"t3.".JournalTemplate::UPDATED." IS NOT NULL ORDER BY ".JournalTemplate::UPDATED." DESC LIMIT 20",
+		"t5.".JournalTemplate::UPDATED." IS NOT NULL ORDER BY ".JournalTemplate::UPDATED." DESC LIMIT 20",
 		$settings->GetUpdatedTemplatesExpression()
 	);
 

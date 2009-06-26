@@ -19,7 +19,7 @@
 			DieWith404();
 		}
 		$forumId = $record->ForumId;
-		$settings->GetByUserId($record->UserId);
+		$settings->GetByForumId($record->ForumId);
 	} elseif ($alias) {
 		if ($settings->IsEmpty()) {
 			$settings->GetByAlias($alias);
@@ -33,8 +33,8 @@
 		DieWith404();
 	}
 
-	$journal = new Journal();
-	$journal->GetByUserId($settings->UserId);
+	$journal = new Journal($settings->ForumId);
+	$journal->Retrieve();
 	if (!$journal->IsFull()) {
 		DieWith404();
 	}
@@ -59,7 +59,7 @@
 	if ($settings->SkinTemplateId > 0) {
 		$template->GetById($settings->SkinTemplateId);
 	} else {
-		$template->FillByUserId($settings->UserId);
+		$template->FillByForumId($settings->ForumId);
 
 		if ($template->IsEmpty()) {
 			// Getting default template
@@ -145,14 +145,17 @@
 	$bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
 
 //------------------ Pages -----------------
+/*	TODO: Dates condition
+
 	if ($dateExists) {
 		$q = $db->Query("SELECT COUNT(*) AS records FROM ".$journal." WHERE login='".$person."'".$viewTypes.$datesCondition." LIMIT 1", $db);
 		$q->NextResult();
 		$pagerRecords = $q->Get("records");
 	} else {
 		$pagerRecords = $totalRecords;
-	}
-	$bodyText = str_replace("##PAGES##", MakeJournalPager($userUrlName, $pagerRecords, $shownMessages, $showFrom, false), $bodyText);
+	}*/
+
+	$bodyText = str_replace("##PAGES##", MakeJournalPager($userUrlName, $journal->TotalCount, $shownMessages, $showFrom, false), $bodyText);
 
 
 //------------------ Calendar -----------------
@@ -161,18 +164,18 @@
 
 //------------------ Friends ------------------
 	$friends = new JournalFriend();
-	$q = $friends->GetByJournalId($forumId);
+	$q = $friends->GetByForumId($journal->Id);
 
 	$friendsLink = "";
-
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 
-		$xLogin = $q->Get(User::LOGIN);
-		$xAlias = $q->Get(JournalSettings::ALIAS);
-		$friendsLink .= ($friendsLink ? ", " : "").JournalSettings::MakeLink($xAlias, $xLogin);
+		$login = $q->Get(User::LOGIN);
+		$alias = $q->Get(JournalSettings::ALIAS);
+
+		$friendsLink .= ($friendsLink ? ", " : "").JournalSettings::MakeLink($alias, $login);
 	}
-	$friendsLink = "<span id=friends>".$friendsLink."</span>";
+	$friendsLink = "<span id=\"friends\">".$friendsLink."</span>";
 
 	$bodyText = str_replace("##FRIENDS##", $friendsLink, $bodyText);
 //	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$userUrlName."/friends/", $bodyText);

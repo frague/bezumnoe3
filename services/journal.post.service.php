@@ -4,7 +4,6 @@
 	$user = GetAuthorizedUser(true);
 
 	$post_id = round($_POST["RECORD_ID"]);
-	$forum_id = round($_POST["FORUM_ID"]);
 
 	if (!$user || $user->IsEmpty() || !$user_id) {
 		exit;

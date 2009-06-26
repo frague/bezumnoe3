@@ -19,6 +19,7 @@
 	$q = $db->Query("TRUNCATE TABLE ".JournalTemplate::table);
  	$q = $db->Query("TRUNCATE TABLE ".JournalSkin::table);
 	$q = $db->Query("TRUNCATE TABLE ".JournalSettings::table);
+	$q = $db->Query("TRUNCATE TABLE ".JournalFriend::table);
 
 	// Getting all users into hash
 	$allUsersIds = array();
@@ -44,9 +45,14 @@
 	$lastUserId = 0;
 	$userRecords = 0;
 
+
+	//------------------------------	
+	$userIdJournal = array();
+	$userLoginJournal = array();
+
 	$messageDate = "";
 
-	// Migrating records
+	// Migrating settings
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$user = $q->Get("login");
@@ -59,12 +65,20 @@
 				//echo "<li> <b>".$userRecords."</b> records of <b>".$lastUser."</b> have been imported";
 
 				if ($lastUserId > 0) {
-					$s = new JournalSettings();
-					$s->UserId = $lastUserId;
-					$s->Alias = eregi("^[0-9a-z\-\=\_]+$", $lastUser) ? $lastUser : $allUsersGUIDs[$lastUser];
-					$s->LastMessageDate = $messageDate;
-					$s->Save();
-//					echo "<li> <b>".$lastUser."</b> journal settings have been saved.";
+					$f = new Journal();
+					$f->GetByUserId($lastUserId);
+
+					if (!$f->IsEmpty()) {
+						$userIdJournal[$lastUserId] = $f->Id;
+						$userLoginJournal[$lastUser] = $f->Id;
+
+						$s = new JournalSettings();
+						$s->ForumId = $f->Id;
+						$s->Alias = eregi("^[0-9a-z\-\=\_]+$", $lastUser) ? $lastUser : $allUsersGUIDs[$lastUser];
+						$s->LastMessageDate = $messageDate;
+						$s->Save();
+//						echo "<li> <b>".$lastUser."</b> journal settings have been saved.";
+					}
 				}
 			}
 			$lastUser = $user;
@@ -136,7 +150,7 @@
 		}
 
 
-		$t->UserId = $id;
+		$t->ForumId = $userIdJournal[$id];
 		$c = $q->Get("content");
 		$type = $q->Get("element");
 		switch ($type) {
@@ -215,8 +229,9 @@
 				$template_id = $templateNames["<".$template.">"];
 				if ($template_id) {
 					$s = new JournalSettings();
-					$s->GetByUserId($id);
+					$s->GetByForumId($userIdJournal[$id]);
 					if (!$s->IsEmpty()) {
+						$s->ForumId = $userIdJournal[$id];
 						$s->SkinTemplateId = $template_id;
 						$s->Save();
 //						echo "<li> <b>".$user."</b> skin '".$template."' (".$template_id.") info moved";
@@ -247,6 +262,47 @@
 	}
 
 	echo "</ul>";
+
+	echo "<h3>Френды:</h3>";
+
+
+	// Journal friends
+	$q2 = $db->Query("SELECT * FROM _journal_friends ORDER BY login");
+	if ($q2->NumRows()) {
+		for ($i = 0; $i < $q2->NumRows(); $i++) {
+			$q2->NextResult();
+
+			$user = $q2->Get("login");
+			$friends = $q2->Get("friends");
+
+			$journalId = round($userLoginJournal[$user]);
+
+			if ($journalId > 0) {
+//				AddError($i.". Друзья пользователя <b>".$user."</b>(".$journalId."): ".$friends);
+
+				$friends = split(",", $friends);
+				for ($k = 0; $k < sizeof($friends); $k++) {
+					$friend = trim($friends[$k]);
+
+					$friend_journal_id = round($userLoginJournal[$friend]);
+					if ($friend_journal_id > 0) {
+						$f = new JournalFriend($journalId, $friend_journal_id);
+						$f->Save();
+						// Friendly journal
+					}
+					$friend_id = $usersIds[$friend];
+					if ($friend_id > 0) {
+						$f2 = new ForumUser($friend_id, $journalId);
+						$f2->Access = Journal::FRIENDLY_ACCESS;
+						$f2->Save();
+						// Friendly user
+					}
+				}
+			} else {
+				AddError("У пользователя <b>".$user."</b> нет нет журнала. Френды игнорируются.");
+			}
+		}
+   	}
 
 	Passed();
 ?>

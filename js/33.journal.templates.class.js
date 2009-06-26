@@ -27,11 +27,23 @@ JournalTemplates.prototype.Gather = function() {
 	return params;
 };
 
+JournalTemplates.prototype.Request = function(params, callback) {
+	if (!params) {
+		params = "";
+	}
+	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
+	this.BaseRequest(params, callback);
+};
+
 JournalTemplates.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.skinTemplateId = "";
 		obj.RequestBaseCallback(req, obj);
 		obj["SKIN_TEMPLATE_ID"] = obj.skinTemplateId;
+
+		obj.Tab.Display(obj.is_journal);
+		obj.Tab.Disabled = !obj.is_journal;
+
 		if (obj.data) {
 			obj.FillFrom(obj.data);
 			obj.Bind();
@@ -40,12 +52,19 @@ JournalTemplates.prototype.RequestCallback = function(req, obj) {
 };
 
 JournalTemplates.prototype.TemplateLoaded = function(req) {
+	// Bind tab react
+	this.Tab.Reactor = this;
+	this.FORUM_ID = this.Tab.FORUM_ID;
+
 	this.TemplateBaseLoaded(req);
 
 	this.AssignTabTo("SKIN_TEMPLATE_ID");
-
-	/* Submit button */
 	this.Tab.AddSubmitButton("SaveJournalTemplate(this)", "", this);
+};
+
+JournalTemplates.prototype.React = function() {
+	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Request();
 };
 
 /* Actions */

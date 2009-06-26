@@ -45,6 +45,10 @@ class ForumBase extends EntityBase {
 		return $this->Type == self::TYPE_JOURNAL;
 	}
 
+	function IsGallery() {
+		return $this->Type == self::TYPE_GALLERY;
+	}
+
 	function Clear() {
 		$this->Id			= -1;
 		$this->Title		= "";

@@ -23,6 +23,10 @@ function ForumAccess(user_id, tab) {
 ForumAccess.prototype = new OptionsBase();
 
 ForumAccess.prototype.TemplateLoaded = function(req) {
+	// Bind tab react
+	this.Tab.Reactor = this;
+	this.FORUM_ID = this.Tab.FORUM_ID;
+
 	this.TemplateBaseLoaded(req);
 
 	this.FindRelatedControls();
@@ -66,6 +70,14 @@ ForumAccess.prototype.BaseBind = function() {
 	this.FriendsListGrid.Refresh();
 };
 
+ForumAccess.prototype.Request = function(params, callback) {
+	if (!params) {
+		params = "";
+	}
+	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
+	this.BaseRequest(params, callback);
+};
+
 ForumAccess.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
@@ -73,6 +85,10 @@ ForumAccess.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+ForumAccess.prototype.React = function() {
+	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Request();
+};
 
 
 /* Data Transfer Object */

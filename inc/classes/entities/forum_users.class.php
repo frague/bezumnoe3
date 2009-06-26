@@ -45,13 +45,17 @@ class ForumUser extends EntityBase {
 
 		$this->Login = $result->Get(User::LOGIN);
 	}
+	
+	function FillByForumId($forumId) {
+		return $this->FillByCondition("t1.".self::FORUM_ID."=".round($forumId));
+	}
 
 	function GetByUserId($userId) {
 		return $this->FillByCondition("t1.".self::USER_ID."=".round($userId));
 	}
 
 	function GetByForumId($forumId) {
-		return $this->FillByCondition("t1.".self::FORUM_ID."=".round($forumId));
+		return $this->GetByCondition("t1.".self::FORUM_ID."=".round($forumId));
 	}
 
 	function GetFor($userId, $forumId) {

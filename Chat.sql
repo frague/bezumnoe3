@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 24, 2009 at 04:49 PM
+-- Generation Time: Jun 26, 2009 at 11:27 PM
 -- Server version: 5.0.77
 -- PHP Version: 5.2.9
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `banned_addresses` (
   KEY `CHAT BANS` (`BAN_CHAT`),
   KEY `FORUM BANS` (`BAN_FORUM`),
   KEY `JOURNAL BANS` (`BAN_JOURNAL`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Banned addresses' AUTO_INCREMENT=60 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Banned addresses' AUTO_INCREMENT=61 ;
 
 -- --------------------------------------------------------
 
@@ -88,9 +88,8 @@ CREATE TABLE IF NOT EXISTS `forums` (
   `IS_PROTECTED` tinyint(1) NOT NULL default '0',
   `LINKED_ID` bigint(20) default NULL,
   `TOTAL_COUNT` bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (`FORUM_ID`),
-  UNIQUE KEY `Unique by type & user` (`TYPE`,`LINKED_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=203 ;
+  PRIMARY KEY  (`FORUM_ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=405 ;
 
 -- --------------------------------------------------------
 
@@ -118,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `forum_records` (
   `DELETED_COUNT` int(11) default '0',
   PRIMARY KEY  (`RECORD_ID`),
   KEY `Forum Threads` (`IND`(4),`FORUM_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=85922 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=122296 ;
 
 -- --------------------------------------------------------
 
@@ -130,7 +129,8 @@ CREATE TABLE IF NOT EXISTS `forum_users` (
   `FORUM_ID` bigint(20) NOT NULL,
   `USER_ID` bigint(20) NOT NULL,
   `ACCESS` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`FORUM_ID`,`USER_ID`)
+  PRIMARY KEY  (`FORUM_ID`,`USER_ID`),
+  KEY `User access to forum` (`USER_ID`,`FORUM_ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251 COMMENT='Protected forums users';
 
 -- --------------------------------------------------------
@@ -152,15 +152,14 @@ CREATE TABLE IF NOT EXISTS `ignores` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `journal_forbidden_commenters`
+-- Table structure for table `journal_relations`
 --
 
-CREATE TABLE IF NOT EXISTS `journal_forbidden_commenters` (
-  `USER_ID` bigint(20) NOT NULL,
-  `COMMENTER_ID` bigint(20) NOT NULL,
-  PRIMARY KEY  (`USER_ID`,`COMMENTER_ID`),
-  KEY `USER_ID` (`USER_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251 COMMENT='People who you denied to comment your journal';
+CREATE TABLE IF NOT EXISTS `journal_relations` (
+  `FORUM_ID` bigint(20) NOT NULL,
+  `FRIENDLY_FORUM_ID` bigint(20) NOT NULL,
+  PRIMARY KEY  (`FORUM_ID`,`FRIENDLY_FORUM_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 -- --------------------------------------------------------
 
@@ -170,13 +169,13 @@ CREATE TABLE IF NOT EXISTS `journal_forbidden_commenters` (
 
 CREATE TABLE IF NOT EXISTS `journal_settings` (
   `JOURNAL_SETTINGS_ID` bigint(20) NOT NULL auto_increment,
-  `USER_ID` bigint(20) NOT NULL,
+  `FORUM_ID` bigint(20) NOT NULL,
   `ALIAS` varchar(20) default NULL,
   `REQUESTED_ALIAS` varchar(20) default NULL,
   `SKIN_TEMPLATE_ID` int(11) default NULL,
   `LAST_MESSAGE_DATE` datetime default NULL,
   PRIMARY KEY  (`JOURNAL_SETTINGS_ID`),
-  UNIQUE KEY `USER_ID` (`USER_ID`),
+  UNIQUE KEY `USER_ID` (`FORUM_ID`),
   UNIQUE KEY `ALIAS` (`ALIAS`),
   KEY `LAST_MESSAGE_DATE` (`LAST_MESSAGE_DATE`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=366 ;
@@ -207,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `journal_skins` (
 
 CREATE TABLE IF NOT EXISTS `journal_templates` (
   `TEMPLATE_ID` bigint(20) NOT NULL auto_increment,
-  `USER_ID` bigint(20) default NULL,
+  `FORUM_ID` bigint(20) default NULL,
   `BODY` text NOT NULL,
   `MESSAGE` text NOT NULL,
   `CSS` text NOT NULL,
@@ -232,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY  (`MESSAGE_ID`),
   KEY `ROOM_ID` (`ROOM_ID`),
   KEY `TO_USER_ID` (`TO_USER_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251 COMMENT='All chat messages' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='All chat messages' AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -277,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `nicknames` (
   `IS_SELECTED` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`NICKNAME_ID`),
   KEY `Selected` (`IS_SELECTED`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users alternative names' AUTO_INCREMENT=415 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users alternative names' AUTO_INCREMENT=419 ;
 
 -- --------------------------------------------------------
 
@@ -304,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY  (`PROFILE_ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`),
   KEY `Generation` (`GENERATION`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users profiles' AUTO_INCREMENT=6168 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users profiles' AUTO_INCREMENT=6175 ;
 
 -- --------------------------------------------------------
 
@@ -324,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `IS_DELETED` tinyint(1) NOT NULL,
   `BEEN_VISITED` tinyint(1) NOT NULL,
   PRIMARY KEY  (`ROOM_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251 COMMENT='Chat rooms' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat rooms' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -365,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `FRAMESET` enum('0','1','2','3') NOT NULL default '0',
   PRIMARY KEY  (`SETTINGS_ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat settings' AUTO_INCREMENT=6168 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat settings' AUTO_INCREMENT=6175 ;
 
 -- --------------------------------------------------------
 
@@ -440,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `LOGIN` (`LOGIN`,`GUID`),
   KEY `ROOM_ID` (`ROOM_ID`),
   KEY `BANNED_BY` (`BANNED_BY`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat users' AUTO_INCREMENT=6168 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat users' AUTO_INCREMENT=6175 ;
 
 -- --------------------------------------------------------
 

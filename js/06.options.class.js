@@ -258,6 +258,10 @@ OptionsBase.prototype.RequestBaseCallback = function(req, obj) {
 	}
 };
 
+// Reaction method to be overriden
+OptionsBase.prototype.React = function(value) {alert("Reaction handler is unset.");};
+
+
 OptionsBase.prototype.GroupAssign = function(method, items) {
 	if (this[method]) {
 		for (var i = 0, l = items.length; i < l; i++) {

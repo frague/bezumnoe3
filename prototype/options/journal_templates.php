@@ -36,4 +36,5 @@
 	<h4>Стили отображения (CSS):</h4>
 	<textarea id="CSS" name="CSS" onclick="Maximize(this)"></textarea>
 </div>
-<br>
+
+<br />

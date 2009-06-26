@@ -1,4 +1,4 @@
-//3.2
+//3.4
 /*
 	Tab class. Entity of Tabs one.
 */
@@ -27,6 +27,13 @@
 		this.SubmitButton = MakeButton(method, "ok_button.gif", obj ? obj : this);
 		m1.appendChild(this.SubmitButton);
 		this[holder ? holder : "RelatedDiv"].appendChild(m1);
+	};
+
+	/* Tab object reaction by outside call */
+	TabBase.prototype.React = function(value) {
+		if (this.Reactor) {
+			this.Reactor.React(value);
+		}
 	};
 
 	/* Tab class */

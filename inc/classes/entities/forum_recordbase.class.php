@@ -427,7 +427,7 @@ FROM", $this->ReadExpression());
 
 		$s = str_replace("WHERE", "
 	LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
-	LEFT JOIN ".JournalSettings::table." AS t3 ON t3.".JournalSettings::USER_ID."=t1.".self::USER_ID."
+	LEFT JOIN ".JournalSettings::table." AS t3 ON t3.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE
 	".self::AccessCondition($access),
 	$s);
@@ -602,7 +602,7 @@ GROUP BY NULL";
 	t2.".JournalSettings::LAST_MESSAGE_DATE."
 FROM
 	".Profile::table." AS t1
-	LEFT JOIN ".JournalSettings::table." AS t2 ON t2.".JournalSettings::USER_ID."=t1.".Profile::USER_ID."
+	LEFT JOIN ".JournalSettings::table." AS t2 ON t2.".JournalSettings::FORUM_ID."=".$this->ForumId."
 WHERE
 	##CONDITION##";
 	}

@@ -5,14 +5,14 @@ class JournalTemplate extends EntityBase {
 	const table = "journal_templates";
 
 	const TEMPLATE_ID = "TEMPLATE_ID";
-	const USER_ID = "USER_ID";
+	const FORUM_ID = "FORUM_ID";
 	const BODY = "BODY";
 	const MESSAGE = "MESSAGE";
 	const CSS = "CSS";
 	const UPDATED = "UPDATED";
 
 	// Properties
-	var $UserId;
+	var $ForumId;
 	var $Body;
 	var $Message;
 	var $Css;
@@ -27,7 +27,7 @@ class JournalTemplate extends EntityBase {
 	function Clear() {
 		$this->Id = -1;
 		$this->TemplateId = -1;
-		$this->UserId = -1;
+		$this->ForumId = -1;
 		$this->Body = "";
 		$this->Message = "";
 		$this->Css = "";
@@ -53,7 +53,7 @@ class JournalTemplate extends EntityBase {
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::TEMPLATE_ID);
 		$this->TemplateId = $result->Get(self::TEMPLATE_ID);
-		$this->UserId = $result->GetNullableId(self::USER_ID);
+		$this->ForumId = $result->GetNullableId(self::FORUM_ID);
 		$this->Body = $result->Get(self::BODY);
 		$this->Message = $result->Get(self::MESSAGE);
 		$this->Css = $result->Get(self::CSS);
@@ -63,12 +63,12 @@ class JournalTemplate extends EntityBase {
 		}
 	}
 
-	function GetByUserId($userId) {
-		return $this->GetByCondition("t1.".self::USER_ID."=".round($userId));
+	function GetByForumId($ForumId) {
+		return $this->GetByCondition("t1.".self::FORUM_ID."=".round($ForumId));
 	}
 
-	function FillByUserId($userId) {
-		$q = $this->GetByUserId($userId);
+	function FillByForumId($ForumId) {
+		$q = $this->GetByForumId($ForumId);
 		if ($q->NumRows()) {
 			$q->NextResult();
 			$this->FillFromResult($q);
@@ -78,7 +78,7 @@ class JournalTemplate extends EntityBase {
 	function __tostring() {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::TEMPLATE_ID." = ".$this->Id."</li>\n";
-		$s.= "<li>".self::USER_ID." = ".$this->UserId."</li>\n";
+		$s.= "<li>".self::FORUM_ID." = ".$this->ForumId."</li>\n";
 		$s.= "<li>".self::BODY." = ".$this->Body."</li>\n";
 		$s.= "<li>".self::MESSAGE." = ".$this->Message."</li>\n";
 		$s.= "<li>".self::CSS." = ".$this->Css."</li>\n";
@@ -104,7 +104,7 @@ JsQuote($this->Css)."\"]";
 	function ReadExpression() {
 		return "SELECT 
 	t1.".self::TEMPLATE_ID.",
-	t1.".self::USER_ID.",
+	t1.".self::FORUM_ID.",
 	t1.".self::BODY.",
 	t1.".self::MESSAGE.",
 	t1.".self::CSS.",
@@ -117,14 +117,14 @@ WHERE
 
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
-(".self::USER_ID.", 
+(".self::FORUM_ID.", 
 ".self::BODY.", 
 ".self::MESSAGE.", 
 ".self::CSS.",
 ".self::UPDATED."
 )
 VALUES
-(".NullableId($this->UserId).", 
+(".NullableId($this->ForumId).", 
 '".SqlQuote($this->Body)."', 
 '".SqlQuote($this->Message)."', 
 '".SqlQuote($this->Css)."',
@@ -134,7 +134,7 @@ VALUES
 
 	function UpdateExpression() {
 		$result = "UPDATE ".$this->table." SET 
-".self::USER_ID."=".NullableId($this->UserId).", 
+".self::FORUM_ID."=".NullableId($this->ForumId).", 
 ".self::BODY."='".SqlQuote($this->Body)."', 
 ".self::MESSAGE."='".SqlQuote($this->Message)."', 
 ".self::CSS."='".SqlQuote($this->Css)."',

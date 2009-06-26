@@ -16,7 +16,6 @@
 	$content = substr($content, 0, 4096);
 
 	$record_id = round($_POST["RECORD_ID"]);	// rename later
-	$forum_id = round($_POST["FORUM_ID"]);	// rename later
 
 	$type = $_POST["IS_PROTECTED"] ? ForumRecord::TYPE_PROTECTED : ForumRecord::TYPE_PUBLIC;
 

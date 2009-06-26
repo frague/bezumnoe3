@@ -29,7 +29,7 @@
 	}
 
 	$settings = new JournalSettings();
-	$settings->GetByUserId($record->UserId);
+	$settings->GetByForumId($record->ForumId);
 
 	if ($settings->IsEmpty() || ($alias && $settings->Alias != $alias)) {
 		DieWith404();

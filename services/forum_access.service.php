@@ -7,11 +7,10 @@
 		exit;
 	}
 
-	$forumId = round($_POST["FORUM_ID"]);
 	$targetUserId = round($_POST["TARGET_USER_ID"]);
 
-	if ($forumId) {
-		$forum = new ForumBase($forumId);
+	if ($forum_id) {
+		$forum = new ForumBase($forum_id);
 		$forum->Retrieve();
 	} elseif ($user->User->Id != $targetUserId) {
 		$forum = new Journal();

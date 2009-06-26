@@ -123,7 +123,7 @@
 //			echo "<li value='".$journal->Id."'>".$journal->Title." (".$journal->TotalCount.")<br>";
 
 			// Journal friends
-			$q2 = $db->Query("SELECT * FROM _journal_friends WHERE login='".SqlQuote($login)."'");
+/*			$q2 = $db->Query("SELECT * FROM _journal_friends WHERE login='".SqlQuote($login)."'");
 			if ($q2->NumRows()) {
 				$q2->NextResult();
 
@@ -137,7 +137,7 @@
 						$f->Save();
 					}
 				}
-			}
+			}*/
 
 			// Records
 			$q1 = $db->Query("SELECT * FROM _journal WHERE login='".$login."' ORDER BY id ASC");
