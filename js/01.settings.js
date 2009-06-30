@@ -1,4 +1,4 @@
-//4.1
+//4.3
 /*
 	Contains all global script settings, constants and variables
 */
@@ -130,6 +130,8 @@ function MakeButton(target, src, obj, css, alt) {
 	var a = MakeButtonLink(target, "", obj, css, alt);
 	var img = new Image();
 	img.src = imagesPath + src;
+	img.alt = alt;
+	img.title = alt;
 	a.className = "Button " + css;
 	a.appendChild(img);
 	return a;

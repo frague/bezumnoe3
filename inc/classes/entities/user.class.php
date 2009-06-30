@@ -462,6 +462,23 @@ GROUP BY t1.".self::USER_ID."
 ORDER BY ".self::LOGIN." ASC";
 	}
 
+	function FindUserWithJournalsExpression() {
+		return "SELECT 
+	t1.".self::USER_ID.",
+	t1.".self::LOGIN.",
+	t2.".Nickname::TITLE.",
+	t3.".Forum::FORUM_ID.",
+	t3.".Forum::TITLE."
+FROM 
+	".$this->table." t1
+	LEFT JOIN ".Nickname::table." t2 ON t2.".Nickname::USER_ID."=t1.".self::USER_ID."
+	LEFT JOIN ".Forum::table." t3 ON t3.".Forum::LINKED_ID."=t1.".self::USER_ID." AND t3.".Forum::TYPE."='".Forum::TYPE_JOURNAL."'
+WHERE
+	##CONDITION##
+GROUP BY t1.".self::USER_ID."
+ORDER BY t1.".self::LOGIN." ASC, t3.".Forum::TITLE." ASC";
+	}
+
 	function UserRoomAccessExpression() {
 		return "SELECT COUNT(*) FROM ".RoomUser::table." AS t0 
 WHERE 

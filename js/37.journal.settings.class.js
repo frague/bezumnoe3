@@ -18,8 +18,8 @@ JournalSettings.prototype.RequestCallback = function(req, obj) {
 		obj.FillFrom(obj.data);
 		obj.Bind(obj.data);
 
-		obj.DisplayTabElement("gallery", obj.type != "gallery");
-		obj.DisplayTabElement("forum", obj.type == "journal");
+//		obj.DisplayTabElement("gallery", obj.type != "gallery");
+//		obj.DisplayTabElement("forum", obj.type == "journal");
 	}
 };
 

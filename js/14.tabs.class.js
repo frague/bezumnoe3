@@ -1,4 +1,4 @@
-//3.4
+//3.5
 /*
 	Tab class. Entity of Tabs one.
 */
@@ -34,6 +34,11 @@
 		if (this.Reactor) {
 			this.Reactor.React(value);
 		}
+	};
+
+	/* Sets additional className to RelatedDiv */
+	TabBase.prototype.SetAdditionalClass = function(className) {
+		this.RelatedDiv.className = "TabContainer" + (className ? " " + className : "");
 	};
 
 	/* Tab class */

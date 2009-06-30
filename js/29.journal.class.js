@@ -22,11 +22,15 @@ Journal.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+var items = [];
+
 Journal.prototype.Bind = function() {
 	var select = this.Inputs["FORUM_ID"];
 	var showForums = this.Inputs["SHOW_FORUMS"].checked;
 	var showJournals = this.Inputs["SHOW_JOURNALS"].checked;
 	var showGalleries = this.Inputs["SHOW_GALLERIES"].checked;
+
+	var type = '';
 
 	if (select) {
 		select.innerHTML = "";
@@ -50,9 +54,10 @@ Journal.prototype.Bind = function() {
 					break;
 			}
 			item.ToString(i, this, select);
-			
+			items[item.FORUM_ID] = item;
 		}
 	}
+
 	// Disallow empty value
 	if (!select.value) {
 		this.Inputs["SHOW_JOURNALS"].click();
@@ -61,6 +66,7 @@ Journal.prototype.Bind = function() {
 	// React on forum change on rebind
 	if (this.FORUM_ID != select.value) {
 		this.FORUM_ID = select.value;
+		this.Tab.SetAdditionalClass(items[this.FORUM_ID].TYPE);
 		this.React();
 	}
 };
@@ -91,6 +97,7 @@ Journal.prototype.TemplateLoaded = function(req) {
 Journal.prototype.React = function() {
 	this.FORUM_ID = this.Inputs["FORUM_ID"].value;
 	if (this.FORUM_ID) {
+		this.Tab.SetAdditionalClass(items[this.FORUM_ID].TYPE);
 		var spoilers = [MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler, AccessSpoiler];
 		for (var i = 0, l = spoilers.length; i < l; i++) {
 			var s = spoilers[i];
@@ -140,5 +147,7 @@ fldto.prototype.ToString = function(index, obj, select) {
 			prefix = "[Журнал] ";
 			break;
 	}
-	AddSelectOption(select, prefix + " \"" + this.TITLE + "\" " + " (" + this.LOGIN + ")", this.FORUM_ID, this.FORUM_ID == obj.FORUM_ID);
+	var selected = (this.FORUM_ID == obj.FORUM_ID);
+	AddSelectOption(select, prefix + " \"" + this.TITLE + "\" " + " (" + this.LOGIN + ")", this.FORUM_ID, selected);
+	return selected;
 };

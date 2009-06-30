@@ -1,4 +1,4 @@
-//4ю0
+//6.3
 /*
 	Forum access functionality.
 	Allows to manage users access to forums/journals/galleries.
@@ -9,6 +9,8 @@ var READ_ONLY_ACCESS	= 1;
 var FRIENDLY_ACCESS		= 1;
 var READ_ADD_ACCESS		= 2;
 var FULL_ACCESS			= 3;
+
+var accesses = ["нет доступа", "только чтение", "чтение/запись", "полный доступ"];
 
 function ForumAccess(user_id, tab) {
 	this.UserId = user_id;
@@ -35,7 +37,8 @@ ForumAccess.prototype.TemplateLoaded = function(req) {
 	this.WhiteListGrid = new UserList("WHITE_LIST", this);
 	this.FriendsListGrid = new UserList("FRIENDS_LIST", this);
 
-	this.AssignSelfTo("RefreshForumAccess");
+	this.GroupSelfAssign(["RefreshForumAccess", "ADD_USER"]);
+	this.Inputs["ADD_USER"].Request = GetJournalUsers;
 };
 
 ForumAccess.prototype.BaseBind = function() {
@@ -53,16 +56,19 @@ ForumAccess.prototype.BaseBind = function() {
 		switch (dtoItem.ACCESS) {
 			case FULL_ACCESS:
 			case READ_ADD_ACCESS:
-				this.WhiteListGrid.AddItem(dtoItem);
-				break;
 			case FRIENDLY_ACCESS:
 			case READ_ONLY_ACCESS:
-				this.FriendsListGrid.AddItem(dtoItem);
+				this.WhiteListGrid.AddItem(dtoItem);
 				break;
 			case NO_ACCESS:
 				this.BlackListGrid.AddItem(dtoItem);
 				break;
 		}
+	}
+
+	for (var i = 0, l = this.friends.length; i < l; i++) {
+		var dtoItem = this.friends[i];
+		this.FriendsListGrid.AddItem(dtoItem);
 	}
 
 	this.BlackListGrid.Refresh();
@@ -82,6 +88,8 @@ ForumAccess.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data);
+
+//		obj.DisplayTabElement("FRIENDS", obj.type == "journal");
 	}
 };
 
@@ -105,8 +113,12 @@ fadto.prototype.ToShowView = function(index, obj) {
 	var tr = MakeGridRow(index);
 	tr.className = (index % 2 ? "Dark" : "");
 
+	var a = accesses[this.ACCESS];
 	var td1 = d.createElement("td");
-		td1.innerHTML = this.LOGIN;
+		td1.innerHTML = this.LOGIN + (a ? " (" + a + ")" : "");
+		if (this.ACCESS == FULL_ACCESS) {
+			td1.className = "Bold";
+		}
 	tr.appendChild(td1);
 	tr.appendChild(this.MakeButtonsCell(1));
 	return tr;
@@ -114,6 +126,57 @@ fadto.prototype.ToShowView = function(index, obj) {
 
 fadto.prototype.ToEditView = function() {};
 
+/* Journal user DTO */
+
+function judto($id, $login, $nick, $journal_id, $title) {
+	this.fields = ["USER_ID", "LOGIN", "NICKNAME", "JOURNAL_ID", "TITLE"];
+	this.Init(arguments);
+};
+
+judto.prototype = new DTO();
+
+judto.prototype.ToString = function(index, obj, prev_id, holder, class) {
+
+    if (prev_id != this.USER_ID) {
+		var li = d.createElement("li");
+		li.className = class;
+		li.innerHTML = this.LOGIN + (this.NICKNAME ? " (" + this.NICKNAME + ")" : "");
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Добавить как администратора"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Добавить как пользователя"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Добавить в чёрный список"));
+		holder.appendChild(li);
+	}
+	if (this.JOURNAL_ID) {
+		li = d.createElement("li");
+		li.className = class + " Journal";
+		li.innerHTML = "Журнал &laquo;" + this.TITLE + "&raquo; (" + this.LOGIN + ")";
+		li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
+		holder.appendChild(li);
+	}
+};
+
+/* Friendly Journal DTO */
+
+function fjdto($forum_id, $title, $login) {
+	this.fields = ["TARGET_FORUM_ID", "TITLE", "LOGIN"];
+	this.Init(arguments);
+	this.Id = this.FORUM_ID;
+};
+
+fjdto.prototype = new EditableDTO();
+
+fjdto.prototype.ToShowView = function(index, obj) {
+	var tr = MakeGridRow(index);
+	tr.className = (index % 2 ? "Dark" : "");
+
+	var td1 = d.createElement("td");
+		td1.innerHTML = "&laquo;" + this.TITLE + "&raquo; (" + this.LOGIN + ")";
+	tr.appendChild(td1);
+	tr.appendChild(this.MakeButtonsCell(1));
+	return tr;
+};
+
+fjdto.prototype.ToEditView = function() {};
 
 /* Userlist Grid */
 
@@ -148,7 +211,40 @@ UserList.prototype.RequestCallback = function(req, obj) {
 
 /* Helper methods */
 
-function AddForumAccess(user_id, forum_id, access, obj) {
+function AddForumAccess(user_id, target_forum_id, access, obj) {
 	var req = new Requestor(servicesPath + "forum_access.service.php", obj);
-	req.Request(["go", "FORUM_ID", "TARGET_USER_ID", "ACCESS"], ["add", forum_id, user_id, access]);
+	req.Callback = RefreshList;
+	req.Request(["go", "FORUM_ID", "TARGET_USER_ID", "TARGET_FORUM_ID", "ACCESS"], ["add", obj.FORUM_ID, user_id, target_forum_id, access]);
+};
+
+function RefreshList(sender) {
+	sender.obj.RequestCallback(sender.req, sender.obj);
+};
+
+function GetJournalUsers() {
+	var juRequest = new Requestor(servicesPath + "journal_users.service.php", this.obj);
+	juRequest.Callback = DrawUsers;
+	this.obj.SetTabElementValue("FOUND_USERS", LoadingIndicator);
+	juRequest.Request(["value"], [this.value]);
+};
+
+function DrawUsers(sender) {
+	var el = sender.obj.Inputs["FOUND_USERS"];
+	if (el) {
+		el.innerHTML = "";
+		var ul = d.createElement("ul");
+		var prev_id = 0;
+		var class = "";
+		for (var i = 0, l = sender.data.length; i < l; i++) {
+			var item = sender.data[i];
+			class = ((prev_id == item.USER_ID) ? class : (class ? "" : "Dark"));
+			item.ToString(i, sender.obj, prev_id, ul, class);
+			prev_id = item.USER_ID;
+		}
+		el.appendChild(ul);
+		sender.obj.Tab.Alerts.Clear();
+		if (sender.more) {
+			sender.obj.Tab.Alerts.Add("Более 20 результатов - уточните критерий поиска.", 1);
+		}
+	}
 };

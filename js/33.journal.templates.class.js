@@ -41,9 +41,6 @@ JournalTemplates.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj["SKIN_TEMPLATE_ID"] = obj.skinTemplateId;
 
-		obj.Tab.Display(obj.is_journal);
-		obj.Tab.Disabled = !obj.is_journal;
-
 		if (obj.data) {
 			obj.FillFrom(obj.data);
 			obj.Bind();

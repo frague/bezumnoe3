@@ -7,17 +7,25 @@
 
 <table class="Wide">
 	<tr>
-		<td width="50%">
+		<td colspan="2">
+<h4>Добавить пользователя в список:</h4>
+<div>
+	<input id="ADD_USER" name="ADD_USER" onkeypress="GetUsers(this)" class="Wide" />
+	<div id="FOUND_USERS" name="FOUND_USERS"></div>
+</div>
+		</td></tr>
+	<tr id="FRIENDS">
+		<td colspan="2">
 <h4>Дружественные журналы:</h4>
-<p class="Note">Записи из журналов указанных пользователей попадают в вашу френд-ленту.</p>
-<table cellpadding="2" cellspacing="0" id="FRIENDS_LIST" class="Grid Wide"><tbody><tr><th>Пользователь</th><th width="1%">Удалить</th></tr></tbody></table>
-		</td><td>
-
+<p class="Note">Записи из журналов этого списка попадают во френд-ленту выбранного журнала.</p>
+<table cellpadding="2" cellspacing="0" id="FRIENDS_LIST" class="Grid Wide"><tbody><tr><th>Название/владелец дружественного журнала</th><th width="1%">Удалить</th></tr></tbody></table>
+		</td></tr>
+	<tr>
+		<td width="50%">
 <h4>&laquo;Белый список&raquo;:</h4>
 <p class="Note">Пользователи из этого списка имеют эксклюзивный доступ к вашему журналу: возможность публикации сообщений и удаления комментариев.</p>
 <table cellpadding="2" cellspacing="0" id="WHITE_LIST" class="Grid Wide"><tbody><tr><th>Пользователь</th><th width="1%">Удалить</th></tr></tbody></table>
-
-<br />
+		</td><td>
 <h4>&laquo;Чёрный список&raquo;:</h4>
 <p class="Note">Пользователи из этого списка не имеют возможности публикации сообщений/комментариев в вашем журнале.</p>
 <table cellpadding="2" cellspacing="0" id="BLACK_LIST" class="Grid Wide"><tbody><tr><th>Пользователь</th><th width="1%">Удалить</th></tr></tbody></table>

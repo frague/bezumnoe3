@@ -319,3 +319,57 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 	background:none;
 }
 
+/* Journal access - add user */
+
+#FOUND_USERS ul {
+	background-color:#404040;
+	list-style-type:none;
+	padding:0;
+	border:solid 1px #505050;
+	border-top:0;
+}
+
+#FOUND_USERS ul li.Dark {
+	background-color:#303030;
+}
+
+#FOUND_USERS ul li {
+	font-size:8pt;
+	padding:4px 10px;
+	border-top:solid 1px #505050;
+}
+
+#FOUND_USERS ul li.Journal {
+	border:0;
+	padding-left:26px;
+	font-size:80%;
+	background-image: url(/3/img/li_small_yellow.gif);
+	background-repeat: no-repeat;
+	background-position: 10px 50%;
+}
+
+#FOUND_USERS ul li a {
+	float:right;
+}
+
+/* Hiding logic */
+
+.TabContainer.f #Spoiler2 {
+	display:none;
+}
+
+.TabContainer.g #Spoiler3 #gallery {
+	display:none;
+}
+
+.TabContainer.g #Spoiler3 #forum, .TabContainer.f #Spoiler3 #forum {
+	display:none;
+}
+
+.TabContainer.f #Spoiler4 li.Journal, .TabContainer.g #Spoiler4 li.Journal {
+	display:none;
+}
+
+.TabContainer.f #Spoiler4 #FRIENDS, .TabContainer.g #Spoiler4 #FRIENDS {
+	display:none;
+}

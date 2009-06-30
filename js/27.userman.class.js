@@ -1,4 +1,4 @@
-//5.0
+//5.1
 /*
 	User Manager admin functionality
 */
@@ -37,10 +37,17 @@ Userman.prototype.RequestCallback = function(req, obj) {
 Userman.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
-	this.AssignTabTo("BY_NAME");
+	var assignee = ["BY_NAME", "BY_ROOM"];
+	for (var i = 0, l = assignee.length; i <l; i++) {
+		var el = this.Inputs[assignee[i]];
+		if (el) {
+			this.AssignSelfTo(assignee[i]);
+			el.Request = DoRequest;
+		}
+	}
+
 	var by_room = this.Inputs["BY_ROOM"];
 	if (by_room) {
-		this.AssignTabTo("BY_ROOM");
 		if (opener.rooms) {
 			opener.rooms.Gather(by_room);
 		} else {
@@ -152,21 +159,19 @@ function GetUsers(input) {
 	if (usersTimer) {
 		clearTimeout(usersTimer);
 	}
-	usersTimer = setTimeout(function(){DoRequest(input)}, 500);
+	usersTimer = setTimeout(function(){input.Request()}, 500);
 };
 
-function DoRequest(input) {
-	var userManager = input.Tab.Userman;
+function DoRequest() {
+	var userManager = this.obj;
 	if (userManager) {
-		if (input) {
-			userSearched = 1;
-			if (input.value == lastValue) {
-				return;
-			}
-			usersParams = MakeParametersPair("type", input.name);
-			usersParams+= MakeParametersPair("value", input.value);
-			lastValue = input.value;
-			userManager.Request(usersParams);
+		userSearched = 1;
+		if (this.value == lastValue) {
+			return;
 		}
+		usersParams = MakeParametersPair("type", this.name);
+		usersParams+= MakeParametersPair("value", this.value);
+		lastValue = this.value;
+		userManager.Request(usersParams);
 	}
 };

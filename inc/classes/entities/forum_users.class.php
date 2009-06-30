@@ -132,7 +132,8 @@ FROM
 	".$this->table." AS t1 
 	LEFT JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
 WHERE
-	##CONDITION##";
+	##CONDITION##
+ORDER BY t1.".self::ACCESS." DESC, t2.".User::LOGIN;
 	}
 
 	function CreateExpression() {

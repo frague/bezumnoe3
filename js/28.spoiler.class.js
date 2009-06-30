@@ -1,4 +1,4 @@
-//1.9
+//2.0
 /*
 	Spoiler class.
 	Displays/hides logical piece of content on demand.
@@ -21,6 +21,7 @@ Spoiler.prototype.UpdateTitle = function() {
 
 Spoiler.prototype.ToString = function(holder) {
 	this.Holder = d.createElement("div");
+	this.Holder.id = "Spoiler" + this.Id;
 
 	var a = d.createElement("a");
 	a.Spoiler = this;
