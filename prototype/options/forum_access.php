@@ -2,8 +2,7 @@
     require "menu_base.php";
 
 ?>
-<h2>Доступ к <span id="TITLE">журналу:</span></h2>
-<h3 id="DESCRIPTION"></h3>
+<h2 id="TITLE"></h2>
 
 <table class="Wide">
 	<tr>

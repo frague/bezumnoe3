@@ -163,10 +163,12 @@ WHERE",
 
 	function MakeHref($alias, $recordId = 0) {
 		$recordId = round($recordId);
-		$tail = ($alias ? self::PARAMETER."=".$alias : "");
-		$tail .= ($recordId > 0 ? ($tail ? "&" : "").JournalRecord::ID_PARAM."=".$recordId : "");
-
-		return "/3/journal/journal.php?".$tail;
+		if ($recordId > 0) {
+			$tail = JournalRecord::ID_PARAM."=".$recordId;
+		} elseif ($alias) {
+			$tail = self::PARAMETER."=".$alias;
+		}
+		return "journal.php?".$tail;
 	}
 
 	function MakeLink($alias, $text, $record = "") {

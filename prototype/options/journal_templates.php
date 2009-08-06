@@ -3,6 +3,8 @@
 
 ?>
 
+<h2 id="TITLE"></h2>
+
 <table class="Wide">
 	<tr>
 		<td>

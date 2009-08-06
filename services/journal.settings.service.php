@@ -1,10 +1,71 @@
 <?
 	require_once "base.service.php";
 
+	function FillForumData($journal) {
+		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
+		if (!$journal->IsGallery()) {
+			$journal->Description = trim(UTF8toWin1251($_POST[Journal::DESCRIPTION]));
+		}
+	}
+
 	$user = GetAuthorizedUser(true);
 
-	if (!$user || $user->IsEmpty() || !$forum_id) {
+	if (!$user || $user->IsEmpty()) {
 		exit;
+	}
+
+	if (!$forum_id && $go == "save") {	// New journal
+	    $journal = new Journal();
+	    $journal->GetByUserId($user->User->Id);
+	    if (!$journal->IsEmpty()) {
+			echo JsAlert("У вас уже есть журнал!", 1);
+		 	exit;
+	    }
+	    
+	    $error = "";
+
+	    $alias = $_POST["REQUESTED_ALIAS"];
+	    if (!$alias) {
+			$error = "При создании журнала необходимо указать алиас!<br>";
+	    }
+	    if (!eregi("^[a-z0-9_.]+$", $alias)) {
+			$error .= "Алиас должен состоять из символов латинского алфавита, цифр и знаков '.' и '_'!<br>";
+	    }
+
+		$settings = new JournalSettings();
+		if ($alias) {
+		    $settings->GetByAlias($alias);
+		    if (!$settings->IsEmpty()) {
+				$error .= "Журнал с алиасом &laquo;".$alias."&raquo;! уже существует!<br>";
+	    	}
+	    }
+
+	    FillForumData($journal);
+	    if ($error) {
+			echo "this.data=".$settings->ToJs($journal->Title, $journal->Description).";";
+			echo JsAlert($error, 1);
+			exit;
+	    }
+
+	    $journal->LinkedId = $user->User->Id;
+		$journal->Save();
+		
+		$settings->ForumId = $journal->Id;
+	    $settings->Alias = $alias;
+
+		$template = new JournalTemplate();
+		$skin = new JournalSkin();
+		$settings->SkinTemplateId = $skin->GetDefaultTemplateId();
+		$settings->Save();
+
+		$template = new JournalTemplate($settings->SkinTemplateId);
+		$template->Retrieve();
+		$template->ForumId = $journal->Id;
+		$template->Id = -1;
+		$template->Save();
+
+		echo JsAlert("Создан новый журнал!", 1);	// TODO: Write log
+	 	exit;
 	}
 
 	$journal = new ForumBase($forum_id);
@@ -25,10 +86,11 @@
 	$settings->GetByForumId($journal->Id);
 
 	if ($go == "save") {
-		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
+		FillForumData($journal);
+/*		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
 		if (!$journal->IsGallery()) {
 			$journal->Description = trim(UTF8toWin1251($_POST[Journal::DESCRIPTION]));
-		}
+		}*/
 		$journal->Save();
 		echo JsAlert("Название и описание журнала сохранены.");
 

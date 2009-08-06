@@ -1,4 +1,4 @@
-//6.3
+//6.4
 /*
 	Forum access functionality.
 	Allows to manage users access to forums/journals/galleries.
@@ -10,7 +10,7 @@ var FRIENDLY_ACCESS		= 1;
 var READ_ADD_ACCESS		= 2;
 var FULL_ACCESS			= 3;
 
-var accesses = ["нет доступа", "только чтение", "чтение/запись", "полный доступ"];
+var accesses = ["доступ закрыт", "только чтение", "чтение/запись", "полный доступ"];
 
 function ForumAccess(user_id, tab) {
 	this.UserId = user_id;
@@ -20,6 +20,8 @@ function ForumAccess(user_id, tab) {
 	this.Template = "forum_access";
 	this.ClassName = "ForumAccess";
 	this.ServicePath = servicesPath + "forum_access.service.php";
+
+	this.Forum = new fldto();
 };
 
 ForumAccess.prototype = new OptionsBase();
@@ -27,6 +29,7 @@ ForumAccess.prototype = new OptionsBase();
 ForumAccess.prototype.TemplateLoaded = function(req) {
 	// Bind tab react
 	this.Tab.Reactor = this;
+	this.Forum = this.Tab.Forum;
 	this.FORUM_ID = this.Tab.FORUM_ID;
 
 	this.TemplateBaseLoaded(req);
@@ -42,11 +45,6 @@ ForumAccess.prototype.TemplateLoaded = function(req) {
 };
 
 ForumAccess.prototype.BaseBind = function() {
-	if (me.IsSuperAdmin()) {
-		this.SetTabElementValue("TITLE", this.TITLE);
-		this.SetTabElementValue("DESCRIPTION", this.DESCRIPTION);
-	}
-	
 	this.BlackListGrid.ClearRecords();
 	this.WhiteListGrid.ClearRecords();
 	this.FriendsListGrid.ClearRecords();
@@ -80,20 +78,23 @@ ForumAccess.prototype.Request = function(params, callback) {
 	if (!params) {
 		params = "";
 	}
-	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
+	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
 	this.BaseRequest(params, callback);
 };
 
 ForumAccess.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
+		obj.friends = [];
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data);
-
-//		obj.DisplayTabElement("FRIENDS", obj.type == "journal");
+	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("TITLE", obj.Forum.MakeTitle());
 	}
 };
 
 ForumAccess.prototype.React = function() {
+	this.Forum = this.Tab.Forum;
 	this.FORUM_ID = this.Tab.FORUM_ID;
 	this.Request();
 };
@@ -135,22 +136,22 @@ function judto($id, $login, $nick, $journal_id, $title) {
 
 judto.prototype = new DTO();
 
-judto.prototype.ToString = function(index, obj, prev_id, holder, class) {
+judto.prototype.ToString = function(index, obj, prev_id, holder, className) {
 
     if (prev_id != this.USER_ID) {
 		var li = d.createElement("li");
-		li.className = class;
-		li.innerHTML = this.LOGIN + (this.NICKNAME ? " (" + this.NICKNAME + ")" : "");
+		li.className = className;
 		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Добавить как администратора"));
 		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Добавить как пользователя"));
 		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Добавить в чёрный список"));
+		li.appendChild(MakeDiv(this.LOGIN + (this.NICKNAME ? " (" + this.NICKNAME + ")" : ""), "span"));
 		holder.appendChild(li);
 	}
 	if (this.JOURNAL_ID) {
 		li = d.createElement("li");
-		li.className = class + " Journal";
-		li.innerHTML = "Журнал &laquo;" + this.TITLE + "&raquo; (" + this.LOGIN + ")";
+		li.className = className + " Journal";
 		li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
+		li.appendChild(MakeDiv("Журнал &laquo;" + this.TITLE + "&raquo; (" + this.LOGIN + ")", "span"));
 		holder.appendChild(li);
 	}
 };
@@ -214,7 +215,7 @@ UserList.prototype.RequestCallback = function(req, obj) {
 function AddForumAccess(user_id, target_forum_id, access, obj) {
 	var req = new Requestor(servicesPath + "forum_access.service.php", obj);
 	req.Callback = RefreshList;
-	req.Request(["go", "FORUM_ID", "TARGET_USER_ID", "TARGET_FORUM_ID", "ACCESS"], ["add", obj.FORUM_ID, user_id, target_forum_id, access]);
+	req.Request(["go", "FORUM_ID", "TARGET_USER_ID", "TARGET_FORUM_ID", "ACCESS"], ["add", obj.Forum.FORUM_ID, user_id, target_forum_id, access]);
 };
 
 function RefreshList(sender) {
@@ -234,11 +235,11 @@ function DrawUsers(sender) {
 		el.innerHTML = "";
 		var ul = d.createElement("ul");
 		var prev_id = 0;
-		var class = "";
+		var className = "";
 		for (var i = 0, l = sender.data.length; i < l; i++) {
 			var item = sender.data[i];
-			class = ((prev_id == item.USER_ID) ? class : (class ? "" : "Dark"));
-			item.ToString(i, sender.obj, prev_id, ul, class);
+			className = ((prev_id == item.USER_ID) ? className : (className ? "" : "Dark"));
+			item.ToString(i, sender.obj, prev_id, ul, className);
 			prev_id = item.USER_ID;
 		}
 		el.appendChild(ul);

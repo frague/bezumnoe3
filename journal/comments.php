@@ -11,6 +11,7 @@
 	$record_id = round(LookInRequest(JournalRecord::ID_PARAM));
 	$from = round($_GET["from"]);
 
+	// No record ID specified
 	if ($record_id <= 0) {
 		DieWith404();
 	}
@@ -18,6 +19,7 @@
 	$record = new JournalRecord($record_id);
 	$record->Retrieve();
 
+	// Record not found
 	if ($record->IsEmpty()) {
 		DieWith404();
 	}
@@ -25,6 +27,7 @@
 	$journal = new Journal($record->ForumId);
 	$journal->Retrieve();
 	if ($journal->IsEmpty()) {
+		// Journal not found
 		DieWith404();
 	}
 
@@ -57,10 +60,11 @@
 
 	if (!$record->IsCommentable) {
 		echo "<div class='Error'>Комментарии к данному сообщению отключены.</div>";
+		Foot();
 		die;
 	}
 
-	echo "<h3>Комментарии:</h3>";
+	echo "<h3 style='clear:both'>Комментарии:</h3>";
 
 	$answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
 

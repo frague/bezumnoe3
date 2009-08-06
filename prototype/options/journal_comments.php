@@ -3,7 +3,7 @@
 
 ?>
 
-<h2>Комментарии к сообщению в журнале <span id="LOGIN">%username%</span></h2>
+<h2 id="FORUM"></h2>
 <h3>&laquo;<span id="TITLE"></span>&raquo;</h3>
 
 <!--h4>Поиск:</h4>

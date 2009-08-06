@@ -13,10 +13,18 @@
 	if ($forum_id) {
 		$forum = new ForumBase($forum_id);
 		$forum->Retrieve();
+	} else {
+		echo AddJsAlert("Журнал не найден.", 1);
+		exit;
 	}
 	
 	if ($forum->IsEmpty()) {
 		echo AddJsAlert("Указанный форум/журнал не найден!", 1);
+		exit;
+	}
+
+	if ($forum->GetAccess($user->User->Id) != Forum::FULL_ACCESS) {
+		echo AddJsAlert("Нет доступа!", 1);
 		exit;
 	}
 
@@ -71,7 +79,7 @@
 						if ($forumUser->Save()) {
 							echo AddJsAlert("Пользователь ".$friend->Login." добавлен в список.");
 						} else {
-							echo AddJsAlert("Пользователь ".$friend->Login." уже занесён в один из списков!", 1);
+							echo AddJsAlert("Пользователь ".$friend->Login." уже занесён в один из списков<br>или является владельцем форума!", 1);
 						}
 						break;
 					case "delete":
@@ -137,8 +145,8 @@
 		}
 	}
 
-	echo "this.TITLE='".$type.$owner.":<br>&laquo;".JsQuote($forum->Title)."&raquo;';";
-	echo "this.DESCRIPTION='".JsQuote($forum->Description)."';";
-	echo "this.type='".$forum->Type."';";
+//	echo "this.TITLE='".$type.$owner.":<br>&laquo;".JsQuote($forum->Title)."&raquo;';";
+//	echo "this.DESCRIPTION='".JsQuote($forum->Description)."';";
+//	echo "this.type='".$forum->Type."';";
 
 ?>

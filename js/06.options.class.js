@@ -1,4 +1,4 @@
-//7.3
+//7.4
 /*
 	User options UI and helper methods
 */
@@ -334,7 +334,8 @@ function CreateUserTab(id, login, obj, prefix, parameter, tab_id) {
 	}
 	var tab = tabs.tabsCollection.Get(tab_id);
 	if (!tab) {
-		tabs.Add(new Tab(tab_id, (prefix ? prefix : "") + (prefix && login ? " " : "") + login));
+		tab = new Tab(tab_id, (prefix ? prefix : "") + (prefix && login ? " " : "") + login);
+		tabs.Add(tab);
 
 		SwitchToTab(tab_id);
 		tabs.Print();
@@ -346,6 +347,7 @@ function CreateUserTab(id, login, obj, prefix, parameter, tab_id) {
 		SwitchToTab(tab_id);
 		tabs.Print();
 	}
+	return tab;
 };
 
 /* Common methods */

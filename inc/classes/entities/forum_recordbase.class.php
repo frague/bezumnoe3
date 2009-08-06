@@ -230,10 +230,10 @@ round($this->Type).")";
 
 
 	// Gets threads count for given forum
-	function GetForumThreadsCount($forumId) {		// MOVE TO FORUM CLASS ?
+	function GetForumThreadsCount($forumId, $access = Forum::FULL_ACCESS, $condition = "") {		// MOVE TO FORUM CLASS ?
 	  global $db;
 
-	  	$q = $db->Query($this->CountForumThreadsExpression($forumId, Forum::FULL_ACCESS));
+	  	$q = $this->GetByCondition($condition, $this->CountForumThreadsExpression($forumId, $access));
 	  	$q->NextResult();
 	  	return $q->Get(self::THREADS_COUNT);
 	}
@@ -631,6 +631,17 @@ WHERE
 		}
 		$result = $isDeleted.($isDeleted && $isProtected ? " AND " : "").$isProtected;
 		return ($result ? " AND ".$result : "");
+	}
+
+	function MonthDaysExpression($forumId, $month, $year) {
+		return "SELECT DISTINCT 
+		DAY(t1.".self::DATE.") AS DAY
+	FROM ".$this->table." AS t1
+	WHERE 
+		t1.".self::FORUM_ID."=".$forumId." AND
+		LENGTH(t1.".self::INDEX.")=4 AND
+		t1.".self::DATE." > '".sprintf("%04d-%02d-%02d", $year, $month, 1)."' AND
+		t1.".self::DATE." < '".sprintf("%04d-%02d-%02d", $year, $month, 31)."'";
 	}
 
 	function MigrateExpression() {

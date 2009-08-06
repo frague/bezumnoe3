@@ -35,7 +35,6 @@
 		echo JsAlert("” вас нет доступа к указанному журналу!", 1);
 		die;
 	}
-
 	
 	if (!$post_id && $go != "save") {
 		exit;

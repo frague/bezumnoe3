@@ -2,9 +2,7 @@
     require "menu_base.php";
 
 ?>
-<h2>Сообщение в журнал <span id="LOGIN">%username%</span></h2>
-
-<input id="FORUM_ID" name="FORUM_ID" type="hidden">
+<h2>Сообщение: <span id="TITLE1"></span></h2>
 
 <h4>Дата и время:</h4>
 <input id="DATE" name="DATE" maxlength="10">
@@ -23,8 +21,8 @@
 
 <div id="TYPE" class="Radios">
 	<input type="radio" name="TYPE1" id="TYPE0" value="0" checked /> <label for="TYPE0">Публичное (видимое для всех)</label><br />
-	<input type="radio" name="TYPE1" id="TYPE1" value="1" /> <label for="TYPE1">Для друзей</label><br />
-	<input type="radio" name="TYPE1" id="TYPE2" value="2" /> <label for="TYPE2">Приватное (видимое только вам)</label><br />
+	<input type="radio" name="TYPE1" id="TYPE1" value="1" /> <label for="TYPE1">Для друзей (скрытое)</label><br />
+	<input type="radio" name="TYPE1" id="TYPE2" value="2" /> <label for="TYPE2" id="TYPE2LABEL">Приватное (видимое только вам)</label><br />
 </div>
 
 		</td><td>

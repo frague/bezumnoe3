@@ -22,7 +22,7 @@
 	}
 
 	if ($forum->IsEmpty()) {
-		echo JsAlert("Журнал пользователя не найден!", 1);
+		echo JsAlert("Журнал не найден.", 1);
 		die;
 	}
 

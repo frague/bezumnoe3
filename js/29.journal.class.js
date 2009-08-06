@@ -1,4 +1,4 @@
-//5.0
+//5.1
 /*
 	Journal functionality: Blog templates, messages, settings
 */
@@ -10,6 +10,9 @@ function Journal() {
 	this.ServicePath = servicesPath + "journal.service.php";
 	this.Template = "journal";
 	this.ClassName = "Journal";
+
+	this.Forum = new fldto();
+	this.reacted = 0;
 };
 
 Journal.prototype = new OptionsBase();
@@ -25,7 +28,15 @@ Journal.prototype.RequestCallback = function(req, obj) {
 var items = [];
 
 Journal.prototype.Bind = function() {
+	var el = this.Inputs["journal_exists"];
+	if (!this.data || !this.data.length) {
+		el.className = "Not";
+		return;
+	}
+	el.className = "Yes";
+
 	var select = this.Inputs["FORUM_ID"];
+
 	var showForums = this.Inputs["SHOW_FORUMS"].checked;
 	var showJournals = this.Inputs["SHOW_JOURNALS"].checked;
 	var showGalleries = this.Inputs["SHOW_GALLERIES"].checked;
@@ -33,6 +44,7 @@ Journal.prototype.Bind = function() {
 	var type = '';
 
 	if (select) {
+		items = [];
 		select.innerHTML = "";
 		for (i = 0, l = this.data.length; i < l; i++) {
 			var item = this.data[i];
@@ -63,20 +75,16 @@ Journal.prototype.Bind = function() {
 		this.Inputs["SHOW_JOURNALS"].click();
 		return;
 	}
-	// React on forum change on rebind
-	if (this.FORUM_ID != select.value) {
-		this.FORUM_ID = select.value;
-		this.Tab.SetAdditionalClass(items[this.FORUM_ID].TYPE);
-		this.React();
-	}
+
+	this.Forum = items[select.value];
+	this.React();
 };
 
 Journal.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
 	this.FindRelatedControls();
-	this.AssignTabTo("linkNewPost");
-	this.GroupSelfAssign(["FORUM_ID", "SHOW_FORUMS", "SHOW_JOURNALS", "SHOW_GALLERIES"]);
+	this.GroupSelfAssign(["FORUM_ID", "SHOW_FORUMS", "SHOW_JOURNALS", "SHOW_GALLERIES", "linkNewPost", "linkDeleteJournal"]);
 
 	var spoilers = this.Inputs["Spoilers"];
 	if (spoilers) {
@@ -95,13 +103,15 @@ Journal.prototype.TemplateLoaded = function(req) {
 
 // Forum change handler
 Journal.prototype.React = function() {
-	this.FORUM_ID = this.Inputs["FORUM_ID"].value;
-	if (this.FORUM_ID) {
-		this.Tab.SetAdditionalClass(items[this.FORUM_ID].TYPE);
+	var select = this.Inputs["FORUM_ID"];
+	this.Forum = items[select.value];
+
+	if (this.Forum && this.Forum.FORUM_ID) {
+		this.Tab.SetAdditionalClass(this.Forum.TYPE);
 		var spoilers = [MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler, AccessSpoiler];
 		for (var i = 0, l = spoilers.length; i < l; i++) {
 			var s = spoilers[i];
-			s.FORUM_ID = this.FORUM_ID;
+			s.Forum = this.Forum;
 			s.React();
 		}
 	}
@@ -137,6 +147,19 @@ function fldto(forum_id, access, title, type, login) {
 
 fldto.prototype = new DTO();
 
+fldto.prototype.MakeTitle = function() {
+    var prefix = "Форум";
+	switch (this.TYPE) {
+		case "g":
+			prefix = "Галерея";
+			break;
+		case "j":
+			prefix = "Журнал";
+			break;
+	}
+	return prefix + " &laquo;" + this.TITLE + "&raquo; " + " (" + this.LOGIN + ")";
+};
+
 fldto.prototype.ToString = function(index, obj, select) {
     var prefix = "[Форум] ";
 	switch (this.TYPE) {
@@ -147,7 +170,7 @@ fldto.prototype.ToString = function(index, obj, select) {
 			prefix = "[Журнал] ";
 			break;
 	}
-	var selected = (this.FORUM_ID == obj.FORUM_ID);
+	var selected = (this.FORUM_ID == obj.Forum.FORUM_ID);
 	AddSelectOption(select, prefix + " \"" + this.TITLE + "\" " + " (" + this.LOGIN + ")", this.FORUM_ID, selected);
 	return selected;
 };

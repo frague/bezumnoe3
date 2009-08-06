@@ -102,7 +102,7 @@
 
     if ($v) {
     	if ($version) {
-    		AddCacheHeader($lastModifiedTime, $version);
+    		AddLastModified($lastModifiedTime);
     		//Process (encode) data somehow
     	}
 		echo $v;

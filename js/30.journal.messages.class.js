@@ -1,4 +1,4 @@
-//7.3
+//7.4
 /*
 	Journal messages grid. Edit & delete buttons.
 */
@@ -16,6 +16,8 @@ function JournalMessages() {
 
 	journalMessagesObj = this;
 	this.ForumsLoaded = 0;
+
+	this.Forum = new fldto();
 };
 
 JournalMessages.prototype = new PagedGrid();
@@ -29,12 +31,16 @@ JournalMessages.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("TITLE", obj.Forum.MakeTitle());
+	}
 };
 
 JournalMessages.prototype.TemplateLoaded = function(req) {
 	// Bind tab react
 	this.Tab.Reactor = this;
-	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Forum = this.Tab.Forum;
+	this.FORUM_ID = this.Forum.FORUM_ID;
 
 	this.TemplateBaseLoaded(req);
 
@@ -44,7 +50,8 @@ JournalMessages.prototype.TemplateLoaded = function(req) {
 };
 
 JournalMessages.prototype.React = function() {
-	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Forum = this.Tab.Forum;
+	this.FORUM_ID = this.Forum.FORUM_ID;
 	this.Request();
 };
 

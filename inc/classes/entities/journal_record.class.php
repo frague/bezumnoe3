@@ -4,7 +4,7 @@ class JournalRecord extends ForumRecordBase {
 
 	function ToPrint($login = "") {
 		$result = "<h2>".$this->Title."</h2>";
-		$result .= nl2br($this->Content);
+		$result .= nl2br(ereg_replace("##[a-zA-Z]+(=(([^#]|#[^#])+)){0,1}##", "\\2", $this->Content));
 		if ($login) {
 			$result .= "<author>".$login."</author>";
 		}
@@ -35,6 +35,7 @@ class JournalRecord extends ForumRecordBase {
 	// Gets journal topics by condition
 	function GetJournalTopics($access, $from = 0, $limit, $forumId = 0, $condition = "") {
 		$forumId = round($forumId);
+
 	  	return $this->GetJournalRecords(
 	  		$access, 
 	  		$from,

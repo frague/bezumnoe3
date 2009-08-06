@@ -1,4 +1,4 @@
-//2.0
+//2.1
 /*
 	Journal settings of user menu.
 */
@@ -8,6 +8,8 @@ function JournalSettings() {
 	this.ServicePath = servicesPath + "journal.settings.service.php";
 	this.Template = "journal_settings";
 	this.ClassName = "JournalSettings";
+
+	this.Forum = new fldto();
 };
 
 JournalSettings.prototype = new OptionsBase();
@@ -17,16 +19,18 @@ JournalSettings.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.FillFrom(obj.data);
 		obj.Bind(obj.data);
-
-//		obj.DisplayTabElement("gallery", obj.type != "gallery");
-//		obj.DisplayTabElement("forum", obj.type == "journal");
+	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("TITLE1", obj.Forum.MakeTitle());
 	}
 };
 
 JournalSettings.prototype.TemplateLoaded = function(req) {
 	// Bind tab react
 	this.Tab.Reactor = this;
-	this.FORUM_ID = this.Tab.FORUM_ID;
+
+	this.Forum = this.Tab.Forum;
+	this.FORUM_ID = this.Forum.FORUM_ID;
 
 	this.TemplateBaseLoaded(req);
 
@@ -39,12 +43,13 @@ JournalSettings.prototype.Request = function(params, callback) {
 	if (!params) {
 		params = "";
 	}
-	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
+	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
 	this.BaseRequest(params, callback);
 };
 
 JournalSettings.prototype.React = function() {
-	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Forum = this.Tab.Forum;
+	this.FORUM_ID = this.Forum.FORUM_ID;
 	this.Request();
 };
 

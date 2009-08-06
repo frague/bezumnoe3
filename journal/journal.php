@@ -4,16 +4,22 @@
 	require_once $root."server_references.php";
 	require_once "journal.template.php";
 
+	// Request values
 	$alias = substr(LookInRequest(JournalSettings::PARAMETER), 0, 20);
 	$show_from = round(LookInRequest("from"));
 	$record_id = round(LookInRequest(JournalRecord::ID_PARAM));
 
-	$settings = new JournalSettings();
-	$record = new JournalRecord();
-
+	// Init variables
 	$forumId = 0;
+	$altMonth = 0;
+	$altYear = 0;
+	$record = new JournalRecord();
+	$settings = new JournalSettings();
 
+
+	// Getting the journal
 	if ($record_id > 0) {
+		// ... by record
 		$record->GetById($record_id);
 		if ($record->IsEmpty()) {
 			DieWith404();
@@ -21,18 +27,23 @@
 		$forumId = $record->ForumId;
 		$settings->GetByForumId($record->ForumId);
 	} elseif ($alias) {
+		// ... or by the alias
 		if ($settings->IsEmpty()) {
 			$settings->GetByAlias($alias);
 		}
-		if ($settings->Alias != $alias) {
-			DieWith404();
-		}
 	}
 
+	// Record belongs to another person's journal
+	if ($alias && $settings->Alias != $alias) {
+		DieWith404();
+	}
+
+	// Setting for journal not found
 	if ($settings->IsEmpty()) {
 		DieWith404();
 	}
 
+	// Getting the journal by settings
 	$journal = new Journal($settings->ForumId);
 	$journal->Retrieve();
 	if (!$journal->IsFull()) {
@@ -51,90 +62,74 @@
 		Foot();
 		die;
 	}
-	
 
-	/* -------------- Getting Journal Template -------------- */
-
-	$template = new JournalTemplate();
-	if ($settings->SkinTemplateId > 0) {
-		$template->GetById($settings->SkinTemplateId);
-	} else {
-		$template->FillByForumId($settings->ForumId);
-
-		if ($template->IsEmpty()) {
-			// Getting default template
-			$skin = new JournalSkin();
-			$template->GetById($skin->GetDefaultTemplateId());
-		} elseif (!$template->IsComplete()) {
-			// Merging empty template fields from Default
-			$skin = new JournalSkin();
-			$defaultTemplate = new JournalTemplate();
-			$defaultTemplate->GetById($skin->GetDefaultTemplateId());
-
-			if (!$defaultTemplate->IsEmpty()) {
-				$template->MergeWith($defaultTemplate);
-				if ($template->Id != $defaultTemplate->Id) {
-					$template->Save();
-				}
+	// Form dates condition
+	$datesCondition = "";
+	$year = round(LookInRequest("year"));
+	if ($year > 1990) {
+		$datesCondition = sprintf("t1.".JournalRecord::DATE." LIKE '%04d", $year);
+		$month = round(LookInRequest("month"));
+		if ($month > 0 && $month <= 12) {
+			$datesCondition = sprintf($datesCondition."-%02d", $month);
+			$day = round(LookInRequest("day"));
+			if ($day < 1 || $day > 31) {
+				$day = 0;
+			} else {
+				$datesCondition = sprintf($datesCondition."-%02d", $day);
 			}
+		} else {
+			$month = 0;
 		}
-	}
-	
-	if (!$template) {
-		DieWith404();
+		$datesCondition .= "%'";
+	} else {
+		$year = 0;
 	}
 
-	
-	/* -------------- Create markup -------------- */
-
+	// Getting the template
+	$template = GetTemplateOrDie($settings);
 	$user_id = round($settings->UserId);
 	
-	$datesCondition = "";
-	
-	/* ----------------- Messages ---------------- */
-        
     $bodyText = $template->Body;
-	
-	$last_date = "";
-	$messageChunk = "##MESSAGE##";
         
-	$message = new JournalRecord();
 	$shownMessages = substr_count($bodyText, $messageChunk);
 	$showFrom = round($show_from) * $shownMessages;
 
-	// ----- Select parameters
-		// TODO: Dates condition
-	
-	// -----
-
-	if ($record_id > 0) {
+	if (!$record->IsEmpty()) {
+		// Displaying given record
 		$showFrom = 0;
 		$shownMessages = 1;
 		DisplayRecord($record);
-		$addTitle =  $record->Title;
+		$addTitle = $record->Title;
 	} else {
-		$q = $message->GetJournalTopics($access, $showFrom, $shownMessages, $forumId);
+		// Show records by given criteria or from the beginning
+		$q = $record->GetJournalTopics($access, $showFrom, $shownMessages, $forumId, $datesCondition);
 		$messagesFound = $q->NumRows();
 
 		for ($i = 0; $i < $messagesFound; $i++) {
 			$q->NextResult();
 
-			$message->FillFromResult($q);
-			DisplayRecord($message);
+			$record->FillFromResult($q);
+			DisplayRecord($record);
+			if (!$month && !$altMonth) {
+				$altMonth = date("n", strtotime($record->Date));
+			}
+			if (!$year && !$altYear) {
+				$altYear = date("Y", strtotime($record->Date));
+			}
 		}
 		$addTitle = "";
+		$record->Clear();	// Needed to check if single record has been requested
 	}
 
 	$bodyText = str_replace($messageChunk, "", $bodyText);
 
-	//------------------ Styles ------------------
-	//		$bodyText = "<script src='/js.new/go.js'></script>\n".$bodyText;
-
+	// Get journal owner and their profile
 	$person = new User($user_id);
 	$person->Retrieve();
 	$profile = new Profile();
 	$profile->GetByUserId($user_id);
 
+	// Substitute chunks with user data
 	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
 	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
 	$bodyText = str_replace(
@@ -144,25 +139,52 @@
 
 	$bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
 
-//------------------ Pages -----------------
-/*	TODO: Dates condition
-
-	if ($dateExists) {
-		$q = $db->Query("SELECT COUNT(*) AS records FROM ".$journal." WHERE login='".$person."'".$viewTypes.$datesCondition." LIMIT 1", $db);
-		$q->NextResult();
-		$pagerRecords = $q->Get("records");
+	// --- Rendering the Pager
+	if ($datesCondition) {
+		// Getting number of records in case of dates condition
+		$pagerRecords = $record->GetForumThreadsCount($journal->Id, $access, $datesCondition);
 	} else {
-		$pagerRecords = $totalRecords;
-	}*/
+		// .. else get total number of journal records
+		$pagerRecords = $journal->TotalCount;
+	}
 
-	$bodyText = str_replace("##PAGES##", MakeJournalPager($userUrlName, $journal->TotalCount, $shownMessages, $showFrom, false), $bodyText);
+	if (!$record->IsEmpty()) {
+		$bodyText = str_replace("##PAGES##", "", $bodyText);
+	} else {
+		$bodyText = str_replace("##PAGES##", MakeJournalPager($settings->Alias, $pagerRecords, $shownMessages, $showFrom, false), $bodyText);
+	}
 
+	// --- Calendar
+	$calendar = "";
+	if ($record->IsEmpty()) {
+		// Calendar will not be shown for single record
+		// for caching purposes (up-to-date calendar)
+		$m = $month;
+		$y = $year;
+		if ($datesCondition) {
+			if ($month) {
+				$m = $altMonth;
+			}
+		} else {
+			$m = $altMonth;
+			$y = $altYear;
+		}
 
-//------------------ Calendar -----------------
-	$bodyText = str_replace("##CALENDAR##", $calendar->Out, $bodyText);
+		$calendar = new Calendar($m, $y);
+		$q = $db->Query($record->MonthDaysExpression($journal->Id, $calendar->Month, $calendar->Year));
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$day = $q->Get("DAY");
+			$calendar->Days[$day] = MakeJournalLink($settings->Alias, $day, 0, $calendar->Year, $calendar->Month, $day);
+		}
+		// Previous + Next month links
+		$m = ($month ? $month : $altMonth);
+		$calendar->PrevMonth = MakeMonthLink($settings->Alias, $calendar->Year, $calendar->Month - 1);
+		$calendar->NextMonth = MakeMonthLink($settings->Alias, $calendar->Year, $calendar->Month + 1);
+	}
+	$bodyText = str_replace("##CALENDAR##", $calendar, $bodyText);
 
-
-//------------------ Friends ------------------
+	// --- List of Friends
 	$friends = new JournalFriend();
 	$q = $friends->GetByForumId($journal->Id);
 
@@ -179,40 +201,20 @@
 
 	$bodyText = str_replace("##FRIENDS##", $friendsLink, $bodyText);
 //	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$userUrlName."/friends/", $bodyText);
-
 	$bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);
         
 	$bodyText = InjectionProtection(OuterLinks(MakeLinks($bodyText)));
 
-	$bodyText = str_replace(
-		"##STYLES##", 
-		"<link rel=stylesheet type=text/css href='/journal/css/".$settings->Alias.".css'>", 
-		$bodyText);
+
+	// Write caching header
+	if (!$record->IsEmpty()) {
+		AddLastModified(strtotime($record->UpdateDate));
+	}
+	// Insert reference to styles to prevent alternative ones
+	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='css.php?alias=".$settings->Alias."'>", $bodyText);
 
 	echo $bodyText;
-
-	// ----------------- Close opened tags -----------------
-	$doClose = "";
-	while (list($k, $v) = each($tagsStack)) {
-		if (round($v) > 0 && $k != "img" && $k != "br" && $k != "meta" && $k != "hr") {
-			$doClose = str_repeat("</$k>", $v).$doClose;
-		}
-	}
-	echo $doClose;
-	// ----------------- Close opened tags -----------------
-
-
-	function DisplayRecord($message) {
-	  global $template, $settings, $bodyText, $messageChunk, $record_id;
-
-		$messageText = FormatMessage($message, $template->Message, $settings->Alias, $record_id > 0);
-
-		$position = strpos($bodyText, $messageChunk);
-		if ($position === 0) {
-			break;
-		} else {
-			$bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
-		}
-	}
+	// Opening tags closure (to safely insert footer banner)
+	echo RenderClosingTags();
 
 ?>

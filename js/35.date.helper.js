@@ -35,7 +35,7 @@ function ParseDate(str) {
 Date.prototype.ToString = function(add_time) {
 	var result = this.getFullYear() + "-" + TwoDigits(1 + this.getMonth()) + "-" + TwoDigits(this.getDate());
 	if (add_time) {
-		 result += "	" + TwoDigits(this.getHours()) + ":" + TwoDigits(this.getMinutes());
+		 result += " " + TwoDigits(this.getHours()) + ":" + TwoDigits(this.getMinutes());
 	}
 	return result;
 };
@@ -43,7 +43,7 @@ Date.prototype.ToString = function(add_time) {
 Date.prototype.ToPrintableString = function(add_time) {
 	var result = this.getDate() + " " + monthsNames[this.getMonth()] + " " + this.getFullYear();
 	if (add_time) {
-		 result += ",	" + TwoDigits(this.getHours()) + ":" + TwoDigits(this.getMinutes());
+		 result += ", " + TwoDigits(this.getHours()) + ":" + TwoDigits(this.getMinutes());
 	}
 	return result;
 };

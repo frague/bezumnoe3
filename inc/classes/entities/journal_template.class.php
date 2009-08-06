@@ -133,6 +133,8 @@ VALUES
 	}
 
 	function UpdateExpression() {
+		$this->Updated = NowDateTime();
+
 		$result = "UPDATE ".$this->table." SET 
 ".self::FORUM_ID."=".NullableId($this->ForumId).", 
 ".self::BODY."='".SqlQuote($this->Body)."', 
@@ -141,6 +143,7 @@ VALUES
 ".self::UPDATED."=".Nullable(SqlQuote($this->Updated))."
 WHERE 
 	".self::TEMPLATE_ID."=".SqlQuote($this->Id);
+
 		return $result;
 	}
 

@@ -57,7 +57,7 @@
 	}
 	echo "</table>";
 	
-	$threads = $photo->GetForumThreadsCount($gallery->Id, $user);
+	$threads = $photo->GetForumThreadsCount($gallery->Id, $access);
 	$pager = new Pager($threads, $perPage, $from);
 	echo $pager;
 

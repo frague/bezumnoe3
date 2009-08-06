@@ -103,19 +103,9 @@ function ShowUserMenu(a, id, login, container, obj) {
 	userMenu.Link = a;
 	
 	var tr = d.createElement("tr");
-
 	if (window.umExtraButtons) {
 		tr.appendChild(umExtraButtons(id, login, obj));
 	};
-
-	var td = MakeSection("Журнал:");
-	var ul = d.createElement("ul");
-	ul.appendChild(MakeUserMenuLink(MakeButtonLink("AddForumAccess(" + id + ",''," + FRIENDLY_ACCESS + ",this.obj)", "Добавить в друзья", obj, "")));
-	ul.appendChild(MakeUserMenuLink(MakeButtonLink("AddForumAccess(" + id + ",''," + READ_ADD_ACCESS + ",this.obj)", "Дать эксклюзивный доступ", obj, "")));
-	ul.appendChild(MakeUserMenuLink(MakeButtonLink("AddForumAccess(" + id + ",''," + NO_ACCESS + ",this.obj)", "Запретить комментировать", obj, "")));
-
-	td.appendChild(ul);
-	tr.appendChild(td);
 	userMenu.appendChild(tr);
 
 	insertAfter(userMenu, a);

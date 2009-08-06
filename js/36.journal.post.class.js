@@ -1,16 +1,18 @@
-//2.8
+//3.0
 /*
 	Create/edit blog post in separate tab.
 */
 
 var post_service = servicesPath + "journal.post.service.php";
 
-function JournalPost() {
+function JournalPost(forum) {
 	this.fields = new Array("RECORD_ID", "TITLE", "CONTENT", "DATE", "TYPE", "IS_COMMENTABLE", "FORUM_ID");
-	this.defaultValues = new Array("-1", "", "", new Date().ToString(true), "0", "1");
+	this.defaultValues = new Array("-1", "", "", new Date().ToString(true), "0", "1", "");
 	this.ServicePath = post_service;
 	this.ClassName = "JournalPost";
 	this.Template = "journal_post";
+
+	this.Forum = forum;
 	mceInitialized = 0;
 };
 
@@ -42,28 +44,34 @@ JournalPost.prototype.Request = function(params, callback) {
 		params = "";
 	}
 	params += MakeParametersPair("RECORD_ID", this.RECORD_ID);
+	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
 	this.BaseRequest(params, callback);
 };
 
 JournalPost.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
-		if (obj.data) {
+		if (obj.data && obj.data != "") {	// "" comparison makes sense
 			obj.FillFrom(obj.data);
 			obj.Bind();
 			if (journalMessagesObj) {
 				journalMessagesObj.Request();
 			}
 		}
-		if (!mceInitialized) {
+
+		if (!mceInitialized && (!obj.Forum || obj.Forum.TYPE == "j")) {
 			InitMCE();
 			mceInitialized = 1;
 		}
 	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("TITLE1", obj.Forum.MakeTitle());
+		obj.Tab.SetAdditionalClass(obj.Forum.TYPE);
+	}
 };
 
 JournalPost.prototype.TemplateLoaded = function(req) {
-	this.Tab.JournalPost.RECORD_ID = 1 * this.Tab.PARAMETER;
+	this.RECORD_ID = 1 * this.Tab.PARAMETER;
 
 	this.TemplateBaseLoaded(req);
 
@@ -99,8 +107,9 @@ function SaveJournalPost(a) {
 
 function EditJournalPost(obj, post_id) {
 	if (obj) {
-		var login = obj.LOGIN ? obj.LOGIN : "";
+//		var login = obj.LOGIN ? obj.LOGIN : "";
+		var login = "";
 		var tab_id = "post" + post_id;
-		CreateUserTab(obj.USER_ID, login, new JournalPost(), "Пост в журнал", post_id, tab_id);
+		CreateUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "Пост в журнал", post_id, tab_id);
 	}
 };

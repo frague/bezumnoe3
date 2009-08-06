@@ -1,4 +1,4 @@
-//3.4
+//3.5
 /*
 	DTOs with edit functionality
 */
@@ -10,6 +10,9 @@ function DTO() {
 };
 
 DTO.prototype.Init = function(args) {
+	if (!args || !this.fields || args.length != this.fields.length) {
+		return;
+	}
 	for (var i = 0, l = this.fields.length; i < l; i++) {
 		this[this.fields[i]] = args[i];
 	}

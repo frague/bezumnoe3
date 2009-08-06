@@ -26,8 +26,9 @@
 		$access = 1 - $forum->IsProtected;
 		if ($someoneIsLogged) {
 			$forumUser->FillFromResult($q);
-			$access = $forum->LoggedUsersAccess($forumUser);
+			$access = $forum->LoggedUsersAccess($forumUser, $user->User->Id);
 		}
+//		error($forumUser);
 
 		if ($access > Forum::NO_ACCESS) {
 			echo "<li>";

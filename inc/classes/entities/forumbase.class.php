@@ -152,13 +152,16 @@ $expression);
 			}
 			$forumUser = new ForumUser();
 			$forumUser->GetFor($userId, $this->Id);
-			return $this->LoggedUsersAccess($forumUser);
+			return $this->LoggedUsersAccess($forumUser, $userId);
 		}
 	}
 
 	// Returns access level for logged user with given
 	// relation to forum
-	function LoggedUsersAccess($forumUser) {
+	function LoggedUsersAccess($forumUser, $userId) {
+		if ($userId > 0 && $this->LinkedId == $userId) {
+			return self::FULL_ACCESS;
+		}
 		if ($forumUser->IsFull()) {
 			if ($forumUser->IsModerator()) {
 				return self::FULL_ACCESS;

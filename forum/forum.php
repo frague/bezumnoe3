@@ -23,7 +23,7 @@
 	if ($someoneIsLogged) {
 		$access = $forum->GetAccess($user->User->Id);
 	}
-	
+
 	if ($access == Forum::NO_ACCESS) {
 		error("У вас нет доступа к форуму.");
 		Foot();
@@ -37,10 +37,9 @@
 	$record = new ForumRecord();
 	$q = $record->GetForumThreads(
 		$forum->Id,
-		$user,
+		$access,
 		$from * $threadsPerPage, 
-		$threadsPerPage,
-		$access);
+		$threadsPerPage);
 
 	echo "<style>#buttonCite".($forum->IsHidden ? "" : ", #IsProtected")." {display:none;}</style>";
 	echo "<div class='NewThread'>";
@@ -57,7 +56,7 @@
 	}
 	echo "</ul>";
 
-	$threads = $record->GetForumThreadsCount($forum_id, $user);
+	$threads = $record->GetForumThreadsCount($forum_id, $access);
 	$pager = new Pager($threads, $threadsPerPage, $from);
 	echo $pager;
 

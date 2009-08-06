@@ -3,11 +3,13 @@
 	Journal comments grid. Edit & delete buttons.
 */
 
-function JournalComments() {
+function JournalComments(forum) {
 	this.ServicePath = servicesPath + "journal.comments.service.php";
 	this.Template = "journal_comments";
 	this.ClassName = "JournalComments";
 	this.Columns = 3;
+
+	this.Forum = forum;
 };
 
 JournalComments.prototype = new Comments();
@@ -24,6 +26,9 @@ JournalComments.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
+	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("FORUM", obj.Forum.MakeTitle());
 	}
 };
 
@@ -82,9 +87,9 @@ jcdto.prototype.ToString = function(index, obj) {
 	var td3 = d.createElement("td");
 	td3.className = "Centered";
 		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj));
-		if (this.UserId) {
+/*		if (this.UserId) {
 			td3.appendChild(MakeButton("AddForbiddenCommenter("+this.UserId+",this)", "icons/remove_user.gif", obj, "", "Запретить комментарии"));
-		}
+		}*/
 	tr.appendChild(td3);
 	
 	return tr;
@@ -98,17 +103,9 @@ function DeleteCommentConfirmed(obj, id) {
 	obj.Request(params);
 };
 
-/*function SwitchPage(a) {	// Not sure it's necessary...
-	if (a.Tab) {
-		var jc = a.Tab.JournalComments;
-		jc.Pager.Current = 0;
-		jc.Request();
-	}
-};*/
-
 function ShowMessageComments(a) {
 	var tab_id = "c" + a.jrdto.Id;
-	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(), "Комментарии в журнале", a.jrdto, tab_id);
+	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "Комментарии в журнале", a.jrdto, tab_id);
 };
 
 /* Confirms */

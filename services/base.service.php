@@ -23,5 +23,4 @@
 	if (!$amount) {
 		$amount = 20;
 	}
-
 ?>

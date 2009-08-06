@@ -42,7 +42,7 @@ function Send(message_id) {
 function MessageAdded(req) {
 	if (req.responseText) {
 		statusLabel.className = req.responseText.charAt(0) == '-' ? "Fail" : "Succeed";
-		statusLabel.innerHTML = req.responseText.substring(1, req.responseText.length);
+		statusLabel.innerHTML = req.responseText.substring(1);
 	}
 	setTimeout("self.close()", 2000);
 }

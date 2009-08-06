@@ -325,6 +325,7 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 	background-color:#404040;
 	list-style-type:none;
 	padding:0;
+	margin:0;
 	border:solid 1px #505050;
 	border-top:0;
 }
@@ -352,9 +353,13 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 	float:right;
 }
 
+#Selector {
+	margin-bottom:20px;
+}
+
 /* Hiding logic */
 
-.TabContainer.f #Spoiler2 {
+.TabContainer.f #Spoiler2, .TabContainer.g #Spoiler2 {
 	display:none;
 }
 
@@ -371,5 +376,20 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 }
 
 .TabContainer.f #Spoiler4 #FRIENDS, .TabContainer.g #Spoiler4 #FRIENDS {
+	display:none;
+}
+
+#journal_exists.Not h4#Title, #journal_exists.Not #Selector, 
+#journal_exists.Not #Spoiler1, #journal_exists.Not #Spoiler2, #journal_exists.Not #Spoiler4, #journal_exists.Not #Links
+{
+	display:none;
+}
+
+#journal_exists.Yes #no_journals {
+	display:none;
+}
+
+.TabContainer.f #TYPE2, .TabContainer.g #TYPE2,
+.TabContainer.f #TYPE2LABEL, .TabContainer.g #TYPE2LABEL {
 	display:none;
 }

@@ -3,7 +3,7 @@
 
 ?>
 
-<h2>Сообщения в журнале <span id="LOGIN">%username%</span></h2>
+<h2 id="TITLE"></h2>
 
 <h4>Поиск:</h4>
 <table class="Wide">

@@ -59,7 +59,7 @@ class ForumUser extends EntityBase {
 	}
 
 	function GetFor($userId, $forumId) {
-		$this->FillByCondition("t1.".self::USER_ID."=".round($userId)." AND t1.".self::FORUM_ID."=".round($forumId)." LIMIT 1");
+		$this->FillByCondition("t1.".self::USER_ID."=".round($userId)." AND t1.".self::FORUM_ID."=".round($forumId));
 	}
 
 	function GetUserForums($userId) {
@@ -78,16 +78,22 @@ JsQuote($this->Access).")";
 	 global $db;
 		if ($this->IsConnected() && $this->IsFull()) {
 			// Check duplicates
+			$user_id = round($this->UserId);
 			$q = $db->Query("SELECT 
-   ".self::USER_ID."
+   COALESCE(t2.".self::USER_ID.", CASE WHEN t1.".Forum::LINKED_ID."=".$user_id." THEN ".$user_id." ELSE NULL END) AS ".self::USER_ID."
 FROM 
-  ".$this->table."
+  ".Forum::table." t1
+  LEFT JOIN ".$this->table." t2 ON t2.".self::FORUM_ID."=t1.".Forum::FORUM_ID." AND t2.".self::USER_ID."=".$user_id."
 WHERE
-  ".self::USER_ID." = ".round($this->UserId)." AND
-  ".self::FORUM_ID." = ".round($this->ForumId)." LIMIT 1");
+  t1.".self::FORUM_ID." = ".round($this->ForumId)." LIMIT 1");
 
-			if ($q->NumRows()) {
-				return false;
+			if (!$q->NumRows()) {
+				return false;		// Forum doesn't exist
+			} else {
+				$q->NextResult();
+				if ($q->Get(self::USER_ID) == $this->UserId) {
+					return false;	// User already has access to forum
+				}
 			}
 
 			$q = $db->Query($this->CreateExpression());
@@ -178,7 +184,8 @@ WHERE
 	t2.".Forum::FORUM_ID.",
 	t2.".Forum::TITLE.",
 	t2.".Forum::TYPE.",
-	t1.".self::ACCESS.",
+	CASE  WHEN t2.".Forum::LINKED_ID."=".$user_id." THEN ".Forum::FULL_ACCESS." 
+	ELSE t1.".self::ACCESS." END AS ".self::ACCESS.",
 	t3.".User::LOGIN."
 FROM
 	".Forum::table." AS t2
@@ -193,4 +200,3 @@ ORDER BY t2.".Forum::TYPE.", t2.".Forum::FORUM_ID;
 }
 
 ?>
-                                       	

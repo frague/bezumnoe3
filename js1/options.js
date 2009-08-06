@@ -43,14 +43,13 @@ if (opener) {
 		WakeupsTab = new Tab(5, "Сообщения", 1, "", function(tab){new Wakeups().LoadTemplate(tab, me.Id)});
 		tabs.Add(WakeupsTab);
 
-		UsersTab = new Tab(6, "Пользователи", 1, "", function(tab){new Userman().LoadTemplate(tab,me.Id)});
-		tabs.Add(UsersTab);
-
 		if (me.Rights >= adminRights) {
+			tabs.Add(new Tab(6, "Пользователи", 1, "", function(tab){new Userman().LoadTemplate(tab,me.Id)}));
+
 			MainTab = new Tab(7, "Администрирование", 1, "", function(tab){new AdminOptions().LoadTemplate(tab, me.Id)});
 			tabs.Add(MainTab);
 		} else {
-        	MainTab = UsersTab;
+        	MainTab = ProfileTab;
         }
 
 		tabs.Print();

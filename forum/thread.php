@@ -35,14 +35,13 @@
 	$level = 0;
 
 	$answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
-
+	// $forumId, $access, $index, $from, $amount
 	$q = $record->GetByIndex(
 		$record->ForumId, 
-		$user,
+		$access,
 		$record->Index, 
 		$from * $messagesPerPage, 
-		$messagesPerPage,
-		$access);
+		$messagesPerPage);
 
 	echo ($forum->IsHidden ? "" : "<style>#IsProtected {display:none;}</style>");
 	echo "<ul class='Thread'>";

@@ -8,6 +8,8 @@ function JournalTemplates() {
 	this.ServicePath = servicesPath + "journal.templates.service.php";
 	this.Template = "journal_templates";
 	this.ClassName = "JournalTemplates";
+
+	this.Forum = new fldto();
 };
 
 JournalTemplates.prototype = new OptionsBase();
@@ -31,7 +33,7 @@ JournalTemplates.prototype.Request = function(params, callback) {
 	if (!params) {
 		params = "";
 	}
-	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
+	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
 	this.BaseRequest(params, callback);
 };
 
@@ -46,11 +48,15 @@ JournalTemplates.prototype.RequestCallback = function(req, obj) {
 			obj.Bind();
 		}
 	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("TITLE", obj.Forum.MakeTitle());
+	}
 };
 
 JournalTemplates.prototype.TemplateLoaded = function(req) {
 	// Bind tab react
 	this.Tab.Reactor = this;
+	this.Forum = this.Tab.Forum;
 	this.FORUM_ID = this.Tab.FORUM_ID;
 
 	this.TemplateBaseLoaded(req);
@@ -60,7 +66,8 @@ JournalTemplates.prototype.TemplateLoaded = function(req) {
 };
 
 JournalTemplates.prototype.React = function() {
-	this.FORUM_ID = this.Tab.FORUM_ID;
+	this.Forum = this.Tab.Forum;
+	this.FORUM_ID = this.Forum.FORUM_ID;
 	this.Request();
 };
 
@@ -102,4 +109,3 @@ function SaveJournalTemplate(a) {
 function DeleteRecord(a, id) {
 	co.Show(function() {DeleteRecordConfirmed(a.obj, id)}, "Удалить запись?", "Запись в блоге и все комментарии к ней будут удалены.<br>Продолжить?");
 };
-

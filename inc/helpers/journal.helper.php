@@ -1,4 +1,9 @@
 <?
+
+	// Constants
+	$messageChunk = "##MESSAGE##";
+
+	
 	/* Service methods */
 
     function ReplaceLinks($text, $messageId, $alias) {
@@ -46,9 +51,22 @@
 		return "<".$order.$tag.$finish;
 	}
 
+	// Collect opened tags in stack
 	function CloseTags($text) {
 	    $text = preg_replace("/<(\/?)([a-z0-9]+)(>| )/ie", "TagStack('\\2','\\1','\\3')", $text);
 	    return $text;
+	}
+
+	// Closes all opened tags, collected in stack 
+	function RenderClosingTags() {
+	  global $tagsStack;
+		$result = "";
+		while (list($k, $v) = each($tagsStack)) {
+			if (round($v) > 0 && $k != "img" && $k != "br" && $k != "meta" && $k != "hr") {
+				$result = str_repeat("</".$k.">", $v).$result;
+			}
+		}
+		return $result;
 	}
 
 	function InjectionProtection($text) {
@@ -71,7 +89,6 @@
 	}
 
     /* Main methods */
-	
 	function FormatMessageBody($message, $userUrlName, $isSingleMessage) {
       global $cutCount;
 
@@ -168,26 +185,74 @@
 		return $result;
 	}
 
-	function MakeJournalPager($userUrlName, $totalRecords = 0, $showMessages = 0, $currentPage = 0, $forFriends = 0) {
-	  global $year, $month, $day, $dateExists;
+
+	// Replaces first occurence of ##MESSAGE## in $bodyText
+	// with rendered given message
+	function DisplayRecord($message) {
+	  global $template, $settings, $bodyText, $messageChunk, $record_id;
+
+		$messageText = FormatMessage($message, $template->Message, $settings->Alias, $record_id > 0);
+
+		$position = strpos($bodyText, $messageChunk);
+		if ($position === 0) {
+			break;
+		} else {
+			$bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
+		}
+	}
+	
+	// Makes journal link
+	function MakeJournalLink($alias, $text, $page = 0, $year = 0, $month = 0, $day = 0) {
+		$criteria = "";
+		// Dates
+		if ($year > 1990) {
+			$criteria = sprintf("&year=%04d", $year);
+			if ($month > 0 && $month <= 12) {
+				$criteria .= sprintf("&month=%02d", $month);
+				if ($day > 0 && $day <= 31) {
+					$criteria .= sprintf("&day=%02d", $day);
+				}
+			}
+		}
+		if ($page > 0) {
+			// Paging
+			$criteria .= "&from=".round($page);
+		}
+		return "<a href='journal.php?alias=".$alias.$criteria."'>".$text."</a>";
+	}
+
+	// Makes pager links
+	function MakeJournalPager($alias, $totalRecords = 0, $showMessages = 0, $currentPage = 0, $forFriends = 0) {
+	  global $year, $month, $day, $datesCondition;
 
 		$result = "<div class='Pager'>";
         if ($totalRecords > $showMessages && $showMessages > 0) {
-        	$linkPrep = "";
-        	if (($year && $month) && $dateExists !== false) {
-        		$linkPrep = "/".sprintf("%04d", $year)."/".sprintf("%02d", $month);
-        		if ($day) {
-        			$linkPrep .= "/".sprintf("%02d", $day);
-        		}
-        	}
-
             $pages = ceil($totalRecords / $showMessages);
             for ($i = 0; $i < $pages; $i++) {
-                $result .= ($i ? " | " : "").($currentPage == $i * $showMessages ? "<b>".($i+1)."</b>" : "<a href='/journal/".$userUrlName.($forFriends ? "/friends" : "").$linkPrep."/".($i ? "page".$i.".html" : "")."'>".($i+1)."</a>");
+                $result .= ($i ? " | " : "").
+                	($currentPage == $i * $showMessages ? 
+                	"<b>".($i+1)."</b>" : 
+                	($datesCondition ? 
+                		MakeJournalLink($alias, $i+1, $i, $year, $month, $day) :
+                		MakeJournalLink($alias, $i+1, $i))
+                		);
             }
         }
         $result .= "</div>";
 		return $result;
+	}
+
+	// Makes prev + next month calendar links
+	function MakeMonthLink($alias, $year, $month) {
+	  global $MonthsNames;
+		if ($month < 1) {
+			$month = 12;
+			$year--;
+		} elseif ($month > 12) {
+			$month = 1;
+			$year++;
+		}
+		return MakeJournalLink($alias, sprintf("%s", $MonthsNames[$month], $year), 0, $year, $month, 0);
 	}
 
 ?>

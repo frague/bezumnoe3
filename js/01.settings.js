@@ -199,7 +199,6 @@ function SetRadioValue(holder, value) {
 		if (el.hasChildNodes()) {
 			SetRadioValue(el, value);
 		} else if (el && el.type == "radio") {
-//			alert(el.value + ", " + value);
 			el.checked = (el.value == "" + value);
 		}
 	}
