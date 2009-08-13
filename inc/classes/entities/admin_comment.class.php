@@ -51,19 +51,24 @@ class AdminComment extends EntityBase {
 	}
 
 	function GetUserCommentsCount($userId, $condition = "") {
+		$userId = round($userId);
+		$condition = ($userId ? $condition." AND t1.".self::USER_ID."=".$userId : $condition);
+
 		$q = $this->GetByCondition(
-			($condition  ? $condition." AND " : "")."t1.".self::USER_ID."=".round($userId), 
+			$condition, 
 			"SELECT COUNT(1) AS RECORDS FROM ".self::table." t1 WHERE ##CONDITION##");
 		$q->NextResult();
 		return $q->Get("RECORDS");
 	}
 
-	function GetRange($from = 0, $amount = 0, $condition = "1") {
+/*	function GetRange($from = 0, $amount = 0, $condition = "1") {
 		return $this->GetByCondition(
 			$condition." ORDER BY t1.".self::DATE." DESC".($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 			$this->ReadWithNameExpression()
 		);
 	}
+!!!Moved to base class	
+*/
 
 	function __tostring() {
 		$s = "<ul type=square>";

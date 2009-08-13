@@ -7,25 +7,29 @@ class Forum extends ForumBase {
 		$this->Type	= self::TYPE_FORUM;
 	}
 
-	function DoPrint($link = "", $lastVisitDate = "") {
-		echo "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
+	function ToPrint($link = "", $lastVisitDate = "") {
+		$result = "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
 		if ($link) {
-			echo "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>";
+			$result.= "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>";
 		}
-		echo $this->Title.($link ? "</a>" : "")."</h4>";
-		echo $this->Description;
-		echo "<div class='Counts'>В форуме ".Countable("тема", $this->TotalCount, "нет").".";
+		$result.= $this->Title.($link ? "</a>" : "")."</h4>";
+		$result.= $this->Description;
+		$result.= "<div class='Counts'>В форуме ".Countable("тема", $this->TotalCount, "нет").".";
 		if ($lastVisitDate) {
 			$unread = $this->GetUnreadCount($lastVisitDate);
 			if ($unread > 0) {
-				echo " <span class='Red'>".Countable("новое сообщение", $unread)."</span>.";
+				$result.= " <span class='Red'>".Countable("новое сообщение", $unread)."</span>.";
 			}
 		}
 		if ($this->IsProtected) {
-			echo " <span class='Red'>Это закрытый форум.</span>";
+			$result.= " <span class='Red'>Это закрытый форум.</span>";
 		}
+		$result.= "</div>";
+		return $result;
+	}
 
-		echo "</div>";
+	function DoPrint($link = "", $lastVisitDate = "") {
+		echo $this->ToPrint($link, $lastVisitDate);
 	}
 }
 

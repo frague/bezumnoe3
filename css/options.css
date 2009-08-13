@@ -193,6 +193,10 @@ table.Grid tr.Dark.Warning {
 	background-color:#302020;
 }
 
+table.Grid tr.Highlight td {
+	font-style:italic;
+}
+
 table.Grid th, table.Grid td {
 	border-bottom:solid 1px #505050;
 	border-right:solid 1px #505050;
@@ -300,7 +304,7 @@ textarea.Maximized, #templates textarea.Maximized {
 	background: url(/3/img/icons/closed_nopad.gif) no-repeat;
 }
 
-#UsersContainer a b {
+#UsersContainer a b, #MessagesLogGrid td b {
 	background-color:#505050;
 }
 #UsersContainer ul {

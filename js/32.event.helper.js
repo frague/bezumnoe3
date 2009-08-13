@@ -1,9 +1,10 @@
-//2.4
+//2.5
 /*
 	Help with binding events to controls.
 */
 
 function EnterHandler(e, el) {
+	var keynum = 0;
 	if(window.event) {		// IE
 		keynum = e.keyCode;
 	} else if (e.which) {	// Netscape/Firefox/Opera

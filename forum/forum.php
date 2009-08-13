@@ -7,6 +7,8 @@
 	$forum_id = round($_GET[Forum::ID_PARAM]);
 	$from = round($_GET["from"]);
 
+	$lastModified = "";
+
 	$forum = new Forum($forum_id);
 	$forum->Retrieve();
 
@@ -30,7 +32,7 @@
 		die;
 	}
 	
-	$forum->DoPrint("forum.php");
+	$result.= $forum->ToPrint("forum.php");
 
 	$threadsPerPage = 20;
 
@@ -41,25 +43,31 @@
 		$from * $threadsPerPage, 
 		$threadsPerPage);
 
-	echo "<style>#buttonCite".($forum->IsHidden ? "" : ", #IsProtected")." {display:none;}</style>";
-	echo "<div class='NewThread'>";
-	echo "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Новая тема</a>";
-	echo "</div>";
+	$result.= "<style>#buttonCite".($forum->IsHidden ? "" : ", #IsProtected")." {display:none;}</style>";
+	$result.= "<div class='NewThread'>";
+	$result.= "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Новая тема</a>";
+	$result.= "</div>";
 	
-	echo "<ul class='Threads'>";
+	$result.= "<ul class='Threads'>";
 
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 
 		$record->FillFromResult($q);
-		echo $record->ToPrint("thread.php", 0, $yesterday);
+		$result.= $record->ToPrint("thread.php", 0, $yesterday);
+		if ($record->UpdateDate > $lastModified) {
+			$lastModified = $record->UpdateDate;
+		}
 	}
-	echo "</ul>";
+	$result.= "</ul>";
 
 	$threads = $record->GetForumThreadsCount($forum_id, $access);
 	$pager = new Pager($threads, $threadsPerPage, $from);
-	echo $pager;
+	$result.= $pager;
 
+	// Printing
+	AddLastModified(strtotime($lastModified));
+	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 
 	Foot();

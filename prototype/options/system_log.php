@@ -6,10 +6,10 @@
 	}
 
 ?>
-<h4>Фильтровать по дате:</h4>
+<h4>Дата:</h4>
 <input name="DATE" id="DATE" />
 
-<h4>Поиск:</h4>
+<h4>Поиск по ключевым словам:</h4>
 <input name="SEARCH" id="SEARCH" class="Wide" />
 
 <ul class="Links">

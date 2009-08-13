@@ -230,9 +230,8 @@ round($this->Type).")";
 
 
 	// Gets threads count for given forum
-	function GetForumThreadsCount($forumId, $access = Forum::FULL_ACCESS, $condition = "") {		// MOVE TO FORUM CLASS ?
+	function GetForumThreadsCount($forumId, $access = Forum::FULL_ACCESS, $condition = "1=1") {		// MOVE TO FORUM CLASS ?
 	  global $db;
-
 	  	$q = $this->GetByCondition($condition, $this->CountForumThreadsExpression($forumId, $access));
 	  	$q->NextResult();
 	  	return $q->Get(self::THREADS_COUNT);
@@ -581,7 +580,7 @@ GROUP BY NULL";
 		$result = $this->ReadThreadExpression($access);
 		$result = substr($result, strpos($result, "FROM"));
 		$result = "SELECT 
-	COUNT(".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND 
+	COUNT(".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
 	LENGTH(t1.".self::INDEX.")=4 AND
 	t1.".self::FORUM_ID."=".round($forumId);
 		return $result;

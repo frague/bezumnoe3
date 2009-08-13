@@ -321,4 +321,16 @@
 		return $result;
 	}
 
+	function Mark($haystack, $needle) {
+		$needle = mb_strtolower($needle);
+
+		$p = strpos(mb_strtolower($haystack), $needle);
+		if ($p === false) {
+			return $haystack;
+		}
+		$l = strlen($needle);
+		$p2 = $p + $l;
+		return substr($haystack, 0, $p)."<b>".substr($haystack, $p, $l)."</b>".substr($haystack, $p2);
+	}
+
 ?>

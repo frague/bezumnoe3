@@ -3,7 +3,7 @@
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
-	if (!$user || $user->IsEmpty() || !$user->IsAdmin()) {
+	if (!$user || $user->IsEmpty() || !$user->IsSuperAdmin()) {
 		exit();	// TODO: Implement client functionality
 	}
 
@@ -50,14 +50,14 @@
 	}
 
 	if (!$condition) {
-		$condition = "1";
+		$condition = "1=1";
 	}
 
 	echo "this.data=[";
 	if ($user_id) {
 		$q = $comment->GetByUserId($user_id, $from, $amount, $condition);
 	} else if ($user->IsSuperAdmin()) {
-		$q = $comment->GetRange($from, $amount, $condition);
+		$q = $comment->GetRange($from, $amount, $condition, $comment->ReadWithNameExpression());
 	}
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

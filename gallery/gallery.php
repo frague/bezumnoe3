@@ -10,6 +10,7 @@
 	$show_from = round(LookInRequest("from"));
 	$galleryId = round(LookInRequest(Gallery::ID_PARAM));
 	$from = round($_GET["from"]);
+	$lastModified = "";
 
 	if (!$galleryId) {
 		DieWith404();
@@ -25,14 +26,14 @@
 	}
 	
 	if ($access == Gallery::NO_ACCESS) {
-		error("У вас нет доступа к форуму.");
+		Head("Ошибка", "gallery.css", "");
+		error("У вас нет доступа к галерее.");
 		Foot();
 		die;
 	}
 
-	Head($gallery->Title, "gallery.css", "");
-
-	echo $gallery->DoPrint();
+	$result = "";
+	$result.= $gallery->DoPrint();
 
 	$photo = new GalleryPhoto();
 	$q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
@@ -40,26 +41,34 @@
 	$c = 0;
 	$amount = $q->NumRows();
 
-	echo "<table class='Preview'>";
+	$result.= "<table class='Preview'>";
 	while ($c < $amount) {
-		echo "<tr>";
+		$result.= "<tr>";
 		for ($i = 0; $i < $row; $i++) {
-			echo "<td".($c < $row ? " width='".(100 / $row)."%'" : "").">";
+			$result.= "<td".($c < $row ? " width='".(100 / $row)."%'" : "").">";
 			if (($c < $amount)) {
 				$q->NextResult();
 				$photo->FillFromResult($q);
-				echo $photo->ToPrint($PathToGalleries.$gallery->Description);
+				$result.= $photo->ToPrint($PathToGalleries.$gallery->Description);
 				$c++;
+
+				if ($photo->UpdateDate > $lastModified) {
+					$lastModified = $photo->UpdateDate;
+				}
 			}
-			echo "</td>";
+			$result.= "</td>";
 		}
-		echo "</tr>";
+		$result.= "</tr>";
 	}
-	echo "</table>";
+	$result.= "</table>";
 	
 	$threads = $photo->GetForumThreadsCount($gallery->Id, $access);
 	$pager = new Pager($threads, $perPage, $from);
-	echo $pager;
+	$result.= $pager;
 
+	// Printing
+	AddLastModified(strtotime($lastModified));
+	Head($gallery->Title, "gallery.css", "");
+	echo $result;
 	Foot();
 ?>

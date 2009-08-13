@@ -1,4 +1,4 @@
-//1.8
+//1.9
 /*
 	SuperAdmin only functionality.
 	Will be loaded only if server rights checking is > adminRights.
@@ -20,11 +20,12 @@ function ShowBlog(id, name) {
 
 /* Admin Options */
 
-var spoilerNames = ["Новости чата", "Запреты", "Логи системы", "Персональные статусы"];
+var spoilerNames = ["Новости чата", "Запреты", "Логи системы", "Лог сообщений чата", "Персональные статусы"];
 var spoilerInits = [
 	function(tab) {new News().LoadTemplate(tab)},
 	function(tab) {new BannedAddresses().LoadTemplate(tab)},
 	function(tab) {new SystemLog().LoadTemplate(tab)},
+	function(tab) {new MessagesLog().LoadTemplate(tab)},
 	function(tab) {new Statuses().LoadTemplate(tab)}
 ];
 

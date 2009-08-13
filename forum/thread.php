@@ -43,8 +43,8 @@
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 
-	echo ($forum->IsHidden ? "" : "<style>#IsProtected {display:none;}</style>");
-	echo "<ul class='Thread'>";
+	$result = ($forum->IsHidden ? "" : "<style>#IsProtected {display:none;}</style>");
+	$result.= "<ul class='Thread'>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 
@@ -54,20 +54,23 @@
 		$alias = $q->Get(JournalSettings::ALIAS);
 		$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
 
-		echo $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
+		$result.= $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
 		$level = $record->Level;
 	}
 	
 	for ($j = 0; $j < $level + 1; $j++) {
-		echo "</ul>";
+		$result.= "</ul>";
 	}
 
 	if (!$i) {
-		echo "<div class='Error'>Сообщения не найдены!</div>";
+		$result.= "<div class='Error'>Сообщения не найдены!</div>";
 	}
 
-	echo new Pager($answers, $messagesPerPage, $from);
+	$result.= new Pager($answers, $messagesPerPage, $from);
 
+	// Printing
+	AddLastModified(strtotime($record->UpdateDate));
+	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 	
 	Foot();

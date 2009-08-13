@@ -28,7 +28,6 @@
 			$forumUser->FillFromResult($q);
 			$access = $forum->LoggedUsersAccess($forumUser, $user->User->Id);
 		}
-//		error($forumUser);
 
 		if ($access > Forum::NO_ACCESS) {
 			echo "<li>";

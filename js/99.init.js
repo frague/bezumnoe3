@@ -1,4 +1,4 @@
-//1.8
+//1.9
 /* 
 	Chat properties initialization 
 */

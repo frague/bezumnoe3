@@ -58,6 +58,13 @@ abstract class EntityBase {
 		return $db->Query($query);
 	}
 
+	function GetRange($from = 0, $amount = 0, $condition = "1=1", $expression = "") {
+		return $this->GetByCondition(
+			$condition.($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
+			$expression
+		);
+	}
+
 	function FillByCondition($condition, $expression = "", $show = 0) {
 		if (!$this->IsConnected()) {
 			return false;
@@ -81,6 +88,18 @@ abstract class EntityBase {
 	function HasErrors() {
 		return "";
 	}
+
+	function GetResultsCount($condition) {
+		if (!$condition) {
+			$condition = "1=1";
+		}
+		$q = $this->GetByCondition(
+			$condition, 
+			"SELECT COUNT(1) AS RECORDS ".substr($this->ReadExpression(), strpos($this->ReadExpression(), "FROM")));
+		$q->NextResult();
+		return $q->Get("RECORDS");
+	}
+
 
 	function SaveChecked() {
 		$errors = $this->HasErrors();

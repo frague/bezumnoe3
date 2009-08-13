@@ -149,6 +149,10 @@ $this->GetEmptyExpression());
 		return "new Room(\"".JsQuote($this->Id)."\",\"".JsQuote($this->Title)."\",\"".JsQuote($this->Topic)."\",\"".JsQuote($this->TopicLock)."\",\"".JsQuote($this->TopicAuthorId)."\",\"".JsQuote($this->TopicAuthorName)."\",".Boolean($this->IsLocked).",".Boolean($this->IsInvitationRequired).",".round($this->OwnerId).")";
 	}
 
+	function ToDTO() {
+		return "new rdto(".round($this->Id).",\"".JsQuote($this->Title)."\",".Boolean($this->IsDeleted).")";
+	}
+
 	// SQL
 	function ReadExpression() {
 		return "SELECT 
@@ -169,6 +173,20 @@ FROM
 	LEFT JOIN ".Nickname::table." AS t3 ON t3.".Nickname::USER_ID."=t1.".self::TOPIC_AUTHOR_ID." AND t3.".Nickname::IS_SELECTED."=1 AND t1.".self::TOPIC_AUTHOR_ID.">0
 WHERE
 	##CONDITION##";
+	}
+
+	function ListRoomsExpression() {
+		return "SELECT DISTINCT
+	t1.".self::ROOM_ID.",
+	t1.".self::TITLE.",
+	t1.".self::IS_DELETED."
+FROM 
+	".$this->table." AS t1
+WHERE
+	##CONDITION##
+ORDER BY 
+	t1.".self::IS_DELETED." DESC, 
+	t1.".self::TITLE." ASC";
 	}
 
 	function CreateExpression() {
