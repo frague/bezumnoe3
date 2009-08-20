@@ -1,10 +1,10 @@
-//3.6
+//3.7
 /*
 	Displaying news/guestbook messages grid
 */
 
 function NewsRecords() {
-	this.fields = ["NEWS_RECORD_ID", "OWNER_ID", "TITLE", "CONTENT", "IS_HIDDEN", "DATE"];
+	this.fields = ["NEWS_RECORD_ID", "OWNER_ID", "TITLE", "CONTENT", "IS_HIDDEN", "SEARCH_DATE", "SEARCH"];
 	this.ServicePath = servicesPath + "news_records.service.php";
 	this.Template = "news_records";
 	this.ClassName = "NewsRecords";
@@ -26,7 +26,14 @@ NewsRecords.prototype.RequestCallback = function(req, obj) {
 // Template loaded
 NewsRecords.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
-	this.Tab.NewsRecords.GroupSelfAssign(["AddNewsRecord", "RefreshNewsRecords"]);
+
+	this.GroupSelfAssign(["buttonSearch", "ResetFilter", "linkRefresh", "AddNewsRecord", "RefreshNewsRecords"]);
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
+	new DatePicker(this.Inputs["SEARCH_DATE"]);
+};
+
+NewsRecords.prototype.CustomReset = function() {
+	this.SetTabElementValue("SEARCH_DATE", "");
 };
 
 /* News Record Data Transfer Object */

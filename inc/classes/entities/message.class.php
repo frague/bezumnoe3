@@ -29,7 +29,7 @@ class Message extends EntityBase {
 		$this->table = self::table;
 		parent::__construct("", self::MESSAGE_ID);
 
-		$this->SearchTemplate = "(t1.".self::TEXT." LIKE '%#WORD#%' OR t4.".Nickname::TITLE." LIKE '%#WORD#%' OR t2.".User::LOGIN." LIKE '%#WORD#%' OR t5.".Nickname::TITLE." LIKE '%#WORD#%' OR t3.".User::LOGIN." LIKE '%#WORD#%')";
+		$this->SearchTemplate = "t1.".self::TEXT." LIKE '%#WORD#%' OR t4.".Nickname::TITLE." LIKE '%#WORD#%' OR t2.".User::LOGIN." LIKE '%#WORD#%' OR t5.".Nickname::TITLE." LIKE '%#WORD#%' OR t3.".User::LOGIN." LIKE '%#WORD#%'";
 
 		$this->messageUser = new User();
 
@@ -100,7 +100,7 @@ class Message extends EntityBase {
 			return "";
 		}
 		$text = $this->Text;
-		return "new mdto('".PrintableDate($this->Date)."','".JsQuote($this->UserName)."','".JsQuote($this->ToUserName)."','".JsQuote($text)."','".JsQuote($color)."')";
+		return "new mdto('".JsQuote($this->Date)."','".JsQuote($this->UserName)."','".JsQuote($this->ToUserName)."','".JsQuote($text)."','".JsQuote($color)."')";
 	}
 
 	function ToPrint($highlight = "", $userId = "") {

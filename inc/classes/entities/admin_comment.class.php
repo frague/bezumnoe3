@@ -11,6 +11,10 @@ class AdminComment extends EntityBase {
 	const ADMIN_LOGIN = "ADMIN_LOGIN";
 	const SEVERITY = "SEVERITY";
 
+	const SEVERITY_NORMAL = 0;
+	const SEVERITY_WARNING = 1;
+	const SEVERITY_ERROR = 2;
+
 	// Properties
 	var $UserId;
 	var $Date;
@@ -25,6 +29,7 @@ class AdminComment extends EntityBase {
 		parent::__construct($id, self::ADMIN_COMMENT_ID);
 
 		$this->SearchTemplate = "t1.".self::CONTENT." LIKE '%#WORD#%'";
+		$this->Order = "t1.".self::DATE." DESC";
 	}
 
 	function Clear() {
@@ -47,10 +52,15 @@ class AdminComment extends EntityBase {
 
 	function GetByUserId($userId, $from = 0, $amount = 0, $condition = "") {
 		return $this->GetByCondition(
-			($condition  ? $condition." AND " : "")."t1.".self::USER_ID."=".round($userId)." ORDER BY t1.".self::DATE." DESC".($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""));
+			($condition  ? $condition." AND " : "").
+			"t1.".self::USER_ID."=".round($userId).
+			" ORDER BY ".$this->Order.($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""));
 	}
 
 	function GetUserCommentsCount($userId, $condition = "") {
+		if (!$condition) {
+			$condition = "1=1";
+		}
 		$userId = round($userId);
 		$condition = ($userId ? $condition." AND t1.".self::USER_ID."=".$userId : $condition);
 
@@ -60,15 +70,6 @@ class AdminComment extends EntityBase {
 		$q->NextResult();
 		return $q->Get("RECORDS");
 	}
-
-/*	function GetRange($from = 0, $amount = 0, $condition = "1") {
-		return $this->GetByCondition(
-			$condition." ORDER BY t1.".self::DATE." DESC".($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
-			$this->ReadWithNameExpression()
-		);
-	}
-!!!Moved to base class	
-*/
 
 	function __tostring() {
 		$s = "<ul type=square>";
@@ -86,10 +87,11 @@ class AdminComment extends EntityBase {
 	}
 
 	function ToJs($login) {
-		return "new acdto(\"".JsQuote(PrintableDate($this->Date)).
+		return "new acdto(\"".JsQuote($this->Date).
 "\",\"".JsQuote($this->Content).
 "\",\"".JsQuote($this->AdminLogin).
-"\",".round($this->Severity).($login ? ",\"".JsQuote($login)."\"" : "").
+"\",".round($this->Severity).
+",\"".JsQuote($login)."\"".
 ")";
 	}
 

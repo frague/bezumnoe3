@@ -7,7 +7,7 @@
 var journalMessagesObj;
 
 function JournalMessages() {
-	this.fields = ["SEARCH", "LOGIN", "FORUM_ID"];
+	this.fields = ["DATE", "SEARCH", "LOGIN", "FORUM_ID"];
 	this.ServicePath = servicesPath + "journal.messages.service.php";
 	this.Template = "journal_messages";
 	this.ClassName = "JournalMessages";
@@ -46,7 +46,7 @@ JournalMessages.prototype.TemplateLoaded = function(req) {
 
 	this.GroupSelfAssign(["buttonSearch", "ResetFilter"]);
 	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
-
+	new DatePicker(this.Inputs["DATE"]);
 };
 
 JournalMessages.prototype.React = function() {

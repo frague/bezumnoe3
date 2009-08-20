@@ -46,11 +46,12 @@
 	   	return strtotime(sprintf("%04d-%02d-%02d 00:00:00", $year, $month, $day));
 	}
 
-	function PrintableDate($d) {
+	function PrintableDate($d, $printTime = 1) {
 	  global $MonthsNamesForDate;
 
 		$t = strtotime($d);
-		return date("j", $t)." ".$MonthsNamesForDate[date("n", $t)]." ".date("Y ã. â H:i", $t);
+		$pattern = "Y ã.".($printTime ? " â H:i" : "");
+		return date("j", $t)." ".$MonthsNamesForDate[date("n", $t)]." ".date($pattern, $t);
 	}
 
 	function PrintableShortDate($d) {

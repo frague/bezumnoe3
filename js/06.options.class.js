@@ -1,4 +1,4 @@
-//7.4
+//7.6
 /*
 	User options UI and helper methods
 */
@@ -364,6 +364,9 @@ function ResetFilter(a) {
 		var ac = a.obj;
 		ac.SetTabElementValue("DATE", "");
 		ac.SetTabElementValue("SEARCH", "");
+		if (ac.CustomReset) {
+			ac.CustomReset();
+		}
 		ac.Request();
 	}
 };

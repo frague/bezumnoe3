@@ -9,29 +9,22 @@
 
 	$wakeup = new Wakeup();
 
-	// Dates condition
-	$d = $_POST["DATE"];
-	if ($d) {
-		$t = ParseDate($d);
-		if ($t !== false) {
-			$condition = "t1.".Wakeup::DATE." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
-		}
+	$condition = MakeSearchCriteria("DATE", Wakeup::DATE, "SEARCH", $wakeup->SearchTemplate);
+	
+	/* Incoming/Outgoing filter */
+
+	$isIncoming = $_POST["IS_INCOMING"];
+	$isOutgoing = $_POST["IS_OUTGOING"];
+	if (!$isIncoming && !$isOutgoing) {
+		echo "this.data=[];this.Total=0;";
+		die;
+	} else if ($isIncoming && !$isOutgoing) {
+		$condition .= ($condition ? " AND " : "")."t1.".Wakeup::TO_USER_ID."=".$user->User->Id;
+	} else {
+		$condition .= ($condition ? " AND " : "")."t1.".Wakeup::FROM_USER_ID."=".$user->User->Id;
 	}
 
-	// Search keywords
-	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $comment->SearchTemplate);
-	if ($search) {
-		$condition .= ($condition ? " AND " : "").$search;
-	}
-
-	if (!$condition) {
-		$condition = "1=1";
-	}
-
-	if ($search) {
-		$amount = 10;
-		$wakeup->TotalCount = 10;
-	}
+	/* --- */
 	
 	$q = $wakeup->GetForUser($user->User->Id, $from, $amount, $condition);
 	$total = $q->NumRows();
@@ -43,5 +36,5 @@
 		echo ($i ? "," : "").$wakeup->ToJs($user->User->Id);
 	}
 	echo "];";
-	echo "this.Total=".$total.";";
+	echo "this.Total=".$wakeup->GetResultsCount($condition).";";
 ?>

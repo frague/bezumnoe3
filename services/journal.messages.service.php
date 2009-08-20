@@ -49,14 +49,11 @@ JsQuote($q->Get(User::LOGIN))."\")";
 		echo "];";
 	}
 
+	// Search conditions
 	$record = new ForumRecordBase();
-	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $record->SearchTemplate);
-	if ($search) {
-		$amount = 10;
-		$forum->TotalCount = 10;
-	}
+	$condition = MakeSearchCriteria("DATE", ForumRecordBase::DATE, "SEARCH", $record->SearchTemplate);
 
-	$q = $record->GetForumThreads($forum->Id, $access, $from, $amount);
+	$q = $record->GetForumThreads($forum->Id, $access, $from, $amount, $condition);
 	$result = "this.data=[";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
@@ -65,6 +62,9 @@ JsQuote($q->Get(User::LOGIN))."\")";
 	}
 	$result .= "];";
 
+	if ($condition) {
+		$forum->TotalCount = $record->GetForumThreadsCount($forum->Id, $access, $condition);
+	}
 	$result .= "this.Total=".$forum->TotalCount.";";
 	$result .= "this.FORUM_ID=".$forum->Id.";";
 

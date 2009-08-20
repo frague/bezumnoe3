@@ -16,5 +16,8 @@
 		</td></tr></table-->
 
 <div id="Pager"></div>
-<table cellpadding="2" cellspacing="0" id="CommentsGrid" class="Grid"><tbody><tr><th style="width:90%">Комментарии</th><th>Операции</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="CommentsGrid" class="Grid"><tbody><tr><th style="width:99%">Комментарии</th><th>Операции</th></tr></table>
 
+<ul class="Links">
+	<li> <a href="javascript:void(0)" onclick="SwitchPage(this)" class="Refresh" id="buttonSearch">Обновить данные</a>
+</ul>

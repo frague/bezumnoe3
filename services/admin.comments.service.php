@@ -32,26 +32,29 @@
 	}
 
 
-	$condition = "";
+	$condition = MakeSearchCriteria("DATE", AdminComment::DATE, "SEARCH", $comment->SearchTemplate);
 
-	// Dates condition
-	$d = $_POST["DATE"];
-	if ($d) {
-		$t = ParseDate($d);
-		if ($t !== false) {
-			$condition = "t1.".AdminComment::DATE." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
+	/* Filter events by type */
+	function AddTypeCondition($key, $value, $condition) {
+		if ($_POST[$key]) {
+			return ($condition ? $condition." OR " : "")."t1.".AdminComment::SEVERITY."='".$value."'";
 		}
+		return $condition;
 	}
 
-	// Search keywords
-	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $comment->SearchTemplate);
-	if ($search) {
-		$condition .= ($condition ? " AND " : "").$search;
+	$typeFilter = AddTypeCondition("SEVERITY_NORMAL", AdminComment::SEVERITY_NORMAL, "");
+	$typeFilter = AddTypeCondition("SEVERITY_WARNING", AdminComment::SEVERITY_WARNING, $typeFilter);
+	$typeFilter = AddTypeCondition("SEVERITY_ERROR", AdminComment::SEVERITY_ERROR, $typeFilter);
+
+	if (!$typeFilter) {
+		echo "this.data=[];this.Total=0;";
+		die;
+	} else {
+		$condition = ($condition ? $condition." AND " : "")."(".$typeFilter.")";
 	}
 
-	if (!$condition) {
-		$condition = "1=1";
-	}
+	/* --- */
+	
 
 	echo "this.data=[";
 	if ($user_id) {

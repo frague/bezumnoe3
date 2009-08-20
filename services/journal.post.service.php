@@ -42,13 +42,13 @@
 
 	switch ($go) {
 		case "save":
-			if (!$user->IsSuperAdmin() && $post_id && $access != Forum::FULL_ACCESS && $record->UserId != $user->User->Id) {
-				echo JsAlert("¬ы можете редактировать только собственные сообщени€!", 1);
+			if (!$user->IsSuperAdmin() && ($access != Forum::FULL_ACCESS || $record->UserId != $user->User->Id)) {
+				echo JsAlert("Ќет доступа к публикации сообщений!", 1);
 				die;
 			}
 
+			$oldType = $record->Type;
 			$record->FillFromHash($_POST);
-
 			$record->ForumId = $forum->Id;
 			if ($record->IsEmpty()) {
 				$record->Author = $targetUser->Login;
@@ -57,6 +57,9 @@
 			} else {
 				$record->Save();
 				echo JsAlert("—ообщение обновлено.");
+				if ($record->Type != $oldType) {
+					$record->SetChildType();
+				}
 			}
 			echo "this.data=".$record->ToFullJs();
 

@@ -318,7 +318,7 @@
 				$result .= ($result ? " AND " : "").str_replace("#WORD#", SqlQuote($word), $pattern);
 			}
 		}
-		return $result;
+		return $result ? "(".$result.")" : $result;
 	}
 
 	function Mark($haystack, $needle) {
@@ -331,6 +331,27 @@
 		$l = strlen($needle);
 		$p2 = $p + $l;
 		return substr($haystack, 0, $p)."<b>".substr($haystack, $p, $l)."</b>".substr($haystack, $p2);
+	}
+
+	function MakeSearchCriteria($dateKey, $dateParameter, $keywordsKey, $keywordsTemplate) {
+	    $condition = "";
+
+		// Dates condition
+		$d = $_POST[$dateKey];
+		if ($d) {
+			$t = ParseDate($d);
+			if ($t !== false) {
+				$condition = "t1.".$dateParameter." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
+			}
+		}
+
+		// Search keywords
+		$keywords = trim(substr(UTF8toWin1251($_POST[$keywordsKey]), 0, 1024));
+		$search = MakeKeywordSearch($keywords, $keywordsTemplate);
+		if ($search) {
+			$condition .= ($condition ? " AND " : "").$search;
+		}
+		return $condition;
 	}
 
 ?>

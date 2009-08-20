@@ -28,26 +28,7 @@
 	}
 
 
-	$condition = "";
-
-/*	// Dates condition
-	$d = $_POST["DATE"];
-	if ($d) {
-		$t = ParseDate($d);
-		if ($t !== false) {
-			$condition = "t1.".AdminComment::DATE." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
-		}
-	}
-
-	// Search keywords
-	$search = MakeKeywordSearch(trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024)), $comment->SearchTemplate);
-	if ($search) {
-		$condition .= ($condition ? " AND " : "").$search;
-	}
-
-	if (!$condition) {
-		$condition = "1";
-	}*/
+	$condition = MakeSearchCriteria("SEARCH_DATE", NewsRecord::DATE, "SEARCH", $record->SearchTemplate);
 
 	echo "this.data=[";
 	if ($user_id && $user_id < 0) {

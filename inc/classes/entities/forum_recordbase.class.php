@@ -58,7 +58,7 @@ class ForumRecordBase extends EntityBase {
 		$this->table = self::table;
 		parent::__construct($id, self::RECORD_ID);
 
-		$this->SearchTemplate = "(t1.".self::TITLE." LIKE '%#WORD#%' OR t1.".self::CONTENT." LIKE '%#WORD#%')";
+		$this->SearchTemplate = "t1.".self::TITLE." LIKE '%#WORD#%' OR t1.".self::CONTENT." LIKE '%#WORD#%'";
 	}
 
 	function Clear() {
@@ -219,7 +219,7 @@ round($this->Type).")";
 
 	// Gets forum's top-level threads
 	function GetForumThreads($forumId, $access, $from = 0, $amount = 0, $search = "") {
-		return $this->GetByCondition("
+		return $this->GetByCondition(($search ? $search." AND " : "")."
 			t1.".self::FORUM_ID."=".round($forumId)." AND 
 			LENGTH(t1.".self::INDEX.") = 4
 			ORDER BY ".self::UPDATE_DATE." DESC".
@@ -283,6 +283,18 @@ round($this->Type).")";
 			"t1.".Profile::USER_ID."=".round($this->UserId),
 			$this->GetAdditionalUserDataExpression()
 		);
+	}
+
+	function SetChildType() {
+	  global $db;
+
+		if ($this->IsEmpty()) {
+			return;
+		}
+		if (!$this->IsConnected()) {
+			return 0;
+		}
+		$db->Query($this->SetChildTypeExpression());
 	}
 	
 	function UpdateAnswersCount() {
@@ -680,6 +692,15 @@ VALUES
 )";
 	}
 
+	function SetChildTypeExpression() {
+		$result = "UPDATE ".$this->table." SET 
+".self::TYPE."='".round($this->Type)."' 
+WHERE 
+".self::FORUM_ID."=".round($this->ForumId)." AND 
+".self::INDEX." LIKE '".SqlQuote($this->Index)."%'";
+		return $result;
+	}
+
 	/* Static methods */
 
 	public static function GetLoggedCondition($user) {
@@ -710,6 +731,7 @@ VALUES
 		}
 		return $result;
 	}
+
 }
 
 ?>

@@ -43,7 +43,11 @@ Date.prototype.ToString = function(add_time) {
 Date.prototype.ToPrintableString = function(add_time) {
 	var result = this.getDate() + " " + monthsNames[this.getMonth()] + " " + this.getFullYear();
 	if (add_time) {
-		 result += ", " + TwoDigits(this.getHours()) + ":" + TwoDigits(this.getMinutes());
+		 result += ", " + this.Time();
 	}
 	return result;
+};
+
+Date.prototype.Time = function() {
+	return TwoDigits(this.getHours()) + ":" + TwoDigits(this.getMinutes());
 };

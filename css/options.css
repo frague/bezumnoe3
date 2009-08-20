@@ -185,6 +185,10 @@ table.Grid tr.Warning {
 	background-color:#403030;
 }
 
+table.Grid tr.Error {
+	background-color:#800000;
+}
+
 table.Grid tr.Dark {
 	background-color:#202020;
 }
@@ -193,8 +197,16 @@ table.Grid tr.Dark.Warning {
 	background-color:#302020;
 }
 
+table.Grid tr.Dark.Error {
+	background-color:#600000;
+}
+
 table.Grid tr.Highlight td {
 	font-style:italic;
+}
+
+table.Grid tr.Error td {
+	color:white;
 }
 
 table.Grid th, table.Grid td {
@@ -208,6 +220,10 @@ table.Grid th {
 	color:white;
 	background-color:#F3771F;
 	text-align:center;
+}
+
+table.Grid tr.Sub th {
+	background-color:#503800;
 }
 
 #MessagesGrid h2 {

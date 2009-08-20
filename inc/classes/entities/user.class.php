@@ -313,7 +313,7 @@ JsQuote($this->SessionAddress)."\",\"".
 JsQuote($this->StatusId)."\",\"".
 JsQuote($this->BannedBy)."\",\"".
 JsQuote($this->BanReason)."\",\"".
-JsQuote($this->BannedTill)."\",\"".
+PrintableDate($this->BannedTill, 0)."\",\"".
 JsQuote($admin)."\"]";
 		return $s;
 	}

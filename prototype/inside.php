@@ -12,6 +12,7 @@
 
 	/* Check room */
 	$room = new Room();
+	// TODO: Entering room logic (select room upon entering)
 	$room->FillByCondition("1 LIMIT 1");
 
 	if ($room->IsEmpty()) {
@@ -25,7 +26,7 @@
 		$room->Save();
 	}
 
-	if ($user->User->RoomId < 0)  {
+	if (IdIsNull($user->User->RoomId))  {
 		$text = $user->Settings->EnterMessage;
 		if (!$text) {
 			$text = "В чат входит %name";

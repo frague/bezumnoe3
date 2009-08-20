@@ -25,6 +25,7 @@ class NewsRecord extends EntityBase {
 	function NewsRecord($id = -1) {
 		$this->table = self::table;
 		parent::__construct($id, self::NEWS_RECORD_ID);
+		$this->SearchTemplate = "t1.".self::TITLE." LIKE '%#WORD#%' OR t1.".self::CONTENT." LIKE '%#WORD#%'";
 	}
 
 	function Clear() {
@@ -68,11 +69,7 @@ class NewsRecord extends EntityBase {
 	}
 
 	function GetRecordsCount($owner_id, $condition) {
-		$q = $this->GetByCondition(
-			($condition  ? $condition." AND " : "")."t1.".self::OWNER_ID."=".round($owner_id), 
-			"SELECT COUNT(1) AS RECORDS FROM ".self::table." t1 WHERE ##CONDITION##");
-		$q->NextResult();
-		return $q->Get("RECORDS");
+		return $this->GetResultsCount(($condition  ? $condition." AND " : "")."t1.".self::OWNER_ID."=".round($owner_id));
 	}
 
 	function __tostring() {

@@ -5,8 +5,8 @@ class Wakeup extends EntityBase {
 	const table = "wakeups";
 
 	const WAKEUP_ID = "WAKEUP_ID";
-	const FROM_USER_ID = "FROM_USER_ID";
-	const FROM_USER_NAME = "FROM_USER_NAME";
+	const FROM_USER_ID = "USER_ID";
+	const FROM_USER_NAME = "USER_NAME";
 	const TO_USER_ID = "TO_USER_ID";
 	const TO_USER_NAME = "TO_USER_NAME";
 	const DATE = "DATE";
@@ -30,7 +30,8 @@ class Wakeup extends EntityBase {
 		$this->FromUserId = $fromUserId;
 		$this->ToUserId = $toUserId;
 
-		$this->SearchTemplate = "(t1.".self::MESSAGE." LIKE '%#WORD#%' OR ".self::FROM_USER_NAME." LIKE '%#WORD#%' OR ".self::TO_USER_NAME." LIKE '%#WORD#%')";
+		$this->SearchTemplate = "t1.".self::MESSAGE." LIKE '%#WORD#%' OR t4.".Nickname::TITLE." LIKE '%#WORD#%' OR t2.".User::LOGIN." LIKE '%#WORD#%' OR t5.".Nickname::TITLE." LIKE '%#WORD#%' OR t3.".User::LOGIN." LIKE '%#WORD#%'";
+		$this->Order = "t1.".self::DATE." DESC";
 	}
 
 	function Clear() {
@@ -67,11 +68,14 @@ class Wakeup extends EntityBase {
 	function GetForUser($userId, $from = 0, $limit, $condition) {
 		$from = round($from);
 		$limit = round($limit);
+		if (!$condition) {
+			$condition = "1=1";
+		}
 
 	  	return $this->GetByCondition(
 	  		$this->ReadUserWakeupsExpression($userId).
 	  		($condition ? " AND ".$condition : "").
-	  		" LIMIT ".($from ? $from."," : "").$limit
+	  		" ORDER BY ".$this->Order." LIMIT ".($from ? $from."," : "").$limit
 	  	); 
 	}
 	/* ------ */
@@ -93,7 +97,7 @@ class Wakeup extends EntityBase {
 	COALESCE(t3.".Nickname::TITLE.",t2.".User::LOGIN.") AS ".self::FROM_USER_NAME."
 FROM ".$this->table." AS t1 
 	LEFT JOIN ".User::table." t2 ON t2.".User::USER_ID."=t1.".self::FROM_USER_ID."
-	LEFT JOIN ".Nickname::table." t3 ON t3.".Nickname::USER_ID."=t1.".FROM_USER_ID." AND t3.".Nickname::IS_SELECTED."=1
+	LEFT JOIN ".Nickname::table." t3 ON t3.".Nickname::USER_ID."=t1.".self::FROM_USER_ID." AND t3.".Nickname::IS_SELECTED."=1
 WHERE t1.".self::TO_USER_ID."=".$user->Id." AND t1.".self::IS_READ."<>1 ORDER BY ".self::WAKEUP_ID." ASC");
 			for ($i = 0; $i < $q->NumRows(); $i++) {
 				$q->NextResult();
@@ -131,7 +135,7 @@ round($this->Id).",".
 round($id).",\"".
 JsQuote($name)."\",".
 Boolean($isIncoming).",\"".
-PrintableDate($this->Date)."\",\"".
+JsQuote($this->Date)."\",\"".
 JsQuote($this->Message)."\",".
 Boolean($this->IsRead).")";
 		return $s;
@@ -159,8 +163,7 @@ LEFT JOIN ".Nickname::table." AS t4
 LEFT JOIN ".Nickname::table." AS t5
 	ON (t5.".Nickname::USER_ID."=t1.".self::TO_USER_ID." AND t5.".Nickname::IS_SELECTED."=1)
 WHERE
-	##CONDITION##
-";
+	##CONDITION##";
 	}
 
 	function ReadUserWakeupsExpression($user_id) {

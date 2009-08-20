@@ -12,30 +12,12 @@
 
 	// --- Filtering ---
 	$condition = "";
-	$roomsCondition = "";
-
-	// Dates condition
-	$d = $_POST["DATE"];
-	if ($d) {
-		$t = ParseDate($d);
-		if ($t !== false) {
-			$condition = "t1.".Message::DATE." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
-			$roomsCondition = $condition;
-		}
-	}
-
-	// Search keywords
-	$keywords = trim(substr(UTF8toWin1251($_POST["SEARCH"]), 0, 1024));
-	$search = MakeKeywordSearch($keywords, $message->SearchTemplate);
-	if ($search) {
-		$condition .= ($condition ? " AND " : "").$search;
-		$roomsCondition = $condition;
-	}
+	$roomsCondition = MakeSearchCriteria("DATE", Message::DATE, "SEARCH", $message->SearchTemplate);
 
 	// Filter by room
 	$room_id = round($_POST["ROOM_ID"]);
 	if ($room_id > 0) {
-		$condition .= ($condition ? " AND " : "")."(t1.".Message::ROOM_ID."=".$room_id." OR t1.".Message::ROOM_ID."=-1)";
+		$condition = ($roomsCondition ? $roomsCondition." AND " : "")."(t1.".Message::ROOM_ID."=".$room_id." OR t1.".Message::ROOM_ID."=-1)";
 	}
 	// ---
 
@@ -57,6 +39,8 @@ WHERE",
 			$message->FillFromResult($q);
 			if ($keywords) {
 				$message->Text = Mark($message->Text, $keywords);
+				$message->UserName = Mark($message->UserName, $keywords);
+				$message->ToUserName = Mark($message->ToUserName, $keywords);
 			}
 			echo ($i ? "," : "").$message->ToJs($q->Get(Settings::FONT_COLOR));
 		}

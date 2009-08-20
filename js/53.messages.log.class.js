@@ -1,4 +1,4 @@
-//3.0
+//3.2
 /*
 	Display messages log with filter by date, room & keywords
 */
@@ -61,6 +61,8 @@ MessagesLog.prototype.TemplateLoaded = function(req) {
 
 /* Message Data Transfer Object */
 
+var lastMessageDate;
+
 function mdto(date, name, name_to, text, color) {
 	this.fields = ["Date", "Name", "NameTo", "Text", "Color"];
 	this.Init(arguments);
@@ -68,22 +70,38 @@ function mdto(date, name, name_to, text, color) {
 
 mdto.prototype = new DTO();
 
-mdto.prototype.ToString = function(index, obj) {
+mdto.prototype.ToString = function(index, obj, holder) {
+	if (!index) {
+		lastMessageDate = "";
+	}
+
+	var date = ParseDate(this.Date);
+	var dateString = date.ToPrintableString();
+	if (date && dateString && dateString != lastMessageDate && holder) {
+		lastMessageDate = dateString;
+		holder.appendChild(MakeGridSubHeader(index, obj.Columns, dateString));
+	}
+
 	var tr = MakeGridRow(index);
 	if (this.NameTo) {
 		tr.className += " Highlight Warning";
 	}
 
+	
 	var td1 = d.createElement("td");
 	td1.className = "Centered";
-	td1.innerHTML = this.Date;
+	td1.innerHTML = date.Time();
 	tr.appendChild(td1);
 
-	var td2 = d.createElement("td");
-	td2.innerHTML = this.Name + (this.NameTo ? " для " + this.NameTo : "&nbsp;");
-	tr.appendChild(td2);
-	
 	var td3 = d.createElement("td");
+	if (this.Name) {
+		var td2 = d.createElement("td");
+		td2.innerHTML = this.Name + (this.NameTo ? " для " + this.NameTo : "&nbsp;");
+		tr.appendChild(td2);
+	} else {
+		td3.colSpan = 2;
+	}
+
 	if (this.Color) {
 		td3.style.color = this.Color;
 	}

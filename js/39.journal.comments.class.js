@@ -1,4 +1,4 @@
-//3.3
+//3.5
 /*
 	Journal comments grid. Edit & delete buttons.
 */
@@ -48,7 +48,7 @@ JournalComments.prototype.LoadTemplate = function(tab, user_id, login) {
 JournalComments.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
-	this.AssignTabTo("buttonSearch");
+	this.AssignSelfTo("buttonSearch");
 	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
 };
 
@@ -86,10 +86,8 @@ jcdto.prototype.ToString = function(index, obj) {
 
 	var td3 = d.createElement("td");
 	td3.className = "Centered";
+		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj));
 		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj));
-/*		if (this.UserId) {
-			td3.appendChild(MakeButton("AddForbiddenCommenter("+this.UserId+",this)", "icons/remove_user.gif", obj, "", "Запретить комментарии"));
-		}*/
 	tr.appendChild(td3);
 	
 	return tr;

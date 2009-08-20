@@ -1,4 +1,4 @@
-//6.1
+//6.3
 /*
 	Base class for grids with[out] pager.
 */
@@ -16,11 +16,11 @@ function Grid() {
 Grid.prototype = new OptionsBase();
 
 Grid.prototype.GatherDTO = function(dto) {
-	if (this.fields.length != dto.fields.length) {
-		return false;
+	var l = this.fields.length;
+	if (dto.fields.length < l) {
+		l = dto.fields.length;
 	}
-
-	for (var i = 0, l = this.fields.length; i < l; i++) {
+	for (var i = 0; i < l; i++) {
 		this[this.fields[i]] = dto[dto.fields[i]];
 	}
 	return true;
@@ -91,7 +91,7 @@ Grid.prototype.DoBind = function(content) {
 	this.BaseBind();
 	this.ClearRecords();
 	for (var i = 0, l = content.length; i < l; i++) {
-		this.Tbody.appendChild(content[i].ToString(i, this));
+		this.Tbody.appendChild(content[i].ToString(i, this, this.Tbody));
 		content[i].Grid = this;
 	}
 	this.CurrentContent = content;
@@ -216,4 +216,14 @@ function MakeGridRow(index) {
 		tr.className += " Hidden";
 	}
 	return tr;
+};
+
+function MakeGridSubHeader(index, cols, text) {
+	var trd = MakeGridRow(index);
+	trd.className = "Sub";
+	var td0 = d.createElement("th");
+	td0.colSpan = cols;
+	td0.innerHTML = text;
+	trd.appendChild(td0);
+	return trd;
 };

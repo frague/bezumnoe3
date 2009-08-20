@@ -5,16 +5,17 @@
 
 <h2 id="TITLE"></h2>
 
-<h4>Поиск:</h4>
-<table class="Wide">
+<table cellpadding="4" cellspacing="0" class="Wide">
 	<tr>
-		<td width="100%">
-			<input name="SEARCH" id="SEARCH" class="Wide" />
-		</td><td>
-			<input type="image" src="/3/img/search_button.gif" onclick="SwitchPage(this)" id="buttonSearch" />
-		</td></tr></table>
+		<td class="Nowrap">
+			<h4>Дата:</h4>
+			<input name="DATE" id="DATE" /></td>
+		<td class="Wide">
+			<h4>Поиск по ключевым словам:</h4>
+			<input name="SEARCH" id="SEARCH" class="Wide" /></td></tr></table>
 
 <ul class="Links">
+	<li> <a href="javascript:void(0)" onclick="SwitchPage(this)" class="Refresh" id="buttonSearch">Применить фильтр</a>
 	<li> <a href="javascript:void(0)" onclick="ResetFilter(this)" class="Delete" id="ResetFilter">Сбросить фильтр</a>
 </ul>
 

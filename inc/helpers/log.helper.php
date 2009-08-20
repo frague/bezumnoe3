@@ -1,7 +1,7 @@
 <?
 	// Base methods
 
-	function SaveLog($content, $userId = -1, $adminLogin = "", $severity = 0) {
+	function SaveLog($content, $userId = -1, $adminLogin = "", $severity = AdminComment::SEVERITY_NORMAL) {
 		$comment = new AdminComment();
 		$comment->UserId = $userId;
 		$comment->Content = $content;
@@ -39,11 +39,11 @@
 	};
 
 	function LogBan($userId, $reason, $adminLogin, $till = "") {
-		 SaveLog("<i>Бан ".($reason ? "с формулировкой &laquo;".$reason."&raquo;" : "без указания причины").($till ? " до ".PrintableDate($till) : "")."</i>", $userId, $adminLogin);
+		 SaveLog("<i>Бан ".($reason ? "с формулировкой &laquo;".$reason."&raquo;" : "без указания причины").($till ? " до ".PrintableDate($till) : "")."</i>", $userId, $adminLogin, AdminComment::SEVERITY_ERROR);
 	}
 
 	function LogBanEnd($userId, $adminLogin) {
-		SaveLog("<i>Пользователь разбанен</i>", $userId, $adminLogin);
+		SaveLog("<i>Пользователь разбанен</i>", $userId, $adminLogin, AdminComment::SEVERITY_WARNING);
 	}
 
 	function LogStatusChange($userId, $oldStatus, $newStatus, $adminLogin) {
@@ -51,11 +51,11 @@
 	}
 
 	function LogAddressBan($userId, $adminLogin, $content, $parts, $reason = "") {
-		SaveLog("<i>Адрес ".$content." забанен (".$parts.")".($reason ? "<br>&laquo;".$reason."&raquo;" : "")."</i>", $userId, $adminLogin, 1);
+		SaveLog("<i>Адрес ".$content." забанен (".$parts.")".($reason ? "<br>&laquo;".$reason."&raquo;" : "")."</i>", $userId, $adminLogin, AdminComment::SEVERITY_WARNING);
 	}
 
 	function LogAddressBanEnd($userId, $adminLogin, $content, $parts) {
-		SaveLog("<i>Адрес ".$content." разбанен (".$parts.")</i>", $userId, $adminLogin, 0);
+		SaveLog("<i>Адрес ".$content." разбанен (".$parts.")</i>", $userId, $adminLogin);
 	}
 
 	// Common admin logs (no AdminLogin & UserId defined)

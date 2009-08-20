@@ -1,4 +1,4 @@
-//3.0
+//3.2
 /*
 	Create/edit blog post in separate tab.
 */
@@ -18,15 +18,21 @@ function JournalPost(forum) {
 
 JournalPost.prototype = new OptionsBase();
 
-JournalPost.prototype.Gather = function() {	// Method to override
+JournalPost.prototype.EditorIsShown = function() {
+	return (!this.Forum || this.Forum.TYPE == "j");
+};
+
+JournalPost.prototype.Gather = function() {
 	var editor = tinyMCE.get(this.ContentField.id);
 	if (editor) {
 		this.CONTENT = editor.save();
+	} else {
+		this.CONTENT = this.ContentField.value;
 	}
 	return this.BaseGather();
 };
 
-JournalPost.prototype.Bind = function() {	// Method to override
+JournalPost.prototype.Bind = function() {
 	this.BaseBind();
 	this.ContentField.value = this.CONTENT;
 
@@ -59,7 +65,7 @@ JournalPost.prototype.RequestCallback = function(req, obj) {
 			}
 		}
 
-		if (!mceInitialized && (!obj.Forum || obj.Forum.TYPE == "j")) {
+		if (!mceInitialized && obj.EditorIsShown && obj.EditorIsShown()) {
 			InitMCE();
 			mceInitialized = 1;
 		}
@@ -79,7 +85,9 @@ JournalPost.prototype.TemplateLoaded = function(req) {
 
 	// Create content field
 	this.ContentField = CreateElement("textarea", "CONTENT" + Math.random(10000));
-	this.ContentField.className = "Editable";
+	if (this.EditorIsShown()) {
+		this.ContentField.className = "Editable";
+	}
 	this.ContentField.rows = 30;
 	if (this.Inputs["ContentHolder"]) {
 		this.Inputs["ContentHolder"].appendChild(this.ContentField);

@@ -17,18 +17,6 @@
 		exit;
 	}
 
-	function Mark($text) {
-	  global $value;
-
-		$p = strpos(mb_strtolower($text), $value);
-		if ($p === false) {
-			return $text;
-		}
-		$l = strlen($value);
-		$p2 = $p + $l;
-		return substr($text, 0, $p)."<b>".substr($text, $p, $l)."</b>".substr($text, $p2);
-	}
-
 	$limit = 0;
 	$expression = $u->FindUserWithJournalsExpression();
 	$condition = "t1.".User::LOGIN." LIKE '%".$value."%' OR t2.".Nickname::TITLE." LIKE '%".$value."%'";
@@ -44,14 +32,12 @@
 		}
 	}
 	$result .= "this.data=[";
-	$value = mb_strtolower($value);
-
 	for ($i = 0; $i < $rows; $i++) {
 		$q->NextResult();
 
-		$login = Mark($q->Get(User::LOGIN));
-		$nick = Mark($q->Get(Nickname::TITLE));
-		$title = Mark($q->Get(Forum::TITLE));
+		$login = Mark($q->Get(User::LOGIN), $value);
+		$nick = Mark($q->Get(Nickname::TITLE), $value);
+		$title = Mark($q->Get(Forum::TITLE), $value);
 
 		$result .= ($i > 0 ? "," : "")."new judto(".$q->Get(User::USER_ID).",'".JsQuote($login)."','".JsQuote($nick)."','".$q->Get(Forum::FORUM_ID)."','".JsQuote($title)."')";
 	}

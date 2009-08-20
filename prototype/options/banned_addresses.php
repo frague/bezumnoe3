@@ -6,7 +6,7 @@
 	}
 
 ?>
-<table cellpadding="2" cellspacing="0" id="BannedAddresses" class="Grid"><tbody><tr><th style="width:200px">Адрес</th><th>Параметры</th><th width="1%">Действия</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="BannedAddresses" class="Grid"><tbody><tr><th style="width:200px">Адрес</th><th>Параметры</th><th width="1%">Операции</th></tr></table>
 
 <ul class="Links">
 	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshBannedAddresses">Обновить список</a>

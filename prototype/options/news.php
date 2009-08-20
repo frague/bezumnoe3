@@ -7,7 +7,7 @@
 
 ?>
 
-<table cellpadding="2" cellspacing="0" id="NewsGrid" class="Grid"><tbody><tr><th style="width:100%">Название</th><th>Действия</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="NewsGrid" class="Grid"><tbody><tr><th style="width:100%">Название</th><th>Операции</th></tr></table>
 
 <ul class="Links">
 	<li> <a href="javascript:void(0)" onclick="AddNews(this)" class="Add" id="AddNews">Новый новостной раздел</a>

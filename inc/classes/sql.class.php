@@ -1,7 +1,6 @@
 <?
-require_once "basic.class.php";
 
-class Query extends Basic{
+class Query {
 
 	var $Q;
 
@@ -15,7 +14,7 @@ class Query extends Basic{
 	
 	function Query($query, $DB = 0) {
 		if (!$DB && !$this->DB_stored) {
-			$this->AddError("Нет соединения с MySQL сервером!");
+			error("Нет соединения с MySQL сервером!");
 			return false;
 		} else {
 			if ($DB) {
@@ -30,19 +29,19 @@ class Query extends Basic{
 		$this->Q=@mysql_query($query, $DB);
 
 		if ($this->Debugging) {
-			$this->AddError("Query: <strong>".$query."</strong>");
+			error("Query: <strong>".$query."</strong>");
 		}
 
 		if ($this->Q) {
 			$this->Queried = true;
 		} else {
-			$this->AddError("Ошибка в запросе: <strong>".$query."</strong>: <span class='Red'>".mysql_error()."</span>!");
+			error("Ошибка в запросе: <strong>".$query."</strong>: <span class='Red'>".mysql_error()."</span>!");
 		}
 	}
 
 	function NumRows() {
 		if (!$this->Queried) {
-			$this->AddError("Не определены результаты запроса!");
+			error("Не определены результаты запроса!");
 			return false;
 		}
 		return @mysql_numrows($this->Q);
@@ -50,7 +49,7 @@ class Query extends Basic{
 
 	function Seek($row = 0) {
 		if (!$this->Queried) {
-			$this->AddError("Не определены результаты запроса!");
+			error("Не определены результаты запроса!");
 			return false;
 		}
 		
@@ -60,7 +59,7 @@ class Query extends Basic{
 
 	function NextResult() {
 		if (!$this->Queried) {
-			$this->AddError("Не определены результаты запроса!");
+			error("Не определены результаты запроса!");
 			return false;
 		}
 		
@@ -95,7 +94,7 @@ class Query extends Basic{
 
 
 
-class SQL extends Basic {
+class SQL {
     var $DB;
     
     var $DB_name;
@@ -116,12 +115,18 @@ class SQL extends Basic {
 		$this->UserPassword=$pass;
 
 		$this->DB = @mysql_connect($this->Host, $this->User, $this->UserPassword);
-		if (!$this->DB) $this->AddError("Ошибка подключения к MySQL серверу!");
+		if (!$this->DB) {
+			error("Ошибка подключения к MySQL серверу!");
+		}
 
 		@mysql_query("set names 'cp1251'", $this->DB);
 
 
-		if (@mysql_select_db($this->DB_name, $this->DB)) $this->Connected=1; else $this->AddError("Невозможно выбрать базу данных <b>$db_name</b>!");
+		if (@mysql_select_db($this->DB_name, $this->DB)) {
+			$this->Connected=1;
+		} else {
+			error("Невозможно выбрать базу данных <b>$db_name</b>!");
+		}
 	}
 
 
@@ -129,7 +134,7 @@ class SQL extends Basic {
 		if (!$query) return 0;
 //		if (!$this->Connected) return 0;
 
-		$a=new Query($query,$this->DB);
+		$a = new Query($query, $this->DB);
 		return $a;
 	}
 }

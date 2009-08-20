@@ -1,10 +1,10 @@
-//2.2
+//2.3
 /*
 	System log
 */
 
 function SystemLog() {
-	this.fields = ["DATE", "SEARCH"];
+	this.fields = ["DATE", "SEARCH", "SEVERITY_NORMAL", "SEVERITY_WARNING", "SEVERITY_ERROR"];
 	this.Template = "system_log";
 	this.ClassName = "SystemLog";
 	this.GridId = "AdminCommentsGrid";

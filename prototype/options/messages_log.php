@@ -8,15 +8,14 @@
 ?>
 <table class="Wide">
 	<tr>
-		<td width="120px">
+		<td colspan="2">
+			<h4>Комната:</h4>
+			<select name="ROOM_ID" id="ROOM_ID" class="Wide" onchange="ReRequestData(this)" /></td></tr>
+	<tr>
+		<td class="Nowrap">
 			<h4>Дата:</h4>
 			<input name="DATE" id="DATE" /></td>
-		<td>
-			<h4>Комната:</h4>
-			<select name="ROOM_ID" id="ROOM_ID" class="Wide" onchange="ReRequestData(this)" /></td>
-			</td></tr>
-	<tr>
-		<td colspan="2">
+		<td class="Wide">
 			<h4>Поиск по ключевым словам:</h4>
 			<input name="SEARCH" id="SEARCH" class="Wide" /></td></tr></table>
 
@@ -26,5 +25,5 @@
 </ul>
 
 <div id="Pager"></div>
-<table cellpadding="2" cellspacing="0" id="MessagesLogGrid" class="Grid"><tbody><tr><th style="width:100px">Дата</th><th style="width:100px">Автор</th><th>Сообщение</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="MessagesLogGrid" class="Grid"><tbody><tr><th width="40px">Время</th><th width="100px">Автор</th><th>Сообщение</th></tr></table>
 

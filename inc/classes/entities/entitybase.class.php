@@ -14,6 +14,7 @@ abstract class EntityBase {
 		$this->Clear();
 		$this->Id = $id;
 		$this->IdentityName = $idName;
+		$this->Order = "";
 	}
 
 	function IsEmpty() {
@@ -44,6 +45,10 @@ abstract class EntityBase {
 	function GetByCondition($condition, $expression = "", $show = 0) {
 	 global $db;
 
+		if (!$condition) {
+			$condition = "1=1";
+		}
+
 		if (!$this->IsConnected()) {
 			return false;
 		}
@@ -58,9 +63,14 @@ abstract class EntityBase {
 		return $db->Query($query);
 	}
 
-	function GetRange($from = 0, $amount = 0, $condition = "1=1", $expression = "") {
+	function GetRange($from = 0, $amount = 0, $condition = "", $expression = "") {
+		if (!$condition) {
+			$condition = "1=1";
+		}
 		return $this->GetByCondition(
-			$condition.($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
+			$condition.
+			($this->Order ? "ORDER BY ".$this->Order : "").
+			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 			$expression
 		);
 	}
@@ -89,7 +99,7 @@ abstract class EntityBase {
 		return "";
 	}
 
-	function GetResultsCount($condition) {
+	function GetResultsCount($condition = "") {
 		if (!$condition) {
 			$condition = "1=1";
 		}
