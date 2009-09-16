@@ -10,6 +10,10 @@ class Status extends EntityBase {
 	const COLOR = "COLOR";
 	const IS_SPECIAL = "IS_SPECIAL";
 
+	// Standard rights
+	const RIGHTS_NEWBIE	= 1;
+	const RIGHTS_OLDBIE	= 11;
+
 	// Properties
 	var $Id;
 	var $Rights;
@@ -87,8 +91,12 @@ class Status extends EntityBase {
 		return $errors;
 	}
 
+	function GetStandardStatus($rights) {
+		return $this->FillByCondition("t1.".self::RIGHTS."=".round($rights)." AND t1.".self::IS_SPECIAL."=0");
+	}
+
 	function GetNewbie() {
-		return $this->FillByCondition("t1.".self::RIGHTS."=1 AND t1.".self::IS_SPECIAL."=0");
+		return $this->GetStandardStatus(self::RIGHTS_NEWBIE);
 	}
 
 	function __tostring() {

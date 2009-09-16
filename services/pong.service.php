@@ -253,4 +253,6 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 		echo $s;
 	}
 
+	ExecuteScheduledTasks();
+
 ?>

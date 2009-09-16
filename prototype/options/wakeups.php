@@ -26,7 +26,7 @@
 </ul>
 
 <div id="Pager"></div>
-<table cellpadding="2" cellspacing="0" id="WakeupsGrid" class="Grid"><tbody><tr><th style="width:60px">Время</th><th>Сообщения</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="WakeupsGrid" class="Grid"><tbody><tr><th width="60">Время</th><th width="100">Пользователь</th><th>Сообщения</th></tr></table>
 
 <ul class="Links">
 	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>

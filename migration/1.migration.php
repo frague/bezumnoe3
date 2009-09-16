@@ -70,6 +70,7 @@
 	$q = $db->Query("TRUNCATE TABLE ".Wakeup::table);
 	$q = $db->Query("TRUNCATE TABLE ".TreeNode::table);
 	$q = $db->Query("TRUNCATE TABLE ".AdminComment::table);
+	$q = $db->Query("TRUNCATE TABLE ".ScheduledTask::table);
 
 	InitStatuses();
 
@@ -116,7 +117,6 @@
 			$user->Guid = $guid;
 			$result = $user->Save();
 
-
 		    if ($result == "" && !$user->IsEmpty()) {
 
 		    	/* Keep tree information... */
@@ -148,6 +148,19 @@
 				$profile->About = str_replace("<br>", "\n", $lines[28]);
 
 				$profile->Save();
+
+		    	/* Schedule oldbie status */
+		    	if ($rights < 11) {
+//		    		echo "<li> ".$profile->Registered;
+		    	    $d = ParseDate($profile->Registered);
+		    	    if (round(date("Y", $d)) < 1999) {
+		    	    	$d = time();
+		    	    }
+//		    	    echo " = ".$dd.", ".$user->Id."(".(1 + date("Y", $d))."-".date("m", $d)."-".date("d", $d).")";
+		    	    $dd = DateFromTime(MakeTime(1 + date("Y", $d), date("m", $d), date("d", $d)));
+		    		$task = new StatusScheduledTask($user->Id, $dd);
+		    		$task->Save();
+		    	}
 
 				/* Settings */
 			    $settings = new Settings();

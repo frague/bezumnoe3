@@ -168,7 +168,7 @@ class User extends EntityBase {
 	}
 
 	function IsBanned() {
-		return round($this->BannedBy) > 0;
+		return !IdIsNull($this->BannedBy);
 	}
 
 	function FillBanInfoFromHash($hash, $user) {
@@ -313,7 +313,7 @@ JsQuote($this->SessionAddress)."\",\"".
 JsQuote($this->StatusId)."\",\"".
 JsQuote($this->BannedBy)."\",\"".
 JsQuote($this->BanReason)."\",\"".
-PrintableDate($this->BannedTill, 0)."\",\"".
+JsQuote($this->BannedTill)."\",\"".
 JsQuote($admin)."\"]";
 		return $s;
 	}

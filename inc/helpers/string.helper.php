@@ -55,12 +55,12 @@
 	}
 
 	function Nullable($value) {
-		return $value ? "'".$value."'" : "NULL";
+		return $value ? "'".SqlQuote($value)."'" : "NULL";
 	}
 
 	function NullableId($value) {
 		$value = round($value);
-		return ($value && $value > 0) ? $value : "NULL";
+		return ($value && $value > 0) ? round($value) : "NULL";
 	}
 
 	function Boolean($value) {

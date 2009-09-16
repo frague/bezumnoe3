@@ -26,6 +26,7 @@
 		m1.className = "ConfirmButtons";
 		this.SubmitButton = MakeButton(method, "ok_button.gif", obj ? obj : this);
 		m1.appendChild(this.SubmitButton);
+//		alert(holder ? holder : "RelatedDiv");
 		this[holder ? holder : "RelatedDiv"].appendChild(m1);
 	};
 

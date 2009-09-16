@@ -19,9 +19,9 @@
 	<tr>
 		<td colspan="2">
 			<h4>Приоритет:</h4>
-			<input type="checkbox" id="SEVERITY_NORMAL" name="SEVERITY_NORMAL" checked> <label for="SEVERITY_NORMAL">нормальный</label>&nbsp;
-			<input type="checkbox" id="SEVERITY_WARNING" name="SEVERITY_WARNING" checked> <label for="SEVERITY_WARNING">предупреждение</label>&nbsp;
-			<input type="checkbox" id="SEVERITY_ERROR" name="SEVERITY_ERROR" checked> <label for="SEVERITY_ERROR">ошибка</label>
+			<input type="checkbox" id="SEVERITY_NORMAL" name="SEVERITY_NORMAL" checked> нормальный&nbsp;
+			<input type="checkbox" id="SEVERITY_WARNING" name="SEVERITY_WARNING" checked> предупреждение&nbsp;
+			<input type="checkbox" id="SEVERITY_ERROR" name="SEVERITY_ERROR" checked> ошибка
 			</td></tr></table>
 
 <ul class="Links">

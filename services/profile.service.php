@@ -131,6 +131,15 @@
 								} else if ($bannedBy && !$targetUser->BannedBy) {
 									LogBanEnd($targetUser->Id, $user->User->Login);
 								}
+								// Scheduled unbanning
+								$task = new ScheduledTask();
+								// Banned with no unban date
+								$task->DeleteUserUnbans($targetUser->Id);
+								if ($targetUser->BannedTill) {
+									// Scheduling unban
+									$task = new UnbanScheduledTask($targetUser->Id, $targetUser->BannedTill);
+									$task->Save();
+								}
 
 								$save_user = true;
 							}

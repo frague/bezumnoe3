@@ -1,4 +1,10 @@
 <?
+	// Time ranges
+	$RangeMinute = 60;
+	$RangeHour = 60 * $RangeMinute;
+	$RangeDay = 24 * $RangeHour;
+	$RangeMonth = 30 * $RangeDay;
+	$RangeYear = 365 * $RangeDay;
 
 	function DateFromTime($t, $format = "Y-m-d H:i:s") {
 		if (!$t) {
@@ -16,7 +22,7 @@
 	}
 
 	function MakeTime($year, $month, $day) {
-	  global $daySeconds;
+	  global $RangeDay ;
 
 		if ($month > 12 || $month < 1) {
 	   		$year += round($month / 12);
@@ -27,12 +33,15 @@
 	   		}
 	   	}
 	   	$tempYear = $year + ($month == 12 ? 1 : 0);
-	   	$tempMonth = $month == 12 ? 1 : $month + 1;
-	   	$days = date("d", mktime($tempYear, $tempMonth, 1, 0,0,0) - $daySeconds);
+	   	$tempMonth = ($month == 12 ? 1 : $month + 1);
+	   	$days = date("d", mktime(0,0,0, $tempMonth, 1, $tempYear) - 1);
+
+//	   	echo " *$days ".DateFromTime(mktime(0,0,0, $tempMonth, 1, $tempYear))."*";
+
 	   	if ($day < 0) {
 	    	$year = $year - ($month == 1 ? 1 : 0);
 	   		$month = $month == 1 ? 12 : $month - 1;
-	   		$days = date("d", mktime($tempYear, $tempMonth, 1, 0,0,0) - $daySeconds);
+	   		$days = date("d", mktime(0,0,0, 1, $month, $year) - 1);
 	   		$day = $day + days;
 	   	}
 	   	if ($day > $days) {

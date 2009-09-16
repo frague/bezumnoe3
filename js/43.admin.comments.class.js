@@ -41,9 +41,9 @@ AdminComments.prototype.TemplateLoaded = function(req) {
 	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["RefreshAdminComments"]);
 
 	// System log checkboxes
-	BindEnterTo(this.Inputs["PRIORITY_NORMAL"], this.Inputs["RefreshAdminComments"]);
-	BindEnterTo(this.Inputs["PRIORITY_WARNING"], this.Inputs["RefreshAdminComments"]);
-	BindEnterTo(this.Inputs["PRIORITY_ERROR"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEVERITY_NORMAL"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEVERITY_WARNING"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEVERITY_ERROR"], this.Inputs["RefreshAdminComments"]);
 
 	if (this.Init) {
 		this.Init();

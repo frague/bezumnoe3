@@ -91,8 +91,12 @@
 							if ($user->Status->Rights >= $targetStatus->Rights) {
 								$targetUser->Ban($message, "", $user->User->Id);
 								$targetUser->Save();
-									$msg = new SystemMessage($user->DisplayedName()." банит пользователя ".$n.($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
-								} else {
+								$msg = new SystemMessage($user->DisplayedName()." банит пользователя ".$n.($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
+
+								// Scheduler
+								$task = new ScheduledTask();
+								$task->DeleteUserUnbans($targetUser->Id);
+							} else {
 								$msg = new PrivateSystemMessage("Невозможно забанить пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
 							}
 							$msg->Save();

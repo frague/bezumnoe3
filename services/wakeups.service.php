@@ -18,10 +18,16 @@
 	if (!$isIncoming && !$isOutgoing) {
 		echo "this.data=[];this.Total=0;";
 		die;
-	} else if ($isIncoming && !$isOutgoing) {
-		$condition .= ($condition ? " AND " : "")."t1.".Wakeup::TO_USER_ID."=".$user->User->Id;
-	} else {
-		$condition .= ($condition ? " AND " : "")."t1.".Wakeup::FROM_USER_ID."=".$user->User->Id;
+	}
+	$directionCondition = "";
+	if ($isIncoming) {
+		$directionCondition = "t1.".Wakeup::TO_USER_ID."=".$user->User->Id;
+	} 
+	if ($isOutgoing) {
+		$directionCondition .= ($directionCondition ? " OR " : "")."t1.".Wakeup::FROM_USER_ID."=".$user->User->Id;
+	}
+	if ($directionCondition) {
+		$condition = ($condition ? $condition." AND " : "")."(".$directionCondition.")";
 	}
 
 	/* --- */

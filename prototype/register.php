@@ -101,6 +101,10 @@
 			$settings->UserId = $newborn->Id;
 			$settings->Save();
 
+			// Schedule oldbie status
+			$task = new StatusScheduledTask($newborn->Id, DateFromTime(MakeTime(1 + date("Y"), date("m"), date("d"))));
+			$task->Save();
+
 			// Journal
 			$journal = new Journal();
 			$journal->LinkedId = $newborn->Id;

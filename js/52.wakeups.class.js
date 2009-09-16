@@ -1,4 +1,4 @@
-//2.5
+//2.7
 /*
 	Wakeup messages grid. Edit & delete buttons.
 */
@@ -8,7 +8,7 @@ function Wakeups() {
 	this.ServicePath = servicesPath + "wakeups.service.php";
 	this.Template = "wakeups";
 	this.ClassName = "Wakeups";
-	this.Columns = 2;
+	this.Columns = 3;
 
 	this.GridId = "WakeupsGrid";
 };
@@ -67,21 +67,26 @@ wdto.prototype.ToString = function(index, obj, holder) {
 
 	var tr = MakeGridRow(index);
 	tr.className += this.IsRead ? "" : " Unread";
+	tr.className += (this.IsIncoming == "1" ? " Incoming" : " Outgoing");
 
 	var td0 = d.createElement("td");
 	td0.className = "Centered";
 	td0.innerHTML = date.Time();
 	tr.appendChild(td0);
 
-
 	var td1 = d.createElement("td");
-	var h2 = d.createElement("h2");
-	h2.className = (this.IsIncoming == "1" ? "Incoming" : "Outgoing");
-	h2.innerHTML = (this.IsIncoming == "1" ? "от " : "для ") + this.UserName;
-
-	td1.appendChild(h2);
-	td1.innerHTML += this.Content;
+	td1.className = "Centered";
+	var sender = "<i>вы сами (" + this.UserName + ")</i>";
+	if (!me || this.UserId != me.Id) {
+		sender = (this.IsIncoming == "1" ? "от " : "для ") + this.UserName;
+	}
+	td1.innerHTML = sender;
 	tr.appendChild(td1);
+
+	var td2 = d.createElement("td");
+	td2.innerHTML = this.Content;
+	tr.appendChild(td2);
+
 
 	return tr;
 };

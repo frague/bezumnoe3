@@ -1,4 +1,4 @@
-//2.3
+//2.4
 /*
 	System log
 */
@@ -17,3 +17,8 @@ SystemLog.prototype = new AdminComments();
 SystemLog.prototype.Init = function() {
     this.FindRelatedControls();
 };
+
+SystemLog.prototype.InitPager = function() {
+	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.SystemLog.SwitchPage()}, this.PerPage);
+};
+

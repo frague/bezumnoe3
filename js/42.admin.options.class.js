@@ -1,4 +1,4 @@
-//1.6
+//1.7
 /*
 	Admin options
 */
@@ -25,5 +25,8 @@ AdminOptions.prototype.TemplateLoaded = function(req) {
 			var s = new Spoiler(i + 1, spoilerNames[i], 0, 0, spoilerInits[i]);
 			s.ToString(spoilers);
 		}
+//		alert(spoilerInits.length);
+	} else {
+		alert(PropertiesOf(spoilers));
 	}
 };

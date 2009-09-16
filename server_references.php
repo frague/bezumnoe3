@@ -34,10 +34,11 @@
 	require_once $root."inc/classes/entities/banned_address.class.php";
 	require_once $root."inc/classes/entities/news.class.php";
 	require_once $root."inc/classes/entities/news_record.class.php";
-
 	require_once $root."inc/classes/entities/gallery.class.php";
 	require_once $root."inc/classes/entities/gallery_photo.class.php";
 	require_once $root."inc/classes/entities/gallery_comment.class.php";
+
+	require_once $root."inc/classes/entities/scheduled_task.class.php";
 
 	/* Service classes */
 	require_once $root."inc/classes/sql.class.php";
@@ -54,6 +55,7 @@
 	require_once $root."inc/helpers/journal.helper.php";
 	require_once $root."inc/helpers/email.helper.php";
 	require_once $root."inc/helpers/image.helper.php";
+	require_once $root."inc/helpers/scheduler.helper.php";
 
 	/* Config & Initialization */
 	require_once $root."inc/settings.php";

@@ -532,7 +532,6 @@ VALUES
 ".self::INDEX."='".SqlQuote($this->Index)."', 
 ".self::TYPE."='".round($this->Type)."', 
 ".self::AUTHOR."='".SqlQuote($this->Author)."', 
-".self::USER_ID."=".NullableId($this->UserId).", 
 ".self::TITLE."='".SqlQuote($this->Title)."', 
 ".self::CONTENT."='".SqlQuote($this->Content)."', 
 ".self::DATE."='".SqlQuote($this->Date)."', 
@@ -545,6 +544,8 @@ VALUES
 WHERE 
 	".self::RECORD_ID."=".SqlQuote($this->Id);
 		return $result;
+//".self::USER_ID."=".NullableId($this->UserId).", // To avoid inconsistency between message's author and updater
+
 	}
 
 	function UpdateAnswersCountExpression($answers, $deleted = 0) {

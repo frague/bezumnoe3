@@ -87,7 +87,7 @@ class Query {
 	}
 
 	function AffectedRows() {
-		return @mysql_affected_rows($this->Q);
+		return @mysql_affected_rows($this->DB_stored);
 	}
 }
 
