@@ -1,10 +1,10 @@
-//5.1
+//5.2
 /*
 	User Manager admin functionality
 */
 
 function Userman() {
-	this.fields = new Array("BY_NAME", "BY_ROOM", "BY_STATUS");
+	this.fields = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY"];
 	this.ServicePath = servicesPath + "users.service.php";
 	this.Template = "userman";
 	this.ClassName = "Userman";
@@ -37,7 +37,7 @@ Userman.prototype.RequestCallback = function(req, obj) {
 Userman.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
-	var assignee = ["BY_NAME", "BY_ROOM"];
+	var assignee = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY"];
 	for (var i = 0, l = assignee.length; i <l; i++) {
 		var el = this.Inputs[assignee[i]];
 		if (el) {
@@ -156,12 +156,13 @@ function DoRequest() {
 	var userManager = this.obj;
 	if (userManager) {
 		userSearched = 1;
-		if (this.value == lastValue) {
+
+		usersParams = userManager.Gather();
+		usersParams+= MakeParametersPair("type", this.name);
+		if (usersParams == lastValue) {
 			return;
 		}
-		usersParams = MakeParametersPair("type", this.name);
-		usersParams+= MakeParametersPair("value", this.value);
-		lastValue = this.value;
+		lastValue = usersParams;
 		userManager.Request(usersParams);
 	}
 };

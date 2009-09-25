@@ -136,7 +136,7 @@ function ShowRecepients() {
 						prefix = "Забанить ";
 						break;
 					case "me":
-						prefix = "Сообщение от третьего лица";
+						prefix = "О себе в третьем лице";
 						break;
 					case "status":
 						prefix = "Установить статус";
@@ -168,6 +168,9 @@ function ShowRecepients() {
 
 // Add recepient
 function AR(id, name, type) {
+	if (id == me.Id) {
+		return;
+	}
 	if (MainTab) {
 		if (type != messageType) {
 			messageType = type;
@@ -262,6 +265,14 @@ function Pong(req) {
 
 	if (!menuInitilized && me.Login) {
 		InitMenu($("MenuContainer"));
+	}
+
+	var currentName = $("CurrentName");
+	if (currentName) {
+		var oldName = currentName.innerHTML;
+		if ((me.Nickname && oldName != me.Nickname) || (!me.Nickname && currentName.innerHTML != me.Nickname)) {
+			currentName.innerHTML = me.Nickname ? me.Nickname : me.Login;
+		}
 	}
 };
 
@@ -358,7 +369,7 @@ function Banned(reason, admin, admin_id, till) {
 	co.AlertType = true;
 	var s = Format("Администратор #info# забанил вас " + (till ? "до " + till : ""), admin_id, admin);
 	s += (reason ? " по причине <h4>&laquo;" + reason + "&raquo;</h4>" : "");
-	s += ".<br>Пожалуйста, ознакомьтесь с <a href=/rulezz.html>правилами</a> чата.<br>До свидания.";
+	s += "Пожалуйста, ознакомьтесь с <a href=/rulezz.html>правилами</a> чата.<br>До свидания.";
 	co.Show("/rulezz.html", "Пользователь забанен", s);
 };
 

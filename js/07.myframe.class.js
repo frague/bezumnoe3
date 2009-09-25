@@ -1,15 +1,18 @@
-//1.0
+//1.1
 /*
 
 	MyFrame class
 	Handles window resize and update object's properties correspondingly
 
 */
-function MyFrame(obj) {
+function MyFrame(obj, min_width, min_height) {
 	this.x = 0;
 	this.y = 0;
 	this.width = 0;
 	this.height = 0;
+
+	this.minWidth = min_width ? parseInt(min_width) : 0;
+	this.minHeight = min_height ? parseInt(min_height) : 0;
 
 	this.element = 0;
 
@@ -61,9 +64,15 @@ function MyFrame(obj) {
 			this.element.style.top = y +  'px';
 		}
 		if (w >= 0) {
+			if (w < this.minWidth) {
+				w = this.minWidth;
+			}
 			this.element.style.width = w + 'px';
 		}
 		if (h >= 0) {
+			if (h < this.minHeight) {
+				h = this.minHeight;
+			}
 			this.element.style.height = h + 'px';
 		}
 		this.GetPosAndSize();

@@ -130,11 +130,16 @@
 		}
 	}
 
+	$firstUser = "";
 	$user1 = new UserComplete();
 	$q = $user1->GetByCondition("t1.".User::ROOM_ID." IS NOT NULL", $user->ReadWithIgnoreDataExpression($user->User->Id));
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$user1->FillFromResult($q);
+		if (!$i) {
+			$firstUser = $user1;
+		}
+
 		$id1 = $user1->User->Id;
 
 		$user_key = "u_".$id1;
@@ -253,6 +258,10 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 		echo $s;
 	}
 
-	ExecuteScheduledTasks();
+	// Only the first user in the list will be executing scheduled tasks...
+	// Not really fair, but it'll reduce the server load
+	if ($firstUser && $user->User->Id == $firstUser->User->Id) {
+		ExecuteScheduledTasks();
+	}
 
 ?>

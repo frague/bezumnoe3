@@ -57,10 +57,10 @@
 					if ($n->Validate()) {
 						if (!$n->Save()) {
 							$errors .= "<li> Имя &laquo;".$n->Title."&raquo уже занято";
-//							if ($n->IsSelected) {
-//								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> меняет имя на ".$user->User->Login, $user->User->RoomId);
-//								$msg->Save();
-//							}
+							if ($n->IsSelected) {
+								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> меняет имя на ".$user->User->Login, $user->User->RoomId);
+								$msg->Save();
+							}
 						} else {
 							$userNames["_".$n->id] = $n;
 							if ($n->IsSelected && $n->Title != $user->DisplayedName()) {

@@ -1,8 +1,8 @@
-var usersFrame = new MyFrame($('Users'));
-var formFrame = new MyFrame($('MessageForm'));
-var messagesFrame = new MyFrame($('Messages'));
+var usersFrame = new MyFrame($('Users'), 0, 100);
+var formFrame = new MyFrame($('MessageForm'), 500);
+var messagesFrame = new MyFrame($('Messages'), 500, 100);
 var textLinesFrame = new MyFrame($('MessagesContainer'));
-var statusFrame = new MyFrame($('Status'));
+var statusFrame = new MyFrame($('Status'), 660);
 var alerts = new MyFrame($('AlertContainer'));
 var winSize = new MyFrame(window);
 

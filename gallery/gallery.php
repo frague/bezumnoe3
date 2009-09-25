@@ -67,7 +67,7 @@
 	$result.= $pager;
 
 	// Printing
-	AddLastModified(strtotime($lastModified));
+	AddEtagHeader(strtotime($lastModified));
 	Head($gallery->Title, "gallery.css", "");
 	echo $result;
 	Foot();

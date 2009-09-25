@@ -109,6 +109,13 @@ class User extends EntityBase {
 		if (!$this->IsEmpty() && $this->IsBanned() && $this->BannedTill) {
 			if (time() > strtotime($this->BannedTill)) {
 				$this->StopBan();
+
+				//Remove scheduled unbans
+				$task = new ScheduledTask();
+				$task->DeleteUserUnbans($this->Id);
+
+			 	// Write log
+			 	LogBanEnd($this->Id, ScheduledTask::SCHEDULER_LOGIN);
 				return true;
 			}
 		}
@@ -394,7 +401,7 @@ VALUES
 	".self::AWAY_MESSAGE."='".SqlQuote($this->AwayMessage)."', 
 	".self::AWAY_TIME."=".Nullable(SqlQuote($this->AwayTime)).",
 	".self::BANNED_TILL."=".Nullable(SqlQuote($this->BannedTill)).",
-	".self::BAN_REASON."=".NullableId(SqlQuote($this->BanReason)).",
+	".self::BAN_REASON."=".Nullable($this->BanReason).",
 	".self::BANNED_BY."=".NullableId($this->BannedBy).",
 	".self::KICK_MESSAGES."='".SqlQuote($this->KickMessages)."',
 	".self::GUID."='".SqlQuote($this->Guid)."'
@@ -456,6 +463,7 @@ WHERE
 FROM 
 	".$this->table." t1
 	LEFT JOIN ".Nickname::table." t2 ON t2.".Nickname::USER_ID."=t1.".self::USER_ID."
+	LEFT JOIN ".Profile::table." t3 ON t3.".Profile::USER_ID."=t1.".self::USER_ID."
 WHERE
 	##CONDITION##
 GROUP BY t1.".self::USER_ID."

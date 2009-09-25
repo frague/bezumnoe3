@@ -93,6 +93,9 @@
 								$targetUser->Save();
 								$msg = new SystemMessage($user->DisplayedName()." банит пользователя ".$n.($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
 
+								// Write log
+								LogBan($targetUser->Id, $targetUser->BanReason, $user->User->Login, $targetUser->BannedTill);
+
 								// Scheduler
 								$task = new ScheduledTask();
 								$task->DeleteUserUnbans($targetUser->Id);

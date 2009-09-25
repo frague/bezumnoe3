@@ -24,7 +24,7 @@
 	$template = GetTemplateOrDie($settings);
 
     header("Content-type: text/css");
-	AddLastModified(strtotime($template->Updated));
+	AddEtagHeader(strtotime($template->Updated));
 
 
 	// Pre-processing (?)

@@ -208,7 +208,7 @@
 
 	// Write caching header
 	if (!$record->IsEmpty()) {
-		AddLastModified(strtotime($record->UpdateDate));
+		AddEtagHeader(strtotime($record->UpdateDate));
 	}
 	// Insert reference to styles to prevent alternative ones
 	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='css.php?alias=".$settings->Alias."'>", $bodyText);

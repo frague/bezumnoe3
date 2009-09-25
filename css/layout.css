@@ -239,6 +239,7 @@ p a {
 
 p strong {
 	font-weight:normal;
+	color:white;
 	background-color:#404040;
 	padding: 0 2px 0 2px;
 }

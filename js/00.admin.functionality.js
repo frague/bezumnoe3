@@ -1,4 +1,4 @@
-//1.5
+//1.6
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -31,9 +31,14 @@ function ShowUser(id, name) {
 
 /* Admin Options */
 
-var spoilerNames = ["Запреты"];
+var spoilerNames = [
+	"Запреты",
+	"Комнаты"
+];
+
 var spoilerInits = [
-	function(tab) {new BannedAddresses().LoadTemplate(tab)}
+	function(tab) {new BannedAddresses().LoadTemplate(tab)},
+	function(tab) {}
 ];
 
 

@@ -1,19 +1,12 @@
 <?php
 
-	function AddCacheHeader($last_modified, $filename) {
+	function AddEtagHeader($etag) {
 
-		$lm = gmdate("D, d M Y H:i:s", $last_modified)." GMT";
-		$etag = '"'.md5($lm.$filename).'"';
+		header("ETag: ".$etag);
 
-		header("Last-Modified: $lm");
-		header("ETag: $etag");
-
-		if (@strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]) == $last_modified ||
-		    trim($_SERVER["HTTP_IF_NONE_MATCH"]) == $etag) {
+		if (trim($_SERVER["HTTP_IF_NONE_MATCH"]) == $etag) {
 		    header("HTTP/1.1 304 Not Modified");
 		    die;
-		} else {
-		    //header("HTTP/1.1 200 OK");
 		}
 	}
 

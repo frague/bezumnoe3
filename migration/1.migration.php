@@ -149,14 +149,13 @@
 
 				$profile->Save();
 
-		    	/* Schedule oldbie status */
-		    	if ($rights < 11) {
-//		    		echo "<li> ".$profile->Registered;
+		    	/* Schedule oldbie status for those who visited chat last year */
+		    	$d = ParseDate($profile->LastVisit);
+		    	if ($rights < 11 && round(date("Y", $d)) == date("Y")) {
 		    	    $d = ParseDate($profile->Registered);
 		    	    if (round(date("Y", $d)) < 1999) {
 		    	    	$d = time();
 		    	    }
-//		    	    echo " = ".$dd.", ".$user->Id."(".(1 + date("Y", $d))."-".date("m", $d)."-".date("d", $d).")";
 		    	    $dd = DateFromTime(MakeTime(1 + date("Y", $d), date("m", $d), date("d", $d)));
 		    		$task = new StatusScheduledTask($user->Id, $dd);
 		    		$task->Save();

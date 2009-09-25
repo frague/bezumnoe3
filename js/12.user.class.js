@@ -1,4 +1,4 @@
-//4.8
+//4.9
 /*
 	Represents user entity on client-side.
 */
@@ -131,6 +131,10 @@ User.prototype.NameToString = function(name, has_access) {
 	var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + voidHref + ' onclick="SwitchVisibility(\'_' + this.Id + '\')" ';
 	s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';
 	return s;
+};
+
+User.prototype.DisplayedName = function() {
+	return this.Nickname ? this.Nickname : this.Login;
 };
 
 User.prototype.HasAccessTo = function(room) {

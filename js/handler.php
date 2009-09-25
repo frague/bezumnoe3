@@ -102,7 +102,8 @@
 
     if ($v) {
     	if ($version) {
-    		AddLastModified($lastModifiedTime);
+    		//AddLastModified($lastModifiedTime);
+    		AddEtagHeader($lastModifiedTime);
     		//Process (encode) data somehow
     	}
 		echo $v;

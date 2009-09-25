@@ -8,34 +8,56 @@
 	}
 
 	$type = $_POST["type"];
-	$value = SqlQuote(trim(substr(UTF8toWin1251($_POST["value"]), 0, 20)));
 
 	$condition = "";
 	$expression = "";
 	$u = new User();
 
-	if (!$value) {
-		exit;
-	}
-
+	$value = "";
 	$limit = 0;
 	$expression = $u->FindUserExpression();
-
+	
 	switch ($type) {
-		case "BY_NAME":
-			$condition = "t1.".User::LOGIN." LIKE '%".$value."%' OR t2.".Nickname::TITLE." LIKE '%".$value."%'";
-			$limit = 20;
-			break;
 		case "BY_ROOM":
-			$room_id = round($value);
+			$room_id = round($_POST["BY_ROOM"]);
 			$condition = "t1.".User::ROOM_ID."=".$room_id;
 			$eq = "t2.".Nickname::USER_ID."=t1.".User::USER_ID;
 			$expression = str_replace($eq, $eq." AND t2.".Nickname::IS_SELECTED."=1", $expression);
 			break;
 		default:
-			exit;
+			$value = SqlQuote(trim(substr(UTF8toWin1251($_POST["BY_NAME"]), 0, 20)));
+
+			$condition = $value ? "t1.".User::LOGIN." LIKE '%".$value."%' OR t2.".Nickname::TITLE." LIKE '%".$value."%'" : "1=1";
+			$limit = 20;
+			break;
 	}
-	
+
+	$today = DateFromTime(time(), "Y-m-d");
+	$yesterday = DateFromTime(time() - $RangeDay, "Y-m-d");
+	$year = DateFromTime(time() - $RangeYear, "Y-m-d");
+
+	$filters = array("FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY");
+	for ($i = 0; $i < sizeof($filters); $i++) {
+		$filter = $filters[$i];
+		if (!$_POST[$filter]) {
+			continue;
+		}
+		switch ($filter) {
+			case "FILTER_BANNED":
+				$condition .= " AND t1.".User::BANNED_BY." IS NOT NULL";
+				break;
+			case "FILTER_EXPIRED":
+				$condition .= " AND t3.".Profile::LAST_VISIT." < '".$year."'";
+				break;
+			case "FILTER_TODAY":
+				$condition .= " AND t3.".Profile::LAST_VISIT." LIKE '".$today."%'";
+				break;
+			case "FILTER_YESTERDAY":
+				$condition .= " AND t3.".Profile::LAST_VISIT." LIKE '".$yesterday."%'";
+				break;
+		}
+	}
+
 	$q = $u->GetByCondition($condition, $expression.($limit ? " LIMIT ".($limit + 1) : ""));
 	$rows = $q->NumRows();
 	$result = "";

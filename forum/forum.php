@@ -66,7 +66,7 @@
 	$result.= $pager;
 
 	// Printing
-	AddLastModified(strtotime($lastModified));
+	AddEtagHeader(strtotime($lastModified));
 	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 

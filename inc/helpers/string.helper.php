@@ -322,6 +322,9 @@
 	}
 
 	function Mark($haystack, $needle) {
+		if (!$needle) {
+			return $haystack;
+		}
 		$needle = mb_strtolower($needle);
 
 		$p = strpos(mb_strtolower($haystack), $needle);

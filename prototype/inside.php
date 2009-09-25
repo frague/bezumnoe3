@@ -3,7 +3,7 @@
 	$root = "../";
 	require_once $root."server_references.php";
 
-	$user = GetAuthorizedUser($dbMain, true);
+	$user = GetAuthorizedUser(true, true);
 
 	if ($user->IsEmpty()) {
 		echo "Not logged. Bye!";
@@ -13,7 +13,7 @@
 	/* Check room */
 	$room = new Room();
 	// TODO: Entering room logic (select room upon entering)
-	$room->FillByCondition("1 LIMIT 1");
+	$room->FillByCondition("t1.".Room::IS_INVITATION_REQUIRED."=0 AND t1.".Room::IS_DELETED."=0 ORDER BY ".Room::TITLE." LIMIT 1");
 
 	if ($room->IsEmpty()) {
 		$room->Title = "Alternative";
@@ -68,11 +68,15 @@
 
 		<div id="MessageForm">
 			<form onsubmit="Send();return false;">
-			<div><? echo $user->DisplayedName() ?></div>
 			<table>
 				<tr>
+					<td></td>
+					<td id="CurrentName" colspan="2"><? echo $user->DisplayedName() ?></td></tr>
+				<tr>
+					<td></td>
 					<td id="RecepientsContainer" colspan="2"></td></tr>
 				<tr>
+					<td><a href="javascript:void(0)" onclick="MI('me')">me</a></td>
 					<td width="100%">
 						<input id="Message" style="width:100%;" autocomplete="off">
 					</td><td>

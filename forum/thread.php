@@ -69,7 +69,7 @@
 	$result.= new Pager($answers, $messagesPerPage, $from);
 
 	// Printing
-	AddLastModified(strtotime($record->UpdateDate));
+	AddEtagHeader(strtotime($record->UpdateDate));
 	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 	

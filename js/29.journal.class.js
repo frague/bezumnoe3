@@ -1,4 +1,4 @@
-//5.1
+//6.0
 /*
 	Journal functionality: Blog templates, messages, settings
 */

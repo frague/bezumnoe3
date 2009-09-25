@@ -26,7 +26,7 @@
 		DieWith404();
 	}
 
-	AddLastModified(strtotime($record->UpdateDate));
+	AddEtagHeader(strtotime($record->UpdateDate));
 	Head($record->Title, "forum.css", "forum.js");
 	require_once $root."references.php";
 
