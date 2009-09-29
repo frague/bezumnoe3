@@ -323,7 +323,7 @@ textarea.Maximized, #templates textarea.Maximized {
 #UsersContainer a b, #MessagesLogGrid td b {
 	background-color:#505050;
 }
-#UsersContainer ul {
+#UsersContainer ul, ul.Custom {
 	list-style-image: url(/3/img/li_small_yellow.gif);
 	padding-left:20px;
 	margin-top:2px;

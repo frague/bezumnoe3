@@ -37,8 +37,10 @@
 	require_once $root."inc/classes/entities/gallery.class.php";
 	require_once $root."inc/classes/entities/gallery_photo.class.php";
 	require_once $root."inc/classes/entities/gallery_comment.class.php";
-
 	require_once $root."inc/classes/entities/scheduled_task.class.php";
+
+	require_once $root."inc/classes/entities/tag.class.php";
+	require_once $root."inc/classes/entities/record_tag.class.php";
 
 	/* Service classes */
 	require_once $root."inc/classes/sql.class.php";

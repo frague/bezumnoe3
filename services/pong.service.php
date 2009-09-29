@@ -180,7 +180,7 @@
 
 	if (sizeof($u) > 0) {
 		while (list($roomId,$users) = each($u)) {
-			$message = new SystemMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат.", $roomId);
+			$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат.", $roomId);
 			$message->Save();
 		}
 	}

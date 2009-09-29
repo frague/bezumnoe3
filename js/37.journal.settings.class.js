@@ -30,7 +30,9 @@ JournalSettings.prototype.TemplateLoaded = function(req) {
 	this.Tab.Reactor = this;
 
 	this.Forum = this.Tab.Forum;
-	this.FORUM_ID = this.Forum.FORUM_ID;
+	if (this.Forum && this.Forum.FORUM_ID) {
+		this.FORUM_ID = this.Forum.FORUM_ID;
+	}
 
 	this.TemplateBaseLoaded(req);
 
@@ -43,7 +45,7 @@ JournalSettings.prototype.Request = function(params, callback) {
 	if (!params) {
 		params = "";
 	}
-	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
+	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
 	this.BaseRequest(params, callback);
 };
 

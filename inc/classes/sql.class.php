@@ -82,6 +82,11 @@ class Query {
 		return $val > 0 ? $val : -1;
 	}
 
+	function GetNullableIdExt($name) {
+		$val = round($this->Get($name));
+		return $val != 0 ? $val : -1;
+	}
+
 	function GetLastId() {
 		return @mysql_insert_id($this->DB_stored);
 	}

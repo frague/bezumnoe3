@@ -31,7 +31,7 @@
 		if (!$text) {
 			$text = "В чат входит %name";
 		}
-		$message = new SystemMessage(str_replace("%name", $user->DisplayedName(), $text), $room->Id);
+		$message = new EnterMessage(str_replace("%name", $user->DisplayedName(), $text), $room->Id);
 		$message->Save();
 		$user->User->RoomId = $room->Id;
 		$user->User->Save();
@@ -81,11 +81,20 @@
 						<input id="Message" style="width:100%;" autocomplete="off">
 					</td><td>
 						<input type="image" alt="Отправить сообщение" src="/3/img/send_button.gif" onclick="Send();return false;">
-					</td></tr></table></form>
+					</td></tr>
+				<tr>
+					<td></td>
+					<td align="right">
+						<a href="javascript:void(0)" onclick="HistoryGo(-1)">x</a>&nbsp;
+						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer+1)">&laquo;</a>&nbsp;
+						<span id="History">История сообщений (0/0)</span>&nbsp;
+						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer-1)">&raquo;</a> 
+						</td>
+					<td></td></tr></table></form>
 		</div>
 
 		<div id="Status">
-			<img id="pong" src="/3/img/pong.gif" style="float:right">
+			<img id="pong" style="float:right" src="/3/img/pong.gif">
 			<div id="MenuContainer"></div>
 		</div>
 
@@ -103,6 +112,8 @@
 			CurrentTab = MainTab;
 
 			tabs.Print();
+
+			HistoryGo(0);
 		</script>
 	</body>
 </html>

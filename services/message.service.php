@@ -155,7 +155,7 @@
 					if (!$text) {
 						$text = "%name выходит из чата.".($message ? " &laquo;".$message."&raquo;" : "");
 					}
-					$msg = new SystemMessage(str_replace("%name", $user->DisplayedName(), $text), $user->User->RoomId);
+					$msg = new QuitMessage(str_replace("%name", $user->DisplayedName(), $text), $user->User->RoomId);
 					$user->User->GoOffline();
 					$user->User->Save();
 					break;

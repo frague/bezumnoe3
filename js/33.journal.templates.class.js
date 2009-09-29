@@ -80,6 +80,9 @@ function Maximize(el) {
 function ShowSkinPreview(jt, background) {
 	var url = "url(".length;
 	var bg = background.substr(url, background.length - url -1);
+	if (bg.indexOf("/") > 0) {
+		bg = bg.substr(bg.lastIndexOf("/"));
+	}
 
 	jt.DisplayTabElement("previewCell", bg);
 	if (bg) {

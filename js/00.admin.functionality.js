@@ -32,11 +32,13 @@ function ShowUser(id, name) {
 /* Admin Options */
 
 var spoilerNames = [
+	"Кодекс администратора&nbsp;(обязателен для прочтения)",
 	"Запреты",
 	"Комнаты"
 ];
 
 var spoilerInits = [
+	function(tab) {new LawCode().LoadTemplate(tab)},
 	function(tab) {new BannedAddresses().LoadTemplate(tab)},
 	function(tab) {}
 ];

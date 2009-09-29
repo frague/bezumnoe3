@@ -63,6 +63,14 @@
 							$user->User->CreateSession();
 							$user->User->Save();
 						}
+
+						// Update LastVisited
+						$profile = new Profile();
+						$profile->GetByUserId($user->User->Id);
+						if (!$profile->IsEmpty()) {
+							$profile->LastVisit = NowDateTime();
+							$profile->Save();
+						}
 					}
 				}
 				return $user;

@@ -1,4 +1,4 @@
-//3.2
+//3.3
 /*
 	Create/edit blog post in separate tab.
 */
@@ -100,7 +100,14 @@ JournalPost.prototype.TemplateLoaded = function(req) {
 	this.Inputs["DATE"].value = new Date().ToString(1);
 	var a = new DatePicker(this.Inputs["DATE"], 1);
 
-	/* Submit button */
+	// Tags (labels) spoiler
+	var tagsContainer = this.Inputs["TagsContainer"];
+	if (tagsContainer) {
+		this.TagsSpoiler = new Spoiler(1, "Теги&nbsp;(метки)", 0, 0, function(tab) {new Tags().LoadTemplate(tab, me.Id, me.Login)});
+		this.TagsSpoiler.ToString(tagsContainer);
+	}
+
+	// Submit button 
 	this.Tab.AddSubmitButton("SaveJournalPost(this)", "", this);
 };
 

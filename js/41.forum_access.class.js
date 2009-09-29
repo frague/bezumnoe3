@@ -36,9 +36,9 @@ ForumAccess.prototype.TemplateLoaded = function(req) {
 
 	this.FindRelatedControls();
 
-	this.BlackListGrid = new UserList("BLACK_LIST", this);
-	this.WhiteListGrid = new UserList("WHITE_LIST", this);
-	this.FriendsListGrid = new UserList("FRIENDS_LIST", this);
+	this.BlackListGrid = new UserList("BLACK_LIST", this, new fadto());
+	this.WhiteListGrid = new UserList("WHITE_LIST", this, new fadto());
+	this.FriendsListGrid = new UserList("FRIENDS_LIST", this, new fjdto());
 
 	this.GroupSelfAssign(["RefreshForumAccess", "ADD_USER"]);
 	this.Inputs["ADD_USER"].Request = GetJournalUsers;
@@ -116,7 +116,7 @@ fadto.prototype.ToShowView = function(index, obj) {
 
 	var a = accesses[this.ACCESS];
 	var td1 = d.createElement("td");
-		td1.innerHTML = this.LOGIN + (a ? " (" + a + ")" : "");
+		td1.innerHTML = this.LOGIN + (a ? "&nbsp;(" + a + ")" : "");
 		if (this.ACCESS == FULL_ACCESS) {
 			td1.className = "Bold";
 		}
@@ -142,26 +142,26 @@ judto.prototype.ToString = function(index, obj, prev_id, holder, className) {
 		var li = d.createElement("li");
 		li.className = className;
 		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Добавить как администратора"));
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Добавить как пользователя"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Добавить в белый список"));
 		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Добавить в чёрный список"));
-		li.appendChild(MakeDiv(this.LOGIN + (this.NICKNAME ? " (" + this.NICKNAME + ")" : ""), "span"));
+		li.appendChild(MakeDiv(this.LOGIN + (this.NICKNAME ? "&nbsp;(" + this.NICKNAME + ")" : ""), "span"));
 		holder.appendChild(li);
 	}
 	if (this.JOURNAL_ID) {
 		li = d.createElement("li");
 		li.className = className + " Journal";
 		li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
-		li.appendChild(MakeDiv("Журнал &laquo;" + this.TITLE + "&raquo; (" + this.LOGIN + ")", "span"));
+		li.appendChild(MakeDiv("Журнал &laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")", "span"));
 		holder.appendChild(li);
 	}
 };
 
 /* Friendly Journal DTO */
 
-function fjdto($forum_id, $title, $login) {
-	this.fields = ["TARGET_FORUM_ID", "TITLE", "LOGIN"];
+function fjdto(forum_id, title, login, target_forum_id) {
+	this.fields = ["FORUM_ID", "TITLE", "LOGIN", "TARGET_FORUM_ID"];
 	this.Init(arguments);
-	this.Id = this.FORUM_ID;
+	this.Id = this.TARGET_FORUM_ID;
 };
 
 fjdto.prototype = new EditableDTO();
@@ -171,7 +171,7 @@ fjdto.prototype.ToShowView = function(index, obj) {
 	tr.className = (index % 2 ? "Dark" : "");
 
 	var td1 = d.createElement("td");
-		td1.innerHTML = "&laquo;" + this.TITLE + "&raquo; (" + this.LOGIN + ")";
+		td1.innerHTML = "&laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")";
 	tr.appendChild(td1);
 	tr.appendChild(this.MakeButtonsCell(1));
 	return tr;
@@ -181,8 +181,8 @@ fjdto.prototype.ToEditView = function() {};
 
 /* Userlist Grid */
 
-function UserList(id, relatedObject) {
-	var dt = new fadto();
+function UserList(id, relatedObject, dtObject) {
+	var dt = dtObject;
 	this.fields = dt.fields;
 
 	this.ServicePath = servicesPath + "forum_access.service.php";

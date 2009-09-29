@@ -58,7 +58,8 @@ class JournalFriend extends EntityBase {
 		return "new fjdto(\"".
 JsQuote($this->ForumId)."\",\"".
 JsQuote($title)."\", \"".
-JsQuote($login)."\")";
+JsQuote($login)."\", \"".
+JsQuote($this->FriendlyForumId)."\")";
 	}
 
 	function __tostring() {

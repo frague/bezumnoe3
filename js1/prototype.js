@@ -7,12 +7,17 @@ var PongImg = $("pong");
 var pongImage = new Image(); pongImage.src = imagesPath + 'pong.gif';
 
 var textField = $("Message");
+var historyContainer = $("History");
 
 var topicMessage = '';
 var lastMessageId = -1;
 var showRooms = 0;
 var newRoomId = 0;
 var pingTimer;
+
+var MessagesHistory = [];
+var historySize = 100;
+var historyPointer = -1;
 
 /* Messages */
 
@@ -332,7 +337,19 @@ function Send() {
 		messageType = "";
 		ShowRecepients();
 	}
+	ArrayInsertFirst(MessagesHistory, textField.value, historySize);
+	HistoryGo(-1);
+
 	textField.value = "";
+};
+
+function HistoryGo(i) {
+	if (i >= -1 && i < MessagesHistory.length) {
+		historyPointer = i;
+		historyContainer.innerHTML = "История сообщений (" + (historyPointer + 1) + "/" + MessagesHistory.length + ")";
+		var value = i >= 0 ? MessagesHistory[historyPointer] : "";
+		textField.value = value;
+	}
 };
 
 function Received(req) {

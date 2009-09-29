@@ -13,6 +13,9 @@
 <h4>Текст сообщения:</h4>
 <div id="ContentHolder"></div>
 
+<br>
+<div id="TagsContainer"></div>
+
 <table class="Wide">
 	<tr>
 		<td width="50%">

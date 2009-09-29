@@ -27,7 +27,7 @@
 		default:
 			$value = SqlQuote(trim(substr(UTF8toWin1251($_POST["BY_NAME"]), 0, 20)));
 
-			$condition = $value ? "t1.".User::LOGIN." LIKE '%".$value."%' OR t2.".Nickname::TITLE." LIKE '%".$value."%'" : "1=1";
+			$condition = $value ? "(t1.".User::LOGIN." LIKE '%".$value."%' OR t2.".Nickname::TITLE." LIKE '%".$value."%')" : "1=1";
 			$limit = 20;
 			break;
 	}
@@ -36,6 +36,7 @@
 	$yesterday = DateFromTime(time() - $RangeDay, "Y-m-d");
 	$year = DateFromTime(time() - $RangeYear, "Y-m-d");
 
+	$datesConditions = 0;
 	$filters = array("FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY");
 	for ($i = 0; $i < sizeof($filters); $i++) {
 		$filter = $filters[$i];
@@ -50,13 +51,20 @@
 				$condition .= " AND t3.".Profile::LAST_VISIT." < '".$year."'";
 				break;
 			case "FILTER_TODAY":
-				$condition .= " AND t3.".Profile::LAST_VISIT." LIKE '".$today."%'";
+				$condition .= ($datesCondition ? " OR " : " AND (")."t3.".Profile::LAST_VISIT." LIKE '".$today."%'";
+				$datesCondition = 1;
 				break;
 			case "FILTER_YESTERDAY":
-				$condition .= " AND t3.".Profile::LAST_VISIT." LIKE '".$yesterday."%'";
+				$condition .= ($datesCondition ? " OR " : " AND (")."t3.".Profile::LAST_VISIT." LIKE '".$yesterday."%'";
+				$datesCondition = 1;
 				break;
 		}
 	}
+	if ($datesCondition) {
+		$condition .= ")";
+	}
+
+//	echo "/* $condition */";
 
 	$q = $u->GetByCondition($condition, $expression.($limit ? " LIMIT ".($limit + 1) : ""));
 	$rows = $q->NumRows();

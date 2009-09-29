@@ -60,7 +60,12 @@
 
 	function NullableId($value) {
 		$value = round($value);
-		return ($value && $value > 0) ? round($value) : "NULL";
+		return ($value && $value > 0) ? $value : "NULL";
+	}
+
+	function NullableIdExt($value) {
+		$value = round($value);
+		return ($value != 0 ? $value : "NULL");
 	}
 
 	function Boolean($value) {

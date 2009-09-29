@@ -21,6 +21,7 @@ function ShowBlog(id, name) {
 /* Admin Options */
 
 var spoilerNames = [
+	"Кодекс администратора", 
 	"Новости чата", 
 	"Запреты", 
 	"Логи системы", 
@@ -31,6 +32,7 @@ var spoilerNames = [
 ];
 
 var spoilerInits = [
+	function(tab) {new LawCode().LoadTemplate(tab)},
 	function(tab) {new News().LoadTemplate(tab)},
 	function(tab) {new BannedAddresses().LoadTemplate(tab)},
 	function(tab) {new SystemLog().LoadTemplate(tab)},

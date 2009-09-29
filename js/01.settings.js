@@ -1,4 +1,4 @@
-//4.3
+//4.4
 /*
 	Contains all global script settings, constants and variables
 */
@@ -128,12 +128,8 @@ function MakeButtonLink(target, text, obj, css, alt) {
 
 function MakeButton(target, src, obj, css, alt) {
 	var a = MakeButtonLink(target, "", obj, css, alt);
-	var img = new Image();
-	img.src = imagesPath + src;
-	img.alt = alt;
-	img.title = alt;
 	a.className = "Button " + css;
-	a.appendChild(img);
+	a.innerHTML = "<img src='" + imagesPath + src + "' alt='" + alt + "' title='" + alt + "' />";
 	return a;
 };
 
@@ -230,5 +226,46 @@ function CancelBubbling(e) {
 	e.cancelBubble = true;
 	if (e.stopPropagation) {
 		e.stopPropagation();
+	}
+};
+
+// Create Pop & Push methods For Array if not supported
+
+function ArrayPop(a) {
+	var o = a[a.length - 1];
+	a.length--;
+	return o;
+};
+
+function ArrayPush(a, p) {
+	a[a.length] = p;
+	return a.length;
+};
+
+function ArrayInsertFirst(a, p, len) {
+	if (!a) {
+		return false;
+	}
+	for (var i = a.length - 1; i >= 0; i--) {
+		a[i + 1] = a[i];
+	}
+	a[0] = p;
+	if (a.length > len) {
+		a.length = len;
+	}
+};
+
+// DOM Helper methods
+
+function AddSelectOption(select, name, value, selected) {
+	var opt = d.createElement("option");
+	opt.value = value;
+	opt.text = name;
+	opt.selected = selected ? true : false;
+
+	try {
+    	select.add(opt, null); // standards compliant; doesn't work in IE
+	} catch (ex) {
+    	select.add(opt); // IE only
 	}
 };

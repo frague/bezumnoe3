@@ -49,7 +49,7 @@
 					}
 					break;
 				case "delete":
-					if ($forumUser->Delete()) {
+					if ($friend->Delete()) {
 						echo AddJsAlert("Журнал &laquo;".$journal->Title."&raquo; удалён из списка друзей.");
 					} else {
 						echo AddJsAlert("Журнал &laquo;".$journal->Title."&raquo; не найден в списке друзей.", 1);

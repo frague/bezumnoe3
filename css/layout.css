@@ -34,7 +34,7 @@ a.Link, span.imageLink a {
 	width:120px;
 }
 
-#RecepientsContainer {
+#RecepientsContainer, #History {
 	font-size:7pt;
 }
 
@@ -208,8 +208,22 @@ p.System span.Time {
 	font-weight:bold;
 	background-color:#E9AA50;
 	color:black;
-	padding:0 2px 0 2px;
+	padding:0 2px;
+	margin: 0 2px;
 }
+
+p.System span.Time.Green {
+	background: url(/3/img/enter_bg.gif) no-repeat right center;
+	padding:0 4px 0 2px;
+	margin: 0 0 0 2px;
+}
+
+p.System span.Time.Red {
+	background: url(/3/img/quit_bg.gif) no-repeat left center;
+	padding:0 2px 0 4px;
+	margin: 0 2px 0 0;
+}
+
 p.SystemPrivate {
 	font-family:'arial narrow';
 	color:#FF968E;

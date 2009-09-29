@@ -68,7 +68,7 @@ class Message extends EntityBase {
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::MESSAGE_ID);
 		$this->RoomId = $result->Get(self::ROOM_ID);
-		$this->UserId = $result->GetNullableId(self::USER_ID);
+		$this->UserId = $result->GetNullableIdExt(self::USER_ID);
 		$this->UserName = $result->Get(self::USER_NAME);
 		$this->ToUserId = $result->GetNullableId(self::TO_USER_ID);
 		$this->ToUserName = $result->Get(self::TO_USER_NAME);
@@ -118,7 +118,8 @@ class Message extends EntityBase {
 			if ($this->ToUserId > 0) {
 				return "<p class='SystemPrivate'><span class='Time'>".$moment."</span> ".$text."</p>";
 			} else {
-				return "<p class='System'><span class='Time'>".$moment."</span> ".$text."</p>";
+				$timeAdd = $this->UserId == -2 ? " Green" : ($this->UserId == -3 ? " Red" : "");
+				return "<p class='System'><span class='Time".$timeAdd."'>".$moment."</span> ".$text."</p>";
 			}
 		} else {
 			$settings = new Settings();
@@ -192,7 +193,7 @@ WHERE
 )
 VALUES
 ('".SqlQuote($this->RoomId)."', 
-".NullableId($this->UserId).", 
+".NullableIdExt($this->UserId).", 
 ".NullableId($this->ToUserId).", 
 '".SqlQuote($this->Text)."', 
 '".NowDateTime()."'
@@ -253,6 +254,32 @@ class SystemMessage extends Message {
 	function SystemMessage($text, $roomId) {
 		parent::__construct($text, "");
 		$this->RoomId = $roomId;
+	}
+}
+
+/*	========================================================
+
+	ENTER MESSAGE DERIVED CLASS
+
+	========================================================*/
+
+class EnterMessage extends SystemMessage {
+	function EnterMessage($text, $roomId) {
+		parent::__construct($text, $roomId);
+		$this->UserId = -2;
+	}
+}
+
+/*	========================================================
+
+	QUIT MESSAGE DERIVED CLASS
+
+	========================================================*/
+
+class QuitMessage extends SystemMessage {
+	function QuitMessage($text, $roomId) {
+		parent::__construct($text, $roomId);
+		$this->UserId = -3;
 	}
 }
 
