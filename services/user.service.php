@@ -1,5 +1,8 @@
 <?
 	require_once "base.service.php";
+	die;
+
+
 
 	$user_id = round($_POST["user_id"]);
 	

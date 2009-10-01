@@ -352,6 +352,15 @@ function CreateUserTab(id, login, obj, prefix, parameter, tab_id) {
 
 /* Common methods */
 
+function SaveObject(a) {
+	if (a && a.obj) {
+		if (a.obj.Tab & a.obj.Tab.Alerts) {
+			a.obj.Tab.Alerts.Clear();
+		}
+		a.obj.Save();
+	}
+};
+
 function ReRequestData(a) {
 	if (a.obj) {
 		a.obj.Tab.Alerts.Clear();

@@ -62,7 +62,7 @@ BannedAddresses.prototype.TemplateLoaded = function(req) {
 	new DatePicker(this.Inputs["TILL"]);
 
 	/* Submit button */
-	this.Tab.AddSubmitButton("SaveBan(this)", "", this);
+	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 	BindEnterTo(this.Inputs["CONTENT"], this.Tab.SubmitButton);
 	BindEnterTo(this.Inputs["TILL"], this.Tab.SubmitButton);
 };
@@ -118,10 +118,6 @@ badto.prototype.ToString = function(index, obj) {
 };
 
 /* Client events methods */
-
-function SaveBan(a) {
-	a.obj.Save();
-};
 
 function SendItemRequest(a, id, go) {
 	var params = MakeParametersPair("go", go);

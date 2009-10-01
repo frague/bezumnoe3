@@ -15,9 +15,7 @@ function Userman() {
 
 Userman.prototype = new Grid();
 
-Userman.prototype.BaseBind = function() {
-	return;
-};
+Userman.prototype.BaseBind = function() {};
 
 Userman.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
@@ -41,8 +39,8 @@ Userman.prototype.TemplateLoaded = function(req) {
 	for (var i = 0, l = assignee.length; i <l; i++) {
 		var el = this.Inputs[assignee[i]];
 		if (el) {
-			this.AssignSelfTo(assignee[i]);
-			el.Request = DoRequest;
+			var a = new DelayedRequestor(this, el);
+			a.GetParams = GatherUsersParameters;
 		}
 	}
 
@@ -137,32 +135,8 @@ function MakeUserMenuLink(el) {
 	return li;
 };
 
-var lastValue = " ";
-var usersTimer;
-var userSearched = 0;
-
-function GetUsers(input) {
-	if (!input) {
-		return;
-	}
-
-	if (usersTimer) {
-		clearTimeout(usersTimer);
-	}
-	usersTimer = setTimeout(function(){input.Request()}, 500);
-};
-
-function DoRequest() {
-	var userManager = this.obj;
-	if (userManager) {
-		userSearched = 1;
-
-		usersParams = userManager.Gather();
-		usersParams+= MakeParametersPair("type", this.name);
-		if (usersParams == lastValue) {
-			return;
-		}
-		lastValue = usersParams;
-		userManager.Request(usersParams);
-	}
+function GatherUsersParameters() {
+	var result = this.obj.Gather();
+	result += MakeParametersPair("type", this.Input.name);
+	return result;
 };

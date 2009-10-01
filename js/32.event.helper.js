@@ -13,7 +13,9 @@ function EnterHandler(e, el) {
 
 	if (keynum == 13 && el.Submitter) {
 		DoClick(el.Submitter);
+		return true;
 	}
+	return false;
 };
 
 function BindEnterTo(el, click_to) {

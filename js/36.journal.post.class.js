@@ -51,6 +51,9 @@ JournalPost.prototype.Request = function(params, callback) {
 	}
 	params += MakeParametersPair("RECORD_ID", this.RECORD_ID);
 	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
+	if (this.TagsSpoiler && this.TagsSpoiler.AddedTags) {
+		params += MakeParametersPair("TAGS", this.TagsSpoiler.AddedTags.Gather());
+	}
 	this.BaseRequest(params, callback);
 };
 
@@ -105,20 +108,15 @@ JournalPost.prototype.TemplateLoaded = function(req) {
 	if (tagsContainer) {
 		this.TagsSpoiler = new Spoiler(1, "Теги&nbsp;(метки)", 0, 0, function(tab) {new Tags().LoadTemplate(tab, me.Id, me.Login)});
 		this.TagsSpoiler.ToString(tagsContainer);
+		this.TagsSpoiler.RECORD_ID = this.RECORD_ID;
 	}
 
 	// Submit button 
-	this.Tab.AddSubmitButton("SaveJournalPost(this)", "", this);
+	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
 
 /* Helper methods */
-
-function SaveJournalPost(a) {
-	if (a.obj) {
-		a.obj.Save();
-	}
-};
 
 function EditJournalPost(obj, post_id) {
 	if (obj) {

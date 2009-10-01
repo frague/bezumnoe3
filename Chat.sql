@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 29, 2009 at 09:23 PM
+-- Generation Time: Oct 02, 2009 at 01:30 AM
 -- Server version: 5.0.77
 -- PHP Version: 5.2.9
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `admin_comments` (
   `SEVERITY` enum('0','1','2') NOT NULL default '0',
   PRIMARY KEY  (`ADMIN_COMMENT_ID`),
   KEY `USER_ID` (`USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Admin comments to users' AUTO_INCREMENT=221 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Admin comments to users' AUTO_INCREMENT=222 ;
 
 -- --------------------------------------------------------
 
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `forum_records` (
   `DELETED_COUNT` int(11) default '0',
   PRIMARY KEY  (`RECORD_ID`),
   KEY `Forum Threads` (`IND`(4),`FORUM_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=123778 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=123781 ;
 
 -- --------------------------------------------------------
 
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY  (`MESSAGE_ID`),
   KEY `ROOM_ID` (`ROOM_ID`),
   KEY `TO_USER_ID` (`TO_USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='All chat messages' AUTO_INCREMENT=139 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='All chat messages' AUTO_INCREMENT=149 ;
 
 -- --------------------------------------------------------
 
@@ -448,8 +448,9 @@ DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags` (
   `TAG_ID` bigint(20) NOT NULL auto_increment,
   `TITLE` varchar(100) NOT NULL,
-  PRIMARY KEY  (`TAG_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1251 COMMENT='Forum/Journal/Gallery records tags (labels)' AUTO_INCREMENT=1 ;
+  PRIMARY KEY  (`TAG_ID`),
+  UNIQUE KEY `UNIQUE TITLE` (`TITLE`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Forum/Journal/Gallery records tags (labels)' AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 

@@ -16,12 +16,12 @@
 	$room->FillByCondition("t1.".Room::IS_INVITATION_REQUIRED."=0 AND t1.".Room::IS_DELETED."=0 ORDER BY ".Room::TITLE." LIMIT 1");
 
 	if ($room->IsEmpty()) {
-		$room->Title = "Alternative";
+		$room->Title = "Oñíîâíàÿ";
 		$room->IsLocked = 1;
 		$room->Save();
 
 		$room = new Room();
-		$room->Title = "Default";
+		$room->Title = "Ìîæíî âñ¸";
 		$room->IsLocked = 1;
 		$room->Save();
 	}

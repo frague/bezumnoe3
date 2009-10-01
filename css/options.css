@@ -115,7 +115,7 @@ img.Photo {
 	display:block;
 }
 
-.AlertsContainer p.Error {
+.AlertsContainer p.Error, ul#Errors li {
 	color:red;
 }
 
@@ -323,11 +323,12 @@ textarea.Maximized, #templates textarea.Maximized {
 #UsersContainer a b, #MessagesLogGrid td b {
 	background-color:#505050;
 }
-#UsersContainer ul, ul.Custom {
+#UsersContainer ul, ul.Custom, ul#Errors {
 	list-style-image: url(/3/img/li_small_yellow.gif);
 	padding-left:20px;
 	margin-top:2px;
 }
+
 #UsersContainer ul a {
 	font-weight:normal;
 	color:#EEEEEE;
@@ -412,4 +413,21 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 .TabContainer.f #TYPE2, .TabContainer.g #TYPE2,
 .TabContainer.f #TYPE2LABEL, .TabContainer.g #TYPE2LABEL {
 	display:none;
+}
+
+.Options ul {
+	background-color:white;
+	border:solid 1px black;
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+
+.Options ul li {
+	padding:0 4px;
+	margin:0;
+}
+
+.Options ul li a {
+	color:black;
 }

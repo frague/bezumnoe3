@@ -52,6 +52,15 @@ class RecordTag extends EntityBase {
 		}
 	}
 
+	function BulkCreate($values, $recordId) {
+		$recordId = round($recordId);
+		$this->DeleteRecordTags($recordId);
+		for ($i = 0; $i < sizeof($values); $i++) {
+			$this->RecordId = $recordId;
+			$this->GetByCondition("", $this->CreateLinkedExpression($values[$i]));
+		}
+	}
+
 	function __tostring() {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::TAG_ID.": ".$this->TagId."</li>\n";
@@ -114,6 +123,15 @@ VALUES
 ".round($this->RecordId).")";
 	}
 
+	function CreateLinkedExpression($tagTitle) {
+		return "INSERT INTO ".$this->table." 
+(".self::TAG_ID.",
+".self::RECORD_ID.")
+VALUES
+((SELECT ".Tag::TAG_ID." FROM ".Tag::table." WHERE ".Tag::TITLE."='".SqlQuote($tagTitle)."' LIMIT 1),
+".round($this->RecordId).")";
+	}
+
 	function UpdateExpression() {
 		return "";
 	}
@@ -124,6 +142,15 @@ VALUES
 
 	function DeleteRecordTagsExpression() {
 		return "DELETE FROM ".$this->table." WHERE ##CONDITION##";
+	}
+
+	function DeleteUnlinkedExpression() {
+		return "DELETE ".$this->table.".* FROM ".$this->table."
+LEFT JOIN ".ForumRecordBase::table." ON ".$this->table.".".self::RECORD_ID."=".ForumRecordBase::table.".".ForumRecordBase::RECORD_ID."
+LEFT JOIN ".Tag::table." ON ".$this->table.".".self::TAG_ID."=".Tag::table.".".Tag::TAG_ID."
+WHERE 
+	".ForumRecordBase::table.".".ForumRecordBase::RECORD_ID." IS NULL OR
+	".Tag::table.".".Tag::TAG_ID." IS NULL";
 	}
 }
 

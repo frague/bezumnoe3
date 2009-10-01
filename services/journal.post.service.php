@@ -63,6 +63,21 @@
 			}
 			echo "this.data=".$record->ToFullJs();
 
+			// Post tags (labels)
+			$tags = trim(substr(UTF8toWin1251($_POST["TAGS"]), 0, 1010));
+			if ($tags && !$record->IsEmpty()) {
+				$tags = ereg_replace("[^a-zA-Zà-ÿÀ-ß0-9\-_\ |]", "", strip_tags($tags));
+
+				// Create tags
+				$tagsArray = split("\|", $tags);
+				$tag = new Tag();
+				$tag->BulkCreate($tagsArray);
+
+				// Create links to record
+				$recordTag = new RecordTag();
+				$recordTag->BulkCreate($tagsArray, $record->Id);
+			}
+
 			break;
 		case "delete":
 			if (!$user->IsSuperAdmin() && $access != Forum::FULL_ACCESS && $record->UserId != $user->User->Id) { 
@@ -75,6 +90,10 @@
 					".ForumRecord::FORUM_ID."=".$forum->Id,
 					$record->DeleteThreadExpression()
 				);
+
+			// Remove references to inexisting records
+			$recordTag = new RecordTag();
+			$recordTag->GetByCondition("", $recordTag->DeleteUnlinkedExpression());
 		default:
 			echo "this.data=".$record->ToFullJs();
 			break;

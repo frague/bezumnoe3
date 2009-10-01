@@ -4,7 +4,7 @@
 
 	$user = GetAuthorizedUser(true);
 	if (!$user || $user->IsEmpty() || !$user->IsSuperAdmin()) {
-		exit();	// TODO: Implement client functionality
+		die();	// TODO: Implement client functionality
 	}
 
 	$id = round($_POST[Status::STATUS_ID]);

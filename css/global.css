@@ -147,7 +147,7 @@ ul.Tabs {
 
 
 
-.Tabs li a.CloseSign {
+.Tabs li a.CloseSign, .CloseSign {
 	font-family:arial;
 	position:relative;
 	top:-4px;

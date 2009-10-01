@@ -1,4 +1,4 @@
-//2.2
+//3.0
 /*
 	Performs single async request with given set of parameters
 */
@@ -30,3 +30,53 @@ Requestor.prototype.BaseCallback = function(req) {
 Requestor.prototype.RequestCallback = function(req, sender) {
 	sender.BaseCallback(req);
 };
+
+
+/*
+	Delayed Requestor class.
+	Performs delayed async request by reaction to user-entered "needle"
+*/
+
+function DelayedRequestor(obj, input) {
+	this.Timer = "";
+	this.LastValue = "";
+	this.obj = obj;
+	input.DelayedRequestor = this;
+	this.Input = input;
+
+	this.Submitter = "";	// Treating enter button
+
+	input.onkeypress = function(e){GetData(this,e)};
+	input.onchange = function(){GetData(this)};
+};
+
+DelayedRequestor.prototype.Request = function() {
+	var obj = this.obj;
+	if (obj) {
+		params = this.GetParams();
+		if (params == this.LastValue) {
+			return;
+		}
+		this.LastValue = params;
+		obj.Request(params);
+	}
+};
+
+// To be overridden
+DelayedRequestor.prototype.GetParams = function() {return MakeParametersPair(this.Input.name, this.Input.value);};
+
+function GetData(input, e) {
+	if (!input || !input.DelayedRequestor) {
+		return;
+	}
+
+	if (e && input.DelayedRequestor.Submitter && EnterHandler(e, input.DelayedRequestor)) {
+		return;
+	}
+
+	if (input.DelayedRequestor.Timer) {
+		clearTimeout(input.DelayedRequestor.Timer);
+	}
+	input.DelayedRequestor.Timer = setTimeout(function(){input.DelayedRequestor.Request()}, 500);
+};
+

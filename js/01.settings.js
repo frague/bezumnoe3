@@ -24,6 +24,8 @@ var LoadingIndicator = "<div class='LoadingIndicator'></div>";
 
 var SeverityCss = ["Warning", "Error"];
 
+var ReplaceTags = new RegExp("\<[\/a-z][^\>]*\>", "gim");
+
 /* Service methods */
 
 function $(id) {
@@ -268,4 +270,8 @@ function AddSelectOption(select, name, value, selected) {
 	} catch (ex) {
     	select.add(opt); // IE only
 	}
+};
+
+function Random(n, not_null) {
+	return (not_null ? 1 : 0) + Math.round(n * Math.random());
 };

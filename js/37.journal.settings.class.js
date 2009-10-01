@@ -38,7 +38,7 @@ JournalSettings.prototype.TemplateLoaded = function(req) {
 
 	this.AssignTabTo("linkRefresh");
 	this.FindRelatedControls();
-	this.Tab.AddSubmitButton("SaveJournalSettings(this)", "", this);
+	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
 JournalSettings.prototype.Request = function(params, callback) {
@@ -54,13 +54,3 @@ JournalSettings.prototype.React = function() {
 	this.FORUM_ID = this.Forum.FORUM_ID;
 	this.Request();
 };
-
-/* Helper methods */
-
-
-function SaveJournalSettings(a) {
-	if (a.obj) {
-		a.obj.Save();
-	}
-};
-

@@ -13,16 +13,16 @@
 		<td width="200px">
 
 <h4>ѕоиск по логину или никнейму:</h4>
-<input name="BY_NAME" id="BY_NAME" onkeypress="GetUsers(this)" class="Wide" />
+<input name="BY_NAME" id="BY_NAME" class="Wide" />
 
 <h4>ѕоиск по комнатам:</h4>
-<select name="BY_ROOM" id="BY_ROOM" onchange="GetUsers(this)" class="Wide"><option></select>
+<select name="BY_ROOM" id="BY_ROOM" class="Wide"><option></select>
 
 <h4>ѕоказывать только:</h4>
-<input type="checkbox" name="FILTER_BANNED" id="FILTER_BANNED" onchange="this.Request()" /> <label for="FILTER_BANNED">забаненных</label><br />
-<input type="checkbox" name="FILTER_EXPIRED" id="FILTER_EXPIRED" onchange="this.Request()" /> <label for="FILTER_EXPIRED">отсутствующих более года</label><br />
-<input type="checkbox" name="FILTER_TODAY" id="FILTER_TODAY" onchange="this.Request()" /> <label for="FILTER_TODAY">заходивших сегодн€</label><br />
-<input type="checkbox" name="FILTER_YESTERDAY" id="FILTER_YESTERDAY" onchange="this.Request()" /> <label for="FILTER_YESTERDAY">заходивших вчера</label><br />
+<input type="checkbox" name="FILTER_BANNED" id="FILTER_BANNED" /> <label for="FILTER_BANNED">забаненных</label><br />
+<input type="checkbox" name="FILTER_EXPIRED" id="FILTER_EXPIRED" /> <label for="FILTER_EXPIRED">отсутствующих более года</label><br />
+<input type="checkbox" name="FILTER_TODAY" id="FILTER_TODAY" /> <label for="FILTER_TODAY">заходивших сегодн€</label><br />
+<input type="checkbox" name="FILTER_YESTERDAY" id="FILTER_YESTERDAY" /> <label for="FILTER_YESTERDAY">заходивших вчера</label><br />
 
 <div id="ExtendedCriteria">
 </div>

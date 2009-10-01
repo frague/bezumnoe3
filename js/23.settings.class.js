@@ -66,18 +66,8 @@ Settings.prototype.TemplateLoaded = function(req) {
 	new ColorPicker("FONT_COLOR");
 		
 	/* Submit button */
-	this.Tab.AddSubmitButton("SaveSettings(this)", "", this);
+	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
-
-/* Save settings */
-
-function SaveSettings(a) {
-	if (a.obj) {
-		a.obj.Tab.Alerts.Clear();
-		a.obj.Save();
-	}
-};
-
 
 /* Links actions */
 

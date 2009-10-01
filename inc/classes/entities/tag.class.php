@@ -24,6 +24,11 @@ class Tag extends EntityBase {
 		$this->Title = "";
 	}
 
+	function GetByRecordId($recordId) {
+		$recordId = round($recordId);
+		return $this->GetByCondition("t2.".RecordTag::RECORD_ID."=".$recordId, $this->ReadLinkedExpression());
+	}
+
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::TAG_ID);
 		$this->Title = $result->Get(self::TITLE);
@@ -32,6 +37,14 @@ class Tag extends EntityBase {
 	function FillFromHash($hash) {
 		$this->Id = round($hash[self::TAG_ID]);
 		$this->Title = UTF8toWin1251($hash[self::TITLE]);
+	}
+
+	function BulkCreate($values) {
+		for ($i = 0; $i < sizeof($values); $i++) {
+			$this->Clear();
+			$this->Title = $values[$i];
+			$this->GetByCondition("", $this->CreateExpression());
+		}
 	}
 
 	function __tostring() {
@@ -46,10 +59,8 @@ class Tag extends EntityBase {
 		return $s;
 	}
 
-	function ToJs() {
-		return "new tagdto("
-.round($this->Id).",\""
-.JsQuote($this->Title)."\")";
+	function ToJs($mark = "") {
+		return "new tagdto(\"".JsQuote($this->Title)."\",\"".JsQuote(Mark($this->Title, $mark))."\")";
 	}
 
 
@@ -66,11 +77,25 @@ ORDER BY
 	t1.".self::TITLE." ASC";
 	}
 
+	function ReadLinkedExpression() {
+		return "SELECT 
+	t1.".self::TAG_ID.", 
+	t1.".self::TITLE."
+FROM 
+	".$this->table." AS t1 
+	LEFT JOIN ".RecordTag::table." t2 ON t2.".RecordTag::TAG_ID."=t1.".self::TAG_ID."
+WHERE
+	##CONDITION##
+ORDER BY
+	t1.".self::TITLE." ASC";
+	}
+
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
 (".self::TITLE.")
 VALUES
-('".SqlQuote($this->Title)."')";
+('".SqlQuote($this->Title)."')
+ON DUPLICATE KEY UPDATE ".self::TAG_ID."=".self::TAG_ID;
 	}
 
 	function UpdateExpression() {

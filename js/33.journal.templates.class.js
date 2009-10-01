@@ -62,7 +62,7 @@ JournalTemplates.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
 	this.AssignTabTo("SKIN_TEMPLATE_ID");
-	this.Tab.AddSubmitButton("SaveJournalTemplate(this)", "", this);
+	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
 JournalTemplates.prototype.React = function() {
@@ -98,12 +98,6 @@ function PreviewSkin(select) {
 			jt.DisplayTabElement("templates", !select.value);
 			ShowSkinPreview(jt, select.options[select.selectedIndex].style.backgroundImage);
 		}
-	}
-};
-
-function SaveJournalTemplate(a) {
-	if (a.obj) {
-		a.obj.Save();
 	}
 };
 

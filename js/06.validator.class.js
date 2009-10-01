@@ -3,9 +3,14 @@
 	Validation of controls against rules given.
 */
 
-var PageValidators = new Collection();
 
-PageValidators.Init = function(summary_control, summary_text) {
+function ValidatorsCollection() {
+	this.Clear();
+};
+
+ValidatorsCollection.prototype = new Collection();
+
+ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
 	this.Summary = summary_control;
 	this.SummaryText = summary_text ? summary_text : "";
 	this.InitSummary();
@@ -17,15 +22,16 @@ PageValidators.Init = function(summary_control, summary_text) {
 	}
 };
 
-PageValidators.InitSummary = function() {
+ValidatorsCollection.prototype.InitSummary = function() {
 	if (this.Summary) {
 		this.Summary.innerHTML = this.SummaryText;
 		this.Summary.className = "Hidden";
 	}
 };
 
-PageValidators.AreValid = function() {
+ValidatorsCollection.prototype.AreValid = function() {
 	this.InitSummary();
+
 
 	var result = true;
 	for (var id in this.Base) {
@@ -37,6 +43,11 @@ PageValidators.AreValid = function() {
 	}
 	return result;
 };
+
+var PageValidators = new ValidatorsCollection();
+
+
+
 
 function ValueHasChanged() {
 	return PageValidators.AreValid();
@@ -52,7 +63,7 @@ function Validator(control, rule, message, summarize, on_the_fly) {
 	this.ShowInSummary = summarize;
 	this.OnTheFly = on_the_fly;
 
-	this.Id = Math.round(100 * Math.random());
+	this.Id = Random(1000, 1);
 	this.Enabled = true;
 };
 
