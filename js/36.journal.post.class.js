@@ -50,7 +50,9 @@ JournalPost.prototype.Request = function(params, callback) {
 		params = "";
 	}
 	params += MakeParametersPair("RECORD_ID", this.RECORD_ID);
-	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
+	if (this.Forum) {
+		params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
+	}
 	if (this.TagsSpoiler && this.TagsSpoiler.AddedTags) {
 		params += MakeParametersPair("TAGS", this.TagsSpoiler.AddedTags.Gather());
 	}
@@ -81,7 +83,6 @@ JournalPost.prototype.RequestCallback = function(req, obj) {
 
 JournalPost.prototype.TemplateLoaded = function(req) {
 	this.RECORD_ID = 1 * this.Tab.PARAMETER;
-
 	this.TemplateBaseLoaded(req);
 
 	this.SetTabElementValue("LOGIN", this.LOGIN);
