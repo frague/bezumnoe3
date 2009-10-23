@@ -248,7 +248,7 @@ WHERE
 	/* Static methods */
 
 	public static function MakeLink($userId = 0, $text = "Инфо") {
-		return "<a href='/3/prototype/info.php?id=".$userId."'>".$text."</a>";
+		return "<a href='/info.php?id=".$userId."'>".$text."</a>";
 	}
 
 }

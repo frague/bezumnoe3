@@ -69,6 +69,7 @@ function FindTargetElement(el) {
 		return div.nextSibling;
 	} else {
 		var ul = d.createElement("ul");
+		alert(div.innerHTML);
 		div.parentNode.appendChild(ul);
 		return ul;
 	}

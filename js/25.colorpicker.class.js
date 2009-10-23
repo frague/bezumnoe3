@@ -30,7 +30,7 @@ function ColorPicker(input) {
 			this.MakeRow(i);
 		}
 		insertAfter(this.Table, this.Input);
-		insertAfter(MakeButton("SwitchPicker(this)", "icons/palette.gif", this, "PickerButton"), this.Input);
+		insertAfter(MakeButton("SwitchPicker(this)", "icons/palette.gif", this, "PickerButton", "Выбрать цвет"), this.Input);
 	}
 };
 

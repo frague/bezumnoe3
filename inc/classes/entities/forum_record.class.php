@@ -45,7 +45,8 @@ class ForumRecord extends ForumRecordBase {
 		$cssClass .= $this->IsProtected() ? "Protected" : "";
 		$cssClass .= $this->UpdateDate > $lastVisit ? " Recent" : "";
 
-		$result .= "\n<li class='".$cssClass."'> &laquo;".($link ? "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>" : "");
+		$result .= "\n<li class='".$cssClass."'>";
+		$result .= " &laquo;".($link ? "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>" : "");
 		$result .= $this->Title;
 		$result .= ($link ? "</a>" : "");
 		$result .= "&raquo;, ".$this->Author;

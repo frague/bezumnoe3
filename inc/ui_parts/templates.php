@@ -6,18 +6,20 @@
 ?><html>
 <head>
 	<title><?php echo $title ?></title>
-	<link rel="stylesheet" type="text/css" href="/3/css/global.css" />
-	<link rel="stylesheet" type="text/css" href="/3/css/template.css" />
+	<link rel="stylesheet" type="text/css" href="/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="/css/template.css" />
+	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php 
 		
 		if ($css) {
-			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/3/css/".$css."\" />\n";
+			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$css."\" />\n";
 		}
 		if ($js) {
-			echo "<script language=\"javascript\" src=\"/3/js1/".$js."\"></script>\n";
+			echo "<script language=\"javascript\" src=\"/js1/".$js."\"></script>\n";
 		}
 	?>
-	<script language="javascript" src="/3/js1/reply_common.js"></script>
+	<script language="javascript" src="/js1/reply_common.js"></script>
 </head>
 <body>
 

@@ -1,7 +1,7 @@
 body {
 	color:white;
 	background:black;
-	background-image:url(/3/img/bg_main.gif);
+	background-image:url(/img/bg_main.gif);
 	padding:8px;
 }
 
@@ -79,7 +79,7 @@ a.Link, span.imageLink a {
 	padding:0;
 	margin:0;
 	border:0;
-	background-image:url(/3/img/dot.gif);
+	background-image:url(/img/dot.gif);
 }
 
 #AlertContainer td {
@@ -235,13 +235,13 @@ table.Grid tr.Sub th {
 #MessagesGrid h2.Private {
 	color:#FF472B;
 	padding-left:26px;
-	background:url(/3/img/icons/eye.gif) no-repeat;
+	background:url(/img/icons/eye.gif) no-repeat;
 }
 
 #MessagesGrid h2.Friends {
 	color:#BAF31F;
 	padding-left:26px;
-	background:url(/3/img/icons/friends.gif) no-repeat;
+	background:url(/img/icons/friends.gif) no-repeat;
 }
 /* Journal Messages End */
 
@@ -313,18 +313,18 @@ textarea.Maximized, #templates textarea.Maximized {
 }
 
 #UsersContainer a.Opened {
-	background: url(/3/img/icons/opened_nopad.gif) no-repeat;
+	background: url(/img/icons/opened_nopad.gif) no-repeat;
 }
 
 #UsersContainer a.Closed {
-	background: url(/3/img/icons/closed_nopad.gif) no-repeat;
+	background: url(/img/icons/closed_nopad.gif) no-repeat;
 }
 
 #UsersContainer a b, #MessagesLogGrid td b {
 	background-color:#505050;
 }
 #UsersContainer ul, ul.Custom, ul#Errors {
-	list-style-image: url(/3/img/li_small_yellow.gif);
+	list-style-image: url(/img/li_small_yellow.gif);
 	padding-left:20px;
 	margin-top:2px;
 }
@@ -365,7 +365,7 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 	border:0;
 	padding-left:26px;
 	font-size:80%;
-	background-image: url(/3/img/li_small_yellow.gif);
+	background-image: url(/img/li_small_yellow.gif);
 	background-repeat: no-repeat;
 	background-position: 10px 50%;
 }

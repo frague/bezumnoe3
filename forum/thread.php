@@ -69,7 +69,8 @@
 	$result.= new Pager($answers, $messagesPerPage, $from);
 
 	// Printing
-	AddEtagHeader(strtotime($record->UpdateDate));
+// Etag removed to prevent authorized session caching
+//	AddEtagHeader(strtotime($record->UpdateDate));
 	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 	

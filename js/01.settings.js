@@ -1,4 +1,4 @@
-//4.4
+//4.5
 /*
 	Contains all global script settings, constants and variables
 */
@@ -10,11 +10,11 @@ var w = window;
 var voidLink = "javascript:void(0);";
 var voidHref = "href=\"" + voidLink + "\"";
 
-var imagesPath = "/3/img/";
-var servicesPath = "/3/services/";
-var userPhotosPath = "/images/photos/";
-var avatarsPath = "/images/avatars/";
-var skinsPreviewPath = "/images/journals/";
+var imagesPath = "/img/";
+var servicesPath = "/services/";
+var userPhotosPath = "/img/photos/";
+var avatarsPath = "/img/avatars/";
+var skinsPreviewPath = "/img/journals/";
 
 var adminRights = 75;
 var keeperRights = 20;
@@ -120,15 +120,19 @@ function MakeButtonLink(target, text, obj, css, alt) {
 	if (text) {
 		a.innerHTML = text;
 	}
-	if (alt) {
-		a.alt = alt;
-		a.title = alt;
+	if (!alt || alt == "undefined") {
+		alt = "";
 	}
+	a.alt = alt;
+	a.title = alt;
 	eval("a.onclick=function(){" + target + "}");
 	return a;
 };
 
 function MakeButton(target, src, obj, css, alt) {
+	if (!alt || alt == "undefined") {
+		alt = "";
+	}
 	var a = MakeButtonLink(target, "", obj, css, alt);
 	a.className = "Button " + css;
 	a.innerHTML = "<img src='" + imagesPath + src + "' alt='" + alt + "' title='" + alt + "' />";

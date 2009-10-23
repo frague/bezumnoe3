@@ -168,7 +168,7 @@ WHERE",
 		} elseif ($alias) {
 			$tail = self::PARAMETER."=".$alias;
 		}
-		return "journal.php?".$tail;
+		return "/journal/journal.php?".$tail;
 	}
 
 	function MakeLink($alias, $text, $record = "") {

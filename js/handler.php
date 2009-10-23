@@ -1,4 +1,4 @@
-<?
+<?php
 
     function AddVersion($ver) {
      global $v;

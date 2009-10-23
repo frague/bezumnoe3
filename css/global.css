@@ -22,7 +22,7 @@ a.Link, span.imageLink a {
 
 span.imageLink {
 	padding: 6px 0 2px 22px;
-	background-image: url(/3/img/icons/image_icon.gif);
+	background-image: url(/img/icons/image_icon.gif);
 	background-repeat:no-repeat;
 }
 
@@ -171,28 +171,28 @@ ul.Links li a, .LeftPadded {
 }
 
 a.Delete {
-	background: url(/3/img/icons/delete.gif) no-repeat;
+	background: url(/img/icons/delete.gif) no-repeat;
 }
 
 a.Remove {
 	padding-left:15px;
-	background: url(/3/img/icons/delete.gif) no-repeat;
+	background: url(/img/icons/delete.gif) no-repeat;
 }
 
 a.Refresh {
-	background: url(/3/img/icons/refresh.gif) no-repeat;
+	background: url(/img/icons/refresh.gif) no-repeat;
 	color:#8AC21E;
 }
 
 a.Arrow {
 	padding-left:15px;
-	background: url(/3/img/icons/arrow.gif) no-repeat;
+	background: url(/img/icons/arrow.gif) no-repeat;
 	color:white;
 }
 
 a.Add {
 	padding-left:15px;
-	background: url(/3/img/icons/add.gif) no-repeat;
+	background: url(/img/icons/add.gif) no-repeat;
 	color:#E2EF29;
 }
 
@@ -203,8 +203,8 @@ ul.Links li, ul#UsersContainer li, ul.NoDots li {
 /* Loading indicator */
 .LoadingIndicator {
 	height:100px;
-	background:url(/3/img/clock.gif) no-repeat center center;
-/*	background:url(/3/img/pbar.gif) no-repeat center center;*/
+	background:url(/img/clock.gif) no-repeat center center;
+/*	background:url(/img/pbar.gif) no-repeat center center;*/
 }
 
 /* Confirmations & Alerts */
@@ -278,7 +278,7 @@ div.Spoiler {
 }
 
 .Spoiler.Opened .Title h4 {
-	background: #303030 url(/3/img/icons/opened.gif) no-repeat;
+	background: #303030 url(/img/icons/opened.gif) no-repeat;
 	color:white;
 }
 .Spoiler.Opened a.Title  {
@@ -289,7 +289,7 @@ div.Spoiler {
 }
 
 .Spoiler.Closed .Title h4 {
-	background: #202020 url(/3/img/icons/closed.gif) no-repeat;
+	background: #202020 url(/img/icons/closed.gif) no-repeat;
 	color:#808080;
 }
 .Spoiler.Closed a.Title  {

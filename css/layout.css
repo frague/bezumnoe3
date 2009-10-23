@@ -1,7 +1,7 @@
 body {
 	color:white;
 	background:black;
-	background-image:url(/3/img/bg_main.gif);
+	background-image:url(/img/bg_main.gif);
 }
 
 a.Link, span.imageLink a {
@@ -67,7 +67,7 @@ a.Link, span.imageLink a {
 	padding:0;
 	margin:0;
 	border:0;
-	background-image:url(/3/img/dot.gif);
+	background-image:url(/img/dot.gif);
 }
 
 #NewRoom, #NEW_ROOM {
@@ -89,7 +89,7 @@ a.Link, span.imageLink a {
 	float:right;
 	width:16px;
 	height:16px;
-	background:url(/3/img/icons/add_to.gif) no-repeat;
+	background:url(/img/icons/add_to.gif) no-repeat;
 }
 
 #NewRoom #AdminOnly {
@@ -113,7 +113,7 @@ a.Link, span.imageLink a {
 #Wakeups h3 {
 	padding:0 0 0 32px;
 	margin:0;
-	background: url(/3/img/bell.gif) no-repeat;
+	background: url(/img/bell.gif) no-repeat;
 	height:21px;
 	font-size:10pt;
 }
@@ -179,19 +179,19 @@ div.Requestors {
 
 .roomBox .Locked {
 	padding-left:10px;
-	background:url(/3/img/icons/lock.gif) no-repeat;
+	background:url(/img/icons/lock.gif) no-repeat;
 }
 
 .roomBox .Private {
 	color:#C0F256;
 	padding-left:10px;
-	background:url(/3/img/icons/dude.gif) no-repeat;
+	background:url(/img/icons/dude.gif) no-repeat;
 }
 
 .roomBox .Admin {
 	color:#FD7C3E;
 	padding-left:16px;
-	background:url(/3/img/icons/stop.gif) no-repeat;
+	background:url(/img/icons/stop.gif) no-repeat;
 }
 
 /* Messages */
@@ -213,13 +213,13 @@ p.System span.Time {
 }
 
 p.System span.Time.Green {
-	background: url(/3/img/enter_bg.gif) no-repeat right center;
+	background: url(/img/enter_bg.gif) no-repeat right center;
 	padding:0 4px 0 2px;
 	margin: 0 0 0 2px;
 }
 
 p.System span.Time.Red {
-	background: url(/3/img/quit_bg.gif) no-repeat left center;
+	background: url(/img/quit_bg.gif) no-repeat left center;
 	padding:0 2px 0 4px;
 	margin: 0 2px 0 0;
 }
@@ -276,7 +276,7 @@ p strong {
 }
 .Users a.Requestor {
 	padding-left:12px;
-	background:url(/3/img/flash_point.gif) no-repeat;
+	background:url(/img/flash_point.gif) no-repeat;
 }
 
 /* Menu */
@@ -415,7 +415,7 @@ div.Status {
 div.Achtung {
 	background-color:white;
 	color: red;
-	background-image:url(/3/img/warning_bg.gif);
+	background-image:url(/img/warning_bg.gif);
 	padding:10px 0 10px 0;
 	margin:10px;
 }
@@ -459,11 +459,11 @@ a.PanelRight {
 }
 
 a.PanelLeft.Closed, a.PanelRight.Opened  {
-	background:url(/3/img/icons/right_horiz.gif) no-repeat 0 50%;
+	background:url(/img/icons/right_horiz.gif) no-repeat 0 50%;
 }
 
 a.PanelRight.Closed, a.PanelLeft.Opened  {
-	background:url(/3/img/icons/left_horiz.gif) no-repeat 0 50%;
+	background:url(/img/icons/left_horiz.gif) no-repeat 0 50%;
 }
 
 /* Panels */
@@ -473,4 +473,20 @@ ul.Kicked {
 	margin:0;
 	padding:0;
 	list-style-type:none;
+}
+
+ul.StatusLinks {
+	list-style:none;
+	margin:0 0 0 150px;
+	padding:6px 0 0 0;
+	position:absolute;
+}
+
+ul.StatusLinks li {
+	display:inline;
+	margin-right:10px;
+}
+
+ul.StatusLinks li a {
+	color:gold;
 }

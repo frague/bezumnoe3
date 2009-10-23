@@ -96,13 +96,13 @@ EditableDTO.prototype.MakeButtonsCell = function(hideEdit) {
 	var td = d.createElement("td");
 	td.className = "Middle Centered";
 	if (this.EditView) {
-		td.appendChild(MakeButton("this.obj.Save()", "icons/done.gif", this));
-		td.appendChild(MakeButton("this.obj.CancelEditing()", "icons/cancel.gif", this));
+		td.appendChild(MakeButton("this.obj.Save()", "icons/done.gif", this, "", "Сохранить"));
+		td.appendChild(MakeButton("this.obj.CancelEditing()", "icons/cancel.gif", this, "", "Отмена"));
 	} else {
 		if (!hideEdit) {
-			td.appendChild(MakeButton("this.obj.Edit()", "icons/edit.gif", this));
+			td.appendChild(MakeButton("this.obj.Edit()", "icons/edit.gif", this, "", "Править"));
 		}
-		td.appendChild(MakeButton("this.obj.Delete()", "delete_icon.gif", this));
+		td.appendChild(MakeButton("this.obj.Delete()", "delete_icon.gif", this, "", "Удалить"));
 	}
 	return td;
 };

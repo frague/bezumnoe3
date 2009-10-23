@@ -1,7 +1,7 @@
 <div class="Centered" style="clear:both">
-	<a href="/3/prototype/">Чат</a> |
-	<a href="/3/prototype/register.php">Регистрация</a> |
-	<a href="/3/forum/">Форум</a> |
-	<a href="/3/journal/">Журналы</a> |
-	<a href="/3/gallery/">Фотогалерея</a>
+	<a href="/">Чат</a> |
+	<a href="/register.php">Регистрация</a> |
+	<a href="/forum/">Форум</a> |
+	<a href="/journal/">Журналы</a> |
+	<a href="/gallery/">Фотогалерея</a>
 </div>

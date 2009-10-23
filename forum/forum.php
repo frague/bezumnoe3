@@ -33,7 +33,6 @@
 	}
 	
 	$result.= $forum->ToPrint("forum.php");
-
 	$threadsPerPage = 20;
 
 	$record = new ForumRecord();
@@ -65,8 +64,10 @@
 	$pager = new Pager($threads, $threadsPerPage, $from);
 	$result.= $pager;
 
+
 	// Printing
-	AddEtagHeader(strtotime($lastModified));
+//	AddEtagHeader(strtotime($lastModified));
+
 	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 

@@ -4,7 +4,7 @@ class JournalRecord extends ForumRecordBase {
 
 	function ToPrint($login = "") {
 		$result = "<h2>".$this->Title."</h2>";
-		$result .= nl2br(ereg_replace("##[a-zA-Z]+(=(([^#]|#[^#])+)){0,1}##", "\\2", $this->Content));
+		$result .= Smartnl2br(ereg_replace("##[a-zA-Z]+(=(([^#]|#[^#])+)){0,1}##", "\\2", $this->Content));
 		if ($login) {
 			$result .= "<author>".$login."</author>";
 		}

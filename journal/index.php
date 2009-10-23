@@ -1,0 +1,29 @@
+<?php
+	
+	$root = "../";
+	require_once $root."server_references.php";
+	require_once "journal.template.php";
+
+	Head("Журналы", "forum.css", "forum.js");
+	require_once $root."references.php";
+
+?>
+
+
+<table width="100%">
+	<tr>
+		<td width="30%">
+			<?php include $root."inc/ui_parts/journal.posts.php"; ?>
+			<?php include $root."inc/ui_parts/updated.journals.php"; ?>
+		</td>
+		<td valign="top">
+			<?php include $root."inc/ui_parts/journal.comments.php"; ?>
+		</td>
+	</tr>
+</table>
+
+<?php
+
+
+	Foot();
+?>

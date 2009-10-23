@@ -10,13 +10,13 @@
 	
 	$expiredSession = DateFromTime(mktime()-$SessionLifetime);
 
-	$user = new User();
-	$q = $user->GetByCondition("1", $user->GetOnlineUsersExpression());
+	$u = new User();
+	$q = $u->GetByCondition("1", $u->GetOnlineUsersExpression());
 	$lastRoom = "     ";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
-		$user->FillFromResult($q);
-		if ($user->SessionPong > $expiredSession) {
+		$u->FillFromResult($q);
+		if ($u->SessionPong > $expiredSession) {
 			$roomId = $q->Get(User::ROOM_ID);
 			$room = $rooms[$roomId];
 			if ($room != $lastRoom) {
@@ -25,7 +25,7 @@
 			}
 			echo "<li> ".$q->Get(User::LOGIN);
 		}
-//		echo "<li> ".$user->SessionPong." vs ".$expiredSession;
+//		echo "<li> ".$u->SessionPong." vs ".$expiredSession;
 	}
 	echo "<ul>";
 

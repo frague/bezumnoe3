@@ -16,7 +16,7 @@
 			$wakeup = new Wakeup();
 			$wakeup->GetById($message_id);
 			if ($wakeup->IsEmpty()) {
-				echo "-Èñõîäíîå ñîîáùåíèå íå íàéäåíî!";
+				echo "-Èñõîäíîå ñîîáùåíèå (".$message_id.") íå íàéäåíî!";
 			} else {
 				$wakeup = new Wakeup($text, $user->User->Id, $wakeup->FromUserId);
 				$wakeup->Save();

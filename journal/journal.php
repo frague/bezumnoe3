@@ -33,6 +33,7 @@
 		}
 	}
 
+
 	// Record belongs to another person's journal
 	if ($alias && $settings->Alias != $alias) {
 		DieWith404();
@@ -185,33 +186,36 @@
 	$bodyText = str_replace("##CALENDAR##", $calendar, $bodyText);
 
 	// --- List of Friends
-	$friends = new JournalFriend();
-	$q = $friends->GetByForumId($journal->Id);
+	if (strpos($bodyText, "##FRIENDS##") !== false) {
+		$friends = new JournalFriend();
+		$q = $friends->GetByForumId($journal->Id);
 
-	$friendsLink = "";
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
+		$friendsLink = "";
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
 
-		$login = $q->Get(User::LOGIN);
-		$alias = $q->Get(JournalSettings::ALIAS);
+			$login = $q->Get(User::LOGIN);
+			$alias = $q->Get(JournalSettings::ALIAS);
 
-		$friendsLink .= ($friendsLink ? ", " : "").JournalSettings::MakeLink($alias, $login);
+			$friendsLink .= ($friendsLink ? ", " : "").JournalSettings::MakeLink($alias, $login);
+		}
+		$friendsLink = "<span id=\"friends\">".$friendsLink."</span>";
+
+		$bodyText = str_replace("##FRIENDS##", $friendsLink, $bodyText);
 	}
-	$friendsLink = "<span id=\"friends\">".$friendsLink."</span>";
 
-	$bodyText = str_replace("##FRIENDS##", $friendsLink, $bodyText);
+
 //	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$userUrlName."/friends/", $bodyText);
 	$bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);
         
 	$bodyText = InjectionProtection(OuterLinks(MakeLinks($bodyText)));
-
 
 	// Write caching header
 	if (!$record->IsEmpty()) {
 		AddEtagHeader(strtotime($record->UpdateDate));
 	}
 	// Insert reference to styles to prevent alternative ones
-	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='css.php?alias=".$settings->Alias."'>", $bodyText);
+	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css.php?alias=".$settings->Alias."'>", $bodyText);
 
 	echo $bodyText;
 	// Opening tags closure (to safely insert footer banner)

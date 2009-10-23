@@ -304,7 +304,7 @@ function RequestContent(obj) {
 		obj.TemplateLoaded(req);
 	} else {
 		// No callback passed as parameter. Supposed to be taken from Obj.
-		req = sendRequest("/3/prototype/options/" + obj.Template + ".php", "", "", obj);
+		req = sendRequest("/options/" + obj.Template + ".php", "", "", obj);
 	}
 	return req;
 };

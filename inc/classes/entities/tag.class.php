@@ -63,6 +63,9 @@ class Tag extends EntityBase {
 		return "new tagdto(\"".JsQuote($this->Title)."\",\"".JsQuote(Mark($this->Title, $mark))."\")";
 	}
 
+	function ToPrint($index) {
+		return ($index ? ", " : "")."<a>".$this->Title."</a>";
+	}
 
 	// SQL
 	function ReadExpression() {

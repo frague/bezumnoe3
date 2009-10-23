@@ -42,7 +42,7 @@
 
 	switch ($go) {
 		case "save":
-			if (!$user->IsSuperAdmin() && ($access != Forum::FULL_ACCESS || $record->UserId != $user->User->Id)) {
+			if (!$user->IsSuperAdmin() && ($access != Forum::FULL_ACCESS || (!$record->IsEmpty() && $record->UserId != $user->User->Id))) {
 				echo JsAlert("Нет доступа к публикации сообщений!", 1);
 				die;
 			}
@@ -51,7 +51,8 @@
 			$record->FillFromHash($_POST);
 			$record->ForumId = $forum->Id;
 			if ($record->IsEmpty()) {
-				$record->Author = $targetUser->Login;
+//				$record->Author = $targetUser->Login;
+				$record->Author = $user->User->Login;
 				$record->SaveAsTopic();
 				echo JsAlert("Сообщение добавлено.");
 			} else {

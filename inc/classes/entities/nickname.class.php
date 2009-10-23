@@ -45,9 +45,12 @@ class Nickname extends EntityBase {
 	 global $MaxNicknameLength;
 
 		if (strlen($this->Title) > $MaxNicknameLength) {
-			return false;
+			return "Превышена допустимая длина имени (максимум - ".Countable("символ", $MaxNicknameLength).").";
 		}
-		return true;
+		if (preg_match("/[a-zA-Z]/", $this->Title) && preg_match("/[а-яА-Я]/", $this->Title)) {
+			return "Недопустимо смешение в имени русского и латинского алфавитов.";
+		}
+		return "";
 	}
 
 	function FillFromResult($result) {

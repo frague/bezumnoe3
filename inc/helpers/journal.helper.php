@@ -177,8 +177,22 @@
 
 		// Cut		
 		$content = FormatMessageBody($message, $userUrlName, $isSingleMessage);
-		$result = str_replace("##BODY##", nl2br($content), $result);
+		$result = str_replace("##BODY##", Smartnl2br($content), $result);
 		
+		// Tags List
+		if (strpos($result, "##TAGS##") !== false) {
+			$tag = new Tag();
+			$q = $tag->GetByRecordId($message->Id);
+			$tags = "";
+			$labels = $q->NumRows();
+			for ($i = 0; $i < $labels; $i++) {
+				$q->NextResult();
+				$tag->FillFromResult($q);
+				$tags .= $tag->ToPrint($i);
+			}
+			$result = str_replace("##TAGS##", $tags ? "Теги: ".$tags : "", $result);
+		}
+
 		// Link
 		$result = ReplaceLinks($result, $message->Id, $userUrlName);
 		

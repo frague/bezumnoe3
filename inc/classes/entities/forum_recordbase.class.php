@@ -146,7 +146,7 @@ class ForumRecordBase extends EntityBase {
 		$this->IsCommentable = Boolean($hash[self::IS_COMMENTABLE]);
 	}
 
-	function ToExtendedString($prevLevel, $avatar = "", $alias = "", $user = "", $lastVisit = "") {
+	function ToExtendedString($prevLevel, $avatar = "", $alias = "", $user = "", $lastVisit = "", $skipLi = 0) {
 	  global $PathToAvatars, $ServerPathToAvatars, $root;
 
 	  	$result = "";
@@ -162,13 +162,17 @@ class ForumRecordBase extends EntityBase {
 		$cssClass = $this->Date > $lastVisit ? "Recent" : "";
 		$cssClass .= $this->IsProtected() ? " Protected" : "";
 
-		$result .= "<li class='".($this->IsDeleted ? "Hidden " : "")."'><table class='".$cssClass."'><tr>";
+		if (!$skipLi) {
+			$result .= "<li class='".($this->IsDeleted ? "Hidden " : "")."'>";
+		}
+
+		$result .= "<table class='".$cssClass."'><tr>";
 		if ($avatar) {
 			$result .= "<th>".HtmlImage($PathToAvatars.$avatar, $root.$ServerPathToAvatars.$avatar)."</th>";
 		}
 
 		$result .= "<td><h4>".$this->Title."</h4>";
-		$result .= ($this->UserId > 1 ? "<a href='/3/prototype/info.php?id=".$this->UserId."'>" : "").$this->Author.($this->UserId > 1 ? "</a>" : "");
+		$result .= ($this->UserId > 1 ? "<a href='/info.php?id=".$this->UserId."'>" : "").$this->Author.($this->UserId > 1 ? "</a>" : "");
 		if ($alias) {
 			$result .= " (<a href='".JournalSettings::MakeHref($alias)."'>журнал</a>)";
 		}

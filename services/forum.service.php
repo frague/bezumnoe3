@@ -125,7 +125,8 @@
 									$avatar,
 									($lastMessageDate ? $alias : ""),
 									$user,
-									false
+									false,
+									true
 								))."';";
 							}
 						} else {

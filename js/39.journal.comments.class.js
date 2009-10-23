@@ -86,8 +86,8 @@ jcdto.prototype.ToString = function(index, obj) {
 
 	var td3 = d.createElement("td");
 	td3.className = "Centered";
-		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj));
-		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj));
+		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
+		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить"));
 	tr.appendChild(td3);
 	
 	return tr;

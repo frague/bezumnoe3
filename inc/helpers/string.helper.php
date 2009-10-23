@@ -15,6 +15,7 @@
 	$counting["ответ"] 				= "ответа|ответов";
 	$counting["фотография"] 		= "фотографии|фотографий";
 	$counting["тема"] 				= "темы|тем";
+	$counting["символ"] 			= "символа|символов";
 
 	for ($i = 0; $i < strlen($chars); $i++) {
 	    $char = substr($chars, $i, 1);
@@ -339,6 +340,10 @@
 		$l = strlen($needle);
 		$p2 = $p + $l;
 		return substr($haystack, 0, $p)."<b>".substr($haystack, $p, $l)."</b>".substr($haystack, $p2);
+	}
+
+	function Smartnl2br($text) {
+		return preg_replace("/([^\>]|[^p]\>|[^\/]p\>|[^\<]\/p\>)(\n|\r)/", "$1<br />$2", $text);
 	}
 
 	function MakeSearchCriteria($dateKey, $dateParameter, $keywordsKey, $keywordsTemplate) {

@@ -54,7 +54,8 @@
 					$n->IsSelected = ($_POST["selected"] == $i);
 					$hasNickname = $hasNickname || $n->IsSelected;
 
-					if ($n->Validate()) {
+					$validationError = $n->Validate();
+					if (!$validationError) {
 						if (!$n->Save()) {
 							$errors .= "<li> Имя &laquo;".$n->Title."&raquo уже занято";
 							if ($n->IsSelected) {
@@ -70,7 +71,7 @@
 							}
 						}
 					} else {
-			    		$errors .= "<li> Ошибка сохранения &laquo;".$n->Title."&raquo;: ошибка валидации";
+			    		$errors .= "<li> ".$validationError;
 					}
 				}
 			} else {

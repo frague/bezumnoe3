@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>http://www.bezumnoe.ru/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+   </url>
+   <url>
+      <loc>http://www.bezumnoe.ru/register.html</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.2</priority>
+   </url>
+   <url>
+      <loc>http://www.bezumnoe.ru/journal/</loc>
+      <changefreq>always</changefreq>
+      <priority>0.1</priority>
+   </url>
+   <url>
+      <loc>http://www.bezumnoe.ru/forum/</loc>
+      <changefreq>always</changefreq>
+      <priority>0.1</priority>
+   </url>
+   <url>
+      <loc>http://www.bezumnoe.ru/gallery/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.1</priority>
+   </url>
+</urlset>

@@ -8,8 +8,8 @@
 
 	/* Variables */
 
-	$backupDir = "../../../cgi-bin/data/";
-	$usersDir = "../".$PathToUsers;
+	$backupDir = "../recover/";
+	$usersDir = $PathToUsers;
 	$statuses = array();
 
 	/* Functions */

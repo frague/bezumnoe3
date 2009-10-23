@@ -3,7 +3,7 @@
 class GalleryPhoto extends ForumRecordBase {
 
     function MakeLink() {
-    	return "<a href='/3/gallery/comments.php?".self::ID_PARAM."=".$this->Id."'>";
+    	return "<a href='/gallery/comments.php?".self::ID_PARAM."=".$this->Id."'>";
     }
 	
 	function ToPrint($galleryFile, $isThumb = 1) {

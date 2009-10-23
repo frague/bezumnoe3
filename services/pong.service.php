@@ -213,7 +213,9 @@
 		$message = new Message();
 		$basicCondition = "(
 	(t1.".Message::ROOM_ID."=".SqlQuote($user->User->RoomId)." AND 
-		(t1.".Message::TO_USER_ID." IS NULL OR  t1.".Message::TO_USER_ID."=".$user->User->Id.")) OR 
+		((t1.".Message::TO_USER_ID." IS NULL OR  t1.".Message::TO_USER_ID."=".$user->User->Id.") OR
+		(t1.".Message::USER_ID."=t1.".Message::TO_USER_ID."))
+	) OR 
 	(t1.".Message::ROOM_ID."=-1 AND 
 		(t1.".Message::USER_ID."=".$user->User->Id." OR t1.".Message::TO_USER_ID."=".$user->User->Id.")
 	)
@@ -261,7 +263,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	// Only the first user in the list will be executing scheduled tasks...
 	// Not really fair, but it'll reduce the server load
 	if ($firstUser && $user->User->Id == $firstUser->User->Id) {
-		ExecuteScheduledTasks();
+//		ExecuteScheduledTasks();
 	}
 
 ?>

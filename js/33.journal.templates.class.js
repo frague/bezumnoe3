@@ -17,7 +17,9 @@ JournalTemplates.prototype = new OptionsBase();
 JournalTemplates.prototype.Bind = function() {
 	if (this["SKIN_TEMPLATE_ID"]) {
 		var select = this.Inputs["SKIN_TEMPLATE_ID"];
-		select.value = this["SKIN_TEMPLATE_ID"];
+		if (this["SKIN_TEMPLATE_ID"] > 0) {
+			select.value = this["SKIN_TEMPLATE_ID"];
+		}
 		PreviewSkin(select);
 	}
 	this.BaseBind();

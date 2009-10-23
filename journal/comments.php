@@ -51,6 +51,9 @@
 		die;
 	}
 
+//	Etag removed to prevent authorized session caching
+//	AddEtagHeader(strtotime($record->UpdateDate));
+
 	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js");
 	require_once $root."references.php";
 
@@ -66,7 +69,7 @@
 
 	echo "<h3 style='clear:both'>Комментарии:</h3>";
 
-	$answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
+	$answers = $record->AnswersCount - ($access == Journal::FULL_ACCESS ? 0 : $record->DeletedCount);
 
 	$comment = new JournalComment();
 	$q = $comment->GetByIndex(

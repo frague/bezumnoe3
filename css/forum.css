@@ -17,7 +17,7 @@ h4 .Count {
 h4.Hidden {
 	text-decoration:none;
 	padding-left:18px;
-	background:url(/3/img/icons/forum_lock.gif) no-repeat;
+	background:url(/img/icons/forum_lock.gif) no-repeat;
 }
 
 h4.Hidden a {

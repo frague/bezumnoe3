@@ -311,7 +311,7 @@ function DatePicker(input, with_time) {
 		this.Calendar.Callback = function() {this.Picker.Selected()};
 
 		insertAfter(this.Holder, this.Input);
-		insertAfter(MakeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton"), this.Input);
+		insertAfter(MakeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton", "Выбрать дату"), this.Input);
 	}
 };
 
