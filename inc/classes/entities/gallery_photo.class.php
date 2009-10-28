@@ -7,6 +7,8 @@ class GalleryPhoto extends ForumRecordBase {
     }
 	
 	function ToPrint($galleryFile, $isThumb = 1) {
+	  global $root, $PathToGallery, $ServerPathToGallery;
+
 		$path = $galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
 
 		$result = $isThumb ? $this->MakeLink() : "";

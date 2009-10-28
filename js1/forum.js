@@ -46,7 +46,6 @@ function AddMessage() {
 		params+= MakeParametersPair("TITLE", replyTitleElement.value);
 		params+= MakeParametersPair("CONTENT", replyContentElement.value);
 		params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.checked ? 1 : 0);
-
 		sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
 	}
 };
@@ -61,6 +60,13 @@ function ForumMessageAddCallback(req, el) {
 		if (ul) {
 			var li = d.createElement("li");
 			li.innerHTML = newRecord;
+/*			alert(newRecord);
+			try {
+				li.innerHTML = newRecord;
+			} catch (e) {
+				alert(e.description);
+			}*/
+
 			if (ul.hasChildNodes()) {
 				ul.insertBefore(li, ul.firstChild);
 			} else {

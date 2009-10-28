@@ -29,7 +29,7 @@
 		$access = $forum->GetAccess($user->User->Id);
 	}
 
-	$forum->DoPrint("forum.php");
+	$forum->DoPrint("/forum");
 
 	$messagesPerPage = 20;
 	$level = 0;
@@ -66,7 +66,7 @@
 		$result.= "<div class='Error'>Сообщения не найдены!</div>";
 	}
 
-	$result.= new Pager($answers, $messagesPerPage, $from);
+	$result.= new Pager($answers, $messagesPerPage, $from, $forum->BasePath().$thread_id."/");
 
 	// Printing
 // Etag removed to prevent authorized session caching

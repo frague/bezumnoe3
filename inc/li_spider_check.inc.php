@@ -3,7 +3,7 @@
  	class LiveinternetSeTracker {
 
 		var $path	=	'/cgi-bin/robot.cgi';
-                var $server     = 	'host45.rax.ru';
+        var $server     = 	'host45.rax.ru';
 		var $se		=	Array(
 
 			'google' 		=> 	'Google',

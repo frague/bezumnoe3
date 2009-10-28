@@ -6,7 +6,9 @@ class Tag extends EntityBase {
 
 	const TAG_ID = "TAG_ID";
 	const TITLE = "TITLE";
+	const WEIGHT = "WEIGHT";
 
+	const PARAMETER = "tag";
 
 	// Properties
 	var $Id;
@@ -22,6 +24,7 @@ class Tag extends EntityBase {
 	function Clear() {
 		$this->Id = -1;
 		$this->Title = "";
+		$this->Weight = 0;
 	}
 
 	function GetByRecordId($recordId) {
@@ -29,9 +32,14 @@ class Tag extends EntityBase {
 		return $this->GetByCondition("t2.".RecordTag::RECORD_ID."=".$recordId, $this->ReadLinkedExpression());
 	}
 
+	function GetCloud($forumId) {
+		return $this->GetByCondition("t3.".ForumRecord::FORUM_ID."=".round($forumId), $this->CloudExpression());
+	}
+
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::TAG_ID);
 		$this->Title = $result->Get(self::TITLE);
+		$this->Weight = $result->Get(self::WEIGHT);
 	}
 
 	function FillFromHash($hash) {
@@ -63,8 +71,13 @@ class Tag extends EntityBase {
 		return "new tagdto(\"".JsQuote($this->Title)."\",\"".JsQuote(Mark($this->Title, $mark))."\")";
 	}
 
-	function ToPrint($index) {
-		return ($index ? ", " : "")."<a>".$this->Title."</a>";
+	function ToPrint($index, $alias, $style = "") {
+		return ($index ? ", " : "")."<a href=\"/journal/".$alias."/tag/".urlencode($this->Title)."\"".($style ? " style='".$style."'" : "").">".$this->Title."</a>";
+	}
+
+	function ToCloud($maxWeight, $alias) {
+		$r = round(50 + 100 * ($this->Weight / $maxWeight));
+		return $this->ToPrint(0, $alias, "font-size:".$r."%");
 	}
 
 	// SQL
@@ -111,6 +124,19 @@ WHERE
 
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::TAG_ID."=".SqlQuote($this->Id);
+	}
+
+	function CloudExpression() {
+		return "SELECT 
+  COUNT(1) AS ".self::WEIGHT.",
+  t1.".self::TITLE."
+FROM ".$this->table." AS t1
+  JOIN ".RecordTag::table." AS t2 ON t2.".RecordTag::TAG_ID."=t1.".self::TAG_ID."
+  JOIN ".ForumRecord::table." AS t3 ON t3.".ForumRecord::RECORD_ID."=t2.".RecordTag::RECORD_ID."
+WHERE
+  ##CONDITION##
+GROUP BY t1.".self::TAG_ID."
+ORDER BY t1.".self::TITLE;
 	}
 }
 

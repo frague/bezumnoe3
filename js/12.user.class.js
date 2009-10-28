@@ -91,7 +91,7 @@ User.prototype.ToString = function(room) {
 		if (me.IsAdmin() || me.Rights == keeperRights) {
 			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + name + '\',\'kick\')">Выгнать</a>';
 		}
-		if (me.IsAdmin()) {
+		if ((me.IsAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.IsSuperAdmin()) {
 			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + name + '\',\'ban\')">Забанить</a>';
 			if (this.Login) {
 				s += '<li class="Overlined"><span>' + this.Login + '</span>';

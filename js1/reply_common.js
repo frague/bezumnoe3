@@ -69,32 +69,8 @@ function FindTargetElement(el) {
 		return div.nextSibling;
 	} else {
 		var ul = d.createElement("ul");
-		alert(div.innerHTML);
 		div.parentNode.appendChild(ul);
 		return ul;
-	}
-};
-
-function ForumMessageAddCallback(req, el) {
-	var newRecord = '';
-	var error = '';
-	eval(req.responseText);
-	if (!error) {
-		CancelReply();
-		var ul = FindTargetElement(el);
-		if (ul) {
-			var li = d.createElement("li");
-			li.innerHTML = newRecord;
-			if (ul.hasChildNodes()) {
-				ul.insertBefore(li, ul.firstChild);
-			} else {
-				ul.appendChild(li);
-			}
-		}
-	} else {
-		if (replyErrorElement) {
-			replyErrorElement.innerHTML = error;
-		}
 	}
 };
 

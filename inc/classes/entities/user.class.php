@@ -71,7 +71,7 @@ class User extends EntityBase {
 		$cs += CheckSum($this->RoomId);
 		$cs += CheckSum($this->RoomIsPermitted);
 //		$cs += CheckSum($this->Session);
-		$cs += CheckSum($this->AwayMessage);
+		$cs += CheckSum($this->IsAway() ? " ".$this->AwayMessage : "");
 //		$cs += CheckSum($this->AwayTime);
 		$cs += CheckSum($this->BanReason);
 		$cs += CheckSum($this->BannedBy);
@@ -172,6 +172,10 @@ class User extends EntityBase {
 		$this->BanReason = "";
 		$this->BannedBy = "";
 		$this->BannedTill = "";
+	}
+
+	function IsAway() {
+		return ($this->AwayTime != "" ? 1 : 0);
 	}
 
 	function IsBanned() {
@@ -319,7 +323,7 @@ self::BANNED_TILL."\",\"ADMIN\"]";
 JsQuote($this->SessionAddress)."\",\"".
 JsQuote($this->StatusId)."\",\"".
 JsQuote($this->BannedBy)."\",\"".
-JsQuote($this->BanReason)."\",\"".
+($this->IsAway() ? " ".JsQuote($this->BanReason) : "")."\",\"".
 JsQuote($this->BannedTill)."\",\"".
 JsQuote($admin)."\"]";
 		return $s;

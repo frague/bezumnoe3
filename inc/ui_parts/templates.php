@@ -13,10 +13,10 @@
 	<?php 
 		
 		if ($css) {
-			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$css."\" />\n";
+			echo "	<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$css."\" />\n";
 		}
 		if ($js) {
-			echo "<script language=\"javascript\" src=\"/js1/".$js."\"></script>\n";
+			echo "	<script language=\"javascript\" src=\"/js1/".$js."\"></script>\n";
 		}
 	?>
 	<script language="javascript" src="/js1/reply_common.js"></script>

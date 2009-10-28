@@ -2,9 +2,9 @@
 
 class JournalComment extends JournalRecord {
 
-	function ToLink($trimBy = 0, $recordId) {
+	function ToLink($trimBy = 0, $recordId, $alias) {
 		$content = $trimBy ? TrimBy($this->Content, $trimBy) : $this->Content;
-		return self::MakeLink($recordId, $this->Id, $content, $this->Type == self::TYPE_PROTECTED);
+		return self::MakeLink($recordId, $alias, $this->Id, $content, $this->Type == self::TYPE_PROTECTED);
 	}
 
 	function ToJs() {
@@ -44,8 +44,8 @@ class JournalComment extends JournalRecord {
 
 	/* Static Methods */
 
-	public static function MakeLink($recordId, $commentId = 0, $text = "комментарий", $is_hidden = 0) {
-		return "<a ".($is_hidden ? "class='Hidden' " : "")."href='/journal/comments.php?".JournalRecord::ID_PARAM."=".round($recordId).($commentId > 0 ? "#cm".$commentId : "")."'>".$text."</a>";
+	public static function MakeLink($recordId, $alias, $commentId = 0, $text = "комментарий", $is_hidden = 0) {
+		return "<a ".($is_hidden ? "class='Hidden' " : "")."href='/journal/".$alias."/comments".round($recordId).".html".($commentId > 0 ? "#cm".$commentId : "")."'>".$text."</a>";
 	}
 }
 

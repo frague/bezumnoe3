@@ -81,6 +81,9 @@ JsQuote($description)."\"]";
 		return self::MakeLink($this->Alias, $login);
 	}
 
+	function ToTitleLink($title, $target = "") {
+		return self::MakeLink($this->Alias, $title, new ForumRecordBase(), $target);
+	}
 
 	// SQL
 	function ReadExpression() {
@@ -164,26 +167,24 @@ WHERE",
 	function MakeHref($alias, $recordId = 0) {
 		$recordId = round($recordId);
 		if ($recordId > 0) {
-			$tail = JournalRecord::ID_PARAM."=".$recordId;
-		} elseif ($alias) {
-			$tail = self::PARAMETER."=".$alias;
+			$tail = "/post".$recordId.".html";
 		}
-		return "/journal/journal.php?".$tail;
+		return "/journal/".$alias.$tail;
 	}
 
-	function MakeLink($alias, $text, $record = "") {
+	function MakeLink($alias, $text, $record = "", $target = "") {
 		if (!$alias && !$record) {
 			return $text;
 		}
 
 		$css = "";
-		if ($record) {
+		if ($record && !$record->IsEmpty()) {
 			$css = " class='".$record->MakeCss()."'";
 		}
 
-		return "<a".$css." href='".self::MakeHref($alias, $record->Id)."'>".$text."</a>";
+		return "<a".$css.($target ? " target='".$target."'" : "")." href='".self::MakeHref($alias, $record->Id)."'>".$text."</a>";
 	}
-
+	
 }
 
 ?>

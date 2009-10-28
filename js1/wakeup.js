@@ -35,7 +35,7 @@ function Send(message_id) {
 	var s = MakeParametersPair("message", inputReply.value);
 	s += MakeParametersPair("reply_to", message_id);
 	sendRequest("../services/wakeup.service.php", MessageAdded, s);
-	status.innerHTML = "Отправка сообщения...";
+	statusLabel.innerHTML = "Отправка сообщения...";
 	inputReply.value = "";
 }
 

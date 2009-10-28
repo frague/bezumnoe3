@@ -13,10 +13,10 @@
 			$text);
     }
 
-    function TagCutLink($caption="Подробнее") {
+    function TagCutLink($caption) {
       global $cutCount;
 
-    	return "<span class='cutlink'>(<a href='##LINK###cut".$cutCount++."'>".$caption."</a>)</span>";
+    	return "<span class='cutlink'>(<a href='##LINK###cut".$cutCount++."'>".($caption ? $caption : "Подробнее")."</a>)</span>";
     }
     
    	$cutCount = 1;
@@ -160,6 +160,7 @@
 		if ($message->IsCommentable) {
 			$comments = JournalComment::MakeLink(
 				$message->Id, 
+				$userUrlName,
 				0, 
 				Countable("комментарий", $commentsCount));
 		}
@@ -188,7 +189,7 @@
 			for ($i = 0; $i < $labels; $i++) {
 				$q->NextResult();
 				$tag->FillFromResult($q);
-				$tags .= $tag->ToPrint($i);
+				$tags .= $tag->ToPrint($i, $userUrlName);
 			}
 			$result = str_replace("##TAGS##", $tags ? "Теги: ".$tags : "", $result);
 		}
@@ -216,28 +217,33 @@
 	}
 	
 	// Makes journal link
-	function MakeJournalLink($alias, $text, $page = 0, $year = 0, $month = 0, $day = 0) {
+	function MakeJournalLink($alias, $text, $page = 0, $year = 0, $month = 0, $day = 0, $tag = "") {
+
 		$criteria = "";
-		// Dates
-		if ($year > 1990) {
-			$criteria = sprintf("&year=%04d", $year);
-			if ($month > 0 && $month <= 12) {
-				$criteria .= sprintf("&month=%02d", $month);
-				if ($day > 0 && $day <= 31) {
-					$criteria .= sprintf("&day=%02d", $day);
+		if ($tag) {
+			$criteria = "/tag/".urlencode($tag);
+		} else {
+			// Dates
+			if ($year > 1990) {
+				$criteria = sprintf("/%04d", $year);
+				if ($month > 0 && $month <= 12) {
+					$criteria .= sprintf("/%02d", $month);
+					if ($day > 0 && $day <= 31) {
+						$criteria .= sprintf("/%02d", $day);
+					}
 				}
 			}
 		}
 		if ($page > 0) {
 			// Paging
-			$criteria .= "&from=".round($page);
+			$criteria .= "/page".round($page).".html";
 		}
-		return "<a href='journal.php?alias=".$alias.$criteria."'>".$text."</a>";
+		return "<a href='/journal/".$alias.$criteria."'>".$text."</a>";
 	}
 
 	// Makes pager links
 	function MakeJournalPager($alias, $totalRecords = 0, $showMessages = 0, $currentPage = 0, $forFriends = 0) {
-	  global $year, $month, $day, $datesCondition;
+	  global $year, $month, $day, $tag, $datesCondition;
 
 		$result = "<div class='Pager'>";
         if ($totalRecords > $showMessages && $showMessages > 0) {
@@ -248,7 +254,7 @@
                 	"<b>".($i+1)."</b>" : 
                 	($datesCondition ? 
                 		MakeJournalLink($alias, $i+1, $i, $year, $month, $day) :
-                		MakeJournalLink($alias, $i+1, $i))
+                		MakeJournalLink($alias, $i+1, $i, 0, 0, 0, $tag))
                 		);
             }
         }

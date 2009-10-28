@@ -31,7 +31,7 @@
 		if (!$text) {
 			$text = "Â ÷àò âõîäèò %name";
 		}
-		$message = new EnterMessage(str_replace("%name", $user->DisplayedName(), $text), $room->Id);
+		$message = new EnterMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $room->Id);
 		$message->Save();
 		$user->User->RoomId = $room->Id;
 		$user->User->Save();

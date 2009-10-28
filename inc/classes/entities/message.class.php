@@ -25,7 +25,7 @@ class Message extends EntityBase {
 	// Fields
 	private $messageUser;
 
-	function Message($text="", $user=0) {
+	function Message($text = "", $user = 0) {
 		$this->table = self::table;
 		parent::__construct("", self::MESSAGE_ID);
 
@@ -294,6 +294,20 @@ class PrivateSystemMessage extends Message {
 		parent::__construct($text, "");
 		$this->ToUserId = $toUserId;
 		$this->RoomId = $roomId;
+	}
+}
+
+/*	========================================================
+
+	MESSAGE NOTIFICATION MESSAGE DERIVED CLASS
+
+	========================================================*/
+
+class MessageNotification extends SystemMessage {
+	function MessageNotification($forum, $message, $alias = "") {
+		$text = "В ".$forum->SpellType." &laquo;".$forum->GetLink($alias, $message->Id)."&raquo; добавлено новое сообщение.";
+//		SystemMessage($text, $roomId);
+		parent::__construct($text, -1);
 	}
 }
 

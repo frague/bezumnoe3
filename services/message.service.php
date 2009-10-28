@@ -71,7 +71,7 @@
 							$n = $targetUser->GetUserCurrentName();
 							if ($user->Status->Rights >= $targetStatus->Rights) {
 								$targetUser->Kick($message, $user->DisplayedName());
-								$msg = new SystemMessage($user->DisplayedName()." выгоняет из чата ".$n.($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
+								$msg = new SystemMessage($user->DisplayedName()." выгоняет из чата ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
 							} else {
 								$msg = new PrivateSystemMessage("Невозможно выгнать пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
 						   	}
@@ -88,10 +88,10 @@
 							}
 
 							$n = $targetUser->GetUserCurrentName();
-							if ($user->Status->Rights >= $targetStatus->Rights) {
+							if ($user->Status->Rights > $targetStatus->Rights && $targetStatus->Rights != $KeeperRights) {
 								$targetUser->Ban($message, "", $user->User->Id);
 								$targetUser->Save();
-								$msg = new SystemMessage($user->DisplayedName()." банит пользователя ".$n.($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
+								$msg = new SystemMessage($user->DisplayedName()." банит пользователя ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
 
 								// Write log
 								LogBan($targetUser->Id, $targetUser->BanReason, $user->User->Login, $targetUser->BannedTill);
@@ -133,7 +133,7 @@
 							if ($message || $type == "topic") {
 								$room->Topic = $message;
 								$room->TopicAuthorId = $user->User->Id;
-								$msg = new SystemMessage($user->DisplayedName()." меняет тему на &laquo;".$message."&raquo;.", $user->User->RoomId);
+								$msg = new SystemMessage(Clickable($user->DisplayedName())." меняет тему на &laquo;".$message."&raquo;.", $user->User->RoomId);
 							}
 							$room->Save();
 						} else {
@@ -145,7 +145,7 @@
 					$user->User->AwayTime = NowDateTime();
 					$user->User->AwayMessage = $message;
 					$user->User->Save();
-					$msg = new SystemMessage($user->DisplayedName()." отлучается из чата. ".($message ? " &laquo;".$message."&raquo;" : ""), $user->User->RoomId);
+					$msg = new SystemMessage(Clickable($user->DisplayedName())." отлучается из чата. ".($message ? " &laquo;".$message."&raquo;" : ""), $user->User->RoomId);
 					break;
 				case "quit":
 					$text = "";
@@ -155,7 +155,7 @@
 					if (!$text) {
 						$text = "%name выходит из чата.".($message ? " &laquo;".$message."&raquo;" : "");
 					}
-					$msg = new QuitMessage(str_replace("%name", $user->DisplayedName(), $text), $user->User->RoomId);
+					$msg = new QuitMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $user->User->RoomId);
 					$user->User->GoOffline();
 					$user->User->Save();
 					break;
@@ -164,7 +164,7 @@
 			}
 			if ($msg) {
 				if ($type != "away" && $user->User->AwayTime) {
-					$backMsg = new SystemMessage($user->DisplayedName()." возвращается".($user->User->AwayMessage ? ", закончив &laquo;".$user->User->AwayMessage."&raquo;" : " в чат").", отсутствовав с ".PrintableTime($user->User->AwayTime), $user->User->RoomId);
+					$backMsg = new SystemMessage(Clickable($user->DisplayedName())." возвращается".($user->User->AwayMessage ? ", закончив &laquo;".$user->User->AwayMessage."&raquo;" : " в чат").", отсутствовав с ".PrintableTime($user->User->AwayTime), $user->User->RoomId);
 					$backMsg->Save();
 					$user->User->AwayMessage = "";
 					$user->User->AwayTime = "";

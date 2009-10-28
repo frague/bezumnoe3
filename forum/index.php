@@ -31,7 +31,7 @@
 
 		if ($access > Forum::NO_ACCESS) {
 			echo "<li>";
-			$forum->DoPrint("forum.php", $yesterday);
+			$forum->DoPrint("/forum", $yesterday);
 		}
 	}
 	echo "</ul>";

@@ -98,4 +98,11 @@ function _(text, erase) {
 		textForm.value = (erase ? "" : textForm.value) + text + ", ";
 		textForm.focus();
 	}
-}
+};
+
+function __(el) {
+	if (el.hasChildNodes && el.childNodes[0].hasChildNodes && el.childNodes[0].childNodes[0]) {
+		el = el.childNodes[0];
+	}
+	_(el.innerText || el.textContent);
+};

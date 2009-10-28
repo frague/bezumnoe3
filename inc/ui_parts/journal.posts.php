@@ -8,8 +8,9 @@
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$record->FillFromResult($q);
+		$alias = $q->Get(JournalSettings::ALIAS);
 
-		echo "<li> &laquo;".$record->ToLink()."&raquo;, ".$record->Author;
+		echo "<li> &laquo;".$record->ToLink(0, $alias)."&raquo;, ".JournalSettings::MakeLink($alias, $record->Author);
 	}
 	echo "</ul>";
 

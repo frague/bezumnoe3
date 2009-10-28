@@ -10,7 +10,7 @@ class Forum extends ForumBase {
 	function ToPrint($link = "", $lastVisitDate = "") {
 		$result = "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
 		if ($link) {
-			$result.= "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>";
+			$result.= "<a href='".$this->BasePath()."'>";
 		}
 		$result.= $this->Title.($link ? "</a>" : "")."</h4>";
 		$result.= $this->Description;

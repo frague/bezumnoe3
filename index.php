@@ -9,12 +9,12 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/ui_parts/news.php";
 
-	Head("БЧуМЗ 3");
+	Head("Лучший саратовский чат &mdash; Безумное ЧАепиТие у Мартовского Зайца");
 	require_once $root."references.php";
 
 ?>
 
-<h2>БЧуМЗ 3: прототип</h2>
+<h2>БЧуМЗ 3: alpha</h2>
 
 <style>
 	div {
@@ -199,10 +199,11 @@
 				работают некоторые пункты меню пользователя: "Обратиться", "Шепотом", "Wakeup";
 </ul>
 
-<!--#include virtual="/inc/li_spider_check.inc.php?site_id=bezumnoe.ru"-->
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script type="text/javascript">_uacct = "UA-309866-1";urchinTracker();</script>
 
 <?php
+
+	include $root."/inc/li_spider_check.inc.php";
 
 ?>

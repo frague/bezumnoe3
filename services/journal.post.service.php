@@ -51,10 +51,24 @@
 			$record->FillFromHash($_POST);
 			$record->ForumId = $forum->Id;
 			if ($record->IsEmpty()) {
-//				$record->Author = $targetUser->Login;
 				$record->Author = $user->User->Login;
 				$record->SaveAsTopic();
 				echo JsAlert("Сообщение добавлено.");
+				
+				$record->UpdateAnswersCount();
+
+				if ($forum->IsJournal()) {
+					$journal = new Journal($forum->Id);
+					$journal->Title = $forum->Title;
+					
+					$settings = new JournalSettings();
+					$settings->GetByForumId($forum->Id);
+
+					if (!$settings->IsEmpty()) {
+						$notify = new MessageNotification($journal, $record, $settings->Alias);
+						$notify->Save();
+					}
+				}
 			} else {
 				$record->Save();
 				echo JsAlert("Сообщение обновлено.");
@@ -91,6 +105,7 @@
 					".ForumRecord::FORUM_ID."=".$forum->Id,
 					$record->DeleteThreadExpression()
 				);
+			$record->UpdateAnswersCount();
 
 			// Remove references to inexisting records
 			$recordTag = new RecordTag();

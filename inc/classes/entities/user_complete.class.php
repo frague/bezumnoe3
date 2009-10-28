@@ -110,7 +110,7 @@ JsQuote($this->User->Login)."\",\"".
 JsQuote($this->User->RoomId)."\",\"".
 JsQuote($this->User->RoomIsPermitted)."\",\"".
 ($status->Rights > $AdminRights ? JsQuote($this->User->SessionAddress) : "")."\",\"".
-JsQuote($this->User->AwayMessage)."\",\"".
+($this->User->IsAway() ? " ".JsQuote($this->User->AwayMessage) : "")."\",\"".
 JsQuote($this->User->BanReason)."\",\"".
 JsQuote($this->User->BannedBy)."\",\"".
 JsQuote($this->Nickname->Title)."\",".

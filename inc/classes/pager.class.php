@@ -6,16 +6,17 @@
 		var $Divider = " | ";
 		var $Parameter = "from";
 
-		function Pager($total, $perpage = 10, $current = 0) {
+		function Pager($total, $perpage = 10, $current = 0, $base = "/") {
 			$this->Total = $total;
 			$this->PerPage = $perpage;
 			$this->CurrentPage = $current;
 
-			$this->ScriptName = preg_replace("/(".$this->Parameter."=\d*&{0,1})/", "", $_SERVER["REQUEST_URI"]);
-			$this->ScriptName = preg_replace("/&+$/", "", $this->ScriptName);
+/*			$this->ScriptName = preg_replace("/(".$this->Parameter."=\d*&{0,1})/", "", $_SERVER["REQUEST_URI"]);
+			$this->ScriptName = preg_replace("/[?&]+$/", "", $this->ScriptName);
 			if (strpos($this->ScriptName, "?") === false) {
 				$this->ScriptName .= "?";
-			}
+			}*/
+			$this->ScriptName = $base;
 		}
 
 		function PrintLink($page, $prefix = "", $postfix = "", $showDivider = true) {
@@ -23,7 +24,8 @@
 			if ($page == $this->CurrentPage) {
 				$result .= "<strong>".($page + 1)."</strong>";
 			} else {
-				$result .= "<a href='".$this->ScriptName."&".$this->Parameter."=".$page."'>";
+//				$result .= "<a href='".$this->ScriptName."&".$this->Parameter."=".$page."'>";
+				$result .= "<a href='".$this->ScriptName.($page ? "page".$page.".html" : "")."'>";
 				$result .= ($page + 1);
 				$result .= "</a>";
 			}

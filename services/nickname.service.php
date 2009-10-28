@@ -59,13 +59,13 @@
 						if (!$n->Save()) {
 							$errors .= "<li> Имя &laquo;".$n->Title."&raquo уже занято";
 							if ($n->IsSelected) {
-								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> меняет имя на ".$user->User->Login, $user->User->RoomId);
+								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> меняет имя на ".Clickable($user->User->Login), $user->User->RoomId);
 								$msg->Save();
 							}
 						} else {
 							$userNames["_".$n->id] = $n;
 							if ($n->IsSelected && $n->Title != $user->DisplayedName()) {
-								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> меняет имя на ".$n->Title, $user->User->RoomId);
+								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> меняет имя на ".Clickable($n->Title), $user->User->RoomId);
 								$msg->Save();
 								$newNickname = $n->Title;
 							}
@@ -85,7 +85,7 @@
 			}
 		}
 		if (!$hasNickname && $user->Nickname->Title) {
-			$msg = new SystemMessage("<strong>".$user->DisplayedName()."</strong> меняет имя на ".$user->User->Login, $user->User->RoomId);
+			$msg = new SystemMessage("<strong>".$user->DisplayedName()."</strong> меняет имя на ".Clickable($user->User->Login), $user->User->RoomId);
 			$msg->Save();
 		}
 	}

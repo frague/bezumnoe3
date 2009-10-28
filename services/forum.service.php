@@ -129,6 +129,11 @@
 									true
 								))."';";
 							}
+
+							$notify = new MessageNotification($forum, $newRecord);
+							$notify->Save();
+
+							$newRecord->UpdateAnswersCount();
 						} else {
 							$error .= "Ошибка при сохранении сообщения!<br>";
 						}

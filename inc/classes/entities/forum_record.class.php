@@ -31,7 +31,7 @@ class ForumRecord extends ForumRecordBase {
 		return $s;
 	}
 
-	function ToPrint($link = "", $prevLevel = 0, $lastVisit = "") {
+	function ToPrint($forum = "", $prevLevel = 0, $lastVisit = "") {
 		$result = "";
 		if ($prevLevel != $this->Level) {
 			$less = ($prevLevel < $this->Level);
@@ -46,9 +46,9 @@ class ForumRecord extends ForumRecordBase {
 		$cssClass .= $this->UpdateDate > $lastVisit ? " Recent" : "";
 
 		$result .= "\n<li class='".$cssClass."'>";
-		$result .= " &laquo;".($link ? "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>" : "");
+		$result .= " &laquo;".($forum ? "<a href='".$forum->BasePath().$this->Id."'>" : "");
 		$result .= $this->Title;
-		$result .= ($link ? "</a>" : "");
+		$result .= ($forum ? "</a>" : "");
 		$result .= "&raquo;, ".$this->Author;
 		$result .= ", ".PrintableShortDate($this->Date).".";
 		if ($this->AnswersCount > $this->DeletedCount && $this->IsCommentable) {

@@ -1,6 +1,7 @@
 php_flag display_errors on
 XBitHack off
 DirectoryIndex index.html index.htm index.php default.php index.phtml default.phtml
+Options -Indexes
 
 #Errors
 
@@ -39,11 +40,15 @@ RewriteRule ^journal/([^/]+)/post([0-9]+)\.html$ journal/journal.php?alias=$1&id
 RewriteRule ^journal/([^/]+)/rss/?$ journal/journal.rss.php?$1
 RewriteRule ^journal/([^/]+)/([0-9]{4})/?$ journal/journal.php?alias=$1&year=$2
 RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/?$ journal/journal.php?alias=$1&year=$2&month=$3
-RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&month=$3&show_from=$4
+RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&month=$3&from=$4
 RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/([0-9]{2})/?$ journal/journal.php?alias=$1&year=$2&month=$3&day=$4
 RewriteRule ^journal/([^/]+)/([0-9]{4})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&show_from=$3
-RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&month=$3&show_from=$4
-RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/([0-9]{2})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&month=$3&day=$4&show_from=$5
+RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&month=$3&from=$4
+RewriteRule ^journal/([^/]+)/([0-9]{4})/([0-9]{2})/([0-9]{2})/page([0-9]+).html$ journal/journal.php?alias=$1&year=$2&month=$3&day=$4&from=$5
+
+# Tag
+RewriteRule ^journal/([^/]+)/tag/([^/]+)/page([0-9]+).html$ journal/journal.php?alias=$1&tag=$2&from=$3 [L]
+RewriteRule ^journal/([^/]+)/tag/(.+)$ journal/journal.php?alias=$1&tag=$2
 
 # Journal comments
 RewriteRule ^journal/([^/]+)/comments([0-9]+)\.html$ journal/comments.php?id=$2
@@ -64,7 +69,7 @@ RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/([0-9]{2})/page([0-9]
 RewriteRule ^journal/([^/]+)/friends/rss/?$ journal/friends.rss.php?$1
 
 # Journal styles
-RewriteRule ^journal/css/([^/]+)\.css$ journal/css.php?$1 [L]
+RewriteRule ^journal/css/([0-9]+)\.css$ journal/css.php?id=$1 [L]
 
 ### Forum
 
@@ -72,25 +77,16 @@ RewriteCond $1 !\.php
 RewriteCond $1 !admin/
 
 # Forum recent messages
-RewriteRule ^forum([^/]+)(/from([0-9]+))?/?(search=(.+))?$ forum/default.php?cath=$1&from=$3&search=$5
-
-# Forum add new message
-RewriteRule ^forum([^/]+)/add.html(/search=(.+))?$ forum/default.php?cath=$1&go=add&search=$3
-
-# Forum search form
-RewriteRule ^forum([^/]+)/search.html$ forum/default.php?cath=$1&go=search
-
-# Forum post reply
-RewriteRule ^forum([^/]+)(/from([0-9]+))?/(replyto([0-9_]+))\.html(/search=(.+))?$ forum/default.php?cath=$1&go=add&from=$3&in=$5&search=$7
+RewriteRule ^forum([0-9]+)[\/]{0,1}(/page([0-9]+)\.html){0,1}$ forum/forum.php?id=$1&from=$3
 
 # Forum thread
-RewriteRule ^forum([^/]+)(/from([0-9]+))?/(([0-9]+)(/[0-9]+)*)(full)?\.html(/search=(.+))?$ forum/default.php?cath=$1&from=$3&in=$4&thread=$7&search=$9 [L]
+RewriteRule ^forum([0-9]+)/([0-9]+)[\/]{0,1}(/page([0-9]+)\.html){0,1}$ forum/thread.php?forum_id=$1&id=$2&from=$4 [L]
 
 
 
 ### Userinfo
 
-RewriteRule ^user/([0-9a-zA-Z\-_\=]+)(.html)?$ cgi-bin/info.pl?num=$1 [L]
+RewriteRule ^user/([0-9]+)(.html){0,1}$ info.php?id=$1 [L]
 
 
 ### Photo gallery

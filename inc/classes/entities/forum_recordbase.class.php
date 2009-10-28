@@ -145,7 +145,7 @@ class ForumRecordBase extends EntityBase {
 		$this->Content = UTF8toWin1251($hash[self::CONTENT]);
 		$this->IsCommentable = Boolean($hash[self::IS_COMMENTABLE]);
 	}
-
+	
 	function ToExtendedString($prevLevel, $avatar = "", $alias = "", $user = "", $lastVisit = "", $skipLi = 0) {
 	  global $PathToAvatars, $ServerPathToAvatars, $root;
 
@@ -172,7 +172,7 @@ class ForumRecordBase extends EntityBase {
 		}
 
 		$result .= "<td><h4>".$this->Title."</h4>";
-		$result .= ($this->UserId > 1 ? "<a href='/info.php?id=".$this->UserId."'>" : "").$this->Author.($this->UserId > 1 ? "</a>" : "");
+		$result .= ($this->UserId > 1 ? "<a href='javascript:void(0)' onclick='Info(".$this->UserId.")'>" : "").$this->Author.($this->UserId > 1 ? "</a>" : $this->Author);
 		if ($alias) {
 			$result .= " (<a href='".JournalSettings::MakeHref($alias)."'>журнал</a>)";
 		}
@@ -237,6 +237,14 @@ round($this->Type).")";
 	function GetForumThreadsCount($forumId, $access = Forum::FULL_ACCESS, $condition = "1=1") {		// MOVE TO FORUM CLASS ?
 	  global $db;
 	  	$q = $this->GetByCondition($condition, $this->CountForumThreadsExpression($forumId, $access));
+	  	$q->NextResult();
+	  	return $q->Get(self::THREADS_COUNT);
+	}
+
+	// Gets threads count for given forum by given tag
+	function GetForumThreadsCountByTag($forumId, $access = Forum::FULL_ACCESS, $tag) {		// MOVE TO FORUM CLASS ?
+	  global $db;
+	  	$q = $this->GetByCondition("t5.".Tag::TITLE."='".SqlQuote($tag)."'", $this->CountForumThreadsByTagExpression($forumId, $access));
 	  	$q->NextResult();
 	  	return $q->Get(self::THREADS_COUNT);
 	}
@@ -600,6 +608,23 @@ GROUP BY NULL";
 	COUNT(".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
 	LENGTH(t1.".self::INDEX.")=4 AND
 	t1.".self::FORUM_ID."=".round($forumId);
+		return $result;
+	}
+
+	function CountForumThreadsByTagExpression($forumId, $access = Forum::NO_ACCESS) {
+		$result = $this->ReadThreadExpression($access);
+		$result = substr($result, strpos($result, "FROM"));
+		$result = "SELECT 
+	COUNT(t1.".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
+	LENGTH(t1.".self::INDEX.")=4 AND
+	t1.".self::FORUM_ID."=".round($forumId);
+		$result = str_replace(
+			"WHERE", 
+			"
+	JOIN ".RecordTag::table." AS t4 ON t4.".RecordTag::RECORD_ID."=t1.".self::RECORD_ID."
+	JOIN ".Tag::table." AS t5 ON t5.".Tag::TAG_ID."=t4.".RecordTag::TAG_ID."
+WHERE", 
+			$result);
 		return $result;
 	}
 

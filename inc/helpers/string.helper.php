@@ -16,6 +16,8 @@
 	$counting["фотография"] 		= "фотографии|фотографий";
 	$counting["тема"] 				= "темы|тем";
 	$counting["символ"] 			= "символа|символов";
+	$counting["запись"] 			= "записи|записей";
+	$counting["сообщение"] 			= "сообщения|сообщений";
 
 	for ($i = 0; $i < strlen($chars); $i++) {
 	    $char = substr($chars, $i, 1);
@@ -168,7 +170,7 @@
 	    $atPosition = strpos($a, "@");
 	    if ($atPosition) {
 	    	$a = "<a class=Link href='javascript:void(0)' onclick='window.location=\"mailto:".substr($a, 0, $atPosition)."\"+\"@\"+\"".substr($a, $atPosition + 1, strlen($a))."\"'>".str_replace("@", "&#64;", $a)."</a>";
-	    } else if (ereg("^((f|ht|sht)tp://|www\.)", $a)) {
+	    } else if (ereg("^((ftp|http|shttp|https)://|www\.)", $a)) {
 	        $ext = "";
 	        if (ereg(".([^.]+)$", $a, $m)) {
 	        	$ext = $m[1];
@@ -199,7 +201,7 @@
 
 	function MakeLinks($a, $imagesMode = false) {
 		$a = MakeUrls($a);
-	   	$a = preg_replace("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;]+)+)/ie","MakeLink('\\3','\\1',\$imagesMode)", $a);
+	   	$a = preg_replace("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;]+)+)/ie","MakeLink('\\3','\\1',\$imagesMode)", $a);
 	    return $a;
 	}
 
@@ -216,7 +218,7 @@
 	}
 
 	function OuterLinks($a) {
-		$linkExp = "/<a ([^>]*)href=[\'\"]?((s?ht|f)tp):\/\/([^\ \'\">]+)[\'\"]?/ie";
+		$linkExp = "/<a ([^>]*)href=[\'\"]{0,1}((http|shttp|ftp|https)):\/\/([^\ \'\">]+)[\'\"]?/ie";
 		$a = preg_replace($linkExp, "OuterLink(\"$4\",\"$2\", \"$1\")", $a);
 		return $a;
 	}
@@ -365,6 +367,10 @@
 			$condition .= ($condition ? " AND " : "").$search;
 		}
 		return $condition;
+	}
+
+	function Clickable($name) {
+		return "<a href=\"javascript:void(0)\" onclick=\"__(this)\">".$name."</a>";
 	}
 
 ?>

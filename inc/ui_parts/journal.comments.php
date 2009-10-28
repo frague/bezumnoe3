@@ -29,7 +29,7 @@
 		}
 	}
 	if ($condition) {
-		$condition = "($condition)";
+		$condition = "(".$condition.")";
 	} else {
 		$condition = "1=1";
 	}
@@ -37,6 +37,7 @@
 	$topic = new JournalRecord();
 	$q = $topic->GetMixedJournalsRecords($userId, 0, 20, $condition);
 	$topics = array();
+	$aliases = array();
 
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
@@ -44,21 +45,24 @@
 		$topic = new JournalRecord();
 		$topic->FillFromResult($q);
 
-		$topics[$topic->Index."_".$topic->ForumId] = $topic;
+		$index = $topic->Index."_".$topic->ForumId;
+		$topics[$index] = $topic;
+		$aliases[$index] = $q->Get(JournalSettings::ALIAS);
 	}
 
 
 	echo "<ul>";
 	while (list($record, $comments) = each($sorted)) {
 		$rec = $topics[$record];
+		$alias = $aliases[$record];
 
 		if ($rec && !$rec->IsEmpty()) {
-			echo "&laquo;".$rec->ToLink(255)."&raquo;, ".$rec->Author;
+			echo "&laquo;".$rec->ToLink(255, $alias)."&raquo;, ".JournalSettings::MakeLink($alias, $rec->Author);
 		}
 
 		echo "<ul class='Comments'>";
 		while (list($k, $comment) = each($comments)) {
-			echo "<li> &laquo;".$comment->ToLink(100, $rec->Id)."&raquo;, ".$comment->Author;
+			echo "<li> &laquo;".$comment->ToLink(100, $rec->Id, $alias)."&raquo;, ".$comment->Author;
 		}
 		echo "</ul>";
 	}

@@ -9,7 +9,7 @@ function MakePrivateLink(id, name) {
 };
 
 function MakeLink(name) {
-	return "<a " + voidHref + " onclick=\"_('" + name + "')\">" + name + "</a>";
+	return "<a " + voidHref + " onclick=\"__(this)\">" + name + "</a>";
 };
 
 function MakeInfoLink(id, name) {

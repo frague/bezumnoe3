@@ -386,8 +386,8 @@ function Banned(reason, admin, admin_id, till) {
 	co.AlertType = true;
 	var s = Format("Администратор #info# забанил вас " + (till ? "до " + till : ""), admin_id, admin);
 	s += (reason ? " по причине <h4>&laquo;" + reason + "&raquo;</h4>" : "");
-	s += "Пожалуйста, ознакомьтесь с <a href=/rulezz.html>правилами</a> чата.<br>До свидания.";
-	co.Show("/rulezz.html", "Пользователь забанен", s);
+	s += "Пожалуйста, ознакомьтесь с <a href=/rules.php>правилами</a> чата.<br>До свидания.";
+	co.Show("/rules.php", "Пользователь забанен", s);
 };
 
 function Forbidden(reason) {

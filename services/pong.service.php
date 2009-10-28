@@ -56,7 +56,7 @@
 		$newRoom->Retrieve();
 		if (!$newRoom->IsEmpty() && !$newRoom->IsDeleted) {
 			$prefix = "ClearMessages();";
-			$message = new SystemMessage($displayedName." переходит в комнату &laquo;".$newRoom->Title."&raquo;", $user->User->RoomId);
+			$message = new SystemMessage(Clickable($displayedName)." переходит в комнату &laquo;".$newRoom->Title."&raquo;", $user->User->RoomId);
 			$message->Save();
 			if (!$newRoom->BeenVisited) {
 				$newRoom->BeenVisited = 1;
@@ -69,7 +69,7 @@
 			$room = $newRoom;
 
 			$lastId = "";
-			$message = new SystemMessage("¬ комнату переходит ".$displayedName, $newRoom->Id);
+			$message = new SystemMessage("¬ комнату переходит ".Clickable($displayedName), $newRoom->Id);
 			$message->Save();
 		 }
 	}
@@ -217,7 +217,7 @@
 		(t1.".Message::USER_ID."=t1.".Message::TO_USER_ID."))
 	) OR 
 	(t1.".Message::ROOM_ID."=-1 AND 
-		(t1.".Message::USER_ID."=".$user->User->Id." OR t1.".Message::TO_USER_ID."=".$user->User->Id.")
+		(t1.".Message::USER_ID."=".$user->User->Id." OR t1.".Message::TO_USER_ID."=".$user->User->Id." OR t1.".Message::USER_ID." IS NULL)
 	)
 ) ";
 		if (!$lastId || $lastId < 0) {

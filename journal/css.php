@@ -4,17 +4,11 @@
 	require_once $root."server_references.php";
 	require_once "journal.template.php";
 
-	$alias = substr(LookInRequest(JournalSettings::PARAMETER), 0, 20);
+	$id = round(LookInRequest("id"));
 
 	$settings = new JournalSettings();
-
-	if ($alias) {
-		if ($settings->IsEmpty()) {
-			$settings->GetByAlias($alias);
-		}
-		if ($settings->Alias != $alias) {
-			DieWith404();
-		}
+	if ($id) {
+		$settings->GetByForumId($id);
 	}
 
 	if ($settings->IsEmpty()) {

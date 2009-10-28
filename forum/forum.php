@@ -53,7 +53,7 @@
 		$q->NextResult();
 
 		$record->FillFromResult($q);
-		$result.= $record->ToPrint("thread.php", 0, $yesterday);
+		$result.= $record->ToPrint($forum, 0, $yesterday);
 		if ($record->UpdateDate > $lastModified) {
 			$lastModified = $record->UpdateDate;
 		}
@@ -61,7 +61,7 @@
 	$result.= "</ul>";
 
 	$threads = $record->GetForumThreadsCount($forum_id, $access);
-	$pager = new Pager($threads, $threadsPerPage, $from);
+	$pager = new Pager($threads, $threadsPerPage, $from, $forum->BasePath());
 	$result.= $pager;
 
 

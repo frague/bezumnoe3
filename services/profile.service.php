@@ -57,7 +57,7 @@
 							$name = $user_id.".jpg";
 						}
 						$isAjax = 0;
-						$errors = Upload($photo, ($isAvatar ? $ServerPathToAvatars : $ServerPathToPhotos).$name);
+						$errors = Upload($photo, ($isAvatar ? $root.$ServerPathToAvatars : $root.$ServerPathToPhotos).$name);
 						if (!$errors) {
 							// No errors occured
 							if ($isAvatar) {

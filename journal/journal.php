@@ -8,6 +8,7 @@
 	$alias = substr(LookInRequest(JournalSettings::PARAMETER), 0, 20);
 	$show_from = round(LookInRequest("from"));
 	$record_id = round(LookInRequest(JournalRecord::ID_PARAM));
+	$tag = trim(substr(LookInRequest(TAG::PARAMETER), 0, 100));
 
 	// Init variables
 	$forumId = 0;
@@ -32,7 +33,6 @@
 			$settings->GetByAlias($alias);
 		}
 	}
-
 
 	// Record belongs to another person's journal
 	if ($alias && $settings->Alias != $alias) {
@@ -64,6 +64,7 @@
 		die;
 	}
 
+
 	// Form dates condition
 	$datesCondition = "";
 	$year = round(LookInRequest("year"));
@@ -86,9 +87,17 @@
 		$year = 0;
 	}
 
+	// Filtering by tag
+
+	if ($tag) {
+		$condition = "";
+	} else {
+		$condition = $datesCondition;
+	}
+
 	// Getting the template
 	$template = GetTemplateOrDie($settings);
-	$user_id = round($settings->UserId);
+	$user_id = round($journal->LinkedId);
 	
     $bodyText = $template->Body;
         
@@ -103,7 +112,11 @@
 		$addTitle = $record->Title;
 	} else {
 		// Show records by given criteria or from the beginning
-		$q = $record->GetJournalTopics($access, $showFrom, $shownMessages, $forumId, $datesCondition);
+		if ($tag) {
+			$q = $record->GetJournalTopicsByTag($access, $showFrom, $shownMessages, $forumId, $tag);
+		} else {
+			$q = $record->GetJournalTopics($access, $showFrom, $shownMessages, $forumId, $condition);
+		}
 		$messagesFound = $q->NumRows();
 
 		for ($i = 0; $i < $messagesFound; $i++) {
@@ -131,19 +144,25 @@
 	$profile->GetByUserId($user_id);
 
 	// Substitute chunks with user data
+	$bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
+	$bodyText = str_replace("##DESCRIPTION##", $journal->Description, $bodyText);
+
 	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
 	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
 	$bodyText = str_replace(
 		"##AVATAR##", 
-		$profile->Avatar ? "<img class='AvatarImg' src='/images/avatars/".$profile->Avatar."' alt='' />" : "", 
+		$profile->Avatar ? "<img class='AvatarImg' src='/img/avatars/".$profile->Avatar."' alt='' />" : "", 
 		$bodyText);
 
 	$bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
 
 	// --- Rendering the Pager
-	if ($datesCondition) {
+	if ($tag) {
+		// Getting number of records in case of tag condition
+		$pagerRecords = $record->GetForumThreadsCountByTag($journal->Id, $access, $tag);
+	} else if ($condition) {
 		// Getting number of records in case of dates condition
-		$pagerRecords = $record->GetForumThreadsCount($journal->Id, $access, $datesCondition);
+		$pagerRecords = $record->GetForumThreadsCount($journal->Id, $access, $condition);
 	} else {
 		// .. else get total number of journal records
 		$pagerRecords = $journal->TotalCount;
@@ -163,7 +182,7 @@
 		$m = $month;
 		$y = $year;
 		if ($datesCondition) {
-			if ($month) {
+			if ($month && $altMonth) {
 				$m = $altMonth;
 			}
 		} else {
@@ -204,6 +223,27 @@
 		$bodyText = str_replace("##FRIENDS##", $friendsLink, $bodyText);
 	}
 
+	// --- Tags cloud
+	if (strpos($bodyText, "##TAGSCLOUD##") !== false) {
+		$tag = new Tag();
+		$q = $tag->GetCloud($forumId);
+		$cloud = "";
+		$tags = array();
+		$maxWeigth = 0;
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$t = new Tag();
+			$t->FillFromResult($q);
+			$tags[$i] = $t;
+			$maxWeight = ($maxWeight > $t->Weight ? $maxWeight : $t->Weight);
+		}
+
+		for ($i = 0; $i < sizeof($tags); $i++) {
+			$cloud.= ($i ? " " : "").$tags[$i]->ToCloud($maxWeight, $settings->Alias);
+		}
+
+		$bodyText = str_replace("##TAGSCLOUD##", $cloud, $bodyText);
+	}
 
 //	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$userUrlName."/friends/", $bodyText);
 	$bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);
@@ -215,7 +255,7 @@
 		AddEtagHeader(strtotime($record->UpdateDate));
 	}
 	// Insert reference to styles to prevent alternative ones
-	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css.php?alias=".$settings->Alias."'>", $bodyText);
+	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css/".$journal->Id.".css'>", $bodyText);
 
 	echo $bodyText;
 	// Opening tags closure (to safely insert footer banner)

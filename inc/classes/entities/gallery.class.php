@@ -2,6 +2,8 @@
 
 class Gallery extends ForumBase {
 
+	var $SpellType = "פמעמדאכונו‏";
+
 	function IsFull() {
 		return (!$this->IsEmpty() && $this->Type == self::TYPE_GALLERY);
 	}
@@ -14,7 +16,7 @@ class Gallery extends ForumBase {
 	function DoPrint($link = "", $lastVisitDate = "") {
 		echo "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
 		if ($link) {
-			echo "<a href='".$link."?".self::ID_PARAM."=".$this->Id."'>";
+			echo "<a href='".$this->BasePath()."'>";
 		}
 		echo $this->Title.($link ? "</a>" : "")."</h4>";
 		echo "<div class='Counts'>Â דאכונוו ".Countable("פמעמדנאפטÿ", $this->TotalCount, "םוע");
@@ -31,6 +33,14 @@ class Gallery extends ForumBase {
 
 		echo "</div>";
 	}
-}	
 
+	function BasePath() {
+		return "/gallery".$this->Id."/";
+	}
+
+	function GetLink($alias = "", $recordId = 0) {
+		$recordId = round($recordId);
+		return $this->IsEmpty() ? "" : "<a href=\"".$this->BasePath().($recordId ? $recordId : "")."\" target=\"gallery\">".$this->Title."</a>";
+	}
+}	
 ?>

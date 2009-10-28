@@ -58,6 +58,7 @@
 	require_once $root."inc/helpers/email.helper.php";
 	require_once $root."inc/helpers/image.helper.php";
 	require_once $root."inc/helpers/scheduler.helper.php";
+	require_once $root."inc/helpers/rss.helper.php";
 
 	/* Config & Initialization */
 	require_once $root."inc/settings.php";

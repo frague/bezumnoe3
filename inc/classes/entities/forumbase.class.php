@@ -35,6 +35,8 @@ class ForumBase extends EntityBase {
 	var $LinkedId;
 	var $TotalCount;
 
+	var $SpellType = "форум";
+
 	// Fields
 	function ForumBase($id = -1) {
 		$this->table = self::table;
@@ -76,6 +78,13 @@ class ForumBase extends EntityBase {
 		$this->TotalCount = $result->Get(self::TOTAL_COUNT);
 	}
 
+	// Fill first record for given user
+	function FillByUserId($user_id) {
+		return $this->FillByCondition(
+			"t1.".self::LINKED_ID."=".round($user_id).
+			($this->Type ? " AND t1.".self::TYPE."='".$this->Type."'" : ""));
+	}
+
 	function __tostring() {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::FORUM_ID." = ".$this->Id."</li>\n";
@@ -93,6 +102,15 @@ class ForumBase extends EntityBase {
 		return $s;
 	}
 
+	function BasePath() {
+		return "/forum".$this->Id."/";
+	}
+
+	function GetLink($alias = "", $recordId = 0) {
+		$recordId = round($recordId);
+		return $this->IsEmpty() ? "" : "<a href=\"".$this->BasePath().($recordId ? $recordId : "")."\" target=\"forum\">".$this->Title."</a>";
+	}
+
 	function GetUnreadCount($visitDate) {
 	  global $db;
 
@@ -107,7 +125,7 @@ class ForumBase extends EntityBase {
 
 	// Fill record for given user
 	function GetByUserId($user_id) {
-		return $this->FillByCondition(
+		return $this->GetByCondition(
 			"t1.".self::LINKED_ID."=".round($user_id).
 			($this->Type ? " AND t1.".self::TYPE."='".$this->Type."'" : ""));
 	}
