@@ -1,4 +1,4 @@
-//1.7
+//1.8
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.

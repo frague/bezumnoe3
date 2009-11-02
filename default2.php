@@ -14,119 +14,22 @@
 ?><html>
 <head>
 	<title>Лучший саратовский чат &mdash; Безумное ЧАепиТие у Мартовского Зайца</title>
+	<link rel="stylesheet" type="text/css" href="/css/global.css" />
+	<link rel="stylesheet" type="text/css" href="/css/default2.css" />
 </head>
 
 <style>
-	* {
-		margin:0;
-		padding:0;
-	}
-	body, td, th, div {
-		font-family:arial;
-		font-size:10pt;
-	}
-	div {
-		/*border:dashed 1px #b0b0b0;*/
-	}
-	h3 {
-		font-size:10pt;
-	}
-	h4 {
-		font-size:9pt;
-	}
-	#left {
-		float: left;
-		width:25%;
-		padding-right:4px;
-	}
-
-	#right {
-		float: right;
-		width:25%;
-		padding-left:4px;
-	}
-	#middle {
-		clear:both;
-	}
-
-	#center {
-		margin: 0 25%;
-	}
-
-	.Block {
-		width:90%;
-		margin:0 auto;
-		clear:both;
-		padding:4px;
-	}
-	ul {
-		margin-left:20px;
-	}
-	.fLeft {
-		float:left;
-	}
-	.Center {
-		text-align:center;
-	}
-	.Input {
-		display:block;
-		clear:both;
-		width:120px;
-	}
-	p {
-		margin-top:10px;
-	}
-	.News ul {
-		margin-left:0;
-		font-size:90%;
-	}
-	.News ul, .News ul li {
-		list-style:none;
-	}
-	ul.Hbd {
-		list-style:none;
-		margin-left:0;
-		font-size:90%;
-	}
-	ul.Hbd li, .Rooms ul li {
-		display:inline;
-	}
-	.Rooms ul {
-		margin-left:0;
-	}
-	.Rooms ul li {
-		list-style:none;
-		font-size:90%;
-	}
-	ul li {
-		list-style-image: url(/img/li/1.gif);
-	}
-	ul li.l1 {
-		list-style-image: url(/img/li/2.gif);
-		margin-left:2px;
-	}
-	ul li.l2 {
-		list-style-image: url(/img/li/3.gif);
-		margin-left:1px;
-	}
-	ul li.l3 {
-		list-style-image: url(/img/li/4.gif);
-		margin-left:-1px;
-	}
-	.Error {
-		color:red;
-	}
 </style>
 
 <body>
 	<div class="Block">
 		<div id="left" class="News">
-			<h3>Новости</h3>
-			<?php ShowNews(-2, 5); ?>
+			<img src="/img/t/news.gif" />
+			<?php ShowNews(-1, 5); ?>
 		</div>
 
 		<div id="right" class="Rooms">
-			<h3>Сейчас в чате:</h3>
+			<img src="/img/t/online.gif" />
 			<?php include $root."inc/ui_parts/online_users.php"; ?>
 		</div>
 
@@ -145,7 +48,7 @@
 
 	<div class="Block">
 		<div id="left" style="padding-top:20px">
-			<ul>
+			<ul class="Bold">
 				<li class="l3"> <a href="/journal/">Журналы</a>
 				<li class="l1"> <a href="/forum/">Форум</a>
 				<li> <a href="/gallery/">Фотогалерея</a>
@@ -162,7 +65,7 @@
 			<input name="<? echo LOGIN_KEY ?>" value="<? echo $_POST[LOGIN_KEY] ?>" class="Input" tabindex="1">
 			Пароль: (<a href="#">забыл?</a>)
 			<input name="<? echo PASSWORD_KEY ?>" type="password" class="Input" tabindex="2">
-			<input type="image" src="/img/t/submit.gif" tabindex="2"></form>
+			<input type="image" src="/img/t/enter.gif" tabindex="2"></form>
 <?php
 
 	if (!$user->IsEmpty()) {
@@ -185,7 +88,6 @@
 		<div id="center" class="Center" style="vertical-align:middle">
 			<img src="/img/t/logo.gif" />
 			<img src="/img/t/title.gif" align="bottom" style="margin-bottom:20px" />
-			<p>Чат основан в 1999 году.
 		</div>
 	</div>
 
@@ -195,11 +97,11 @@
 
 	<div class="Block">
 		<div id="left">
-			<h3>Новые фото:</h3>
+			<img src="/img/t/photo.gif" />
 		</div>
 
 		<div id="right">
-			<h3>Дни рождения:</h3>
+			<img src="/img/t/birthdays.gif" />
 			<ul class="Hbd"> <h4>сегодня</h4>
 				<li> <a href="#">Мартовский Заяц</a>,
 				<li> <a href="#">Мартовский Заяц</a>,
@@ -221,8 +123,7 @@
 		</div>
 
 		<div id="center">
-			<h3>В форуме:</h3>
-			<h3>В журналах:</h3>
+			<img src="/img/t/journals.gif" />
 			<?php include $root."inc/ui_parts/journal.posts.php"; ?>
 		</div>
 	</div>

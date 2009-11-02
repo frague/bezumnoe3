@@ -33,6 +33,9 @@ class ForumRecordBase extends EntityBase {
 	const TYPE_PROTECTED	= 1;
 	const TYPE_PRIVATE		= 2;
 
+	// First index length
+	const FIRST_INDEX_LENGTH = 4;
+
 	// Properties
 	var $ForumId;
 	var $Index;
@@ -85,6 +88,10 @@ class ForumRecordBase extends EntityBase {
 
 	/* Conditional properties */
 	
+	function IsPublic() {
+		return $this->Type == self::TYPE_PUBLIC;
+	}
+
 	function IsProtected() {
 		return $this->Type == self::TYPE_PROTECTED;
 	}
@@ -94,7 +101,11 @@ class ForumRecordBase extends EntityBase {
 	}
 
 	function IsTopic() {
-		return strlen($this->Index) == 4;
+		return strlen($this->Index) == self::FIRST_INDEX_LENGTH;
+	}
+
+	function GetTopicIndex() {
+		return substr($this->Index, 0, self::FIRST_INDEX_LENGTH);
 	}
 	
 	function VisibleTo($user, $isFriend = 0) {
@@ -225,7 +236,7 @@ round($this->Type).")";
 	function GetForumThreads($forumId, $access, $from = 0, $amount = 0, $search = "") {
 		return $this->GetByCondition(($search ? $search." AND " : "")."
 			t1.".self::FORUM_ID."=".round($forumId)." AND 
-			LENGTH(t1.".self::INDEX.") = 4
+			LENGTH(t1.".self::INDEX.") = ".self::FIRST_INDEX_LENGTH."
 			ORDER BY ".self::UPDATE_DATE." DESC".
 			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 
@@ -269,7 +280,7 @@ round($this->Type).")";
 			self::FORUM_ID."=".round($forumId)."
 		ORDER BY 
 			(".self::RECORD_ID." = ".round($replyId).") DESC, 
-			SUBSTR(".self::INDEX.", 1, 4) DESC
+			SUBSTR(".self::INDEX.", 1, ".self::FIRST_INDEX_LENGTH.") DESC
 		LIMIT 1");
 	}
 
@@ -330,7 +341,7 @@ round($this->Type).")";
 	function UpdateThreadDate() {
 		if ($this->Index && $this->ForumId) {
 			$q = $this->GetByCondition(
-				self::INDEX." LIKE '".substr($this->Index, 0, 4)."%' AND
+				self::INDEX." LIKE '".$this->GetTopicIndex()."%' AND
 				".self::FORUM_ID."=".round($this->ForumId),
 				$this->UpdateThreadDateExpression()
 			);
@@ -403,7 +414,7 @@ round($this->Type).")";
 				}
 			} else {
 				// Post new topic
-				$this->Index = sprintf("%04d", 1 + $record->Index);
+				$this->Index = sprintf("%0".self::FIRST_INDEX_LENGTH."d", 1 + $record->Index);
 			}
 		}
 		$this->DoSave();
@@ -561,7 +572,7 @@ WHERE
 	}
 
 	function UpdateAnswersCountExpression($answers, $deleted = 0) {
-		$index = substr($this->Index, 0, 4);
+		$index = $this->GetTopicIndex();
 
 		$result = "UPDATE ".$this->table." SET 
 	".self::ANSWERS_COUNT."=".round($answers).",
@@ -588,7 +599,7 @@ WHERE ##CONDITION##";
 	}
 
 	function CountAnswersExpression() {
-		$index = substr($this->Index, 0, 4);
+		$index = $this->GetTopicIndex();
 
 		return "SELECT 
 	COUNT(1) AS TOTAL, SUM(IS_DELETED) AS DELETED
@@ -606,7 +617,7 @@ GROUP BY NULL";
 		$result = substr($result, strpos($result, "FROM"));
 		$result = "SELECT 
 	COUNT(".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
-	LENGTH(t1.".self::INDEX.")=4 AND
+	LENGTH(t1.".self::INDEX.")=".self::FIRST_INDEX_LENGTH." AND
 	t1.".self::FORUM_ID."=".round($forumId);
 		return $result;
 	}
@@ -616,7 +627,7 @@ GROUP BY NULL";
 		$result = substr($result, strpos($result, "FROM"));
 		$result = "SELECT 
 	COUNT(t1.".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
-	LENGTH(t1.".self::INDEX.")=4 AND
+	LENGTH(t1.".self::INDEX.")=".self::FIRST_INDEX_LENGTH." AND
 	t1.".self::FORUM_ID."=".round($forumId);
 		$result = str_replace(
 			"WHERE", 
@@ -680,7 +691,7 @@ WHERE
 	FROM ".$this->table." AS t1
 	WHERE 
 		t1.".self::FORUM_ID."=".$forumId." AND
-		LENGTH(t1.".self::INDEX.")=4 AND
+		LENGTH(t1.".self::INDEX.")=".self::FIRST_INDEX_LENGTH." AND
 		t1.".self::DATE." > '".sprintf("%04d-%02d-%02d", $year, $month, 1)."' AND
 		t1.".self::DATE." < '".sprintf("%04d-%02d-%02d", $year, $month, 31)."'";
 	}

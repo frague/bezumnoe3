@@ -20,7 +20,7 @@
 			$roomId = $q->Get(User::ROOM_ID);
 			$room = $rooms[$roomId];
 			if ($room != $lastRoom) {
-				echo ($lastRoom ? "</ul>" : "")."<ul><b>".($room ? $room : "Авторизация вне чата")."</b>";
+				echo ($lastRoom ? "</ul>" : "")."<ul><b>".($room ? $room.": " : "Авторизация вне чата")."</b>";
 				$lastRoom = $room;
 			}
 			echo "<li> ".$q->Get(User::LOGIN);

@@ -44,7 +44,7 @@
 
 ?><html>
 	<head>
-		<title>v3 prototype</title>
+		<title>Безумное ЧАепиТие у Мартовского Зайца</title>
 		<link rel="stylesheet" type="text/css" href="/css/global.css">
 		<link rel="stylesheet" type="text/css" href="/css/layout.css">
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">

@@ -121,6 +121,10 @@ ul.Tabs {
 	margin:0;
 	padding:0;
 	border:solid 1px #111111;
+
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
 }
 
 .TabTopic div {
@@ -132,6 +136,10 @@ ul.Tabs {
 
 .TabTopic a {
 	color:black;
+}
+
+.TabTopic a.Link {
+	color:brown;
 }
 
 .TabTopic.Alert {

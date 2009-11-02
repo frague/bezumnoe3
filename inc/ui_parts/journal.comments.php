@@ -51,16 +51,16 @@
 	}
 
 
-	echo "<ul>";
+	echo "<ul class='NewComments'>";
 	while (list($record, $comments) = each($sorted)) {
 		$rec = $topics[$record];
 		$alias = $aliases[$record];
 
 		if ($rec && !$rec->IsEmpty()) {
-			echo "&laquo;".$rec->ToLink(255, $alias)."&raquo;, ".JournalSettings::MakeLink($alias, $rec->Author);
+			echo "&laquo;<b>".$rec->ToLink(255, $alias)."</b>&raquo;, ".JournalSettings::MakeLink($alias, $rec->Author);
 		}
 
-		echo "<ul class='Comments'>";
+		echo "<ul>";
 		while (list($k, $comment) = each($comments)) {
 			echo "<li> &laquo;".$comment->ToLink(100, $rec->Id, $alias)."&raquo;, ".$comment->Author;
 		}

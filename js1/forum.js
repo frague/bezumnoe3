@@ -39,8 +39,9 @@ function ForumClearReply() {
 	ClearReply();
 };
 
-function AddMessage() {
+function AddMessage(lnk) {
 	if (replyTitleElement) {
+		lnk.disabled = true;
 		params = MakeParametersPair("RECORD_ID", replyMessageId);
 		params+= MakeParametersPair("FORUM_ID", forumId);
 		params+= MakeParametersPair("TITLE", replyTitleElement.value);
@@ -60,12 +61,6 @@ function ForumMessageAddCallback(req, el) {
 		if (ul) {
 			var li = d.createElement("li");
 			li.innerHTML = newRecord;
-/*			alert(newRecord);
-			try {
-				li.innerHTML = newRecord;
-			} catch (e) {
-				alert(e.description);
-			}*/
 
 			if (ul.hasChildNodes()) {
 				ul.insertBefore(li, ul.firstChild);
@@ -77,6 +72,10 @@ function ForumMessageAddCallback(req, el) {
 		if (replyErrorElement) {
 			replyErrorElement.innerHTML = error;
 		}
+	}
+	var btn = $("SubmitMessageButton");
+	if (btn) {
+		btn.disabled = "";
 	}
 };
 

@@ -42,7 +42,7 @@ WHERE",
 				$message->UserName = Mark($message->UserName, $keywords);
 				$message->ToUserName = Mark($message->ToUserName, $keywords);
 			}
-			echo ($i ? "," : "").$message->ToJs($q->Get(Settings::FONT_COLOR));
+			echo ($i ? "," : "").$message->ToJs($q->Get(Settings::FONT_COLOR), true);
 		}
 	}
 	echo "];";

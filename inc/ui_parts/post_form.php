@@ -19,7 +19,7 @@
 			<div style="float:left" id="IsProtected">
 				<input type="checkbox" name="IS_PROTECTED" id="IS_PROTECTED" /> Скрытое сообщение
 			</div>
-			<input type="Button" value="Отправить" onclick="AddMessage()">
+			<input type="Button" value="Отправить" onclick="AddMessage(this)" id="SubmitMessageButton">
 			<input type="Button" value="Цитировать" onclick="MakeCite()" id="buttonCite">
 			<input type="Button" value="Отменить" onclick="CancelReply()">
 		</div>

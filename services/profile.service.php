@@ -57,17 +57,25 @@
 							$name = $user_id.".jpg";
 						}
 						$isAjax = 0;
-						$errors = Upload($photo, ($isAvatar ? $root.$ServerPathToAvatars : $root.$ServerPathToPhotos).$name);
+						$pathToImage = $root.($isAvatar ? $ServerPathToAvatars : $ServerPathToPhotos).$name;
+						$errors = Upload($photo, $pathToImage);
 						if (!$errors) {
 							// No errors occured
 							if ($isAvatar) {
+								// Avatar uploaded
+								$maxWidth = 100;
+								$maxHeight = 100;
 								if ($name != $profile->Avatar) {
 									// Image name has changed
+									// TODO: Delete previous avatar if not empty
 									$profile->Avatar = $name;
 									$profile->Save();
 								}
 								$response .= AddJsAlert("Аватар обновлён.");
 							} else {
+								// Main picture uploaded
+								$maxWidth = 600;
+								$maxHeight = 1024;
 								if ($name != $profile->Photo) {
 									// Image name has changed
 									$profile->Photo = $name;
@@ -75,7 +83,25 @@
 								}
 								$response .= AddJsAlert("Фотография обновлена.");
 							}
-
+							
+							// Image resizing
+							$image = new SimpleImage();
+							$image->Load($pathToImage);
+							
+//							$response .= AddJsAlert("Width=".."Height=");
+							
+							$hasChanged = false;
+							if ($image->GetWidth() > $maxWidth) {
+								$image->ResizeToWidth($maxWidth);
+								$hasChanged = true;
+							}
+							if ($image->GetHeight() > $maxHeight) {
+								$image->ResizeToHeight($maxHeight);
+								$hasChanged = true;
+							}
+							if ($hasChanged) {
+								$image->Save($pathToImage);
+							}
 						} else {
 							$response .= AddJsAlert($errors, 1);
 						}

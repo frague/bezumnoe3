@@ -54,8 +54,6 @@
 				$record->Author = $user->User->Login;
 				$record->SaveAsTopic();
 				echo JsAlert("Сообщение добавлено.");
-				
-				$record->UpdateAnswersCount();
 
 				if ($forum->IsJournal()) {
 					$journal = new Journal($forum->Id);
@@ -64,11 +62,12 @@
 					$settings = new JournalSettings();
 					$settings->GetByForumId($forum->Id);
 
-					if (!$settings->IsEmpty()) {
+					if ($record->IsPublic() && !$settings->IsEmpty() && $settings->Alias) {
 						$notify = new MessageNotification($journal, $record, $settings->Alias);
 						$notify->Save();
 					}
 				}
+  				$forum->CountRecords();
 			} else {
 				$record->Save();
 				echo JsAlert("Сообщение обновлено.");
@@ -105,7 +104,8 @@
 					".ForumRecord::FORUM_ID."=".$forum->Id,
 					$record->DeleteThreadExpression()
 				);
-			$record->UpdateAnswersCount();
+  			
+  			$forum->CountRecords();
 
 			// Remove references to inexisting records
 			$recordTag = new RecordTag();

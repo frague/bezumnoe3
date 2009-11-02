@@ -39,7 +39,7 @@
 	$q = $record->GetByIndex(
 		$record->ForumId, 
 		$access,
-		$record->Index, 
+		$record->GetTopicIndex(), 
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 

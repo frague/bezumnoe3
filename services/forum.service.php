@@ -78,7 +78,7 @@
 									".ForumRecord::FORUM_ID."=".$forum->Id,
 									$record->HideThreadExpression($state)
 								);
-  								$record->UpdateAnswersCount();
+  								$forum->CountRecords();
 								echo "className='".($state ? "Hidden" : "")."';";
 							}
 						} else {
@@ -130,10 +130,12 @@
 								))."';";
 							}
 
-							$notify = new MessageNotification($forum, $newRecord);
-							$notify->Save();
+							if ($newRecord->IsPublic() && !$forum->IsProtected && !$forum->IsJournal() && !$forum->IsGallery()) {
+								$notify = new MessageNotification($forum, $newRecord);
+								$notify->Save();
+							}
 
-							$newRecord->UpdateAnswersCount();
+  							$forum->CountRecords();
 						} else {
 							$error .= "Ошибка при сохранении сообщения!<br>";
 						}

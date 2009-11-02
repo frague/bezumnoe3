@@ -219,6 +219,12 @@ $expression);
 		return $result;
 	}
 	
+	function CountRecords() {
+	  global $db;
+		
+		$db->Query($this->UpdateThreadsCountExpression());
+	}
+	
 	function SaveAndCount() {
 	  global $db;
 
@@ -226,7 +232,7 @@ $expression);
 			return false;
 		}
 		$this->Save();
-		$db->Query($this->UpdateThreadsCountExpression());
+		$this->CountRecords();
 	}
 
 	// SQL Expressions

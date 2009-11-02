@@ -131,7 +131,7 @@
 					if ($roomExists) {
 						if ($user->Status->Rights >= $TopicRights && (!$room->TopicLock || $user->IsAdmin())) {
 							if ($message || $type == "topic") {
-								$room->Topic = $message;
+								$room->Topic = OuterLinks(MakeLinks($message));
 								$room->TopicAuthorId = $user->User->Id;
 								$msg = new SystemMessage(Clickable($user->DisplayedName())." меняет тему на &laquo;".$message."&raquo;.", $user->User->RoomId);
 							}

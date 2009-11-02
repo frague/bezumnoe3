@@ -95,11 +95,11 @@ class Message extends EntityBase {
 		return $s;
 	}
 
-	function ToJs($color = "") {
+	function ToJs($color = "", $remove_tags = false) {
 		if ($this->IsEmpty()) {
 			return "";
 		}
-		$text = $this->Text;
+		$text = $remove_tags ? strip_tags($this->Text) : $this->Text;
 		return "new mdto('".JsQuote($this->Date)."','".JsQuote($this->UserName)."','".JsQuote($this->ToUserName)."','".JsQuote($text)."','".JsQuote($color)."')";
 	}
 
@@ -111,6 +111,7 @@ class Message extends EntityBase {
 		$text = $this->Text;
 		if ($highlight) {
 			$text = str_replace($highlight, "<strong>".$highlight."</strong>", $text);
+			$text = preg_replace("/(href=\")([^\"]+)(\")/ie", "\"$1\".strip_tags(\"$2\").\"$3\"", $text);
 		}
 
 		$moment = date("H:i", strtotime($this->Date));

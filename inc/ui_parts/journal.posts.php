@@ -10,7 +10,7 @@
 		$record->FillFromResult($q);
 		$alias = $q->Get(JournalSettings::ALIAS);
 
-		echo "<li> &laquo;".$record->ToLink(0, $alias)."&raquo;, ".JournalSettings::MakeLink($alias, $record->Author);
+		echo "<li> &laquo;<b>".$record->ToLink(0, $alias)."</b>&raquo;, ".JournalSettings::MakeLink($alias, $record->Author);
 	}
 	echo "</ul>";
 
