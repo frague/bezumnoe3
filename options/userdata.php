@@ -54,9 +54,9 @@
 	<input type="hidden" name="go" id="go" value="upload_photo" />
 	<input type="hidden" name="tab_id" id="tab_id" />
 	<input type="hidden" name="USER_ID" id="USER_ID" />
-	<input type="hidden" name="MAX_FILE_SIZE" value="204800" class="Wide" />
+	<input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
 	<input type="file" name="PHOTO1" id="PHOTO1" />
-	<p class="Note">Допускается загружать файлы размером не более 200 Кб.</p>
+	<p class="Note">Допускается загружать файлы размером не более 2 Мб.</p>
 </form>
 
 <h4>Аватар:</h4>
@@ -66,9 +66,9 @@
 	<input type="hidden" name="go" id="go" value="upload_avatar" />
 	<input type="hidden" name="tab_id" id="tab_id" />
 	<input type="hidden" name="USER_ID" id="USER_ID" />
-	<input type="hidden" name="MAX_FILE_SIZE" value="102400" class="Wide" />
+	<input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
 	<input type="file" name="PHOTO1" id="PHOTO1" />
-	<p class="Note">Допускается загружать файлы размером не более 100 Кб.</p>
+	<p class="Note">Допускается загружать файлы размером не более 2 Мб.</p>
 </form>
 
 

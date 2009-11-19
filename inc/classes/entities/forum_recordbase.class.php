@@ -233,11 +233,11 @@ round($this->Type).")";
 	}
 
 	// Gets forum's top-level threads
-	function GetForumThreads($forumId, $access, $from = 0, $amount = 0, $search = "") {
+	function GetForumThreads($forumId, $access, $from = 0, $amount = 0, $search = "", $sortByDate = false) {
 		return $this->GetByCondition(($search ? $search." AND " : "")."
 			t1.".self::FORUM_ID."=".round($forumId)." AND 
 			LENGTH(t1.".self::INDEX.") = ".self::FIRST_INDEX_LENGTH."
-			ORDER BY ".self::UPDATE_DATE." DESC".
+			ORDER BY ".($sortByDate ? self::DATE : self::UPDATE_DATE)." DESC".
 			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 
 			$this->ReadThreadExpression($access), "", 1);
@@ -475,9 +475,9 @@ WHERE
 			case Forum::FULL_ACCESS:
 				return "1=1 AND ";
 			case Forum::READ_ONLY_ACCESS:
-				return "t1.".self::TYPE."='".self::TYPE_PUBLIC."' AND ".$hideDeleted." AND ";
 			case Forum::READ_ADD_ACCESS:
-				return "(t1.".self::TYPE."='".self::TYPE_PUBLIC."' OR t1.".self::TYPE."='".self::TYPE_FRIENDS_ONLY."') AND ".$hideDeleted." AND ";
+				return "t1.".self::TYPE."='".self::TYPE_PUBLIC."' AND ".$hideDeleted." AND ";
+//				return "(t1.".self::TYPE."='".self::TYPE_PUBLIC."' OR t1.".self::TYPE."='".self::TYPE_FRIENDS_ONLY."') AND ".$hideDeleted." AND ";
 			default:
 				return "1<>1 AND ";
 		}

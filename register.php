@@ -20,7 +20,16 @@
 		$email = trim(LookInRequest("E-MAIL"));
 		$accept = trim(LookInRequest("ACCEPT"));
 
+		$is_human = !trim(LookInRequest("HUMAN"));
+
 		/* Validation */
+
+		if (!$is_human) {
+			$errors[] = "Заблокирована автоматическая регистрация.";
+
+			// Commented to prevent log drammatical growth
+			// SaveLog("Заблокирована автоматическая регистрация пользователя ".$login, -1, "", AdminComment::SEVERITY_ERROR);
+		}
 
 		if (!$login) {
 			$errors[] = "Не указан логин.";
@@ -108,6 +117,8 @@
 			// Journal
 			$journal = new Journal();
 			$journal->LinkedId = $newborn->Id;
+			$journal->Title = $newborn->Login;
+			$journal->Description = "Персональный журнал";
 			$journal->Save();
 
 			// Journal template
@@ -199,6 +210,7 @@
 		<th>E-mail адрес:</th>
 		<td>
 			<input name="E-MAIL" id="E-MAIL" class="RegData" value="<?php echo $email ?>">
+			<input name="HUMAN" id="HUMAN" style="visibility:hidden" value="">
 		</td>
 	</tr>
 	<tr>

@@ -6,7 +6,7 @@
 	$user = GetAuthorizedUser(true, true);
 
 	if ($user->IsEmpty()) {
-		echo "Not logged. Bye!";
+		echo "Пользователь не авторизован. До свидания...";
 		exit;
 	}
 

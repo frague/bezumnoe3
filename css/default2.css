@@ -24,21 +24,23 @@ h4 {
 }
 #left {
 	float: left;
-	width:25%;
-	padding-right:4px;
+	width:200px;
+	padding-right:16px;
+	background: url(/img/t/vline.gif) repeat-y top right;
 }
 
 #right {
 	float: right;
-	width:25%;
-	padding-left:4px;
+	width:200px;
+	padding-left:18px;
+	background: url(/img/t/vline2.gif) repeat-y top left;
 }
 #middle {
 	clear:both;
 }
 
 #center {
-	margin: 0 25%;
+	margin: 0 220px;
 }
 
 .Block {

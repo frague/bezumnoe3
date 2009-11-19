@@ -71,6 +71,10 @@ a.Link, span.imageLink a {
 	padding:4px;
 	background-color:#111111;
 	overflow:auto;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
 #AlertContainer {
@@ -189,6 +193,14 @@ table.Grid tr.Error {
 	background-color:#800000;
 }
 
+table.Grid tr.Incoming {
+	background-color:#201000;
+}
+
+table.Grid tr.Outgoing {
+	background-color:#102000;
+}
+
 table.Grid tr.Dark {
 	background-color:#202020;
 }
@@ -199,6 +211,14 @@ table.Grid tr.Dark.Warning {
 
 table.Grid tr.Dark.Error {
 	background-color:#600000;
+}
+
+table.Grid tr.Dark.Incoming {
+	background-color:#301000;
+}
+
+table.Grid tr.Dark.Outgoing {
+	background-color:#103000;
 }
 
 table.Grid tr.Highlight td {

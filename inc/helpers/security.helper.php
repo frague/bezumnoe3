@@ -25,9 +25,9 @@
 	  global $SessionLifetime;
 
 		if ($inHeader) {
-			header("Set-Cookie: ".SESSION_KEY."=".$user->Session.";path=/;");
+			header("Set-Cookie: ".SESSION_KEY."=".$user->Session.";path=/;domain=.bezumnoe.ru;");
 		} else {
-			setcookie(SESSION_KEY, $user->Session, 0, "/");
+			setcookie(SESSION_KEY, $user->Session, 0, "/", ".bezumnoe.ru");
 		}
 	}
 	

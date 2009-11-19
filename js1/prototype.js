@@ -326,10 +326,14 @@ function CompareSessions() {
 	}
 };
 
-function Send() {
+function Send(button) {
+	var recepients = CurrentTab.recepients.Gather();
+	if (!recepients && !textField.value) {
+		return;
+	}
 	var s = MakeParametersPair("message", textField.value);
 	s += MakeParametersPair("type", messageType);
-	s += MakeParametersPair("recepients", CurrentTab.recepients.Gather());
+	s += MakeParametersPair("recepients", recepients);
 
 	sendRequest(servicesPath + "message.service.php", Received, s);
 	if (!CurrentTab.IsPrivate) {

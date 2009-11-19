@@ -27,6 +27,6 @@
 		}
 //		echo "<li> ".$u->SessionPong." vs ".$expiredSession;
 	}
-	echo "<ul>";
+	echo "</ul>";
 
 ?>

@@ -4,11 +4,10 @@
 	require_once $root."server_references.php";
 	require_once "journal.template.php";
 
-	Head("Журналы", "forum.css", "forum.js");
+	Head("Журналы", "forum.css", "forum.js", "/journal/rss/");
 	require_once $root."references.php";
 
 ?>
-
 
 <table width="100%">
 	<tr>

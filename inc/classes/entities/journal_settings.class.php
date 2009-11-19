@@ -82,7 +82,7 @@ JsQuote($description)."\"]";
 	}
 
 	function ToTitleLink($title, $target = "") {
-		return self::MakeLink($this->Alias, $title, new ForumRecordBase(), $target);
+		return self::MakeLink($this->Alias, ($title ? $title : "без названия"), new ForumRecordBase(), $target);
 	}
 
 	// SQL
@@ -167,7 +167,7 @@ WHERE",
 	function MakeHref($alias, $recordId = 0) {
 		$recordId = round($recordId);
 		if ($recordId > 0) {
-			$tail = "/post".$recordId.".html";
+			$tail = "/post".$recordId;
 		}
 		return "/journal/".$alias.$tail;
 	}

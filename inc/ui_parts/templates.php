@@ -1,6 +1,6 @@
 <?php
 
-	function Head($title, $css = "", $js = "") {
+	function Head($title, $css = "", $js = "", $rss = "") {
 	  global $user;
 
 ?><html>
@@ -10,10 +10,13 @@
 	<link rel="stylesheet" type="text/css" href="/css/template.css" />
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-	<?php 
+<?php 
 		
 		if ($css) {
 			echo "	<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$css."\" />\n";
+		}
+		if ($rss) {
+			echo "	<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"".$rss."\" />\n";
 		}
 		if ($js) {
 			echo "	<script language=\"javascript\" src=\"/js1/".$js."\"></script>\n";

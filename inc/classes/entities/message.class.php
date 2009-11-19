@@ -114,6 +114,8 @@ class Message extends EntityBase {
 			$text = preg_replace("/(href=\")([^\"]+)(\")/ie", "\"$1\".strip_tags(\"$2\").\"$3\"", $text);
 		}
 
+		$text = str_replace("\\\\", "<br>", $text);
+
 		$moment = date("H:i", strtotime($this->Date));
 		if (!$this->UserId || $this->UserId < 0) {		// System
 			if ($this->ToUserId > 0) {

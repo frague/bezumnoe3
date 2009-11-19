@@ -17,12 +17,12 @@ class Journal extends ForumBase {
 		return "/journal/";
 	}
 
-	function GetLink($alias, $recordId = 0) {
+	function GetLink($alias, $recordId = 0, $setTarget = true) {
 		if ($this->IsEmpty() || !$alias) {
 			return;
 		}
 		$recordId = round($recordId);
-		return "<a href=\"".$this->BasePath().$alias.($recordId ? "/post".$recordId.".html" : "")."\" target=\"journal\">".$this->Title."</a>";
+		return "<a href=\"".$this->BasePath().$alias.($recordId ? "/post".$recordId."/" : "")."\"".($setTarget ? " target=\"journal\"" : "").">".$this->Title."</a>";
 	}
 }	
 

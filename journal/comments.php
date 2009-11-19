@@ -38,6 +38,8 @@
 		DieWith404();
 	}
 
+	$alias = $settings->Alias;
+
 	// Checking if journal is protected and logged user has access to it
 	$access = 1 - $journal->IsProtected;
 	if ($someoneIsLogged) {
@@ -67,7 +69,14 @@
 		die;
 	}
 
-	echo "<h3 style='clear:both'>Комментарии:</h3>";
+	?>
+	
+	<ul> <strong>Вернуться</strong>
+		<li> к сообщению &laquo;<?php echo $record->ToLink(100, $alias); ?>&raquo;<br />
+		<li> к журналу &laquo;<?php echo $journal->GetLink($alias, 0, false); ?>&raquo;
+	</ul>
+
+	<h3 style='clear:both'>Комментарии:</h3><?php
 
 	$answers = $record->AnswersCount - ($access == Journal::FULL_ACCESS ? 0 : $record->DeletedCount);
 
@@ -105,7 +114,7 @@
 			echo "</ul>";
 		}
 
-		$pager = new Pager($answers, $messagesPerPage, $from);
+		$pager = new Pager($answers, $messagesPerPage, $from, $journal->BasePath().$alias."/post".round($record_id)."/comments/");
 		echo $pager;
 	} else {
 		echo "</ul>";
