@@ -20,12 +20,12 @@ RewriteRule ^js\/(.+)\.javascript$ js/handler.php?ver=$1 [L]
 
 RewriteBase /
 
-
 RewriteRule ^journal/rss/?$ journal/default.rss.php [L]
 
 ### Journal actions
 
 RewriteCond $1 !\.php
+
 
 # Just journal
 RewriteRule ^journal/([^/]+)/{0,1}$ journal/journal.php?alias=$1
@@ -104,4 +104,10 @@ RewriteRule ^gallery([0-9]+)/([0-9]+)/page([0-9]+).html$ gallery/comments.php?id
 
 RewriteRule ^gallery([0-9]+)/photo([0-9]+)\.html$ gallery/default.php?action=show&gal_id=$1&id=$2 [L]
 RewriteRule ^gallery([0-9]+)/addcomment([0-9]+)\.html$ gallery/default.php?action=show&gal_id=$1&id=$2&comment=1 [L]
+
+
+
+
+RewriteRule ^img/photos/small/([0-9a-zA-Z_]+\.(jpg|gif))$ img/photos/small/index.php?img=$1 [L]
+
 

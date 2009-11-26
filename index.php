@@ -9,207 +9,185 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/ui_parts/news.php";
 
-	Head("Лучший саратовский чат &mdash; Безумное ЧАепиТие у Мартовского Зайца");
 	require_once $root."references.php";
 
-?>
+?><html>
+<head>
+	<!-- Саратовский молодёжный чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+	<title>Лучший саратовский чат &mdash; Безумное ЧАепиТие у Мартовского Зайца</title>
+	<meta name="description" content="Молодежный чат bezumnoe.ru. Скоростной, удобный чат студентов Саратова. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам. Удобный, современный механизм, журналы пользователей, форум, фотогалерея."><meta name="abstract" content="Молодежный чат bezumnoe.ru. Скоростной, удобный чат студентов Саратова. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам. Удобный, современный механизм, журналы пользователей, форум, фотогалерея."><meta name="keywords" content="чат, безумное, Саратов, саратовский, молодёжный, студенческий, студент, чаепитие, встречи, знакомства, общение, волга, российский, общероссийский, чаты, Саратов, Саратова, saratov, chat"><meta name="distribution" content="Global"><meta name="rating" content="General"><meta name="subject" content="Чат, Общение"><meta name="page-type" content="Чат, Общение"><meta name="page-topic" content="Молодежный саратовский чат bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове"><meta name="title" content="Студенческий чат в Саратове - bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове"><meta name="site-created" content="17-10-1999"><meta name="revisit" content="15 days"><meta name="revisit-after" content="15 days"><meta name="content-Language" content="russian"><meta name="resource-type" content="document"><meta name="audience" content="all"><meta name="robots" content="index,all"><meta name="Address" content="Saratov, Russia"><meta name="home_url" content="http://bezumnoe.ru/">
+	<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+	<!-- Саратовский молодёжный чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+	<link rel="stylesheet" type="text/css" href="/css/default3.css" />
+	<link rel="stylesheet" type="text/css" href="/css/global.css" />
+</head>
 
-<h2>БЧуМЗ 3: alpha</h2>
+<body>
+	<div class="MainLeft">
+		<div class="MainRight" align="center">
+			<div class="Main">
+				<!--div class="Banner">
+					<script language="JavaScript"> var loc = ''; </script>
+					<script language="JavaScript1.4">try{ var loc = escape(top.location.href); }catch(e){;}</script>
+					<script language="JavaScript">
+						var userid = 118996; var page = 3;
+						var rndnum = Math.round(Math.random() * 999111);
+						document.write('<iframe src="http://ad.bb.sbn.saratov.ru/bb.cgi?cmd=ad&hreftarget=_blank&pubid=' + userid + '&pg=' + page + '&vbn=223&w=468&h=60&num=1&r=ssi&ssi=nofillers&r=ssi&nocache=' + rndnum + '&ref=' + escape(document.referrer) + '&loc=' + loc + '" frameborder=0 vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>');
+						document.write('<a href="http://ad.bb.sbn.saratov.ru/bb.cgi?cmd=go&pubid=' + userid + '&pg=' + page + '&vbn=223&num=1&w=468&h=60&nocache=' + rndnum + '&loc=' + loc + '&ref=' + escape(document.referrer) + '" target="_blank">');
+						document.write('<img src="http://ad.bb.sbn.saratov.ru/bb.cgi?cmd=ad&pubid=' + userid + '&pg=' + page + '&vbn=223&num=1&w=468&h=60&nocache=' + rndnum + '&ref=' + escape(document.referrer) + '&loc=' + loc + '" width=468 height=60 Alt="Saratov Banner Network" border=0></a></iframe>');
+					</script>
+				</div>
+				<div class="Divider Normal Horizontal"><span></span></div-->
 
-<style>
-	div {
-		float:left;
-		margin:4px;
-		padding:4px;
-		clear:left;
-		background-color:#EEE;
-		border:solid 1px #E0E0E0;
-		width:200px;
-	}
-	ul {
-		padding:0;
-		margin:0;
-	}
-	ul li {
-		list-style:none;
-	}
-	a {
-		color:#222;
-		text-decoration:none;
-		border-bottom:dotted 1px red;
-	}
-</style>
+				<div>
+					<div class="Column Left">
+						<h3>Сейчас в чате:</h3>
+						<div class="UserList">
+							<?php include $root."inc/ui_parts/online_users.php"; ?>
+						</div>
 
-<div>
-	<form method='POST'>
-		Логин:<br>
-		<input name='<? echo LOGIN_KEY ?>' value='<? echo $_POST[LOGIN_KEY] ?>'><br>
-		Пароль:<br>
-		<input name='<? echo PASSWORD_KEY ?>' type='password'><br>
+						<h3>Новости чата:</h3>
+						<div class="News">
+							<?php ShowNews(-1, 3); ?>
+						</div>
 
-		<input type='submit' value=' Авторизация '>
-	</form>
+						<h3>Дни рождения:</h3>
+						<div class="Birthdays">
+							<?php include $root."inc/ui_parts/birthdays.php"; ?>
+						</div>
 
+						<h3>Новые фотки:</h3>
+						<div class="UserList Photos">
+							<?php include $root."inc/ui_parts/new_photos.php"; ?>
+						</div>
+
+					</div>
+
+					<div class="Column Center Left">
+						<div class="Divider Vertical">
+							<div class="Welcome">
+<p style="font-size:102%">Добро пожаловать в старейший саратовский чат &laquo;<b>Безумное ЧАепиТие у Мартовского Зайца</b>&raquo;!
+<p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время. 
+<p>Если вы у нас впервые, ознакомьтесь с <a href="/rules.php" class="Link">правилами</a> и <a href="/register.php" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
+							</p></div>
+
+							<div class="MainLink">
+								<img alt="Саратовский чат" title="Саратовский чат" src="/img/t/pict/register.gif" align="left" height="69" width="70">
+								<h3><a href="/register.php">Регистрация в чате</a> <img src="/img/li/rbs.gif" border="0"></h3>
+								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
+								<span class="Newcomers">Последние зарегистрировавшиеся пользователи: <?php include $root."inc/ui_parts/newcomers.php"; ?></span>
+							</div>
+
+							<div class="MainLink RightOriented">
+								<img src="/img/t/pict/forum.gif" align="right" height="79" width="95">
+								<h3><img src="/img/li/lbs.gif" border="0"> <a href="/forum/">Форумы чата</a></h3>
+								<p>В форумах происходит обсуждение насущных вопросов чата. Авторизуйтесь для публикации сообщений.
+							</div>
+
+							<div class="MainLink">
+								<img src="/img/t/pict/photo.gif" align="left" height="66" width="70">
+								<h3><a href="/gallery/">Фотогалерея</a> <img src="/img/li/rbs.gif" border="0"></h3>
+								<p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
+							</div>
+
+							<div class="MainLink RightOriented Blogs UserList">
+								<img src="/img/t/pict/journals.gif" align="right" width="70" height="64">
+								<h3><img src="/img/li/lbs.gif" border="0"> <a href="/journal/">Журналы (блоги)</a></h3>
+								<p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.<br />
+								Список последних записей в журналах:
+								<?php include $root."inc/ui_parts/journal.posts.php"; ?>
+							</div>
+						</div>
+					</div>
+
+					<div class="Column Right">
+						<img src="/img/t/logo.gif" height="184" width="187">
+						<img alt="Саратовский чат" title="Саратовский чат" src="/img/t/title.gif" height="126" width="187">
+
+						<form method="POST">
+							<table cellpadding="0" cellspacing="0">
+								<tr>
+									<td class="FormTitle">Логин</td>
+									<td width="100%"><input name="<?php echo LOGIN_KEY ?>" value="<? echo $_POST[LOGIN_KEY] ?>" size="10"></td></tr>
+								<tr>
+									<td class="FormTitle">Пароль</td>
+									<td><input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password">
+									<script>$("<?php echo PASSWORD_KEY ?>").focus()</script></td></tr></table>
+							<input src="/img/t/enter.gif" border="0" width="48" height="26" alt="Авторизоваться в чате" align="center" type="image" />
+						</form>
 <?php
 
 	if (!$user->IsEmpty()) {
 		$user->User->TouchSession();
 		$user->User->Save();
 
-		echo "Вы авторизованы как<br>
+		echo "<div class='Auth'>Вы авторизованы как<br>
 			<b>".$user->User->Login."</b><br>
-			и можете <a href='inside.php'>войти</a> в чат.";
+			и можете <a href='/inside.php'>войти</a> в чат.</div>";
 	} else {
 		if ($_POST[LOGIN_KEY]) {
-			echo "Ошибка авторизации!";
+			echo "<div class='Error'>Ошибка авторизации!</div>";
 		}
 	}
 
 ?>
-</div>
 
-<div>
-	<?php include $root."inc/ui_parts/online_users.php"; ?>
-</div>
+						<div class="UserList">
+							<ul class="Menu">
+								<li> <a href="#" onclick="alert('Бывает... ==8)))');">Забыл пароль?</a><br /><br />
 
-<div>
-	<ul>
-		<li> <a href="/register.php">Регистрация</a>
-		<li> <a href="/forum/">Форум</a>
-		<li> <a href="/journal/">Журналы</a>
-		<li> <a href="/gallery/">Фотогалерея</a>
-	</ul>
-</div>
+								<li> <a href="/register.php">Регистрация</a>
+								<li class="l1 Bold"> <a href="/journal/">Журналы</a>
+								<li class="l4 Inactive"> <a href="#/tree/" class="Red">Фамильное древо</a>
+								<li> <a href="/gallery/">Фотогалерея</a>
+								<li class="l2"> <a href="/forum/">Форумы чата</a>
+								<li class="Inactive"> <a href="#/faces/">Фотки чатлан</a>
+								<li class="l3 Inactive"> <a href="#/banned.html">&laquo;Чёрный список&raquo;</a>
+								<li class="l1 Inactive"> <a href="#/rating/">Рейтинг</a>
+							</ul>
+						</div>
 
-<div class="News">
-	<?php ShowNews(-2, 10); ?>
-</div>
+						<br />
 
-<div class="Center">
-	<a href="http://www.yandex.ru/cy?base=0&host=bezumnoe.ru" rel="nofollow"><img src="http://www.yandex.ru/cycounter?www.bezumnoe.ru" width=88 height=31 alt="Яндекс цитирования bezumnoe.RU" border=0 hspace=5></a>&nbsp;
-	<!--LiveInternet counter--><script language="JavaScript">document.write('<a href="http://www.liveinternet.ru/click" target=_blank rel=nofollow><img src="http://counter.yadro.ru/hit?t21.6;r' + escape(document.referrer) + ((typeof(screen)=='undefined')?'':';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ';u' + escape(document.URL) +';i' + escape('Жж'+document.title.substring(0,80)) + ';' + Math.random() + '" border=0 width=88 height=31 title="LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я"></a>')</script><!--/LiveInternet-->
-</div>
+						<a href="http://www.yandex.ru/cy?base=0&host=bezumnoe.ru" rel="nofollow"><img src="http://www.yandex.ru/cycounter?www.bezumnoe.ru" width=88 height=31 alt="Яндекс цитирования bezumnoe.RU" border=0 hspace=5></a><br /><br />
+						<!--LiveInternet counter--><script language="JavaScript">document.write('<a href="http://www.liveinternet.ru/click" target=_blank rel=nofollow><img src="http://counter.yadro.ru/hit?t21.6;r' + escape(document.referrer) + ((typeof(screen)=='undefined')?'':';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ';u' + escape(document.URL) +';i' + escape('Жж'+document.title.substring(0,80)) + ';' + Math.random() + '" border=0 width=88 height=31 title="LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я"></a>')</script><!--/LiveInternet-->
 
+					</div>
+				</div>
 
-<h3>Что нового:</h3>
-<ul>
-	<li style="color:red"> 19.10 - Все данные восстановлены из бекапа;
-	<li style="color:red"> 18.10 - Чат скоропостижно переехал на новый хостинг, миграция данных планируется в понедельник-вторник. До тех пор - регистрируйтесь под старыми никами;
+				<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
-	<li> 02.10 - Теги (метки) в сообщениях журналов;
-	<li> 28.09 - Выделение фраз входа/выхода. Сохранение даты последнего логина;
-	<li> 25.09 - Администрирование: фильтрация результатов поиска пользователей. Кеширование;
-	<li> 16.09 - Планировщик. Разбан и установка статусов по расписанию;
-	<li> 13.08 - Администрирование: логи;
-	<li> 10.08 - То же для форумов и фотогалерей;
-	<li> 06.08 - Журналы: правильная выборка по датам и страницам. Кеширование;
-	<li> 26.06 - Настройки форумов/журналов при множественном доступе. Выделение дружественных журналов в отдельную таблицу;
-	<li> 25.06 - Совместный доступ к журналам, форумам и фотогалереям. "Чёрный" и "белый" списки;
-	<li> 19.06 - Миграция данных. Реорганизация доступа к закрытым форумам (журналам/галереям) и сообщениям различного типа;
-	<li> 26.05 - Крупный рефакторинг методов загрузки шаблонов. Багфиксинг;
-	<li> 25.05 - История вейкап-сообщений (базовый функционал);
-	<li> 22.05 - Кик;
-	<li> 21.05 - Админы: сохранение/редактирование списка закрытых адресов;
-	<hr>
-	<li> 18.03 - Блокировка темы. Корректная синхронизация статуса игнора;
-	<li> 15.03 - Модификация диспетчера пользователей;
-	<li> 12.03 - Рефакторинг forum-based сущностей. Комментарии в фотогалерее;
-	<li> 8.03 - Фотогалерея (базовое отображение);
-	<li> 1.03 - Исправлены ошибки по отображению сообщений в форуме. Упорядочены скрипты по миграции данных. Коррекция доступа к сообщениям журналов;
-</ul>
+				<div class="Banner">
+<!-- RLE code START -->
+<script language="JavaScript" type="text/javascript">
+<!--
+var RndNum4NoCash = Math.round(Math.random() * 1000000000);
+var ar_Tail='unknown'; if (document.referrer) ar_Tail = escape(document.referrer);
+document.write(
+'<iframe src="http://ad.adriver.ru/cgi-bin/erle.cgi'
++ '?sid=67164&bn=0&target=blank&bt=1&pz=0&tail256=' + ar_Tail + '&rnd=' + RndNum4NoCash
++ '" frameborder=0 vspace=0 hspace=0 width=468 height=60'
++ ' marginwidth=0 marginheight=0 scrolling=no></iframe>');
+// -->
+</script>
+<noscript>
+<a href="http://ad.adriver.ru/cgi-bin/click.cgi?sid=67164&bn=0&bt=1&pz=0&rnd=1669575727" target=_blank>
+<img src="http://ad.adriver.ru/cgi-bin/rle.cgi?sid=67164&bn=0&bt=1&pz=0&rnd=1669575727" alt="-AdRiver-" border=0 width=468 height=60></a>
+</noscript>
+<!-- RLE code END -->
+				</div>
 
-<ul style="font-size:90%;">
-	<li> 18.11 - Новости;
-	<li> 1.11 - Оптимизация кода, рефакторинг. Управление новостными разделами;
-	<li> 31.10 - Callback methods refactored;
-	<li> 28.10 - Выделение DTO-объектов. Класс EditableGrid. Создание, редактирование и удаление персональных статусов;
-	<li> 27.10 - Администрирование: персональные статусы (частично);
-	<li> 22.10 - Ограничение доступа к форуму и комментариям в журналах по IP и хосту (маска);
-	<li> 15.10 - Восстановление механизма поиска по сообщениям журнала. Поиск в логах;
-	<li> 14.10 - Регистрация новых пользователей. Проверка конкурентных сессий в одном браузере;
-</ul>
+				<div class="Divider Horizontal Alternative"><span></span></div>
+				
+				<div class="Bottom Centered">
+					Первая версия сайта была создана 19 октября 1999 года.<br />
+					&copy; Дизайн и разработка сайта - <a href="#mail" onclick="mail();">Николай Богданов</a>
 
-<ul style="font-size:80%;">
-	<li> 14.10 - Регистрация новых пользователей;
-	<li> 13.10 - Разметка для формы регистрации. Валидаторы;
-	<li> 2.10 - Перенос журнала и галерей на платформу форума;
-	<li> 23.09 - Форум: корректное сокрытие сообщений;
-	<li> 17.09 - Форум: публикация сообщений в закрытые форумы;
-	<li> 11-12.09 - Форум: удаление(сокрытие) сообщений;
-	<li> 10.09 - Сохранение в кеше и восстановление оттуда при запросе динамической js-библиотеки; Частично реализована функциональность закрытых форумов;
-	<li> 09.09 - Журналы: первичная разметка;
-	<li> 2-4.09 - Форум: модификация, написание классов и альтернативной системы отображения;
-	<li> 29.08 - Выделение ссылок в сообщениях чата. Добавление запрета доступа в чат из профайла пользователя;
-	<li> 28.08 - Бан адресов для доступа в чат, к журналам или в форум;
-	<li> 27.08 - Логирование и отображение лога;
-	<li> 26.08 - Админы: комментарии пользователям;
-	<li> 25.08 - Выбор раскладки фреймов чата из меню;
-	<li> 22.08 - Журналы: запрет комментировать ваш журнал для выбранных пользователей. Второй вариант раскладки фреймов;
-	<li> 21.08 - Журналы: сохранение новых записей (с обновлением списка). Обновление списка френдов при добавлении. Миграция алиасов. Баг дублирования табов. Оптимизация разметки;
-	<li> 20.08 - Дружественные журналы: добавление/удаление, миграция френдов из старых журналов. Поиск пользователей;
-</ul>
-
-<ul style="font-size:70%;">
-	<li> 19.08 - Журнал: просмотр комментариев к сообщениям;
-	<li> 18.08 - Журнал: миграция комментариев, сохранение id сообщений журнала при миграции;
-	<li> 14.08 - Визуальный редактор сообщений журнала (иконки, настройка). Загрузка сообщений для редактирования, новое сообщение. Выбор времени в DatePicker;
-	<li> 13.08 - Подготовка иконок для визуального редактора сообщений журнала;
-	<li> 12.08 - Сохранение настроек журнала. Редактирование сообщений (базовый функционал);
-	<li> 11.08 - Сохранение шаблонов журнала. Настройки журнала (базовый функционал);
-	<li> 08.08 - Визуальный выбор даты (DatePicker) в настройках;
-	<li> 06.08 - Загрузка аватаров. Загрузка шаблона блога, выбор предустановленного скина;
-	<li> 05.08 - Миграция данных блогов: шаблоны, скины, настройки пользователей;
-	<li> 31.07 - Простой поиск по сообщениям журнала. Черновики шаблонов для журналов;
-	<li> 30.07 - Приватные комнаты, доступ к ним;
-	<li> 29.07 - Базовый функционал по приватным и админским комнатам;
-	<li> 28.07 - Создание новых комнат. Удаление пустых комнат;
-</ul>
-
-<ul style="font-size:60%;">
-	<li> 25.07 - Вейкапы: учитываются настройки пользователя не раскрывать вейкапы;
-	<li> 24.07 - Журналы: миграция данных, постраничная загрузка сообщений. Конфирмация удаления фотографии пользователя и сообщений в журнале;
-	<li> 23.07 - Журналы: базовые классы (сообщение, комментарий);
-	<li> 22.07 - Журналы: загрузка контента в спойлер-табы. Индикатор загрузки;
-	<li> 20.07 - Администрирование: поиск пользователей по комнате; Журналы: базовая разметка, таб-спойлеры;
-	<li> 17.07 - Фикс багов;
-	<li> 16.07 - Администрирование: менеджер пользователей, бан/снятие бана, смена статуса;
-	<li> 15.07 - Сообщения о входе и выходе. Базовый функционал по администрированию;
-	<li> 14.07 - Кик и бан пользователя (для администраторов и хранителей), игнор. Баги;
-</ul>
-
-<ul style="font-size:50%;">
-	<li> 11.07 - Функционал выбора цвета из палитры (ColorPicker). Добавление в игнор, удаление из игнора;
-	<li> 10.07 - Меню пользователя: настройки пользователя. Рефакторинг кода;
-	<li> 09.07 - Меню пользователя: кроссбраузерная отладка, нотофикационные сообщения в IE;
-	<li> 08.07 - Меню пользователя: удаление фотографии, кроссбраузерная отладка;
-	<li> 07.07 - Меню пользователя: сохранение профиля, смена пароля, загрузка фотографии;
-	<li> 04.07 - Меню пользователя: корректная привязка данных профиля к конкретному табу;
-	<li> 03.07 - Баг с функциональностью смены никнейма в IE;
-	<li> 02.07 - Заготовки по меню пользователя, закладка "Личные данные";
-	<li> 11.06 - Смена и резервирование никнеймов;
-	<li> 10.06 - Базовый функционал по резервированию и смене никнейма;
-	<li> 09.06 - Переработано меню пользователя в списке;
-	<li> 07.06 - Оптимизирована синхронизация данных пользователя с сервером; Учитываются настройки пользователя по отображению сообщений чата (игнор размера шрифта, стилей и т.д.); Исправлены ошибки в работе меню и отображении темы под IE;
-	<li> 06.06 - Добавлено меню команд пользователя;
-	<li> 05.06 - Оптимизирован ответ сервера с целью снижения общего траффика;
-	<li> 04.06 - Инфо пользователя (основной функционал);
-	<li> 02.06 - Бан;
-	<li> 30.05 - Вейкап-сообщения с формой ответа;
-	<li> 29.05 - "Горячие клавиши" для переключения табов: Alt + [Shift] + 0..9, 
-				работают некоторые пункты меню пользователя: "Обратиться", "Шепотом", "Wakeup";
-</ul>
-
-<p style="text-align:center">
-	<script language="JavaScript"> var loc = ''; </script>
-	<script language="JavaScript1.4">try{ var loc = escape(top.location.href); }catch(e){;}</script>
-	<script language="JavaScript">
-		var userid = 118996; var page = 3;
-		var rndnum = Math.round(Math.random() * 999111);
-		document.write('<iframe src="http://ad.bb.sbn.saratov.ru/bb.cgi?cmd=ad&hreftarget=_blank&pubid=' + userid + '&pg=' + page + '&vbn=223&w=468&h=60&num=1&r=ssi&ssi=nofillers&r=ssi&nocache=' + rndnum + '&ref=' + escape(document.referrer) + '&loc=' + loc + '" frameborder=0 vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>');
-		document.write('<a href="http://ad.bb.sbn.saratov.ru/bb.cgi?cmd=go&pubid=' + userid + '&pg=' + page + '&vbn=223&num=1&w=468&h=60&nocache=' + rndnum + '&loc=' + loc + '&ref=' + escape(document.referrer) + '" target="_blank">');
-		document.write('<img src="http://ad.bb.sbn.saratov.ru/bb.cgi?cmd=ad&pubid=' + userid + '&pg=' + page + '&vbn=223&num=1&w=468&h=60&nocache=' + rndnum + '&ref=' + escape(document.referrer) + '&loc=' + loc + '" width=468 height=60 Alt="Saratov Banner Network" border=0></a></iframe>');
-	</script>
-</p>
+					<script>function mail() {document.location='ma'+'ilto:Николай%20Богданов%20<'+'bezumnoe'+'@'+'gma' + 'il.com>';return false;}</script>
+				</div>
+			</div>
+	   	</div>
+	</div>
 
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script type="text/javascript">_uacct = "UA-309866-1";urchinTracker();</script>
@@ -219,3 +197,6 @@
 	include $root."/inc/li_spider_check.inc.php";
 
 ?>
+<!-- Саратовский чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский молодёжный чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+</body>
+</html>

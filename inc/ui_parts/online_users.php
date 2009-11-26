@@ -13,6 +13,8 @@
 	$u = new User();
 	$q = $u->GetByCondition("1", $u->GetOnlineUsersExpression());
 	$lastRoom = "     ";
+	$toPrint = "";
+	$inside = 0;
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$u->FillFromResult($q);
@@ -20,13 +22,17 @@
 			$roomId = $q->Get(User::ROOM_ID);
 			$room = $rooms[$roomId];
 			if ($room != $lastRoom) {
-				echo ($lastRoom ? "</ul>" : "")."<ul><b>".($room ? $room.": " : "Авторизация вне чата")."</b>";
+				$toPrint .= ($lastRoom ? ($inside ? " <sup>(".$inside.")</sup>" : "").$people."</ul>" : "")."<ul><b>".($room ? $room : "Авторизация вне чата")."</b>";
 				$lastRoom = $room;
+				$people = "";
+				$inside = 0;
 			}
-			echo "<li> ".$q->Get(User::LOGIN);
+			$people .= MakeListItem()." ".$u->ToInfoLink();
+			$inside++;
 		}
-//		echo "<li> ".$u->SessionPong." vs ".$expiredSession;
 	}
-	echo "</ul>";
+
+	$toPrint .= ($lastRoom ? ($inside ? " <sup>(".$inside.")</sup>" : "").$people."</ul>" : "");
+	echo $toPrint;
 
 ?>

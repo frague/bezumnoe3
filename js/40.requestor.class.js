@@ -1,4 +1,4 @@
-//3.0
+//4.0
 /*
 	Performs single async request with given set of parameters
 */
@@ -37,12 +37,13 @@ Requestor.prototype.RequestCallback = function(req, sender) {
 	Performs delayed async request by reaction to user-entered "needle"
 */
 
-function DelayedRequestor(obj, input) {
+function DelayedRequestor(obj, input, request_method) {
 	this.Timer = "";
 	this.LastValue = "";
 	this.obj = obj;
 	input.DelayedRequestor = this;
 	this.Input = input;
+	this.RequestMethod = request_method;
 
 	this.Submitter = "";	// Treating enter button
 
@@ -58,7 +59,11 @@ DelayedRequestor.prototype.Request = function() {
 			return;
 		}
 		this.LastValue = params;
-		obj.Request(params);
+		if (this.RequestMethod) {
+			this.RequestMethod(this.Input);
+		} else {
+			obj.Request(params);
+		}
 	}
 };
 

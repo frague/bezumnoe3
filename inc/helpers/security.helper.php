@@ -124,7 +124,7 @@
 			$this->ProxyIp = $this->ClearUnknown($_SERVER["HTTP_X_FORWARDED_FOR"]);
 			$this->ProxyHost = $this->ClearUnknown(@gethostbyaddr($this->ProxyIp));
 
-			$this->UnderProxy = ($this->ProxyIp && $this->ProxyIp != $this->ShownIp);
+			$this->UnderProxy = ($this->ProxyIp && $this->ProxyIp != $this->ShownIp) ? 1 : 0;
 		}
 
 		function ClearUnknown($value) {
@@ -132,9 +132,21 @@
 		}
 
 		function ToString() {
-			return ($this->UnderProxy ? ($this->ProxyHost ? $this->ProxyHost : $this->ProxyIp)." (" : "").
-				($this->ShownHost ? $this->ShownHost : $this->ShownIp).
+			return ($this->UnderProxy ? ($this->ProxyHost != "" ? $this->ProxyHost : $this->ProxyIp)." (" : "").
+				($this->ShowHost != "" ? $this->ShowHost : $this->ShownIp).
 				($this->UnderProxy ? ")" : "");
+		}
+
+		function __tostring() {
+			return "<ul>
+	<li> IP: ".$this->ShownIp."
+	<li> Host: ".$this->ShowHost."
+
+	<li> Proxy IP: ".$this->ProxyIp."
+	<li> Proxy Host: ".$this->ProxyHost."
+
+	<li> Is under Proxy: ".$this->UnderProxy."
+</ul>";
 		}
 	}
 	

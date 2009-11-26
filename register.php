@@ -19,12 +19,15 @@
 		$confirmPassword = LookInRequest("PASSWORD_CONFIRM");
 		$email = trim(LookInRequest("E-MAIL"));
 		$accept = trim(LookInRequest("ACCEPT"));
+		$full_name = trim(LookInRequest("FULL_NAME"));
+		$gender = trim(LookInRequest("GENDER"));
+		$location = trim(LookInRequest("LOCATION"));
 
 		$is_human = !trim(LookInRequest("HUMAN"));
 
 		/* Validation */
 
-		if (!$is_human) {
+		if (!$is_human || ($gender && !preg_match("/^[mf]$/", $gender))) {
 			$errors[] = "Заблокирована автоматическая регистрация.";
 
 			// Commented to prevent log drammatical growth
@@ -103,6 +106,9 @@
 			$profile = new Profile();
 			$profile->UserId = $newborn->Id;
 			$profile->Email = $email;
+			$profile->Name = $full_name;
+			$profile->Gender = $gender;
+			$profile->City = $location;
 			$profile->Save();
 
 			// Settings
@@ -115,7 +121,7 @@
 			$task->Save();
 
 			// Journal
-			$journal = new Journal();
+/*			$journal = new Journal();
 			$journal->LinkedId = $newborn->Id;
 			$journal->Title = $newborn->Login;
 			$journal->Description = "Персональный журнал";
@@ -130,7 +136,7 @@
 			$template->Save();
 				
 			// Journal settings
-/*			$journalSettings = new JournalSettings();
+			$journalSettings = new JournalSettings();
 			$journalSettings->UserId = $newborn->Id;
 			$journalSettings->Alias = $newborn->Guid;
 			$journalSettings->Save();*/
@@ -156,7 +162,7 @@
 указать свой e-mail адрес для подтверждения регистрации.<br>
 Более полную информацию можно будет указать из меню после входа в чат.<br>
 
-Все поля обязательны для заполнения!
+Поля, отмеченные значком <span class="Mandatory"></span>, обязательны для заполнения!
 
 <?php
 		
@@ -186,37 +192,60 @@
 
 <form onsubmit="if (!PageValidators.AreValid()) return false;" target="" method="POST">
 
-<table>
+<table width="auto">
 	<tr>
-		<th>Логин:</th>
+		<th class="Mandatory">Логин:</th>
 		<td>
 			<input name="LOGIN" id="LOGIN" class="RegData" maxlength="20" value="<?php echo $login ?>">
 			<input name="DO_SAVE" id="DO_SAVE" type="hidden" value="1">
+			<p class="Tip">6 - 20 символов кириллицей или латинскими буквами.
 		</td>
 	</tr>
 	<tr>
-		<th>Пароль:</th>
+		<th class="Mandatory">Пароль:</th>
 		<td>
 			<input type="password" name="PASSWORD" id="PASSWORD" class="RegData">
 		</td>
 	</tr>
 	<tr>
-		<th>Подтверждение пароля:</th>
+		<th class="Mandatory">Подтверждение пароля:</th>
 		<td>
 			<input type="password" name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM" class="RegData">
 		</td>
 	</tr>
 	<tr>
-		<th>E-mail адрес:</th>
+		<th class="Mandatory">E-mail адрес:</th>
 		<td>
 			<input name="E-MAIL" id="E-MAIL" class="RegData" value="<?php echo $email ?>">
+			<p class="Tip">Укажите актуальный адрес, т.к. на него будут высланы инструкции по активации аккаунта.
+		</td>
+	</tr>
+	<tr>
+		<th>Имя:</th>
+		<td>
+			<input name="FULL_NAME" id="FULL_NAME" class="RegData" value="<?php echo $full_name ?>">
+		</td>
+	</tr>
+	<tr>
+		<th>Пол:</th>
+		<td>
+			<input type="radio" name="GENDER" id="GENDER_MALE" value="m" <?php echo ($gender == "m" ? "checked" : ""); ?>> <label for="GENDER_MALE">мужской</label> 
+			<input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">женский</label> 
+			<input type="radio" name="GENDER" id="GENDER_UNKNOWN" value="" <?php echo ($gender ? "" : "checked"); ?>> <label for="GENDER_UNKNOWN">другое</label> 
 			<input name="HUMAN" id="HUMAN" style="visibility:hidden" value="">
 		</td>
 	</tr>
 	<tr>
-		<td></td>
+		<th>Город:</th>
 		<td>
-			<input name="ACCEPT" id="ACCEPT" type="checkbox"> Я прочитал(а) <a href="rules.php">правила чата</a> и обязуюсь их соблюдать
+			<input name="LOCATION" id="LOCATION" class="RegData" value="<?php echo $location ?>">
+		</td>
+	</tr>
+	<tr>
+		<td class="Mandatory"></td>
+		<td>
+			<input name="ACCEPT" id="ACCEPT" type="checkbox"> Я прочитал(а) <a href="rules.php">правила чата</a> и обязуюсь их соблюдать.
+			<p class="Tip">Несоблюдение правил поведения в чате может повлечь наказание, вплоть до удаления пользователя.
 		</td>
 	</tr>
 	<tr>

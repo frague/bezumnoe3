@@ -15,6 +15,7 @@ class ScheduledTask extends EntityBase {
 
 	const TYPE_UNBAN	= "unban";
 	const TYPE_STATUS	= "status";
+	const TYPE_CHECKSUM	= "checksum";
 	
 	const SCHEDULER_LOGIN = "по расписанию";
 
@@ -84,8 +85,9 @@ class ScheduledTask extends EntityBase {
 	function GetAction() {
 		if (!$this->IsEmpty()) {
 			switch ($this->Type) {
-				case self::TYPE_UNBAN:	return new UnbanAction($this);
-				case self::TYPE_STATUS:	return new StatusAction($this);
+				case self::TYPE_UNBAN:		return new UnbanAction($this);
+				case self::TYPE_STATUS:		return new StatusAction($this);
+				case self::TYPE_CHECKSUM:	return new ChecksumAction($this);
 			}
 		}
 		return 0;
@@ -231,6 +233,13 @@ class StatusScheduledTask extends UserScheduledTask {
 	}
 }
 
+class CheckSumScheduledTask extends UserScheduledTask {
+	function CheckSumScheduledTask($userId, $executionDate) {
+		parent::__construct($userId, $executionDate);
+		$this->Type = ScheduledTask::TYPE_CHECKUM;
+	}
+}
+
 /* ------------------ Actions ------------------ */
 
 abstract class BaseAction {
@@ -291,6 +300,70 @@ class StatusAction extends BaseAction {
 		$this->user->StatusId = $status->Id;
 	 	SaveLog("Установлен статус \"старожил\".", $this->user->Id, ScheduledTask::SCHEDULER_LOGIN);
 		$this->user->Save();
+	}
+}
+
+// Counting control sums for rooms and online users
+class ChecksumAction extends BaseAction {
+	function Execute() {
+		if (!$this->GetUser()) {
+			return false;
+		}
+
+		// Rooms
+		$room = new Room();
+		$room->DeleteEmptyRooms();
+
+		$updateTopic = 0;
+		$q = $room->GetAllAlive();
+
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$room = new Room();
+			$room->FillFromResult($q);
+			$checkSum = $q->Get(Room::CHECK_SUM);
+			$newCheckSum = $room->CheckSum();
+
+			if ($checkSum != $newCheckSum) {
+				// Save room check sum
+			}
+		}
+
+		// Users
+		$user1 = new UserComplete();
+		$q = $user1->GetByCondition(
+			"t1.".User::ROOM_ID." IS NOT NULL", 
+			$user->ReadWithIgnoreDataExpression($user->User->Id)
+		);
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$user1->FillFromResult($q);
+			$checkSum = $q->Get(User::CHECK_SUM);
+			$newCheckSum = $user1->CheckSum();
+
+			if ($checkSum != $newCheckSum) {
+				// Save user check sum
+			}
+		}
+
+		// Expired sessions
+		$q = $user->User->GetExpiredUsers();
+		$u = array();
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$roomId = $q->Get(User::ROOM_ID);
+			$s .= "users.Delete('".$q->Get(User::USER_ID)."');";
+			$u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
+		}
+		// Left user sessions, but remove room information
+		$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL WHERE ".$user->User->ExpireCondition());
+
+		if (sizeof($u) > 0) {
+			while (list($roomId,$users) = each($u)) {
+				$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат.", $roomId);
+				$message->Save();
+			}
+		}
 	}
 }
 

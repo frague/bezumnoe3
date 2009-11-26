@@ -482,3 +482,8 @@ div.DatePicker table.Calendar th select {
 .Error {
 	color:red;
 }
+
+.Mandatory {
+	padding-right:10px;
+	background: url(/img/icons/star.gif) no-repeat top right;
+}

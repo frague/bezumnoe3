@@ -1,4 +1,4 @@
-//6.4
+//6.7
 /*
 	Forum access functionality.
 	Allows to manage users access to forums/journals/galleries.
@@ -40,8 +40,10 @@ ForumAccess.prototype.TemplateLoaded = function(req) {
 	this.WhiteListGrid = new UserList("WHITE_LIST", this, new fadto());
 	this.FriendsListGrid = new UserList("FRIENDS_LIST", this, new fjdto());
 
-	this.GroupSelfAssign(["RefreshForumAccess", "ADD_USER"]);
-	this.Inputs["ADD_USER"].Request = GetJournalUsers;
+	this.AssignSelfTo("RefreshForumAccess");
+
+	var a = new DelayedRequestor(this, this.Inputs["ADD_USER"], GetJournalUsers);
+//	a.GetParams = function() {};
 };
 
 ForumAccess.prototype.BaseBind = function() {
@@ -222,11 +224,11 @@ function RefreshList(sender) {
 	sender.obj.RequestCallback(sender.req, sender.obj);
 };
 
-function GetJournalUsers() {
-	var juRequest = new Requestor(servicesPath + "journal_users.service.php", this.obj);
+function GetJournalUsers(input) {
+	input.DelayedRequestor.obj.SetTabElementValue("FOUND_USERS", LoadingIndicator);
+	var juRequest = new Requestor(servicesPath + "journal_users.service.php", input.DelayedRequestor.obj);
 	juRequest.Callback = DrawUsers;
-	this.obj.SetTabElementValue("FOUND_USERS", LoadingIndicator);
-	juRequest.Request(["value"], [this.value]);
+	juRequest.Request(["value"], [input.value]);
 };
 
 function DrawUsers(sender) {
@@ -245,7 +247,7 @@ function DrawUsers(sender) {
 		el.appendChild(ul);
 		sender.obj.Tab.Alerts.Clear();
 		if (sender.more) {
-			sender.obj.Tab.Alerts.Add("Более 20 результатов - уточните критерий поиска.", 1);
+			sender.obj.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
 		}
 	}
 };

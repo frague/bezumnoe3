@@ -80,7 +80,7 @@
 			// Post tags (labels)
 			$tags = trim(substr(UTF8toWin1251($_POST["TAGS"]), 0, 1010));
 			if ($tags && !$record->IsEmpty()) {
-				$tags = ereg_replace("[^a-zA-Zà-ÿÀ-ß0-9\-_\ |]", "", strip_tags($tags));
+				$tags = ereg_replace("[^a-zA-Zà-ÿ¸À-ß¨0-9\-_\ |]", "", strip_tags($tags));
 
 				// Create tags
 				$tagsArray = split("\|", $tags);

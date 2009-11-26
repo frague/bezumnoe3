@@ -79,8 +79,9 @@
 								if ($name != $profile->Photo) {
 									// Image name has changed
 									$profile->Photo = $name;
-									$profile->Save();
 								}
+								$profile->PhotoUploadDate = NowDateTime();
+								$profile->Save();
 								$response .= AddJsAlert("Фотография обновлена.");
 							}
 							

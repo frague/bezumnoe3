@@ -9,7 +9,7 @@ th {
 }
 
 .RegData {
-	width:300px;
+	width:100%;
 }
 
 #Summary, ul {
@@ -33,4 +33,12 @@ th {
 
 .Hidden, .Logged {
 	display:none;
+}
+
+.Tip {
+	padding:0 0 4px 8px;
+	margin:0;
+	font-style:italic;
+	color:#808080;
+	font-size:7pt;
 }

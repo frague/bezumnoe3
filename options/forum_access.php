@@ -8,8 +8,13 @@
 	<tr>
 		<td colspan="2">
 <h4>ѕоиск пользователей:</h4>
+<p class="Note">
+	¬ результатах поиска отображаютс€ пользователи и их журналы.
+	∆урналы можно добавить в вашу френдленту (дружественные журналы). 
+	ƒл€ пользователей вы можете задать определЄнный уровень доступа к вашему журналу (смотрите всплывающие подсказки над иконками).
+</p>
 <div>
-	<input id="ADD_USER" name="ADD_USER" onkeypress="GetUsers(this)" class="Wide" />
+	<input id="ADD_USER" name="ADD_USER" class="Wide" />
 	<div id="FOUND_USERS" name="FOUND_USERS"></div>
 </div>
 		</td></tr>

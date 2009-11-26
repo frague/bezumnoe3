@@ -329,6 +329,10 @@ JsQuote($admin)."\"]";
 		return $s;
 	}
 
+	function ToInfoLink($text = "") {
+		return "<a href=\"javascript:void(0)\" onclick=\"Info(".$this->Id.")\">".($text ? $text : $this->Login)."</a>";
+	}
+
 	// SQL
 	function ReadExpression() {
 		return "SELECT 
@@ -511,6 +515,42 @@ WHERE
 	t1.".self::ROOM_ID." IS NOT NULL
 ORDER BY
 	".self::ROOM_ID;
+	}
+
+	function BirthdaysExpression() {
+		return "SELECT
+t1.".self::USER_ID.",
+t1.".self::LOGIN.",
+t2.".Profile::BIRTHDAY."
+	FROM ".self::table." AS t1
+	LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
+WHERE
+	##CONDITION##
+ORDER BY DAY(".Profile::BIRTHDAY.") ASC, ".Profile::BIRTHDAY." ASC";
+	}
+
+	function PhotosExpression() {
+		return "SELECT
+t1.".self::USER_ID.",
+t1.".self::LOGIN.",
+t2.".Profile::PHOTO."
+	FROM ".self::table." AS t1
+	LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
+	WHERE 
+		t2.".Profile::PHOTO." IS NOT NULL AND 
+		t2.".Profile::PHOTO_UPLOAD_DATE." IS NOT NULL
+	ORDER BY ".Profile::PHOTO_UPLOAD_DATE." DESC 
+	LIMIT 10";
+	}
+
+	function WithProfileExpression() {
+		return "SELECT
+t1.".self::USER_ID.",
+t1.".self::LOGIN."
+	FROM ".self::table." AS t1
+	LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
+	WHERE 
+		##CONDITION##";
 	}
 
 }

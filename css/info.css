@@ -30,12 +30,20 @@ strong {
 	padding:4px;
 	background-color:#111111;
 	overflow:auto;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
 img.Photo {
 	margin:8px;
 	border:solid 4px #404040;
 	float:left;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
 div.InfoSection {
