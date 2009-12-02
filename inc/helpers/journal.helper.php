@@ -74,7 +74,7 @@
 		$text = preg_replace("/visibility/i","invisibility", $text);
 		$text = preg_replace("/z-index/i","zzz-index", $text);
 		$text = preg_replace("/noscript/i","yescript", $text);
-		$text = preg_replace("/script/i","scrûpt", $text );
+		$text = preg_replace("/\<script/i","\<scrûpt", $text );
 		$text = preg_replace("/iframe/i","ûframe", $text );
 		$text = preg_replace("/<frame/i","<fràme", $text );
 		$text = preg_replace("/display( *)[:=]/i","displày:", $text );

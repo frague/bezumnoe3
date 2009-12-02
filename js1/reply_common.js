@@ -55,6 +55,10 @@ function ClearReply() {
 		replyErrorElement.innerHTML = "";
 		replyTitleElement.value = "";
 		replyContentElement.value = "";
+
+		$("login").value = "";
+		$("password").value = "";
+		$("AUTH_NOW").checked = "checked";
 	}
 };
 

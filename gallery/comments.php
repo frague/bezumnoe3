@@ -30,7 +30,9 @@
 	Head($record->Title, "forum.css", "forum.js");
 	require_once $root."references.php";
 
+	echo "<div id=\"Photo\">";
 	echo $record->ToPrint($PathToGalleries.$gallery->Description, 0);
+	echo "</div>";
 
 	if ($record->IsCommentable) {
 		echo "<h3>Комментарии:</h3>";

@@ -59,6 +59,7 @@
 	}
 	
 	if ($access == Journal::NO_ACCESS) {
+		Head("Ошибка", "forum.css", "forum.js");
 		error("У вас нет доступа к журналу.");
 		Foot();
 		die;

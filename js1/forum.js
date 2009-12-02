@@ -47,6 +47,10 @@ function AddMessage(lnk) {
 		params+= MakeParametersPair("TITLE", replyTitleElement.value);
 		params+= MakeParametersPair("CONTENT", replyContentElement.value);
 		params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.checked ? 1 : 0);
+		if ($("AUTH_NOW").checked) {
+			params+= MakeParametersPair("login", $("login").value);
+			params+= MakeParametersPair("password", $("password").value);
+		}
 		sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
 	}
 };
@@ -54,6 +58,7 @@ function AddMessage(lnk) {
 function ForumMessageAddCallback(req, el) {
 	var newRecord = '';
 	var error = '';
+	var logged_user = '';
 	eval(req.responseText);
 	if (!error) {
 		CancelReply();
@@ -73,10 +78,21 @@ function ForumMessageAddCallback(req, el) {
 			replyErrorElement.innerHTML = error;
 		}
 	}
+
+	if (logged_user) {
+		ShowLoggedLogin(logged_user);
+	}
+
 	var btn = $("SubmitMessageButton");
 	if (btn) {
 		btn.disabled = "";
 	}
+};
+
+function ShowLoggedLogin(login) {
+	$("Logged").innerHTML = login;
+	$("LoggedLogin").innerHTML = login;
+	DisplayElement("LoggedLine", true);
 };
 
 function ForumDelete(a, id, forum_id) {

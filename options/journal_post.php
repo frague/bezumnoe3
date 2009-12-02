@@ -4,8 +4,10 @@
 ?>
 <h2>Сообщение: <span id="TITLE1"></span></h2>
 
-<h4>Дата и время:</h4>
-<input id="DATE" name="DATE" maxlength="16">
+<span style="display:none">
+	<h4>Дата и время:</h4>
+	<input id="DATE" name="DATE" maxlength="16">
+</span>
 
 <h4>Заголовок:</h4>
 <input id="TITLE" name="TITLE" class="Wide" maxlength="1024">

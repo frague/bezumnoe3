@@ -1,29 +1,37 @@
 <?
 	require_once "base.service.php";
 
+	// Decode L&P
+	$_POST[LOGIN_KEY] = UTF8toWin1251($_POST[LOGIN_KEY]);
+	$_POST[PASSWORD_KEY] = UTF8toWin1251($_POST[PASSWORD_KEY]);
+
 	$user = GetAuthorizedUser(true);
-
-	if (!$user || $user->IsEmpty()) {
-		exit;
-	}
-
-	$go = $_POST["go"];
-
-	$title = trim(UTF8toWin1251(strip_tags($_POST["TITLE"])));
-	$title = substr($title, 0, 1024);
-
-	$content = trim(UTF8toWin1251(strip_tags($_POST["CONTENT"])));
-	$content = substr($content, 0, 4096);
-
-	$record_id = round($_POST["RECORD_ID"]);	// rename later
-
-	$type = $_POST["IS_PROTECTED"] ? ForumRecord::TYPE_PROTECTED : ForumRecord::TYPE_PUBLIC;
 
 	$error = "";
 
+	if (!$user || $user->IsEmpty()) {
+		$error .= "Пользователь не авторизован!<br>";
+	} else {
+		SetUserSessionCookie($user->User);
+	}
+
+	$go = LookInRequest("go");
+
+	$title = trim(UTF8toWin1251(strip_tags(LookInRequest("TITLE"))));
+	$title = substr($title, 0, 1024);
+
+	$content = trim(UTF8toWin1251(strip_tags(LookInRequest("CONTENT"))));
+	$content = substr($content, 0, 4096);
+
+	$record_id = round(LookInRequest("RECORD_ID"));	// rename later
+
+	$type = LookInRequest("IS_PROTECTED") ? ForumRecord::TYPE_PROTECTED : ForumRecord::TYPE_PUBLIC;
+
+	
+	
 	if (!$forum_id) {
 			$error .= "Не указан форум!<br>";
-	} else {
+	} else if (!$user->IsEmpty()) {
 		$forum = new ForumBase($forum_id);
 		$forum->Retrieve();
 
@@ -111,7 +119,7 @@
 						$newRecord->Content = $content;
 						if ($newRecord->SaveAsReplyTo($record_id)) {
 							if ($newRecord->IsTopic()) {
-								echo "newRecord='".JsQuote($newRecord->ToPrint("thread.php"))."';";
+								echo "newRecord='".JsQuote($newRecord->ToPrint($forum))."';";
 							} else {
 								$q = $newRecord->GetAdditionalUserInfo();
 								$q->NextResult();
@@ -144,4 +152,5 @@
 		}
    	}
 	echo "error='".JsQuote($error)."';";
+	echo "logged_user='".JsQuote($user->User-Login)."';";
 ?>

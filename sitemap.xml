@@ -3,7 +3,7 @@
    <url>
       <loc>http://www.bezumnoe.ru/</loc>
       <changefreq>always</changefreq>
-      <priority>0.2</priority>
+      <priority>0.3</priority>
    </url>
    <url>
       <loc>http://www.bezumnoe.ru/register.php</loc>
@@ -18,7 +18,7 @@
    <url>
       <loc>http://www.bezumnoe.ru/forum/</loc>
       <changefreq>always</changefreq>
-      <priority>0.3</priority>
+      <priority>0.2</priority>
    </url>
    <url>
       <loc>http://www.bezumnoe.ru/gallery/</loc>

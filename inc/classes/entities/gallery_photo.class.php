@@ -12,7 +12,7 @@ class GalleryPhoto extends ForumRecordBase {
 		$path = $galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
 
 		$result = $isThumb ? $this->MakeLink() : "";
-		$result .= HtmlImage($PathToGallery.$path, $ServerPathToGallery.$path).($isThumb ? "</a>" : "");
+		$result .= HtmlImage($PathToGallery.$path, $root.$ServerPathToGallery.$path).($isThumb ? "</a>" : "");
 		if ($this->Title) {
 			$result .= "<p>".$this->Title."</p>";
 		}

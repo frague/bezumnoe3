@@ -73,8 +73,8 @@
 						}
 					}
 				}
-				return $user;
 			}
+			return $user;
 		}
 
 		if ($session && !$login && !$password) {

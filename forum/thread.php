@@ -43,7 +43,7 @@
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 
-	$result = ($forum->IsHidden ? "" : "<style>#IsProtected {display:none;}</style>");
+	$result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
 	$result.= "<ul class='Thread'>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

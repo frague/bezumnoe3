@@ -33,7 +33,6 @@
 	}
 
 	$result = "";
-	$result.= $gallery->DoPrint();
 
 	$photo = new GalleryPhoto();
 	$q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
@@ -63,12 +62,15 @@
 	$result.= "</table>";
 	
 	$threads = $photo->GetForumThreadsCount($gallery->Id, $access);
-	$pager = new Pager($threads, $perPage, $from);
+	$pager = new Pager($threads, $perPage, $from, $gallery->BasePath());
 	$result.= $pager;
 
 	// Printing
 	AddEtagHeader(strtotime($lastModified));
-	Head($gallery->Title, "gallery.css", "");
+	Head($gallery->Title, "forum.css", "");
+
+	$gallery->DoPrint();
+
 	echo $result;
 	Foot();
 ?>

@@ -1,4 +1,3 @@
-
 h4 {
 	font-family:'Arial Narrow';
 	font-size:12.5pt;
@@ -24,6 +23,11 @@ h4.Hidden a {
 	color:red;
 }
 
+h4.Mandatory {
+	display:inline;
+	clear:both;
+}
+
 
 ul li {
 	list-style:none;
@@ -32,6 +36,17 @@ ul li {
 ul.Forums, ul.Threads, ul.Thread {
 	padding:0;
 	margin:20px 0;
+}
+
+label {
+	border-bottom:dashed 1px #404040;
+	cursor:pointer;
+	cursor:hand;
+}
+
+#AuthByLogin {
+	margin:4px 0 10px 24px;
+	font-size:90%;
 }
 
 .Counts {
@@ -114,7 +129,7 @@ cite cite cite {
 .Pager {
 	width: 80%;
 	text-align:center;
-	margin: 0 auto;
+	margin: 4px auto;
 	padding:4px;
 	border: solid 1px #aaa;
 	background-color:#eee;
@@ -131,6 +146,19 @@ cite cite cite {
 .Pager strong {
 	color:red;
 	font-weight:bold;
+	border-left: solid 1px #e0e0e0;
+	padding:0 4px;
+	margin:0;
+}
+
+.Pager a {
+	border-left: solid 1px #e0e0e0;
+	padding:0 4px;
+	margin:0;
+}
+
+.Pager .Sided  {
+	border-left: 0;
 }
 
 .NewThread {
@@ -169,4 +197,39 @@ cite cite cite {
 
 .Hidden {
 	color:red;
+}
+
+/* Gallery */
+
+/* Types */
+
+.Preview {
+	width:700px;
+	margin: 30px auto;
+	clear:both;
+}
+
+.Preview td {
+	vertical-align:top;
+	text-align:center;
+}
+
+.Preview td img, #Photo img {
+	border: solid 6px #D0D0D0;
+	background-color: #D0D0D0;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+.Preview td p {
+	padding:0;
+	margin:0;
+	font-size:8pt;
+}
+
+#Photo {
+	margin-top:10px;
+	text-align:center;
 }

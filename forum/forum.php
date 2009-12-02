@@ -41,8 +41,8 @@
 		$access,
 		$from * $threadsPerPage, 
 		$threadsPerPage);
-
-	$result.= "<style>#buttonCite".($forum->IsHidden ? "" : ", #IsProtected")." {display:none;}</style>";
+	
+	$result.= "<style>#buttonCite".($forum->IsProtected ? "" : ", #IsProtected")." {display:none;}</style>";
 	$result.= "<div class='NewThread'>";
 	$result.= "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Новая тема</a>";
 	$result.= "</div>";

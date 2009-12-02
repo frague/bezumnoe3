@@ -1,6 +1,6 @@
 <?php
 
-	function Head($title, $css = "", $js = "", $rss = "") {
+	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false) {
 	  global $user;
 
 ?><html>
@@ -25,15 +25,28 @@
 	<script language="javascript" src="/js1/reply_common.js"></script>
 </head>
 <body>
+	<div class="Main">
+<?php
+		echo "<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>";
+		?>
+		<h1><?php echo $title ?></h1>
+		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
 <?php
-		echo "<div class='Logged'>Авторизация: <b>".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</b></div>";
 	}
 
 	function Foot() {
+	  global $root;
+	?>
+		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
+		<?php include $root."inc/ui_parts/rle_banner.php"; ?>
+
+		<div style="clear: both;" class="Divider Horizontal Alternative"><span></span></div>
+<?php
 		include "footer.php";
 ?>
+	</div>
 </body>
 </html>
 <?php
