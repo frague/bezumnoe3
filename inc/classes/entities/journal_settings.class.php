@@ -68,12 +68,13 @@ class JournalSettings extends EntityBase {
 		return $s;
 	}
 
-	function ToJs($title = "", $description = "") {
+	function ToJs($title = "", $description = "", $is_protected = 0) {
 		$s = "[\"".
 JsQuote($this->Alias)."\",\"".
 JsQuote($this->RequestedAlias)."\",\"".
 JsQuote($title)."\", \"".
-JsQuote($description)."\"]";
+JsQuote($description)."\",".
+Boolean($is_protected)."]";
 		return $s;
 	}
 

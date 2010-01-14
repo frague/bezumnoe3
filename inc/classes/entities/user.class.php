@@ -21,6 +21,7 @@ class User extends EntityBase {
 	const BANNED_BY = "BANNED_BY";
 	const KICK_MESSAGES = "KICK_MESSAGES";
 	const GUID = "GUID";
+	const CHECK_SUM = "CHECK_SUM";
 	
 
 	// Properties
@@ -41,6 +42,7 @@ class User extends EntityBase {
 	var $BannedBy;
 	var $KickMessages;
 	var $Guid;
+	var $CheckSum;
 
 	// Fields
 	var $sessionKeyLength = 10;
@@ -60,6 +62,7 @@ class User extends EntityBase {
 		$this->StatusId = -1;
 		$this->KickMessages = "";
 		$this->Guid = "";
+		$this->CheckSum = -1;
 
 		$this->BackFromAway();
 		$this->StopBan();
@@ -232,6 +235,7 @@ class User extends EntityBase {
 		$this->BannedBy = $result->GetNullableId(self::BANNED_BY);
 		$this->KickMessages = $result->Get(self::KICK_MESSAGES);
 		$this->Guid = $result->Get(self::GUID);
+		$this->CheckSum = $result->Get(self::CHECK_SUM);
 	}
 
 	function GetByPassword($login, $password) {

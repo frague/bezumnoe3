@@ -43,7 +43,7 @@
 				?>
 			<h1>Сообщение от <? echo $wakeup->FromUserName; ?></h1>
 			<div id='WakeupContainer'>
-				<strong><? echo $wakeup->Message; ?></strong><br><br>
+				<strong><? echo OuterLinks(MakeLinks($wakeup->Message, true)); ?></strong><br><br>
 				<a href="javascript:void(0)" onclick="ReplyForm()" class="Reply">Ответить</a>
 				<p><a><? echo $wakeup->FromUserName; ?></a>
 					<span><? echo PrintableDate($wakeup->Date); ?></span>

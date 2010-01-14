@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 3.1.5
+-- version 3.2.3
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 02, 2009 at 01:30 AM
--- Server version: 5.0.77
+-- Generation Time: Dec 03, 2009 at 12:02 AM
+-- Server version: 5.0.84
 -- PHP Version: 5.2.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -16,7 +16,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `Chat`
+-- Database: `bezumnoe_bezumnoe`
 --
 
 -- --------------------------------------------------------
@@ -24,8 +24,10 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Table structure for table `admin_comments`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Dec 02, 2009 at 10:01 PM
+--
 
-DROP TABLE IF EXISTS `admin_comments`;
 CREATE TABLE IF NOT EXISTS `admin_comments` (
   `ADMIN_COMMENT_ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) default NULL,
@@ -35,15 +37,17 @@ CREATE TABLE IF NOT EXISTS `admin_comments` (
   `SEVERITY` enum('0','1','2') NOT NULL default '0',
   PRIMARY KEY  (`ADMIN_COMMENT_ID`),
   KEY `USER_ID` (`USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Admin comments to users' AUTO_INCREMENT=222 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Admin comments to users' AUTO_INCREMENT=627 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `banned_addresses`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Oct 18, 2009 at 08:22 AM
+--
 
-DROP TABLE IF EXISTS `banned_addresses`;
 CREATE TABLE IF NOT EXISTS `banned_addresses` (
   `BAN_ID` int(11) NOT NULL auto_increment,
   `CONTENT` varchar(200) NOT NULL default '127.0.0.1',
@@ -67,8 +71,10 @@ CREATE TABLE IF NOT EXISTS `banned_addresses` (
 --
 -- Table structure for table `captchas`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Oct 18, 2009 at 08:22 AM
+--
 
-DROP TABLE IF EXISTS `captchas`;
 CREATE TABLE IF NOT EXISTS `captchas` (
   `GUID` varchar(10) NOT NULL,
   `VALUE` varchar(10) NOT NULL,
@@ -82,8 +88,10 @@ CREATE TABLE IF NOT EXISTS `captchas` (
 --
 -- Table structure for table `forums`
 --
+-- Creation: Oct 19, 2009 at 10:22 PM
+-- Last update: Dec 02, 2009 at 11:54 PM
+--
 
-DROP TABLE IF EXISTS `forums`;
 CREATE TABLE IF NOT EXISTS `forums` (
   `FORUM_ID` bigint(20) NOT NULL auto_increment,
   `TYPE` enum('forum','journal','gallery') NOT NULL default 'forum',
@@ -93,15 +101,17 @@ CREATE TABLE IF NOT EXISTS `forums` (
   `LINKED_ID` bigint(20) default NULL,
   `TOTAL_COUNT` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`FORUM_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=412 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=495 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `forum_records`
 --
+-- Creation: Oct 19, 2009 at 10:22 PM
+-- Last update: Dec 03, 2009 at 12:01 AM
+--
 
-DROP TABLE IF EXISTS `forum_records`;
 CREATE TABLE IF NOT EXISTS `forum_records` (
   `RECORD_ID` int(11) NOT NULL auto_increment,
   `FORUM_ID` smallint(6) NOT NULL default '1',
@@ -122,15 +132,17 @@ CREATE TABLE IF NOT EXISTS `forum_records` (
   `DELETED_COUNT` int(11) default '0',
   PRIMARY KEY  (`RECORD_ID`),
   KEY `Forum Threads` (`IND`(4),`FORUM_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=123781 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=126010 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `forum_records_tags`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Dec 02, 2009 at 11:14 PM
+--
 
-DROP TABLE IF EXISTS `forum_records_tags`;
 CREATE TABLE IF NOT EXISTS `forum_records_tags` (
   `RECORD_ID` bigint(20) NOT NULL,
   `TAG_ID` bigint(20) NOT NULL,
@@ -142,8 +154,10 @@ CREATE TABLE IF NOT EXISTS `forum_records_tags` (
 --
 -- Table structure for table `forum_users`
 --
+-- Creation: Oct 19, 2009 at 10:22 PM
+-- Last update: Nov 30, 2009 at 03:34 PM
+--
 
-DROP TABLE IF EXISTS `forum_users`;
 CREATE TABLE IF NOT EXISTS `forum_users` (
   `FORUM_ID` bigint(20) NOT NULL,
   `USER_ID` bigint(20) NOT NULL,
@@ -157,8 +171,10 @@ CREATE TABLE IF NOT EXISTS `forum_users` (
 --
 -- Table structure for table `ignores`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Nov 20, 2009 at 07:32 PM
+--
 
-DROP TABLE IF EXISTS `ignores`;
 CREATE TABLE IF NOT EXISTS `ignores` (
   `IGNORE_ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL,
@@ -167,15 +183,17 @@ CREATE TABLE IF NOT EXISTS `ignores` (
   UNIQUE KEY `PAIR` (`USER_ID`,`IGNORANT_ID`),
   KEY `I_IGNORE` (`USER_ID`),
   KEY `IGNORE_ME` (`IGNORANT_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `journal_relations`
 --
+-- Creation: Oct 19, 2009 at 10:23 PM
+-- Last update: Nov 24, 2009 at 05:49 PM
+--
 
-DROP TABLE IF EXISTS `journal_relations`;
 CREATE TABLE IF NOT EXISTS `journal_relations` (
   `FORUM_ID` bigint(20) NOT NULL,
   `FRIENDLY_FORUM_ID` bigint(20) NOT NULL,
@@ -187,8 +205,10 @@ CREATE TABLE IF NOT EXISTS `journal_relations` (
 --
 -- Table structure for table `journal_settings`
 --
+-- Creation: Oct 19, 2009 at 10:23 PM
+-- Last update: Nov 29, 2009 at 05:46 PM
+--
 
-DROP TABLE IF EXISTS `journal_settings`;
 CREATE TABLE IF NOT EXISTS `journal_settings` (
   `JOURNAL_SETTINGS_ID` bigint(20) NOT NULL auto_increment,
   `FORUM_ID` bigint(20) NOT NULL,
@@ -200,15 +220,17 @@ CREATE TABLE IF NOT EXISTS `journal_settings` (
   UNIQUE KEY `USER_ID` (`FORUM_ID`),
   UNIQUE KEY `ALIAS` (`ALIAS`),
   KEY `LAST_MESSAGE_DATE` (`LAST_MESSAGE_DATE`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=373 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=375 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `journal_skins`
 --
+-- Creation: Oct 19, 2009 at 10:23 PM
+-- Last update: Oct 19, 2009 at 10:23 PM
+--
 
-DROP TABLE IF EXISTS `journal_skins`;
 CREATE TABLE IF NOT EXISTS `journal_skins` (
   `SKIN_ID` int(11) NOT NULL auto_increment,
   `CREATED` datetime NOT NULL,
@@ -226,8 +248,10 @@ CREATE TABLE IF NOT EXISTS `journal_skins` (
 --
 -- Table structure for table `journal_templates`
 --
+-- Creation: Oct 19, 2009 at 10:23 PM
+-- Last update: Dec 01, 2009 at 12:36 PM
+--
 
-DROP TABLE IF EXISTS `journal_templates`;
 CREATE TABLE IF NOT EXISTS `journal_templates` (
   `TEMPLATE_ID` bigint(20) NOT NULL auto_increment,
   `FORUM_ID` bigint(20) default NULL,
@@ -237,15 +261,17 @@ CREATE TABLE IF NOT EXISTS `journal_templates` (
   `UPDATED` datetime default NULL,
   PRIMARY KEY  (`TEMPLATE_ID`),
   KEY `UPDATED` (`UPDATED`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=209 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=295 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `messages`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Dec 03, 2009 at 12:02 AM
+--
 
-DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
   `MESSAGE_ID` bigint(20) NOT NULL auto_increment,
   `ROOM_ID` int(11) NOT NULL default '0',
@@ -256,15 +282,17 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY  (`MESSAGE_ID`),
   KEY `ROOM_ID` (`ROOM_ID`),
   KEY `TO_USER_ID` (`TO_USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='All chat messages' AUTO_INCREMENT=149 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='All chat messages' AUTO_INCREMENT=28621 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `news`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Oct 30, 2009 at 11:43 PM
+--
 
-DROP TABLE IF EXISTS `news`;
 CREATE TABLE IF NOT EXISTS `news` (
   `OWNER_ID` bigint(20) NOT NULL,
   `TITLE` varchar(250) NOT NULL,
@@ -277,8 +305,10 @@ CREATE TABLE IF NOT EXISTS `news` (
 --
 -- Table structure for table `news_records`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Nov 22, 2009 at 10:12 PM
+--
 
-DROP TABLE IF EXISTS `news_records`;
 CREATE TABLE IF NOT EXISTS `news_records` (
   `NEWS_RECORD_ID` bigint(20) NOT NULL auto_increment,
   `OWNER_ID` bigint(20) NOT NULL,
@@ -288,15 +318,17 @@ CREATE TABLE IF NOT EXISTS `news_records` (
   `CONTENT` text NOT NULL,
   `IS_HIDDEN` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`NEWS_RECORD_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=24 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `nicknames`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Dec 02, 2009 at 07:18 PM
+--
 
-DROP TABLE IF EXISTS `nicknames`;
 CREATE TABLE IF NOT EXISTS `nicknames` (
   `NICKNAME_ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL default '0',
@@ -304,26 +336,30 @@ CREATE TABLE IF NOT EXISTS `nicknames` (
   `IS_SELECTED` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`NICKNAME_ID`),
   KEY `Selected` (`IS_SELECTED`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users alternative names' AUTO_INCREMENT=421 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users alternative names' AUTO_INCREMENT=488 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `profiles`
 --
+-- Creation: Nov 23, 2009 at 01:27 PM
+-- Last update: Dec 02, 2009 at 11:43 PM
+-- Last check: Nov 23, 2009 at 01:27 PM
+--
 
-DROP TABLE IF EXISTS `profiles`;
 CREATE TABLE IF NOT EXISTS `profiles` (
   `PROFILE_ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL default '0',
   `EMAIL` varchar(250) NOT NULL default '',
   `NAME` text,
-  `GENDER` varchar(1) default NULL,
+  `GENDER` enum('f','m') default NULL,
   `BIRTHDAY` varchar(10) default NULL,
   `CITY` varchar(100) default NULL,
   `ICQ` varchar(20) default NULL,
   `URL` varchar(255) default NULL,
   `PHOTO` varchar(100) default NULL,
+  `PHOTO_UPLOAD_DATE` datetime default NULL,
   `AVATAR` varchar(100) default NULL,
   `ABOUT` text,
   `REGISTERED` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -332,15 +368,17 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   PRIMARY KEY  (`PROFILE_ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`),
   KEY `Generation` (`GENERATION`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users profiles' AUTO_INCREMENT=6519 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Users profiles' AUTO_INCREMENT=6728 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `rooms`
 --
+-- Creation: Nov 23, 2009 at 10:25 PM
+-- Last update: Dec 02, 2009 at 10:01 PM
+--
 
-DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE IF NOT EXISTS `rooms` (
   `ROOM_ID` bigint(20) NOT NULL auto_increment,
   `OWNER_ID` bigint(20) default NULL,
@@ -352,16 +390,19 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `IS_INVITATION_REQUIRED` tinyint(1) NOT NULL default '0',
   `IS_DELETED` tinyint(1) NOT NULL,
   `BEEN_VISITED` tinyint(1) NOT NULL,
+  `CHECK_SUM` bigint(20) default NULL,
   PRIMARY KEY  (`ROOM_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat rooms' AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat rooms' AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `room_users`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Nov 24, 2009 at 11:57 AM
+--
 
-DROP TABLE IF EXISTS `room_users`;
 CREATE TABLE IF NOT EXISTS `room_users` (
   `ROOM_ID` bigint(20) NOT NULL default '0',
   `USER_ID` bigint(20) NOT NULL default '0',
@@ -373,11 +414,14 @@ CREATE TABLE IF NOT EXISTS `room_users` (
 --
 -- Table structure for table `scheduled_tasks`
 --
+-- Creation: Nov 23, 2009 at 10:46 PM
+-- Last update: Dec 02, 2009 at 10:01 PM
+-- Last check: Nov 23, 2009 at 10:46 PM
+--
 
-DROP TABLE IF EXISTS `scheduled_tasks`;
 CREATE TABLE IF NOT EXISTS `scheduled_tasks` (
   `SCHEDULED_TASK_ID` bigint(20) NOT NULL auto_increment,
-  `TYPE` enum('unban','status') NOT NULL,
+  `TYPE` enum('unban','status','checksum') NOT NULL,
   `EXECUTION_DATE` datetime NOT NULL,
   `PERIODICITY` int(4) default NULL COMMENT 'In seconds',
   `PARAMETER1` varchar(20) default NULL,
@@ -389,15 +433,17 @@ CREATE TABLE IF NOT EXISTS `scheduled_tasks` (
   KEY `TYPE` (`TYPE`),
   KEY `EXECUTION_DATE` (`EXECUTION_DATE`),
   KEY `TRANSACTION` (`TRANSACTION_GUID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1421 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1636 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `settings`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Dec 02, 2009 at 10:01 PM
+--
 
-DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `SETTINGS_ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL default '0',
@@ -419,15 +465,17 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `FRAMESET` enum('0','1','2','3') NOT NULL default '0',
   PRIMARY KEY  (`SETTINGS_ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat settings' AUTO_INCREMENT=6519 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat settings' AUTO_INCREMENT=6728 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `statuses`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Oct 19, 2009 at 10:22 PM
+--
 
-DROP TABLE IF EXISTS `statuses`;
 CREATE TABLE IF NOT EXISTS `statuses` (
   `STATUS_ID` int(11) NOT NULL auto_increment,
   `RIGHTS` int(3) NOT NULL default '1',
@@ -443,22 +491,26 @@ CREATE TABLE IF NOT EXISTS `statuses` (
 --
 -- Table structure for table `tags`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Dec 01, 2009 at 12:19 AM
+--
 
-DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags` (
   `TAG_ID` bigint(20) NOT NULL auto_increment,
   `TITLE` varchar(100) NOT NULL,
   PRIMARY KEY  (`TAG_ID`),
   UNIQUE KEY `UNIQUE TITLE` (`TITLE`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Forum/Journal/Gallery records tags (labels)' AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Forum/Journal/Gallery records tags (labels)' AUTO_INCREMENT=177 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `todo`
 --
+-- Creation: Oct 18, 2009 at 08:22 AM
+-- Last update: Oct 18, 2009 at 08:22 AM
+--
 
-DROP TABLE IF EXISTS `todo`;
 CREATE TABLE IF NOT EXISTS `todo` (
   `ID` int(11) NOT NULL auto_increment,
   `TITLE` text NOT NULL,
@@ -473,8 +525,10 @@ CREATE TABLE IF NOT EXISTS `todo` (
 --
 -- Table structure for table `tree`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Oct 19, 2009 at 10:22 PM
+--
 
-DROP TABLE IF EXISTS `tree`;
 CREATE TABLE IF NOT EXISTS `tree` (
   `NODE_ID` double NOT NULL auto_increment,
   `FIRST_USER_ID` double NOT NULL default '0',
@@ -490,8 +544,11 @@ CREATE TABLE IF NOT EXISTS `tree` (
 --
 -- Table structure for table `users`
 --
+-- Creation: Nov 23, 2009 at 10:40 PM
+-- Last update: Dec 03, 2009 at 12:02 AM
+-- Last check: Nov 23, 2009 at 10:40 PM
+--
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `USER_ID` bigint(20) NOT NULL auto_increment,
   `LOGIN` varchar(20) NOT NULL default '',
@@ -508,19 +565,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `BAN_REASON` text,
   `BANNED_BY` bigint(20) default NULL,
   `GUID` varchar(10) default '',
+  `CHECK_SUM` bigint(20) default NULL,
   PRIMARY KEY  (`USER_ID`),
   UNIQUE KEY `LOGIN` (`LOGIN`,`GUID`),
   KEY `ROOM_ID` (`ROOM_ID`),
   KEY `BANNED_BY` (`BANNED_BY`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat users' AUTO_INCREMENT=6519 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Chat users' AUTO_INCREMENT=6728 ;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `wakeups`
 --
+-- Creation: Oct 19, 2009 at 10:21 PM
+-- Last update: Nov 30, 2009 at 03:31 PM
+--
 
-DROP TABLE IF EXISTS `wakeups`;
 CREATE TABLE IF NOT EXISTS `wakeups` (
   `WAKEUP_ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL,
@@ -530,4 +590,4 @@ CREATE TABLE IF NOT EXISTS `wakeups` (
   `IS_READ` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`WAKEUP_ID`),
   KEY `TO_USER_ID` (`TO_USER_ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Wake-up messages' AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Wake-up messages' AUTO_INCREMENT=304 ;

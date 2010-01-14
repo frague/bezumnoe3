@@ -53,22 +53,23 @@
 			}
 		}
 
+		$oldRecord = new ForumRecord($record_id);
+		$oldRecord->Retrieve();
+
 		// Add / remove record
 		if (!$error) {
 			switch ($go) {
 				case "delete":
-					$record = new ForumRecord($record_id);
-					$record->Retrieve();
-					if ($record->IsEmpty()) {
+					if ($oldRecord->IsEmpty()) {
 						$error .= "Сообщение не найдено!<br>";
 					} else {
-						if ($forumAccess || $user->User->Id == $record->UserId) {
-							$state = $record->IsDeleted ? 0 : 1;
+						if ($forumAccess || $user->User->Id == $oldRecord->UserId) {
+							$state = $oldRecord->IsDeleted ? 0 : 1;
 
-							if (strpos($record->Index, "_") !== false) {
-								$index = preg_replace("/_\d\d$/", "", $record->Index);
+							if (strpos($oldRecord->Index, "_") !== false) {
+								$index = preg_replace("/_\d\d$/", "", $oldRecord->Index);
 								$parentRecord = new ForumRecord();
-								$q = $parentRecord->GetByIndex($record->ForumId, $user, $index, 0, 1);
+								$q = $parentRecord->GetByIndex($oldRecord->ForumId, $user, $index, 0, 1);
 								if ($q->NumRows()) {
 									$q->NextResult();
 									$parentRecord->FillFromResult($q);
@@ -81,11 +82,16 @@
 							}
 
 							if (!$error) {
-								$record->GetByCondition(
-									ForumRecord::INDEX." LIKE '".$record->Index."%' AND
+								// Set record IS_DELETED to 1
+								$oldRecord->GetByCondition(
+									ForumRecord::INDEX." LIKE '".$oldRecord->Index."%' AND
 									".ForumRecord::FORUM_ID."=".$forum->Id,
-									$record->HideThreadExpression($state)
+									$oldRecord->HideThreadExpression($state)
 								);
+								
+								// Update actual & deleted answers count (review)
+								$oldRecord->UpdateAnswersCount();
+
   								$forum->CountRecords();
 								echo "className='".($state ? "Hidden" : "")."';";
 							}
@@ -97,10 +103,6 @@
 					break;
 				default:
 
-					if (!$title) {
-						$error .= "Не указано название!<br>";
-					}
-
 					if (!$content) {
 						$error .= "Сообщение пустое!<br>";
 					}
@@ -110,11 +112,17 @@
 					}
 
 					if (!$error) {
+						if (!$title) {
+							$title = $oldRecord->IsEmpty() ? 
+								"Без названия" : 
+								(preg_match("/^Re: /", $oldRecord->Title) ? "" : "Re: ").$oldRecord->Title;
+						}
+
 						$newRecord = new ForumRecord();
 						$newRecord->ForumId = $forum_id;
 						$newRecord->Author = $user->User->Login;
 						$newRecord->UserId = $user->User->Id;
-						$newRecord->Type = $type;
+						$newRecord->Type = ($oldRecord->IsEmpty() && $oldRecord->Type > $type) ? $oldRecord->Type : $type;
 						$newRecord->Title = $title;
 						$newRecord->Content = $content;
 						if ($newRecord->SaveAsReplyTo($record_id)) {
@@ -152,5 +160,5 @@
 		}
    	}
 	echo "error='".JsQuote($error)."';";
-	echo "logged_user='".JsQuote($user->User-Login)."';";
+	echo "logged_user='".JsQuote($user->User->Login)."';";
 ?>

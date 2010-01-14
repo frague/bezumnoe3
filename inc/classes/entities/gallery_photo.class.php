@@ -1,24 +1,36 @@
 <?
 
-class GalleryPhoto extends ForumRecordBase {
+class GalleryPhoto extends JournalRecord {
 
-    function MakeLink() {
-    	return "<a href='/gallery".$this->ForumId."/".$this->Id."/'>";
+	var $RecordType = Forum::TYPE_GALLERY;
+
+    function ToLink() {
+    	return self::MakeLink($this->ForumId, $this->Id);
     }
 	
-	function ToPrint($galleryFile, $isThumb = 1) {
-	  global $root, $PathToGallery, $ServerPathToGallery;
+	function ToPreview($galleryFile, $isThumb = true) {
+	  global $root, $PathToGalleries, $ServerPathToGalleries;
 
 		$path = $galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
 
-		$result = $isThumb ? $this->MakeLink() : "";
-		$result .= HtmlImage($PathToGallery.$path, $root.$ServerPathToGallery.$path).($isThumb ? "</a>" : "");
+		$result = $isThumb ? $this->ToLink() : "";
+		$result .= HtmlImage($PathToGalleries.$path, $root.$ServerPathToGalleries.$path, "", $this->Title).($isThumb ? "</a>" : "");
+
+		return $result;
+	}
+
+	function ToPrint($galleryFile, $isThumb = true) {
+	  global $root, $PathToGalleries, $ServerPathToGalleries;
+
+		$result = $this->ToPreview($galleryFile, $isThumb);
+
 		if ($this->Title) {
-			$result .= "<p>".$this->Title."</p>";
+			$result .= "<p>".nl2br($this->Title)."</p>";
 		}
 		if ($this->AnswersCount > 0 && $isThumb) {
-			$result .= $this->MakeLink()."<p>".Countable("комментарий", $this->AnswersCount)."</p></a>";
+			$result .= $this->ToLink()."<p>".Countable("комментарий", $this->AnswersCount - $this->DeletedCount)."</p></a>";
 		}
+
 		return $result;
 	}
 
@@ -63,6 +75,11 @@ WHERE
 	t5.".Journal::TYPE."='".Journal::TYPE_GALLERY."' AND ",
 		$this->ReadThreadExpression($access));
 	}
+
+    public static function MakeLink($forumId, $recordId, $commentId = "") {
+    	return "<a href='/gallery".$forumId."/".$recordId."/".(!$commentId || $recordId == $commentId ? "" : "#c".$commentId)."'>";
+    }
+	
 }
 
 ?>

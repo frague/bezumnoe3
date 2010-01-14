@@ -14,6 +14,10 @@
 	<h4>Краткое описание:</h4>
 	<textarea id="DESCRIPTION" name="DESCRIPTION" rows="5" class="Wide"></textarea>
 </div>
+
+<input type="checkbox" id="IS_PROTECTED" name="IS_PROTECTED" /> <label for="IS_PROTECTED">Раздел защищён от просмотра</label><br />
+<p class="Note">При установке только пользователи из "белого списка" смогут видеть записи в разделе</p>
+
 		</td></tr>
 	<tr id="forum">
 		<td width="50%">

@@ -135,35 +135,6 @@ sup {
 
 /* Formatting */
 
-
-.UserList ul {
-	padding-left:20px;
-	margin:0;
-}
-
-.UserList li a, .Birthdays a, .Newcomers a {
-	color:black;
-	text-decoration:none;
-	border-bottom:dotted 1px #FCA601;
-}
-
-.UserList ul li {
-	list-style-image: url(/img/li/1.gif);
-}
-.UserList ul li.l1 {
-	list-style-image: url(/img/li/2.gif);
-	margin-left:2px;
-}
-.UserList ul li.l2 {
-	list-style-image: url(/img/li/3.gif);
-	margin-left:1px;
-}
-.UserList ul li.l3 {
-	list-style-image: url(/img/li/4.gif);
-	margin-left:-1px;
-}
-
-
 ul.Menu {
 	padding-left:40px;
 	font-size:103%;
@@ -216,7 +187,12 @@ li.Inactive a {
 }
 
 .Photos .Centered img {
-	border: solid 1px #FB8C00;
+	border: solid 4px #D0D0D0;
+	background-color: #D0D0D0;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
 .Newcomers a {

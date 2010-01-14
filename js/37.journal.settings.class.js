@@ -1,10 +1,10 @@
-//2.1
+//2.2
 /*
 	Journal settings of user menu.
 */
 
 function JournalSettings() {
-	this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION"];
+	this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION", "IS_PROTECTED"];
 	this.ServicePath = servicesPath + "journal.settings.service.php";
 	this.Template = "journal_settings";
 	this.ClassName = "JournalSettings";

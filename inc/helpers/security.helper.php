@@ -163,7 +163,6 @@
 	function AddressIsBanned($bans = "") {
 		$addr = new NetAddress();
 		$ban = new BannedAddress();
-
 		$q = $ban->GetByCondition($bans ? $bans->ToCondition() : "1");
 		for ($i = 0; $i < $q->NumRows(); $i++) {
 			$q->NextResult();

@@ -110,6 +110,20 @@ abstract class EntityBase {
 		return $q->Get("RECORDS");
 	}
 
+	function GetExpressionCount($expr) {
+		$position = strpos($expr, "FROM");
+		if ($position === false) {
+			return 0;
+		}
+		$expr = "SELECT COUNT(1) AS RECORDS ".substr($expr, $position);
+
+		$q = $this->GetByCondition(" ", $expr);
+		if ($q->NumRows()) {
+			$q->NextResult();
+			return $q->Get("RECORDS");
+		}
+		return 0;
+	}
 
 	function SaveChecked() {
 		$errors = $this->HasErrors();

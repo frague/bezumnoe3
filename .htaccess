@@ -62,15 +62,15 @@ RewriteRule ^journal/([^/]+)/tag/(.+)$ journal/journal.php?alias=$1&tag=$2
 
 
 # Journal friends
-RewriteRule ^journal/([^/]+)/friends/?$ journal/friends.php?$1
-RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/?$ journal/friends.php?$1&year=$2
-RewriteRule ^journal/([^/]+)/friends/page([0-9]+)\.html$ journal/friends.php?$1&show_from=$2
-RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/?$ journal/friends.php?$1&year=$2&month=$3
-RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/([0-9]{2})/?$ journal/friends.php?$1&year=$2&month=$3&day=$4
-RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/page([0-9]+).html$ journal/friends.php?$1&year=$2&month=$3&show_from=$4
-RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/([0-9]{2})/page([0-9]+).html$ journal/friends.php?$1&year=$2&month=$3&day=$4&show_from=$5
+RewriteRule ^journal/([^/]+)/friends/?$ journal/friends.php?alias=$1
+RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/?$ journal/friends.php?alias=$1&year=$2
+RewriteRule ^journal/([^/]+)/friends/page([0-9]+)\.html$ journal/friends.php?alias=$1&from=$2
+RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/?$ journal/friends.php?alias=$1&year=$2&month=$3
+RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/([0-9]{2})/?$ journal/friends.php?$alias=1&year=$2&month=$3&day=$4
+RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/page([0-9]+).html$ journal/friends.php?alias=$1&year=$2&month=$3&from=$4
+RewriteRule ^journal/([^/]+)/friends/([0-9]{4})/([0-9]{2})/([0-9]{2})/page([0-9]+).html$ journal/friends.php?alias=$1&year=$2&month=$3&day=$4&from=$5
 
-RewriteRule ^journal/([^/]+)/friends/rss/?$ journal/friends.rss.php?$1
+RewriteRule ^journal/([^/]+)/friends/rss/?$ journal/friends.rss.php?alias=$1
 
 # Journal styles
 RewriteRule ^journal/css/([0-9]+)\.css$ journal/css.php?id=$1 [L]

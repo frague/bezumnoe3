@@ -32,8 +32,6 @@
 		die;
 	}
 
-	$result = "";
-
 	$photo = new GalleryPhoto();
 	$q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
 
@@ -48,7 +46,7 @@
 			if (($c < $amount)) {
 				$q->NextResult();
 				$photo->FillFromResult($q);
-				$result.= $photo->ToPrint($PathToGalleries.$gallery->Description);
+				$result.= $photo->ToPrint($gallery->Description);
 				$c++;
 
 				if ($photo->UpdateDate > $lastModified) {

@@ -97,7 +97,12 @@ a.Link, span.imageLink a {
 
 img.Photo {
 	margin:4px;
-	border:solid 4px #404040;
+	border:solid 6px #404040;
+	background-color:#404040;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
 .AlertsHolder {

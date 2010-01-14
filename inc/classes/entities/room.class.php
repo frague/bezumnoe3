@@ -146,7 +146,8 @@ $this->GetEmptyExpression());
 	}
 
 	function ToJs() {
-		return "new Room(\"".JsQuote($this->Id)."\",\"".JsQuote($this->Title)."\",\"".JsQuote($this->Topic)."\",\"".JsQuote($this->TopicLock)."\",\"".JsQuote($this->TopicAuthorId)."\",\"".JsQuote($this->TopicAuthorName)."\",".Boolean($this->IsLocked).",".Boolean($this->IsInvitationRequired).",".round($this->OwnerId).")";
+		$topic = JsQuote(str_replace("\\\\", "<br>", $this->Topic));
+		return "new Room(\"".JsQuote($this->Id)."\",\"".JsQuote($this->Title)."\",\"".$topic."\",\"".JsQuote($this->TopicLock)."\",\"".JsQuote($this->TopicAuthorId)."\",\"".JsQuote($this->TopicAuthorName)."\",".Boolean($this->IsLocked).",".Boolean($this->IsInvitationRequired).",".round($this->OwnerId).")";
 	}
 
 	function ToDTO() {

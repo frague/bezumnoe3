@@ -117,6 +117,7 @@
 					if ($pass_result != -1) {
 						if (!$pass_result) {
 							$response .= JsAlert("Пароль изменён.");
+							SaveLog("Изменение пароля.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
 							$save_user = true;
 						} else {
 							$response .= JsAlert($pass_result, 1);

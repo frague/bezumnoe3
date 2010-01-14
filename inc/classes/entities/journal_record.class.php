@@ -2,6 +2,8 @@
 
 class JournalRecord extends ForumRecordBase {
 
+	var $RecordType = Forum::TYPE_JOURNAL;
+
 	function ToPrint($login = "") {
 		$result = "<h2>".$this->Title."</h2>";
 		$result .= Smartnl2br(ereg_replace("##[a-zA-Z]+(=(([^#]|#[^#])+)){0,1}##", "\\2", $this->Content));
@@ -90,6 +92,19 @@ class JournalRecord extends ForumRecordBase {
 	  	); 
 	}
 
+	// Gets topics of friendly journals of given
+	function GetFriendlyTopics($forumId, $from = 0, $limit) {
+		return $this->GetByCondition(
+			" LIMIT ".($from ? $from."," : "").$limit,
+			$this->FriendlyTopicsExpression($forumId)
+		);
+	}
+
+	// Gets number of friendly topics
+	function GetFriendlyThreadsCount($forumId) {
+		return $this->GetExpressionCount($this->FriendlyTopicsExpression($forumId));
+	}
+
 	//------ SQL ------
 
 	// Journal postst SQL expression
@@ -98,7 +113,7 @@ class JournalRecord extends ForumRecordBase {
 		"WHERE",
 		"	LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE 
-	t5.".Journal::TYPE."='".Journal::TYPE_JOURNAL."' AND ",
+	t5.".Journal::TYPE."='".$this->RecordType."' AND ",
 		$this->ReadThreadExpression($access));
 	}
 
@@ -110,7 +125,7 @@ WHERE
 	JOIN ".RecordTag::table." AS t6 ON t6.".RecordTag::RECORD_ID."=t1.".self::RECORD_ID."
 	JOIN ".Tag::table." AS t7 ON t7.".Tag::TAG_ID."=t6.".RecordTag::TAG_ID."
 WHERE 
-	t5.".Journal::TYPE."='".Journal::TYPE_JOURNAL."' AND ",
+	t5.".Journal::TYPE."='".$this->RecordType."' AND ",
 		$this->ReadThreadExpression($access));
 
 		$result = str_replace(
@@ -132,12 +147,38 @@ WHERE
 	LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
 	LEFT JOIN ".JournalSettings::table." AS t6 ON t6.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE 
-	t5.".Journal::TYPE."='".Journal::TYPE_JOURNAL."' AND ",
+	t5.".Journal::TYPE."='".$this->RecordType."' AND ",
 		$this->ReadExpression());
 		$result = str_replace(
 			"FROM",
 			",
+	t5.".Journal::DESCRIPTION.",
 	t6.".JournalSettings::ALIAS."
+FROM", 
+			$result
+		);
+		return $result;
+	}
+
+	// Journal posts from different journals with access expression
+	function FriendlyTopicsExpression($forumId) {
+		$forumId = round($forumId);
+
+		$result = str_replace(
+		"WHERE",
+		"
+	JOIN ".JournalFriend::table." AS t4 ON t4.".JournalFriend::FORUM_ID."=".$forumId." AND t4.".JournalFriend::FRIENDLY_FORUM_ID."=t1.".JournalRecord::FORUM_ID."
+	LEFT JOIN ".JournalSettings::table." AS t5 ON t5.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
+WHERE 
+	LENGTH(t1.".self::INDEX.")=4 AND
+	t1.".self::TYPE."='".self::TYPE_PUBLIC."'
+	ORDER BY t1.".self::DATE." DESC",
+		$this->ReadExpression());
+
+		$result = str_replace(
+			"FROM",
+			",
+	t5.".JournalSettings::ALIAS."
 FROM", 
 			$result
 		);

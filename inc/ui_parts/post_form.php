@@ -12,29 +12,21 @@
 		<div class='Red' id="ERROR"></div>
 		
 		<h4>јвторизаци€:</h4>
-<?php
-
-	if ($user->IsEmpty()) {
-		echo "<style>#LoggedLine {
-			display:none;
-		}</style>";
-	}
-
-?>
-		<span id="LoggedLine">
-			<input type="radio" checked="checked" name="AUTH" id="AUTH_LOGGED" /> <label for="AUTH_LOGGED">активный пользователь (<strong id="LoggedLogin"><?php echo $user->User->Login ?></strong>)</label><br />
+		<span id="LoggedLine"<?php echo $user->IsEmpty() ? " class=\"Hidden\"" : "" ?>>
+			<input type="radio" name="AUTH" id="AUTH_LOGGED" value="0" checked="checked" /> <label for="AUTH_LOGGED">активный пользователь (<strong id="LoggedLogin"><?php echo $user->User->Login ?></strong>)</label><br />
 		</span>
-		<input type="radio" name="AUTH" id="AUTH_NOW" /> <label for="AUTH_NOW">по логину и паролю</label>
+		<input type="radio" name="AUTH" id="AUTH_NOW" value="1" /> <label for="AUTH_NOW">по логину и паролю</label>
+
 		<div id="AuthByLogin">
 			логин: <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" />, 
 			пароль: <input type="password" name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" size="20" />
 			
 		</div>
 
-		<h4 class="Mandatory">«аголовок:</h4>
-		<input id="TITLE" name="TITLE" class="Wide" /><br>
+		<h4>«аголовок:</h4>
+		<input id="TITLE" name="TITLE" class="Wide" size="30" /><br>
 		<h4 class="Mandatory">“екст сообщени€:</h4>
-		<textarea id="CONTENT" name="CONTENT" class="Wide" rows="10">
+		<textarea id="CONTENT" name="CONTENT" class="Wide" cols="30" rows="10">
 		</textarea><br>
 		<div class="Right">	
 			<div style="float:left" id="IsProtected">

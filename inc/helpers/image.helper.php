@@ -8,8 +8,8 @@
 		return "";
 	}
 
-	function HtmlImage($path, $serverPath = "", $cssClass = "") {
-		$result = "<img src='".$path."' ".GetWebSize($serverPath).($cssClass ? " class='".$cssClass."'" : "")." />";
+	function HtmlImage($path, $serverPath = "", $cssClass = "", $alt = "") {
+		$result = "<img src='".$path."' ".GetWebSize($serverPath).($cssClass ? " class='".$cssClass."'" : "").($alt ? " alt='".$alt."' title='".$alt."'" : "")." />";
 		return $result;
 	}
 

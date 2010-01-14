@@ -16,7 +16,7 @@
 			$targetUser = new User($user_id);
 			$targetUser->Retrieve();
 			if (!$targetUser->IsEmpty()) {
-				$forum->GetByUserId($targetUser->Id);
+				$forum->FillByUserId($targetUser->Id);
 			}
 		}
 	}

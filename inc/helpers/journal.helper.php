@@ -141,6 +141,7 @@
 		$result = str_replace("##MONTH##", $month, $result);
 		$result = str_replace("##YEAR##", $year, $result);
 		$result = str_replace("##TIME##", $messageTime, $result);
+		$result = str_replace("##AUTHOR##", $message->Author, $result);
 
 		switch ($message->Type) {
 			case 2:
@@ -217,7 +218,7 @@
 	}
 	
 	// Makes journal link
-	function MakeJournalLink($alias, $text, $page = 0, $year = 0, $month = 0, $day = 0, $tag = "") {
+	function MakeJournalLink($alias, $text, $page = 0, $year = 0, $month = 0, $day = 0, $tag = "", $forFriends = 0) {
 
 		$criteria = "";
 		if ($tag) {
@@ -238,7 +239,7 @@
 			// Paging
 			$criteria .= "/page".round($page).".html";
 		}
-		return "<a href='/journal/".$alias.$criteria."'>".$text."</a>";
+		return "<a href='/journal/".$alias.($forFriends ? "/friends" : "").$criteria."'>".$text."</a>";
 	}
 
 	// Makes pager links
@@ -253,8 +254,8 @@
                 	($currentPage == $i * $showMessages ? 
                 	"<b>".($i+1)."</b>" : 
                 	($datesCondition ? 
-                		MakeJournalLink($alias, $i+1, $i, $year, $month, $day) :
-                		MakeJournalLink($alias, $i+1, $i, 0, 0, 0, $tag))
+                		MakeJournalLink($alias, $i+1, $i, $year, $month, $day, "", $forFriends) :
+                		MakeJournalLink($alias, $i+1, $i, 0, 0, 0, $tag, $forFriends))
                 		);
             }
         }

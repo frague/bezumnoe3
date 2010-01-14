@@ -6,6 +6,8 @@
 	$RangeMonth = 30 * $RangeDay;
 	$RangeYear = 365 * $RangeDay;
 
+	$NowDateTime = "";
+
 	function DateFromTime($t, $format = "Y-m-d H:i:s") {
 		if (!$t) {
 		     $t = 0;
@@ -14,7 +16,12 @@
 	}
 
 	function NowDateTime() {
-		return DateFromTime(time());
+	  global $NowDateTime;
+
+		if (!$NowDateTime) {
+			$NowDateTime = DateFromTime(time());
+		}
+		return $NowDateTime;
 	}
 
 	function ParseDate($s) {

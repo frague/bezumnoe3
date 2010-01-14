@@ -246,7 +246,7 @@
 		$bodyText = str_replace("##TAGSCLOUD##", $cloud, $bodyText);
 	}
 
-//	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$userUrlName."/friends/", $bodyText);
+	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$settings->Alias."/friends/", $bodyText);
 	$bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);
         
 	$bodyText = InjectionProtection(OuterLinks(MakeLinks($bodyText)));
@@ -256,10 +256,13 @@
 		AddEtagHeader(strtotime($record->UpdateDate));
 	}
 	// Insert reference to styles to prevent alternative ones
-	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css/".$journal->Id.".css'>", $bodyText);
+	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css/".$template->Id.".css'>", $bodyText);
 
 	echo $bodyText;
 	// Opening tags closure (to safely insert footer banner)
 	echo RenderClosingTags();
+
+	include $root."/inc/li_spider_check.inc.php";
+
 
 ?>

@@ -146,13 +146,13 @@ cite cite cite {
 .Pager strong {
 	color:red;
 	font-weight:bold;
-	border-left: solid 1px #e0e0e0;
+	/*border-left: solid 1px #e0e0e0;*/
 	padding:0 4px;
 	margin:0;
 }
 
 .Pager a {
-	border-left: solid 1px #e0e0e0;
+	/*border-left: solid 1px #e0e0e0;*/
 	padding:0 4px;
 	margin:0;
 }
@@ -182,6 +182,20 @@ cite cite cite {
 	margin-left:20px;
 	font-size:80%;
 }
+
+.NewComments div {
+	text-align:center;
+}
+
+.NewComments div img {
+	border: solid 6px #D0D0D0;
+	background-color: #D0D0D0;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
 
 
 /* Types */

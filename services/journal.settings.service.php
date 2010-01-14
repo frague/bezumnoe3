@@ -3,6 +3,7 @@
 
 	function FillForumData($journal) {
 		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
+		$journal->IsProtected = $_POST[Journal::IS_PROTECTED] ? 1 : 0;
 		if (!$journal->IsGallery()) {
 			$journal->Description = trim(UTF8toWin1251($_POST[Journal::DESCRIPTION]));
 		}
@@ -120,7 +121,7 @@
 		}
 	}	
 
-	echo "this.data=".$settings->ToJs($journal->Title, $journal->Description).";";
+	echo "this.data=".$settings->ToJs($journal->Title, $journal->Description, $journal->IsProtected).";";
 	echo "this.type='".$journal->Type."';";
 
 ?>

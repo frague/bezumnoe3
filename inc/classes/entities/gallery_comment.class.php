@@ -1,10 +1,12 @@
 <?
 
-class GalleryComment extends ForumRecordBase {
+class GalleryComment extends JournalComment {
 
-	function ToLink($trimBy = 0, $recordId) {
+	var $RecordType = Forum::TYPE_GALLERY;
+
+	function ToLink($trimBy = 0, $recordId = 0) {
 		$content = $trimBy ? TrimBy($this->Content, $trimBy) : $this->Content;
-		return self::MakeLink($recordId, $this->Id, $content, $this->Type == self::TYPE_PROTECTED);
+		return GalleryPhoto::MakeLink($this->ForumId, $recordId ? $recordId : $this->Id, $this->Id).$content."</a>";
 	}
 
 	function ToJs() {

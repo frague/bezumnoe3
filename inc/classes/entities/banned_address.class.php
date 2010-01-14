@@ -136,6 +136,7 @@ class BannedAddress extends EntityBase {
 		$this->Comment = "";
 		$this->AdminLogin = "";
 		$this->Added = NowDateTime();
+		$this->Added = "";
 		$this->Till = "";
 
 		$this->Bans = new Bans();

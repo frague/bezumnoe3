@@ -7,31 +7,18 @@
 	Head("Фотогалерея", "forum.css", "forum.js");
 	require_once $root."references.php";
 
-
-	$gallery = new Gallery();
-	if ($someoneIsLogged) {
-		$q = $gallery->GetByConditionWithUserAccess("1=1", $user->User->Id);
-	} else {
-		$q = $gallery->GetByCondition("1=1");
-	}
-
-	echo "<ul class='Forums'>";
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
-		$gallery->FillFromResult($q);
-
-		echo "<li>";
-		$gallery->DoPrint("/gallery", $yesterday);
-	}
-	echo "</ul>";
-	
-
 ?>
-
-
-
+<table width="100%">
+	<tr>
+		<td width="40%">
+			<h4>Новые комментарии:</h4>
+			<?php include $root."/inc/ui_parts/gallery.comments.php" ?>
+			</td>
+		<td valign="top">
+			<h4>Галереи:</h4>
+			<?php include $root."/inc/ui_parts/galleries.php" ?>
+			</td></tr></table>
 <?php
-
 
 	Foot();
 ?>

@@ -1,6 +1,8 @@
 <?
 	require_once "base.service.php";
 
+	JsPoint("Auth user");
+
 	$user = GetAuthorizedUser(true, true);
 
 	if (!$user || $user->IsEmpty() || IdIsNull($user->User->RoomId)) {
@@ -8,16 +10,32 @@
 		exit;
 	}
 
+	JsPoint("Get authorized user");
+
 	if ($reason = AddressIsBanned(new Bans(1, 0, 0))) {
 		echo "Forbidden('".JsQuote($reason)."');";
 		exit;
 	}
 
+	JsPoint("Check ban");
+
 	$displayedName = $user->DisplayedName();
 
 	$user->User->TouchSession();
+
+	JsPoint("Touch session");
+
 	$user->User->Save();
+
+	JsPoint("User save");
+
 	SetUserSessionCookie($user->User, true);
+
+	JsPoint("Set session cookie");
+
+	$user->UpdateChecksum();
+
+	JsPoint("Update checksum");
 
 	if ($user->User->IsBanned()) {
 		if ($user->User->CheckAmnesty()) {
@@ -74,6 +92,8 @@
 		 }
 	}
 	
+	JsPoint("Moving to room");
+
 	/* Checking room access */
 
 	if (!$room->IsEmpty()) {
@@ -82,6 +102,7 @@
 		}
 	}
 
+	JsPoint("Room access");
 
 	/* Rooms data */
 
@@ -101,6 +122,8 @@
 		$_POST["r_".$room->Id] = "";
 	}
 
+	JsPoint("Rooms data");
+
 	/* Removed rooms */
 
 	foreach ($_POST as $k  => $v) {
@@ -108,6 +131,8 @@
 			$s .= "rooms.Delete('".ereg_replace("^r_", "", $k)."');";
 		}
 	}
+
+	JsPoint("Remove rooms");
 
 	/*--------------- /Rooms ---------------*/
 
@@ -120,41 +145,86 @@
 	$iIgnore = array();
 	$ignoreMe = array();
 
+	// Getting ignore information (who from online users ignores who)
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$ignore->FillFromResult($q);
 		if ($ignore->UserId == $user->User->Id) {
-			$iIgnore[$ignore->IgnorantId] = true;
+			$iIgnore[$ignore->IgnorantId] = 1;
 		} else {
-			$ignoresMe[$ignore->UserId] = true;
+			$ignoresMe[$ignore->UserId] = 1;
 		}
 	}
 
-	$firstUser = "";
+	JsPoint("Ignores");
+
+
 	$user1 = new UserComplete();
-	$q = $user1->GetByCondition("t1.".User::ROOM_ID." IS NOT NULL", $user->ReadWithIgnoreDataExpression($user->User->Id));
+	$ChangedUsers = array();
+
+	// Getting users data (only USER_IDs & CHECK_SUMs)
+	$q = $user1->GetByCondition(
+		"t1.".User::ROOM_ID." IS NOT NULL", 
+		$user->ReadChecksumsWithIgnoreDataExpression($user->User->Id)
+	);
+	
+	// Creating the list of users to be requested
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
-		$user1->FillFromResult($q);
-		if (!$i) {
-			$firstUser = $user1;
-		}
+		$user1->User->FillFromResult($q);
 
 		$id1 = $user1->User->Id;
 
 		$user_key = "u_".$id1;
-		if ($_POST[$user_key] != $user1->CheckSum()) {
+		if ($_POST[$user_key] != $user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])) {
+			$ChangedUsers[] = $id1;
+		}
+		$_POST[$user_key] = "-";
+	}
+
+	JsPoint("Users1");
+
+	// If chnged users found - request full set of info for them
+	if (sizeof($ChangedUsers) > 0) {
+		$s .= "/* add */";
+		// Requesting only found users
+		$q = $user1->GetByCondition(
+			"t1.".User::USER_ID."=".implode(" OR t1.".User::USER_ID."=", $ChangedUsers), 
+			$user->ReadWithIgnoreDataExpression($user->User->Id)
+		);
+
+		// Create js users representations
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$user1->FillFromResult($q);
+
+			$id1 = $user1->User->Id;
+			$ii = round($iIgnore[$id1]);
+			$im = round($ignoresMe[$id1]);
+
+			$user_key = "u_".$id1;
 			$jsUser = $user1->ToJs($user->Status);
 			if ($id1 == $user->User->Id) {
 				$s .= "me=".$jsUser.";";
 				$jsUser = "me";
 			}
-			$jsUser = str_replace(UserComplete::IsIgnoredDefault, $iIgnore[$id1] ? 1 : 0, $jsUser);
-			$jsUser = str_replace(UserComplete::IgnoresYouDefault, $ignoresMe[$id1] ? 1 : 0, $jsUser);
+			$jsUser = str_replace(UserComplete::IsIgnoredDefault, $ii, $jsUser);
+			$jsUser = str_replace(UserComplete::IgnoresYouDefault, $im, $jsUser);
 			$s .= "users.Add(".$jsUser.");";
 		}
-		$_POST[$user_key] = "-";
+
+		JsPoint("Users2");
 	}
+
+
+
+
+
+
+
+
+
+
 
 	/* Quited users */
 
@@ -163,6 +233,8 @@
 			$s .= "users.Delete('".ereg_replace("^u_", "", $k)."');";
 		}
 	}
+
+	JsPoint("Quited users");
 
 	/* Expired sessions */
 
@@ -185,6 +257,8 @@
 		}
 	}
 
+	JsPoint("Expired sessions");
+
 	/* List of users should be refreshed */
 
 	if ($s) {
@@ -202,6 +276,9 @@
 		$s .= "Wakeup(".$id.",'".JsQuote($name)."'".($flag ? ",1" : "").");";
 		$flag = false;
 	}
+	
+	JsPoint("Wakeups");
+
 	/*--------------- /Wakeups ---------------*/
 
 	/*--------------- Messages ---------------*/
@@ -250,6 +327,9 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 				$messages = "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".$toUser."');".$messages;
 			}
 		}
+
+		JsPoint("Messages");
+
 	}
 
 	/*--------------- /Messages ---------------*/
@@ -258,12 +338,6 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	$s = $prefix.$s.$messages;
 	if ($s) {
 		echo $s;
-	}
-
-	// Only the first user in the list will be executing scheduled tasks...
-	// Not really fair, but it'll reduce the server load
-	if ($firstUser && $user->User->Id == $firstUser->User->Id) {
-//		ExecuteScheduledTasks();
 	}
 
 ?>

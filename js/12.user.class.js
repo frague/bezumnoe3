@@ -1,4 +1,4 @@
-//4.9
+//5.0
 /*
 	Represents user entity on client-side.
 */
@@ -49,8 +49,11 @@ User.prototype.CheckSum = function() {
 	cs += CheckSum(this.StatusTitle);
 	cs += CheckSum(this.StatusColor);
 
-	cs += CheckSum(this.IsIgnored);
-	cs += CheckSum(this.IgnoresYou);
+//	cs += CheckSum(this.IsIgnored);
+//	cs += CheckSum(this.IgnoresYou);
+
+	cs += "" + this.IsIgnored + "" + this.IgnoresYou;
+
 //	DebugLine('User: '+this.Id+' sum: '+cs);
 
 	return cs;

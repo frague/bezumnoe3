@@ -6,20 +6,23 @@
 
 	$id = round(LookInRequest("id"));
 
-	$settings = new JournalSettings();
+/*	$settings = new JournalSettings();
 	if ($id) {
 		$settings->GetByForumId($id);
 	}
 
 	if ($settings->IsEmpty()) {
 		DieWith404();
-	}
+	}*/
 
-	$template = GetTemplateOrDie($settings);
+	$template = new JournalTemplate($id);
+	$template->Retrieve();
+	if ($template->IsEmpty()) {
+		DieWith404();
+	}
 
     header("Content-type: text/css");
 	AddEtagHeader(strtotime($template->Updated));
-
 
 	// Pre-processing (?)
     echo $template->Css;

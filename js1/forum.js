@@ -92,7 +92,8 @@ function ForumMessageAddCallback(req, el) {
 function ShowLoggedLogin(login) {
 	$("Logged").innerHTML = login;
 	$("LoggedLogin").innerHTML = login;
-	DisplayElement("LoggedLine", true);
+	$("AUTH_LOGGED").checked = true;
+	$("LoggedLine").className = "";
 };
 
 function ForumDelete(a, id, forum_id) {

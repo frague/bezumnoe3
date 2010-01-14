@@ -58,8 +58,8 @@ class UserComplete extends EntityBase {
 		$cs += $this->Status->CheckSum($extended);
 		$cs += $this->Settings->CheckSum($extended);
 
-		$cs += CheckSum($this->IIgnore);
-		$cs += CheckSum($this->IgnoresMe);
+//		$cs += CheckSum($this->IIgnore);
+//		$cs += CheckSum($this->IgnoresMe);
 
 //		DebugLine("User CS: " + $cs);
 		return $cs;
@@ -125,6 +125,17 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 			return $this->Nickname->Title;
 		}
 		return $this->User->Login;
+	}
+
+	function UpdateChecksum($check_sum = -1) {
+		if ($this->User->IsEmpty() || $this->User->CheckSum == $this->CheckSum()) {
+			return;
+		}
+
+		$this->GetByCondition(
+			"",
+			$this->UpdateChecksumExpression($this->User->Id, $check_sum < 0 ? $this->CheckSum() : $check_sum)
+		);
 	}
 
 	// SQL
@@ -196,6 +207,14 @@ WHERE ##CONDITION##", $result);
 		return $result;
 	}
 
+	function ReadChecksumsWithIgnoreDataExpression($userId) {
+		return "SELECT 
+	t1.".User::USER_ID.",
+	t1.".User::CHECK_SUM."
+FROM ".User::table." t1
+WHERE ##CONDITION##";
+	}
+
 	function CreateExpression() {
 		error("Record cannot be created directly!");
 		return false;
@@ -209,6 +228,12 @@ WHERE ##CONDITION##", $result);
 	function DeleteExpression() {
 		error("Record cannot be deleted directly!");
 		return false;
+	}
+
+	function UpdateChecksumExpression($userId, $checkSum) {
+		return "UPDATE ".User::table." 
+SET ".User::CHECK_SUM."=".Nullable(round($checkSum))."
+WHERE ".User::USER_ID."=".round($userId);
 	}
 }
 

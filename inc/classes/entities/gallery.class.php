@@ -13,25 +13,49 @@ class Gallery extends ForumBase {
 		$this->Type	= self::TYPE_GALLERY;
 	}
 
-	function DoPrint($link = "", $lastVisitDate = "") {
-		echo "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
-		if ($link) {
-			echo "<a href='".$this->BasePath()."'>";
+	function ToPrint($makeLink = false, $lastVisitDate = "") {
+		$result = "";
+		$result .= "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
+		if ($makeLink) {
+			$result .= "<a href='".$this->BasePath()."'>";
 		}
-		echo $this->Title.($link ? "</a>" : "")."</h4>";
-		echo "<div class='Counts'>В галерее ".Countable("фотография", $this->TotalCount, "нет");
+		$result .= $this->Title.($makeLink ? "</a>" : "")."</h4>";
+		$result .= "<div class='Counts'>В галерее ".Countable("фотография", $this->TotalCount, "нет");
 		if ($lastVisitDate) {
 			$unread = $this->GetUnreadCount($lastVisitDate);
 			if ($unread > 0) {
-				echo ", из них <span class='Red'>".Countable("новое", $unread)."</span>";
+				$result .= ", из них <span class='Red'>".Countable("новое", $unread)."</span>";
 			}
 		}
-		echo ".";
+		$result .= ".";
 		if ($this->IsProtected) {
-			echo " <span class='Red'>Это закрытая галерея.</span>";
+			$result .= " <span class='Red'>Это закрытая галерея.</span>";
 		}
 
-		echo "</div>";
+		$result .= "</div>";
+		return $result;
+	}
+	
+	function ToLink($lastVisitDate = "") {
+		$result = "&laquo;<a href='".$this->BasePath()."'".($this->IsProtected ? " class='Hidden'" : "").">";
+		$result .= $this->Title."</a>&raquo;";
+
+		$result .= " (".Countable("фотография", $this->TotalCount, "нет");
+		if ($lastVisitDate) {
+			$unread = $this->GetUnreadCount($lastVisitDate);
+			if ($unread > 0) {
+				$result .= ", <span class='Red'>".Countable("новый комментарий", $unread)."</span>";
+			}
+		}
+		$result .= ")";
+		if ($this->IsProtected) {
+			$result .= " <span class='Red'>Это закрытая галерея.</span>";
+		}
+		return $result;
+	}
+	
+	function DoPrint($makeLink = false, $lastVisitDate = "") {
+		echo $this->ToPrint($makeLink, $lastVisitDate);
 	}
 
 	function BasePath() {
