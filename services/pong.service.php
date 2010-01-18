@@ -1,7 +1,7 @@
 <?
 	require_once "base.service.php";
 
-	JsPoint("Auth user");
+//	JsPoint("Auth user");
 
 	$user = GetAuthorizedUser(true, true);
 
@@ -10,32 +10,32 @@
 		exit;
 	}
 
-	JsPoint("Get authorized user");
+//	JsPoint("Get authorized user");
 
 	if ($reason = AddressIsBanned(new Bans(1, 0, 0))) {
 		echo "Forbidden('".JsQuote($reason)."');";
 		exit;
 	}
 
-	JsPoint("Check ban");
+//	JsPoint("Check ban");
 
 	$displayedName = $user->DisplayedName();
 
 	$user->User->TouchSession();
 
-	JsPoint("Touch session");
+//	JsPoint("Touch session");
 
 	$user->User->Save();
 
-	JsPoint("User save");
+//	JsPoint("User save");
 
 	SetUserSessionCookie($user->User, true);
 
-	JsPoint("Set session cookie");
+//	JsPoint("Set session cookie");
 
 	$user->UpdateChecksum();
 
-	JsPoint("Update checksum");
+//	JsPoint("Update checksum");
 
 	if ($user->User->IsBanned()) {
 		if ($user->User->CheckAmnesty()) {
@@ -92,7 +92,7 @@
 		 }
 	}
 	
-	JsPoint("Moving to room");
+//	JsPoint("Moving to room");
 
 	/* Checking room access */
 
@@ -102,7 +102,7 @@
 		}
 	}
 
-	JsPoint("Room access");
+//	JsPoint("Room access");
 
 	/* Rooms data */
 
@@ -122,7 +122,7 @@
 		$_POST["r_".$room->Id] = "";
 	}
 
-	JsPoint("Rooms data");
+//	JsPoint("Rooms data");
 
 	/* Removed rooms */
 
@@ -132,7 +132,7 @@
 		}
 	}
 
-	JsPoint("Remove rooms");
+//	JsPoint("Remove rooms");
 
 	/*--------------- /Rooms ---------------*/
 
@@ -156,7 +156,7 @@
 		}
 	}
 
-	JsPoint("Ignores");
+//	JsPoint("Ignores");
 
 
 	$user1 = new UserComplete();
@@ -182,7 +182,7 @@
 		$_POST[$user_key] = "-";
 	}
 
-	JsPoint("Users1");
+//	JsPoint("Users1");
 
 	// If chnged users found - request full set of info for them
 	if (sizeof($ChangedUsers) > 0) {
@@ -213,7 +213,7 @@
 			$s .= "users.Add(".$jsUser.");";
 		}
 
-		JsPoint("Users2");
+	//	JsPoint("Users2");
 	}
 
 
@@ -234,7 +234,7 @@
 		}
 	}
 
-	JsPoint("Quited users");
+//	JsPoint("Quited users");
 
 	/* Expired sessions */
 
@@ -257,7 +257,7 @@
 		}
 	}
 
-	JsPoint("Expired sessions");
+//	JsPoint("Expired sessions");
 
 	/* List of users should be refreshed */
 
@@ -277,7 +277,7 @@
 		$flag = false;
 	}
 	
-	JsPoint("Wakeups");
+//	JsPoint("Wakeups");
 
 	/*--------------- /Wakeups ---------------*/
 
@@ -305,7 +305,11 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 20";
 	AND t1.".Message::MESSAGE_ID.">".SqlQuote($lastId)." 
 ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 		}
-		$q = $message->GetByCondition($basicCondition.$condition, $message->ReadWithIgnoresExpression($user->User->Id));
+
+		$q = $message->GetByCondition(
+			$basicCondition.$condition, 
+			$message->ReadWithIgnoresExpression($user->User->Id)
+		);
 
 		if ($q !== false) {
 			for ($i = 0; $i < $q->NumRows(); $i++) {
@@ -328,7 +332,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 			}
 		}
 
-		JsPoint("Messages");
+	//	JsPoint("Messages");
 
 	}
 
