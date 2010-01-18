@@ -238,7 +238,7 @@
 
 	/* Expired sessions */
 
-	$q = $user->User->GetExpiredUsers();
+/*	$q = $user->User->GetExpiredUsers();
 	$u = array();
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
@@ -248,14 +248,13 @@
 	}
 	// Left user sessions, but remove room information
 	$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL WHERE ".$user->User->ExpireCondition());
-//	$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=-1, t1.".User::SESSION."='', t1.".User::SESSION_PONG."=NULL WHERE ".$user->User->ExpireCondition());
 
 	if (sizeof($u) > 0) {
 		while (list($roomId,$users) = each($u)) {
 			$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат.", $roomId);
 			$message->Save();
 		}
-	}
+	}*/
 
 //	JsPoint("Expired sessions");
 

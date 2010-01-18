@@ -24,6 +24,6 @@
 	<li> <a href="javascript:void(0)" onclick="ResetFilter(this)" class="Delete" id="ResetFilter">Сбросить фильтр</a>
 </ul>
 
-<div id="Pager"></div>
 <table cellpadding="2" cellspacing="0" id="MessagesLogGrid" class="Grid"><tbody><tr><th width="40px">Время</th><th width="100px">Автор</th><th>Сообщение</th></tr></table>
+<div id="Pager"></div>
 

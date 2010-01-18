@@ -54,7 +54,7 @@ class AdminComment extends EntityBase {
 		return $this->GetByCondition(
 			($condition  ? $condition." AND " : "").
 			"t1.".self::USER_ID."=".round($userId).
-			" ORDER BY ".$this->Order.($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""));
+			" ORDER BY ".$this->Order.($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""), "", 1);
 	}
 
 	function GetUserCommentsCount($userId, $condition = "") {
