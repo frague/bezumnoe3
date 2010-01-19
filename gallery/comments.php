@@ -56,10 +56,13 @@
 		echo "</div>";
 
 		echo "<ul class='Thread'>";
-		if ($q->NumRows()) {
-			$q->NextResult();
+		$comments = $q->NumRows();
+		if ($comments) {
+			if (!$from) {
+				$q->NextResult();
+			}
 
-			for ($i = 1; $i < $q->NumRows(); $i++) {
+			for ($i = ($from ? 1 : 0); $i < $comments; $i++) {
 				$q->NextResult();
 
 				$record->FillFromResult($q);
