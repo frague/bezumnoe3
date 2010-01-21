@@ -5,9 +5,9 @@
 	define("SESSION_KEY", "sdjfhk_session");
 
 	function LookInRequest($keyName) {
-		if ($_POST[$keyName]) {
+		if ($_POST[$keyName] != "") {
 			return $_POST[$keyName];
-		} elseif ($_GET[$keyName]) {
+		} elseif ($_GET[$keyName] != "") {
 			return $_GET[$keyName];
 		} else {
 			return $_COOKIE[$keyName];

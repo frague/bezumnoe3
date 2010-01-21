@@ -110,4 +110,4 @@ RewriteRule ^gallery([0-9]+)/addcomment([0-9]+)\.html$ gallery/default.php?actio
 
 RewriteRule ^img/photos/small/([0-9a-zA-Z_]+\.(jpg|gif))$ img/photos/small/index.php?img=$1 [L]
 
-
+RewriteRule ^photos/(.)$ photos/?search=$1 [L]

@@ -75,7 +75,7 @@
 							} else {
 								// Main picture uploaded
 								$maxWidth = 600;
-								$maxHeight = 1024;
+								$maxHeight = 600;
 								if ($name != $profile->Photo) {
 									// Image name has changed
 									$profile->Photo = $name;

@@ -1,0 +1,8 @@
+.UserList a {
+	font-weight:bold;
+}
+
+.UserList div {
+	font-size:70%;
+	margin-bottom:10px;
+}

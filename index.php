@@ -131,7 +131,7 @@
 								<li class="l4 Inactive"> <a href="#/tree/" class="Red">Фамильное древо</a>
 								<li> <a href="/gallery/">Фотогалерея</a>
 								<li class="l2"> <a href="/forum/">Форумы чата</a>
-								<li class="Inactive"> <a href="#/faces/">Фотки чатлан</a>
+								<li class=""> <a href="/photos/">Фотки чатлан</a>
 								<li class="l3 Inactive"> <a href="#/banned.html">&laquo;Чёрный список&raquo;</a>
 								<li class="l1 Inactive"> <a href="#/rating/">Рейтинг</a>
 							</ul>

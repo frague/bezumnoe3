@@ -333,8 +333,19 @@ JsQuote($admin)."\"]";
 		return $s;
 	}
 
+	function InfoLink($id, $text) {
+		return "<a href=\"javascript:void(0)\" onclick=\"Info(".round($id).")\">".$text."</a>";
+	}
+
 	function ToInfoLink($text = "") {
-		return "<a href=\"javascript:void(0)\" onclick=\"Info(".$this->Id.")\">".($text ? $text : $this->Login)."</a>";
+		return $this->InfoLink($this->Id, $text ? $text : $this->Login);
+	}
+
+	function BannedInfo($admin = "") {
+		if (!$this->IsBanned()) {
+			return;
+		}
+		return ($this->BanReason ? "Формулировка - &laquo;".$this->BanReason."&raquo;. " : "").($this->BannedTill ? "Бан до ".PrintableShortDate($this->BannedTill) : "Бессрочный бан").".".($admin ? " Админ - ".$this->InfoLink($this->BannedBy, $admin)."." : "");
 	}
 
 	// SQL
@@ -557,6 +568,20 @@ t1.".self::LOGIN."
 		##CONDITION##";
 	}
 
+	function BannedExpression() {
+		return "SELECT 
+	t1.".self::USER_ID.",
+	t1.".self::LOGIN.",
+	t1.".self::BANNED_TILL.",
+	t1.".self::BAN_REASON.",
+	t1.".self::BANNED_BY.",
+	t2.".self::LOGIN." AS ADMIN
+FROM 
+	".$this->table." AS t1 
+	LEFT JOIN ".$this->table." AS t2 ON t2.".User::USER_ID."=t1.".User::BANNED_BY."
+WHERE
+	##CONDITION##";
+	}
 }
 
 ?>

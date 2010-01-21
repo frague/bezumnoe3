@@ -84,7 +84,7 @@
 	$q = $comment->GetByIndex(
 		$record->ForumId, 
 		$access,
-		$record->Index, 
+		$record->Index."_", 
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 
@@ -95,10 +95,7 @@
 	echo "<ul class='Thread'>";
 	$comments = $q->NumRows();
 	if ($comments > 0) {
-		if (!$from) {
-			$q->NextResult();
-		}
-		for ($i = ($from ? 0 : 1); $i < $comments; $i++) {
+		for ($i = 0; $i < $comments; $i++) {
 			$q->NextResult();
 
 			$record->FillFromResult($q);

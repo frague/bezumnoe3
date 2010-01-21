@@ -166,6 +166,21 @@ JsQuote($this->LastVisit)."\"]";
 		$this->FillByCondition("t1.".self::USER_ID."=".SqlQuote($id));
 	}
 
+	function GetPhotos($search = "'") {
+		$limit = 21;
+		if ($search == "'") {
+			$search = "1=1";
+			$limit = 20;
+		} else {
+			$search = substr(trim($search), 0, 20);
+			$search = "t2.".User::LOGIN." LIKE '".SqlQuote((strlen($search) > 1 ? "%" : "").$search."%")."'";
+		}
+		return $this->GetByCondition(
+			$search,
+			$this->ReadPhotosExpression().($limit ? " LIMIT ".$limit : "")
+		);
+	}
+
 	// Overloaded methods
 	function ReadExpression() {
 		return "SELECT 
@@ -189,6 +204,23 @@ FROM
 	".$this->table." AS t1 
 WHERE
 	##CONDITION##";
+	}
+
+	function ReadPhotosExpression() {
+		return "SELECT 
+	t1.".self::USER_ID.",
+	t1.".self::PHOTO.",
+	t1.".self::PHOTO_UPLOAD_DATE.",
+	t2.".User::LOGIN."
+FROM 
+	".$this->table." AS t1 
+	JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
+WHERE
+	##CONDITION##
+ORDER BY 
+	(".self::PHOTO." IS NOT NULL) DESC,
+	".self::PHOTO_UPLOAD_DATE." DESC,
+	t2.".User::LOGIN." ASC";
 	}
 
 	function CreateExpression() {

@@ -87,5 +87,31 @@
 		}
 	}
 
+	// Showing Profile Photo
+
+	function ProfilePhoto($profile) {
+	  global $root, $PathToPhotos, $PathToThumbs, $ServerPathToPhotos, $ServerPathToThumbs;
+
+		if ($profile->Photo) {
+			if (file_exists($root.$ServerPathToThumbs.$profile->Photo)) {
+				$size = @GetImageSize($root.$ServerPathToThumbs.$profile->Photo);
+				return "<a href='".$PathToPhotos.$profile->Photo."'><img src='".$PathToThumbs.$profile->Photo."' ".$size[3]." class='Photo'></a>";
+			} else {
+				$lnk = "";
+				$w = "width=\"300\"";
+				if (file_exists($root.$ServerPathToPhotos.$profile->Photo)) {
+					$size = @GetImageSize($root.$ServerPathToPhotos.$profile->Photo);
+					if ($size[0] <= 300) {
+						$w = $size[3];
+					} else {
+						$lnk = "<a href='".$PathToPhotos.$profile->Photo."' target='_blank'>";
+					}
+				}
+				return $lnk."<img src='".$PathToPhotos.$profile->Photo."' ".$w." class='Photo'>".($lnk ? "</a>" : "");
+			}
+		}
+		return "";
+	}
+
 
 ?>

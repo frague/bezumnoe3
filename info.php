@@ -57,7 +57,9 @@
 					<div class="Small">В чате с <strong><?php echo PrintableDate($profile->Registered) ?></strong>, последний раз <strong><? echo PrintableDate($profile->LastVisit) ?></strong></div>
 		<?php
 
-				if ($profile->Photo) {
+				echo ProfilePhoto($profile);
+
+				/*if ($profile->Photo) {
 					if (file_exists($ServerPathToThumbs.$profile->Photo)) {
 						$size = @GetImageSize($ServerPathToThumbs.$profile->Photo);
 						echo "<a href='".$PathToPhotos.$profile->Photo."'><img src='".$PathToThumbs.$profile->Photo."' ".$size[3]." class='Photo'></a>";
@@ -74,7 +76,7 @@
 						}
 						echo $lnk."<img src='".$PathToPhotos.$profile->Photo."' ".$w." class='Photo'>".($lnk ? "</a>" : "");
 					}
-				}
+				}*/
 
 				ProfileLine("Статус", "<font color='".$person->Status->Color."'>".$person->Status->Title."</font>");
 				if ($person->User->IsBanned()) {

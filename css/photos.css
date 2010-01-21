@@ -1,0 +1,36 @@
+h4 {
+	clear:both;
+	margin:16 0 0 0;
+}
+
+.UserList b a {
+	color:orangered;
+}
+
+.UserList div {
+	font-size:70%;
+	margin-bottom:10px;
+}
+
+img.Photo {
+	border:solid 6px #808080;
+	background-color:#808080;
+
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+.Centered {
+	padding-top:16px;
+}
+
+.Centered div {
+	margin-bottom:10px;
+}
+
+#Symbols a {
+	display:block;
+	float:left;
+	margin-right:4px;
+}
