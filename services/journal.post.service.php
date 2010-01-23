@@ -62,6 +62,14 @@
 					$settings = new JournalSettings();
 					$settings->GetByForumId($forum->Id);
 
+					if ($settings->IsEmpty()) {
+						// Journal settings
+						$journalSettings = new JournalSettings();
+						$journalSettings->UserId = $user->User->Id;
+						$journalSettings->Alias = $user->User->Guid;
+						$journalSettings->Save();
+					}
+
 					if ($record->IsPublic() && !$settings->IsEmpty() && $settings->Alias) {
 						$notify = new MessageNotification($journal, $record, $settings->Alias);
 						$notify->Save();
