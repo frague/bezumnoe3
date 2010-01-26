@@ -1,4 +1,4 @@
-php_flag display_errors on
+php_flag display_errors off
 XBitHack off
 DirectoryIndex index.html index.htm index.php default.php index.phtml default.phtml
 Options -Indexes

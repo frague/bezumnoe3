@@ -12,6 +12,7 @@ class ScheduledTask extends EntityBase {
 	const PARAMETER2 = "PARAMETER2";
 	const PARAMETER3 = "PARAMETER3";
 	const TRANSACTION_GUID = "TRANSACTION_GUID";
+	const IS_ACTIVE = "IS_ACTIVE";
 
 	const TYPE_UNBAN			= "unban";
 	const TYPE_STATUS			= "status";
@@ -27,6 +28,7 @@ class ScheduledTask extends EntityBase {
 	var $Parameter2;
 	var $Parameter3;
 	var $TransactionGuid;
+	var $IsActive;
 
 	function ScheduledTask() {
 		$this->table = self::table;
@@ -45,6 +47,7 @@ class ScheduledTask extends EntityBase {
 		$this->Parameter2 = "";
 		$this->Parameter3 = "";
 		$this->TransactionGuid = MakeGuid(10);
+		$this->IsActive = 1;
 	}
 
 	function IsPeriodical() {
@@ -60,12 +63,21 @@ class ScheduledTask extends EntityBase {
 		$this->Parameter2 = $result->Get(self::PARAMETER2);
 		$this->Parameter3 = $result->Get(self::PARAMETER3);
 		$this->TransactionGuid = $result->Get(self::TRANSACTION_GUID);
+		$this->IsActive = Boolean($result->Get(self::IS_ACTIVE));
+	}
+
+	function FillFromHash($hash) {
+		$this->Id = round($hash[self::SCHEDULED_TASK_ID]);
+		$this->Type = $hash[self::TYPE];
+		$this->ExecutionDate = $hash[self::EXECUTION_DATE];
+		$this->Periodicity = $hash[self::PERIODICITY];
+		$this->IsActive = Boolean($hash[self::IS_ACTIVE]);
 	}
 
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
-			self::EXECUTION_DATE."<='".NowDateTime()."' AND ".self::TRANSACTION_GUID." IS NULL",
+			self::EXECUTION_DATE."<='".NowDateTime()."' AND ".self::TRANSACTION_GUID." IS NULL AND ".self::IS_ACTIVE."=1",
 			$this->LockExpression()
 		);
 		return $q->AffectedRows();
@@ -111,6 +123,7 @@ class ScheduledTask extends EntityBase {
 		$s.= "<li>".self::PARAMETER2.": ".$this->Parameter2."</li>\n";
 		$s.= "<li>".self::PARAMETER3.": ".$this->Parameter3."</li>\n";
 		$s.= "<li>".self::TRANSACTION_GUID.": ".$this->TransactionGuid."</li>\n";
+		$s.= "<li>".self::IS_ACTIVE.": ".$this->IsActive."</li>\n";
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>Scheduled Task is not saved!</b>";
 		}
@@ -119,17 +132,15 @@ class ScheduledTask extends EntityBase {
 		return $s;
 	}
 
-/*	function ToJs() {
+	function ToJs() {
 		$s = "new stdto(".
-round($this->Id).",".
-round($id).",\"".
-JsQuote($name)."\",".
-Boolean($isIncoming).",\"".
-JsQuote($this->Date)."\",\"".
-JsQuote($this->Message)."\",".
-Boolean($this->IsRead).")";
+round($this->Id).",\"".
+JsQuote($this->Type)."\",\"".
+JsQuote($this->ExecutionDate)."\",".
+round($this->Periodicity).",".
+Boolean($this->IsActive).")";
 		return $s;
-	}*/
+	}
 
 	// SQL
 	function ReadExpression() {
@@ -141,7 +152,8 @@ Boolean($this->IsRead).")";
 	t1.".self::PARAMETER1.",
 	t1.".self::PARAMETER2.",
 	t1.".self::PARAMETER3.",
-	t1.".self::TRANSACTION_GUID."
+	t1.".self::TRANSACTION_GUID.",
+	t1.".self::IS_ACTIVE."
 FROM 
 	".$this->table." AS t1 
 WHERE
@@ -156,7 +168,8 @@ WHERE
 	".self::PARAMETER1.", 
 	".self::PARAMETER2.", 
 	".self::PARAMETER3.", 
-	".self::TRANSACTION_GUID." 
+	".self::TRANSACTION_GUID.",
+	".self::IS_ACTIVE." 
 ) VALUES (
 	'".SqlQuote($this->Type)."', 
 	'".SqlQuote($this->ExecutionDate)."', 
@@ -164,7 +177,8 @@ WHERE
 	'".SqlQuote($this->Parameter1)."', 
 	'".SqlQuote($this->Parameter2)."', 
 	'".SqlQuote($this->Parameter3)."', 
-	".Nullable($this->TransactionGuid)."
+	".Nullable($this->TransactionGuid).",
+	".Boolean($this->IsActive)."
 )";
 	}
 
@@ -176,7 +190,8 @@ WHERE
 ".self::PARAMETER1."='".SqlQuote($this->Parameter1)."', 
 ".self::PARAMETER2."='".SqlQuote($this->Parameter2)."', 
 ".self::PARAMETER3."='".SqlQuote($this->Parameter3)."', 
-".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid)."
+".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid).",
+".self::IS_ACTIVE."=".Boolean($this->IsActive)."
 WHERE 
 	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
 		return $result;

@@ -1,4 +1,4 @@
-//4.5
+//4.6
 /*
 	Contains all global script settings, constants and variables
 */
@@ -92,24 +92,34 @@ function CreateElement(tag, name) {
 	return result;
 };
 
-function CreateRadio(name, checked) {
+function CreateBitInput(name, checked, is_radio) {
 	var result;
+	var type = (is_radio ? "radio" : "checkbox");
+
 	if (d.all) {
 		try {
-			result = d.createElement("<input type=\"radio\" name=\"" + name + "\"" + (checked ? " checked" : "") + ">");
+			result = d.createElement("<input type=\"" + type + "\" name=\"" + name + "\"" + (checked ? " checked" : "") + ">");
 		} 
 		catch(e) {
 		}
 	}
 	if (!result) {
 		result = d.createElement("input");
-		result.type = "radio";
+		result.type = type;
 		result.name = name;
 		if (checked) {
 			result.setAttribute("checked", "true");
 		}
 	}
 	return result;
+};
+
+function CreateRadio(name, checked) {
+	return CreateBitInput(name, checked, 1);
+};
+
+function CreateCheckBox(name, checked) {
+	return CreateBitInput(name, checked, 0);
 };
 
 function MakeButtonLink(target, text, obj, css, alt) {

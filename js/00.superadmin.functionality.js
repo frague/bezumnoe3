@@ -1,4 +1,4 @@
-//2.0
+//3.0
 /*
 	SuperAdmin only functionality.
 	Will be loaded only if server rights checking is > adminRights.
@@ -28,7 +28,8 @@ var spoilerNames = [
 	"Лог сообщений чата", 
 	"Персональные статусы",
 	"Комнаты",
-	"Боты"
+	"Боты",
+	"Задачи по расписанию"
 ];
 
 var spoilerInits = [
@@ -39,7 +40,8 @@ var spoilerInits = [
 	function(tab) {new MessagesLog().LoadTemplate(tab)},
 	function(tab) {new Statuses().LoadTemplate(tab)},
 	function(tab) {},
-	function(tab) {}
+	function(tab) {},
+	function(tab) {new ScheduledTasks().LoadTemplate(tab)}
 ];
 
 

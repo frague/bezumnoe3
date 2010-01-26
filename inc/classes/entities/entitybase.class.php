@@ -69,7 +69,7 @@ abstract class EntityBase {
 		}
 		return $this->GetByCondition(
 			$condition.
-			($this->Order ? "ORDER BY ".$this->Order : "").
+			($this->Order ? " ORDER BY ".$this->Order : "").
 			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
 			$expression
 		);
