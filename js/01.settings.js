@@ -1,4 +1,4 @@
-//4.6
+//4.7
 /*
 	Contains all global script settings, constants and variables
 */
@@ -120,6 +120,12 @@ function CreateRadio(name, checked) {
 
 function CreateCheckBox(name, checked) {
 	return CreateBitInput(name, checked, 0);
+};
+
+function CreateBooleanImage(state) {
+	var img = new Image();
+	img.src = state ? "/img/icons/done.gif" : "/img/delete_icon.gif";
+	return img;
 };
 
 function MakeButtonLink(target, text, obj, css, alt) {

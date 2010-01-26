@@ -184,6 +184,14 @@ WHERE
 
 	function UpdateExpression() {
 		$result = "UPDATE ".$this->table." SET 
+".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
+".self::PERIODICITY."=".round($this->Periodicity).", 
+".self::IS_ACTIVE."=".Boolean($this->IsActive)."
+WHERE 
+	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
+		return $result;
+/*
+		$result = "UPDATE ".$this->table." SET 
 ".self::TYPE."='".SqlQuote($this->Type)."', 
 ".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
 ".self::PERIODICITY."=".round($this->Periodicity).", 
@@ -195,6 +203,9 @@ WHERE
 WHERE 
 	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
 		return $result;
+
+*/
+	
 	}
 
 	function LockExpression() {

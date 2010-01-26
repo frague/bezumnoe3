@@ -1,4 +1,4 @@
-//3.5
+//3.6
 /*
 	DTOs with edit functionality
 */
@@ -53,7 +53,11 @@ EditableDTO.prototype.Gather = function() {
 	for (var i = 0, l = this.fields.length; i < l; i++) {
 		var input = this[this.fields[i] + "Input"];
 		if (input) {
-			this[this.fields[i]] = input.value;
+			if (input.type == "checkbox" || input.type == "radio") {
+				this[this.fields[i]] = input.checked ? 1 : "";
+			} else {
+				this[this.fields[i]] = input.value;
+			}
 		}
 	}
 };

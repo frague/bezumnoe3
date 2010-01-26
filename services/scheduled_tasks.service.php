@@ -25,6 +25,10 @@
 				$task->Id = $id;
 				$task->Retrieve();
 				if (!$task->IsEmpty()) {
+					$task->Delete();
+					echo JsAlert("Задача удалена.");
+				} else {
+					echo JsAlert("Задача не найдена!", 1);
 				}
 			}
 			break;

@@ -51,7 +51,7 @@ stdto.prototype.ToShowView = function(index, obj) {
 
 	var td1 = d.createElement("td");
 		td1.className = "Centered";
-		td1.innerHTML = this.IsActive;
+		td1.appendChild(CreateBooleanImage(this.IsActive));
 	tr.appendChild(td1);
 
 	var td2 = d.createElement("td");
