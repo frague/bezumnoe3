@@ -101,6 +101,7 @@
 				<li> <a href="/forum/" target="forum">Форум</a>
 				<li> <a href="/journal/" target="journal">Журналы</a>
 				<li> <a href="/gallery/" target="gallery">Фотогалерея</a>
+				<li> <a href="javascript:void(0);" onclick="MI('quit')" class="Red">Выход</a>
 			</ul>
 			<div id="MenuContainer"></div>
 		</div>

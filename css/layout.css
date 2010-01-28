@@ -498,3 +498,7 @@ ul.StatusLinks li {
 ul.StatusLinks li a {
 	color:gold;
 }
+
+ul.StatusLinks li a.Red {
+	color:red;
+}
