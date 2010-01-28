@@ -186,6 +186,7 @@ WHERE
 		$result = "UPDATE ".$this->table." SET 
 ".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
 ".self::PERIODICITY."=".round($this->Periodicity).", 
+".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid).",
 ".self::IS_ACTIVE."=".Boolean($this->IsActive)."
 WHERE 
 	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);

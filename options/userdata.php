@@ -109,6 +109,7 @@
 	<div id="BanDetails" style="display:none">
 		<h4>Причина бана:</h4>
 		<textarea name="BAN_REASON" id="BAN_REASON" class="Wide" rows="3"></textarea>
+		<p class="Note">Будьте предельно корректны в формулировке причины бана. Не допускайте оскорблений в адрес пользователя.</p>
 
 		<h4>Срок бана:</h4>
 		<input name="BANNED_TILL" id="BANNED_TILL" />
