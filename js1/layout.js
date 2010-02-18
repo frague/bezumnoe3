@@ -54,7 +54,7 @@ var LayoutConfigs = [
 
 		textLinesFrame.Replace(-1, -1, -1, messagesFrame.height - 40);
 
-		formFrame.Replace(messagesFrame.x, winSize.height - 70, winSize.width - 20 - usersFrame.x - usersFrame.width, 60);
+		formFrame.Replace(messagesFrame.x, winSize.height - 110, winSize.width - 20 - usersFrame.x - usersFrame.width, 100);
 	},
 	function() {
 		statusFrame.Replace(10, 10, winSize.width - 20, 28);
@@ -63,12 +63,12 @@ var LayoutConfigs = [
 			10,
 			statusFrame.y + statusFrame.height + 10,
 			winSize.width - usersFrame.width - 28,
-			winSize.height - 80 - formFrame.height);
+			winSize.height - 70 - formFrame.height);
 
 		textLinesFrame.Replace(-1, -1, -1, messagesFrame.height - 40);
 
 		usersFrame.Replace(winSize.width - 160, messagesFrame.y, 150, winSize.height - statusFrame.height - 30);
-		formFrame.Replace(messagesFrame.x, winSize.height - 70, winSize.width - usersFrame.width - 30, 60);
+		formFrame.Replace(messagesFrame.x, winSize.height - 110, winSize.width - usersFrame.width - 30, 100);
 	}
 ];
 
