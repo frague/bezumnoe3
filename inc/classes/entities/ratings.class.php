@@ -41,6 +41,7 @@ class Rating extends EntityBase {
 	}
 
 
+	function __tostring() {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::RATING_ID.": ".$this->Id."</li>\n";
 		$s.= "<li>".self::USER_ID.": ".$this->UserId."</li>\n";

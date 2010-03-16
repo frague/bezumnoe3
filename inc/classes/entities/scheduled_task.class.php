@@ -17,6 +17,7 @@ class ScheduledTask extends EntityBase {
 	const TYPE_UNBAN			= "unban";
 	const TYPE_STATUS			= "status";
 	const TYPE_EXPIRED_SESSIONS	= "expired_sessions";
+	const TYPE_RATINGS			= "ratings";
 	
 	const SCHEDULER_LOGIN = "по расписанию";
 
@@ -267,6 +268,13 @@ class CheckSumScheduledTask extends UserScheduledTask {
 	}
 }
 
+class UpdateRatingsScheduledTask extends UserScheduledTask {
+	function UpdateRatingsScheduledTask($userId, $executionDate) {
+		parent::__construct($userId, $executionDate);
+		$this->Type = ScheduledTask::TYPE_RATINGS;
+	}
+}
+
 /* ------------------ Actions ------------------ */
 
 abstract class BaseAction {
@@ -354,6 +362,15 @@ class ExpiredSessionsAction extends BaseAction {
 				$message->Save();
 			}
 		}
+		return true;
+	}
+}
+
+// Update ratings
+class UpdateRatingAction extends BaseAction {
+	function Execute() {
+	  global $db;
+
 		return true;
 	}
 }
