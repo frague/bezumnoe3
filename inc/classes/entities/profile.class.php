@@ -20,6 +20,8 @@ class Profile extends EntityBase {
 	const REGISTERED = "REGISTERED";
 	const LAST_VISIT = "LAST_VISIT";
 	const GENERATION = "GENERATION";
+	const RATING = "RATING";
+	const LAST_RATING = "LAST_RATING";
 
 	// Properties
 	var $UserId;
@@ -37,6 +39,8 @@ class Profile extends EntityBase {
 	var $Registered;
 	var $LastVisit;
 	var $Generation;
+	var $Rating;
+	var $LastRating;
 
 	var $FieldsNames = array(
 		"Èìÿ",
@@ -71,6 +75,8 @@ class Profile extends EntityBase {
 		$this->Registered = NowDateTime();
 		$this->LastVisit = NowDateTime();
 		$this->Generation = "";
+		$this->Rating = 0;
+		$this->LastRating = 0;
 	}
 
 	function FillFromResult($result) {
@@ -90,6 +96,8 @@ class Profile extends EntityBase {
 		$this->Registered = $result->Get(self::REGISTERED);
 		$this->LastVisit = $result->Get(self::LAST_VISIT);
 		$this->Generation = $result->Get(self::GENERATION);
+		$this->Rating = $result->Get(self::RATING);
+		$this->LastRating = $result->Get(self::LAST_RATING);
 	}
 
 	function FillFromHash($hash) {
@@ -120,6 +128,8 @@ class Profile extends EntityBase {
 		$s.= "<li>".self::REGISTERED.": ".$this->Registered."</li>\n";
 		$s.= "<li>".self::LAST_VISIT.": ".$this->LastVisit."</li>\n";
 		$s.= "<li>".self::GENERATION.": ".$this->Generation."</li>\n";
+		$s.= "<li>".self::RATING.": ".$this->Rating."</li>\n";
+		$s.= "<li>".self::LAST_RATING.": ".$this->LastRating."</li>\n";
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>Profile is not saved!</b>";
 		}
@@ -199,7 +209,9 @@ JsQuote($this->LastVisit)."\"]";
 	t1.".self::ABOUT.",
 	t1.".self::REGISTERED.",
 	t1.".self::LAST_VISIT.",
-	t1.".self::GENERATION."
+	t1.".self::GENERATION.",
+	t1.".self::RATING.",
+	t1.".self::LAST_RATING."
 FROM 
 	".$this->table." AS t1 
 WHERE
@@ -239,7 +251,9 @@ ORDER BY
 ".self::ABOUT.", 
 ".self::REGISTERED.", 
 ".self::LAST_VISIT.",
-".self::GENERATION."
+".self::GENERATION.",
+".self::RATING.",
+".self::LAST_RATING."
 )
 VALUES
 ('".SqlQuote($this->UserId)."', 
@@ -257,6 +271,8 @@ VALUES
 '".SqlQuote($this->Registered)."', 
 '".SqlQuote($this->LastVisit)."',
 ".(strlen($this->Generation) > 0 ? $this->Generation : "NULL")."
+".round($this->Rating).",
+".round($this->LastRating)."
 )";
 	}
 
@@ -276,7 +292,9 @@ VALUES
 ".self::ABOUT."='".SqlQuote($this->About)."', 
 ".self::REGISTERED."='".SqlQuote($this->Registered)."', 
 ".self::LAST_VISIT."='".SqlQuote($this->LastVisit)."', 
-".self::GENERATION."=".(strlen($this->Generation) > 0 ? $this->Generation : "NULL")." 
+".self::GENERATION."=".(strlen($this->Generation) > 0 ? $this->Generation : "NULL").",
+".self::RATING."=".round($this->Rating).",
+".self::LAST_RATING."=".round($this->LastRating)."
 WHERE 
 	".self::PROFILE_ID."=".SqlQuote($this->Id);
 		return $result;

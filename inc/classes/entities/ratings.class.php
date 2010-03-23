@@ -9,6 +9,8 @@ class Rating extends EntityBase {
 	const RATING = "RATING";
 	const DATE = "DATE";
 
+	const SUM_RATING = "SUM_RATING";
+
 	// Properties
 	var $RatingId;
 	var $UserId;
@@ -26,7 +28,7 @@ class Rating extends EntityBase {
 		$this->RatingId = -1;
 		$this->$UserId = -1;
 		$this->$Rating = 0;
-		$this->$Date = NowDateTime();
+		$this->$Date = NowDate();
 	}
 
 	function IsFull() {
@@ -85,7 +87,11 @@ VALUES
 	}
 
 	function DeleteExpression() {
-		return "";
+		return "DELETE FROM ".$this->table." WHERE ##CONDITION##";
+	}
+
+	function UpdateRatingsExpression() {
+		return "UPDATE ".User::table." WHERE ##CONDITION##";
 	}
 }
 
