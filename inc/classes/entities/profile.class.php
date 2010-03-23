@@ -304,6 +304,10 @@ WHERE
 		return "DELETE FROM ".$this->table." WHERE ".self::PROFILE_ID."=".SqlQuote($this->Id);
 	}
 
+	public static function PushRatingsExpression() {
+		return "UPDATE ".Profile::table." SET ".Profile::LAST_RATING."=".Profile::RATING;
+	}
+
 	/* Static methods */
 
 	public static function MakeLink($userId = 0, $text = "Инфо") {
