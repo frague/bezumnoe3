@@ -1,10 +1,10 @@
-//4.0
+//4.1
 /*
 	Scheduled Tasks management
 */
 
 function ScheduledTasks() {
-	this.fields = ["SCHEDULED_TASK_ID", "TYPE", "EXECUTION_DATE", "PERIODICITY", "IS_ACTIVE", "status", "unban", "expired_sessions"];
+	this.fields = ["SCHEDULED_TASK_ID", "TYPE", "EXECUTION_DATE", "PERIODICITY", "IS_ACTIVE", "status", "unban", "expired_sessions", "ratings"];
 	this.ServicePath = servicesPath + "scheduled_tasks.service.php";
 	this.Template = "scheduled_tasks";
 	this.ClassName = "ScheduledTasks";
@@ -35,6 +35,7 @@ ScheduledTasks.prototype.TemplateLoaded = function(req) {
 	BindEnterTo(this.Inputs["status"], this.Inputs["RefreshScheduledTasks"]);
 	BindEnterTo(this.Inputs["unban"], this.Inputs["RefreshScheduledTasks"]);
 	BindEnterTo(this.Inputs["expired_sessions"], this.Inputs["RefreshScheduledTasks"]);
+	BindEnterTo(this.Inputs["ratings"], this.Inputs["RefreshScheduledTasks"]);
 };
 
 /* Status Data Transfer Object */

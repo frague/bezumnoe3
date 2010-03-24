@@ -35,7 +35,7 @@
 	}
 
 	
-	$types = array(ScheduledTask::TYPE_STATUS, ScheduledTask::TYPE_UNBAN, ScheduledTask::TYPE_EXPIRED_SESSIONS);
+	$types = array(ScheduledTask::TYPE_STATUS, ScheduledTask::TYPE_UNBAN, ScheduledTask::TYPE_EXPIRED_SESSIONS, ScheduledTask::TYPE_RATINGS);
 	$condition = "";
 	for ($i = 0; $i < sizeof($types); $i++) {
 		if ($_POST[$types[$i]]) {

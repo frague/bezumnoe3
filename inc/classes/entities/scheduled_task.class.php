@@ -369,8 +369,8 @@ class ExpiredSessionsAction extends BaseAction {
 // Update ratings
 class UpdateRatingAction extends BaseAction {
 	function Execute() {
-	  global $db;
 
+		Rating::UpdateRatings();
 		return true;
 	}
 }

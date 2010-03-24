@@ -15,7 +15,8 @@
 			<input type="checkbox" id="unban" name="unban" checked> <label for="unban">бан-амнистия</label>
 			</td>
 		<td width="50%">
-			<input type="checkbox" id="expired_sessions" name="expired_sessions" checked> <label for="expired_sessions">истекшие сесии</label>
+			<input type="checkbox" id="expired_sessions" name="expired_sessions" checked> <label for="expired_sessions">истекшие сесии</label><br />
+			<input type="checkbox" id="ratings" name="ratings" checked> <label for="ratings">обновление рейтинга</label>
 			</td></tr></table>
 
 <ul class="Links">
@@ -23,4 +24,4 @@
 </ul>
 
 <div id="Pager"></div>
-<table cellpadding="2" cellspacing="0" id="ScheduledTasksGrid" class="Grid"><tbody><tr><th style="width:10px">Статус</th><th>Задача</th><th style="width:150px">Дата исполнения</th><th style="width:20px">Период (сек.)</th><th style="width:20px">Операции</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="ScheduledTasksGrid" class="Grid"><tbody><tr><th style="width:10px">Статус</th><th>Задача</th><th style="width:150px">Дата исполнения</th><th style="width:20px">Период (мин.)</th><th style="width:20px">Операции</th></tr></table>

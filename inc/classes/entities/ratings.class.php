@@ -89,6 +89,7 @@ VALUES
 		return "DELETE FROM ".$this->table." WHERE ##CONDITION##";
 	}
 
+	// Sums all daily user's ratings
 	public static function UpdateRatingsExpression($dat) {
 		return "UPDATE ".Profile::table." t1, ".Rating::table." t2
 SET
@@ -99,18 +100,32 @@ SET
 		)";
 	}
 
+	// Reduces ratings that didn't changed
 	public static function ReduceRatingsExpression() {
 		return "UPDATE ".Profile::table."
 SET ".Profile::RATING."=(CASE WHEN ".Profile::RATING."<10 THEN 0 ELSE ".Profile::RATING."-10 END)
 WHERE ".Profile::RATING."=".Profile::LAST_RATING;
 	}
 
+	// Calcultes all user's phrazes and add 0.1 rating points for each
+	public static function CountTodayMessagesExpression($dat) {
+		return "UPDATE ".Profile::table." t1 JOIN (
+	SELECT ".Message::USER_ID.", ROUND(COUNT(1)/10) AS SAID 
+	FROM ".Message::table." 
+	WHERE ".Message::DATE." LIKE '".$dat."%'
+	GROUP BY ".Message::USER_ID.") t2 ON t1.".Profile::USER_ID." = t2.".Message::USER_ID."
+SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.SAID";
+	}
+
+	// Updates all user ratings
 	public static function UpdateRatings() {
 	  global $db;
 
 		$d = NowDate();
 		
 		$db->Query(Profile::PushRatingsExpression());
+
+		$db->Query(Rating::CountTodayMessagesExpression($d));
 		$db->Query(Rating::UpdateRatingsExpression($d));
 		$db->Query(Rating::ReduceRatingsExpression());
 		$r = new Rating(0, 0);
