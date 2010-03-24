@@ -26,10 +26,10 @@ class Rating extends EntityBase {
 	}
 
 	function Clear() {
-		$this->$UserId = -1;
-		$this->$Rating = 0;
-		$this->$Date = NowDate();
-		$this->$Ip = "";
+		$this->UserId = -1;
+		$this->Rating = 0;
+		$this->Date = NowDate();
+		$this->Ip = "";
 	}
 
 	function IsFull() {
@@ -37,10 +37,10 @@ class Rating extends EntityBase {
 	}
 
 	function FillFromResult($result) {
-		$this->$UserId = $result->Get(self::USER_ID);
-		$this->$Rating = $result->Get(self::RATING);
-		$this->$Date = $result->Get(self::DATE);
-		$this->$Ip = $result->Get(self::IP);
+		$this->UserId = $result->Get(self::USER_ID);
+		$this->Rating = $result->Get(self::RATING);
+		$this->Date = $result->Get(self::DATE);
+		$this->Ip = $result->Get(self::IP);
 	}
 
 	function __tostring() {
@@ -89,21 +89,32 @@ VALUES
 		return "DELETE FROM ".$this->table." WHERE ##CONDITION##";
 	}
 
-	public static function UpdateRatingsExpression() {
-		$d = NowDate();
+	public static function UpdateRatingsExpression($dat) {
 		return "UPDATE ".Profile::table." t1, ".Rating::table." t2
 SET
 	t1.".Profile::RATING." = t1.".Profile::RATING." + (
 			SELECT SUM(t3.".Rating::RATING.") 
 			FROM ".Rating::table." t3
-			WHERE t3.".Rating::DATE."<'".$d."' AND t3.".Rating::USER_ID."=t1.".Profile::USER_ID."
+			WHERE t3.".Rating::DATE."<'".$dat."' AND t3.".Rating::USER_ID."=t1.".Profile::USER_ID."
 		)";
+	}
+
+	public static function ReduceRatingsExpression() {
+		return "UPDATE ".Profile::table."
+SET ".Profile::RATING."=(CASE WHEN ".Profile::RATING."<10 THEN 0 ELSE ".Profile::RATING."-10 END)
+WHERE ".Profile::RATING."=".Profile::LAST_RATING;
 	}
 
 	public static function UpdateRatings() {
 	  global $db;
+
+		$d = NowDate();
 		
 		$db->Query(Profile::PushRatingsExpression());
+		$db->Query(Rating::UpdateRatingsExpression($d));
+		$db->Query(Rating::ReduceRatingsExpression());
+		$r = new Rating(0, 0);
+		$r->GetByCondition(Rating::DATE."<'".$d."'", $r->DeleteExpression());
 	}
 
 }
