@@ -55,6 +55,8 @@
 				$record->SaveAsTopic();
 				echo JsAlert("Сообщение добавлено.");
 
+				TopicRating($user->User->Id);
+
 				if ($forum->IsJournal()) {
 					$journal = new Journal($forum->Id);
 					$journal->Title = $forum->Title;
