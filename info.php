@@ -26,6 +26,8 @@
 		} else {
 			$profile = new Profile($person->User->Id);
 			$profile->Retrieve();
+
+			InfoRating($person->User->Id);
 		}
 	}
 
