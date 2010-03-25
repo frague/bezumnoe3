@@ -65,7 +65,7 @@
 		die;
 	}
 
-	//JournalRating($journal->Id);
+	JournalRating($journal->Id);
 
 
 	// Form dates condition

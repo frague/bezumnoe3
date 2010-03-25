@@ -4,7 +4,7 @@ class Rating extends EntityBase {
 	// Constants
 	const table = "ratings";
 
-	const USER_ID = "USER_ID";
+	const IDS = "IDS";
 	const TYPE = "TYPE";
 	const RATING = "RATING";
 	const DATE = "DATE";
@@ -16,23 +16,23 @@ class Rating extends EntityBase {
 	const TYPE_JOURNAL = "journal";
 
 	// Properties
-	var $UserId;
+	var $Ids;
 	var $Type;
 	var $Rating;
 	var $Date;
 	var $Ip;
 
-	function Rating($userId, $rating, $type = self::TYPE_PROFILE) {
+	function Rating($id, $rating, $type = self::TYPE_PROFILE) {
 		$this->table = self::table;
 		$this->Clear();
 
-		$this->UserId = round($userId);
+		$this->Ids = round($id);
 		$this->Rating = $rating;
 		$this->Type = $type;
 	}
 
 	function Clear() {
-		$this->UserId = -1;
+		$this->Ids = -1;
 		$this->Type = self::TYPE_PROFILE;
 		$this->Rating = 0;
 		$this->Date = NowDate();
@@ -40,11 +40,11 @@ class Rating extends EntityBase {
 	}
 
 	function IsFull() {
-		return $this->UserId > 0 && $this->Type && $this->Rating != 0;
+		return $this->Ids > 0 && $this->Type && $this->Rating != 0;
 	}
 
 	function FillFromResult($result) {
-		$this->UserId = $result->Get(self::USER_ID);
+		$this->Ids = $result->Get(self::IDS);
 		$this->Type = $result->Get(self::TYPE);
 		$this->Rating = $result->Get(self::RATING);
 		$this->Date = $result->Get(self::DATE);
@@ -53,7 +53,7 @@ class Rating extends EntityBase {
 
 	function __tostring() {
 		$s = "<ul type=square>";
-		$s.= "<li>".self::USER_ID.": ".$this->UserId."</li>\n";
+		$s.= "<li>".self::IDS.": ".$this->Ids."</li>\n";
 		$s.= "<li>".self::TYPE.": ".$this->Type."</li>\n";
 		$s.= "<li>".self::RATING.": ".$this->Rating."</li>\n";
 		$s.= "<li>".self::DATE.": ".$this->Date."</li>\n";
@@ -71,11 +71,11 @@ class Rating extends EntityBase {
 		if ($this->IsConnected() && $this->Ip) {
 			// Check duplicates
 			$q = $db->Query("SELECT 
-   ".self::USER_ID."
+   ".self::IDS."
 FROM 
   ".$this->table."
 WHERE
-  ".self::USER_ID." = ".SqlQuote($this->UserId)." AND
+  ".self::IDS." = ".SqlQuote($this->Ids)." AND
   ".self::TYPE." = '".SqlQuote($this->Type)."' AND
   ".self::IP." = '".SqlQuote($this->Ip)."' LIMIT 1");
 
@@ -91,7 +91,7 @@ WHERE
 
 	function ReadExpression() {
 		return "SELECT 
-	t1.".self::USER_ID.",
+	t1.".self::IDS.",
 	t1.".self::TYPE.",
 	t1.".self::RATING.",
 	t1.".self::DATE.",
@@ -104,14 +104,14 @@ WHERE
 
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
-(".self::USER_ID.", 
+(".self::IDS.", 
 ".self::TYPE.", 
 ".self::RATING.", 
 ".self::DATE.",
 ".self::IP."
 )
 VALUES
-(".round($this->UserId).", 
+(".round($this->Ids).", 
 '".SqlQuote($this->Type)."',
 ".round($this->Rating).",
 '".SqlQuote($this->Date)."',
@@ -136,7 +136,7 @@ SET
 			FROM ".Rating::table." t3
 			WHERE 
 				t3.".Rating::DATE."<'".$dat."' AND 
-				t3.".Rating::USER_ID."=t1.".Profile::USER_ID." AND
+				t3.".Rating::IDS."=t1.".Profile::USER_ID." AND
 				t3.".Rating::TYPE."='".Rating::TYPE_PROFILE."'
 		)";
 	}

@@ -1,12 +1,12 @@
 <?
 
-	function SaveRating($userId, $rating) {
-		$rating = new Rating($userId, $rating);
+	function SaveRating($id, $rating) {
+		$rating = new Rating($id, $rating);
 		$rating->Save();
 	}
 
-	function SaveRatingWithIp($userId, $rating, $type = Rating::TYPE_PROFILE) {
-		$rating = new Rating($userId, $rating);
+	function SaveRatingWithIp($id, $rating, $type = Rating::TYPE_PROFILE) {
+		$rating = new Rating($id, $rating);
 		$rating->Type = $type;
 		$na = new NetAddress();
 		$rating->Ip = $na->ShownIp;
@@ -16,39 +16,39 @@
 
 
 	// User banned
-	function BanRating($userId) {
-		SaveRating($userId, -100);
+	function BanRating($id) {
+		SaveRating($id, -100);
 	};
 
 	// User kicked
-	function KickRating($userId) {
-		SaveRating($userId, -50);
+	function KickRating($id) {
+		SaveRating($id, -50);
 	};
 
 	// New topic in forum/journal/gallery
-	function TopicRating($userId) {
-		SaveRating($userId, 5);
+	function TopicRating($id) {
+		SaveRating($id, 5);
 	};
 
 	// New comment in forum/journal/gallery
-	function CommentRating($userId) {
-		SaveRating($userId, 2);
+	function CommentRating($id) {
+		SaveRating($id, 2);
 	};
 
 	// Photo changing
-	function PhotoRating($userId) {
-		SaveRating($userId, 5);
+	function PhotoRating($id) {
+		SaveRating($id, 5);
 	};
 
 	// Info rating
-	function InfoRating($userId) {
-		SaveRatingWithIp($userId, 1);
+	function InfoRating($id) {
+		SaveRatingWithIp($id, 1);
 	};
 
 	// Journal rating
-	function JournalRating($userId) {
+	function JournalRating($id) {
 		// TODO: Use JournalId instead of User's
-		SaveRatingWithIp($userId, 1, Rating::TYPE_JOURNAL);
+		SaveRatingWithIp($id, 1, Rating::TYPE_JOURNAL);
 	};
 
 ?>

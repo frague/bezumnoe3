@@ -53,6 +53,8 @@
 		die;
 	}
 
+	JournalRating($journal->Id);
+
 //	Etag removed to prevent authorized session caching
 //	AddEtagHeader(strtotime($record->UpdateDate));
 
