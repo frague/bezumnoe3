@@ -5,6 +5,14 @@
 		$rating->Save();
 	}
 
+	function SaveRatingWithIp($userId, $rating, $type = Rating::TYPE_PROFILE) {
+		$rating = new Rating($userId, $rating);
+		$rating->Type = $type;
+		$na = new NetAddress();
+		$rating->Ip = $na->ShownIp;
+		$rating->Save();
+	}
+
 
 
 	// User banned
@@ -30,6 +38,17 @@
 	// Photo changing
 	function PhotoRating($userId) {
 		SaveRating($userId, 5);
+	};
+
+	// Info rating
+	function InfoRating($userId) {
+		SaveRatingWithIp($userId, 1);
+	};
+
+	// Journal rating
+	function JournalRating($userId) {
+		// TODO: Use JournalId instead of User's
+		SaveRatingWithIp($userId, 1, Rating::TYPE_JOURNAL);
 	};
 
 ?>
