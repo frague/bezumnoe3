@@ -72,6 +72,7 @@
 							if ($user->Status->Rights >= $targetStatus->Rights) {
 								$targetUser->Kick($message, $user->DisplayedName());
 								$msg = new SystemMessage($user->DisplayedName()." выгоняет из чата ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
+								KickRating($targetUser->Id);
 							} else {
 								$msg = new PrivateSystemMessage("Невозможно выгнать пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
 						   	}
@@ -99,6 +100,9 @@
 								// Scheduler
 								$task = new ScheduledTask();
 								$task->DeleteUserUnbans($targetUser->Id);
+
+								// Rating affection
+								BanRating($targetUser->Id);
 							} else {
 								$msg = new PrivateSystemMessage("Невозможно забанить пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
 							}
