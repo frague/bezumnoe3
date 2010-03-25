@@ -61,6 +61,7 @@
 	require_once $root."inc/helpers/scheduler.helper.php";
 	require_once $root."inc/helpers/rss.helper.php";
 	require_once $root."inc/helpers/debug.helper.php";
+	require_once $root."inc/helpers/rating.helper.php";
 
 	/* Config & Initialization */
 	require_once $root."inc/settings.php";
