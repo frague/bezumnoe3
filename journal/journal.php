@@ -65,6 +65,8 @@
 		die;
 	}
 
+	//JournalRating($journal->Id);
+
 
 	// Form dates condition
 	$datesCondition = "";
