@@ -128,6 +128,9 @@
 						if ($newRecord->SaveAsReplyTo($record_id)) {
 							if ($newRecord->IsTopic()) {
 								echo "newRecord='".JsQuote($newRecord->ToPrint($forum))."';";
+
+								// Rating affection
+								TopicRating($user->User->Id);
 							} else {
 								$q = $newRecord->GetAdditionalUserInfo();
 								$q->NextResult();
@@ -144,6 +147,9 @@
 									false,
 									true
 								))."';";
+
+								// Rating affection
+								CommentRating($user->User->Id);
 							}
 
 							if ($newRecord->IsPublic() && !$forum->IsProtected && !$forum->IsJournal() && !$forum->IsGallery()) {
