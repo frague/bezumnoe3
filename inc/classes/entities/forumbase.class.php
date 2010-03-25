@@ -11,6 +11,8 @@ class ForumBase extends EntityBase {
 	const IS_PROTECTED = "IS_PROTECTED";
 	const LINKED_ID = "LINKED_ID";
 	const TOTAL_COUNT = "TOTAL_COUNT";
+	const RATING = "RATING";
+	const LAST_RATING = "LAST_RATING";
 
 	const UNREAD_COUNT = "UNREAD_COUNT";
 
@@ -34,6 +36,8 @@ class ForumBase extends EntityBase {
 	var $IsProtected;
 	var $LinkedId;
 	var $TotalCount;
+	var $Rating;
+	var $LastRating;
 
 	var $SpellType = "форум";
 
@@ -57,8 +61,10 @@ class ForumBase extends EntityBase {
 		$this->Type			= "";
 		$this->Description	= "";
 		$this->IsProtected	= 0;
-		$this->LinkedId	= -1;
+		$this->LinkedId		= -1;
 		$this->TotalCount	= 0;
+		$this->Rating		= 0;
+		$this->LastRating	= 0;
 	}
 
 	function FillFromResult($result) {
@@ -69,13 +75,15 @@ class ForumBase extends EntityBase {
 		$this->IsProtected = $result->Get(self::IS_PROTECTED);
 		$this->LinkedId = $result->Get(self::LINKED_ID);
 		$this->TotalCount = $result->Get(self::TOTAL_COUNT);
+		$this->Rating = $result->Get(self::RATING);
+		$this->LastRating = $result->Get(self::LAST_RATING);
 	}
 
 	function FillFromHash($hash) {
 		$this->Title = $hash[self::TITLE];
 		$this->Description = $hash[self::DESCRIPTION];
-		$this->IsProtected = $result->Get(self::IS_PROTECTED);
-		$this->TotalCount = $result->Get(self::TOTAL_COUNT);
+		$this->IsProtected = $hash[self::IS_PROTECTED];
+		$this->TotalCount = $hash[self::TOTAL_COUNT];
 	}
 
 	// Fill first record for given user
@@ -94,6 +102,8 @@ class ForumBase extends EntityBase {
 		$s.= "<li>".self::IS_PROTECTED." = ".$this->IsProtected."</li>\n";
 		$s.= "<li>".self::LINKED_ID." = ".$this->LinkedId."</li>\n";
 		$s.= "<li>".self::TOTAL_COUNT." = ".$this->TotalCount."</li>\n";
+		$s.= "<li>".self::RATING." = ".$this->Rating."</li>\n";
+		$s.= "<li>".self::LAST_RATING." = ".$this->LastRating."</li>\n";
 
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>Forum is not saved!</b>";
@@ -244,7 +254,9 @@ $expression);
 	t1.".self::DESCRIPTION.",
 	t1.".self::IS_PROTECTED.",
 	t1.".self::LINKED_ID.",
-	t1.".self::TOTAL_COUNT."
+	t1.".self::TOTAL_COUNT.",
+	t1.".self::RATING.",
+	t1.".self::LAST_RATING."
 FROM 
 	".$this->table." AS t1 
 WHERE 
@@ -277,7 +289,9 @@ VALUES
 ".self::DESCRIPTION."='".SqlQuote($this->Description)."', 
 ".self::IS_PROTECTED."=".Boolean($this->IsProtected).",
 ".self::LINKED_ID."=".NullableId($this->LinkedId).",
-".self::TOTAL_COUNT."=".round($this->TotalCount)."
+".self::TOTAL_COUNT."=".round($this->TotalCount).",
+".self::RATING."=".round($this->Rating).",
+".self::LAST_RATING."=".round($this->LastRating)."
 WHERE 
 	".self::FORUM_ID."=".SqlQuote($this->Id);
 		return $result;
@@ -288,7 +302,7 @@ WHERE
 	}
 
 
-	// !!!!!! Review
+	// TODO: Review
 	function UpdateThreadsCountExpression() {
 		if ($this->IsEmpty()) {
 			return "";
