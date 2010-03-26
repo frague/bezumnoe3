@@ -5,7 +5,19 @@
 
 	$user = GetAuthorizedUser(true, true);
 
-	if (!$user || $user->IsEmpty() || IdIsNull($user->User->RoomId)) {
+	$sessionCheck = LookInRequest(User::SESSION_CHECK);
+
+	if (!$user || $user->IsEmpty()) {
+		if ($sessionCheck) {
+			echo "/* 1 */";
+			echo "Quit();";
+			exit;
+		} else {
+			echo "ForcePing(1);";
+			exit;
+		}
+	} else if (IdIsNull($user->User->RoomId)) {
+		echo "/* 2 */";
 		echo "Quit();";
 		exit;
 	}

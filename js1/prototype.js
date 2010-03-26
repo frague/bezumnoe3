@@ -234,11 +234,11 @@ function AG(id, state) {
 
 /* Pong: Messages, Rooms, Users, Topic */
 
-function ForcePing() {
+function ForcePing(do_check) {
 	if (!requestSent) {
 		busy = 0;
 		clearTimeout(pingTimer);
-		Ping();
+		Ping(do_check);
 	}
 };
 
@@ -289,10 +289,14 @@ function PingTimeout() {
 
 var busy = 0;
 var requestSent = 0;
-function Ping() {
+function Ping(do_check) {
 	CompareSessions();
 	if (!busy) {
 		var s = '';
+		if (do_check) {
+			s += MakeParametersPair("SESSION_CHECK", SessionCheck);
+		}
+
 		/* Rooms */
 		for (var id in rooms.Base) {
 			s += MakeParametersPair("r" + id, rooms.Base[id].CheckSum());

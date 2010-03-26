@@ -42,6 +42,7 @@
 		$login = LookInRequest(LOGIN_KEY);
 		$password = LookInRequest(PASSWORD_KEY);
 		$session = LookInRequest(SESSION_KEY);
+		$sessionCheck = LookInRequest(User::SESSION_CHECK);
 
 		$user = new UserComplete();
 
@@ -78,7 +79,7 @@
 		}
 
 		if ($session && !$login && !$password) {
-			$user->GetBySession($session, GetRequestAddress());
+			$user->GetBySession($session, GetRequestAddress(), $sessionCheck);
 		} else {
   			DebugLine($_COOKIE[SESSION_KEY]."-");
   			DebugLine("No session ID found!");

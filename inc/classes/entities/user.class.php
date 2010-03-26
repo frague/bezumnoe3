@@ -242,6 +242,9 @@ class User extends EntityBase {
 		$this->CheckSum = $result->Get(self::CHECK_SUM);
 	}
 
+/*
+	Deprecated: Moved to UserComplete
+
 	function GetByPassword($login, $password) {
 		if ($login && $password) {
 			$this->FillByCondition("t1.".self::LOGIN."='".SqlQuote($login)."' AND t1.".self::PASSWORD."='".SqlQuote(Encode($password))."'");
@@ -272,6 +275,7 @@ class User extends EntityBase {
 			$this->Clear();
 		}
 	}
+*/
 
 	function GetUserName($id, $expression) {
 		if (!$id) {
@@ -299,6 +303,11 @@ class User extends EntityBase {
 			$q = $db->Query("SELECT 1 FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($id)." LIMIT 1");
 			return $q->NumRows() > 0;
 		}
+	}
+
+	function UpdateSessionAddress($address) {
+		$this->SessionAddress = $address;
+		$this->GetByCondition("", $this->UpdateSessionAddressExpression());
 	}
 
 	function __tostring() {

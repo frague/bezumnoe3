@@ -84,13 +84,36 @@ class UserComplete extends EntityBase {
 		}
 	}
 
-	function GetBySession($sessionId, $sessionAddress) {
+/*	function GetBySession($sessionId, $sessionAddress) {
 		if ($sessionId && strlen($sessionId) == $this->User->sessionKeyLength && $sessionAddress) {
 			$this->FillByCondition("t1.".User::SESSION."='".SqlQuote($sessionId)."' AND t1.".User::SESSION_ADDRESS."='".SqlQuote($sessionAddress)."'", $this->db);
 		} else {
 			$this->Clear();
 		}
+	}*/
+
+	function SessionIsCorrect($sessionId) {
+		return $sessionId && strlen($sessionId) == $this->User->sessionKeyLength;
 	}
+	
+	function GetBySession($sessionId, $sessionAddress, $sessionCheck = "") {
+		if ($this->SessionIsCorrect($sessionId) && $sessionAddress) {
+			$this->FillByCondition("t1.".User::SESSION."='".SqlQuote($sessionId)."' AND t1.".User::SESSION_ADDRESS."='".SqlQuote($sessionAddress)."'");
+			// If not found, but sessionCheck provided,
+			if ($this->IsEmpty() && $this->SessionIsCorrect($sessionCheck)) {
+				// .. trying to find by two session keys
+				$this->FillByCondition("t1.".User::SESSION."='".SqlQuote($sessionId)."' AND t1.".User::SESSION_CHECK."='".SqlQuote($sessionCheck)."'");
+				// If match found and sessionAddress is not empty
+				if (!$this->IsEmpty() && $sessionAddress) {
+					// .. updating session address
+					$this->User->UpdateSessionAddress($sessionAddress);
+				}
+			}
+		} else {
+			$this->Clear();
+		}
+	}
+
 
 	function __tostring() {
 		$s = $this->User->__tostring();
