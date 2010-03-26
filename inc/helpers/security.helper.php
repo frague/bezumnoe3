@@ -79,13 +79,6 @@
 
 		if ($session && !$login && !$password) {
 			$user->GetBySession($session, GetRequestAddress());
-//			if (!$user->IsEmpty() && !SessionIsAlive($user->User->SessionPong)) {
-//			if (!$user->IsEmpty()) {
-//	  			DebugLine("Session expired!");
-//				$user->User->ClearSession();
-//				$user->User->Save();
-//				$user->Clear();
-//			}
 		} else {
   			DebugLine($_COOKIE[SESSION_KEY]."-");
   			DebugLine("No session ID found!");
