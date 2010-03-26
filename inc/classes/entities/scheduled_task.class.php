@@ -371,7 +371,7 @@ class UpdateRatingAction extends BaseAction {
 	function Execute() {
 
 		Rating::UpdateRatings();
-	 	SaveLog("Рейтинги обновлены.", $this->user->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
+	 	SaveLog("Рейтинги обновлены.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
 
 		return true;
 	}
