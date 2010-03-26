@@ -149,6 +149,7 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 	t1.".User::STATUS_ID.",
 	t1.".User::SESSION.",
 	t1.".User::SESSION_PONG.",
+	t1.".User::SESSION_CHECK.",
 	t1.".User::SESSION_ADDRESS.",
 	t1.".User::AWAY_MESSAGE.",
 	t1.".User::AWAY_TIME.",

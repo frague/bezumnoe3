@@ -13,6 +13,7 @@ class User extends EntityBase {
 	const STATUS_ID = "STATUS_ID";
 	const SESSION = "SESSION";
 	const SESSION_PONG = "SESSION_PONG";
+	const SESSION_CHECK = "SESSION_CHECK";
 	const SESSION_ADDRESS = "SESSION_ADDRESS";
 	const AWAY_MESSAGE = "AWAY_MESSAGE";
 	const AWAY_TIME = "AWAY_TIME";
@@ -34,6 +35,7 @@ class User extends EntityBase {
 	var $StatusId;
 	var $Session;
 	var $SessionPong;
+	var $SessionCheck;
 	var $SessionAddress;
 	var $AwayMessage;
 	var $AwayTime;
@@ -73,9 +75,7 @@ class User extends EntityBase {
 		$cs = 0;
 		$cs += CheckSum($this->RoomId);
 		$cs += CheckSum($this->RoomIsPermitted);
-//		$cs += CheckSum($this->Session);
 		$cs += CheckSum($this->IsAway() ? " ".$this->AwayMessage : "");
-//		$cs += CheckSum($this->AwayTime);
 		$cs += CheckSum($this->BanReason);
 		$cs += CheckSum($this->BannedBy);
 
@@ -105,6 +105,7 @@ class User extends EntityBase {
 		$this->RoomId = -1;
 		$this->Session = "";
 		$this->SessionPong = "";
+		$this->SessionCheck = "";
 		$this->SessionAddress = "";
 	}
 
@@ -132,6 +133,8 @@ class User extends EntityBase {
 	
 	function CreateSession() {
 		$this->Session = MakeGuid($this->sessionKeyLength);
+		$this->SessionCheck = MakeGuid($this->sessionKeyLength);
+
 		$this->SessionAddress = GetRequestAddress();
 		$this->TouchSession();
 		$this->BackFromAway();
@@ -227,6 +230,7 @@ class User extends EntityBase {
 		$this->StatusId = $result->GetNullableId(self::STATUS_ID);
 		$this->Session = $result->Get(self::SESSION);
 		$this->SessionPong = $result->Get(self::SESSION_PONG);
+		$this->SessionCheck = $result->Get(self::SESSION_CHECK);
 		$this->SessionAddress = $result->Get(self::SESSION_ADDRESS);
 		$this->AwayMessage = $result->Get(self::AWAY_MESSAGE);
 		$this->AwayTime = $result->Get(self::AWAY_TIME);
@@ -246,9 +250,24 @@ class User extends EntityBase {
 		}
 	}
 
-	function GetBySession($sessionId, $sessionAddress) {
-		if ($sessionId && strlen($sessionId) == $this->sessionKeyLength && $sessionAddress) {
+	function SessionIsCorrect($sessionId) {
+		return $sessionId && strlen($sessionId) == $this->sessionKeyLength;
+	}
+	
+	function GetBySession($sessionId, $sessionAddress, $sessionCheck = "") {
+		if ($this->SessionIsCorrect($sessionId) && $sessionAddress) {
 			$this->FillByCondition("t1.".self::SESSION."='".SqlQuote($sessionId)."' AND t1.".self::SESSION_ADDRESS."='".SqlQuote($sessionAddress)."'");
+			// If not found, but sessionCheck provided,
+			if ($this->IsEmpty() && $this->SessionIsCorrect($sessionCheck)) {
+				// .. trying to find by two session keys
+				$this->FillByCondition("t1.".self::SESSION."='".SqlQuote($sessionId)."' AND t1.".self::SESSION_CHECK."='".SqlQuote($sessionCheck)."'");
+				// If match found and sessionAddress is not empty
+				if (!$this->IsEmpty() && $sessionAddress) {
+					// .. updating session address
+					$this->SessionAddress = $sessionAddress;
+					$this->GetByCondition("", $this->UpdateSessionAddressExpression());
+				}
+			}
 		} else {
 			$this->Clear();
 		}
@@ -291,6 +310,7 @@ class User extends EntityBase {
 		$s.= "<li>".self::STATUS_ID.": ".$this->StatusId."</li>\n";
 		$s.= "<li>".self::SESSION.": ".$this->Session."</li>\n";
 		$s.= "<li>".self::SESSION_PONG.": ".$this->SessionPong."</li>\n";
+		$s.= "<li>".self::SESSION_CHECK.": ".$this->SessionCheck."</li>\n";
 		$s.= "<li>".self::SESSION_ADDRESS.": ".$this->SessionAddress."</li>\n";
 		$s.= "<li>".self::AWAY_MESSAGE.": ".$this->AwayMessage."</li>\n";
 		$s.= "<li>".self::AWAY_TIME.": ".$this->AwayTime."</li>\n";
@@ -359,6 +379,7 @@ JsQuote($admin)."\"]";
 	t1.".self::STATUS_ID.",
 	t1.".self::SESSION.",
 	t1.".self::SESSION_PONG.",
+	t1.".self::SESSION_CHECK.",
 	t1.".self::SESSION_ADDRESS.",
 	t1.".self::AWAY_MESSAGE.",
 	t1.".self::AWAY_TIME.",
@@ -381,6 +402,7 @@ WHERE
 ".self::STATUS_ID.", 
 ".self::SESSION.", 
 ".self::SESSION_PONG.", 
+".self::SESSION_CHECK.", 
 ".self::SESSION_ADDRESS.", 
 ".self::AWAY_MESSAGE.", 
 ".self::AWAY_TIME.",
@@ -398,6 +420,7 @@ VALUES
 '".SqlQuote($this->StatusId)."', 
 '".SqlQuote($this->Session)."', 
 ".Nullable(SqlQuote($this->SessionPong)).", 
+'".SqlQuote($this->SessionCheck)."', 
 '".SqlQuote($this->SessionAddress)."', 
 '".SqlQuote($this->AwayMessage)."', 
 ".Nullable(SqlQuote($this->AwayTime)).",
@@ -420,6 +443,7 @@ VALUES
 	".self::STATUS_ID."='".$this->StatusId."',
 	".self::SESSION."='".SqlQuote($this->Session)."',
 	".self::SESSION_PONG."=".Nullable(SqlQuote($this->SessionPong)).", 
+	".self::SESSION_CHECK."=".Nullable(SqlQuote($this->SessionCheck)).", 
 	".self::SESSION_ADDRESS."='".SqlQuote($this->SessionAddress)."', 
 	".self::AWAY_MESSAGE."='".SqlQuote($this->AwayMessage)."', 
 	".self::AWAY_TIME."=".Nullable(SqlQuote($this->AwayTime)).",
@@ -433,6 +457,15 @@ WHERE
 		return $result;
 	}
 
+	function UpdateSessionAddressExpression() {
+		$result = "UPDATE ".$this->table." SET 
+	".self::SESSION_ADDRESS."='".SqlQuote($this->SessionAddress)."'
+WHERE 
+	".self::USER_ID."=".SqlQuote($this->Id);
+		return $result;
+	}
+
+	
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->Id);
 	}

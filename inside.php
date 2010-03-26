@@ -111,6 +111,7 @@
 		<script>
 			CurrentRoomId = '<?php echo $user->User->RoomId ?>';
 			Session = '<?php echo $user->User->Session ?>';
+			SessionCheck = '<?php echo $user->User->SessionCheck ?>';
 			SessionKey = '<?php echo SESSION_KEY ?>';
 
 			/* Tabs */
