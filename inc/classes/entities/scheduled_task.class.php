@@ -101,6 +101,7 @@ class ScheduledTask extends EntityBase {
 				case self::TYPE_UNBAN:				return new UnbanAction($this);
 				case self::TYPE_STATUS:				return new StatusAction($this);
 				case self::TYPE_EXPIRED_SESSIONS:	return new ExpiredSessionsAction($this);
+				case self::TYPE_RATINGS:			return new UpdateRatingAction($this);
 			}
 		}
 		return 0;
@@ -371,7 +372,7 @@ class UpdateRatingAction extends BaseAction {
 	function Execute() {
 
 		Rating::UpdateRatings();
-	 	SaveLog("Рейтинги обновлены.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
+	 	SaveLog("Обновление рейтингов.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
 
 		return true;
 	}

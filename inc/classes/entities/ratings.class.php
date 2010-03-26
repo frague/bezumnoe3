@@ -129,22 +129,32 @@ VALUES
 
 	// Sums all daily user's ratings
 	public static function UpdateUsersRatingsExpression($dat) {
+		return "UPDATE ".Profile::table." t1 JOIN (SELECT IDS, SUM(t3.".Rating::RATING.") AS RATING_SUM 
+FROM ".Rating::table." t3
+WHERE 
+	t3.".Rating::DATE."<'".$dat."' AND 
+	t3.".Rating::TYPE."='".Rating::TYPE_PROFILE."'
+GROUP BY t3.".Rating::IDS.") t2 ON t1.".Profile::USER_ID."=t2.".Rating::IDS."
+SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.RATING_SUM";
+
+/*
 		return "UPDATE ".Profile::table." t1, ".Rating::table." t2
 SET
-	t1.".Profile::TYPE." = t1.".Profile::TYPE." + (
+	t1.".Profile::RATING." = t1.".Profile::RATING." + (
 			SELECT SUM(t3.".Rating::RATING.") 
 			FROM ".Rating::table." t3
 			WHERE 
 				t3.".Rating::DATE."<'".$dat."' AND 
 				t3.".Rating::IDS."=t1.".Profile::USER_ID." AND
 				t3.".Rating::TYPE."='".Rating::TYPE_PROFILE."'
-		)";
+		)";*/
+
 	}
 
 	// Reduces ratings that didn't changed
 	public static function ReduceRatingsExpression() {
 		return "UPDATE ".Profile::table."
-SET ".Profile::RATING."=(CASE WHEN ".Profile::RATING."<10 THEN 0 ELSE ".Profile::TYPE."-10 END)
+SET ".Profile::RATING."=(CASE WHEN ".Profile::RATING."<10 THEN 0 ELSE ".Profile::RATING."-10 END)
 WHERE ".Profile::RATING."=".Profile::LAST_RATING;
 	}
 
@@ -164,16 +174,25 @@ SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.SAID";
 
 		$d = NowDate();
 		
+//		JsPoint("Start");
+
 		$db->Query(Profile::PushRatingsExpression());
+//		JsPoint("PushRatingsExpression");
 
 		$db->Query(Rating::CountTodayMessagesExpression($d));
+//		JsPoint("CountTodayMessagesExpression");
+
 		$db->Query(Rating::UpdateUsersRatingsExpression($d));
+//		JsPoint("UpdateUsersRatingsExpression");
+
 		$db->Query(Rating::ReduceRatingsExpression());
+//		JsPoint("ReduceRatingsExpression");
 
 		// TODO: Calculate journals ratings
 
 		$r = new Rating(0, 0);
 		$r->GetByCondition(Rating::DATE."<'".$d."'", $r->DeleteExpression());
+//		JsPoint("Delete");
 	}
 
 }
