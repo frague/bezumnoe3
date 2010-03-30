@@ -132,8 +132,8 @@
 								<li> <a href="/gallery/">Фотогалерея</a>
 								<li class="l2"> <a href="/forum/">Форумы чата</a>
 								<li class=""> <a href="/photos/">Фотки чатлан</a>
-								<li class="l3 Inactive"> <a href="/banned.php">&laquo;Чёрный список&raquo;</a>
-								<li class="l1 Inactive"> <a href="#/rating/">Рейтинг</a>
+								<li class="l3"> <a href="/banned.php">&laquo;Чёрный список&raquo;</a>
+								<li class="l1"> <a href="/rating.php">Рейтинг</a>
 							</ul>
 						</div>
 

@@ -1,4 +1,4 @@
-//4.7
+//4.8
 /*
 	Contains all global script settings, constants and variables
 */

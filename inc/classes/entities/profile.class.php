@@ -138,6 +138,11 @@ class Profile extends EntityBase {
 		return $s;
 	}
 
+	function GetRatingDelta() {
+		$delta = $this->Rating - $this->LastRating;
+		return ($delta > 0 ? "+" : "").$delta;
+	}
+
 	function GetFieldset() {
 		return array(
 			$this->Name,
@@ -233,6 +238,19 @@ ORDER BY
 	(".self::PHOTO." IS NOT NULL) DESC,
 	".self::PHOTO_UPLOAD_DATE." DESC,
 	t2.".User::LOGIN." ASC";
+	}
+
+	function RatingExpression() {
+		return "SELECT
+	t2.".User::LOGIN.",
+	t2.".User::USER_ID.",
+	t1.".self::RATING.",
+	t1.".self::LAST_RATING."
+FROM
+	".$this->table." AS t1 
+	JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
+WHERE
+	##CONDITION##";
 	}
 
 	function CreateExpression() {

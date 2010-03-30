@@ -123,6 +123,8 @@
 				}
 
 
+				ProfileLine("Рейтинг активности", "<b>".$profile->Rating."</b><sup>".$profile->GetRatingDelta()."</sup> <a href=\"/rating.php\" target=\"rating\">(полный рейтинг)</a>");
+
 				ProfileLine("О себе", OuterLinks(MakeLinks($profile->About)));
 			} else {
 				error($error);

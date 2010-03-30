@@ -519,14 +519,23 @@ div.DatePicker table.Calendar th select {
 }
 .UserList ul li.l1 {
 	list-style-image: url(/img/li/2.gif);
-	margin-left:2px;
 }
 .UserList ul li.l2 {
 	list-style-image: url(/img/li/3.gif);
-	margin-left:1px;
 }
 .UserList ul li.l3 {
 	list-style-image: url(/img/li/4.gif);
+}
+
+.UserList li {
+}
+.UserList li.l1 {
+	margin-left:2px;
+}
+.UserList li.l2 {
+	margin-left:1px;
+}
+.UserList li.l3 {
 	margin-left:-1px;
 }
 
