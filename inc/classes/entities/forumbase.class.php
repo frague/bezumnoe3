@@ -112,6 +112,11 @@ class ForumBase extends EntityBase {
 		return $s;
 	}
 
+	function GetRatingDelta() {
+		$delta = $this->Rating - $this->LastRating;
+		return ($delta > 0 ? "+" : "").$delta;
+	}
+
 	function BasePath() {
 		return "/forum".$this->Id."/";
 	}
@@ -264,6 +269,19 @@ WHERE
 	(##CONDITION##)";
 	}
 
+	function RatingExpression() {
+		return "SELECT
+	t2.".User::LOGIN.",
+	t2.".User::USER_ID.",
+	t1.".self::RATING.",
+	t1.".self::LAST_RATING."
+FROM
+	".$this->table." AS t1 
+	JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::LINKED_ID."
+WHERE
+	##CONDITION##";
+	}
+	
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
 (".self::TYPE.",

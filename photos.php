@@ -3,6 +3,7 @@
 	$root = "./";
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
+	require $root."inc/base_template.php";
 
 	Head("Фотки чатлан", "photos.css");
 	require_once $root."references.php";
