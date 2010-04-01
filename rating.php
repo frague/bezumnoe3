@@ -9,7 +9,7 @@
 	require_once $root."references.php";
 
 
-	function GetRatings($condition) {
+	function GetUsersRatings($condition) {
 		$p = new Profile();
 		$u = new User();
 
@@ -21,7 +21,25 @@
 			$p->FillFromResult($q);
 			$u->FillFromResult($q);
 
-			echo MakeListItem().$u->ToInfoLink()." &rarr; <b>".$p->Rating."</b> <sup>".$p->GetRatingDelta()."</sup>";
+			echo MakeListItem($i < 10 ? "Leading" : "").$u->ToInfoLink()." &rarr; <b>".$p->Rating."</b> <sup>".$p->GetRatingDelta()."</sup>";
+		}
+	}
+
+	function GetJournalsRating($condition) {
+		$j = new Journal();
+		$u = new User();
+
+		$q = $j->GetByCondition(
+			$condition,
+			$j->RatingExpression(" ORDER BY ".ForumBase::RATING."-".ForumBase::LAST_RATING." DESC LIMIT 20"));
+
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$j->FillFromResult($q);
+			$alias = $q->Get(JournalSettings::ALIAS);
+
+//			echo MakeListItem($i < 10 ? "Leading" : "")." &laquo;".JournalSettings::MakeLink($alias, $j->Title)."&raquo; &rarr; <b>".$j->Rating."</b> <sup>".$j->GetRatingDelta()."</sup>";
+			echo MakeListItem($i < 10 ? "Leading" : "")." &laquo;".JournalSettings::MakeLink($alias, $j->Title)."&raquo;";
 		}
 	}
 
@@ -30,17 +48,17 @@
 Обновление рейтинга производится раз в сутки.
 
 <div align="center">
-<table width="90%" class="UserList">
+<table width="90%">
 	<tr>
 		<td valign="top" width="50%">
 			<ol>
 				<h4>Лучшие за сутки:</h4>
-				<?php GetRatings("1=1 ORDER BY ".Profile::RATING."-".Profile::LAST_RATING." DESC LIMIT 20"); ?>
-			</ul>
+				<?php GetUsersRatings("1=1 ORDER BY ".Profile::RATING."-".Profile::LAST_RATING." DESC LIMIT 40"); ?>
+			</ol>
 		</td><td valign="top">
 			<ol>
-				<h4>Топ 20:</h4>
-				<?php GetRatings("1=1 ORDER BY ".Profile::RATING." DESC LIMIT 20"); ?>
+				<h4>Топ 40:</h4>
+				<?php GetUsersRatings("1=1 ORDER BY ".Profile::RATING." DESC LIMIT 40"); ?>
 			</ol>
 		</td>
 	</tr>

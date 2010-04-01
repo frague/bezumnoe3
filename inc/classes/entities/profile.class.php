@@ -140,7 +140,7 @@ class Profile extends EntityBase {
 
 	function GetRatingDelta() {
 		$delta = $this->Rating - $this->LastRating;
-		return ($delta > 0 ? "+" : "").$delta;
+		return ($delta > 0 ? "+".$delta : ($delta ? $delta : ""));
 	}
 
 	function GetFieldset() {

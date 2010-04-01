@@ -11,10 +11,12 @@
 
 <table width="100%">
 	<tr>
-		<td width="40%">
+		<td width="40%" valign="top">
 			<h4>Новые сообщения:</h4>
 			<?php include $root."inc/ui_parts/journal.posts.php"; ?>
 			<?php include $root."inc/ui_parts/updated.journals.php"; ?>
+
+			<?php include $root."inc/ui_parts/popular.journals.php"; ?>
 		</td>
 		<td valign="top">
 			<?php include $root."inc/ui_parts/journal.comments.php"; ?>

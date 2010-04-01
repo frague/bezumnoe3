@@ -114,7 +114,7 @@ class ForumBase extends EntityBase {
 
 	function GetRatingDelta() {
 		$delta = $this->Rating - $this->LastRating;
-		return ($delta > 0 ? "+" : "").$delta;
+		return ($delta > 0 ? "+".$delta : ($delta ? $delta : ""));
 	}
 
 	function BasePath() {
@@ -251,7 +251,7 @@ $expression);
 	}
 
 	// SQL Expressions
-	function ReadExpression() {
+	function ReadExpression($order = "") {
 		return "SELECT 
 	t1.".self::FORUM_ID.",
 	t1.".self::TYPE.",
@@ -266,20 +266,24 @@ FROM
 	".$this->table." AS t1 
 WHERE 
 	".($this->Type ? "t1.".self::TYPE."='".$this->Type."' AND " : "")."
-	(##CONDITION##)";
+	(##CONDITION##)".$order;
 	}
 
-	function RatingExpression() {
+	function RatingExpression($order = "") {
 		return "SELECT
 	t2.".User::LOGIN.",
 	t2.".User::USER_ID.",
+	t3.".JournalSettings::ALIAS.",
+	t1.".self::TITLE.",
 	t1.".self::RATING.",
 	t1.".self::LAST_RATING."
 FROM
 	".$this->table." AS t1 
 	JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::LINKED_ID."
+	JOIN ".JournalSettings::table." AS t3 ON t3.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE
-	##CONDITION##";
+	".($this->Type ? "t1.".self::TYPE."='".$this->Type."' AND " : "")."
+	(##CONDITION##) ".$order;
 	}
 	
 	function CreateExpression() {

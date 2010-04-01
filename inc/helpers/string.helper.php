@@ -374,9 +374,9 @@
 		return "<a href=\"javascript:void(0)\" onclick=\"__(this)\">".$name."</a>";
 	}
 
-	function MakeListItem() {
+	function MakeListItem($className = "") {
 		$i = round(rand(0,4));
-		return "<li".($i ? " class=\"l".$i."\"" : "").">";
+		return "<li".($i ? " class=\"l".$i.($className ? " ".$className : "")."\"" : ($className ? " class=\"".$className."\"" : "")).">";
 	}
 
 ?>

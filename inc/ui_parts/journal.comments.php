@@ -4,7 +4,7 @@
 
 	$userId = $someoneIsLogged ? $user->User->Id : -1;
 	$comment = new JournalComment();
-	$q = $comment->GetMixedJournalsComments($userId);
+	$q = $comment->GetMixedJournalsComments($userId, 0, 50);
 
 	$lastIndex = "";
 	$condition = "";
@@ -35,7 +35,7 @@
 	}
 
 	$topic = new JournalRecord();
-	$q = $topic->GetMixedJournalsRecords($userId, 0, 20, $condition);
+	$q = $topic->GetMixedJournalsRecords($userId, 0, 50, $condition);
 	$topics = array();
 	$aliases = array();
 
