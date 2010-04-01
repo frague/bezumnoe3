@@ -104,10 +104,10 @@
 					if ($size[0] <= 300) {
 						$w = $size[3];
 					} else {
-						$lnk = "<a href='".$PathToPhotos.$profile->Photo."' target='_blank'>";
+						$lnk = "<a href='".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."' target='_blank'>";
 					}
 				}
-				return $lnk."<img src='".$PathToPhotos.$profile->Photo."' ".$w." class='Photo'>".($lnk ? "</a>" : "");
+				return $lnk."<img src='".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."' ".$w." class='Photo'>".($lnk ? "</a>" : "");
 			}
 		}
 		return "";
