@@ -178,6 +178,9 @@ SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.SAID";
 		$db->Query(Profile::PushRatingsExpression());
 //		JsPoint("PushRatingsExpression");
 
+		$db->Query(Forum::PushRatingsExpression());
+//		JsPoint("PushRatingsExpression");
+
 		$db->Query(Rating::CountTodayMessagesExpression($d));
 //		JsPoint("CountTodayMessagesExpression");
 

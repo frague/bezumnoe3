@@ -371,6 +371,10 @@ VALUES
 ".NullableId($this->LinkedId).",
 ".round($this->TotalCount).")";
 	}
+
+	public static function PushRatingsExpression() {
+		return "UPDATE ".ForumBase::table." SET ".ForumBase::LAST_RATING."=".ForumBase::RATING;
+	}
 }
 
 ?>
