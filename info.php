@@ -136,5 +136,8 @@
 			</div>
 		</div>
 		<script src="/js1/info.js"></script>
+
+		<?php include $root."inc/ui_parts/google_analythics.php"  ?>
+
 	</body>
 </html>

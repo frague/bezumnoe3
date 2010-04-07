@@ -182,7 +182,7 @@
     	    	$a1 = "http://".$a; 
 	        }
 
-	        if (ereg("^(gif|jpg|bmp|png|jpeg)$",$ext)) {
+	        if (preg_match("/^(gif|jpg|bmp|png|jpeg)$/i",$ext)) {
 	        	if ($imageMode) {
 	        		$filename = substr($a1, 1 + strrpos($a1, "/"));
 	        		$a = "<span class='imageLink'><a href='".$a1."' target='_image'>".$filename."</a></span>";
