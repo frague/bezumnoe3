@@ -9,7 +9,7 @@
 
 	if (!$user || $user->IsEmpty()) {
 		if ($sessionCheck) {
-			echo "/* 1 */";
+//			echo "/* 1 */";
 			echo "Quit();";
 			exit;
 		} else {
@@ -17,7 +17,7 @@
 			exit;
 		}
 	} else if (IdIsNull($user->User->RoomId)) {
-		echo "/* 2 */";
+//		echo "/* 2 */";
 		echo "Quit();";
 		exit;
 	}
@@ -123,7 +123,7 @@
 
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
-		$room = new Room();
+//		$room = new Room();
 		$room->FillFromResult($q);
 		if ($_POST["r_".$room->Id] != $room->CheckSum()) {
 			$s .= "rooms.Add(".$room->ToJs().");";
@@ -246,30 +246,6 @@
 		}
 	}
 
-//	JsPoint("Quited users");
-
-	/* Expired sessions */
-
-/*	$q = $user->User->GetExpiredUsers();
-	$u = array();
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
-		$roomId = $q->Get(User::ROOM_ID);
-		$s .= "users.Delete('".$q->Get(User::USER_ID)."');";
-		$u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
-	}
-	// Left user sessions, but remove room information
-	$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL WHERE ".$user->User->ExpireCondition());
-
-	if (sizeof($u) > 0) {
-		while (list($roomId,$users) = each($u)) {
-			$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат.", $roomId);
-			$message->Save();
-		}
-	}*/
-
-//	JsPoint("Expired sessions");
-
 	/* List of users should be refreshed */
 
 	if ($s) {
@@ -355,4 +331,14 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 		echo $s;
 	}
 
+	// Destructing objects
+	destroy($user);
+	destroy($room);
+	destroy($user1);
+	destroy($wakeup);
+	destroy($message);
+	destroy($ignore);
+	destroy($message);
+
+	echo "/* Mem: ".number_format(memory_get_usage())." */";
 ?>
