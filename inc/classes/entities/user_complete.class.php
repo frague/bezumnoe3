@@ -29,6 +29,13 @@ class UserComplete extends EntityBase {
 		parent::__construct($id, User::USER_ID);
 	}
 
+	function __destruct() {
+		destroy($this->User);
+		destroy($this->Settings);
+		destroy($this->Status);
+		destroy($this->Nickname);
+	}
+
 	function Clear() {
 		$this->User->Clear();
 		$this->Nickname->Clear();

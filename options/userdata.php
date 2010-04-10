@@ -3,7 +3,8 @@
 
 ?>
 
-<h2>Профиль пользователя <span id="LOGIN">%username%</span></h2>
+<h2>Профиль пользователя <span id="LOGIN">%username%</span> <a href="javascript:void(0);" onclick="debug=1-debug;this.innerHTML=debug;" style="text-decoration:none">&nbsp;</a></h2>
+
 
 <table width="100%" cellpadding="4">
 	<tr>

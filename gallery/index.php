@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require_once "gallery.template.php";
 
-	Head("Фотогалерея", "forum.css", "forum.js");
+	Head("Фотогалерея", "forum.css", "forum.js", "", "", "gallery.gif");
 	require_once $root."references.php";
 
 ?>

@@ -1,4 +1,4 @@
-//5.2
+//5.3
 /*
 	List of admin comments to user (ban, rights changes etc.)
 */
@@ -30,6 +30,8 @@ AdminComments.prototype.RequestCallback = function(req, obj) {
 // Template loading
 AdminComments.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
+
+	Wait(1000);
 
 	this.AssignTabTo("AddComment");
 	this.GroupSelfAssign(["RefreshAdminComments", "ResetFilter"]);

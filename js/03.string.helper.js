@@ -33,7 +33,7 @@ function CheckSum(source) {
 			}
 		}
 	}
-	DebugLine(source + " = " + sum + "<hr>");
+	//DebugLine(source + " = " + sum + "<hr>");
 	return sum;
 };
 

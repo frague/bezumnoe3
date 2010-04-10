@@ -102,6 +102,7 @@
 				<li> <a href="/journal/" target="journal">Журналы</a>
 				<li> <a href="/gallery/" target="gallery">Фотогалерея</a>
 				<li> <a href="javascript:void(0);" onclick="MI('quit')" class="Red">Выход</a>
+				<li> <a href="javascript:void(0);" onclick="debug=1-debug;this.innerHTML=debug;" style="text-decoration:none">&nbsp;</a>
 			</ul>
 			<div id="MenuContainer"></div>
 		</div>

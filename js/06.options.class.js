@@ -1,4 +1,4 @@
-//7.6
+//7.7
 /*
 	User options UI and helper methods
 */
@@ -35,11 +35,14 @@ OptionsBase.prototype.TemplateLoaded = function(req) {	// To be overriden
 OptionsBase.prototype.TemplateBaseLoaded = function(req) {
 	text = req;
 	if (req.responseText) {
+		DebugLine("Template " + this.Template + " caching");
 		text = req.responseText;
 		KeepRequestedContent(this.Template, text);
 	}
+	DebugLine("Template publishing");
 	this.Tab.RelatedDiv.innerHTML = text;
 	this.Tab.InitUploadFrame();
+	DebugLine("Data request");
 	this.Request();
 };
 

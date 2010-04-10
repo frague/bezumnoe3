@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Регистрация в чате", "register.css");
+	Head("Регистрация в чате", "register.css", "", "", "", "register.gif");
 	require_once $root."references.php";
 
 

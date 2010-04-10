@@ -5,7 +5,7 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/base_template.php";
 
-	Head("Рейтинг", "rating.css");
+	Head("Рейтинг", "rating.css", "", "", "", "rating.gif");
 	require_once $root."references.php";
 
 

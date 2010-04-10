@@ -1,4 +1,4 @@
-//1.1
+//1.2
 /*
 	Helps in JS code debugging. Displays debugging information
 	in pop-up window.
@@ -13,7 +13,7 @@ function DebugLine(line) {
     if (!debugWin || !debugWin.document) {
 		debugWin = window.open('','debug');
 		debugWin.document.open();
-		debugWin.document.writeln('<link rel=stylesheet type=text/css href=/3/css/test.css>');
+		debugWin.document.writeln('<link rel=stylesheet type=text/css href=/3/css/debug.css>');
     }
 	debugWin.document.writeln('<p>' + line);
 };

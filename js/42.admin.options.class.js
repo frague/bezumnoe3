@@ -1,4 +1,4 @@
-//1.7
+//1.9
 /*
 	Admin options
 */
@@ -13,20 +13,17 @@ function AdminOptions() {
 AdminOptions.prototype = new OptionsBase();
 
 AdminOptions.prototype.Request = function() {
-	DebugLine("Request");
+	DebugLine("Admin options request");
 };
 
 AdminOptions.prototype.TemplateLoaded = function(req) {
-	DebugLine("1");
 	this.TemplateBaseLoaded(req);
 
-	DebugLine("2");
-
+	DebugLine("Related controls");
 	this.FindRelatedControls();
-	DebugLine("3");
 	var spoilers = this.Inputs["Spoilers"];
 	if (spoilers) {
-		DebugLine("4");
+		DebugLine("Spoilers div. SpoilerInits: " + spoilerInits.length);
 		for (var i = 0, l = spoilerInits.length; i < l; i++) {
 			DebugLine(i);
 			var s = new Spoiler(i + 1, spoilerNames[i], 0, 0, spoilerInits[i]);

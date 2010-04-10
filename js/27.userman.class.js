@@ -1,4 +1,4 @@
-//5.2
+//5.4
 /*
 	User Manager admin functionality
 */
@@ -101,7 +101,7 @@ function ShowUserMenu(a, id, login, container, obj) {
 	userMenu.Link = a;
 	
 	var tr = d.createElement("tr");
-	if (window.umExtraButtons) {
+	if (me.IsAdmin()) {
 		tr.appendChild(umExtraButtons(id, login, obj));
 	};
 	userMenu.appendChild(tr);

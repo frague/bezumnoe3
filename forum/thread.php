@@ -21,7 +21,7 @@
 		DieWith404();
 	}
 
-	Head($record->Title, "forum.css", "forum.js");
+	Head($record->Title, "forum.css", "forum.js", "", "", "forums.gif");
 	require_once $root."references.php";
 
 	$access = 1 - $forum->IsProtected;

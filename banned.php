@@ -5,7 +5,7 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/base_template.php";
 
-	Head("&laquo;Чёрный список&raquo;", "banned.css");
+	Head("&laquo;Чёрный список&raquo;", "banned.css", "", "", "", "blacklist.gif");
 	require_once $root."references.php";
 
 ?>

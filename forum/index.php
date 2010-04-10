@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require_once "forum.template.php";
 
-	Head("Форумы", "forum.css", "forum.js");
+	Head("Форумы", "forum.css", "forum.js", "", "", "forums.gif");
 	require_once $root."references.php";
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday

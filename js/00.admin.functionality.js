@@ -1,4 +1,4 @@
-//1.9
+//2.0
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -17,7 +17,7 @@ function umExtraButtons(id, login, obj) {
  	var ul = d.createElement("ul");
 
 	ul.appendChild(MakeUserMenuLink(MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "Профиль", obj, "")));
-	if (window.umAdditionalExtraButtons && me.IsSuperAdmin()) {
+	if (me.IsSuperAdmin()) {
 		umAdditionalExtraButtons(ul, id, login, obj);
 	}
 	td.appendChild(ul);

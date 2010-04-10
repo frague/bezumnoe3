@@ -18,7 +18,7 @@
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
 
-	Head($forum->Title, "forum.css", "forum.js");
+	Head($forum->Title, "forum.css", "forum.js", "", "", "forums.gif");
 	require_once $root."references.php";
 
 	$access = 1 - $forum->IsProtected;

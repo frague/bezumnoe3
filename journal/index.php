@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require_once "journal.template.php";
 
-	Head("Журналы", "forum.css", "forum.js", "/journal/rss/");
+	Head("Журналы", "forum.css", "forum.js", "/journal/rss/", "", "journals.gif");
 	require_once $root."references.php";
 
 ?>

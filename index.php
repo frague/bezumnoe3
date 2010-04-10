@@ -29,22 +29,26 @@
 			<div class="Main">
 				<div>
 					<div class="Column Left">
-						<h3>Сейчас в чате:</h3>
+						<!--h3>Сейчас в чате:</h3-->
+						<img src="/img/titles/online.gif" style="margin-top:20px" />
 						<div class="UserList">
 							<?php include $root."inc/ui_parts/online_users.php"; ?>
 						</div>
 
-						<h3>Новости чата:</h3>
+						<img src="/img/titles/news.gif" style="margin-top:20px" />
+						<!--h3>Новости чата:</h3-->
 						<div class="News">
 							<?php ShowNews(-1, 3); ?>
 						</div>
 
-						<h3>Дни рождения:</h3>
+						<!--h3>Дни рождения:</h3-->
+						<img src="/img/titles/birthdays.gif" style="margin-top:20px" />
 						<div class="Birthdays">
 							<?php include $root."inc/ui_parts/birthdays.php"; ?>
 						</div>
 
-						<h3>Новые фотки:</h3>
+						<!--h3>Новые фотки:</h3-->
+						<img src="/img/titles/photos.gif" style="margin:20px 15px 10px" />
 						<div class="UserList Photos">
 							<?php include $root."inc/ui_parts/new_photos.php"; ?>
 						</div>
@@ -61,26 +65,26 @@
 
 							<div class="MainLink">
 								<img alt="Саратовский чат" title="Саратовский чат" src="/img/t/pict/register.gif" align="left" height="69" width="70">
-								<h3><a href="/register.php">Регистрация в чате</a> <img src="/img/li/rbs.gif" border="0"></h3>
+								<a href="/register.php"><img src="/img/titles/register.gif" /></a>
 								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
 								<span class="Newcomers">Последние зарегистрировавшиеся пользователи: <?php include $root."inc/ui_parts/newcomers.php"; ?></span>
 							</div>
 
 							<div class="MainLink RightOriented">
 								<img src="/img/t/pict/forum.gif" align="right" height="79" width="95" alt="Форум" title="Форум">
-								<h3><img src="/img/li/lbs.gif" border="0"> <a href="/forum/">Форумы чата</a></h3>
+								<a href="/forum/"><img src="/img/titles/forums.gif" /></a>
 								<p>В форумах происходит обсуждение насущных вопросов чата. Авторизуйтесь для публикации сообщений.
 							</div>
 
 							<div class="MainLink">
 								<img src="/img/t/pict/photo.gif" align="left" height="66" width="70" alt="Фотогалерея" title="Фотогалерея">
-								<h3><a href="/gallery/">Фотогалерея</a> <img src="/img/li/rbs.gif" border="0"></h3>
+								<a href="/gallery/"><img src="/img/titles/gallery.gif" /></a>
 								<p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
 							</div>
 
 							<div class="MainLink RightOriented Blogs UserList">
 								<img src="/img/t/pict/journals.gif" align="right" width="70" height="64" alt="Популярные блоги" title="Популярные блоги">
-								<h3><img src="/img/li/lbs.gif" border="0"> <a href="/journal/">Журналы (блоги)</a></h3>
+								<a href="/journal/"><img src="/img/titles/journals.gif" /></a>
 								<p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.<br />
 								Список последних записей в журналах:
 								<?php include $root."inc/ui_parts/journal.posts.php"; ?>

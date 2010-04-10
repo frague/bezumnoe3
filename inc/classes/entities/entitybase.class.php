@@ -17,6 +17,9 @@ abstract class EntityBase {
 		$this->Order = "";
 	}
 
+	function __destruct() {
+	}
+
 	function IsEmpty() {
 		return ($this->Id <= 0 || $this->Id == "");
 	}
@@ -186,6 +189,14 @@ abstract class EntityBase {
 	abstract function DeleteExpression();
 
 	// Static methods
+}
+
+// Global function for destroying all inherited objects of given one
+function destroy(&$var) {
+	if (is_object($var)) {
+		$var->__destruct();
+	}
+	unset($var);
 }
 
 
