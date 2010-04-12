@@ -44,6 +44,8 @@ WHERE",
 			}
 			echo ($i ? "," : "").$message->ToJs($q->Get(Settings::FONT_COLOR), true);
 		}
+
+		$q->Release();
 	}
 	echo "];";
 
@@ -64,4 +66,5 @@ WHERE",
 		echo ($i ? "," : "").$room->ToDTO();
 	}
 	echo "]";
+	$q->Release();
 ?>

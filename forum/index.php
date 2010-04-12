@@ -35,6 +35,7 @@
 		}
 	}
 	echo "</ul>";
+	$q->Release();
 
 	Foot();
 ?>

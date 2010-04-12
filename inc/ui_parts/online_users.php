@@ -7,6 +7,7 @@
 		$q->NextResult();
 		$rooms[$q->Get(Room::ROOM_ID)] = $q->Get(Room::TITLE);
 	}
+	$q->Release();
 	
 	$expiredSession = DateFromTime(mktime()-$SessionLifetime);
 
@@ -31,6 +32,7 @@
 			$inside++;
 		}
 	}
+	$q->Release();
 
 	$toPrint .= ($lastRoom ? ($inside ? " <sup>(".$inside.")</sup>" : "").$people."</ul>" : "");
 	echo $toPrint;

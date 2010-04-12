@@ -18,5 +18,6 @@
 		echo "<li>".$settings->ToLink($login)." (".PrintableShortDate($updated).")";
 	}
 	echo "</ul>";
+	$q->Release();
 
 ?>

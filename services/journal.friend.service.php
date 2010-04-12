@@ -40,13 +40,14 @@
 	}
 
 	/* Show user friendly journals */
-	echo "var userlist=new Array(";
+	echo "var userlist=[";
 	$q = $journalFriend->GetByJournalId($journal->Id);
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$journalFriend->FillFromResult($q);
 		echo ($i ? "," : "").$journalFriend->ToJs($q->Get(User::LOGIN));
 	}
-	echo ")";
+	echo "]";
+	$q->Release();
 
 ?>

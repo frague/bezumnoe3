@@ -29,6 +29,8 @@
 			$condition .= ($condition ? " OR " : "")."(t1.".GalleryPhoto::INDEX."='".substr($comment->Index, 0, 4)."' AND t1.".GalleryPhoto::FORUM_ID."=".$comment->ForumId.")";
 		}
 	}
+	$q->Release();
+
 	if ($condition) {
 		$condition = "(".$condition.")";
 	} else {
@@ -52,7 +54,7 @@
 		$descr = $q->Get(Gallery::DESCRIPTION);
 		$paths[$top->ForumId] = $descr;
 	}
-
+	$q->Release();
 
 	echo "<ul class='NewComments'>";
 	while (list($record, $comments) = each($sorted)) {

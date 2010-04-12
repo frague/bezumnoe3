@@ -32,5 +32,6 @@
 		}
 		echo $u->ToInfoLink();
 	}
+	$q->Release();
 
 ?>

@@ -56,6 +56,7 @@
 		echo ($i ? "," : "").$task->ToJs();
 	}
 	echo "];";
+	$q->Release();
 
 	echo "this.Total=".$task->GetResultsCount($condition).";";
 

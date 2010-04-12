@@ -47,6 +47,7 @@ substr($q->Get(Forum::TYPE), 0, 1)."\",\"".
 JsQuote($q->Get(User::LOGIN))."\")";
 		}
 		echo "];";
+		$q->Release();
 	}
 
 	// Search conditions
@@ -61,6 +62,7 @@ JsQuote($q->Get(User::LOGIN))."\")";
 		$result .= ($i ? "," : "").$record->ToJs($search);
 	}
 	$result .= "];";
+	$q->Release();
 
 	if ($condition) {
 		$forum->TotalCount = $record->GetForumThreadsCount($forum->Id, $access, $condition);

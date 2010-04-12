@@ -15,6 +15,7 @@
 			echo $record->ToPrint();
 	  	}
 	  	echo "</ul>";
+		$q->Release();
 	}
 
 ?>

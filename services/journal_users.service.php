@@ -42,6 +42,7 @@
 		$result .= ($i > 0 ? "," : "")."new judto(".$q->Get(User::USER_ID).",'".JsQuote($login)."','".JsQuote($nick)."','".$q->Get(Forum::FORUM_ID)."','".JsQuote($title)."')";
 	}
 	$result .= "];";
+	$q->Release();
 
 	echo $result;
 

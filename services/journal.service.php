@@ -31,6 +31,7 @@ $type."\",\"".
 JsQuote($q->Get(User::LOGIN))."\")";
 	}
 	echo "];";
+	$q->Release();
 	echo "this.Forum.FORUM_ID='".$currentForum."';";
 
 ?>

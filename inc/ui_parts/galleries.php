@@ -18,5 +18,6 @@
 		
 	}
 	echo "</ul>";
+	$q->Release();
 
 ?>

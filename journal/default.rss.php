@@ -34,6 +34,7 @@
 		$item->pubDate = date("r", ParseDate($message->Date));
 		$rss_channel->items[] = $item;
 	}
+	$q->Release();
 
 	$rss_feed = new rssGenerator_rss();
 	$rss_feed->encoding = "windows-1251";

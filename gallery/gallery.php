@@ -58,6 +58,7 @@
 		$result.= "</tr>";
 	}
 	$result.= "</table>";
+	$q->Release();
 	
 	$threads = $photo->GetForumThreadsCount($gallery->Id, $access);
 	$pager = new Pager($threads, $perPage, $from, $gallery->BasePath());

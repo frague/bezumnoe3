@@ -26,6 +26,7 @@
 				$task->Delete();
 			}
 		}
+		$q->Release();
 	}
 
 	function UnconditionalTasks() {

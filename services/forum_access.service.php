@@ -121,6 +121,7 @@
 		}
 	}
 	echo "];";
+	$q->Release();
 
 	$type = "журналу";
 	switch ($forum->Type) {

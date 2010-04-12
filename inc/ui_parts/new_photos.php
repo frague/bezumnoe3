@@ -18,6 +18,7 @@
 		echo MakeListItem()." ".$u->ToInfoLink();
 	}
 	echo "</ul>";
+	$q->Release();
 
 	if ($s) {
 		echo $s;

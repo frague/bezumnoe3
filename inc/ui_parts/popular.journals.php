@@ -19,5 +19,6 @@
 		echo MakeListItem($i < 10 ? "Leading" : "").$j->GetRatingDelta()." &laquo;<b>".JournalSettings::MakeLink($alias, $j->Title)."</b>&raquo;, ".$u->ToInfoLink();
 	}
 	echo "</ul>";
+	$q->Release();
 
 ?>

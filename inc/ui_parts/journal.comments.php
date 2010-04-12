@@ -28,6 +28,8 @@
 			$condition .= ($condition ? " OR " : "")."(t1.".JournalRecord::INDEX."='".substr($comment->Index, 0, 4)."' AND t1.".JournalRecord::FORUM_ID."=".$comment->ForumId.")";
 		}
 	}
+	$q->Release();
+
 	if ($condition) {
 		$condition = "(".$condition.")";
 	} else {
@@ -49,7 +51,7 @@
 		$topics[$index] = $topic;
 		$aliases[$index] = $q->Get(JournalSettings::ALIAS);
 	}
-
+	$q->Release();
 
 	echo "<ul class='NewComments'>";
 	while (list($record, $comments) = each($sorted)) {

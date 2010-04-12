@@ -31,13 +31,14 @@
 	}
 
 	/* Show user forbidden commenters */
-	echo "var userlist=new Array(";
+	echo "var userlist=[";
 	$q = $forbid->GetByUserId($user->User->Id, true);
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$forbid->FillFromResult($q);
 		echo ($i ? "," : "").$forbid->ToJs($q->Get(User::LOGIN));
 	}
-	echo ")";
+	echo "]";
+	$q->Release();
 
 ?>

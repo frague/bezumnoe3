@@ -43,5 +43,6 @@
 		echo ($i ? "," : "").$news->ToJs();
 	}
 	echo "];";
+	$q->Release();
 
 ?>

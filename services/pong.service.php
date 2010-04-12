@@ -133,6 +133,7 @@
 		}
 		$_POST["r_".$room->Id] = "";
 	}
+	$q->Release();
 
 //	JsPoint("Rooms data");
 
@@ -167,6 +168,7 @@
 			$ignoresMe[$ignore->UserId] = 1;
 		}
 	}
+	$q->Release();
 
 //	JsPoint("Ignores");
 
@@ -193,6 +195,7 @@
 		}
 		$_POST[$user_key] = "-";
 	}
+	$q->Release();
 
 //	JsPoint("Users1");
 
@@ -224,6 +227,7 @@
 			$jsUser = str_replace(UserComplete::IgnoresYouDefault, $im, $jsUser);
 			$s .= "users.Add(".$jsUser.");";
 		}
+		$q->Release();
 
 	//	JsPoint("Users2");
 	}
@@ -317,6 +321,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 				$text = OuterLinks(MakeLinks($text, true));
 				$messages = "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".$toUser."');".$messages;
 			}
+			$q->Release();
 		}
 
 	//	JsPoint("Messages");

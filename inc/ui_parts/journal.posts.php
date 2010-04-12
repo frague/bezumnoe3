@@ -13,5 +13,6 @@
 		echo MakeListItem()." &laquo;<b>".$record->ToLink(0, $alias)."</b>&raquo;, ".JournalSettings::MakeLink($alias, $record->Author);
 	}
 	echo "</ul>";
+	$q->Release();
 
 ?>

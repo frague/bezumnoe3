@@ -68,6 +68,7 @@
 		$login = $q->Get(User::LOGIN);
 		echo ($i ? "," : "").$comment->ToJs($login);
 	}
+	$q->Release();
 	echo "];";
 	echo "this.Total=".$comment->GetUserCommentsCount($user_id, $condition).";";
 

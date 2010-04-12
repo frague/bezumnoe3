@@ -41,6 +41,8 @@
 		}
 	}
 	echo "];";
+	$q->Release();
+
 	echo "this.Total=".$record->GetRecordsCount($user_id, $condition).";";
 
 ?>

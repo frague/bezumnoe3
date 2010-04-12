@@ -86,6 +86,7 @@
 		$result .= ($i > 0 ? "," : "")."new udto(".$q->Get(User::USER_ID).",'".JsQuote($login)."','".JsQuote($nick)."')";
 	}
 	$result .= "];";
+	$q->Release();
 
 	echo $result;
 

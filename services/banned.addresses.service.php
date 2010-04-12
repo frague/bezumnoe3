@@ -54,5 +54,6 @@
 		echo ($i ? "," : "").$ban->ToJs();
 	}
 	echo "];";
+	$q->Release();
 
 ?>

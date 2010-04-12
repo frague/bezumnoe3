@@ -17,6 +17,7 @@
 		$n->FillFromResult($q);
 		$userNames["_".$n->Id] = $n;
 	}
+	$q->Release();
 
 	$errors = "";
 	$hasNickname = false;

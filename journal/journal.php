@@ -134,6 +134,8 @@
 				$altYear = date("Y", strtotime($record->Date));
 			}
 		}
+		$q->Release();
+
 		$addTitle = "";
 		$record->Clear();	// Needed to check if single record has been requested
 	}
@@ -240,6 +242,7 @@
 			$tags[$i] = $t;
 			$maxWeight = ($maxWeight > $t->Weight ? $maxWeight : $t->Weight);
 		}
+		$q->Release();
 
 		for ($i = 0; $i < sizeof($tags); $i++) {
 			$cloud.= ($i ? " " : "").$tags[$i]->ToCloud($maxWeight, $settings->Alias);

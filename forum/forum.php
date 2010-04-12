@@ -59,6 +59,7 @@
 		}
 	}
 	$result.= "</ul>";
+	$q->Release();
 
 	$threads = $record->GetForumThreadsCount($forum_id, $access);
 	$pager = new Pager($threads, $threadsPerPage, $from, $forum->BasePath());

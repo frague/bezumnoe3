@@ -8,5 +8,6 @@
 		$u->FillFromResult($q);
 		echo ($i ? ", " : "")." ".$u->ToInfoLink();
 	}
+	$q->Release();
 
 ?>

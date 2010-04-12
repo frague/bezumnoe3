@@ -94,6 +94,14 @@ class Query {
 	function AffectedRows() {
 		return @mysql_affected_rows($this->DB_stored);
 	}
+
+	function Release() {
+		if (!$this->Queried) {
+			error("Не определены результаты запроса!");
+			return false;
+		}
+		return @mysql_free_result($this->Q);
+	}
 }
 
 

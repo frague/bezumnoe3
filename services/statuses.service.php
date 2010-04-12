@@ -49,5 +49,6 @@
 		echo ($i ? "," : "").$status->ToJs();
 	}
 	echo "];";
+	$q->Release();
 
 ?>

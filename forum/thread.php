@@ -57,6 +57,7 @@
 		$result.= $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
 		$level = $record->Level;
 	}
+	$q->Release();
 	
 	for ($j = 0; $j < $level + 1; $j++) {
 		$result.= "</ul>";

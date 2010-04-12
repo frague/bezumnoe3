@@ -42,5 +42,7 @@
 		echo ($i ? "," : "").$wakeup->ToJs($user->User->Id);
 	}
 	echo "];";
+	$q->Release();
+
 	echo "this.Total=".$wakeup->GetResultsCount($condition).";";
 ?>

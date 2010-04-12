@@ -64,6 +64,7 @@
 		}
 	}
 	$result .= "];";
+	$q->Release();
 
 	// Comments total number
 	$q = $record->GetByCondition("", $record->CountAnswersExpression());
@@ -71,6 +72,7 @@
 		$q->NextResult();
 		$Total = $q->Get("TOTAL") - $q->Get("DELETED") - 1;
 		$result .= "this.Total=".$Total.";";
+		$q->Release();
 	}
 
 	echo $result;

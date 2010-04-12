@@ -79,6 +79,7 @@
 		$record->FillFromResult($q);
 		DisplayRecord($record);
 	}
+	$q->Release();
 
 	$settings->Alias = $alias;
 

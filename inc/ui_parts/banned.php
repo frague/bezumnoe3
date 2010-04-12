@@ -14,5 +14,6 @@
 		echo MakeListItem()." ".$u->ToInfoLink()."<div>".$u->BannedInfo($admin)."</div>";
 	}
 	echo "</ul></div>";
+	$q->Release();
 
 ?>
