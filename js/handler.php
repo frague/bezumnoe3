@@ -14,6 +14,7 @@
 	$isSuperAdmin = false;
     $version = $_GET["ver"];
     if ($version) {
+    	
 		require_once "../server_references.php";
 
 		$user = GetAuthorizedUser($dbMain, true);
@@ -103,7 +104,7 @@
     if ($v) {
     	if ($version) {
     		//AddLastModified($lastModifiedTime);
-    		AddEtagHeader($lastModifiedTime);
+    		AddEtagHeader($lastModifiedTime.$user->User->Id);
     		//Process (encode) data somehow
     	}
 		echo $v;
