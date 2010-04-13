@@ -288,7 +288,7 @@ VALUES
 '".SqlQuote($this->About)."', 
 '".SqlQuote($this->Registered)."', 
 '".SqlQuote($this->LastVisit)."',
-".(strlen($this->Generation) > 0 ? $this->Generation : "NULL")."
+".(strlen($this->Generation) > 0 ? $this->Generation : "NULL").",
 ".round($this->Rating).",
 ".round($this->LastRating)."
 )";
