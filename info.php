@@ -24,8 +24,11 @@
 		if ($person->IsEmpty()) {
 			$error = "Пользователь не найден.";
 		} else {
-			$profile = new Profile($person->User->Id);
-			$profile->Retrieve();
+			$profile = new Profile();
+			$profile->GetByUserId($person->User->Id);
+
+//			echo $profile;
+//			echo $person->User->Id;
 
 			InfoRating($person->User->Id);
 		}
