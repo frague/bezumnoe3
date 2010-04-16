@@ -87,6 +87,7 @@
 				<tr>
 					<td></td>
 					<td align="right">
+						<a href="javascript:void(0)" onclick="Translit()">qwe&harr;йцу</a>&nbsp;&nbsp;
 						<a href="javascript:void(0)" onclick="HistoryGo(-1)">x</a>&nbsp;
 						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer+1)">&laquo;</a>&nbsp;
 						<span id="History">История сообщений (0/0)</span>&nbsp;

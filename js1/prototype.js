@@ -370,6 +370,29 @@ function Received(req) {
 	ForcePing();
 };
 
+var eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL\\:ZXCVBNM<>/&?@`~";
+var rus = "יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝ‗×ÑÌÈÒÜÁÞ.?,\"¸¨";
+
+function Translit() {
+  	var val = textField.value, out = "";
+
+	for (i = 0, l = val.length; i < l; i++) {
+  		s = val.charAt(i);
+  		engIndex = eng.indexOf(s);
+  		if (engIndex >= 0) {
+  			s = rus.charAt(engIndex);
+  		} else {
+  			rusIndex = rus.indexOf(s);
+  			if (rusIndex >= 0) {
+  				s = eng.charAt(rusIndex);
+  			}
+  		}
+  		out += s;
+	}
+	textField.value = out;
+};
+
+
 /* Alerts & Confirmations */
 
 function StopPings() {
