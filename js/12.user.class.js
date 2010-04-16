@@ -1,4 +1,4 @@
-//5.0
+//5.1
 /*
 	Represents user entity on client-side.
 */
@@ -69,6 +69,7 @@ User.prototype.IsSuperAdmin = function() {
 
 User.prototype.ToString = function(room) {
 	var name = (this.Nickname ? this.Nickname : this.Login);
+	var qname = Quotes(name);
 
 	var has_access = this.HasAccessTo(room);
 	var s = this.NameToString(name, has_access);
@@ -84,18 +85,18 @@ User.prototype.ToString = function(room) {
 		}
 	}
 
-	s += '<li> <a ' + voidHref + ' onclick="_(\'' + name + '\')">Обратиться</a>';
-	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + name + '\')">Шёпотом</a>';
-	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + name + '\',\'wakeup\')">Вейкап</a>';
+	s += '<li> <a ' + voidHref + ' onclick="_(\'' + qname + '\')">Обратиться</a>';
+	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\')">Шёпотом</a>';
+	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'wakeup\')">Вейкап</a>';
 	if (!me || this.Id != me.Id) {
 		s += '<li> <a ' + voidHref + ' onclick="IG(' + this.Id + ',\'' + this.IsIgnored + '\')">' + (this.IsIgnored ? 'Убрать игнор' : 'В игнор') + '</a>';
 	}
 	if (me && me.Rights >= this.Rights) {
 		if (me.IsAdmin() || me.Rights == keeperRights) {
-			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + name + '\',\'kick\')">Выгнать</a>';
+			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Выгнать</a>';
 		}
 		if ((me.IsAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.IsSuperAdmin()) {
-			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + name + '\',\'ban\')">Забанить</a>';
+			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Забанить</a>';
 			if (this.Login) {
 				s += '<li class="Overlined"><span>' + this.Login + '</span>';
 				if (this.SessionAddress) {
