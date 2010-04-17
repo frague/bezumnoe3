@@ -1,4 +1,4 @@
-//1.4
+//1.6
 /*
 	Contains misc string-related functions.
 */
@@ -58,11 +58,14 @@ function TwoDigits(d) {
 
 var tagsRegex = new RegExp("\<[\/]{0,1}[a-z]+[^\>]*\>", "ig");
 function StripTags(text) {
-	text = text.replace(tagsRegex, "");
-	return text;
+	return text.replace(tagsRegex, "");
+};
+
+function HtmlQuotes(text) {
+	return text.replace(/"/g, "&quot;");
 };
 
 function Quotes(text) {
-	text = text.replace("\"", "\\\"").replace("'", "\\'");
-	return text;
+//	return text.replace(/\"/g, "\\\"").replace(/'/g, "\\'");
+	return text.replace(/'/g, "\\'").replace(/"/g, "&amp;quot;");
 };

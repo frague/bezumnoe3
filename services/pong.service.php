@@ -319,7 +319,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 				}
 				$text = $message->ToPrint($displayedName, $user->User->Id);
 				$text = OuterLinks(MakeLinks($text, true));
-				$messages = "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".$toUser."');".$messages;
+				$messages = "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".JsQuote($toUser)."');".$messages;
 			}
 			$q->Release();
 		}

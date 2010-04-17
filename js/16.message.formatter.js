@@ -1,11 +1,11 @@
-//1.3
+//1.4
 /*
 	Replaces #pvt#, #info# and #add# chunks with
 	proper links
 */
 
 function MakePrivateLink(id, name) {
-	return "<a " + voidHref + " onclick=\"AR(" + id + ",'" + name + "')\">#</a>";
+	return "<a " + voidHref + " onclick=AR(" + id + ",'" + Quotes(name) + "')>#</a>";
 };
 
 function MakeLink(name) {

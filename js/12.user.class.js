@@ -1,4 +1,4 @@
-//5.1
+//5.4
 /*
 	Represents user entity on client-side.
 */
@@ -130,7 +130,7 @@ User.prototype.NameToString = function(name, has_access) {
 		className += " IgnoresMe";
 	}
 
-	var title = name + (this.AwayMessage ? " отсутствует	&laquo;" + this.AwayMessage + "&raquo;" : "");
+	var title = HtmlQuotes(name) + (this.AwayMessage ? " отсутствует	&laquo;" + this.AwayMessage + "&raquo;" : "");
 
 	var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + voidHref + ' onclick="SwitchVisibility(\'_' + this.Id + '\')" ';
 	s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';
