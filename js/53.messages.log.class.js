@@ -1,4 +1,4 @@
-//3.2
+//3.3
 /*
 	Display messages log with filter by date, room & keywords
 */
@@ -111,11 +111,3 @@ mdto.prototype.ToString = function(index, obj, holder) {
 	return tr;
 };
 
-/* Room Data Transfer Object */
-
-function rdto(id, title, is_deleted) {
-	this.fields = ["Id", "Title", "IsDeleted"];
-	this.Init(arguments);
-};
-
-rdto.prototype = new DTO();

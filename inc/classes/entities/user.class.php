@@ -624,6 +624,14 @@ FROM
 WHERE
 	##CONDITION##";
 	}
+
+	function CloseSessionExpression() {
+		return "UPDATE ".$this->table."
+SET 
+	".self::ROOM_ID."=NULL,
+	".self::SESSION."=\"\"
+WHERE ##CONDITION##";
+	}
 }
 
 ?>

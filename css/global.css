@@ -58,6 +58,10 @@ span.imageLink {
 	font-weight:bold;
 }
 
+.Striked {
+	text-decoration: line-through;
+}
+
 .Button {
 	margin-right:2px;
 }

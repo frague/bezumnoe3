@@ -151,7 +151,7 @@ $this->GetEmptyExpression());
 	}
 
 	function ToDTO() {
-		return "new rdto(".round($this->Id).",\"".JsQuote($this->Title)."\",".Boolean($this->IsDeleted).")";
+		return "new rdto(".round($this->Id).",\"".JsQuote($this->Title)."\",".Boolean($this->IsDeleted).",".Boolean($this->IsLocked).")";
 	}
 
 	// SQL
@@ -180,13 +180,14 @@ WHERE
 		return "SELECT DISTINCT
 	t1.".self::ROOM_ID.",
 	t1.".self::TITLE.",
-	t1.".self::IS_DELETED."
+	t1.".self::IS_DELETED.",
+	t1.".self::IS_LOCKED."
 FROM 
 	".$this->table." AS t1
 WHERE
 	##CONDITION##
 ORDER BY 
-	t1.".self::IS_DELETED." DESC, 
+	t1.".self::IS_DELETED." ASC, 
 	t1.".self::TITLE." ASC";
 	}
 

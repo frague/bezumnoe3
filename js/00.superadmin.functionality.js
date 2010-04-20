@@ -1,4 +1,4 @@
-//3.0
+//3.1
 /*
 	SuperAdmin only functionality.
 	Will be loaded only if server rights checking is > adminRights.
@@ -39,7 +39,7 @@ var spoilerInits = [
 	function(tab) {new SystemLog().LoadTemplate(tab)},
 	function(tab) {new MessagesLog().LoadTemplate(tab)},
 	function(tab) {new Statuses().LoadTemplate(tab)},
-	function(tab) {},
+	function(tab) {new Rooms().LoadTemplate(tab)},
 	function(tab) {},
 	function(tab) {new ScheduledTasks().LoadTemplate(tab)}
 ];
