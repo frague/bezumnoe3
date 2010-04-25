@@ -1,4 +1,4 @@
-//3.0
+//3.1
 /*
 	Represents room entity on client-side.
 */

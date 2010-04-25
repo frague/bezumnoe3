@@ -1,4 +1,4 @@
-//2.0
+//2.1
 /*
 	Rooms management
 */
@@ -63,7 +63,7 @@ rdto.prototype.ToEditView = function(index, obj) {
 
 /* Helper methods */
 
-function AddRoom(a) {
+function AddNewRoom(a) {
 	if (a.obj) {
 		a.obj.AddRow(new rdto(0, "", 0, 0));
 	}
