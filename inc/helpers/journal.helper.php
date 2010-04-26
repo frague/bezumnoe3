@@ -16,6 +16,7 @@
     function TagCutLink($caption) {
       global $cutCount;
 
+        $caption = str_replace("\\\"", "&quot;", $caption);
     	return "<span class='cutlink'>(<a href='##LINK###cut".$cutCount++."'>".($caption ? $caption : "Подробнее")."</a>)</span>";
     }
     
