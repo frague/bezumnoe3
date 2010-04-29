@@ -88,6 +88,13 @@ class Room extends EntityBase {
 		$this->BeenVisited = $result->Get(self::BEEN_VISITED);
 	}
 
+	function FillFromHash($hash) {
+		$this->Title = UTF8toWin1251($hash[self::TITLE]);
+		$this->IsLocked = Boolean($hash[self::IS_LOCKED]);
+		$this->IsInvitationRequired = Boolean($hash[self::IS_INVITATION_REQUIRED]);
+		$this->IsDeleted = Boolean($hash[self::IS_DELETED]);
+	}
+
 	function FillByTitle($title) {
 		return $this->FillByCondition("t1.".self::TITLE."='".SqlQuote($title)."' AND t1.".IS_DELETED."=0");
 	}
@@ -151,7 +158,7 @@ $this->GetEmptyExpression());
 	}
 
 	function ToDTO() {
-		return "new rdto(".round($this->Id).",\"".JsQuote($this->Title)."\",".Boolean($this->IsDeleted).",".Boolean($this->IsLocked).")";
+		return "new rdto(".round($this->Id).",\"".JsQuote($this->Title)."\",".Boolean($this->IsDeleted).",".Boolean($this->IsLocked).",".Boolean($this->IsInvitationRequired).")";
 	}
 
 	// SQL
@@ -181,7 +188,8 @@ WHERE
 	t1.".self::ROOM_ID.",
 	t1.".self::TITLE.",
 	t1.".self::IS_DELETED.",
-	t1.".self::IS_LOCKED."
+	t1.".self::IS_LOCKED.",
+	t1.".self::IS_INVITATION_REQUIRED."
 FROM 
 	".$this->table." AS t1
 WHERE

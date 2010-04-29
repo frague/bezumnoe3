@@ -12,6 +12,15 @@
 		return "obj.Tab.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
 	}
 
+	function AddTypeCondition($name, $key, $value, $tail, $condition="OR") {
+		if ($_POST[$key]) {
+			return ($tail ? $tail." $condition " : "")."t1.".$name."='".$value."'";
+		}
+		return $tail;
+	}
+
+
+
 	$go = $_POST["go"];
 	$user_id = round($_POST["USER_ID"]);
 	$forum_id = round($_POST["FORUM_ID"]);

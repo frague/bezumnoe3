@@ -346,7 +346,8 @@
 	}
 
 	function Smartnl2br($text) {
-		return preg_replace("/([^\>]|[^p]\>|[^\/]p\>|[^\<]\/p\>)(\n|\r)/", "$1<br />$2", $text);
+		return preg_replace("/([^\>])(\n|\r)([^\<])/", "$1<br />$2$3", $text);
+//		return preg_replace("/([^\>]|[^p]\>|[^\/]p\>|[^\<]\/p\>)(\n|\r)/", "$1<br />$2", $text);
 	}
 
 	function MakeSearchCriteria($dateKey, $dateParameter, $keywordsKey, $keywordsTemplate) {

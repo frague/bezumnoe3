@@ -1,10 +1,10 @@
-//2.1
+//2.8
 /*
 	Rooms management
 */
 
 function Rooms() {
-	this.fields = ["ROOM_ID", "TITLE", "IS_DELETED", "IS_LOCKED"];
+	this.fields = ["ROOM_ID", "TITLE", "IS_DELETED", "IS_LOCKED", "IS_INVITATION_REQUIRED", "locked", "by_invitation", "deleted"];
 	this.ServicePath = servicesPath + "rooms.service.php";
 	this.Template = "rooms";
 	this.ClassName = "Rooms";
@@ -23,9 +23,23 @@ Rooms.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
+Rooms.prototype.Request = function(params, callback) {
+	if (!params) {
+		params = this.Gather();
+	}
+	this.ClearRecords(true);
+	this.BaseRequest(params, callback);
+	this.HasEmptyRow = false;
+};
+
 Rooms.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 	this.GroupSelfAssign(["AddRoom", "RefreshRooms"]);
+
+	// System log checkboxes
+	BindEnterTo(this.Inputs["locked"], this.Inputs["RefreshRooms"]);
+	BindEnterTo(this.Inputs["by_invitation"], this.Inputs["RefreshRooms"]);
+	BindEnterTo(this.Inputs["deleted"], this.Inputs["RefreshRooms"]);
 };
 
 /* Room Data Transfer Object editable methods */
@@ -35,10 +49,12 @@ rdto.prototype.ToShowView = function(index, obj) {
 
 	var td2 = d.createElement("td");
 	if (this.IsDeleted) {
-		td2.className = "Striked";
+		td2.className = "Deleted";
 	}
-	if (this.IsLocked) {
-		td2.className += " Red";
+	if (this.IsInvitationRequired) {
+		td2.className += " Dude";
+	} else if (this.IsLocked) {
+		td2.className += " Locked";
 	}
 	td2.innerHTML = this.Title;
 	tr.appendChild(td2);
@@ -50,10 +66,23 @@ rdto.prototype.ToEditView = function(index, obj) {
 	var tr = MakeGridRow(index);
 
 	var td2 = d.createElement("td");
-		td2.className = "Wide";
 		this.TitleInput = d.createElement("input");
+		this.TitleInput.className = "Wide";
 		this.TitleInput.value = this.Title;
 		td2.appendChild(this.TitleInput);
+
+		this.IsLockedInput = CreateCheckBox("IsLocked", this.IsLocked);
+		td2.appendChild(this.IsLockedInput);
+		td2.appendChild(CreateLabel(this.IsLockedInput, "заблокированная"));
+
+		this.IsInvitationRequiredInput = CreateCheckBox("IsInvitationRequired", this.IsInvitationRequired);
+		td2.appendChild(this.IsInvitationRequiredInput);
+		td2.appendChild(CreateLabel(this.IsInvitationRequiredInput, "по приглашению"));
+
+		this.IsDeletedInput = CreateCheckBox("IsDeleted", this.IsDeleted);
+		td2.appendChild(this.IsDeletedInput);
+		td2.appendChild(CreateLabel(this.IsDeletedInput, "удалённая"));
+
 	tr.appendChild(td2);
 
 	tr.appendChild(this.MakeButtonsCell());
@@ -65,6 +94,6 @@ rdto.prototype.ToEditView = function(index, obj) {
 
 function AddNewRoom(a) {
 	if (a.obj) {
-		a.obj.AddRow(new rdto(0, "", 0, 0));
+		a.obj.AddRow(new rdto(0, "", 0, 0, 0));
 	}
 };

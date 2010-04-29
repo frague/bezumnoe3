@@ -12,6 +12,7 @@
 
 	switch ($go) {
 		case "save":
+			$room->Id = $id;
 			$room->FillFromHash($_POST);
 			$error = $room->SaveChecked();
 			if ($error) {
@@ -39,8 +40,15 @@
 			break;
 	}
 
+
+	$filter = AddTypeCondition(Room::IS_DELETED, "deleted", 0, "", "AND");
+	$filter = AddTypeCondition(Room::IS_LOCKED, "locked", 1, $filter, "AND");
+	$filter = AddTypeCondition(Room::IS_INVITATION_REQUIRED, "by_invitation", 1, $filter, "AND");
+
+	print "/* $filter */";
+	
 	echo "this.data=[";
-	$q = $room->GetByCondition("", $room->ListRoomsExpression());
+	$q = $room->GetByCondition($filter, $room->ListRoomsExpression());
 
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

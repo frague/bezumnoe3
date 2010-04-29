@@ -1,4 +1,4 @@
-//4.8
+//5.0
 /*
 	Contains all global script settings, constants and variables
 */
@@ -79,15 +79,17 @@ function CreateElement(tag, name) {
 	var result;
 	if (d.all) {
 		try {
-			result = d.createElement("<" + tag + " name=\"" + name + "\" id=\"" + name + "\">");
+			result = d.createElement("<" + tag + (name ? " name=\"" + name + "\" id=\"" + name + "\"" : "") + ">");
 		} 
 		catch(e) {
 		}
 	}
 	if (!result) {
 		result = d.createElement(tag);
-		result.name = name;
-		result.id = name;
+		if (name) {
+			result.name = name;
+			result.id = name;
+		}
 	}
 	return result;
 };
@@ -120,6 +122,15 @@ function CreateRadio(name, checked) {
 
 function CreateCheckBox(name, checked) {
 	return CreateBitInput(name, checked, 0);
+};
+
+function CreateLabel(target, text) {
+	label = CreateElement("label");
+	label.innerHTML = text;
+	if (target) {
+		label.setAttribute("for", target.name ? target.name : target);
+	}
+	return label;
 };
 
 function CreateBooleanImage(state) {

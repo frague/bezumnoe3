@@ -456,3 +456,24 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
 .Options ul li a {
 	color:black;
 }
+
+table.Grid td.Locked {
+	padding-left:12px;
+	background:url(/img/icons/lock.gif) no-repeat 2px 2px;
+}
+
+table.Grid td.Dude {
+	color:#C0F256;
+	padding-left:12px;
+	background:url(/img/icons/dude.gif) no-repeat 2px 2px;
+}
+
+table.Grid td.Deleted {
+	color:#C0C0C0;
+	font-style:italic;
+	text-decoration:line-through;
+}
+
+table.Grid td label {
+	margin-right: 8px;
+}

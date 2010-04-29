@@ -1,4 +1,4 @@
-//3.1
+//3.2
 /*
 	Represents room entity on client-side.
 */
@@ -176,7 +176,7 @@ function AddRoom(a) {
 /* Room Data Transfer Object */
 
 function rdto(id, title, is_deleted, is_locked) {
-	this.fields = ["Id", "Title", "IsDeleted", "IsLocked"];
+	this.fields = ["Id", "Title", "IsDeleted", "IsLocked", "IsInvitationRequired"];
 	this.Init(arguments);
 };
 

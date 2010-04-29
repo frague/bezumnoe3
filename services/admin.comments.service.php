@@ -35,16 +35,10 @@
 	$condition = MakeSearchCriteria("DATE", AdminComment::DATE, "SEARCH", $comment->SearchTemplate);
 
 	/* Filter events by type */
-	function AddTypeCondition($key, $value, $condition) {
-		if ($_POST[$key]) {
-			return ($condition ? $condition." OR " : "")."t1.".AdminComment::SEVERITY."='".$value."'";
-		}
-		return $condition;
-	}
 
-	$typeFilter = AddTypeCondition("SEVERITY_NORMAL", AdminComment::SEVERITY_NORMAL, "");
-	$typeFilter = AddTypeCondition("SEVERITY_WARNING", AdminComment::SEVERITY_WARNING, $typeFilter);
-	$typeFilter = AddTypeCondition("SEVERITY_ERROR", AdminComment::SEVERITY_ERROR, $typeFilter);
+	$typeFilter = AddTypeCondition(AdminComment::SEVERITY, "SEVERITY_NORMAL", AdminComment::SEVERITY_NORMAL, "");
+	$typeFilter = AddTypeCondition(AdminComment::SEVERITY, "SEVERITY_WARNING", AdminComment::SEVERITY_WARNING, $typeFilter);
+	$typeFilter = AddTypeCondition(AdminComment::SEVERITY, "SEVERITY_ERROR", AdminComment::SEVERITY_ERROR, $typeFilter);
 
 	if (!$typeFilter) {
 		echo "this.data=[];this.Total=0;";
