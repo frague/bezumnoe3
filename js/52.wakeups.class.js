@@ -1,4 +1,4 @@
-//2.7
+//2.8
 /*
 	Wakeup messages grid. Edit & delete buttons.
 */
@@ -9,6 +9,7 @@ function Wakeups() {
 	this.Template = "wakeups";
 	this.ClassName = "Wakeups";
 	this.Columns = 3;
+	this.PerPage = 20;
 
 	this.GridId = "WakeupsGrid";
 };
