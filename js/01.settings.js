@@ -1,4 +1,4 @@
-//5.0
+//5.1
 /*
 	Contains all global script settings, constants and variables
 */
@@ -100,7 +100,7 @@ function CreateBitInput(name, checked, is_radio) {
 
 	if (d.all) {
 		try {
-			result = d.createElement("<input type=\"" + type + "\" name=\"" + name + "\"" + (checked ? " checked" : "") + ">");
+			result = d.createElement("<input type=\"" + type + "\" name=\"" + name + "\"" + (is_radio ? "" : " id=\"" + name + "\"") + (checked ? " checked" : "") + ">");
 		} 
 		catch(e) {
 		}
@@ -109,6 +109,9 @@ function CreateBitInput(name, checked, is_radio) {
 		result = d.createElement("input");
 		result.type = type;
 		result.name = name;
+		if (!is_radio) {
+			result.id = name;
+		}
 		if (checked) {
 			result.setAttribute("checked", "true");
 		}
