@@ -58,7 +58,11 @@ function ClearReply() {
 
 		$("login").value = "";
 		$("password").value = "";
-		$("AUTH_NOW").checked = "checked";
+		if ($("LoggedLine").className) {
+			$("AUTH_NOW").checked = true;
+		} else {
+			$("AUTH_LOGGED").checked = true;
+		}
 	}
 };
 
