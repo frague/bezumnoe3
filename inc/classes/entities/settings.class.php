@@ -172,6 +172,17 @@ class Settings extends EntityBase {
 		$this->Frameset = round($hash[self::FRAMESET]);
 	}
 
+	function Validate() {
+		$result = "";
+		if ($this->EnterMessage && !preg_match("/\%name/", $this->EnterMessage)) {
+			$result .= "<li> Фраза о входе в чат не содержит ссылки на имя (%name)";
+		}
+		if ($this->QuitMessage && !preg_match("/\%name/", $this->QuitMessage)) {
+			$result .= "<li> Фраза о выходе из чата не содержит ссылки на имя (%name)";
+		}
+		return $result;
+	}
+
 	function GetByUserId($id) {
 		return $this->FillByCondition("t1.".self::USER_ID."=".SqlQuote($id));
 	}

@@ -6,7 +6,7 @@
 function Alerts(container) {
 	this.Holder = container;
 	this.Holder.className = "AlertsHolder";
-	this.Container = RoundCorners(container, "corners_med.gif", 3);
+	this.Container = RoundCorners(container, "orange");
 	this.Clear();
 };
 

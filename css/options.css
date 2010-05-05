@@ -108,20 +108,29 @@ img.Photo {
 .AlertsHolder {
 	padding:0;
 	margin:0;
+	text-align:center;
 }
 
 .AlertsContainer {
 	background-color:#E9B649;
 	color:black;
-	margin:0;
-	padding:0;
+	margin:10px 20%;
+	padding:4px 40px;
+	text-align:left;
 }
 .AlertsContainer p {
 	font-weight:bold;
-	white-space:nowrap;
-	padding:0 40px 0 40px;
 	margin:0;
 	display:block;
+}
+
+.AlertsContainer ul {
+	margin:0 0 4px 0;
+	padding:0;
+}
+
+.AlertsContainer ul li {
+	list-style:square;
 }
 
 .AlertsContainer p.Error, ul#Errors li {

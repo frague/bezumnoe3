@@ -1,6 +1,6 @@
-var container = new MyFrame($('WakeupContainer'));
+var container = new MyFrame($('WakeupContainer'), 400);
 var replyDiv = $('WakeupReply');
-var reply = new MyFrame(replyDiv);
+var reply = new MyFrame(replyDiv, 400);
 var winSize = new MyFrame(window);
 var replyFormHeight = 75;
 var offset = 0;
@@ -35,13 +35,15 @@ function Send(message_id) {
 	var s = MakeParametersPair("message", inputReply.value);
 	s += MakeParametersPair("reply_to", message_id);
 	sendRequest("../services/wakeup.service.php", MessageAdded, s);
+	statusLabel.className = "RoundedCorners";
+	statusLabel.style.backgroundColor = "#404040";
 	statusLabel.innerHTML = "Отправка сообщения...";
 	inputReply.value = "";
 }
 
 function MessageAdded(req) {
 	if (req.responseText) {
-		statusLabel.className = req.responseText.charAt(0) == '-' ? "Fail" : "Succeed";
+		statusLabel.style.backgroundColor = req.responseText.charAt(0) == '-' ? "#983418" : "#728000";
 		statusLabel.innerHTML = req.responseText.substring(1);
 	}
 	setTimeout("self.close()", 2000);

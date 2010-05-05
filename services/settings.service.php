@@ -29,8 +29,13 @@
 				case "save":
 					/* Saving profile */
 					$settings->FillFromHash($_POST);
-					$settings->Save();
-					echo JsAlert("Настройки успешно сохранёны.");
+					$errors = $settings->Validate();
+					if ($errors) {
+						echo JsAlert("Настройки не были сохранёны по следующим причинам:<ul>".$errors."</ul>", 1);
+					} else {
+						$settings->Save();
+						echo JsAlert("Настройки успешно сохранёны.");
+					}
 					break;
 			}
 			echo "obj.FillFrom(".$settings->ToJsProperties($targetUser).");";

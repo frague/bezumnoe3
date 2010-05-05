@@ -1,4 +1,4 @@
-//2.0
+//2.1
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -17,6 +17,7 @@ function umExtraButtons(id, login, obj) {
  	var ul = d.createElement("ul");
 
 	ul.appendChild(MakeUserMenuLink(MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "Профиль", obj, "")));
+	ul.appendChild(MakeUserMenuLink(MakeButtonLink("DeleteUser(" + id + ",'" + login + "')", "Удалить", obj, "Red")));
 	if (me.IsSuperAdmin()) {
 		umAdditionalExtraButtons(ul, id, login, obj);
 	}
@@ -27,6 +28,10 @@ function umExtraButtons(id, login, obj) {
 function ShowUser(id, name) {
 	var tab_id = "u" + id;
 	CreateUserTab(id, name, new Profile(), "", "", tab_id);
+};
+
+function DeleteUser(id, name) {
+	alert("Not yet...");
 };
 
 /* Admin Options */

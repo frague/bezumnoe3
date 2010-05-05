@@ -51,7 +51,7 @@
 	<tr>
 		<td colspan="4">
 			<h4>Расположение "фреймов" чата:</h4></td></tr>
-	<tr class="Radios" id="FRAMESET"><td width="25"><img src="/img/frames/0.gif" /><input type="radio" id="SET0" name="FRAMESET1" value="0" /><label for="SET0">Список пользователей слева, поле ввода вверху</label></td><td width="25"><img src="/img/frames/1.gif" /><input type="radio" id="SET1" name="FRAMESET1" value="1" /><label for="SET1">Список пользователей справа, поле ввода вверху</label></td><td width="25"><img src="/img/frames/2.gif" /><input type="radio" id="SET2" name="FRAMESET1" value="2"><label for="SET2" />Список пользователей слева, поле ввода внизу</label></td><td width="25"><img src="/img/frames/3.gif" /><input type="radio" id="SET3" name="FRAMESET1" value="3" /><label for="SET3">Список пользователей справа, поле ввода внизу</label></td></tr></table>
+	<tr class="Radios" id="FRAMESET"><td width="25%"><img src="/img/frames/0.gif" /><input type="radio" id="SET0" name="FRAMESET1" value="0" /><label for="SET0">Список пользователей слева, поле ввода вверху</label></td><td width="25%"><img src="/img/frames/1.gif" /><input type="radio" id="SET1" name="FRAMESET1" value="1" /><label for="SET1">Список пользователей справа, поле ввода вверху</label></td><td width="25%"><img src="/img/frames/2.gif" /><input type="radio" id="SET2" name="FRAMESET1" value="2"><label for="SET2" />Список пользователей слева, поле ввода внизу</label></td><td width="25%"><img src="/img/frames/3.gif" /><input type="radio" id="SET3" name="FRAMESET1" value="3" /><label for="SET3">Список пользователей справа, поле ввода внизу</label></td></tr></table>
 
 <ul class="Links">
 	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>

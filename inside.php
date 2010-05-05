@@ -118,7 +118,7 @@
 
 			/* Tabs */
 			var tabs = new Tabs($("Messages"), $("MessagesContainer"));
-			var MainTab = new Tab(1, "×àò", 1)
+			var MainTab = new Tab(1, "×àò", 1);
 			tabs.Add(MainTab);
 			CurrentTab = MainTab;
 

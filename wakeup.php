@@ -51,14 +51,14 @@
 			</div>
 			<div id='WakeupReply' style='display:none'>
 				<form target="#" onsubmit="Send(<? echo $wakeup->Id; ?>);return false;">
+					<div class="RoundedCorners" id="status"></div>
 					<table>
-						<tr><td colspan="2">Ответ:</td></tr>
 						<tr>
+							<td>Ответ:</td>
 							<td width="100%"><input name="reply" id="reply" style="width:100%" autocomplete="off"></td>
 							<td><input type="image" value="Отправить" src="/img/send_button.gif"></td>
 						</tr>
 					</table>
-					<span id="status"></span>
 				</form>
 			</div>
 			<script language="javascript" src="/js1/wakeup.js"></script>

@@ -543,4 +543,8 @@ div.DatePicker table.Calendar th select {
 	margin-left:-1px;
 }
 
-
+.RoundedCorners {
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+}
