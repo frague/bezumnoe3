@@ -83,9 +83,9 @@
 
 	function SqlQuote($source) {
 	//	echo "<div>".$source."</div>";
-		$source = str_replace("\\", "\\\\", $source);
-		$source = str_replace("'", "\\'", $source);
-		return $source;
+	//	$source = str_replace("\\", "\\\\", $source);
+	//	$source = str_replace("'", "\\'", $source);
+		return mysql_real_escape_string($source);
 	}
 
 	function JsQuote($source) {
