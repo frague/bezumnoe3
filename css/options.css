@@ -116,7 +116,6 @@ img.Photo {
 	color:black;
 	margin:10px 20%;
 	padding:4px 40px;
-	text-align:left;
 }
 .AlertsContainer p {
 	font-weight:bold;
@@ -125,6 +124,7 @@ img.Photo {
 }
 
 .AlertsContainer ul {
+	text-align:left;
 	margin:0 0 4px 0;
 	padding:0;
 }

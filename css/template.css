@@ -1,6 +1,7 @@
 body {
 	padding:0;
 	margin:0 20px;
+	text-align:center;
 }
 
 a {
@@ -50,6 +51,7 @@ h1 {
 .Main {
 	width:720px;
 	margin:0 auto;
+	text-align:left;
 }
 
 /* Dividers */

@@ -1,4 +1,4 @@
-//2.7
+//2.8
 /*
 	Journal templates: Global markup, single message & stylesheets.
 */
@@ -85,10 +85,11 @@ function ShowSkinPreview(jt, background) {
 	if (bg.indexOf("/") > 0) {
 		bg = bg.substr(bg.lastIndexOf("/"));
 	}
+	bg = bg.replace(/"/g, '');
 
 	jt.DisplayTabElement("previewCell", bg);
 	if (bg) {
-		jt.Inputs["skinPreview"].innerHTML = "<img src='" + skinsPreviewPath + bg + "' class='Photo'>";
+		jt.Inputs["skinPreview"].innerHTML = bg ? "<img src='" + skinsPreviewPath + bg + "' class='Photo'>" : "";
 	}
 };
 
