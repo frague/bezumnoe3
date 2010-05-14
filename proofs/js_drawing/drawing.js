@@ -45,9 +45,43 @@ function b(x, y, text, color) {
 	t.appendChild(span);
 };
 
+function relation(id1, id2, type) {
+	this.From = arr[0];
+	this.To = arr[1];
+	this.Type = arr[2];
+};
+
+function user(arr) {
+	this.Id = arr[0];
+	this.Login = arr[1];
+	this.Generation = arr[2];
+};
 
 
-line(100, 120, 300, 450, "cyan");
+users = [];
+generations = [];
+maxGeneration = 0;
+
+for (item in u) {
+	user1 = new user(u[item]);
+	users[user1.Id] = user1;
+	a = generations[user1.Generation];
+	if (!a) {
+		a = [];
+	}
+	a[a.length] = user1;
+	generations[user1.Generation] = a;
+	maxGeneration = maxGeneration > user1.Generation ? maxGeneration : user1.Generation;
+}
+
+for (i = 0; i < maxGeneration; i++) {
+	gen = generations[i];
+	for (y = 0; y < gen.length; y++) {
+		b(i * 160, y * 25, gen[y].Login, "orange");
+	}
+};
+
+/*line(100, 120, 300, 450, "cyan");
 hl(120, 50, 300, "red");
 vl(160, 50, 200);
-b(200, 200, "Damn", "orange");
+b(200, 200, "Damn", "orange");*/

@@ -45,11 +45,11 @@ class TreeNode extends EntityBase {
 	}
 
 	function ToJs() {
-		return "new ur(".$this->FirstUserId.",".$this->SecondUserId.",'".$this->RelationType."')";
+		return "[".$this->FirstUserId.",".$this->SecondUserId.",'".$this->RelationType."']";
 	}
 
 	function UserInfoToJs($r) {
-		return "new ui(".$r->Get(User::USER_ID).",'".JsQuote($r->Get(User::LOGIN))."',".$r->Get(Profile::GENERATION).")";
+		return "[".$r->Get(User::USER_ID).",'".JsQuote($r->Get(User::LOGIN))."',".$r->Get(Profile::GENERATION)."]";
 	}
 	
 	function __tostring() {

@@ -15,7 +15,7 @@
 	echo "u=[".$result."];";
 	$result = "";
 
-	$q = $t->GetByCondition();
+	$q = $t->GetByCondition("1=1");
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$t->FillFromResult($q);
