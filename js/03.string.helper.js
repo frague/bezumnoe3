@@ -65,6 +65,14 @@ function HtmlQuotes(text) {
 	return text.replace(/"/g, "&quot;");
 };
 
+function StrongHtmlQuotes(text) {
+	text = HtmlQuotes(text);
+	text = text.replace(/&/g, "&amp;");
+	text = text.replace(/</g, "&lt;");
+	text = text.replace(/>/g, "&gt;");
+	return text;
+};
+
 function Quotes(text) {
 //	return text.replace(/\"/g, "\\\"").replace(/'/g, "\\'");
 	return text.replace(/'/g, "\\'").replace(/"/g, "&amp;quot;");
