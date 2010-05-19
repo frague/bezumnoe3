@@ -24,10 +24,14 @@ function line(x, y, x1, y1, color) {
 	}
 
 	div = d.createElement("div");
-	div.style.left = x + "px";
-	div.style.top = y + "px";
-	div.style.width = (x1 - x) + "px";
-	div.style.height = (y1 - y) + "px";
+	try {
+		div.style.left = x + "px";
+		div.style.top = y + "px";
+		div.style.width = (x1 - x) + "px";
+		div.style.height = (y1 - y) + "px";
+	} catch (e) {
+		// IE doesn't like "px"
+	}
 	if (color) {
 		div.style.backgroundColor = color;
 	}
