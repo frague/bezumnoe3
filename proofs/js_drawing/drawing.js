@@ -1,6 +1,14 @@
 d = document;
 t = d.getElementById("bb");
 thick = 3;
+gap = 5;
+genWidth = 400;
+
+function dot(x, y, color) {
+	this.x = x;
+	this.y = y;
+	this.color = color;
+}
 
 function line(x, y, x1, y1, color) {
 	if (x > x1) {
@@ -36,8 +44,8 @@ function vl(x, y, w, color) {
 
 function b(x, y, u, color) {
 	span = d.createElement("span");
-//	span.innerHTML = u.Login + ", " + u.Id;
-	span.innerHTML = u.Login;
+	span.innerHTML = u.Login + ", " + u.Id;
+//	span.innerHTML = u.Login;
 	span.style.left = x + "px";
 	span.style.top = y + "px";
 	if (color) {
@@ -82,7 +90,7 @@ for (item in u) {
 for (i = 0; i < maxGeneration; i++) {
 	gen = generations[i];
 	for (y = 0; y < gen.length; y++) {
-		gen[y].x = i * 300;
+		gen[y].x = i * genWidth;
 		gen[y].y = y * 20;
 		b(gen[y].x, gen[y].y, gen[y], "orange");
 	}
@@ -138,74 +146,111 @@ function CheckMore(old, v1, v2) {
 
 lefts = [];
 rights = [];
+parentsLinks = [];
+recommendedColors = [];
 
 index = 0;
 colors = ["red", "green", "blue", "orange", "brown", "darkblue", "darkorange", "purple"];
 
-for (i in users) {
-	user1 = users[i];
-/*	if (user1.Id != 6106 && user1.Id != 4014) {
-		continue;
-	}*/
+for (kk in generations) {
+	for (i in generations[kk]) {
+		user1 = generations[kk][i];
+/*		if (user1.Id != 6106 && user1.Id != 3801) {
+			continue;
+		}
+*/
+		left = 10 + (lefts[user1.Generation] ? gap * lefts[user1.Generation] : 0);
+		right = 100 + (rights[user1.Generation] ? gap * rights[user1.Generation] : 0);
+		color = recommendedColors[user1.Id] ? recommendedColors[user1.Id] : colors[(index++) % 8];
 
-	left = 10 + (lefts[user1.Generation] ? 5 * lefts[user1.Generation] : 0);
-	right = 100 + (rights[user1.Generation] ? 5 * rights[user1.Generation] : 0);
-	color = colors[(index++) % 8];
+		flagLeft = false;
+		flagRight = false;
+		parents = [];
+		parentId = 0;
+		hasBrothers = false;
 
-	flagLeft = false;
-	flagRight = false;
+		linked = [user1.Id];
 
-	linked = [user1.Id];
+		rightTop = user1.y;
+		rightBottom = user1.y;
 
-	rightTop = 10000;
-	rightBottom = 0;
+		leftTop = user1.y;
+		leftBottom = user1.y;
 
-	leftTop = 10000;
-	leftBottom = 0;
+		for (k in userRelations[user1.Id]) {
+			rel1 = userRelations[user1.Id][k];
 
-	for (k in userRelations[user1.Id]) {
-		rel1 = userRelations[user1.Id][k];
+			user1 = users[rel1.From];	// ?
+			user2 = users[rel1.To];
+			if (!RelationExists(rel1)) {
+				if (user1 && user2) {
+					if (rel1.Type == "b" || rel1.Type == "s") {
+						hl(user1.x - left, user1.y + 5, left, color);
+						hl(user2.x - left, user2.y + 5, left, color);
+						vl(user1.x - left, user1.y + 5, user2.y - user1.y, color);
 
-		user1 = users[rel1.From];
-		user2 = users[rel1.To];
-		if (!RelationExists(rel1)) {
-			if (user1 && user2) {
-				if (rel1.Type == "b" || rel1.Type == "s") {
-					hl(user1.x - left, user1.y + 5, left, color);
-					hl(user2.x - left, user2.y + 5, left, color);
-					vl(user1.x - left, user1.y + 5, user2.y - user1.y, color);
+						flagLeft = true;
+						linked[linked.length] = user2.Id;
 
-					flagLeft = true;
-					linked[linked.length] = user2.Id;
+						leftTop = CheckLess(leftTop, user1.y + 5, user2.y + 5);
+						leftBottom = CheckMore(leftBottom, user1.y + 5, user2.y + 5);
 
-					leftTop = CheckLess(leftTop, user1.y + 5, user2.y + 5);
-					leftBottom = CheckMore(leftBottom, user1.y + 5, user2.y + 5);
-
-				} else if (rel1.Type == "h" || rel1.Type == "w") {
-					hl(user1.x, user1.y + 5, right + thick, color);
-					hl(user2.x, user2.y + 5, right + thick, color);
-					vl(user1.x + right, user1.y + 5, user2.y - user1.y, color);
+						hasBrothers = true;
+					} else if (rel1.Type == "h" || rel1.Type == "w") {
+						hl(user1.x, user1.y + 5, right + thick, color);
+						hl(user2.x, user2.y + 5, right + thick, color);
+						vl(user1.x + right, user1.y + 5, user2.y - user1.y, color);
 					
-					linked[linked.length] = user2.Id;
-					flagRight = true;
+						linked[linked.length] = user2.Id;
+						flagRight = true;
 
-					rightTop = CheckLess(rightTop, user1.y + 5, user2.y + 5);
-					rightBottom = CheckMore(rightBottom, user1.y + 5, user2.y + 5);
-				} else if (rel1.Type == "m" || rel1.Type == "f") {
-				
-				} else if (rel1.Type == "c") {
-				
+						rightTop = CheckLess(rightTop, user1.y + 5, user2.y + 5);
+						rightBottom = CheckMore(rightBottom, user1.y + 5, user2.y + 5);
+
+						parents[parents.length] = user1.Id;
+						parents[parents.length] = user2.Id;
+					} else if (rel1.Type == "m" || rel1.Type == "f") {
+						recommendedColors[user2.Id] = color;
+					} else if (rel1.Type == "c") {
+						parentId = user2.Id;
+					}
+
 				}
-
 			}
 		}
-	}
-	MarkRelations(linked);
+		MarkRelations(linked);
 
-	if (flagLeft) {
-		AddGenLevel(lefts, user1.Generation);
-	}
-	if (flagRight) {
-		AddGenLevel(rights, user1.Generation);
+		if (parents.length > 0) {
+			mid = rightTop + Math.round((rightBottom - rightTop) / 2);
+			dot1 = new dot(user1.x + right, mid, color);
+
+			for (i = 0, l = parents.length; i < l; i++) {
+				parentsLinks[parents[i]] = dot1;
+			}
+		}
+		if (flagRight) {
+			AddGenLevel(rights, user1.Generation);
+		}
+		if (parentId && parentsLinks[parentId]) {
+			parentsDot = parentsLinks[parentId];
+			prevGen = user1.Generation - 1;
+			if (hasBrothers) {
+				mid = leftTop + Math.round((leftBottom - leftTop) / 2);
+				left = 10 + (lefts[user1.Generation] ? gap * lefts[user1.Generation] : 0);
+			} else {
+				mid = user1.y;
+				left = user1.x;
+			}
+
+			lefter = (genWidth * prevGen) + 100 + (rights[prevGen] ? gap * rights[prevGen] : 0);
+
+			hl(parentsDot.x, parentsDot.y, lefter - parentsDot.x + thick, color);
+//			hl(parentsDot.x + gap, mid, user1.x - left - parentsDot.x, color);
+//			vl(lefter, parentsDot.y, mid - parentsDot.y, color);
+			AddGenLevel(rights, prevGen);
+		}
+		if (flagLeft) {
+			AddGenLevel(lefts, user1.Generation);
+		}
 	}
 }
