@@ -72,8 +72,8 @@ users = [];
 generations = [];
 maxGeneration = 0;
 
-for (item in u) {
-	user1 = new user(u[item]);
+for (i in u) {
+	user1 = new user(u[i]);
 	users[user1.Id] = user1;
 	AppendSubArray(generations, user1.Generation, user1);
 	maxGeneration = maxGeneration > user1.Generation ? maxGeneration : user1.Generation;
