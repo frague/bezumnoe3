@@ -345,5 +345,5 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	destroy($ignore);
 	destroy($message);
 
-	echo "/* Mem: ".number_format(memory_get_usage())." */";
+//	echo "/* Mem: ".number_format(memory_get_usage())." */";
 ?>

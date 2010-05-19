@@ -42,6 +42,7 @@
 
 	require_once $root."inc/classes/entities/tag.class.php";
 	require_once $root."inc/classes/entities/record_tag.class.php";
+	require_once $root."inc/classes/entities/tree_node.class.php";
 
 	/* Service classes */
 	require_once $root."inc/classes/sql.class.php";

@@ -40,6 +40,18 @@ class TreeNode extends EntityBase {
 		$this->RelationType = $result->Get(self::RELATION_TYPE);
 	}
 
+	function GetTreeUsers() {
+		return $this->GetByCondition("", $this->TreeUsersExpression());
+	}
+
+	function ToJs() {
+		return "[".$this->FirstUserId.",".$this->SecondUserId.",'".$this->RelationType."']";
+	}
+
+	function UserInfoToJs($r) {
+		return "[".$r->Get(User::USER_ID).",'".JsQuote($r->Get(User::LOGIN))."',".$r->Get(Profile::GENERATION)."]";
+	}
+	
 	function __tostring() {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::NODE_ID.": ".$this->Id."</li>\n";
@@ -92,6 +104,14 @@ WHERE
 
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::NODE_ID."=".SqlQuote($this->Id);
+	}
+
+	function TreeUsersExpression() {
+		return "SELECT t1.".User::USER_ID.", t1.".User::LOGIN.", t2.".Profile::GENERATION." 
+FROM ".User::table." t1
+JOIN ".Profile::table." t2 ON t1.".User::USER_ID."=t2.".Profile::USER_ID."
+WHERE t2.".Profile::GENERATION." IS NOT NULL
+ORDER BY t2.".Profile::GENERATION." ASC";
 	}
 }
 

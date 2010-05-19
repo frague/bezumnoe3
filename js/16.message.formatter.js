@@ -1,19 +1,19 @@
-//1.4
+//1.6
 /*
 	Replaces #pvt#, #info# and #add# chunks with
 	proper links
 */
 
 function MakePrivateLink(id, name) {
-	return "<a " + voidHref + " onclick=AR(" + id + ",'" + Quotes(name) + "')>#</a>";
+	return "<a " + voidHref + " onclick=AR(" + id + ",'" + StrongHtmlQuotes(Quotes(name)) + "')>#</a>";
 };
 
 function MakeLink(name) {
-	return "<a " + voidHref + " onclick=\"__(this)\">" + name + "</a>";
+	return "<a " + voidHref + " onclick=\"__(this)\">" + StrongHtmlQuotes(name) + "</a>";
 };
 
 function MakeInfoLink(id, name) {
-	return "<a " + voidHref + " onclick=\"Info('" + id + "')\">" + name + "</a>";
+	return "<a " + voidHref + " onclick=\"Info('" + id + "')\">" + StrongHtmlQuotes(name) + "</a>";
 };
 
 function GetUserStyle(id) {

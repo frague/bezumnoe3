@@ -29,7 +29,7 @@
 <?php
 		echo "<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>";
 		?>
-		<?php echo $title_img ? "<img src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" alt=\"".$title."\" title=\"".$title."\" />" : "<h1>".$title."</h1>" ?>
+		<?php echo $title_img ? "<img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" alt=\"".$title."\" title=\"".$title."\" />" : "<h1>".$title."</h1>" ?>
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
 <?php
