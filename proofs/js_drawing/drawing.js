@@ -63,6 +63,14 @@ function b(x, y, u, color) {
 	t.appendChild(span);
 };
 
+function g(gen, x) {
+	h4 = d.createElement("h4");
+	h4.innerHTML = gen;
+	h4.style.left = (x + 10) + "px";
+	h4.style.top = "0px";
+	t.appendChild(h4);
+};
+
 function relation(arr) {
 	this.From = arr[0];
 	this.To = arr[1];
@@ -145,8 +153,12 @@ function CheckMore(old, v1, v2) {
 
 
 function DrawTree(u) {
+	queue = [];
 	if (u == undefined) {
 		u = "";
+	} else {
+		u = u.User;
+		queue[u.Id] = 1;
 	}
 	t.innerHTML = "";
 
@@ -159,49 +171,52 @@ function DrawTree(u) {
 
 	generationsX = [];
 
-	queue = [];
 
 	index = 0;
 	colors = ["red", "green", "blue", "orangered", "brown", "darkblue", "darkorange", "purple", "olive", "lightseagreen"];
 
+	actually = 0;
 	for (i = 0; i < maxGeneration; i++) {
 		gen = generations[i];
 		people = gen.length;
+
+		generationsX[i] = i ? generationsX[i - 1] + (120 + (u ? 30 : people * 6)) * (actually ? 1 : 0)  : 50;
 		actually = 0;
-		generationsX[i] = i ? generationsX[i - 1] + 120 + people * 6 : 50;
+
 		for (y = 0; y < people; y++) {
 			user1 = gen[y];
+			passed = true;
 			if (u) {
-				if (!queue[user1]) {
+				if (queue[user1.Id] != 1) {
 					passed = false;
-					for (k = 0, l = userRelations[user1.Id].length; k < l; k++) {
-						rel = userRelations[user1.Id][k];
-						document.title = rel.Type;
-						if (
-							(rel.From == u.Id || rel.To == u.Id) && 
-							(rel.Type == "c" || rel.Type == "f" || rel.Type == "m")
-						) {
-							if (rel.From == u.Id) {
-								queue[users[rel.To]] = true;
-							} else {
-								queue[users[rel.From]] = true;
+					rels = userRelations[user1.Id];
+					if (rels) {
+						for (k = 0, l = rels.length; k < l; k++) {
+							rel = rels[k];
+							if (rel.From == u.Id || rel.To == u.Id) {
+								id = rel.From == u.Id ? rel.To : rel.From;
+								queue[id] = 1;
+								passed = true;
 							}
-							passed = true;
 						}
 					}
-					if (!passed) {
-						continue;
-					}
 				}
+			} else {
+				actually = y;
 			}
-			user1.x = generationsX[i];
-			user1.y = y * 20 + 50;
-			b(user1.x, user1.y, user1, "orange");
-			gen[y] = user1;
-			actually++;
+
+			if (passed) {
+				user1.x = generationsX[i];
+				user1.y = actually * 20 + 50;
+				b(user1.x, user1.y, user1, "orange");
+				gen[y] = user1;
+				actually++;
+			}
+		}
+		if (actually) {
+			g(i, generationsX[i]);
 		}
 	};
-	alert(1);
 
 	for (kk in generations) {
 		for (i in generations[kk]) {
@@ -231,6 +246,10 @@ function DrawTree(u) {
 
 				user1 = users[rel1.From];	// ?
 				user2 = users[rel1.To];
+
+				if (u && (queue[rel1.From] != 1 || queue[rel1.To] != 1)) {
+					continue;
+				}
 
 				if (rel1.Type == "b" || rel1.Type == "s") {
 					hasBrothers = true;
