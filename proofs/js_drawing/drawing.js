@@ -96,10 +96,10 @@ for (i in u) {
 for (i = 0; i < maxGeneration; i++) {
 	gen = generations[i];
 	people = gen.length;
-	generationsX[i] = i ? generationsX[i - 1] + 120 + people * 6 : 0;
+	generationsX[i] = i ? generationsX[i - 1] + 120 + people * 6 : 50;
 	for (y = 0; y < people; y++) {
 		gen[y].x = generationsX[i];
-		gen[y].y = y * 20 + y % 3;
+		gen[y].y = y * 20 + 50;
 		b(gen[y].x, gen[y].y, gen[y], "orange");
 	}
 };
@@ -246,7 +246,7 @@ for (kk in generations) {
 			parentsDot = parentsLinks[parentId];
 			prevGen = user1.Generation - 1;
 			if (hasBrothers) {
-				mid = leftTop + Math.round((leftBottom - leftTop) / 2);
+				mid = leftTop + Math.round((leftBottom - leftTop) / 2) + index%3;
 				left = 10 + (lefts[user1.Generation] ? gap * lefts[user1.Generation] : 0);
 			} else {
 				mid = user1.y + half;
