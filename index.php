@@ -134,7 +134,7 @@
 
 								<li> <a href="/register.php">Регистрация</a>
 								<li class="l1 Bold"> <a href="/journal/">Журналы</a>
-								<li class="l4 Inactive"> <a href="#/tree/" class="Red">Фамильное древо</a>
+								<li class="l4"> <a href="/tree/" class="Red">Фамильное древо</a>
 								<li> <a href="/gallery/">Фотогалерея</a>
 								<li class="l2"> <a href="/forum/">Форумы чата</a>
 								<li class=""> <a href="/photos/">Фотки чатлан</a>

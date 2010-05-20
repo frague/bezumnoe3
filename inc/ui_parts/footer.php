@@ -6,6 +6,7 @@
 	<a href="/gallery/">Фотогалерея</a>
 	<div style="margin-top:4px;">
 		<a href="/rating.php">Рейтинг</a> |
-		<a href="/photos.php">Фотографии</a>
+		<a href="/photos.php">Фотографии</a> |
+		<a href="/tree/">Фамильное древо</a>
 	</div>
 </div>
