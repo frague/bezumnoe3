@@ -48,8 +48,9 @@ function vl(x, y, w, color) {
 	line(x, y, x + thick, y + w, color);
 };
 
-function b(x, y, u, color) {
+function b(x, y, u, color, is_current) {
 	span = d.createElement("label");
+	color = is_current ? "orangered" : color;
 		a = d.createElement("a");
 		a.User = u;
 		a.innerHTML = u.Login;
@@ -209,7 +210,7 @@ function DrawTree(u) {
 			if (passed) {
 				user1.x = generationsX[i];
 				user1.y = actually * 20 + 150;
-				b(user1.x, user1.y, user1, "orange");
+				b(user1.x, user1.y, user1, "orange", (u && user1.Id == u.Id));
 				gen[y] = user1;
 				actually++;
 			}
