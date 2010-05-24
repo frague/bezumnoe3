@@ -77,6 +77,7 @@
 								$profile->Save();
 							}
 							$response .= AddJsAlert("Аватар обновлён.");
+							SaveLog("Новый аватар.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
 						} else {
 							// Main picture uploaded
 							$maxWidth = 600;
@@ -88,6 +89,7 @@
 							$profile->PhotoUploadDate = NowDateTime();
 							$profile->Save();
 							$response .= AddJsAlert("Фотография обновлена.");
+							SaveLog("Новое фото.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 						}
 							
 						// Image resizing
@@ -197,6 +199,7 @@
 					$profile->Photo = "";
 					$profile->Save();
 					$response = JsAlert("Фотография удалена.");
+					SaveLog("Удаление фото.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
 				}
 				break;
 			case "delete_avatar":
@@ -205,6 +208,7 @@
 					$profile->Avatar = "";
 					$profile->Save();
 					$response = JsAlert("Аватар удалён.");
+					SaveLog("Удаление аватара.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
 				}
 				break;
 		}
