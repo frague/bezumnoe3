@@ -196,11 +196,10 @@ $expression);
 			return self::FULL_ACCESS;
 		}
 		if ($forumUser->IsFull()) {
-			if ($forumUser->IsModerator()) {
-				return self::FULL_ACCESS;
-			} else {
-				return self::READ_ADD_ACCESS;
+			if (!$this->IsProtected && $forumUser->Access == self::NO_ACCESS) {
+				return self::READ_ONLY_ACCESS;
 			}
+			return $forumUser->Access;
 		} else {
 			if ($this->IsProtected) {
 				return self::NO_ACCESS;
