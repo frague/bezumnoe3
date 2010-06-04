@@ -41,11 +41,12 @@
 			$error .= "Форум не найден!<br>";
 		} else {
 			// Get user acces to forum
-			if ($forum->IsHidden) {
+			$forumAccess = $forum->GetAccess($user->Id);
+/*			if ($forum->IsHidden) {
 				$forumAccess = GetForumAccess($forum);
 			} else {
 				$forumAccess = $user->IsAdmin() ? 1 : 0;
-			}
+			}*/
 
 			$isJournal = $forum->IsJournal() ? 1 : 0;
 			if (AddressIsBanned(new Bans(0, 1 - $isJournal, $isJournal))) {
@@ -107,7 +108,7 @@
 						$error .= "Сообщение пустое!<br>";
 					}
 
-					if ($forum->IsHidden && !$forumAccess) {
+					if ($forumAccess != Forum::READ_ADD_ACCESS && $forumAccess != Forum::FULL_ACCESS) {
 						$error .= "У вас нет доступа к публикации сообщений!<br>";
 					}
 
