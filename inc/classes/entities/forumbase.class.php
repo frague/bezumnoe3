@@ -25,9 +25,9 @@ class ForumBase extends EntityBase {
 	// Type access
 	const NO_ACCESS			= 0;
 	const READ_ONLY_ACCESS	= 1;
-	const FRIENDLY_ACCESS	= 1;
-	const READ_ADD_ACCESS	= 2;
-	const FULL_ACCESS		= 3;
+	const FRIENDLY_ACCESS	= 2;
+	const READ_ADD_ACCESS	= 3;
+	const FULL_ACCESS		= 4;
 
 	// Properties
 	var $Type;
