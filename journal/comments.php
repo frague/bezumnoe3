@@ -61,7 +61,7 @@
 	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js");
 	require_once $root."references.php";
 
-	$postAccess = ($access >= Journal::READ_ADD_ACCESS);
+	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);
 
 	echo $record->ToPrint($author);
 
@@ -94,6 +94,7 @@
 	echo "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>";
 	echo "</div>";
 
+	echo "<a name='c'></a>";
 	echo "<ul class='Thread'>";
 	$comments = $q->NumRows();
 	if ($comments > 0) {
