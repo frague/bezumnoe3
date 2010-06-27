@@ -27,7 +27,7 @@
 	}
 
 	$access = $forum->GetAccess($user->User->Id);
-	if ($access != Forum::FULL_ACCESS && $access != Forum::READ_ADD_ACCESS) {
+	if ($access != Forum::FULL_ACCESS && $access != Forum::READ_ADD_ACCESS && $access != Forum::FRIENDLY_ACCESS) {
 		echo JsAlert("” вас нет доступа к указанному журналу!", 1);
 		die;
 	}

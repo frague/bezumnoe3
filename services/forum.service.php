@@ -108,7 +108,7 @@
 						$error .= "Сообщение пустое!<br>";
 					}
 
-					if ($forumAccess != Forum::READ_ADD_ACCESS && $forumAccess != Forum::FULL_ACCESS) {
+					if ($forumAccess != Forum::FRIENDLY_ACCESS && $forumAccess != Forum::READ_ADD_ACCESS && $forumAccess != Forum::FULL_ACCESS) {
 						$error .= "У вас нет доступа к публикации сообщений!<br>";
 					}
 
