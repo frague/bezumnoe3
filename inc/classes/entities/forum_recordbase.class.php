@@ -474,6 +474,7 @@ WHERE
 		switch ($access) {
 			case Forum::FULL_ACCESS:
 				return "1=1 AND ";
+			case Forum::FRIENDLY_ACCESS:
 			case Forum::READ_ONLY_ACCESS:
 			case Forum::READ_ADD_ACCESS:
 				return "t1.".self::TYPE."='".self::TYPE_PUBLIC."' AND ".$hideDeleted." AND ";

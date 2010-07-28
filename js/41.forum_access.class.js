@@ -1,4 +1,4 @@
-//6.7
+//6.9
 /*
 	Forum access functionality.
 	Allows to manage users access to forums/journals/galleries.
@@ -6,11 +6,11 @@
 
 var NO_ACCESS			= 0;
 var READ_ONLY_ACCESS	= 1;
-var FRIENDLY_ACCESS		= 1;
-var READ_ADD_ACCESS		= 2;
-var FULL_ACCESS			= 3;
+var FRIENDLY_ACCESS		= 2;
+var READ_ADD_ACCESS		= 3;
+var FULL_ACCESS			= 4;
 
-var accesses = ["доступ закрыт", "только чтение", "чтение/запись", "полный доступ"];
+var accesses = ["доступ закрыт", "только чтение", "дружественный доступ", "полный доступ"];
 
 function ForumAccess(user_id, tab) {
 	this.UserId = user_id;
