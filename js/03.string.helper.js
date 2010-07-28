@@ -66,14 +66,19 @@ function HtmlQuotes(text) {
 };
 
 function StrongHtmlQuotes(text) {
-	text = HtmlQuotes(text);
 	text = text.replace(/&/g, "&amp;");
+	text = HtmlQuotes(text);
 	text = text.replace(/</g, "&lt;");
 	text = text.replace(/>/g, "&gt;");
+	text = text.replace(/"/g, "&quot;");
 	return text;
 };
 
 function Quotes(text) {
 //	return text.replace(/\"/g, "\\\"").replace(/'/g, "\\'");
 	return text.replace(/'/g, "\\'").replace(/"/g, "&amp;quot;");
+};
+
+function Slash(text) {
+	return text.replace(/(['"<>])/g, "\\$1");
 };

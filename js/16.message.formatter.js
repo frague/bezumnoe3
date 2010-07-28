@@ -5,7 +5,9 @@
 */
 
 function MakePrivateLink(id, name) {
-	return "<a " + voidHref + " onclick=AR(" + id + ",'" + StrongHtmlQuotes(Quotes(name)) + "')>#</a>";
+	s = "<a " + voidHref + " onclick=\"AR(" + id + ",'" + StrongHtmlQuotes(Slash(name)) + "')\">#</a>";
+//	alert(s);
+	return s;
 };
 
 function MakeLink(name) {
