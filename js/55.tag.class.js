@@ -1,4 +1,4 @@
-//5.0
+//5.1
 /*
 	Forum records tags (labels)
 */
@@ -83,9 +83,7 @@ Tags.prototype.AddNewTag = function(input) {
 		var value = input.obj.Inputs["SEARCH_TAG"].value;
 		var tag = new tagdto(value, value);
 		tag.obj = this;
-		if (this.AT(tag)) {
-			input.obj.Inputs["SEARCH_TAG"].value = "";
-		}
+		this.AT(tag);
 	}
 };
 
@@ -96,6 +94,7 @@ Tags.prototype.AT = function(tag) {
 	}
 	this.Tab.AddedTags.Add(tag);
 	this.ShowTags();
+	this.Inputs["SEARCH_TAG"].value = "";
 	return true;
 };
 
