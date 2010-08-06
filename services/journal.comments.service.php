@@ -26,10 +26,9 @@
 	}
 
 	$access = $forum->GetAccess($user->User->Id);
-	error($access);
-	die;
 
-	if ($access != Forum::FRIENDLY_ACCESS && $access != Forum::READ_ADD_ACCESS && $access != Forum::FULL_ACCESS) {
+#	if ($access != Forum::FRIENDLY_ACCESS && $access != Forum::READ_ADD_ACCESS && $access != Forum::FULL_ACCESS) {
+	if ($access != Forum::FULL_ACCESS) {
 		echo JsAlert("Нет доступа к комментариям!", 1);
 		die;
 	}
@@ -52,6 +51,7 @@
 			echo JsAlert("Комментарий удалён.");
 		};
 	}
+
 
 	$q = $comment->GetByIndex($forum->Id, $access, $record->Index, $from, $amount);
 
