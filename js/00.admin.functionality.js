@@ -1,4 +1,4 @@
-//2.1
+//2.3
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -17,7 +17,7 @@ function umExtraButtons(id, login, obj) {
  	var ul = d.createElement("ul");
 
 	ul.appendChild(MakeUserMenuLink(MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "Профиль", obj, "")));
-	ul.appendChild(MakeUserMenuLink(MakeButtonLink("DeleteUser(" + id + ",'" + login + "')", "Удалить", obj, "Red")));
+	ul.appendChild(MakeUserMenuLink(MakeButtonLink("DeleteUser(" + id + ",'" + login + "', this)", "Удалить", obj, "Red")));
 	if (me.IsSuperAdmin()) {
 		umAdditionalExtraButtons(ul, id, login, obj);
 	}
@@ -30,8 +30,15 @@ function ShowUser(id, name) {
 	CreateUserTab(id, name, new Profile(), "", "", tab_id);
 };
 
-function DeleteUser(id, name) {
-	alert("Not yet...");
+function DeleteUser(id, name, a) {
+	co.Show(function() {DeleteUserConfirmed(id, a.obj)}, "Удалить пользователя?", "Пользователь <b>" + name + "</b> и все данные, относящиеся к нему	(фотографии, записи в журнале и форумах, профиль) будут удалены.<br>Вы уверены?");
+};
+
+function DeleteUserConfirmed(id, obj) {
+	//var req = new Requestor(servicesPath + "user_delete.service.php", obj);
+	//req.Callback = RefreshList;
+	//req.Request(["id"], [id]);
+	obj.Inputs["BY_NAME"].DelayedRequestor.Request();
 };
 
 /* Admin Options */
