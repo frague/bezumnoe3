@@ -1,4 +1,4 @@
-//2.3
+//2.4
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -35,9 +35,9 @@ function DeleteUser(id, name, a) {
 };
 
 function DeleteUserConfirmed(id, obj) {
-	//var req = new Requestor(servicesPath + "user_delete.service.php", obj);
-	//req.Callback = RefreshList;
-	//req.Request(["id"], [id]);
+	var req = new Requestor(servicesPath + "user_delete.service.php", obj);
+	req.Callback = RefreshList;
+	req.Request(["user_id"], [id]);
 	obj.Inputs["BY_NAME"].DelayedRequestor.Request();
 };
 
