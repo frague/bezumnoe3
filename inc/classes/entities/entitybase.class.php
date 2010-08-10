@@ -178,6 +178,22 @@ abstract class EntityBase {
 		return true;
 	}
 
+	function DeleteByUserId($id = 0) {
+	 global $db;
+		if (!$this->IsConnected() || !$this->DeleteByUserExpression()) {
+			return false;
+		}
+
+		if ($id) {
+		 	$this->UserId = round($id);
+		}
+		if (round($this->UserId) <= 0) {
+		 	return false;
+		}
+		//$q = $db->Query($this->DeleteByUserExpression());
+		print "/* ".$this->DeleteByUserExpression()." */\n";
+		//return $q->AffectedRows() > 0;
+	}
 
 	// Abstract methods
 	abstract function Clear();
@@ -187,6 +203,10 @@ abstract class EntityBase {
 	abstract function ReadExpression();
 	abstract function UpdateExpression();
 	abstract function DeleteExpression();
+
+	function DeleteByUserExpression() {
+		return "";
+	}
 
 	// Static methods
 }

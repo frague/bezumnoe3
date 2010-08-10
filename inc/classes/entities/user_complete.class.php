@@ -169,6 +169,19 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 		);
 	}
 
+	function Delete() {
+		if ($this->User->IsEmpty() || $this->User->IsDeleted) {
+			return false;
+		}
+
+		$p = new Profile();
+		$p->DeleteByUserId($this->User->Id);					// Delete user profile
+		$this->Settings->DeleteByUserId($this->User->Id);		// Delete user settings
+		$this->Nickname->DeleteByUserId($this->User->Id);		// Delete user nicknames
+
+		$this->User->Delete();									// Mark user as deleted
+	}
+
 	// SQL
 	function ReadExpression() {
 		return "SELECT 

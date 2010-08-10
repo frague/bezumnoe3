@@ -23,6 +23,7 @@ class User extends EntityBase {
 	const KICK_MESSAGES = "KICK_MESSAGES";
 	const GUID = "GUID";
 	const CHECK_SUM = "CHECK_SUM";
+	const IS_DELETED = "IS_DELETED";
 	
 
 	// Properties
@@ -45,6 +46,7 @@ class User extends EntityBase {
 	var $KickMessages;
 	var $Guid;
 	var $CheckSum;
+	var $IsDeleted;
 
 	// Fields
 	var $sessionKeyLength = 10;
@@ -65,6 +67,7 @@ class User extends EntityBase {
 		$this->KickMessages = "";
 		$this->Guid = "";
 		$this->CheckSum = -1;
+		$this->IsDeleted = 0;
 
 		$this->BackFromAway();
 		$this->StopBan();
@@ -378,6 +381,11 @@ JsQuote($admin)."\"]";
 	}
 
 	// SQL
+
+	function Delete() {
+		print "/* ".$this->DeleteExpression()." */\n";
+	}
+
 	function ReadExpression() {
 		return "SELECT 
 	t1.".self::USER_ID.",
@@ -476,7 +484,12 @@ WHERE
 
 	
 	function DeleteExpression() {
-		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->Id);
+		return "UPDATE ".$this->table." SET 
+	".self::PASSWORD."='DELETED', 
+	".self::SESSION."=NULL, 
+	".self::IS_DELETED."=1
+WHERE ".self::USER_ID."=".SqlQuote($this->Id);
+//		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->Id);
 	}
 
 	function PongExpression($doClear) {

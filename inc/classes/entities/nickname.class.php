@@ -154,6 +154,11 @@ WHERE
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::NICKNAME_ID."=".SqlQuote($this->Id);
 	}
+
+	function DeleteByUserExpression() {
+		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->UserId);
+	}
+
 }
 
 ?>

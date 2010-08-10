@@ -322,6 +322,10 @@ WHERE
 		return "DELETE FROM ".$this->table." WHERE ".self::PROFILE_ID."=".SqlQuote($this->Id);
 	}
 
+	function DeleteByUserExpression() {
+		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->UserId);
+	}
+
 	public static function PushRatingsExpression() {
 		return "UPDATE ".Profile::table." SET ".Profile::LAST_RATING."=".Profile::RATING;
 	}

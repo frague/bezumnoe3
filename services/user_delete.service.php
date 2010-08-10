@@ -38,8 +38,7 @@
 
 
 	
-	
-	
+	$targetUser->Delete();
 	
 	echo "co.AlertType=true;co.Show(\"\", \"Пользователь удалён\", \"Все данные о пользователе ".$targetUser->User->Login." были удалены из системы.\");";
 
