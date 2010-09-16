@@ -78,7 +78,7 @@ class ScheduledTask extends EntityBase {
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
-			self::EXECUTION_DATE."<='".NowDateTime()."' AND ".self::TRANSACTION_GUID." IS NULL AND ".self::IS_ACTIVE."=1",
+			self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL AND ".self::IS_ACTIVE."=1",
 			$this->LockExpression()
 		);
 		return $q->AffectedRows();

@@ -501,13 +501,13 @@ WHERE ".self::USER_ID."=".SqlQuote($this->Id);
 	}
 
 	function ExpireCondition() {
-	  global $SessionLifetime;
+	  global $mysqlSessionLifetime;
 
-		return "t1.".self::SESSION_PONG." IS NOT NULL AND t1.".self::SESSION_PONG."<'".DateFromTime(mktime()-$SessionLifetime)."'";
+		return "t1.".self::SESSION_PONG." IS NOT NULL AND ABS(TIMESTAMPDIFF(MINUTE, NOW(), t1.".self::SESSION_PONG.")) > ".$mysqlSessionLifetime;
 	}
 	
 	function GetExpiredUsers() {
-	  global $SessionLifetime;
+	  global $mysqlSessionLifetime;
 
 		return $this->GetByCondition(
 			$this->ExpireCondition(), 
