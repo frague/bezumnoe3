@@ -13,6 +13,7 @@
 	switch ($go) {
 		case "save":
 			$task->FillFromHash($_POST);
+			$task->TransactionGuid = "";
 			$error = $task->SaveChecked();
 			if ($error) {
 				echo JsAlert($error, 1);
