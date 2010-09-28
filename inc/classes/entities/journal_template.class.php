@@ -150,6 +150,10 @@ WHERE
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::RECORD_ID."=".SqlQuote($this->Id);
 	}
+
+	function DeleteForForumExpression($forumId) {
+		return "DELETE FROM ".$this->table." WHERE ".self::FORUM_ID."=".round($forumId);
+	}
 }
 
 ?>

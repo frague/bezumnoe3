@@ -134,6 +134,10 @@ WHERE
 		return "DELETE FROM ".$this->table." WHERE ".self::JOURNAL_SETTINGS_ID."=".round($this->Id);
 	}
 
+	function DeleteForForumExpression($forumId) {
+		return "DELETE FROM ".$this->table." WHERE ".self::FORUM_ID."=".round($forumId);
+	}
+
 	function GetJournalDataExpression() {
 		return "SELECT
 t1.".self::FORUM_ID.",

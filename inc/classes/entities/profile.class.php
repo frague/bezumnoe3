@@ -196,6 +196,34 @@ JsQuote($this->LastVisit)."\"]";
 		);
 	}
 
+
+	function DeleteByUserId($id = 0) {
+	 global $db;
+		if (!$this->IsConnected()) {
+			return false;
+		}
+
+		if (!$id) {
+		 	$id = $this->UserId;
+		}
+		$id = round($id);
+
+		if ($id <= 0) {
+		 	return false;
+		}
+
+		$this->GetByUserId($id);
+		if (!$this->IsEmpty()) {
+			$result = array("Photo" => $this->Photo, "Avatar" => $this->Avatar, "Result" => parent::DeleteByUserId($id));
+			print "/* ";
+			print_r($result);
+			print " */";
+			return $result;
+		}
+		return false;
+	}
+	
+	
 	// Overloaded methods
 	function ReadExpression() {
 		return "SELECT 
@@ -320,10 +348,6 @@ WHERE
 
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::PROFILE_ID."=".SqlQuote($this->Id);
-	}
-
-	function DeleteByUserExpression() {
-		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->UserId);
 	}
 
 	public static function PushRatingsExpression() {

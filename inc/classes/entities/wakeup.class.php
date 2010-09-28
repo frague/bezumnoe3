@@ -204,6 +204,10 @@ WHERE
 		return "DELETE FROM ".$this->table." WHERE ".self::WAKEUP_ID."=".SqlQuote($this->Id);
 	}
 
+	function DeleteByUserExpression($id) {
+		return "DELETE FROM ".$this->table." WHERE ".self::FROM_USER_ID."=".round($id)." OR ".self::TO_USER_ID."=".round($id);
+	}
+
 	function SearchCountExpression() {
 		return "SELECT COUNT(1)
 FROM 

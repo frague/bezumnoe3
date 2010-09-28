@@ -10,6 +10,8 @@ abstract class EntityBase {
 
 	private $IdentityName = "";
 
+	const USER_ID = "USER_ID";
+
 	function __construct($id, $idName) {
 		$this->Clear();
 		$this->Id = $id;
@@ -180,19 +182,22 @@ abstract class EntityBase {
 
 	function DeleteByUserId($id = 0) {
 	 global $db;
-		if (!$this->IsConnected() || !$this->DeleteByUserExpression()) {
+		if (!$this->IsConnected()) {
 			return false;
 		}
 
-		if ($id) {
-		 	$this->UserId = round($id);
+		if (!$id) {
+		 	$id = $this->UserId;
 		}
-		if (round($this->UserId) <= 0) {
+		$id = round($id);
+
+		if ($id <= 0) {
 		 	return false;
 		}
-		//$q = $db->Query($this->DeleteByUserExpression());
-		print "/* ".$this->DeleteByUserExpression()." */\n";
+		//$q = $db->Query($this->DeleteByUserExpression($id));
+		print "/* ".$this->DeleteByUserExpression($id)." */\n";
 		//return $q->AffectedRows() > 0;
+		return true;
 	}
 
 	// Abstract methods
@@ -204,8 +209,8 @@ abstract class EntityBase {
 	abstract function UpdateExpression();
 	abstract function DeleteExpression();
 
-	function DeleteByUserExpression() {
-		return "";
+	function DeleteByUserExpression($id) {
+		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($id);
 	}
 
 	// Static methods

@@ -164,6 +164,13 @@ WHERE
 	".self::FORUM_ID."=".round($forumId);
 	}
 
+	function DeleteForumExpression($forumId) {
+		return "DELETE FROM ".$this->table."
+WHERE
+	".self::FORUM_ID."=".round($forumId)." OR
+	".self::FRIENDLY_FORUM_ID."=".round($forumId);
+	}
+
 	// Expression to get user forums
 	function RelatedJournalsExpression($forumId) {
 		$forumId = round($forumId);

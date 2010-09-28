@@ -175,9 +175,43 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 		}
 
 		$p = new Profile();
-		$p->DeleteByUserId($this->User->Id);					// Delete user profile
+		$data = $p->DeleteByUserId($this->User->Id);			// Delete user profile
+		if ($data["Result"]) {
+			// Delete avatar & photo (!!!)
+		}
+
+
 		$this->Settings->DeleteByUserId($this->User->Id);		// Delete user settings
 		$this->Nickname->DeleteByUserId($this->User->Id);		// Delete user nicknames
+
+		$fu = new ForumUser();
+		$fu->DeleteByUserId($this->User->Id);					// Delete forum users
+
+		$ig = new Ignore();
+		$ig->DeleteByUserId($this->User->Id);					// Delete ignores
+
+		$ru = new RoomUser();
+		$ru->DeleteByUserId($this->User->Id);					// Delete room users
+
+		// Delete personal blogs
+		$journal = new Journal();
+		$q = $journal->GetByUserId($this->User->Id);
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$journal->FillFromResult($q);
+			if (!$journal->IsEmpty()) {
+				$jf = new JournalFriend();
+				$jf->GetByCondition("", $jf->DeleteForumExpression($journal->Id));
+
+				$js = new JournalSettings();
+				$js->GetByCondition("", $js->DeleteForForumExpression($journal->Id));
+
+				$jt = new JournalTemplate();
+				$jt->GetByCondition("", $js->DeleteForForumExpression($journal->Id));
+
+				$journal->Delete();								// Delete each of personal blogs along with records
+			}
+		}
 
 		$this->User->Delete();									// Mark user as deleted
 	}

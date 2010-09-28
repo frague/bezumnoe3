@@ -129,5 +129,9 @@ WHERE
 	".self::USER_ID."=".SqlQuote($this->UserId)." AND
 	".self::IGNORANT_ID."=".SqlQuote($this->IgnorantId);
 	}
+
+	function DeleteByUserExpression($id) {
+		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($id)." OR ".self::IGNORANT_ID."=".SqlQuote($id);
+	}
 }
 ?>
