@@ -90,11 +90,11 @@
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 
+	echo "<a name='c'></a>";
 	echo "<div class='NewThread'>";
 	echo "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>";
 	echo "</div>";
 
-	echo "<a name='c'></a>";
 	echo "<ul class='Thread'>";
 	$comments = $q->NumRows();
 	if ($comments > 0) {
