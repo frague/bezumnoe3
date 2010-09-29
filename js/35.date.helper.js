@@ -1,4 +1,4 @@
-//2.0
+//2.1
 /*
 	Helper methods to work with dates.
 */
@@ -43,7 +43,7 @@ Date.prototype.ToString = function(add_time) {
 Date.prototype.ToPrintableString = function(add_time) {
 	var result = this.getDate() + " " + monthsNames[this.getMonth()] + " " + this.getFullYear();
 	if (add_time) {
-		 result += ", " + this.Time();
+		 result += ",	" + this.Time();
 	}
 	return result;
 };

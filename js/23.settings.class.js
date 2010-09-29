@@ -1,4 +1,4 @@
-//3.6
+//3.7
 /*
 	Represents settings entity on client-side.
 */
@@ -64,7 +64,7 @@ Settings.prototype.TemplateLoaded = function(req) {
 	// Init ColorPicker
 //	var cp = new ColorPicker("FONT_COLOR");
 	new ColorPicker("FONT_COLOR");
-		
+   	
 	/* Submit button */
 	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };

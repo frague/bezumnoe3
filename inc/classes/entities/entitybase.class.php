@@ -194,10 +194,9 @@ abstract class EntityBase {
 		if ($id <= 0) {
 		 	return false;
 		}
-		//$q = $db->Query($this->DeleteByUserExpression($id));
-		print "/* ".$this->DeleteByUserExpression($id)." */\n";
-		//return $q->AffectedRows() > 0;
-		return true;
+		$q = $db->Query($this->DeleteByUserExpression($id));
+		//print "/* ".$this->DeleteByUserExpression($id)." */\n";
+		return $q->AffectedRows() > 0;
 	}
 
 	// Abstract methods

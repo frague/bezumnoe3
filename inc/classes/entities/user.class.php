@@ -382,10 +382,6 @@ JsQuote($admin)."\"]";
 
 	// SQL
 
-	function Delete() {
-		print "/* ".$this->DeleteExpression()." */\n";
-	}
-
 	function ReadExpression() {
 		return "SELECT 
 	t1.".self::USER_ID.",

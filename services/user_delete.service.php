@@ -39,6 +39,7 @@
 
 	
 	$targetUser->Delete();
+	SaveLog("Пользователь удалён.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
 	
 	echo "co.AlertType=true;co.Show(\"\", \"Пользователь удалён\", \"Все данные о пользователе ".$targetUser->User->Login." были удалены из системы.\");";
 

@@ -1,4 +1,4 @@
-//2.4
+//2.6
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -31,20 +31,23 @@ function ShowUser(id, name) {
 };
 
 function DeleteUser(id, name, a) {
-	co.Show(function() {DeleteUserConfirmed(id, a.obj)}, "Удалить пользователя?", "Пользователь <b>" + name + "</b> и все данные, относящиеся к нему	(фотографии, записи в журнале и форумах, профиль) будут удалены.<br>Вы уверены?");
+	co.AlertType = false;
+	co.Show(function() {DeleteUserConfirmed(id, a.obj)}, "Удалить пользователя?", "Пользователь	<b>" + name + "</b> и все данные,	относящиеся к нему	(фотографии,	записи в журнале и форумах,	профиль) будут удалены.<br>Вы уверены?");
 };
 
 function DeleteUserConfirmed(id, obj) {
 	var req = new Requestor(servicesPath + "user_delete.service.php", obj);
 	req.Callback = RefreshList;
+//	req.Callback = function() {ReRequestData(obj)};
 	req.Request(["user_id"], [id]);
-	obj.Inputs["BY_NAME"].DelayedRequestor.Request();
+//	obj.Inputs["BY_NAME"].DelayedRequestor.Request();
+	obj.Inputs["FILTER_BANNED"].DelayedRequestor.Request();
 };
 
 /* Admin Options */
 
 var spoilerNames = [
-	"Кодекс администратора&nbsp;(обязателен для прочтения)",
+	"Кодекс администратора	(обязателен для прочтения)",
 	"Запреты",
 	"Комнаты"
 ];

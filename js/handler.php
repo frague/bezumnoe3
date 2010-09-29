@@ -66,21 +66,21 @@
 					$s = preg_replace("/ *([!&*+-=]) */", "$1", $s);
 	
 					/* js treatment */
-					$s = ereg_replace("[\t ]+", " ", $s);
+					$s = ereg_replace(" +", " ", $s);
 
 					// Comments
 					$s = ereg_replace("/\*([^*]|\*[^/])*\*/", "", $s);
 					$s = ereg_replace("//[^\n\r]*", "", $s);
 	
-					// New lines & empty spaces
-					$s = ereg_replace("[\n\r]", "", $s);
-					$s = ereg_replace("\t", " ", $s);
-
 					$s = ereg_replace(" +\(", "(", $s);
 					$s = ereg_replace("\{ +", "{", $s);
 					$s = ereg_replace("\} +", "}", $s);
 					$s = ereg_replace("; +", ";", $s);
 					$s = ereg_replace("\) +\{", "){", $s);
+
+					// New lines & empty spaces
+					$s = ereg_replace("[\n\r]", "", $s);
+					$s = ereg_replace("\t", " ", $s);
 
 					// Operators
 					$s = str_replace("else {", "else{", $s);

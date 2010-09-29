@@ -174,6 +174,9 @@ class Settings extends EntityBase {
 
 	function Validate() {
 		$result = "";
+		if (!preg_match("/^[a-zA-Z0-9_ \-\.]*$/", $this->FontFace)) {
+			$result .= "<li> Недопустимое название шрифта (возможные варианты: verdana, arial, tahoma и др.)";
+		}
 		if ($this->EnterMessage && !preg_match("/\%name/", $this->EnterMessage)) {
 			$result .= "<li> Фраза о входе в чат не содержит ссылки на имя (%name)";
 		}

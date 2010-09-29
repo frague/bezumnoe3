@@ -170,6 +170,8 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 	}
 
 	function Delete() {
+	  global $PathToPhotos, $PathToAvatars;
+	  
 		if ($this->User->IsEmpty() || $this->User->IsDeleted) {
 			return false;
 		}
@@ -177,7 +179,12 @@ JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouD
 		$p = new Profile();
 		$data = $p->DeleteByUserId($this->User->Id);			// Delete user profile
 		if ($data["Result"]) {
-			// Delete avatar & photo (!!!)
+			if ($data["Photo"]) {
+				unlink($PathToPhotos.$data["Photo"]);
+			}
+			if ($data["Avatar"]) {
+				unlink($PathToAvatars.$data["Avatar"]);
+			}
 		}
 
 

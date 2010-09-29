@@ -66,7 +66,7 @@
 
 //	echo "/* $condition */";
 
-	$q = $u->GetByCondition($condition, $expression.($limit ? " LIMIT ".($limit + 1) : ""));
+	$q = $u->GetByCondition($condition." AND ".User::IS_DELETED."<>1", $expression.($limit ? " LIMIT ".($limit + 1) : ""));
 	$rows = $q->NumRows();
 	$result = "";
 	if ($limit) {

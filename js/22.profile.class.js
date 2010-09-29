@@ -1,4 +1,4 @@
-//6.6
+//6.7
 /*
 	User profile data & helper methods
 */
