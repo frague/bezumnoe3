@@ -106,6 +106,8 @@
         
 	$shownMessages = substr_count($bodyText, $messageChunk);
 	$showFrom = round($show_from) * $shownMessages;
+	$metaDescription = "";
+	$usedTags = array();
 
 	if (!$record->IsEmpty()) {
 		// Displaying given record
@@ -113,6 +115,9 @@
 		$shownMessages = 1;
 		DisplayRecord($record);
 		$addTitle = $record->Title;
+
+		$metaDescription = "	<meta name=\"description\" content=\"Журнал на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description.") - ".$record->Title)."\" />
+	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_keys($usedTags)))."\" />";
 	} else {
 		// Show records by given criteria or from the beginning
 		if ($tag) {
@@ -151,9 +156,11 @@
 	// Substitute chunks with user data
 	$bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
 	$bodyText = str_replace("##DESCRIPTION##", $journal->Description, $bodyText);
+	$bodyText = str_replace("</head>", $metaDescription."\n</head>", $bodyText);
 
 	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
 	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
+	$bodyText = str_replace("##USERID##", $user_id, $bodyText);
 	$bodyText = str_replace(
 		"##AVATAR##", 
 		$profile->Avatar ? "<img class='AvatarImg' src='/img/avatars/".$profile->Avatar."' alt='' />" : "", 

@@ -122,6 +122,8 @@
 	}
 
 	function FormatMessage($message, $template, $userUrlName, $isSingleMessage = false) {
+	  global $usedTags;
+
 		if (!$template) {
 			return;
 		}
@@ -192,6 +194,7 @@
 				$q->NextResult();
 				$tag->FillFromResult($q);
 				$tags .= $tag->ToPrint($i, $userUrlName);
+				$usedTags[$tag->Title] = true;
 			}
 			$result = str_replace("##TAGS##", $tags ? "Теги: ".$tags : "", $result);
 		}
@@ -206,7 +209,7 @@
 	// Replaces first occurence of ##MESSAGE## in $bodyText
 	// with rendered given message
 	function DisplayRecord($message) {
-	  global $template, $settings, $bodyText, $messageChunk, $record_id;
+	  global $template, $settings, $bodyText, $messageChunk, $record_id, $usedTags;
 
 		$messageText = FormatMessage($message, $template->Message, $settings->Alias, $record_id > 0);
 

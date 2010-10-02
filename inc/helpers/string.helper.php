@@ -109,6 +109,15 @@
 		return $source;
 	}
 
+	function MetaContent($source) {
+		$source = str_replace("\n", "", $source);
+		$source = str_replace("\r", "", $source);
+		$source = str_replace("\"", "\\\"", $source);
+		$source = str_replace(">", "&gt;", $source);
+		$source = str_replace("<", "&lt;", $source);
+		return $source;
+	}
+
 	function GetNonEmpty($a, $b) {
 		if ($a) {
 			return $a;
