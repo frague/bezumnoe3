@@ -1,4 +1,4 @@
-//5.1
+//5.2
 /*
 	Contains all global script settings, constants and variables
 */
@@ -47,6 +47,14 @@ function DisplayElement(el, state) {
 		el.style.display = state ? "" : "none";
 	}
 }
+
+function DoShow(el) {
+	DisplayElement(el, true);
+};
+
+function DoHide(el) {
+	DisplayElement(el, false);
+};
 
 var empty_pass = "**********";
 function ClearInput(el) {
@@ -226,14 +234,18 @@ function RenameRadioGroup(holder, name) {
 
 // Recursive methods
 function SetRadioValue(holder, value) {
+	result = "";
 	for (var i = 0, l = holder.childNodes.length; i < l; i++) {
 		var el = holder.childNodes[i];
 		if (el.hasChildNodes()) {
-			SetRadioValue(el, value);
+			result = result || SetRadioValue(el, value);
 		} else if (el && el.type == "radio") {
-			el.checked = (el.value == "" + value);
+			m = el.value == "" + value;
+			el.checked = m;
+			result = m ? el : result;
 		}
 	}
+	return result;
 };
 
 function GetRadioValue(holder) {

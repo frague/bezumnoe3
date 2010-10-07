@@ -41,7 +41,7 @@
 			$template->Body = UTF8toWin1251($_POST[JournalTemplate::BODY]);
 			$template->Message = UTF8toWin1251($_POST[JournalTemplate::MESSAGE]);
 			$template->Css = UTF8toWin1251($_POST[JournalTemplate::CSS]);
-			$template->Save();
+#			$template->Save();
 
 			$settings->UserId = $user->User->Id;
 			$settings->SkinTemplateId = round($_POST[JournalSettings::SKIN_TEMPLATE_ID]);
@@ -56,7 +56,7 @@
 		$skin->GetDefault();
 		$template->GetById($skin->TemplateId);
 	}
-	echo "this.data=".$template->ToJs().";";
+	echo "this.data=".$template->ToJs(round($settings->SkinTemplateId)).";";
 	echo "this.skinTemplateId=".round($settings->SkinTemplateId).";";
 	echo "this.is_journal=1;";
 

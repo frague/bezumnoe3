@@ -1,4 +1,4 @@
-//3.3
+//3.4
 /*
 	Create/edit blog post in separate tab.
 */

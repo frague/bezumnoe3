@@ -91,11 +91,11 @@ class JournalTemplate extends EntityBase {
 		return $s;
 	}
 
-	function ToJs() {
+	function ToJs($add="") {
 		$s = "[\"".
 JsQuote($this->Body)."\", \"".
 JsQuote($this->Message)."\",  \"".
-JsQuote($this->Css)."\"]";
+JsQuote($this->Css)."\"".($add ? ", \"".JsQuote($add)."\"" : "")."]";
 		return $s;
 	}
 

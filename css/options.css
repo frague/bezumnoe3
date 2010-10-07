@@ -486,3 +486,21 @@ table.Grid td.Deleted {
 table.Grid td label {
 	margin-right: 8px;
 }
+
+#SKIN_TEMPLATE_ID label {
+	display:block;
+	float:left;
+	white-space:nowrap;
+	margin:5px;
+	font-size:8pt;
+}
+
+#SKIN_TEMPLATE_ID label img {
+	display:block;
+	clear:left;
+	margin-top:4px;
+}
+
+#templates, #templates1 {
+	clear:both;
+}
