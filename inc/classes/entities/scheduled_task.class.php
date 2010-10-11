@@ -20,6 +20,7 @@ class ScheduledTask extends EntityBase {
 	const TYPE_RATINGS			= "ratings";
 	
 	const SCHEDULER_LOGIN = "по расписанию";
+	const HANGED_TIMEOUT = "00:10:00";		// 10 minutes to recover
 
 	// Properties
 	var $Type;
@@ -78,7 +79,7 @@ class ScheduledTask extends EntityBase {
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
-			self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL AND ".self::IS_ACTIVE."=1",
+			"((".self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), '".self::HANGED_TIMEOUT."')) AND ".self::IS_ACTIVE."=1",
 			$this->LockExpression()
 		);
 		return $q->AffectedRows();
