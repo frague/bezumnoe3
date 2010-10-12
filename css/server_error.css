@@ -1,0 +1,20 @@
+h1 {
+	text-align: center;
+	font: bold 120pt arial;
+	padding: 0;
+	margin: 0;
+	-webkit-transform: rotate(189deg);
+	-moz-transform: rotate(189deg);
+	-o-transform: rotate(189deg);
+	writing-mode: lr-tb;
+	text-shadow: -10px 6px 29px #808080;
+}
+table {
+	width: 100%;
+	height: 100%;
+}
+div {
+	font: 10pt tahoma;
+	width: 350px;
+	text-align: left;
+}
