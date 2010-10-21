@@ -3,8 +3,6 @@
 
 ?>
 
-<h2 id="TITLE"></h2>
-
 <table cellpadding="4" cellspacing="0" class="Wide">
 	<tr>
 		<td class="Nowrap">

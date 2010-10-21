@@ -1,4 +1,4 @@
-//6.9
+//6.10
 /*
 	Forum access functionality.
 	Allows to manage users access to forums/journals/galleries.
@@ -21,14 +21,12 @@ function ForumAccess(user_id, tab) {
 	this.ClassName = "ForumAccess";
 	this.ServicePath = servicesPath + "forum_access.service.php";
 
-	this.Forum = new fldto();
+	this.Forum = new jjdto();
 };
 
 ForumAccess.prototype = new OptionsBase();
 
 ForumAccess.prototype.TemplateLoaded = function(req) {
-	// Bind tab react
-	this.Tab.Reactor = this;
 	this.Forum = this.Tab.Forum;
 	this.FORUM_ID = this.Tab.FORUM_ID;
 
@@ -90,15 +88,6 @@ ForumAccess.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data);
 	}
-	if (obj.Forum) {
-		obj.SetTabElementValue("TITLE", obj.Forum.MakeTitle());
-	}
-};
-
-ForumAccess.prototype.React = function() {
-	this.Forum = this.Tab.Forum;
-	this.FORUM_ID = this.Tab.FORUM_ID;
-	this.Request();
 };
 
 

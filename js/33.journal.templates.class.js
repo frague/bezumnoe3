@@ -1,4 +1,4 @@
-//3.0
+//3.1
 /*
 	Journal templates: Global markup, single message & stylesheets.
 */
@@ -9,7 +9,7 @@ function JournalTemplates() {
 	this.Template = "journal_templates";
 	this.ClassName = "JournalTemplates";
 
-	this.Forum = new fldto();
+	this.Forum = new jjdto();
 };
 
 JournalTemplates.prototype = new OptionsBase();
@@ -36,14 +36,9 @@ JournalTemplates.prototype.RequestCallback = function(req, obj) {
 			button.click();
 		}
 	}
-	if (obj.Forum) {
-		obj.SetTabElementValue("TITLE", obj.Forum.MakeTitle());
-	}
 };
 
 JournalTemplates.prototype.TemplateLoaded = function(req) {
-	// Bind tab react
-	this.Tab.Reactor = this;
 	this.Forum = this.Tab.Forum;
 	this.FORUM_ID = this.Tab.FORUM_ID;
 
@@ -51,12 +46,6 @@ JournalTemplates.prototype.TemplateLoaded = function(req) {
 
 	this.AssignTabTo("SKIN_TEMPLATE_ID");
 	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
-};
-
-JournalTemplates.prototype.React = function() {
-	this.Forum = this.Tab.Forum;
-	this.FORUM_ID = this.Forum.FORUM_ID;
-	this.Request();
 };
 
 /* Actions */

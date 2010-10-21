@@ -17,7 +17,7 @@ function JournalMessages() {
 	journalMessagesObj = this;
 	this.ForumsLoaded = 0;
 
-	this.Forum = new fldto();
+	this.Forum = new jjdto();
 };
 
 JournalMessages.prototype = new PagedGrid();
@@ -31,14 +31,9 @@ JournalMessages.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 	}
-	if (obj.Forum) {
-		obj.SetTabElementValue("TITLE", obj.Forum.MakeTitle());
-	}
 };
 
 JournalMessages.prototype.TemplateLoaded = function(req) {
-	// Bind tab react
-	this.Tab.Reactor = this;
 	this.Forum = this.Tab.Forum;
 	if (this.Forum) {
 		this.FORUM_ID = this.Forum.FORUM_ID;
@@ -49,12 +44,6 @@ JournalMessages.prototype.TemplateLoaded = function(req) {
 	this.GroupSelfAssign(["buttonSearch", "ResetFilter"]);
 	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
 	new DatePicker(this.Inputs["DATE"]);
-};
-
-JournalMessages.prototype.React = function() {
-	this.Forum = this.Tab.Forum;
-	this.FORUM_ID = this.Forum.FORUM_ID;
-	this.Request();
 };
 
 /* Journal Record Data Transfer Object */

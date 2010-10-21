@@ -1,4 +1,4 @@
-//3.4
+//3.5
 /*
 	Create/edit blog post in separate tab.
 */
@@ -124,6 +124,6 @@ function EditJournalPost(obj, post_id) {
 //		var login = obj.LOGIN ? obj.LOGIN : "";
 		var login = "";
 		var tab_id = "post" + post_id;
-		CreateUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "Пост в журнал", post_id, tab_id);
+		CreateUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "Новая запись", post_id, tab_id);
 	}
 };

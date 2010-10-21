@@ -2,8 +2,6 @@
     require "menu_base.php";
 
 ?>
-<h2 id="TITLE1"></h2>
-
 <table class="Wide">
 	<tr>
 		<td colspan="2">
