@@ -3,8 +3,6 @@
 
 ?>
 
-<h2 id="TITLE"></h2>
-
 <h4>Внешний вид журнала (скин):</h4>
 <div id="SKIN_TEMPLATE_ID" name="SKIN_TEMPLATE_ID" class="Radios"><?
 	

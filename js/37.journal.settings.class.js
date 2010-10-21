@@ -1,4 +1,4 @@
-//2.2
+//2.3
 /*
 	Journal settings of user menu.
 */
@@ -9,7 +9,7 @@ function JournalSettings() {
 	this.Template = "journal_settings";
 	this.ClassName = "JournalSettings";
 
-	this.Forum = new fldto();
+	this.Forum = new jjdto();
 };
 
 JournalSettings.prototype = new OptionsBase();
@@ -20,15 +20,9 @@ JournalSettings.prototype.RequestCallback = function(req, obj) {
 		obj.FillFrom(obj.data);
 		obj.Bind(obj.data);
 	}
-	if (obj.Forum) {
-		obj.SetTabElementValue("TITLE1", obj.Forum.MakeTitle());
-	}
 };
 
 JournalSettings.prototype.TemplateLoaded = function(req) {
-	// Bind tab react
-	this.Tab.Reactor = this;
-
 	this.Forum = this.Tab.Forum;
 	if (this.Forum && this.Forum.FORUM_ID) {
 		this.FORUM_ID = this.Forum.FORUM_ID;
@@ -47,10 +41,4 @@ JournalSettings.prototype.Request = function(params, callback) {
 	}
 	params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
 	this.BaseRequest(params, callback);
-};
-
-JournalSettings.prototype.React = function() {
-	this.Forum = this.Tab.Forum;
-	this.FORUM_ID = this.Forum.FORUM_ID;
-	this.Request();
 };

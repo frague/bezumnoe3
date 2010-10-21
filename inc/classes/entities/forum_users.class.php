@@ -62,8 +62,8 @@ class ForumUser extends EntityBase {
 		$this->FillByCondition("t1.".self::USER_ID."=".round($userId)." AND t1.".self::FORUM_ID."=".round($forumId));
 	}
 
-	function GetUserForums($userId) {
-		return $this->GetByCondition("1", $this->UserForumsExpression($userId));
+	function GetUserForums($userId, $condition = "1=1") {
+		return $this->GetByCondition($condition, $this->UserForumsExpression($userId));
 	}
 
 	function ToJs() {
@@ -192,9 +192,9 @@ FROM
 	LEFT JOIN ".self::table." AS t1 ON t2.".Forum::FORUM_ID."=t1.".self::FORUM_ID."
 	LEFT JOIN ".User::table." AS t3 ON t3.".User::USER_ID."=t2.".Forum::LINKED_ID."
 WHERE 
-	(t2.".Forum::LINKED_ID."=".$userId.") OR 
+	((t2.".Forum::LINKED_ID."=".$userId.") OR 
 	(t1.".self::USER_ID."=".$userId." AND (t1.".self::ACCESS."=".Forum::FULL_ACCESS." OR 
-	t1.".self::ACCESS."=".Forum::READ_ADD_ACCESS."))
+	t1.".self::ACCESS."=".Forum::READ_ADD_ACCESS."))) AND (##CONDITION##)
 ORDER BY t2.".Forum::TYPE.", t2.".Forum::FORUM_ID;
 	}
 }

@@ -37,7 +37,7 @@ if (opener) {
 
 		tabs.Add(new Tab(2, "Настройки", 1, "", function(tab){new Settings().LoadTemplate(tab, me.Id)}));
 
-		var journalTab = new Tab(3, "Журнал", 1, "", function(tab){new Journal().LoadTemplate(tab, me.Id)});
+		var journalTab = new Tab(3, "Журнал", 1, "", function(tab){new JournalsManager().LoadTemplate(tab, me.Id)});
 		tabs.Add(journalTab);
 
 		WakeupsTab = new Tab(5, "Сообщения", 1, "", function(tab){new Wakeups().LoadTemplate(tab, me.Id)});

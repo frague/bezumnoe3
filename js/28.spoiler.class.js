@@ -1,4 +1,4 @@
-//2.0
+//3.0
 /*
 	Spoiler class.
 	Displays/hides logical piece of content on demand.
@@ -27,7 +27,7 @@ Spoiler.prototype.ToString = function(holder) {
 	a.Spoiler = this;
 	a.href = voidLink;
 	a.className = "Title";
-	a.onclick = function() {SwitchSpoiler(this);this.blur();};
+	a.onclick = function() {this.Spoiler.Switch();this.blur();};
 			
 	this.TitleHolder = d.createElement("h4");
 	this.UpdateTitle();
@@ -56,15 +56,11 @@ Spoiler.prototype.Display = function(state) {
 	this.Holder.className = "Spoiler " + (this.IsOpened ? "Opened" : "Closed");
 };
 
-/* Helper methods */
-
-function SwitchSpoiler(a) {
-	if (a.Spoiler) {
-		a.Spoiler.Display(!a.Spoiler.IsOpened);
-		if (a.Spoiler.OnSelect) {
-			a.Spoiler.RelatedDiv.innerHTML = LoadingIndicator;
-			a.Spoiler.OnSelect(a.Spoiler);
-			a.Spoiler.OnSelect = "";	/* TODO: Treat failure */
-		}
+Spoiler.prototype.Switch = function() {
+	this.Display(!this.IsOpened);
+	if (this.OnSelect) {
+		this.RelatedDiv.innerHTML = LoadingIndicator;
+		this.OnSelect(this);
+		this.OnSelect = "";	/* TODO: Treat failure */
 	}
 };
