@@ -21,6 +21,8 @@
 		DieWith404();
 	}
 
+	$meta_description = MetaContent($record->Title);
+
 	Head($record->Title, "forum.css", "forum.js", "", "", "forums.gif");
 	require_once $root."references.php";
 
@@ -74,6 +76,9 @@
 //	AddEtagHeader(strtotime($record->UpdateDate));
 	echo $result;
 	include $root."inc/ui_parts/post_form.php";
+
+	include $root."/inc/ui_parts/li.php";
+	include $root."/inc/ui_parts/ga.php";
 	
 	Foot();
 ?>

@@ -2,7 +2,7 @@
 
 	$u = new User();
 	$q = $u->GetByCondition(
-		"t1.".User::BANNED_BY." IS NOT NULL ORDER BY ".User::LOGIN,
+		"t1.".User::BANNED_BY." IS NOT NULL AND t1.".User::IS_DELETED."=0  ORDER BY ".User::LOGIN,
 		$u->BannedExpression()
 	);
 

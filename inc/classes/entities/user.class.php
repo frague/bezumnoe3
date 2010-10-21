@@ -366,7 +366,7 @@ JsQuote($admin)."\"]";
 	}
 
 	function InfoLink($id, $text) {
-		return "<a href=\"javascript:void(0)\" onclick=\"Info(".round($id).")\">".$text."</a>";
+		return "<a href=\"/user/".round($id).".html\" onclick=\"Info(".round($id).");return false;\">".$text."</a>";
 	}
 
 	function ToInfoLink($text = "") {

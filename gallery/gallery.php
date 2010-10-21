@@ -32,6 +32,8 @@
 		die;
 	}
 
+	$meta_description = "Фотогалерея '".MetaContent($gallery->Title)."'";
+
 	$photo = new GalleryPhoto();
 	$q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
 

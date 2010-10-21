@@ -16,6 +16,8 @@
 		DieWith404();
 	}
 
+	$meta_description = "Форум '".MetaContent($forum->Title)."': ".MetaContent($forum->Description);
+
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
 
 	Head($forum->Title, "forum.css", "forum.js", "", "", "forums.gif");

@@ -26,11 +26,14 @@
 		DieWith404();
 	}
 
+	$meta_description = MetaContent($record->Title);
+
+
 	AddEtagHeader(strtotime($record->UpdateDate));
 	Head($record->Title, "forum.css", "forum.js");
 	require_once $root."references.php";
 
-	$gallery->DoPrint(екгу);
+	$gallery->DoPrint(true);
 
 	echo "<div id=\"Photo\">";
 	echo $record->ToPrint($gallery->Description, 0);

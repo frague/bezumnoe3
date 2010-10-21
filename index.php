@@ -145,7 +145,7 @@
 
 						<div class="Counters">
 							<a href="http://www.yandex.ru/cy?base=0&host=bezumnoe.ru" rel="nofollow"><img src="http://www.yandex.ru/cycounter?www.bezumnoe.ru" width=88 height=31 alt="Яндекс цитирования bezumnoe.RU" border=0 hspace=5 vspace=8></a><br />
-							<!--LiveInternet counter--><script language="JavaScript">document.write('<a href="http://www.liveinternet.ru/click" target=_blank rel=nofollow><img src="http://counter.yadro.ru/hit?t21.6;r' + escape(document.referrer) + ((typeof(screen)=='undefined')?'':';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ';u' + escape(document.URL) +';i' + escape('Жж'+document.title.substring(0,80)) + ';' + Math.random() + '" border=0 width=88 height=31 title="LiveInternet: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я"></a>')</script><!--/LiveInternet-->
+							<!--LiveInternet counter--><script type="text/javascript">document.write("<a href='http://www.liveinternet.ru/click' target=_blank><img src='//counter.yadro.ru/hit?t14.5;r" + escape(document.referrer) + ((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ";u" + escape(document.URL) +";i" + escape("Жж"+document.title.substring(0,80)) + ";" + Math.random() + "' border=0 width=88 height=31 alt='' title=''><\/a>")</script><!--/LiveInternet-->
 						</div>
 					</div>
 				</div>
@@ -158,7 +158,7 @@
 				
 				<div class="Bottom Centered">
 					Первая версия сайта была создана 19 октября 1999 года.<br />
-					&copy; Дизайн и разработка сайта - <a href="javascript:void(0)" onclick="mail();">Николай Богданов</a>
+					&copy; Дизайн и разработка сайта - <a href="javascript:void(0)" onclick="mail()">Николай Богданов</a>
 
 					<script>function mail() {document.location='ma'+'ilto:Николай%20Богданов%20<'+'bezumnoe'+'@'+'gma' + 'il.com>';return false;}</script>
 				</div>
@@ -166,18 +166,9 @@
 	   	</div>
 	</div>
 
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-309866-1");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-
 <?php
 
+	include $root."/inc/ui_parts/ga.php";
 	include $root."/inc/li_spider_check.inc.php";
 
 ?>

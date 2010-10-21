@@ -143,6 +143,7 @@
 
 		$addTitle = "";
 		$record->Clear();	// Needed to check if single record has been requested
+		$metaDescription = "	<meta name=\"description\" content=\"Журнал на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description).")\" />\n";
 	}
 
 	$bodyText = str_replace($messageChunk, "", $bodyText);
@@ -272,6 +273,9 @@
 
 	echo $bodyText;
 	// Opening tags closure (to safely insert footer banner)
+
+	include $root."/inc/ui_parts/li.php";
+	include $root."/inc/ui_parts/ga.php";
 	echo RenderClosingTags();
 
 	include $root."/inc/li_spider_check.inc.php";

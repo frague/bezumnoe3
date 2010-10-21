@@ -41,7 +41,7 @@
 			$template->Body = UTF8toWin1251($_POST[JournalTemplate::BODY]);
 			$template->Message = UTF8toWin1251($_POST[JournalTemplate::MESSAGE]);
 			$template->Css = UTF8toWin1251($_POST[JournalTemplate::CSS]);
-#			$template->Save();
+			$template->Save();
 
 			$settings->UserId = $user->User->Id;
 			$settings->SkinTemplateId = round($_POST[JournalSettings::SKIN_TEMPLATE_ID]);

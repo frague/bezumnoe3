@@ -1,7 +1,11 @@
 <?php
 
 	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $title_img = "") {
-	  global $user;
+	  global $user, $meta_description;
+
+	  	if (!$meta_description) {
+	  		$meta_description = "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
+	  	}
 
 ?><html>
 <head>
@@ -10,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/template.css" />
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
+	<meta name="description" content="<? echo $meta_description ?>" />
 <?php 
 		
 		if ($css) {
@@ -29,7 +34,7 @@
 <?php
 		echo "<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>";
 		?>
-		<?php echo $title_img ? "<img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" alt=\"".$title."\" title=\"".$title."\" />" : "<h1>".$title."</h1>" ?>
+		<?php echo $title_img ? "<img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" />" : "<h1>".$title."</h1>" ?>
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
 <?php
@@ -50,6 +55,7 @@
 	</div>
 
 <?php include $root."inc/ui_parts/google_analythics.php" ?>
+<?php include $root."inc/ui_parts/li.php" ?>
 
 </body>
 </html>

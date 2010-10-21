@@ -40,7 +40,7 @@
 
 	    $tag = strtolower($tag);
 	    
-	    if (!eregi("^(li|p|link|img)$", $tag)) {
+	    if (!eregi("^(li|p|link|img|area)$", $tag)) {
 		    if ($order != "/") {
 		    	$tagsStack[$tag]++;
 	    	} else {
@@ -166,7 +166,7 @@
 				$message->Id, 
 				$userUrlName,
 				0, 
-				Countable("комментарий", $commentsCount));
+				Countable("комментарий", $commentsCount, "нет"));
 		}
 		$result = str_replace(
 			"##COMMENTS##", 
