@@ -1,7 +1,10 @@
-//6.1
+//6.3
 /*
 	Journal functionality: Blog templates, messages, settings
 */
+
+// Warning! Matrix should correspond to standard accesses
+var accessMatrix = [{f: [0, 0, 0, 0], g: [0, 0, 0, 0], j: [0, 0, 0, 0]}, {f: [1, 0, 0, 0], g: [1, 0, 0, 0], j: [1, 0, 0, 0]}, {f: [1, 0, 0, 0], g: [1, 0, 0, 0], j: [1, 0, 0, 0]}, {f: [1, 0, 0, 0], g: [1, 0, 0, 0], j: [1, 0, 0, 0]}, {f: [1, 0, 1, 1], g: [1, 0, 1, 0], j: [1, 1, 1, 1]}];
 
 var MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler;
 
@@ -35,6 +38,12 @@ Journal.prototype.TemplateLoaded = function(req) {
 	this.SetTabElementValue("linkNewPost", "Создать новую запись в	&laquo;" + this.Forum.TITLE + "&raquo;");
 	this.SetTabElementValue("linkDeleteJournal", "Удалить	&laquo;" + this.Forum.TITLE + "&raquo;");
 
+	if (this.Forum.ACCESS != FULL_ACCESS) {
+		this.DisplayTabElement("linkDeleteJournal", 0);
+	} else if (this.Forum.ACCESS != READ_ADD_ACCESS && this.Forum.ACCESS != FULL_ACCESS) {
+		this.DisplayTabElement("linkNewPost", 0);
+	}
+
 	var spoilers = this.Inputs["Spoilers"];
 	if (spoilers) {
 		// TODO: Check type here
@@ -43,17 +52,14 @@ Journal.prototype.TemplateLoaded = function(req) {
 		SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {new JournalSettings().LoadTemplate(tab, me.Id)});
 		AccessSpoiler = new Spoiler(4, "Доступ / друзья", 0, 0, function(tab) {new ForumAccess().LoadTemplate(tab, me.Id)});
 
-		if (this.Forum.TYPE == "f") {
-			s = [MessagesSpoiler, SettingsSpoiler, AccessSpoiler];
-		} else if (this.Forum.TYPE == "g")  {
-			s = [MessagesSpoiler, SettingsSpoiler];
-		} else {
-			s = [MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler, AccessSpoiler];
-		}
+		s = [MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler, AccessSpoiler];
+		accessRow = accessMatrix[this.Forum.ACCESS][this.Forum.TYPE];
 
 		for (i = 0; i < s.length; i++) {
-			s[i].Forum = this.Forum;
-			s[i].ToString(spoilers);
+			if (accessRow[i]) {
+				s[i].Forum = this.Forum;
+				s[i].ToString(spoilers);
+			}
 		}
 	}
 	InitMCE();

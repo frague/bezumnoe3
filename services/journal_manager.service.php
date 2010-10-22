@@ -65,21 +65,19 @@
 	if (!$condition) {
 		$condition = "1=0";
 	}
-	
-	
+
 	/* Reading allowed forums */
 
 	$q = $fu->GetUserForums($user->User->Id, $condition);
 	echo "this.data=[";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
-		$forumId = $q->Get(ForumUser::FORUM_ID);
-		$type = substr($q->Get(Forum::TYPE), 0, 1);
 
 		echo ($i ? "," : "")."new jjdto(".
-$forumId.",\"".
+$q->Get(ForumUser::FORUM_ID).",\"".
 JsQuote($q->Get(Forum::TITLE))."\",\"".
-$type."\")";
+substr($q->Get(Forum::TYPE), 0, 1)."\",".
+$q->Get(ForumUser::ACCESS).")";
 	}
 	echo "];";
 	$q->Release();

@@ -1,4 +1,4 @@
-//2.2
+//2.3
 /*
 	Journal functionality: Blog templates, messages, settings
 */
@@ -28,14 +28,14 @@ JournalsManager.prototype.Bind = function() {
 	if (container) {
 		container.innerHTML = "";
 		if (this.data && this.data.length) {
-			for (i = 0; i < this.data.length; i++) {
+			for (var i = 0, l = this.data.length; i < l; i++) {
 				this.data[i].ToString(i, container);
 			}
 		}
 	}
 
 	this.DisplayTabElement("CreateJournal", !this.HasJournal);
-	this.SetTabElementValue("linkNewForum", (this.HasJournal ? "--" : "Создать журнал"));
+	this.SetTabElementValue("linkNewForum", (this.HasJournal ? "" : "Создать журнал"));
 };
 
 JournalsManager.prototype.TemplateLoaded = function(req) {
@@ -49,8 +49,8 @@ JournalsManager.prototype.TemplateLoaded = function(req) {
 /* Forum line DTO */
 
 var ForumTypes = {"f": "Форум", "g": "Фотогалерея", "j": "Журнал"};
-function jjdto(id, title, type) {
-	this.fields = ["FORUM_ID", "TITLE", "TYPE"];
+function jjdto(id, title, type, access) {
+	this.fields = ["FORUM_ID", "TITLE", "TYPE", "ACCESS"];
 	this.Init(arguments);
 };
 

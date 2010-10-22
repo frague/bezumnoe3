@@ -1,4 +1,4 @@
-//6.10
+//6.11
 /*
 	Forum access functionality.
 	Allows to manage users access to forums/journals/galleries.
@@ -10,7 +10,7 @@ var FRIENDLY_ACCESS		= 2;
 var READ_ADD_ACCESS		= 3;
 var FULL_ACCESS			= 4;
 
-var accesses = ["доступ закрыт", "только чтение", "дружественный доступ", "полный доступ"];
+var accesses = ["доступ закрыт", "только чтение", "дружественный доступ", "чтение/запись", "полный доступ"];
 
 function ForumAccess(user_id, tab) {
 	this.UserId = user_id;
@@ -132,9 +132,10 @@ judto.prototype.ToString = function(index, obj, prev_id, holder, className) {
     if (prev_id != this.USER_ID) {
 		var li = d.createElement("li");
 		li.className = className;
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Добавить как администратора"));
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Добавить в белый список"));
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Добавить в чёрный список"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Дать полный доступ"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Дать доступ на чтение/запись"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FRIENDLY_ACCESS + ", this.obj)", "icons/add_magenta.gif", obj, "", "Дать дружественный доступ"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Закрыть доступ"));
 		li.appendChild(MakeDiv(this.LOGIN + (this.NICKNAME ? "&nbsp;(" + this.NICKNAME + ")" : ""), "span"));
 		holder.appendChild(li);
 	}
