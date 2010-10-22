@@ -15,6 +15,6 @@
 
 	<ul class="Links" id="Links">
 		<li> <a id="linkNewPost" href="javascript:void(0)" onclick="EditJournalPost(this.obj, 0)" class="Add">Создать новую запись</a>
-		<li> <a id="linkDeleteJournal" href="javascript:void(0)" onclick="" class="Delete">Удалить</a>
+		<li> <a id="linkDeleteJournal" href="javascript:void(0)" onclick="" class="Delete">Удалить журнал</a>
 	</ul>
 </div>

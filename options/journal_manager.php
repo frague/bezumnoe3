@@ -22,6 +22,6 @@
 
 	<ul class="Links">
 		<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>
-		<li id="CreateJournal"> <a href="javascript:void(0)" onclick="CreateForum(this.obj)" id="linkNewForum" class="Add"></a>
+		<li id="CreateJournal"> <a href="javascript:void(0)" onclick="CreateForum(this.obj)" id="linkNewForum" class="Add">Создать журнал</a>
 	</ul>
 </div>
