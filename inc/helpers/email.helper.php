@@ -1,12 +1,15 @@
 <?php
 
-	function SendMail($recepient, $subject, $body) {
-		$Name = "Чат Bezumnoe.ru";
-		$email = "noreply@bezumnoe.ru";
+	function SendMail($to, $subject, $message) {
+		$charset = "windows-1251";
 
-		$header = "From: ". $Name . " <" . $email . ">\r\n";
+		$header = "Return-Path: Безумное ЧАепиТие <info@bezumnoe.ru>\n";
+		$header .= "MIME-Version: 1.0\n";
+		$header .= "From: Безумное ЧАепиТие <info@bezumnoe.ru>\n";
+		$header .= "X-Accept-Language: ru\n";
+		$header .= "Content-Type: text/plain; charset={$charset}\n";
 
-		mail($recipient, $subject, $body, $header); //mail command :) 	}
+		return mail($to, $subject, $message, $header);
 	}
 
 ?>

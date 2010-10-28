@@ -160,7 +160,7 @@
 					Первая версия сайта была создана 19 октября 1999 года.<br />
 					&copy; Дизайн и разработка сайта - <a href="javascript:void(0)" onclick="mail()">Николай Богданов</a>
 
-					<script>function mail() {document.location='ma'+'ilto:Николай%20Богданов%20<'+'bezumnoe'+'@'+'gma' + 'il.com>';return false;}</script>
+					<script>function mail() {document.location='ma'+'ilto:Николай%20Богданов%20<'+'info'+'@'+'bezumno' + 'e.ru>';return false;}</script>
 				</div>
 			</div>
 	   	</div>
