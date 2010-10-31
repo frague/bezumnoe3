@@ -28,6 +28,7 @@
 		}
 	?>
 	<script language="javascript" src="/js1/reply_common.js"></script>
+	<?php include "google_analythics.php" ?>
 </head>
 <body>
 	<div class="Main">
@@ -36,7 +37,7 @@
 		?>
 		<?php echo $title_img ? "<img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" />" : "<h1>".$title."</h1>" ?>
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
-
+		
 <?php
 	}
 
@@ -54,7 +55,6 @@
 ?>
 	</div>
 
-<?php include $root."inc/ui_parts/google_analythics.php" ?>
 <?php include $root."inc/ui_parts/li.php" ?>
 
 </body>

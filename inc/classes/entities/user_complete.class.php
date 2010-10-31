@@ -113,7 +113,7 @@ class UserComplete extends EntityBase {
 				// If match found and sessionAddress is not empty
 				if (!$this->IsEmpty() && $sessionAddress) {
 					// .. updating session address
-		 			SaveLog("Пользователь <strong>".$this->User->Login."</strong>:<ul class=\"ListChanges\"><li><b>Адрес сессии:</b> ".$this->User->SessionAddress." <b>&rarr;</b> ".$sessionAddress."</li></ul>", -1, "", AdminComment::SEVERITY_WARNING);
+		 			SaveLog("Пользователь <strong>".$this->User->Login."</strong>:<ul class=\"ListChanges\"><li><b>Адрес сессии:</b> ".$this->User->SessionAddress." <b>&rarr;</b> ".$sessionAddress."</li></ul>", -1, "", AdminComment::SEVERITY_NORMAL);
 					$this->User->UpdateSessionAddress($sessionAddress);
 				}
 			}

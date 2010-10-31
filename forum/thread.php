@@ -78,7 +78,6 @@
 	include $root."inc/ui_parts/post_form.php";
 
 	include $root."/inc/ui_parts/li.php";
-	include $root."/inc/ui_parts/ga.php";
 	
 	Foot();
 ?>

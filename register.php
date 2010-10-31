@@ -290,5 +290,7 @@
 	PageValidators.Init($("Summary"), "Выявлены ошибки:");
 </script>
 <?php
+
 	Foot();
+
 ?>

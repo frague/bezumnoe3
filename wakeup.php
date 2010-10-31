@@ -25,6 +25,7 @@
 	
 
 	?>		<title><? echo ($wakeup->IsEmpty() ? "Wakeup Error!" : "Сообщение от ".$wakeup->FromUserName) ?></title>
+		<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
 	</head>
 
 	<body>
