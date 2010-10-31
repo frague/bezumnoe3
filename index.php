@@ -23,6 +23,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/global.css" />
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
+	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
 </head>
 
 <body>
@@ -168,7 +169,6 @@
 
 <?php
 
-	include $root."/inc/ui_parts/ga.php";
 	include $root."/inc/li_spider_check.inc.php";
 
 ?>

@@ -126,6 +126,9 @@
 	// Insert reference to styles to prevent alternative ones
 	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css/".$template->Id.".css'>", $bodyText);
 
+	$metaDescription = file_get_contents($root."inc/ui_parts/google_analythics.php");
+	$bodyText = str_replace("</head>", $metaDescription."\n</head>", $bodyText);
+
 	echo $bodyText;
 	// Opening tags closure (to safely insert footer banner)
 	echo RenderClosingTags();

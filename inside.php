@@ -49,6 +49,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/layout.css">
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
+		<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
 	</head>
 
 	<body onload="OnLoad()">

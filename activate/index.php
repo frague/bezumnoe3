@@ -1,4 +1,4 @@
-<?
+<?php
 
 	$root = "../";
 	require_once $root."server_references.php";
@@ -7,6 +7,8 @@
 	Head("Активация аккаунта", "register.css", "", "", "", "register.gif");
 	require_once $root."references.php";
 
+
+?><img src="/img/spacer.gif" border="0" width="1" height="400" style="float:right" /><?php
 
 	$guid = trim(LookInRequest("g"));
 
@@ -18,7 +20,7 @@
 			$user->Guid = substr($user->Guid, 1);
 			$user->Save();
 		
-			SaveLog("Активация профиля <b>".$user->Login."</b>.", $user->Id);
+			SaveLog("Активация профиля <b>".$user->Login."</b>.", $user->Id, "", AdminComment::SEVERITY_WARNING);
 
 			echo "Поздравляем, <b>".$user->Login."</b>, ваш аккаунт успешно активирован!";
 		} else {
@@ -29,14 +31,9 @@
 	}
 	
 	if ($error) {
-		echo "<div class='Error'>".$error."</div>";
+		echo "<div id='Summary'>Ошибка активации профиля: <li>".$error."</div>";
 	}
 
-?>
-
-<br /><br /><br /><br /><br /><br /><br /><br />
-
-<?php
 
 	Foot();
 

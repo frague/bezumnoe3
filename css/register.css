@@ -12,21 +12,6 @@ th {
 	width:100%;
 }
 
-#Summary, ul {
-	color:red;
-	background-color:#FFEEEE;
-	border:solid 1px red;
-	margin-top:10px;
-	padding:8px;
-	width:400px;
-}
-
-#Summary li, ul li {
-	list-style:square;
-	margin-left:16px;
-	font-size:70%;
-}
-
 .Validator {
 	color:red;
 }
@@ -42,3 +27,20 @@ th {
 	color:#808080;
 	font-size:7pt;
 }
+
+/* Errors summary */
+
+#Summary, ul {
+	color:red;
+	background-color:#FFEEEE;
+	border:solid 1px red;
+	margin-top:10px;
+	padding:8px;
+}
+
+#Summary li, ul li {
+	list-style:square;
+	margin-left:16px;
+	font-size:70%;
+}
+

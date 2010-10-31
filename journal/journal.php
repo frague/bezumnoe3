@@ -117,7 +117,7 @@
 		$addTitle = $record->Title;
 
 		$metaDescription = "	<meta name=\"description\" content=\"Журнал на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description.") - ".$record->Title)."\" />
-	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_keys($usedTags)))."\" />";
+	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_keys($usedTags)))."\" />\n";
 	} else {
 		// Show records by given criteria or from the beginning
 		if ($tag) {
@@ -157,7 +157,6 @@
 	// Substitute chunks with user data
 	$bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
 	$bodyText = str_replace("##DESCRIPTION##", $journal->Description, $bodyText);
-	$bodyText = str_replace("</head>", $metaDescription."\n</head>", $bodyText);
 
 	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
 	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
@@ -271,11 +270,13 @@
 	// Insert reference to styles to prevent alternative ones
 	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css/".$template->Id.".css'>", $bodyText);
 
+	$metaDescription .= file_get_contents($root."inc/ui_parts/google_analythics.php");
+	$bodyText = str_replace("</head>", $metaDescription."\n</head>", $bodyText);
+
 	echo $bodyText;
 	// Opening tags closure (to safely insert footer banner)
 
 	include $root."/inc/ui_parts/li.php";
-	include $root."/inc/ui_parts/ga.php";
 	echo RenderClosingTags();
 
 	include $root."/inc/li_spider_check.inc.php";
