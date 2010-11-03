@@ -89,13 +89,13 @@
 
 	// Showing Profile Photo
 
-	function ProfilePhoto($profile) {
+	function ProfilePhoto($profile, $login) {
 	  global $root, $PathToPhotos, $PathToThumbs, $ServerPathToPhotos, $ServerPathToThumbs;
 
 		if ($profile->Photo) {
 			if (file_exists($root.$ServerPathToThumbs.$profile->Photo)) {
 				$size = @GetImageSize($root.$ServerPathToThumbs.$profile->Photo);
-				return "<a href='".$PathToPhotos.$profile->Photo."'><img src='".$PathToThumbs.$profile->Photo."' ".$size[3]." class='Photo'></a>";
+				return "<a href='".$PathToPhotos.$profile->Photo."'><img src='".$PathToThumbs.$profile->Photo."' ".$size[3]." class='Photo' alt='".HtmlQuote($login)."' title='".HtmlQuote($login)."' /></a>";
 			} else {
 				$lnk = "";
 				$w = "width=\"300\"";
@@ -107,7 +107,7 @@
 						$lnk = "<a href='".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."' target='_blank'>";
 					}
 				}
-				return $lnk."<img src='".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."' ".$w." class='Photo'>".($lnk ? "</a>" : "");
+				return $lnk."<img src='".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."' ".$w." class='Photo' alt='".HtmlQuote($login)."' title='".HtmlQuote($login)."' />".($lnk ? "</a>" : "");
 			}
 		}
 		return "";

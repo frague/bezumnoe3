@@ -102,6 +102,10 @@
 		return $source;
 	}
 
+	function HtmlQuote($source) {
+		return MakeTagsPrintable($source);
+	}
+
 	function MakeTagsPrintable($source) {
 		$source = str_replace("&", "&amp;", $source);
 		$source = str_replace("<", "&lt;", $source);

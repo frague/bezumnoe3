@@ -26,7 +26,7 @@
 
 		$link = $u->InfoLink($p->UserId, $login);
 
-		$photo = ProfilePhoto($p);
+		$photo = ProfilePhoto($p, $login);
 		if ($photo) {
 			$photos .= $photo."<div>".$link."</div>";
 			$link = "<b>".$link."</b>";
