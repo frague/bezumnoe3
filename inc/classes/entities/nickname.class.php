@@ -50,6 +50,9 @@ class Nickname extends EntityBase {
 		if (preg_match("/[a-zA-Z]/", $this->Title) && preg_match("/[а-яА-Я]/", $this->Title)) {
 			return "Недопустимо смешение в имени русского и латинского алфавитов.";
 		}
+		if (!preg_match("/^[a-zA-Zа-яА-Я0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/", $this->Title)) {
+			return  "Имя содержит недопустимые символы.";
+		}
 		return "";
 	}
 
