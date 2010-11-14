@@ -1,7 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 	<head>
-		<link rel="stylesheet" type="text/css" href="/css/global.css">
-		<link rel="stylesheet" type="text/css" href="/css/wakeup.css">
+		<meta charset="windows-1251" />
+		<link rel="stylesheet" href="/css/global.css" />
+		<link rel="stylesheet" href="/css/wakeup.css" />
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<?
