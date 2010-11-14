@@ -42,11 +42,13 @@
 
 	require_once $root."references.php";
 
-?><html>
+?><!DOCTYPE html>
+<html lang="ru">
 	<head>
+		<meta charset="windows-1251" />
 		<title>Безумное ЧАепиТие у Мартовского Зайца</title>
-		<link rel="stylesheet" type="text/css" href="/css/global.css">
-		<link rel="stylesheet" type="text/css" href="/css/layout.css">
+		<link rel="stylesheet" href="/css/global.css">
+		<link rel="stylesheet" href="/css/layout.css">
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<?php include $root."/inc/ui_parts/google_analythics.php"; ?>

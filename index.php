@@ -11,16 +11,17 @@
 
 	require_once $root."references.php";
 
-?><html>
+?><!DOCTYPE html>
+<html lang="ru">
 <head>
+	<meta charset="windows-1251" />
 	<!-- Саратовский молодёжный чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
 	<title>Лучший саратовский чат &mdash; Безумное ЧАепиТие у Мартовского Зайца</title>
 	<meta name="description" content="Молодежный чат bezumnoe.ru. Скоростной, удобный чат студентов Саратова. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам. Удобный, современный механизм, журналы пользователей, форум, фотогалерея."><meta name="abstract" content="Молодежный чат bezumnoe.ru. Скоростной, удобный чат студентов Саратова. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам. Удобный, современный механизм, журналы пользователей, форум, фотогалерея."><meta name="keywords" content="чат, безумное, Саратов, саратовский, молодёжный, студенческий, студент, чаепитие, встречи, знакомства, общение, волга, российский, общероссийский, чаты, Саратов, Саратова, saratov, chat"><meta name="distribution" content="Global"><meta name="rating" content="General"><meta name="subject" content="Чат, Общение"><meta name="page-type" content="Чат, Общение"><meta name="page-topic" content="Молодежный саратовский чат bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове"><meta name="title" content="Студенческий чат в Саратове - bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове"><meta name="site-created" content="17-10-1999"><meta name="revisit" content="15 days"><meta name="revisit-after" content="15 days"><meta name="content-Language" content="russian"><meta name="resource-type" content="document"><meta name="audience" content="all"><meta name="robots" content="index,all"><meta name="Address" content="Saratov, Russia"><meta name="home_url" content="http://bezumnoe.ru/">
-	<meta http-equiv="content-type" content="text/html; charset=windows-1251">
 	<!-- Саратовский молодёжный чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-	<link rel="stylesheet" type="text/css" href="/css/template.css" />
-	<link rel="stylesheet" type="text/css" href="/css/default3.css" />
-	<link rel="stylesheet" type="text/css" href="/css/global.css" />
+	<link rel="stylesheet" href="/css/template.css" />
+	<link rel="stylesheet" href="/css/default3.css" />
+	<link rel="stylesheet" href="/css/global.css" />
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
@@ -130,18 +131,20 @@
 ?>
 
 						<div class="UserList">
-							<ul class="Menu">
-								<li> <a href="#" onclick="alert('Бывает... ==8)))');">Забыл пароль?</a><br /><br />
+							<nav>
+								<ul class="Menu" role="navigation sitemap">
+									<li> <a href="#" onclick="alert('Бывает... ==8)))');">Забыл пароль?</a><br /><br />
 
-								<li> <a href="/register.php">Регистрация</a>
-								<li class="l1 Bold"> <a href="/journal/">Журналы</a>
-								<li class="l4"> <a href="/tree/" class="Red">Фамильное древо</a>
-								<li> <a href="/gallery/">Фотогалерея</a>
-								<li class="l2"> <a href="/forum/">Форумы чата</a>
-								<li class=""> <a href="/photos/">Фотки чатлан</a>
-								<li class="l3"> <a href="/banned.php">&laquo;Чёрный список&raquo;</a>
-								<li class="l1"> <a href="/rating.php">Рейтинг</a>
+									<li> <a href="/register.php">Регистрация</a>
+									<li class="l1 Bold"> <a href="/journal/">Журналы</a>
+									<li class="l4"> <a href="/tree/" class="Red">Фамильное древо</a>
+									<li> <a href="/gallery/">Фотогалерея</a>
+									<li class="l2"> <a href="/forum/">Форумы чата</a>
+									<li class=""> <a href="/photos/">Фотки чатлан</a>
+									<li class="l3"> <a href="/banned.php">&laquo;Чёрный список&raquo;</a>
+									<li class="l1"> <a href="/rating.php">Рейтинг</a>
 							</ul>
+							<nav>
 						</div>
 
 						<div class="Counters">
