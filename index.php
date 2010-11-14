@@ -51,7 +51,7 @@
 						</div>
 
 						<!--h3>Новые фотки:</h3-->
-						<img src="/img/titles/photos.gif" alt="Фотографии участников" title="Фотографии участников" style="margin:20px 15px 10px" />
+						<img src="/img/titles/photos.gif" alt="Фотографии участников" title="Фотографии участников" style="margin:20px 15px 5px" />
 						<div class="UserList Photos">
 							<?php include $root."inc/ui_parts/new_photos.php"; ?>
 						</div>
@@ -76,7 +76,7 @@
 							<div class="MainLink RightOriented">
 								<img src="/img/t/pict/forum.gif" align="right" height="79" width="95" alt="Форумы" title="Форумы">
 								<a href="/forum/"><img src="/img/titles/forums.gif" alt="Форумы" title="Форумы" /></a>
-								<p>В форумах происходит обсуждение насущных вопросов чата. Авторизуйтесь для публикации сообщений.
+								<p>В форумах происходит обсуждение всех вопросов чата, публикуются объявления и поздравления. Авторизуйтесь для добавления сообщений.
 							</div>
 
 							<div class="MainLink">
@@ -110,7 +110,7 @@
 									<script>$("<?php echo PASSWORD_KEY ?>").focus()</script></td></tr>
 								<tr>
 									<td></td>
-									<td><input src="/img/t/enter.gif" border="0" width="48" height="26" alt="Авторизоваться в чате" type="image" /></td></tr></table>
+									<td><input src="/img/t/auth.gif" border="0" width="90" height="30" alt="Авторизоваться в чате" type="image" style="margin-top:5px" /></td></tr></table>
 						</form>
 <?php
 

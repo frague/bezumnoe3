@@ -116,8 +116,8 @@
 		DisplayRecord($record);
 		$addTitle = $record->Title;
 
-		$metaDescription = "	<meta name=\"description\" content=\"Журнал на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description.") - ".$record->Title)."\" />
-	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_keys($usedTags)))."\" />\n";
+		$metaDescription = "	<meta name=\"description\" content=\"Блог (журнал) на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description.") - ".$record->Title)."\" />
+	<meta name=\"keywords\" content=\"блог, журнал, Саратов, ".MetaContent(join(", ", array_keys($usedTags)))."\" />\n";
 	} else {
 		// Show records by given criteria or from the beginning
 		if ($tag) {

@@ -272,7 +272,7 @@
 	<tr>
 		<td></td>
 		<td>
-			<input type="image" alt="Зарегистрироваться" src="/img/send_button_black.gif">
+			<input type="image" alt="Зарегистрироваться" src="/img/t/send.gif" width="80" height="67" style="margin-top:10px" />
 		</td>
 	</tr>
 </table>
