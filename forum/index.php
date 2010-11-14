@@ -4,6 +4,8 @@
 	require_once $root."server_references.php";
 	require_once "forum.template.php";
 
+	$meta_description = "Форум саратовского чата Безумное Чаепитие у Мартовского Зайца. Самые интересные темы, вопросы, объявления.";
+
 	Head("Форумы", "forum.css", "forum.js", "", "", "forums.gif");
 	require_once $root."references.php";
 

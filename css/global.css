@@ -549,3 +549,6 @@ div.DatePicker table.Calendar th select {
 	-webkit-border-radius: 6px;
 }
 
+a.Noborder {
+	text-decoration:none;
+}
