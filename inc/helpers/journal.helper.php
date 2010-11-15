@@ -128,23 +128,25 @@
 			return;
 		}
 
-		$result = $template;
+		$result = "<article>".$template."</article>";
         $result = str_replace("##TITLE##", $message->Title, $result);
 
 		// Date & time
-		$messageTime = strtotime($message->Date);
-        $fullDate = date("j.m.Y", $messageTime);
-		$day = date("j", $messageTime);
-		$month = date("m", $messageTime);
-		$year = date("Y", $messageTime);
-		$messageTime = date("H:i", $messageTime);
+		$msgTime = strtotime($message->Date);
+        $fullDate = date("j.m.Y", $msgTime);
+		$day = date("j", $msgTime);
+		$month = date("m", $msgTime);
+		$year = date("Y", $msgTime);
+		$messageTime = date("H:i", $msgTime);
+
+		$textualDate = date("c", $msgTime);
 		
-		$result = str_replace("##DATE##", $fullDate, $result);
+		$result = str_replace("##DATE##", "<time datetime=\"".$textualDate."\" pubdate>".$fullDate."</time>", $result);
 		$result = str_replace("##DAY##", $day, $result);
 		$result = str_replace("##MONTH##", $month, $result);
 		$result = str_replace("##YEAR##", $year, $result);
-		$result = str_replace("##TIME##", $messageTime, $result);
-		$result = str_replace("##AUTHOR##", $message->Author, $result);
+		$result = str_replace("##TIME##", "<time datetime=\"".$textualDate."\" pubdate>".$messageTime."</time>", $result);
+		$result = str_replace("##AUTHOR##", "<author>".$message->Author."</author>", $result);
 
 		switch ($message->Type) {
 			case 2:

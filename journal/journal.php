@@ -114,7 +114,7 @@
 		$showFrom = 0;
 		$shownMessages = 1;
 		DisplayRecord($record);
-		$addTitle = $record->Title;
+		$addTitle = " &mdash; ".$record->Title;
 
 		$metaDescription = "	<meta name=\"description\" content=\"Блог (журнал) на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description.") - ".$record->Title)."\" />
 	<meta name=\"keywords\" content=\"блог, журнал, Саратов, ".MetaContent(join(", ", array_keys($usedTags)))."\" />\n";
