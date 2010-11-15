@@ -177,12 +177,12 @@ class ForumRecordBase extends EntityBase {
 			$result .= "<li class='".($this->IsDeleted ? "Hidden " : "")."'>";
 		}
 
-		$result .= "<table class='".$cssClass."'><tr>";
+		$result .= "<article>\n<table class='".$cssClass."'><tr>";
 		if ($avatar) {
 			$result .= "<th>".HtmlImage($PathToAvatars.$avatar, $root.$ServerPathToAvatars.$avatar)."</th>";
 		}
 
-		$result .= "<td><h4>".$this->Title."</h4>";
+		$result .= "<td><header><h4>".$this->Title."</h4></header>";
 		$result .= ($this->UserId > 1 ? "<a href='javascript:void(0)' onclick='Info(".$this->UserId.")'>" : "").$this->Author.($this->UserId > 1 ? "</a>" : $this->Author);
 		if ($alias) {
 			$result .= " (<a href='".JournalSettings::MakeHref($alias)."'>журнал</a>)";
@@ -200,7 +200,7 @@ class ForumRecordBase extends EntityBase {
 		if ($user && ($user->IsAdmin() || $user->User->Id == $this->UserId)) {
 			$result .= "&nbsp;<a href='javascript:void(0)' onclick='ForumDelete(this,".$this->Id.",".$this->ForumId.")'>Удалить</a>";
 		}
-		$result .= "</div>";
+		$result .= "</div></article>";
 
 		return $result;
 	}
