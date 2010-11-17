@@ -137,8 +137,8 @@
 		DisplayRecord($record);
 		$addTitle = " &mdash; ".$record->Title;
 
-		$metaDescription = "<meta name=\"description\" content=\"Блог (журнал) на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description.") - ".$record->Title)."\" />
-	<meta name=\"keywords\" content=\"блог, журнал, Саратов, ".MetaContent(join(", ", array_keys($usedTags)))."\" />";
+		$metaDescription = "<meta name=\"description\" content=\"".MetaContent($journal->Title.($journal->Description ? " - ".$journal->Description."" : "").": ".$record->Title)."\" />
+	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_merge(array("блог", "журнал", "Саратов"), array_keys($usedTags))))."\" />";
 	} else {
 		// Show records by given criteria or from the beginning
 		if ($tag) {
@@ -164,7 +164,7 @@
 
 		$addTitle = "";
 		$record->Clear();	// Needed to check if single record has been requested
-		$metaDescription = "<meta name=\"description\" content=\"Журнал на Безумное.РУ: '".MetaContent($journal->Title."' (".$journal->Description).")\" />";
+		$metaDescription = "<meta name=\"description\" content=\"".MetaContent($journal->Title.($journal->Description ? " - ".$journal->Description."" : ""))."\" />";
 	}
 
 	$bodyText = str_replace($messageChunk, "", $bodyText);
