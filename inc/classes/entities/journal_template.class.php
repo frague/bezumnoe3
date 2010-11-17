@@ -6,6 +6,7 @@ class JournalTemplate extends EntityBase {
 
 	const TEMPLATE_ID = "TEMPLATE_ID";
 	const FORUM_ID = "FORUM_ID";
+	const TITLE = "TITLE";
 	const BODY = "BODY";
 	const MESSAGE = "MESSAGE";
 	const CSS = "CSS";
@@ -13,6 +14,7 @@ class JournalTemplate extends EntityBase {
 
 	// Properties
 	var $ForumId;
+	var $Title;
 	var $Body;
 	var $Message;
 	var $Css;
@@ -28,6 +30,7 @@ class JournalTemplate extends EntityBase {
 		$this->Id = -1;
 		$this->TemplateId = -1;
 		$this->ForumId = -1;
+		$this->Title = "";
 		$this->Body = "";
 		$this->Message = "";
 		$this->Css = "";
@@ -39,6 +42,9 @@ class JournalTemplate extends EntityBase {
 	}
 
 	function MergeWith($template) {
+		if (!$this->Title) {
+			$this->Title = $template->Title;
+		}
 		if (!$this->Body) {
 			$this->Body = $template->Body;
 		}
@@ -54,6 +60,7 @@ class JournalTemplate extends EntityBase {
 		$this->Id = $result->Get(self::TEMPLATE_ID);
 		$this->TemplateId = $result->Get(self::TEMPLATE_ID);
 		$this->ForumId = $result->GetNullableId(self::FORUM_ID);
+		$this->Title = $result->Get(self::TITLE);
 		$this->Body = $result->Get(self::BODY);
 		$this->Message = $result->Get(self::MESSAGE);
 		$this->Css = $result->Get(self::CSS);
@@ -79,6 +86,7 @@ class JournalTemplate extends EntityBase {
 		$s = "<ul type=square>";
 		$s.= "<li>".self::TEMPLATE_ID." = ".$this->Id."</li>\n";
 		$s.= "<li>".self::FORUM_ID." = ".$this->ForumId."</li>\n";
+		$s.= "<li>".self::TITLE." = ".$this->Title."</li>\n";
 		$s.= "<li>".self::BODY." = ".$this->Body."</li>\n";
 		$s.= "<li>".self::MESSAGE." = ".$this->Message."</li>\n";
 		$s.= "<li>".self::CSS." = ".$this->Css."</li>\n";
@@ -93,6 +101,7 @@ class JournalTemplate extends EntityBase {
 
 	function ToJs($add="") {
 		$s = "[\"".
+JsQuote($this->Title)."\", \"".
 JsQuote($this->Body)."\", \"".
 JsQuote($this->Message)."\",  \"".
 JsQuote($this->Css)."\"".($add ? ", \"".JsQuote($add)."\"" : "")."]";
@@ -105,6 +114,7 @@ JsQuote($this->Css)."\"".($add ? ", \"".JsQuote($add)."\"" : "")."]";
 		return "SELECT 
 	t1.".self::TEMPLATE_ID.",
 	t1.".self::FORUM_ID.",
+	t1.".self::TITLE.",
 	t1.".self::BODY.",
 	t1.".self::MESSAGE.",
 	t1.".self::CSS.",
@@ -118,6 +128,7 @@ WHERE
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
 (".self::FORUM_ID.", 
+".self::TITLE.", 
 ".self::BODY.", 
 ".self::MESSAGE.", 
 ".self::CSS.",
@@ -125,6 +136,7 @@ WHERE
 )
 VALUES
 (".NullableId($this->ForumId).", 
+'".SqlQuote($this->Title)."', 
 '".SqlQuote($this->Body)."', 
 '".SqlQuote($this->Message)."', 
 '".SqlQuote($this->Css)."',
@@ -137,6 +149,7 @@ VALUES
 
 		$result = "UPDATE ".$this->table." SET 
 ".self::FORUM_ID."=".NullableId($this->ForumId).", 
+".self::TITLE."='".SqlQuote($this->Title)."', 
 ".self::BODY."='".SqlQuote($this->Body)."', 
 ".self::MESSAGE."='".SqlQuote($this->Message)."', 
 ".self::CSS."='".SqlQuote($this->Css)."',

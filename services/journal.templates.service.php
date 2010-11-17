@@ -38,6 +38,7 @@
 			if ($template->IsEmpty()) {
 				$template->ForumId = $journal->Id;
 			}
+			$template->Title = UTF8toWin1251($_POST[JournalTemplate::TITLE]);
 			$template->Body = UTF8toWin1251($_POST[JournalTemplate::BODY]);
 			$template->Message = UTF8toWin1251($_POST[JournalTemplate::MESSAGE]);
 			$template->Css = UTF8toWin1251($_POST[JournalTemplate::CSS]);
