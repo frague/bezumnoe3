@@ -1,10 +1,10 @@
-//3.1
+//3.2
 /*
 	Journal templates: Global markup, single message & stylesheets.
 */
 
 function JournalTemplates() {
-	this.fields = new Array("BODY", "MESSAGE", "CSS", "SKIN_TEMPLATE_ID");
+	this.fields = new Array("TITLE", "BODY", "MESSAGE", "CSS", "SKIN_TEMPLATE_ID");
 	this.ServicePath = servicesPath + "journal.templates.service.php";
 	this.Template = "journal_templates";
 	this.ClassName = "JournalTemplates";
