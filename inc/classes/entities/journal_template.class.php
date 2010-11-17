@@ -8,6 +8,7 @@ class JournalTemplate extends EntityBase {
 	const FORUM_ID = "FORUM_ID";
 	const TITLE = "TITLE";
 	const BODY = "BODY";
+	const BODY2 = "BODY2";
 	const MESSAGE = "MESSAGE";
 	const CSS = "CSS";
 	const UPDATED = "UPDATED";
@@ -16,6 +17,7 @@ class JournalTemplate extends EntityBase {
 	var $ForumId;
 	var $Title;
 	var $Body;
+	var $Body2;
 	var $Message;
 	var $Css;
 	var $Updated;
@@ -32,6 +34,7 @@ class JournalTemplate extends EntityBase {
 		$this->ForumId = -1;
 		$this->Title = "";
 		$this->Body = "";
+		$this->Body2 = "";
 		$this->Message = "";
 		$this->Css = "";
 		$this->Updated = NowDateTime();
@@ -48,6 +51,9 @@ class JournalTemplate extends EntityBase {
 		if (!$this->Body) {
 			$this->Body = $template->Body;
 		}
+		if (!$this->Body2) {
+			$this->Body2 = $template->Body2;
+		}
 		if (!$this->Message) {
 			$this->Message = $template->Message;
 		}
@@ -62,6 +68,7 @@ class JournalTemplate extends EntityBase {
 		$this->ForumId = $result->GetNullableId(self::FORUM_ID);
 		$this->Title = $result->Get(self::TITLE);
 		$this->Body = $result->Get(self::BODY);
+		$this->Body2 = $result->Get(self::BODY2);
 		$this->Message = $result->Get(self::MESSAGE);
 		$this->Css = $result->Get(self::CSS);
 		$this->Updated = $result->Get(self::UPDATED);
@@ -88,6 +95,7 @@ class JournalTemplate extends EntityBase {
 		$s.= "<li>".self::FORUM_ID." = ".$this->ForumId."</li>\n";
 		$s.= "<li>".self::TITLE." = ".$this->Title."</li>\n";
 		$s.= "<li>".self::BODY." = ".$this->Body."</li>\n";
+		$s.= "<li>".self::BODY2." = ".$this->Body2."</li>\n";
 		$s.= "<li>".self::MESSAGE." = ".$this->Message."</li>\n";
 		$s.= "<li>".self::CSS." = ".$this->Css."</li>\n";
 		$s.= "<li>".self::UPDATED." = ".$this->Updated."</li>\n";
@@ -116,6 +124,7 @@ JsQuote($this->Css)."\"".($add ? ", \"".JsQuote($add)."\"" : "")."]";
 	t1.".self::FORUM_ID.",
 	t1.".self::TITLE.",
 	t1.".self::BODY.",
+	t1.".self::BODY2.",
 	t1.".self::MESSAGE.",
 	t1.".self::CSS.",
 	t1.".self::UPDATED."
@@ -130,6 +139,7 @@ WHERE
 (".self::FORUM_ID.", 
 ".self::TITLE.", 
 ".self::BODY.", 
+".self::BODY2.", 
 ".self::MESSAGE.", 
 ".self::CSS.",
 ".self::UPDATED."
@@ -138,6 +148,7 @@ VALUES
 (".NullableId($this->ForumId).", 
 '".SqlQuote($this->Title)."', 
 '".SqlQuote($this->Body)."', 
+'".SqlQuote($this->Body2)."', 
 '".SqlQuote($this->Message)."', 
 '".SqlQuote($this->Css)."',
 ".Nullable(SqlQuote($this->Updated))."
@@ -151,6 +162,7 @@ VALUES
 ".self::FORUM_ID."=".NullableId($this->ForumId).", 
 ".self::TITLE."='".SqlQuote($this->Title)."', 
 ".self::BODY."='".SqlQuote($this->Body)."', 
+".self::BODY2."='".SqlQuote($this->Body2)."', 
 ".self::MESSAGE."='".SqlQuote($this->Message)."', 
 ".self::CSS."='".SqlQuote($this->Css)."',
 ".self::UPDATED."=".Nullable(SqlQuote($this->Updated))."
