@@ -44,9 +44,7 @@
 	}*/
 	
 	if ($access == Journal::NO_ACCESS) {
-		Head("Ошибка", "forum.css", "forum.js");
-		error("У вас нет доступа к журналу.");
-		Foot();
+		ErrorPage("У вас нет доступа к журналу.", "Владелец журнала ограничил к нему доступ.");
 		die;
 	}
 
@@ -61,6 +59,29 @@
 	$skin = new JournalSkin();
 	$template = new JournalTemplate($skin->GetFriendlyTemplateId());
 	$template->Retrieve();
+
+
+    $globalTemplate = "<!DOCTYPE html>
+<html lang=\"ru\">
+<head>
+	<meta charset=\"windows-1251\" />
+	<title>".$template->Title."</title>
+	<link rel=\"icon\" href=\"/img/icons/favicon.ico\" type=\"image/x-icon\" />
+	<link rel=\"shortcut icon\" href=\"/img/icons/favicon.ico\" type=\"image/x-icon\" />
+	<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS: ".HtmlQuote($journal->Title)."\" href=\"/journal/##USERURLNAME##/friends/rss/\" />
+	##META##
+	<link rel=\"stylesheet\" href=\"/journal/css/".$template->Id.".css\" />
+".file_get_contents($root."inc/ui_parts/google_analythics.php")."
+</head>
+
+<body>
+	##BODY##
+	##CLOSINGTAGS##
+	".file_get_contents($root."/inc/ui_parts/li.php")."
+</body>
+</html>";
+
+
 
     $bodyText = $template->Body;
         
@@ -88,24 +109,6 @@
 
 	$bodyText = str_replace($messageChunk, "", $bodyText);
 
-	// Get journal owner and their profile
-/*	$person = new User($user_id);
-	$person->Retrieve();
-	$profile = new Profile();
-	$profile->GetByUserId($user_id);*/
-
-	// Substitute chunks with user data
-	$bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
-	$bodyText = str_replace("##DESCRIPTION##", $journal->Description, $bodyText);
-
-	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
-	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
-/*	$bodyText = str_replace(
-		"##AVATAR##", 
-		$profile->Avatar ? "<img class='AvatarImg' src='/img/avatars/".$profile->Avatar."' alt='' />" : "", 
-		$bodyText);*/
-
-	$bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
 
 	// --- Rendering the Pager
 	// Getting number of records in case of dates condition
@@ -118,20 +121,21 @@
 		$bodyText = str_replace("##PAGES##", MakeJournalPager($settings->Alias, $pagerRecords, $shownMessages, $showFrom, true), $bodyText);
 	}
 
+	$bodyText = str_replace("##BODY##", $bodyText, $globalTemplate);
+
+	$bodyText = str_replace("##CLOSINGTAGS##", RenderClosingTags(), $bodyText);
+
+	$bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
+	$bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
+	$bodyText = str_replace("##DESCRIPTION##", $journal->Description, $bodyText);
+	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
+	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
 	$bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);
-	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$alias."/friends/", $bodyText);
-        
-	$bodyText = InjectionProtection(OuterLinks(MakeLinks($bodyText)));
+	$bodyText = str_replace("##USERID##", $user_id, $bodyText);
 
-	// Insert reference to styles to prevent alternative ones
-	$bodyText = str_replace("##STYLES##", "<link rel='stylesheet' type='text/css' href='/journal/css/".$template->Id.".css'>", $bodyText);
+	$bodyText = str_replace("##META##", $metaDescription, $bodyText);
 
-	$metaDescription = file_get_contents($root."inc/ui_parts/google_analythics.php");
-	$bodyText = str_replace("</head>", $metaDescription."\n</head>", $bodyText);
-
-	echo $bodyText;
-	// Opening tags closure (to safely insert footer banner)
-	echo RenderClosingTags();
+	print $bodyText;
 
 	include $root."/inc/li_spider_check.inc.php";
 

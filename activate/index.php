@@ -4,11 +4,7 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Активация аккаунта", "register.css", "", "", "", "register.gif");
 	require_once $root."references.php";
-
-
-?><img src="/img/spacer.gif" border="0" width="1" height="400" style="float:right" /><?php
 
 	$guid = trim(LookInRequest("g"));
 
@@ -19,21 +15,24 @@
 		if (!$user->IsEmpty()) {
 			$user->Guid = substr($user->Guid, 1);
 			$user->Save();
-		
-			SaveLog("Активация профиля <b>".$user->Login."</b>.", $user->Id, "", AdminComment::SEVERITY_WARNING);
-
-			echo "Поздравляем, <b>".$user->Login."</b>, ваш аккаунт успешно активирован!";
 		} else {
-			$error = "Указан некорректный ключ активации!";
+			$error = "Пользователь по указанному ключу не найден!";
 		}
 	} else {
 		$error = "Указан некорректный ключ активации!";
 	}
 	
 	if ($error) {
-		echo "<div id='Summary'>Ошибка активации профиля: <li>".$error."</div>";
-	}
+		ErrorPage("Ошибка активации профиля.", $error);
+		die;
+	} 
 
+	Head("Активация аккаунта", "register.css", "", "", "", "register.gif");
+	
+	echo "Поздравляем, <b>".$user->Login."</b>, ваш аккаунт успешно активирован!";
+	echo "<div class=\"Spacer\"></div>";
+
+	SaveLog("Активация профиля <b>".$user->Login."</b>.", $user->Id, "", AdminComment::SEVERITY_WARNING);
 
 	Foot();
 

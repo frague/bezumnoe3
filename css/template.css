@@ -85,3 +85,28 @@ h1 {
 	padding: 4px 0 4px 0;
 }
 
+/* Errors summary */
+
+.ErrorHolder {
+	color:red;
+	border:solid 1px red;
+	margin:10px 50px 0;
+	padding:8px 8px 8px 70px;
+	background: #FFEEEE url(/img/t/attention.gif) no-repeat 10px 4px;
+}
+
+.ErrorHolder li {
+	list-style:square;
+	margin-left:16px;
+	font-size:70%;
+}
+
+.ErrorHolder h2, .ErrorHolder h3 {
+	margin:0;
+	padding:0;
+}
+
+.Spacer {
+	height: 300px;
+	clear:both;
+}

@@ -68,6 +68,7 @@ span.imageLink {
 
 .NoBorder {
 	border:none;
+	text-decoration:none;
 }
 
 .Wide {
@@ -549,6 +550,3 @@ div.DatePicker table.Calendar th select {
 	-webkit-border-radius: 6px;
 }
 
-a.Noborder {
-	text-decoration:none;
-}
