@@ -24,9 +24,9 @@
 		</div>
 
 		<h4>Заголовок:</h4>
-		<input id="TITLE" name="TITLE" class="Wide" size="30" /><br>
+		<input id="TITLE" name="TITLE" class="Wide" size="30" tabindex="1" /><br>
 		<h4 class="Mandatory">Текст сообщения:</h4>
-		<textarea id="CONTENT" name="CONTENT" class="Wide" cols="30" rows="10" tabindex="1">
+		<textarea id="CONTENT" name="CONTENT" class="Wide" cols="30" rows="10" tabindex="2">
 		</textarea><br>
 		<div class="Right">	
 			<div style="float:left" id="IsProtected">
@@ -34,7 +34,7 @@
 			</div>
 			<input type="Button" value="Цитата" onclick="MakeCite()" id="buttonCite">
 			<input type="Button" value="Отменить" onclick="CancelReply()" style="margin-right:20px">
-			<input type="Button" value="Отправить" onclick="AddMessage(this)" id="SubmitMessageButton" tabindex="2" style="font-weight:bold">
+			<input type="Button" value="Отправить" onclick="AddMessage(this)" id="SubmitMessageButton" tabindex="3" style="font-weight:bold">
 		</div><?php } ?>
 	</div>
 </div>

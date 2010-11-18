@@ -47,9 +47,7 @@
 	}
 	
 	if ($access == Journal::NO_ACCESS) {
-		Head("Ошибка", "forum.css", "forum.js");
-		error("У вас нет доступа к журналу.");
-		Foot();
+		ErrorPage("У вас нет доступа к журналу.", "Владелец журнала ограничил к нему доступ.");
 		die;
 	}
 
@@ -66,8 +64,7 @@
 	echo $record->ToPrint($author);
 
 	if (!$record->IsCommentable) {
-		echo "<div class='Error'>Комментарии к данному сообщению отключены.</div>";
-		Foot();
+		ErrorPage("Комментарии к данному сообщению отключены.");
 		die;
 	}
 

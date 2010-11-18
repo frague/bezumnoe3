@@ -37,7 +37,7 @@
 <?php
 		echo "		<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>";
 
-		echo "		<header>".($title_img ? "<a href=\"/\" class=\"Noborder\"><img alt=\"На главную\" title=\"На главную\" src=\"/img/t/logo_small.gif\" width=\"31\" height=\"30\" style=\"vertical-align:top;margin-top:22px;\" /></a> <img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" />" : "<h1>".$title."</h1>")."</header>";
+		echo "		<header>".($title_img ? "<a href=\"/\" class=\"NoBorder\"><img alt=\"На главную\" title=\"На главную\" src=\"/img/t/logo_small.gif\" width=\"31\" height=\"30\" style=\"vertical-align:top;margin-top:22px;\" /></a> <img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" />" : "<h1>".$title."</h1>")."</header>";
 
 ?>
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
@@ -68,6 +68,18 @@
 	</body>
 </html>
 <?php
+	}
+
+	function ErrorPage($message, $description = "") {
+		Head("Ошибка &mdash; ".$message, "", "", "", false, "error.gif");
+		?><div class="ErrorHolder">
+	<h2>Ошибка</h2>
+	<?php echo $message.($description ? "<br />\n".$description : ""); ?>
+		</div>
+		<div class="Spacer"></div>
+		<?php
+		
+		Foot();
 	}
 
 

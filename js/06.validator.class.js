@@ -1,4 +1,4 @@
-//2.5
+//2.7
 /*
 	Validation of controls against rules given.
 */
@@ -12,7 +12,7 @@ ValidatorsCollection.prototype = new Collection();
 
 ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
 	this.Summary = summary_control;
-	this.SummaryText = summary_text ? summary_text : "";
+	this.SummaryText = summary_text ? "<h2>" + summary_text + "</h2>" : "";
 	this.InitSummary();
 
 	for (var id in this.Base) {
@@ -25,7 +25,7 @@ ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
 ValidatorsCollection.prototype.InitSummary = function() {
 	if (this.Summary) {
 		this.Summary.innerHTML = this.SummaryText;
-		this.Summary.className = "Hidden";
+		this.Summary.style.display = "none";
 	}
 };
 
@@ -94,7 +94,7 @@ Validator.prototype.Validate = function(summary_control) {
 Validator.prototype.Display = function(state, summary_control) {
 	if (summary_control && this.ShowInSummary) {
 		summary_control.innerHTML += "<li>" + this.Message;
-		summary_control.className = "";
+		summary_control.style.display = "";
 	} else {
 		this.ErrorContainer.className = "Validator" + (state ? "" : " Hidden");
    	}

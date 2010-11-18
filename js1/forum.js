@@ -18,6 +18,9 @@ function ForumReply(a, id, forum_id) {
 
 			insertAfter(replyFormElement, a.parentNode);
 	   		isVisible = 1;
+	   		if (replyTitleElement) {
+	   			replyTitleElement.focus();
+	   		}
 	   	}
 	}
 	lastLink = a;

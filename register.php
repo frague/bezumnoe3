@@ -208,7 +208,7 @@
 
 ?>
 
-<div id="Summary">
+<div id="Summary" class="ErrorHolder">
 </div>
 
 <form onsubmit="if (!PageValidators.AreValid()) return false;" target="" method="POST">
