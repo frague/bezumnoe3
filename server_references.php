@@ -6,8 +6,9 @@
 
 	/* Entities */
 	require_once $root."inc/classes/entities/entitybase.class.php";
-	require_once $root."inc/classes/entities/user.class.php";
 	require_once $root."inc/classes/entities/settings.class.php";
+	require_once $root."inc/classes/entities/registry.class.php";
+	require_once $root."inc/classes/entities/user.class.php";
 	require_once $root."inc/classes/entities/profile.class.php";
 	require_once $root."inc/classes/entities/message.class.php";
 	require_once $root."inc/classes/entities/room.class.php";
