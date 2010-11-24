@@ -36,6 +36,8 @@
 	$gallery->DoPrint(true);
 
 	echo "<div id=\"Photo\">";
+	echo "	".$record->GetPreviousLink()."<div class=\"Previous\" style=\"height:".$record->GetHeight($gallery->Description)."px;\"></div></a>";
+	echo "	".$record->GetNextLink()."<div class=\"Next\" style=\"height:".$record->GetHeight($gallery->Description)."px;\"></div></a>";
 	echo $record->ToPrint($gallery->Description, 0);
 	echo "</div>";
 

@@ -475,7 +475,7 @@ div.DatePicker table.Calendar th select {
 
 /* Forum & comments reply form */
 
-#Hider, #ReplyForm .Hidden {
+#Hider, #ReplyForm .Hidden, .NotShown {
 	display:none;
 }
 

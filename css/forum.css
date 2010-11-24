@@ -247,3 +247,15 @@ cite cite cite {
 	margin-top:10px;
 	text-align:center;
 }
+
+#Photo div.Previous {
+	width: 20px;
+	float: left;
+	background: url(/img/t/previous.gif) no-repeat center left;
+}
+
+#Photo div.Next {
+	width: 20px;
+	float: right;
+	background: url(/img/t/next.gif) no-repeat center right;
+}

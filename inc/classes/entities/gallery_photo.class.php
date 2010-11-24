@@ -34,6 +34,17 @@ class GalleryPhoto extends JournalRecord {
 		return $result;
 	}
 
+	function GetHeight($path) {
+	  global $root, $PathToGalleries, $ServerPathToGalleries;
+		if (!$this->IsEmpty()) {
+			$s = @GetImageSize($root.$ServerPathToGalleries.$path."/".$this->Content);
+			if ($s) {
+				return $s[1];
+			}
+		}
+		return 0;
+	}
+
 	function ToJs($mark = "") {
 		$title = strip_tags($this->Title);
 		$content = substr(strip_tags($this->Content), 0, 100);
@@ -57,6 +68,26 @@ round($this->Type).",".
 Boolean($this->IsCommentable).");";
 	}
 
+	function GetParentLink($expression) {
+		if (!$this->IsEmpty()) {
+			$q = $this->GetByCondition($this->Index." AND ".self::FORUM_ID."=".round($this->ForumId), $expression);
+			if ($q->NumRows()) {
+				$q->NextResult();
+				$id = $q->Get(self::RECORD_ID);
+				return GalleryPhoto::MakeLink($this->ForumId, $id);
+			}
+		}
+		return "<a class=\"NotShown\">";
+	}
+
+	function GetPreviousLink() {
+		return str_replace("<a", "<a rel=\"prev\"", $this->GetParentLink($this->GetPreviousIdExpression()));
+	}
+
+	function GetNextLink() {
+		return str_replace("<a", "<a rel=\"next\"", $this->GetParentLink($this->GetNextIdExpression()));
+	}
+
 	function GetGalleryPhotos($access, $from = 0, $limit, $condition) {
 		$from = round($from);
 		$limit = round($limit);
@@ -75,6 +106,16 @@ WHERE
 	t5.".Journal::TYPE."='".Journal::TYPE_GALLERY."' AND ",
 		$this->ReadThreadExpression($access));
 	}
+
+	function GetPreviousIdExpression() {
+		return "SELECT ".self::RECORD_ID." FROM ".self::table." WHERE LENGTH(".self::INDEX.")=4 AND ".self::INDEX."< ##CONDITION## ORDER BY ".self::INDEX." DESC LIMIT 1";
+	}
+
+	function GetNextIdExpression() {
+		return "SELECT ".self::RECORD_ID." FROM ".self::table." WHERE LENGTH(".self::INDEX.")=4 AND ".self::INDEX.">##CONDITION## ORDER BY ".self::INDEX." ASC LIMIT 1";
+	}
+
+
 
     public static function MakeLink($forumId, $recordId, $commentId = "") {
     	return "<a href='/gallery".$forumId."/".$recordId."/".(!$commentId || $recordId == $commentId ? "" : "#c".$commentId)."'>";
