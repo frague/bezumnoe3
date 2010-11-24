@@ -110,3 +110,25 @@ h1 {
 	height: 300px;
 	clear:both;
 }
+
+/* Bottom navigation */
+ul.BottomNav {
+	text-align:center;
+	margin-top:4px;
+}
+
+ul.BottomNav li {
+	display: inline;
+	padding: 0;
+}
+
+ul.BottomNav li a {
+	border: 0;
+	border-left: solid 1px #808080;
+	padding: 0 3px 0 5px;
+	margin: 0;
+}
+
+ul.BottomNav li.First a {
+	border: 0;
+}

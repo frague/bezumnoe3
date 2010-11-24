@@ -1,14 +1,14 @@
 <nav>
-	<div class="Centered" style="clear:both; margin:4px 0 10px 0;">
-		<a href="/">На главную</a> |
-		<a href="/register.php">Регистрация</a> |
-		<a href="/forum/">Форум</a> |
-		<a href="/journal/">Журналы</a> |
-		<a href="/gallery/">Фотогалерея</a>
-		<div style="margin-top:4px;">
-			<a href="/rating.php">Рейтинг</a> |
-			<a href="/photos/">Фотографии</a> |
-			<a href="/tree/">Фамильное древо</a>
-		</div>
-	</div>
+	<ul class="BottomNav">
+		<li class="First"> <a href="/">На главную</a>
+		<li> <a href="/register.php">Регистрация</a>
+		<li> <a href="/forum/">Форум</a>
+		<li> <a href="/journal/">Журналы</a>
+		<li> <a href="/gallery/">Фотогалерея</a>
+	</ul>
+	<ul class="BottomNav">
+		<li class="First"> <a href="/rating.php">Рейтинг</a>
+		<li> <a href="/photos/">Фотографии</a>
+		<li> <a href="/tree/">Фамильное древо</a>
+	</ul>
 <nav>
