@@ -11,4 +11,4 @@
 		<li> <a href="/photos/">Фотографии</a>
 		<li> <a href="/tree/">Фамильное древо</a>
 	</ul>
-<nav>
+</nav>
