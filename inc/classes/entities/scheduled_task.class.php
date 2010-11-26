@@ -18,13 +18,12 @@ class ScheduledTask extends EntityBase {
 	const TYPE_STATUS			= "status";
 	const TYPE_EXPIRED_SESSIONS	= "expired_sessions";
 	const TYPE_RATINGS			= "ratings";
+	const TYPE_YTKA_BOT			= "ytka";
+	const TYPE_VICTORINA_BOT	= "victorina";
+	const TYPE_LINGVIST_BOT		= "lingvist";
 	
 	const SCHEDULER_LOGIN = "по расписанию";
-<<<<<<< .merge_file_a04564
 	const HANGED_TIMEOUT = "00:10:00";		// 10 minutes to recover
-=======
-	const HANGED_TIMEOUT = "0000-00-00 00:10:00";		// 10 minutes to recover
->>>>>>> .merge_file_a00828
 
 	// Properties
 	var $Type;
@@ -83,11 +82,7 @@ class ScheduledTask extends EntityBase {
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
-<<<<<<< .merge_file_a04564
 			"((".self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), '".self::HANGED_TIMEOUT."')) AND ".self::IS_ACTIVE."=1",
-=======
-			"((".self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), ".self::HANGED_TIMEOUT.") AND ".self::IS_ACTIVE."=1",
->>>>>>> .merge_file_a00828
 			$this->LockExpression()
 		);
 		return $q->AffectedRows();
@@ -111,6 +106,9 @@ class ScheduledTask extends EntityBase {
 				case self::TYPE_STATUS:				return new StatusAction($this);
 				case self::TYPE_EXPIRED_SESSIONS:	return new ExpiredSessionsAction($this);
 				case self::TYPE_RATINGS:			return new UpdateRatingAction($this);
+				case self::TYPE_YTKA_BOT:			return new YtkaBotAction($this);
+				case self::TYPE_VICTORINA_BOT:		return new VictorinaBotAction($this);
+				case self::TYPE_LINGVIST_BOT:		return new LingvistBotAction($this);
 			}
 		}
 		return 0;
@@ -197,6 +195,9 @@ WHERE
 		$result = "UPDATE ".$this->table." SET 
 ".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
 ".self::PERIODICITY."=".round($this->Periodicity).", 
+".self::PARAMETER1."='".SqlQuote($this->Parameter1)."', 
+".self::PARAMETER2."='".SqlQuote($this->Parameter2)."', 
+".self::PARAMETER3."='".SqlQuote($this->Parameter3)."', 
 ".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid).",
 ".self::IS_ACTIVE."=".Boolean($this->IsActive)."
 WHERE 
@@ -284,6 +285,28 @@ class UpdateRatingsScheduledTask extends UserScheduledTask {
 		$this->Type = ScheduledTask::TYPE_RATINGS;
 	}
 }
+
+class YtkaBotScheduledTask extends UserScheduledTask {
+	function YtkaBotScheduledTask($userId, $executionDate) {
+		parent::__construct($userId, $executionDate);
+		$this->Type = ScheduledTask::TYPE_YTKA_BOT;
+	}
+}
+
+class VictorinaBotScheduledTask extends UserScheduledTask {
+	function VictorinaBotScheduledTask($userId, $executionDate) {
+		parent::__construct($userId, $executionDate);
+		$this->Type = ScheduledTask::TYPE_VICTORINA_BOT;
+	}
+}
+
+class LingvistBotScheduledTask extends UserScheduledTask {
+	function LingvistBotScheduledTask($userId, $executionDate) {
+		parent::__construct($userId, $executionDate);
+		$this->Type = ScheduledTask::TYPE_LINGVIST_BOT;
+	}
+}
+
 
 /* ------------------ Actions ------------------ */
 
@@ -386,5 +409,34 @@ class UpdateRatingAction extends BaseAction {
 		return true;
 	}
 }
+
+// Ytka bot actions
+class YtkaBotAction extends BaseAction {
+	function Execute() {
+	  global $db;
+		
+		return true;
+	}
+}
+
+// Victorina bot actions
+class VictorinaBotAction extends BaseAction {
+	function Execute() {
+	  global $db;
+		
+		return true;
+	}
+}
+
+// Lingvist bot actions
+class LingvistBotAction extends BaseAction {
+	function Execute() {
+	  global $db;
+		
+		return true;
+	}
+}
+
+
 
 ?>
