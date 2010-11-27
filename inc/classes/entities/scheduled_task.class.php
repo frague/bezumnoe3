@@ -24,6 +24,7 @@ class ScheduledTask extends EntityBase {
 	
 	const SCHEDULER_LOGIN = "по расписанию";
 	const HANGED_TIMEOUT = "00:10:00";		// 10 minutes to recover
+	const PARAMETER = "PARAMETER";
 
 	// Properties
 	var $Type;
@@ -195,13 +196,13 @@ WHERE
 		$result = "UPDATE ".$this->table." SET 
 ".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
 ".self::PERIODICITY."=".round($this->Periodicity).", 
-".self::PARAMETER1."='".SqlQuote($this->Parameter1)."', 
-".self::PARAMETER2."='".SqlQuote($this->Parameter2)."', 
-".self::PARAMETER3."='".SqlQuote($this->Parameter3)."', 
+".self::PARAMETER1."=".SqlFnQuote($this->Parameter1).", 
+".self::PARAMETER2."=".SqlFnQuote($this->Parameter2).", 
+".self::PARAMETER3."=".SqlFnQuote($this->Parameter3).", 
 ".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid).",
 ".self::IS_ACTIVE."=".Boolean($this->IsActive)."
 WHERE 
-	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
+	".self::SCHEDULED_TASK_ID."=".round($this->Id);
 		return $result;
 /*
 		$result = "UPDATE ".$this->table." SET 
@@ -220,6 +221,15 @@ WHERE
 */
 	
 	}
+
+	function UpdateParameterExpression($parameter, $value) {
+		$result = "UPDATE ".$this->table." SET 
+".self::PARAMETER.round($parameter)."=".$value." 
+WHERE 
+	".self::SCHEDULED_TASK_ID."=".round($this->Id);
+		return $result;
+	}
+
 
 	function LockExpression() {
 		$result = "UPDATE ".$this->table." SET 
@@ -319,7 +329,7 @@ abstract class BaseAction {
 
 	function GetUser($userId = -1) {
 		if ($userId <= 0) {
-			$userId = $this->Task->Parameter1;
+			$userId = round($this->Task->Parameter1);
 		}
 		$user = new User($userId);
 		$user->Retrieve();
@@ -410,17 +420,77 @@ class UpdateRatingAction extends BaseAction {
 	}
 }
 
-// Ytka bot actions
-class YtkaBotAction extends BaseAction {
-	function Execute() {
+
+//---------------------------------------------------------------------------
+// Base bots actions actions
+abstract class BotBaseAction extends BaseAction {
+	var $room;
+	var $lastExecutionTime;
+	var $messages;
+
+	function GetRoom() {
+		$this->room = new Room();
+		$this->room->GetById(round($this->Task->Parameter2));
+		return !($this->room->IsEmpty() || $this->room->IsDeleted);
+	}
+
+	function Init() {
 	  global $db;
-		
+
+		if (!$this->Task->IsActive) {
+			return false;
+		}
+		if (!$this->GetUser() || !$this->GetRoom()) {
+	 		SaveLog("Бот (".$this->Task->Type.") остановлен. Некорректно указан пользователь или комната.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+	 		$this->Task->IsActive = 0;
+			$this->Task->Save();
+			return false;
+		}
+		$this->lastExecutionTime = $this->Task->Parameter3;
+		if (!$this->lastExecutionTime) {
+			// If first execution - just update timer, skip processing
+			// TODO: Simulate entrance
+			return true;
+		}
+
+		$message = new Message();
+		$q = $message->GetByCondition(
+			Message::ROOM_ID."=".round($this->room->Id)." AND (".Message::TO_USER_ID." IS NULL OR ".Message::TO_USER_ID."=".Message::USER_ID.") AND ".Message::DATE.">'".SqlQuote($this->lastExecutionTime)."'", 
+			$message->ReadShortExpression());
+
+		$this->messages = array();
+		for ($i = 0; $i < $q->NumRows(); $i++) {
+			$q->NextResult();
+			$m = new Message();
+			$m->FillFromResult($q);
+			$this->messages[] = $m;
+		}
 		return true;
 	}
 }
 
+
+// Ytka bot actions
+class YtkaBotAction extends BotBaseAction {
+	function Execute() {
+	  global $db;
+
+	    if ($this->Init()) {
+	    	$m = new Message(sizeof($this->messages), $this->user);
+	    	$m->RoomId = $this->room->Id;
+	    	$m->Save();
+
+	    	$this->Task->Parameter3 = "fn:NOW()";
+			$this->Task->Save();
+
+			return true;
+	    }
+		return false;
+	}
+}
+
 // Victorina bot actions
-class VictorinaBotAction extends BaseAction {
+class VictorinaBotAction extends BotBaseAction {
 	function Execute() {
 	  global $db;
 		
@@ -429,7 +499,7 @@ class VictorinaBotAction extends BaseAction {
 }
 
 // Lingvist bot actions
-class LingvistBotAction extends BaseAction {
+class LingvistBotAction extends BotBaseAction {
 	function Execute() {
 	  global $db;
 		

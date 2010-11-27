@@ -16,7 +16,12 @@
 			// Execute the task
 			$action = $task->GetAction();
 			if ($action) {
-				$action->Execute();
+				try {
+					$action->Execute();
+				} catch (Exception $e) {
+	    	 		SaveLog("Ошибка исполнения задачи по расписанию: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
+	    	 		//TODO: Disable this task?
+				}
 			}
 			if ($task->IsPeriodical()) {
 				$task->ExecutionDate = DateFromTime(strtotime(NowDateTime()."+".$task->Periodicity." minutes"));

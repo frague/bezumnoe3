@@ -186,6 +186,17 @@ WHERE
 		return $s;
 	}
 
+	function ReadShortExpression() {
+		return "SELECT 
+	".self::USER_ID.",
+	".self::TEXT."
+FROM 
+	".$this->table."
+WHERE
+	##CONDITION##
+";
+	}
+	
 	function CreateExpression() {
 		return "INSERT INTO ".$this->table." 
 (".self::ROOM_ID.", 
