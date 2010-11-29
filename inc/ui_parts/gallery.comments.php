@@ -5,7 +5,7 @@
 
 	$userId = $someoneIsLogged ? $user->User->Id : -1;
 	$comment = new GalleryComment();
-	$q = $comment->GetMixedJournalsComments($userId, 0, 5);
+	$q = $comment->GetMixedJournalsComments($userId, 0, $shownComments ? $shownComments : 5);
 
 	$lastIndex = "";
 	$condition = "";
