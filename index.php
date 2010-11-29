@@ -69,28 +69,33 @@
 
 							<div class="MainLink">
 								<img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" align="left" height="69" width="70">
-								<a href="/register.php"><img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /></a>
+								<a href="/register.php" class="NoBorder"><img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /></a>
 								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
 								<span class="Newcomers">Последние зарегистрировавшиеся пользователи: <?php include $root."inc/ui_parts/newcomers.php"; ?></span>
 							</div>
 
 							<div class="MainLink RightOriented">
 								<img src="/img/t/pict/forum.gif" align="right" height="79" width="95" alt="Форумы" title="Форумы">
-								<a href="/forum/"><img src="/img/titles/forums.gif" alt="Форумы" title="Форумы" /></a>
+								<a href="/forum/" class="NoBorder"><img src="/img/titles/forums.gif" alt="Форумы" title="Форумы" /></a>
 								<p>В форумах происходит обсуждение всех вопросов чата, публикуются объявления и поздравления. Авторизуйтесь для добавления сообщений.
 							</div>
 
-							<div class="MainLink">
+							<div class="MainLink Gallery UserList">
 								<img src="/img/t/pict/photo.gif" align="left" height="66" width="70" alt="Фотогалерея" title="Фотогалерея">
-								<a href="/gallery/"><img src="/img/titles/gallery.gif" alt="Фотогалерея" title="Фотогалерея" /></a>
+								<a href="/gallery/" class="NoBorder"><img src="/img/titles/gallery.gif" alt="Фотогалерея" title="Фотогалерея" /></a>
 								<p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
+								<h6>Последний комментарий:</h6>
+								<?php 
+									$shownComments = 1;
+									include $root."inc/ui_parts/gallery.comments.php"; 
+								?>
 							</div>
 
 							<div class="MainLink RightOriented Blogs UserList">
 								<img src="/img/t/pict/journals.gif" align="right" width="70" height="64" alt="Журналы (блоги)" title="Журналы (блоги)">
-								<a href="/journal/"><img src="/img/titles/journals.gif" alt="Журналы (блоги)" title="Журналы (блоги)" /></a>
-								<p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.<br />
-								Список последних записей в журналах:
+								<a href="/journal/" class="NoBorder"><img src="/img/titles/journals.gif" alt="Журналы (блоги)" title="Журналы (блоги)" /></a>
+								<p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.
+								<h6>Список последних записей в журналах:</h6>
 								<?php include $root."inc/ui_parts/journal.posts.php"; ?>
 							</div>
 						</div>

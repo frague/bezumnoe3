@@ -59,8 +59,10 @@ sup {
 
 .MainLink {
 	text-align: left;
-	margin-top: 20px;
+	margin-top: 1px;
+	padding-top: 25px;
 	clear: both;
+	background: url(/img/t/div1.gif) repeat-x top left;
 }
 
 .MainLink p {
@@ -69,6 +71,7 @@ sup {
 
 .MainLink.RightOriented {
 	text-align: right;
+	background: url(/img/t/div2.gif) repeat-x top left;
 }
 
 .Welcome {
@@ -186,7 +189,7 @@ li.Inactive a {
 	padding-top:8px;
 }
 
-.Photos .Centered img {
+.Photos .Centered img, .NewComments div img {
 	border: solid 4px #D0D0D0;
 	background-color: #D0D0D0;
 
