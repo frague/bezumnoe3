@@ -24,7 +24,7 @@
 		$p->FillFromResult($q);
 		$login = $q->Get(User::LOGIN);
 
-		$link = $u->InfoLink($p->UserId, $login);
+		$link = User::InfoLink($p->UserId, $login);
 
 		$photo = ProfilePhoto($p, $login);
 		if ($photo) {

@@ -365,12 +365,8 @@ JsQuote($admin)."\"]";
 		return $s;
 	}
 
-	function InfoLink($id, $text) {
-		return "<a href=\"/user/".round($id).".html\" onclick=\"Info(".round($id).");return false;\">".$text."</a>";
-	}
-
 	function ToInfoLink($text = "") {
-		return $this->InfoLink($this->Id, $text ? $text : $this->Login);
+		return User::InfoLink($this->Id, $text ? $text : $this->Login);
 	}
 
 	function BannedInfo($admin = "") {
@@ -641,6 +637,12 @@ SET
 	".self::SESSION."=\"\"
 WHERE ##CONDITION##";
 	}
+
+	public static function InfoLink($id, $text) {
+		return "<a href=\"/user/".round($id).".html\" onclick=\"Info(".round($id).");return false;\">".$text."</a>";
+	}
+
+
 }
 
 ?>

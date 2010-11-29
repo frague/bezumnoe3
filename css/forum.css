@@ -187,7 +187,7 @@ cite cite cite {
 	text-align:center;
 }
 
-.NewComments div img {
+.NewComments div img, ul.Thread th img {
 	border: solid 6px #D0D0D0;
 	background-color: #D0D0D0;
 
