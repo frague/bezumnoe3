@@ -179,11 +179,11 @@ class ForumRecordBase extends EntityBase {
 
 		$result .= "<article>\n<table class='".$cssClass."'><tr>";
 		if ($avatar) {
-			$result .= "<th>".HtmlImage($PathToAvatars.$avatar, $root.$ServerPathToAvatars.$avatar)."</th>";
+			$result .= "<th>".User::InfoLink($this->UserId, HtmlImage($PathToAvatars.$avatar, $root.$ServerPathToAvatars.$avatar))."</th>";
 		}
 
 		$result .= "<td><header><h4>".$this->Title."</h4></header>";
-		$result .= ($this->UserId > 1 ? "<a href='javascript:void(0)' onclick='Info(".$this->UserId.")'>" : "").$this->Author.($this->UserId > 1 ? "</a>" : $this->Author);
+		$result .= ($this->UserId > 1 ? User::InfoLink($this->UserId, $this->Author) : $this->Author);
 		if ($alias) {
 			$result .= " (<a href='".JournalSettings::MakeHref($alias)."'>журнал</a>)";
 		}
