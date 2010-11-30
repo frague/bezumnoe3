@@ -71,7 +71,10 @@
 								<img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" align="left" height="69" width="70">
 								<a href="/register.php" class="NoBorder"><img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /></a>
 								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
-								<span class="Newcomers">Последние зарегистрировавшиеся пользователи: <?php include $root."inc/ui_parts/newcomers.php"; ?></span>
+								<span class="Newcomers">
+									<h6>Последние зарегистрировавшиеся пользователи</h6>
+									<?php include $root."inc/ui_parts/newcomers.php"; ?>
+								</span>
 							</div>
 
 							<div class="MainLink RightOriented">
