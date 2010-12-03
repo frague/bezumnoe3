@@ -15,10 +15,27 @@
 <html lang="ru">
 <head>
 	<meta charset="windows-1251" />
-	<!-- Саратовский молодёжный чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+	<!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
 	<title>Лучший саратовский чат &mdash; Безумное ЧАепиТие у Мартовского Зайца</title>
-	<meta name="description" content="Молодежный чат bezumnoe.ru. Скоростной, удобный чат студентов Саратова. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам. Удобный, современный механизм, журналы пользователей, форум, фотогалерея."><meta name="abstract" content="Молодежный чат bezumnoe.ru. Скоростной, удобный чат студентов Саратова. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам. Удобный, современный механизм, журналы пользователей, форум, фотогалерея."><meta name="keywords" content="чат, безумное, Саратов, саратовский, молодёжный, студенческий, студент, чаепитие, встречи, знакомства, общение, волга, российский, общероссийский, чаты, Саратов, Саратова, saratov, chat"><meta name="distribution" content="Global"><meta name="rating" content="General"><meta name="subject" content="Чат, Общение"><meta name="page-type" content="Чат, Общение"><meta name="page-topic" content="Молодежный саратовский чат bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове"><meta name="title" content="Студенческий чат в Саратове - bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове"><meta name="site-created" content="17-10-1999"><meta name="revisit" content="15 days"><meta name="revisit-after" content="15 days"><meta name="content-Language" content="russian"><meta name="resource-type" content="document"><meta name="audience" content="all"><meta name="robots" content="index,all"><meta name="Address" content="Saratov, Russia"><meta name="home_url" content="http://bezumnoe.ru/">
-	<!-- Саратовский молодёжный чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+	<meta name="description" content="Молодежный чат Безумное ЧАепиТие у Мартовского Зайца. Быстрый, удобный чат молодёжи и студентов Саратова. Популярный саратовский блог-сервис. Фотографии с мероприятий чата. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам.">
+	<meta name="abstract" content="Молодежный чат Безумное ЧАепиТие у Мартовского Зайца. Быстрый, удобный чат молодёжи и студентов Саратова. Популярный саратовский блог-сервис. Фотографии с мероприятий чата. Многолетние традиции, встречи, знакомства, общение в своей среде по интересам.">
+	<meta name="keywords" content="чат, безумное, Саратов, саратовский, в Саратове, блог, блог-сервис, блоги, молодёжный, студенческий, студент, чаепитие, встречи, знакомства, общение, волга, российский, общероссийский, чаты, Саратов, Саратова, saratov, chat, blogs, blog-service">
+	<meta name="distribution" content="Global">
+	<meta name="rating" content="General">
+	<meta name="subject" content="Чат, Общение, Блоги, Блог-сервис">
+	<meta name="page-type" content="Чат, Общение, Блоги, Блог-сервис">
+	<meta name="page-topic" content="Молодежный саратовский чат bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове">
+	<meta name="title" content="Студенческий чат в Саратове - bezumnoe.ru: неформальное молодежное общение, знакомства в Саратове">
+	<meta name="site-created" content="17-10-1999">
+	<meta name="revisit" content="1 day">
+	<meta name="revisit-after" content="1 day">
+	<meta name="content-Language" content="russian">
+	<meta name="resource-type" content="document">
+	<meta name="audience" content="all">
+	<meta name="robots" content="index,all">
+	<meta name="Address" content="Saratov, Russia">
+	<meta name="home_url" content="http://bezumnoe.ru/">
+	<!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
 	<link rel="stylesheet" href="/css/template.css" />
 	<link rel="stylesheet" href="/css/default3.css" />
 	<link rel="stylesheet" href="/css/global.css" />
@@ -33,30 +50,25 @@
 			<div class="Main">
 				<div>
 					<div class="Column Left">
-						<!--h3>Сейчас в чате:</h3-->
 						<img src="/img/titles/online.gif" alt="Сейчас в чате:" title="Сейчас в чате:" style="margin-top:20px" />
 						<div class="UserList">
 							<?php include $root."inc/ui_parts/online_users.php"; ?>
 						</div>
 
 						<img src="/img/titles/news.gif" alt="Новости чата" title="Новости чата" style="margin-top:20px" />
-						<!--h3>Новости чата:</h3-->
 						<div class="News">
 							<?php ShowNews(-1, 3); ?>
 						</div>
 
-						<!--h3>Дни рождения:</h3-->
 						<img src="/img/titles/birthdays.gif" alt="Дни рождения" title="Дни рождения" style="margin-top:20px" />
 						<div class="Birthdays">
 							<?php include $root."inc/ui_parts/birthdays.php"; ?>
 						</div>
 
-						<!--h3>Новые фотки:</h3-->
 						<img src="/img/titles/photos.gif" alt="Фотографии участников" title="Фотографии участников" style="margin:20px 15px 5px" />
 						<div class="UserList Photos">
 							<?php include $root."inc/ui_parts/new_photos.php"; ?>
 						</div>
-
 					</div>
 
 					<div class="Column Center Left">
@@ -183,6 +195,6 @@
 	include $root."/inc/li_spider_check.inc.php";
 
 ?>
-<!-- Саратовский чат общение среди студентов молодёжи знакомства в Саратове чаты Саратова Саратовский молодёжный чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+<!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
 </body>
 </html>
