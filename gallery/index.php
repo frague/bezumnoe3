@@ -4,6 +4,8 @@
 	require_once $root."server_references.php";
 	require_once "gallery.template.php";
 
+	$meta_description = "Фото галерея саратовского чата Безумное Чаепитие у Мартовского Зайца. Фотографии самых интересных событий чата. Фотки чатлан. Интересные события Саратова.";
+
 	Head("Фотогалерея", "forum.css", "forum.js", "", "", "gallery.gif");
 	require_once $root."references.php";
 
