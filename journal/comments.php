@@ -56,6 +56,8 @@
 //	Etag removed to prevent authorized session caching
 //	AddEtagHeader(strtotime($record->UpdateDate));
 
+	$meta_description = MetaContent($record->Title." - ".$record->Content);
+	
 	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js");
 	require_once $root."references.php";
 
@@ -64,7 +66,8 @@
 	echo $record->ToPrint($author);
 
 	if (!$record->IsCommentable) {
-		ErrorPage("Комментарии к данному сообщению отключены.");
+		echo Error("Комментарии к данному сообщению отключены.");
+		Foot();
 		die;
 	}
 

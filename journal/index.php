@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require_once "journal.template.php";
 
-	$meta_description = "Блог-сервис саратовского чата Безумное Чаепитие у Мартовского Зайца. Персональные журналы, интересные события из жизни Саратова и его обитателей.";
+	$meta_description = "Блог-сервис саратовского чата Безумное Чаепитие у Мартовского Зайца. Персональные журналы, интересные события из жизни Саратова и его обитателей. Блоги Саратова. Саратовский блог-сервис.";
 
 	Head("Журналы", "forum.css", "forum.js", "/journal/rss/", "", "journals.gif");
 	require_once $root."references.php";

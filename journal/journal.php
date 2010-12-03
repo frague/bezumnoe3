@@ -136,7 +136,7 @@
 		$addTitle = " &mdash; ".$record->Title;
 
 		$metaDescription = "<meta name=\"description\" content=\"".MetaContent($journal->Title.($journal->Description ? " - ".$journal->Description."" : "").": ".$record->Title)."\" />
-	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_merge(array("блог", "журнал", "Саратов"), array_keys($usedTags))))."\" />";
+	<meta name=\"keywords\" content=\"".MetaContent(join(", ", array_merge(array("блог", "журнал", "Саратов", "блоги Саратова", "саратовский блог-сервис"), array_keys($usedTags))))."\" />";
 	} else {
 		// Show records by given criteria or from the beginning
 		if ($tag) {

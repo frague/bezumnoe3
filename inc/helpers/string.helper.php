@@ -114,11 +114,13 @@
 	}
 
 	function MetaContent($source) {
+		$source = StripTags($source);
 		$source = str_replace("\n", " ", $source);
 		$source = str_replace("\r", "", $source);
 		$source = str_replace("\"", "&quote;", $source);
 		$source = str_replace(">", "&gt;", $source);
 		$source = str_replace("<", "&lt;", $source);
+		$source = preg_replace("/\s{2,}/", " ", $source);
 		return $source;
 	}
 

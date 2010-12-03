@@ -21,7 +21,7 @@
 		DieWith404();
 	}
 
-	$meta_description = MetaContent($record->Title);
+	$meta_description = MetaContent($record->Title." - ".$record->Content);
 
 	Head($record->Title, "forum.css", "forum.js", "", "", "forums.gif");
 	require_once $root."references.php";
