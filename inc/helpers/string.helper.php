@@ -88,6 +88,14 @@
 		return mysql_real_escape_string($source);
 	}
 
+	function SqlFnQuote($source) {
+		$p = strpos($source, "fn:");
+		if ($p !== false && $p == 0) {
+			return str_replace("fn:", "", $source);
+		}
+		return "'".SqlQuote($source)."'";
+	}
+
 	function JsQuote($source) {
 		$source = str_replace("\\", "\\\\", $source);
 		$source = str_replace("'", "\\'", $source);
