@@ -502,3 +502,30 @@ ul.StatusLinks li a {
 ul.StatusLinks li a.Red {
 	color:red;
 }
+
+.ServiceLinks {
+	text-align: right;
+}
+
+.ServiceLinks a {
+	margin: 0 4px;
+}
+
+#Smiles {
+	position: absolute;
+}
+
+#Smiles div { 
+	display: none;
+}
+
+#Smiles.On div { 
+	display: block;
+	padding: 4px;
+	position: relative;
+	top: 20px;
+	left: -20px;
+	width: 200px;
+	border: solid 1px #808080;
+	background-color: #111111;
+}
