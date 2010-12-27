@@ -1,4 +1,4 @@
-//2.5
+//2.6
 /*
 	Collection of entities (users, rooms etc.)
 */
@@ -18,6 +18,16 @@ Collection.prototype.Get = function(id) {
 Collection.prototype.Add = function(e) {
 	this.Base['_'+e.Id] = e;
 	this.LastId = e.Id;
+};
+
+Collection.prototype.BulkAdd = function(arr) {
+	for (var i = 0, l = arr.length; i < l; i++) {
+		el = arr[i];
+		if (!el.Id) {
+			el.Id = i + 1;
+		}
+		this.Add(el)
+	}
 };
 
 Collection.prototype.Delete = function(id) {
