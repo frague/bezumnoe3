@@ -83,14 +83,14 @@
 				<tr>
 					<td><a href="javascript:void(0)" onclick="MI('me')">me</a></td>
 					<td width="100%">
-						<input id="Message" style="width:100%;" autocomplete="off">
+						<span id="Smiles"></span><input id="Message" style="width:100%;" autocomplete="off">
 					</td><td>
 						<input type="image" alt="Отправить сообщение" src="/img/send_button.gif" onclick="Send();return false;">
 					</td></tr>
 				<tr>
 					<td></td>
 					<td class="ServiceLinks">
-						<!--a href="javascript:void(0)" onclick="SwitchSmiles()">:)</a--> <span id="Smiles"></span>
+						<a href="javascript:void(0)" onclick="SwitchSmiles()">&nbsp;</a>
 						<a href="javascript:void(0)" onclick="Translit()">qwe&harr;йцу</a>
 						<a href="javascript:void(0)" onclick="HistoryGo(-1)">x</a>
 						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer+1)">&laquo;</a>
@@ -112,9 +112,10 @@
 			<div id="MenuContainer"></div>
 		</div>
 
-		<script src="/js1/layout.js"></script>
-		<script src="/js1/prototype.js"></script>
-		<script src="/js1/smiles.js"></script>
+		<script language="javascript" src="/js1/layout.js"></script>
+		<script language="javascript" src="/js1/prototype.js"></script>
+		<script language="javascript" src="/js1/smiles.js"></script>
+		<script language="javascript" src="/js1/smiles.php"></script>
 		<script>
 			CurrentRoomId = '<?php echo $user->User->RoomId ?>';
 			Session = '<?php echo $user->User->Session ?>';
@@ -130,8 +131,6 @@
 			tabs.Print();
 
 			HistoryGo(0);
-
-			InitSmiles([new Smile("4.gif"), new Smile("5.gif"), new Smile("6.gif"), new Smile("7.gif"), new Smile("8.gif")]);
 		</script>
 	</body>
 </html>

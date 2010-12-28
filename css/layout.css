@@ -519,13 +519,20 @@ ul.StatusLinks li a.Red {
 	display: none;
 }
 
+#Smiles div img { 
+	padding: 2px;
+}
+
 #Smiles.On div { 
 	display: block;
 	padding: 4px;
 	position: relative;
-	top: 20px;
-	left: -20px;
-	width: 200px;
+	top: 24px;
+	left: 0;
+	width: 400px;
+	height: 100px;
 	border: solid 1px #808080;
 	background-color: #111111;
+	wwhite-space: nowrap;
+	overflow-y: scroll;
 }
