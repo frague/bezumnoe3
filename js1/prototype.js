@@ -103,7 +103,7 @@ function SetTopic(text, author_id, author_name, lock) {
 	if (MainTab) {
 		var s = "";
 		if (text) {
-			s = "<div>" + (1 * lock ? "<em>x</em>" : "") + "&laquo;<strong>" + topicMessage + "</strong>&raquo;";
+			s = "<div>" + (1 * lock ? "<em>x</em>" : "") + "&laquo;<strong>" + MakeSmiles(topicMessage) + "</strong>&raquo;";
 			if (author_name) {
 				s += ", ";
 				if (author_id) {
