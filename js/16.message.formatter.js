@@ -1,4 +1,4 @@
-//1.7
+//1.8
 /*
 	Replaces #pvt#, #info# and #add# chunks with
 	proper links
@@ -31,12 +31,14 @@ function GetUserStyle(id) {
 
 
 var ReplaceSmiles = new RegExp("\\*([0-9a-z]+)\\*", "gim");
+function MakeSmiles(text) {
+	return text.replace(ReplaceSmiles, "<img src=\"/img/smiles/$1.gif\" border=\"0\" />");
+};
 
 function Format(text, person_id, person_name) {
 	text = text.replace("#style#", GetUserStyle(person_id));
 	text = text.replace("#info#", MakeInfoLink(person_id, person_name));
 	text = text.replace("#pvt#", MakePrivateLink(person_id, person_name));
 	text = text.replace("#add#", MakeLink(person_name));
-	text = text.replace(ReplaceSmiles, "<img src=\"/img/smiles/$1.gif\" border=\"0\" />");
-	return text;
+	return MakeSmiles(text);
 };
