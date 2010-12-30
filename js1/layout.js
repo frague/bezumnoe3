@@ -12,6 +12,7 @@ function AdjustDivs() {
 	winSize.GetPosAndSize();
 	LayoutConfigs[configIndex]();
 	alerts.Replace(-1, -1, winSize.width, winSize.height);
+	d.body.className = "Layout" + configIndex;
 }
 
 
@@ -93,11 +94,15 @@ if (window.addEventListener) {
 };
 
 var textForm = $('Message');
-function _(text, erase) {
+function _s(text, erase) {
 	if (textForm) {
-		textForm.value = (erase ? "" : textForm.value) + text + ", ";
+		textForm.value = (erase ? "" : textForm.value) + text;
 		textForm.focus();
 	}
+};
+
+function _(text, erase) {
+	_s(text + ", ", erase);
 };
 
 function __(el) {

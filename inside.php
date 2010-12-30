@@ -83,14 +83,14 @@
 				<tr>
 					<td><a href="javascript:void(0)" onclick="MI('me')">me</a></td>
 					<td width="100%">
-						<span id="Smiles"></span><input id="Message" style="width:100%;" autocomplete="off">
+						<div id="Smiles"><input id="Message" style="width:100%;" autocomplete="off"></div>
 					</td><td>
 						<input type="image" alt="Отправить сообщение" src="/img/send_button.gif" onclick="Send();return false;">
 					</td></tr>
 				<tr>
 					<td></td>
 					<td class="ServiceLinks">
-						<a href="javascript:void(0)" onclick="SwitchSmiles()">&nbsp;</a>
+						<a href="javascript:void(0)" onclick="SwitchSmiles()">:)</a>
 						<a href="javascript:void(0)" onclick="Translit()">qwe&harr;йцу</a>
 						<a href="javascript:void(0)" onclick="HistoryGo(-1)">x</a>
 						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer+1)">&laquo;</a>
