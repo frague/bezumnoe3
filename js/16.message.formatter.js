@@ -1,8 +1,9 @@
-//1.6
+//1.7
 /*
 	Replaces #pvt#, #info# and #add# chunks with
 	proper links
 */
+
 
 function MakePrivateLink(id, name) {
 	s = "<a " + voidHref + " onclick=\"AR(" + id + ",'" + StrongHtmlQuotes(Slash(name)) + "')\">#</a>";
@@ -28,10 +29,14 @@ function GetUserStyle(id) {
 	return "";
 }
 
+
+var ReplaceSmiles = new RegExp("\\*([0-9a-z]+)\\*", "gim");
+
 function Format(text, person_id, person_name) {
 	text = text.replace("#style#", GetUserStyle(person_id));
 	text = text.replace("#info#", MakeInfoLink(person_id, person_name));
 	text = text.replace("#pvt#", MakePrivateLink(person_id, person_name));
 	text = text.replace("#add#", MakeLink(person_name));
+	text = text.replace(ReplaceSmiles, "<img src=\"/img/smiles/$1.gif\" border=\"0\" />");
 	return text;
 };

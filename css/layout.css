@@ -511,12 +511,9 @@ ul.StatusLinks li a.Red {
 	margin: 0 4px;
 }
 
-#Smiles {
-	position: absolute;
-}
-
 #Smiles div { 
 	display: none;
+	position: absolute;
 }
 
 #Smiles div img { 
@@ -527,12 +524,20 @@ ul.StatusLinks li a.Red {
 	display: block;
 	padding: 4px;
 	position: relative;
-	top: 24px;
-	left: 0;
-	width: 400px;
 	height: 100px;
 	border: solid 1px #808080;
 	background-color: #111111;
-	wwhite-space: nowrap;
 	overflow-y: scroll;
+	left: 0;
+}
+
+.Layout0 #Smiles.On div, .Layout1 #Smiles.On div { 
+	top: 0;
+}
+
+.Layout2 #Smiles.On div, .Layout3 #Smiles.On div { 
+	position: absolute;
+	bottom: 80px;
+	left: 30px;
+	width:85%;
 }

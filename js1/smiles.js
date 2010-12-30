@@ -12,6 +12,7 @@ function SwitchSmiles() {
 		return;
 	}
 	c.className = c.className == "On" ? "" : "On";
+	AdjustDivs();
 	return 1;
 };
 
@@ -45,7 +46,7 @@ Smile.prototype.ToString = function(holder, index) {
 	var a = d.createElement("a");
 	a.href = voidLink;
 	a.Obj = this;
-	a.onclick = function() {_(this.Obj.Token);SwitchSmiles()};
+	a.onclick = function() {_s(this.Obj.Token);SwitchSmiles()};
 	a.appendChild(this.Rendered);
 	holder.appendChild(a);
 };
