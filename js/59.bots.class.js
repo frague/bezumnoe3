@@ -1,10 +1,10 @@
-//1.0
+//2.1
 /*
 	Bots creation
 */
 
 function Bots() {
-	this.fields = ["TYPE", "USER", "ROOM"];
+	this.fields = ["TYPE", "USER", "BOT_USER_ID", "ROOM"];
 	this.ServicePath = servicesPath + "bots.service.php";
 	this.Template = "bots";
 	this.ClassName = "Bots";
@@ -12,31 +12,36 @@ function Bots() {
 
 Bots.prototype = new OptionsBase();
 
-Bots.prototype.BaseBind = function() {};
+Bots.prototype.Bind = function(data) {
+	if (data) {
+		var s = "";
+		var holder = this.Inputs["FoundUsers"];
+		holder.innerHTML = "";
+		
+		for (var i = 0,l = data.length; i < l; i++) {
+			holder.appendChild(data[i].ToLiString(i, data[i], this.Inputs["USER"], this.Inputs["BOT_USER_ID"]));
+		}
+	}
+};
 
 Bots.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.RequestBaseCallback(req, obj);
+		obj.FillFrom(obj.data);
 		obj.Bind(obj.data);
 	}
 };
 
-Bots.prototype.Request = function(params, callback) {
-	if (!params) {
-		params = this.Gather();
-	}
-	this.ClearRecords(true);
-	this.BaseRequest(params, callback);
-	this.HasEmptyRow = false;
-};
-
 Bots.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
-	this.GroupSelfAssign(["AddRoom", "RefreshBots"]);
+	this.FindRelatedControls();
 
-	// System log checkboxes
-	BindEnterTo(this.Inputs["locked"], this.Inputs["RefreshBots"]);
-	BindEnterTo(this.Inputs["by_invitation"], this.Inputs["RefreshBots"]);
-	BindEnterTo(this.Inputs["deleted"], this.Inputs["RefreshBots"]);
+	var a = new DelayedRequestor(this, this.Inputs["USER"]);
+
+	// Filling Rooms ddl
+	BindRooms(this.Inputs["ROOM"]);
+
+	/* Submit button */
+	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 

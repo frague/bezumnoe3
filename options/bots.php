@@ -8,14 +8,22 @@
 ?>
 
 <h4>Запуск нового бота:</h4>
-<input type="radio" name="TYPE" id="TYPE_YTKA" checked> <label for="TYPE_YTKA"><b>YTKA</b> &mdash; простой автоответчик</label><br />
-<input type="radio" name="TYPE" id="TYPE_VICTORINA"> <label for="TYPE_VICTORINA"><b>BUKTOPUHA</b> &mdash; вопросы/ответы</label><br />
-<input type="radio" name="TYPE" id="TYPE_LINGVIST"> <label for="TYPE_LINGVIST"><b>Lingvist</b> &mdash; контроль за соблюдением правил</label><br />
+<input type="radio" name="TYPE" id="TYPE_YTKA" value="1" checked /> <label for="TYPE_YTKA"><b>YTKA</b> &mdash; простой автоответчик</label><br />
+<input type="radio" name="TYPE" id="TYPE_VICTORINA" value="2" /> <label for="TYPE_VICTORINA"><b>BUKTOPUHA</b> &mdash; вопросы/ответы</label><br />
+<input type="radio" name="TYPE" id="TYPE_LINGVIST" value="3" /> <label for="TYPE_LINGVIST"><b>Lingvist</b> &mdash; контроль за соблюдением правил</label><br />
 
-<h4>Пользователь</h4>
-<input type="text" name="USER" id="USER" class="Wide" /><br />
-<p class="Note">Начните печатать логин или никнейм</p>
+<table width="100%" cellpadding="4">
+	<tr>
+		<td width="50%">
+			<h4>Пользователь</h4>
+			<input type="text" name="USER" id="USER" class="Wide" />
+			<input type="hidden" name="BOT_USER_ID" id="BOT_USER_ID" />
 
-<h4>Комната</h4>
-<select name="ROOM" id="ROOM" class="Wide"><option></select>
+			<div class="Options">
+				<ul id="FoundUsers"></ul>
+			</div>
+			<p class="Note">Начните печатать логин или никнейм</p></td>
+		<td width="50%">
+			<h4>Комната</h4>
+			<select name="ROOM" id="ROOM" class="Wide"><option /></select></td></tr></table>
 
