@@ -49,4 +49,5 @@ Smile.prototype.ToString = function(holder, index) {
 	a.onclick = function() {_s(this.Obj.Token);SwitchSmiles()};
 	a.appendChild(this.Rendered);
 	holder.appendChild(a);
+	holder.appendChild(d.createTextNode(" "));
 };
