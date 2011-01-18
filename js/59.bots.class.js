@@ -1,10 +1,10 @@
-//2.1
+//2.3
 /*
 	Bots creation
 */
 
 function Bots() {
-	this.fields = ["TYPE", "USER", "BOT_USER_ID", "ROOM"];
+	this.fields = ["TYPE", "FIND_USER", "BOT_USER_ID", "ROOM"];
 	this.ServicePath = servicesPath + "bots.service.php";
 	this.Template = "bots";
 	this.ClassName = "Bots";
@@ -19,7 +19,7 @@ Bots.prototype.Bind = function(data) {
 		holder.innerHTML = "";
 		
 		for (var i = 0,l = data.length; i < l; i++) {
-			holder.appendChild(data[i].ToLiString(i, data[i], this.Inputs["USER"], this.Inputs["BOT_USER_ID"]));
+			holder.appendChild(data[i].ToLiString(i, data[i], this));
 		}
 	}
 };
@@ -36,7 +36,7 @@ Bots.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 	this.FindRelatedControls();
 
-	var a = new DelayedRequestor(this, this.Inputs["USER"]);
+	var a = new DelayedRequestor(this, this.Inputs["FIND_USER"]);
 
 	// Filling Rooms ddl
 	BindRooms(this.Inputs["ROOM"]);
@@ -45,3 +45,13 @@ Bots.prototype.TemplateLoaded = function(req) {
 	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
+Bots.prototype.Select = function(obj) {
+	this.SetTabElementValue("SELECTED_HOLDER", StripTags(obj.Login) + "	(ID: " + obj.Id + ")");
+	this.SetTabElementValue("BOT_USER_ID", obj.Id);
+	this.SetTabElementValue("FIND_USER", "");
+	this.SetTabElementValue("FoundUsers", "");
+};
+
+Bots.prototype.Preset = function(input, name) {
+	
+};

@@ -1,4 +1,4 @@
-//6.0
+//6.1
 /*
 	User Manager admin functionality
 */
@@ -72,9 +72,8 @@ udto.prototype.ToString = function(index, obj) {
 	return tr;
 };
 
-udto.prototype.ToLiString = function(index, obj, input, hidden) {
-	this.Input = input;
-	this.Hidden = hidden;
+udto.prototype.ToLiString = function(index, obj, callbackObj) {
+	this.CallbackObj = callbackObj;
 
 	var li = d.createElement("li");
 
@@ -89,8 +88,9 @@ udto.prototype.ToLiString = function(index, obj, input, hidden) {
 };
 
 udto.prototype.Select = function() {
-	this.Input.value = StripTags(this.Login) + "	(ID: " + this.Id + ")";
-	this.Hidden.value = this.Id;
+	if (this.CallbackObj) {
+		this.CallbackObj.Select(this);
+	};
 };
 
 /* Helper methods */

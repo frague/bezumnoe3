@@ -8,15 +8,17 @@
 ?>
 
 <h4>«апуск нового бота:</h4>
-<input type="radio" name="TYPE" id="TYPE_YTKA" value="1" checked /> <label for="TYPE_YTKA"><b>YTKA</b> &mdash; простой автоответчик</label><br />
-<input type="radio" name="TYPE" id="TYPE_VICTORINA" value="2" /> <label for="TYPE_VICTORINA"><b>BUKTOPUHA</b> &mdash; вопросы/ответы</label><br />
-<input type="radio" name="TYPE" id="TYPE_LINGVIST" value="3" /> <label for="TYPE_LINGVIST"><b>Lingvist</b> &mdash; контроль за соблюдением правил</label><br />
+<div id="TYPE" class="Radios">
+	<input type="radio" name="BOT_TYPE" id="TYPE_YTKA" value="ytka" checked> <label for="TYPE_YTKA"><b>YTKA</b> &mdash; простой автоответчик</label><br />
+	<input type="radio" name="BOT_TYPE" id="TYPE_VICTORINA" value="victorina"> <label for="TYPE_VICTORINA"><b>BUKTOPUHA</b> &mdash; вопросы/ответы</label><br />
+	<input type="radio" name="BOT_TYPE" id="TYPE_LINGVIST" value="lingvist"> <label for="TYPE_LINGVIST"><b>Lingvist</b> &mdash; контроль за соблюдением правил</label><br /></div>
 
-<table width="100%" cellpadding="4">
+
+<table class="Wide" cellpadding="4">
 	<tr>
 		<td width="50%">
-			<h4>ѕользователь</h4>
-			<input type="text" name="USER" id="USER" class="Wide" />
+			<h4>ѕользователь <span id="SELECTED_HOLDER" name="SELECTED_HOLDER"></span></h4>
+			<input type="text" name="FIND_USER" id="FIND_USER" class="Wide" />
 			<input type="hidden" name="BOT_USER_ID" id="BOT_USER_ID" />
 			<div class="Options">
 				<ul id="FoundUsers"></ul>
