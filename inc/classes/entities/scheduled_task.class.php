@@ -268,6 +268,17 @@ abstract class UserScheduledTask extends ScheduledTask {
 	}
 }
 
+abstract class UserInRoomScheduledTask extends UserScheduledTask {
+	function UserScheduledTask($userId, $executionDate, $roomId) {
+		parent::__construct();
+	
+		$this->Parameter1 = round($userId);
+		$this->Parameter2 = round($roomId);
+		$this->ExecutionDate = $executionDate;
+		$this->TransactionGuid = "";
+	}
+}
+
 class UnbanScheduledTask extends UserScheduledTask {
 	function UnbanScheduledTask($userId, $executionDate) {
 		parent::__construct($userId, $executionDate);
@@ -296,23 +307,23 @@ class UpdateRatingsScheduledTask extends UserScheduledTask {
 	}
 }
 
-class YtkaBotScheduledTask extends UserScheduledTask {
-	function YtkaBotScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
+class YtkaBotScheduledTask extends UserInRoomScheduledTask {
+	function YtkaBotScheduledTask($userId, $executionDate, $roomId) {
+		parent::__construct($userId, $executionDate, $roomId);
 		$this->Type = ScheduledTask::TYPE_YTKA_BOT;
 	}
 }
 
-class VictorinaBotScheduledTask extends UserScheduledTask {
-	function VictorinaBotScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
+class VictorinaBotScheduledTask extends UserInRoomScheduledTask {
+	function VictorinaBotScheduledTask($userId, $executionDate, $roomId) {
+		parent::__construct($userId, $executionDate, $roomId);
 		$this->Type = ScheduledTask::TYPE_VICTORINA_BOT;
 	}
 }
 
-class LingvistBotScheduledTask extends UserScheduledTask {
-	function LingvistBotScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
+class LingvistBotScheduledTask extends UserInRoomScheduledTask {
+	function LingvistBotScheduledTask($userId, $executionDate, $roomId) {
+		parent::__construct($userId, $executionDate, $roomId);
 		$this->Type = ScheduledTask::TYPE_LINGVIST_BOT;
 	}
 }
