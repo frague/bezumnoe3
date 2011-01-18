@@ -18,7 +18,6 @@
 			<h4>Пользователь</h4>
 			<input type="text" name="USER" id="USER" class="Wide" />
 			<input type="hidden" name="BOT_USER_ID" id="BOT_USER_ID" />
-
 			<div class="Options">
 				<ul id="FoundUsers"></ul>
 			</div>
@@ -26,4 +25,3 @@
 		<td width="50%">
 			<h4>Комната</h4>
 			<select name="ROOM" id="ROOM" class="Wide"><option /></select></td></tr></table>
-
