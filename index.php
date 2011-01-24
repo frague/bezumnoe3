@@ -120,7 +120,7 @@
 						<img src="/img/t/logo.gif" height="184" width="187" alt="Лучший саратовский чат" title="Лучший саратовский чат" >
 						<img alt="Саратовский чат" title="Саратовский чат" src="/img/t/title.gif" height="126" width="187">
 
-						<form method="POST">
+						<form method="POST"><input type="hidden" name="AUTH" id="AUTH" value="1" />
 							<table cellpadding="0" cellspacing="0">
 								<tr>
 									<td class="FormTitle">Логин</td>

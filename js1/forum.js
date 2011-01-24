@@ -51,8 +51,11 @@ function AddMessage(lnk) {
 		params+= MakeParametersPair("CONTENT", replyContentElement.value);
 		params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.checked ? 1 : 0);
 		if ($("AUTH_NOW").checked) {
+			params+= MakeParametersPair("AUTH", 0);
 			params+= MakeParametersPair("login", $("login").value);
 			params+= MakeParametersPair("password", $("password").value);
+		} else if ($("AUTH_OPENID").checked) {
+			
 		}
 		sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
 	}
