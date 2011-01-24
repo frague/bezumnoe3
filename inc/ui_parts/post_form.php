@@ -23,8 +23,21 @@
 
 		<input type="radio" name="AUTH" id="AUTH_OPENID" value="2" disabled /> <label for="AUTH_OPENID">с использованием OpenID</label>
 		<div id="AuthByOpenID">
+			<form><input type="hidden" name="openid_action" value="login" />
 			логин: <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1" disabled />, 
-			сервис: ...
+			сервис: <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" />
+			<?php
+
+	$op = new OpenIdProvider();
+	$q = $op->GetAll();
+	for ($i = 0; $i < $q->NumRows(); $i++) {
+		$q->NextResult();
+		$op->FIllFromResult($q);
+		echo $op->ToPrint($i, OPENID_KEY);
+	}
+
+			?>
+			</form>
 		</div>
 
 		<h4>«аголовок:</h4>

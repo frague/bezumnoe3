@@ -2,6 +2,7 @@
 
 	define("LOGIN_KEY", "login");
 	define("PASSWORD_KEY", "password");
+	define("OPENID_KEY", "openid");
 	define("SESSION_KEY", "sdjfhk_session");
 
 	function LookInRequest($keyName) {
@@ -39,6 +40,7 @@
 	  		return new UserComplete();
 	  	}
 		
+		$authType = LookInRequest("AUTH");
 		$login = LookInRequest(LOGIN_KEY);
 		$password = LookInRequest(PASSWORD_KEY);
 		$session = LookInRequest(SESSION_KEY);
@@ -46,45 +48,53 @@
 
 		$user = new UserComplete();
 
-		if ($login && $password) {
-			$user->GetByPassword($login, $password);
-			if (!$user->IsEmpty()) {
-				if ($user->User->Login != $login) {
-					$user = new UserComplete();
-				} else {
-					if ($doPong) {
-						// Check forbidden ip/host
-						$addrBan = new BannedAddress();
-						if (AddressIsBanned(new Bans(1,0,0))) {
-  							DebugLine("Address is banned!");
-							$user->User->ClearSession();
-							$user->User->Save();
-							$user->Clear();
+		switch ($authType) {
+			case "1":
+				# Login & password
+				if ($login && $password) {
+					$user->GetByPassword($login, $password);
+					if (!$user->IsEmpty()) {
+						if ($user->User->Login != $login) {
+							$user = new UserComplete();
 						} else {
-							$user->User->CreateSession();
-							$user->User->Save();
-						}
+							if ($doPong) {
+								// Check forbidden ip/host
+								$addrBan = new BannedAddress();
+								if (AddressIsBanned(new Bans(1,0,0))) {
+  									DebugLine("Address is banned!");
+									$user->User->ClearSession();
+									$user->User->Save();
+									$user->Clear();
+								} else {
+									$user->User->CreateSession();
+									$user->User->Save();
+								}
 
-						// Update LastVisited
-						$profile = new Profile();
-						$profile->GetByUserId($user->User->Id);
-						if (!$profile->IsEmpty()) {
-							$profile->LastVisit = NowDateTime();
-							$profile->Save();
+								// Update LastVisited
+								$profile = new Profile();
+								$profile->GetByUserId($user->User->Id);
+								if (!$profile->IsEmpty()) {
+									$profile->LastVisit = NowDateTime();
+									$profile->Save();
+								}
+							}
 						}
 					}
 				}
-			}
-			return $user;
+				break;
+			case "2":
+				# OpenID
+				break;
+			default:
+				# Session ID exists
+				if ($session && !$login && !$password) {
+					$user->GetBySession($session, GetRequestAddress(), $sessionCheck);
+				} else {
+  					DebugLine($_COOKIE[SESSION_KEY]."-");
+  					DebugLine("No session ID found!");
+				}
+				break;
 		}
-
-		if ($session && !$login && !$password) {
-			$user->GetBySession($session, GetRequestAddress(), $sessionCheck);
-		} else {
-  			DebugLine($_COOKIE[SESSION_KEY]."-");
-  			DebugLine("No session ID found!");
-		}
-
 		return $user;
 	}
 

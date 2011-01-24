@@ -12,6 +12,7 @@ function FindReplyElements() {
 	replyTitleElement = $("TITLE");
 	replyContentElement = $("CONTENT");
 	replyIsProtected = $("IS_PROTECTED");
+	authType = $("AUTH");
 };
 
 var citeLevel;
@@ -113,6 +114,16 @@ function SetChildClass(tag, el, className) {
 
 		if (child.hasChildNodes()) {
 			SetChildClass(tag, child, className);
+		}
+	}
+};
+
+function OpenReplyForm() {
+	var l = window.location.hash;
+	if (l) {
+		var a = document.getElementsByName(l.substr(1));
+		if (a && a.length > 0) {
+			a[0].onclick();
 		}
 	}
 };

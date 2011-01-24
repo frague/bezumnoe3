@@ -44,7 +44,7 @@ label {
 	cursor:hand;
 }
 
-#AuthByLogin {
+#AuthByLogin, #AuthByOpenID {
 	margin:4px 0 10px 24px;
 	font-size:90%;
 }
