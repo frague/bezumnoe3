@@ -265,7 +265,7 @@ class SimpleOpenID{
 				$url['path'] = $last_url['path'];
 			$new_url = $url['scheme'] . '://' . $url['host'] . $url['path'] . ($url['query']?'?'.$url['query']:'');
 			curl_setopt($ch, CURLOPT_URL, $new_url);
-			echo 'Redirecting to', $new_url;
+//			echo 'Redirecting to', $new_url;
 			return curl_redir_exec($ch);
 		} else {
 			$curl_loops=0;
