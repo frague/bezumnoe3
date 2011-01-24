@@ -23,9 +23,12 @@
 
 		<input type="radio" name="AUTH" id="AUTH_OPENID" value="2" disabled /> <label for="AUTH_OPENID">с использованием OpenID</label>
 		<div id="AuthByOpenID">
-			<form><input type="hidden" name="openid_action" value="login" />
-			логин: <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1" disabled />, 
+			<form method="POST" action="/auth.php">
+			<input type="hidden" name="openid_action" value="login" />
+			<input type="hidden" name="<?php echo REFERER_KEY ?>" id="<?php echo REFERER_KEY ?>" />
+			логин: <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1" />, 
 			сервис: <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" />
+			<span class="OpenID">
 			<?php
 
 	$op = new OpenIdProvider();
@@ -36,7 +39,7 @@
 		echo $op->ToPrint($i, OPENID_KEY);
 	}
 
-			?>
+			?></span> <a href="javascript:void(0)" onclick="SubmitOpenId('<?php echo REFERER_KEY ?>')">&nbsp;</a>
 			</form>
 		</div>
 

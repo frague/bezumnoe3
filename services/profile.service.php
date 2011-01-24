@@ -68,8 +68,8 @@
 						// No errors occured
 						if ($isAvatar) {
 							// Avatar uploaded
-							$maxWidth = 100;
-							$maxHeight = 100;
+							$maxWidth = 64;
+							$maxHeight = 64;
 							if ($name != $profile->Avatar) {
 								// Image name has changed
 								// TODO: Delete previous avatar if not empty

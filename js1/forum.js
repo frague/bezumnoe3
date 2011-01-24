@@ -120,3 +120,28 @@ function ForumMessageDelCallback(req, a) {
 		alert(error);	// TODO:
 	}
 };
+
+var selectedProvider = "";
+function SetOpenID(id, el, a) {
+	el = $(el);
+	if (!el || !id && !a) {
+		return;
+	}
+	if (selectedProvider) {
+		selectedProvider.className = "";
+	}
+	selectedProvider = a;
+	a.className = "Selected";
+	a.blur();
+	el.value = id;
+};
+
+function SubmitOpenId(referer) {
+	// TODO: Rewrite!!!
+
+	var ref = $(referer);
+	if (ref) {
+		ref.value = d.location.href;
+		d.forms[0].submit();
+	}
+};
