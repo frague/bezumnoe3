@@ -259,3 +259,24 @@ cite cite cite {
 	float: right;
 	background: url(/img/t/next.gif) no-repeat center right;
 }
+
+.OpenID a {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.OpenID a img {
+	margin: 0 2px;
+	padding: 1px;
+	border: 0;
+}
+
+.OpenID a.Selected img {
+	margin: 0;
+	border: solid 2px #FB8C00;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
