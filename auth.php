@@ -6,6 +6,7 @@
 
 	$login = $_POST[LOGIN_KEY];
 	$provider_id = round($_POST[OPENID_KEY]);
+    $result = "";
 
 	if ($_POST['openid_action'] == "login") { // Get identity from user and redirect browser to OpenID Server
 
@@ -32,10 +33,12 @@
 	        $openid->Redirect();     // This will redirect user to OpenID Server
 	    } else {
 	        $error = $openid->GetError();
-	        echo "ERROR CODE: ".$error['code']."<br>";
-	        echo "ERROR DESCRIPTION: ".$error['description']."<br>";
+	        $result = "ERROR CODE: ".$error['code']."<br>";
+	        $result .= "ERROR DESCRIPTION: ".$error['description']."<br>";
+
+			header('Location: '.$referer);
+			exit;
 	    }
-	    exit;
 	} else if ($_GET['openid_mode'] == 'id_res') {     // Perform HTTP Request to OpenID server to validate key
 
 	    $openid = new SimpleOpenID;
@@ -43,19 +46,18 @@
 	    $openid_validation_result = $openid->ValidateWithServer();
 
 	    if ($openid_validation_result == true) {         // OK HERE KEY IS VALID
-	        echo "Confirmed.";
+	        $result = "Confirmed";
 	    } else if ($openid->IsError() == true) {            // ON THE WAY, WE GOT SOME ERROR
 	        $error = $openid->GetError();
-	        echo "ERROR CODE: ".$error['code']."<br>";
-	        echo "ERROR DESCRIPTION: ".$error['description']."<br>";
+	        $result = "ERROR CODE: ".$error['code']."<br>";
+	        $result .= "ERROR DESCRIPTION: ".$error['description']."<br>";
 	    } else {                                            // Signature Verification Failed
-	        echo "Invalid Authorization";
+	        $result = "Invalid Authorization";
 	    }
 	} else if ($_GET['openid_mode'] == 'cancel') { // User Canceled your Request
-	    echo "User canceled request";
+	    $result = "User canceled request";
 	} 
 
-
-
+	header('Location: '.$_GET["back"]);
 
 ?>
