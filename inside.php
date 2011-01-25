@@ -48,7 +48,7 @@
 		<meta charset="windows-1251" />
 		<title>Безумное ЧАепиТие у Мартовского Зайца</title>
 		<link rel="stylesheet" href="/css/global.css">
-		<link rel="stylesheet" href="/css/layout.css">
+		<link rel="stylesheet" href="/css/chat_layout.css">
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
@@ -112,7 +112,7 @@
 			<div id="MenuContainer"></div>
 		</div>
 
-		<script language="javascript" src="/js1/layout.js"></script>
+		<script language="javascript" src="/js1/chat_layout.js"></script>
 		<script language="javascript" src="/js1/prototype.js"></script>
 		<script language="javascript" src="/js1/smiles.js"></script>
 		<script language="javascript" src="/js1/smiles.php"></script>

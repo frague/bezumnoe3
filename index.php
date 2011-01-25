@@ -36,7 +36,7 @@
 	<meta name="Address" content="Saratov, Russia">
 	<meta name="home_url" content="http://bezumnoe.ru/">
 	<!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-	<link rel="stylesheet" href="/css/template.css" />
+	<link rel="stylesheet" href="/css/template_layout.css" />
 	<link rel="stylesheet" href="/css/default3.css" />
 	<link rel="stylesheet" href="/css/global.css" />
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
