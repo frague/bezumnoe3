@@ -541,3 +541,32 @@ ul.StatusLinks li a.Red {
 	left: 30px;
 	width:85%;
 }
+
+/* Confirmations & Alerts */
+
+.ConfirmContainer {
+	width:400px;
+	background-color:#101010;
+	border:solid 1px #404040;
+}
+
+.ConfirmContainer h1 {
+	font-size:16pt;
+	background-color:#202020;
+	padding:4px;
+	margin:0 0 10px 0;
+}
+
+.ConfirmContainer h4 {
+	font-size:12pt;
+	padding:4px;
+	margin:0;
+	color:red;
+}
+
+.ConfirmContainer div {
+	padding:0 8px 0 8px;
+	margin-bottom:10px;
+	font-size:10pt;
+}
+

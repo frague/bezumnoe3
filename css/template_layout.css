@@ -144,6 +144,8 @@ ul.BottomNav li.First a {
 	text-align: center;
 }
 
+/* Confirmations & Alerts */
+
 #AlertContainer {
 	position: absolute;
 	z-index: 200;
@@ -157,3 +159,67 @@ ul.BottomNav li.First a {
 	vertical-align: middle;
 }
 
+.ConfirmContainer {
+	width:400px;
+	background-color:#F0F0F0;
+	border:solid 3px #808080;
+
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+}
+
+.ConfirmContainer h1 {
+	font-size:16pt;
+	bbackground-color:#202020;
+	padding:4px;
+	margin:0 0 10px 0;
+}
+
+.ConfirmContainer h4 {
+	font-size:12pt;
+	padding:4px;
+	margin:0;
+	color:red;
+}
+
+.ConfirmContainer div {
+	padding:0 8px 0 8px;
+	margin-bottom:10px;
+	font-size:10pt;
+}
+
+.ConfirmContainer .ConfirmButtons {
+	margin-top: 20px;
+}
+
+.ConfirmContainer .ConfirmButtons a {
+	border: 0;
+}
+
+.AuthForm {
+	text-align: left;
+}
+
+/* OpenID selection styles */
+
+.OpenID a {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.OpenID a img {
+	margin: 0 2px;
+	padding: 1px;
+	border: 0;
+}
+
+.OpenID a.Selected img {
+	margin: 0;
+	border: solid 2px #FB8C00;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
