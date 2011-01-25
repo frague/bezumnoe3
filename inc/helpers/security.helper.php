@@ -2,6 +2,7 @@
 
 	define("LOGIN_KEY", "login");
 	define("PASSWORD_KEY", "password");
+	define("OPENID_LOGIN_KEY", "openid_login");
 	define("OPENID_KEY", "openid");
 	define("REFERER_KEY", "referer");
 	define("SESSION_KEY", "sdjfhk_session");
