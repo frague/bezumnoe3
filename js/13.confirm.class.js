@@ -1,4 +1,4 @@
-//2.8
+//2.9
 /*
 	Displays inline confirmation window
 	blocking all content behind and handling callback.
@@ -24,12 +24,19 @@ Confirm.prototype.Display = function(state) {
 	DisplayElement(this.Cover, state);
 };
 
+Confirm.prototype.SetBodyOverflow = function(state) {
+	var b = d.documentElement ? d.documentElement : d.body;
+	b.style.overflow = state ? "auto" : "hidden";
+};
+
 Confirm.prototype.Show = function(callback, title, message, customContent, keep_opened) {
 	if (!this.Holder) {
 		return false;
 	} else {
 		this.Holder.innerHTML = "";
 	}
+
+	this.SetBodyOverflow(0);
 		
 	title = title ? title : 'Confirmation';
 	
@@ -73,6 +80,7 @@ Confirm.prototype.Hide = function() {
 	}
 	this.Display(false);
 	this.Holder.innerHTML = "";
+	this.SetBodyOverflow(1);
 };
 	
 Confirm.prototype.Cancel = function() {
