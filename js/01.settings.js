@@ -150,6 +150,13 @@ function CreateBooleanImage(state) {
 	return img;
 };
 
+function CheckEmpty(value, def) {
+	if (!value || value == "undefined") {
+		value = def ? def : "";
+	}
+	return value;
+};
+
 function MakeButtonLink(target, text, obj, css, alt) {
 	var a = d.createElement("a");
 	a.href = voidLink;
@@ -158,9 +165,7 @@ function MakeButtonLink(target, text, obj, css, alt) {
 	if (text) {
 		a.innerHTML = text;
 	}
-	if (!alt || alt == "undefined") {
-		alt = "";
-	}
+	alt = CheckEmpty(alt);
 	a.alt = alt;
 	a.title = alt;
 	eval("a.onclick=function(){" + target + "}");
@@ -168,9 +173,9 @@ function MakeButtonLink(target, text, obj, css, alt) {
 };
 
 function MakeButton(target, src, obj, css, alt) {
-	if (!alt || alt == "undefined") {
-		alt = "";
-	}
+	alt = CheckEmpty(alt);
+	css = CheckEmpty(css);
+
 	var a = MakeButtonLink(target, "", obj, css, alt);
 	a.className = "Button " + css;
 	a.innerHTML = "<img src='" + imagesPath + src + "' alt='" + alt + "' title='" + alt + "' />";

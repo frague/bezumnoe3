@@ -1,4 +1,4 @@
-//2.9
+//3.1
 /*
 	Displays inline confirmation window
 	blocking all content behind and handling callback.
@@ -25,6 +25,7 @@ Confirm.prototype.Display = function(state) {
 };
 
 Confirm.prototype.SetBodyOverflow = function(state) {
+	return;
 	var b = d.documentElement ? d.documentElement : d.body;
 	b.style.overflow = state ? "auto" : "hidden";
 };
@@ -58,14 +59,16 @@ Confirm.prototype.Show = function(callback, title, message, customContent, keep_
 		}
 	}
 
+	var index = CheckEmpty(this.ButtonUrlIndex);
 	var m1 = d.createElement("div");
 	m1.className = "ConfirmButtons";
 	if (this.AlertType) {
-		m1.appendChild(MakeButton("ConfirmObject.Ok()", "ok_button.gif"));
+		m1.appendChild(MakeButton("ConfirmObject.Ok()", "ok_button"+index+".gif"));
 	} else {
-		m1.appendChild(MakeButton("ConfirmObject.Ok()", "yes_button.gif"));
-		m1.appendChild(MakeButton("ConfirmObject.Cancel()", "no_button.gif"));
+		m1.appendChild(MakeButton("ConfirmObject.Ok()", "yes_button"+index+".gif"));
+		m1.appendChild(MakeButton("ConfirmObject.Cancel()", "no_button"+index+".gif"));
 	}
+
 	this.Holder.appendChild(m1);
 
 	this.Display(true);
