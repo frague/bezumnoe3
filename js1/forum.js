@@ -1,6 +1,11 @@
 var replyMessageId, forumId;
 
 function ForumReply(a, id, forum_id) {
+    if (!GetCurrentSession()) {
+    	setTimeout(AuthPopUp, 100);
+    	return true;
+    }
+	
 	if (!replyFormElement) {
 		FindReplyElements();
 	}
@@ -50,13 +55,6 @@ function AddMessage(lnk) {
 		params+= MakeParametersPair("TITLE", replyTitleElement.value);
 		params+= MakeParametersPair("CONTENT", replyContentElement.value);
 		params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.checked ? 1 : 0);
-		if ($("AUTH_NOW").checked) {
-			params+= MakeParametersPair("AUTH", 0);
-			params+= MakeParametersPair("login", $("login").value);
-			params+= MakeParametersPair("password", $("password").value);
-		} else if ($("AUTH_OPENID").checked) {
-			
-		}
 		sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
 	}
 };
@@ -83,10 +81,6 @@ function ForumMessageAddCallback(req, el) {
 		if (replyErrorElement) {
 			replyErrorElement.innerHTML = error;
 		}
-	}
-
-	if (logged_user) {
-		ShowLoggedLogin(logged_user);
 	}
 
 	var btn = $("SubmitMessageButton");
@@ -121,10 +115,11 @@ function ForumMessageDelCallback(req, a) {
 	}
 };
 
+// OpenID provider visual selection
 var selectedProvider = "";
 function SetOpenID(id, el, a) {
 	el = $(el);
-	if (!el || !id && !a) {
+	if (!el || !id || !a) {
 		return;
 	}
 	if (selectedProvider) {
@@ -136,12 +131,21 @@ function SetOpenID(id, el, a) {
 	el.value = id;
 };
 
-function SubmitOpenId(referer) {
-	// TODO: Rewrite!!!
-
-	var ref = $(referer);
-	if (ref) {
+// Submit authorization form
+function SubmitAuthForm() {
+	var ref = $("referer");
+	if (ref && d.forms["auth_form"]) {
 		ref.value = d.location.href;
-		d.forms[0].submit();
+		d.forms["auth_form"].submit();
+		co.Hide();
 	}
+};
+
+function AuthPopUp() {
+	AdjustDivs();
+
+	var co = new Confirm();
+	co.ButtonUrlIndex = "2";
+	co.Init("AlertContainer", "AlertBlock");
+	co.Show(SubmitAuthForm, "Необходима авторизация", "", new AuthForm(), 1);
 };

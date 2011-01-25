@@ -12,7 +12,6 @@ function FindReplyElements() {
 	replyTitleElement = $("TITLE");
 	replyContentElement = $("CONTENT");
 	replyIsProtected = $("IS_PROTECTED");
-	authType = $("AUTH");
 };
 
 var citeLevel;
@@ -56,14 +55,6 @@ function ClearReply() {
 		replyErrorElement.innerHTML = "";
 		replyTitleElement.value = "";
 		replyContentElement.value = "";
-
-		$("login").value = "";
-		$("password").value = "";
-		if ($("LoggedLine").className) {
-			$("AUTH_NOW").checked = true;
-		} else {
-			$("AUTH_LOGGED").checked = true;
-		}
 	}
 };
 
@@ -122,7 +113,7 @@ function OpenReplyForm() {
 	var l = window.location.hash;
 	if (l) {
 		var a = document.getElementsByName(l.substr(1));
-		if (a && a.length > 0) {
+		if (a && a.length > 0 && a[0].name.charAt(0) == "r") {
 			a[0].onclick();
 		}
 	}
