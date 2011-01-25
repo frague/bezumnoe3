@@ -23,6 +23,6 @@ if (window.addEventListener) {
 var tabs = new Tabs($("InfoContainer"), $("InfoContent"));
 CurrentTab = new Tab(1, "Инфо", 1);
 tabs.Add(CurrentTab, $('Info'));
-tabs.Add(new Tab(2, "Блабла1", 1));
-tabs.Add(new Tab(3, "Блабла2", 1));
+//tabs.Add(new Tab(2, "Блабла1", 1));
+//tabs.Add(new Tab(3, "Блабла2", 1));
 tabs.Print();

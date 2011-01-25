@@ -5,7 +5,10 @@ var winSize = new MyFrame(window);
 
 function AdjustDivs() {
 	winSize.GetPosAndSize();
-	alerts.Replace(-1, -1, winSize.width, winSize.height);
+	xo = d.all ? d.body.scrollLeft : window.pageXOffset;
+	yo = d.all ? d.body.scrollTop : window.pageYOffset;
+
+	alerts.Replace(xo, yo, winSize.width, winSize.height);
 }
 
 
@@ -13,6 +16,8 @@ DisplayElement(alerts.element, false);
 AdjustDivs();
 
 window.onresize = AdjustDivs;
+window.onscroll = AdjustDivs;
 if (window.addEventListener) {
 	window.addEventListener("resize", AdjustDivs, true);
+	window.addEventListener("scroll", AdjustDivs, true);
 };
