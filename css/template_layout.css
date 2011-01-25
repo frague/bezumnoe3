@@ -1,7 +1,7 @@
 body {
-	padding:0;
-	margin:0 20px;
-	text-align:center;
+	padding :0;
+	margin: 0;
+	text-align: center;
 }
 
 a {
@@ -142,5 +142,18 @@ ul.BottomNav li.First a {
 
 .NewComments div {
 	text-align: center;
+}
+
+#AlertContainer {
+	position: absolute;
+	z-index: 200;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background-image: url(/img/wdot.gif);
+}
+
+#AlertContainer td {
+	vertical-align: middle;
 }
 
