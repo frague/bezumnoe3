@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/global.css">
-		<link rel="stylesheet" type="text/css" href="/css/options.css">
+		<link rel="stylesheet" type="text/css" href="/css/menu_layout.css">
 		<?
 
 	$root = "../";
@@ -37,6 +37,6 @@
 		?>
 			</div>
 	   	</div>
-		<script src="/js1/options.js"></script>
+		<script src="/js1/menu_layout.js"></script>
 	</body>
 </html>

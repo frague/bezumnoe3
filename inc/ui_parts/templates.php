@@ -13,7 +13,7 @@
 		<meta charset="windows-1251" />
 		<title><?php echo $title ?></title>
 		<link rel="stylesheet" href="/css/global.css" />
-		<link rel="stylesheet" href="/css/template.css" />
+		<link rel="stylesheet" href="/css/template_layout.css" />
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<meta name="description" content="<? echo $meta_description ?>" />
@@ -32,7 +32,14 @@
 		<script language="javascript" src="/js1/reply_common.js"></script>
 		<?php include "google_analythics.php" ?>
 	</head>
-	<body>
+	<body onload="OnLoad()">
+		<div id="AlertContainer">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+				<tr><td align="center" valign="middle">
+					<div id="AlertBlock">
+					</div>
+				</td></tr></table></div>
+
 		<div class="Main">
 <?php
 		echo "		<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>\n";
@@ -41,13 +48,13 @@
 
 ?>
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
-		
 <?php
 	}
 
 	function Foot() {
 	  global $root;
 	?>
+				<script language="javascript" src="/js1/template_layout.js"></script>
 			<footer>
 				<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 				<?php include $root."inc/ui_parts/rle_banner.php"; ?>
