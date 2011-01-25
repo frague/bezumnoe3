@@ -11,37 +11,7 @@
 ?>
 		<div class='Red' id="ERROR"></div>
 		
-		<h4>јвторизаци€:</h4>
-		<span id="LoggedLine"<?php echo $user->IsEmpty() ? " class=\"Hidden\"" : "" ?>>
-			<input type="radio" name="AUTH" id="AUTH_LOGGED" value="0" checked="checked" /> <label for="AUTH_LOGGED">активный пользователь (<strong id="LoggedLogin"><?php echo $user->User->Login ?></strong>)</label><br />
-		</span>
-		<input type="radio" name="AUTH" id="AUTH_NOW" value="1" /> <label for="AUTH_NOW">по логину и паролю</label>
-		<div id="AuthByLogin">
-			логин: <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1" />, 
-			пароль: <input type="password" name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" size="20" tabindex="2" />
-		</div>
-
-		<input type="radio" name="AUTH" id="AUTH_OPENID" value="2" disabled /> <label for="AUTH_OPENID">с использованием OpenID</label>
-		<div id="AuthByOpenID">
-			<form method="POST" action="/auth.php">
-			<input type="hidden" name="openid_action" value="login" />
-			<input type="hidden" name="<?php echo REFERER_KEY ?>" id="<?php echo REFERER_KEY ?>" />
-			логин: <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1" />, 
-			сервис: <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" />
-			<span class="OpenID">
-			<?php
-
-	$op = new OpenIdProvider();
-	$q = $op->GetAll();
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
-		$op->FIllFromResult($q);
-		echo $op->ToPrint($i, OPENID_KEY);
-	}
-
-			?></span> <a href="javascript:void(0)" onclick="SubmitOpenId('<?php echo REFERER_KEY ?>')">&nbsp;</a>
-			</form>
-		</div>
+		јктивна€ сесси€: <strong id="LoggedLogin"><?php echo $user->User->Login ?></strong><br />
 
 		<h4>«аголовок:</h4>
 		<input id="TITLE" name="TITLE" class="Wide" size="30" tabindex="3" /><br>
@@ -59,5 +29,3 @@
 	</div>
 </div>
 
-<script language="javascript">OpenReplyForm();</script>
-	
