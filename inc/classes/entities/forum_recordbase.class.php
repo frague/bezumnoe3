@@ -160,7 +160,7 @@ class ForumRecordBase extends EntityBase {
 	function ToExtendedString($prevLevel, $avatar = "", $alias = "", $user = "", $lastVisit = "", $skipLi = 0) {
 	  global $PathToAvatars, $ServerPathToAvatars, $root;
 
-	  	$result = "";
+	  	$result = "<a name=\"cm".$this->Id."\"></a>";
 
 		if ($prevLevel != $this->Level) {
 			$less = ($prevLevel < $this->Level);
