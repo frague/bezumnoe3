@@ -107,7 +107,7 @@
 			$alias = $q->Get(JournalSettings::ALIAS);
 			$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
 
-			echo "<a name='cm".$record->Id."'></a>";
+			//echo "<a name='cm".$record->Id."'></a>";
 			echo $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
 			$level = $record->Level;
 		}
