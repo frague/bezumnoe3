@@ -2,8 +2,8 @@
 	require_once "base.service.php";
 
 	// Decode L&P
-	$_POST[LOGIN_KEY] = UTF8toWin1251($_POST[LOGIN_KEY]);
-	$_POST[PASSWORD_KEY] = UTF8toWin1251($_POST[PASSWORD_KEY]);
+	//	$_POST[LOGIN_KEY] = UTF8toWin1251($_POST[LOGIN_KEY]);
+	//	$_POST[PASSWORD_KEY] = UTF8toWin1251($_POST[PASSWORD_KEY]);
 
 	$user = GetAuthorizedUser(true);
 
