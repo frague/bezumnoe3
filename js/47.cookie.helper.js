@@ -1,9 +1,11 @@
-//1.0
+//2.0
 /*
 	Cookie helper hethods
 */
 
 /* setCookie("foo", "bar", "Mon, 01-Jan-2001 00:00:00 GMT", "/"); */
+
+var SESSION_KEY = "sdjfhk_session";
 
 function setCookie (name, value, expires, path, domain, secure) {
 	document.cookie = name + "=" + escape(value) +
@@ -31,4 +33,8 @@ function getCookie(name) {
 		}
 	}
 	return(setStr);
+};
+
+function GetCurrentSession() {
+	return getCookie(SESSION_KEY);
 };

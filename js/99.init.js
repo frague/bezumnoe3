@@ -51,4 +51,7 @@ function OnLoad() {
 	if (window.Pong) {
 		Ping();
 	}
+	if (window.OpenReplyForm) {
+		OpenReplyForm();
+	}
 };
