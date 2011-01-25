@@ -1,3 +1,5 @@
+// Scripts related to main chat window only
+
 var usersFrame = new MyFrame($('Users'), 0, 100);
 var formFrame = new MyFrame($('MessageForm'), 500);
 var messagesFrame = new MyFrame($('Messages'), 500, 100);
