@@ -34,6 +34,26 @@
 		}
 	}
 	
+	function GetUserByOpenId($openIdUrl) {
+	  global $db;
+	  	
+	  	$openIdUrl = trim(substr($openIdUrl, 0, 1024));
+	  	if (!$openIdUrl) {
+	  		return 0;
+	  	}
+
+	  	$q = $db->Query("SELECT t1.".UserOpenId::USER_ID." 
+FROM ".UserOpenId::table." AS t1
+JOIN ".OpenIdProvider::table." AS t2 ON t2.".OpenIdProvider::OPENID_PROVIDER_ID." = t1.".UserOpenId::OPENID_PROVIDER_ID."
+WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($openIdUrl)."'");
+		if ($q->NumRows()) {
+			$q->NextResult();
+			return $q->Get(UserOpenId::USER_ID);
+		}
+		return 0;
+	}
+
+	
 	function GetAuthorizedUser($doPong = false, $debug = false) {
 	  global $db;
 

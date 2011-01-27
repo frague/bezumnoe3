@@ -214,7 +214,7 @@ class SimpleOpenID{
 	function CURL_Request($url, $method="GET", $params = "") { // Remember, SSL MUST BE SUPPORTED
 			if (is_array($params)) $params = $this->array2url($params);
 			$curl = curl_init($url . ($method == "GET" && $params != "" ? "?" . $params : ""));
-#			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+//			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($curl, CURLOPT_HEADER, false);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($curl, CURLOPT_HTTPGET, ($method == "GET"));
@@ -222,9 +222,8 @@ class SimpleOpenID{
 			if ($method == "POST") 
 				curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			$response = curl_exec($curl);
-//			$response = $this->curl_redir_exec($curl);
-
+//			$response = curl_exec($curl);
+			$response = $this->curl_redir_exec($curl);
 			
 			if (curl_errno($curl) == 0) {
 				$response;
@@ -241,11 +240,12 @@ class SimpleOpenID{
 			$curl_loops = 0;
 			return false;
 		}
-#		curl_setopt($ch, CURLOPT_HEADER, true);
-#		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, true);
 		$data = curl_exec($ch);
 
-		list ($header, $data) = explode("\n\n", $data, 2);
+//		list ($header, $data) = explode("\n\n", $data, 2);
+		list ($header, $data) = preg_split("(\n\r\n\r|\r\n\r\n|\n\n|\r\r)", $data, 2);
+
 		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if ($http_code == 301 || $http_code == 302) {
 			$matches = array();
@@ -265,15 +265,13 @@ class SimpleOpenID{
 				$url['path'] = $last_url['path'];
 			$new_url = $url['scheme'] . '://' . $url['host'] . $url['path'] . ($url['query']?'?'.$url['query']:'');
 			curl_setopt($ch, CURLOPT_URL, $new_url);
-//			echo 'Redirecting to', $new_url;
-			return curl_redir_exec($ch);
+//			echo 'Redirecting to ', $new_url.'<br>';
+			return $this->curl_redir_exec($ch);
 		} else {
 			$curl_loops=0;
 			return $data;
 		}
 	}
-
-
 	
 	 function HTML2OpenIDServer($content) {
 		$get = array();
@@ -295,7 +293,11 @@ class SimpleOpenID{
 	
 	function GetOpenIDServer(){
 		$response = $this->CURL_Request($this->openid_url_identity);
+
+//		print $response;
+
 		list($servers, $delegates) = $this->HTML2OpenIDServer($response);
+
 		if (count($servers) == 0){
 			$this->ErrorStore('OPENID_NOSERVERSFOUND');
 			return false;
@@ -328,11 +330,11 @@ class SimpleOpenID{
 	
 	function Redirect(){
 		$redirect_to = $this->GetRedirectURL();
-		if (headers_sent()){ // Use JavaScript to redirect if content has been previously sent (not recommended, but safe)
+		if (headers_sent()) { // Use JavaScript to redirect if content has been previously sent (not recommended, but safe)
 			echo '<script language="JavaScript" type="text/javascript">window.location=\'';
 			echo $redirect_to;
 			echo '\';</script>';
-		}else{	// Default Header Redirect
+		} else {	// Default Header Redirect
 			header('Location: ' . $redirect_to);
 		}
 	}

@@ -11,7 +11,7 @@
 ?>
 		<div class='Red' id="ERROR"></div>
 		
-		Активная сессия: <strong id="LoggedLogin"><?php echo $user->User->Login ?></strong><br />
+		Пользователь: <strong id="LoggedLogin"><?php echo $user->User->Login ?></strong><br />
 
 		<h4>Заголовок:</h4>
 		<input id="TITLE" name="TITLE" class="Wide" size="30" tabindex="3" /><br>

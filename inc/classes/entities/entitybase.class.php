@@ -47,6 +47,10 @@ abstract class EntityBase {
 		return $this->FillByCondition("t1.".$this->IdentityName."=".SqlQuote($id));
 	}
 
+	function GetAll() {
+		return $this->GetByCondition("1=1");
+	}
+
 	function GetByCondition($condition, $expression = "", $show = 0) {
 	 global $db;
 
@@ -207,6 +211,10 @@ abstract class EntityBase {
 	abstract function ReadExpression();
 	abstract function UpdateExpression();
 	abstract function DeleteExpression();
+
+	function BaseDeleteExpression() {
+		return "DELETE FROM ".$this->table." WHERE ".$this->IdentityName."=".round($this->Id);
+	}
 
 	function DeleteByUserExpression($id) {
 		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($id);

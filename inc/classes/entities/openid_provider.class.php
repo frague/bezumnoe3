@@ -31,10 +31,6 @@ class OpenIdProvider extends EntityBase {
 		$this->Image = "";
 	}
 
-	function GetAll() {
-		return $this->GetByCondition("1=1");
-	}
-
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::OPENID_PROVIDER_ID);
 		$this->Title = $result->Get(self::TITLE);
@@ -65,6 +61,13 @@ class OpenIdProvider extends EntityBase {
 
 	function ToPrint($index, $el) {
 		return "<a href=\"javascript:void(0)\" onclick=\"SetOpenID(".$this->Id.", '".$el."', this)\" title=\"".HtmlQuote($this->Title)."\"><img src=\"/img/openid/".$this->Image."\"></a>";
+	}
+
+	function ToJs() {
+		return "new oipdto("
+.round($this->Id).",'"
+.JsQuote($this->Title)."','"
+.JsQuote($this->Image)."')";
 	}
 
 	// SQL
