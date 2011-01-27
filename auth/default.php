@@ -34,7 +34,6 @@
 				$op = new OpenIdProvider();
 				$op->GetById($provider_id);
 				if ($op->IsEmpty()) {
-					echo 2;
 					exit;
 				}
 
@@ -43,11 +42,15 @@
 			    $openid = new SimpleOpenID;
 			    $openid->SetIdentity($openid_url);
 			    $openid->SetTrustRoot("http://" . $_SERVER["HTTP_HOST"]);
-			    $openid->SetRequiredFields(array("email","fullname"));
-			    $openid->SetOptionalFields(array("dob","gender","postcode","country","language","timezone"));
+
+// Info to be requested
+//			    $openid->SetRequiredFields(array("email","fullname"));
+//			    $openid->SetOptionalFields(array("dob","gender","postcode","country","language","timezone"));
+
 			    if ($openid->GetOpenIDServer()) {
-			        $openid->SetApprovedURL("http://".$_SERVER["HTTP_HOST"]."/auth.php?back=".urlencode($referer));      // Send Response from OpenID server to this script
+			        $openid->SetApprovedURL("http://".$_SERVER["HTTP_HOST"]."/auth/?back=".urlencode($referer));      // Send Response from OpenID server to this script
 			        $openid->Redirect();     // This will redirect user to OpenID Server
+			        exit;
 			    } else {
 			        $error = $openid->GetError();
 			        $result = "ERROR CODE: ".$error["code"]."<br>";
@@ -64,6 +67,17 @@
 
 			    if ($openid_validation_result == true) {         // OK HERE KEY IS VALID
 			        $result = "Confirmed";
+
+	        		$userId = GetUserByOpenId($_GET["openid_identity"]);
+	        		if ($userId) {
+	        			$user = new UserComplete($userId);
+						$user->Retrieve();
+
+						$user->User->CreateSession();
+						$user->User->Save();
+						SetUserSessionCookie($user->User, true);
+	        		}
+
 			    } else if ($openid->IsError() == true) {            // ON THE WAY, WE GOT SOME ERROR
 			        $error = $openid->GetError();
 			        $result = "ERROR CODE: ".$error["code"]."<br>";
@@ -74,6 +88,8 @@
 			} else if ($_GET["openid_mode"] == "cancel") { // User Canceled your Request
 			    $result = "User canceled request";
 			}
+
+			// TODO: Pass errors to back page
 
 			header("Location: ".$_GET["back"]);
 			break;

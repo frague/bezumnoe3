@@ -1,4 +1,4 @@
-//6.7
+//6.8
 /*
 	User profile data & helper methods
 */
@@ -127,9 +127,14 @@ Profile.prototype.TemplateLoaded = function(req) {
 	new DatePicker(this.Inputs["BIRTHDAY"]);
 	new DatePicker(this.Inputs["BANNED_TILL"], 1);
 
+	/* OpenIDs associated with this user */
+	var oid = new Spoiler(1, "OpenID", 0, 0, function(tab) {new OpenIds().LoadTemplate(tab, this.USER_ID)});
+	oid.USER_ID = this.USER_ID;
+	oid.ToString(this.Inputs["OpenIds"]);
+
 	/* Admin comments spoiler */
 	if (me.IsAdmin()) {
-		var acs = new Spoiler(1, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().LoadTemplate(tab, this.USER_ID)});
+		var acs = new Spoiler(2, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().LoadTemplate(tab, this.USER_ID)});
 		acs.USER_ID = this.USER_ID;
 		acs.ToString(this.Inputs["AdminComments"]);
    	}

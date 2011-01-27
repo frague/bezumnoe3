@@ -1,4 +1,4 @@
-//5.2
+//5.3
 /*
 	Contains all global script settings, constants and variables
 */
@@ -15,6 +15,7 @@ var servicesPath = "/services/";
 var userPhotosPath = "/img/photos/";
 var avatarsPath = "/img/avatars/";
 var skinsPreviewPath = "/img/journals/";
+var openIdPath = "/img/openid/";
 
 var adminRights = 75;
 var keeperRights = 20;

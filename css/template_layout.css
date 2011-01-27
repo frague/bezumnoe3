@@ -210,16 +210,12 @@ ul.BottomNav li.First a {
 }
 
 .OpenID a img {
-	margin: 0 2px;
+	margin: 2px;
 	padding: 1px;
 	border: 0;
 }
 
 .OpenID a.Selected img {
 	margin: 0;
-	border: solid 2px #FB8C00;
-
-	border-radius: 2px;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
+	border: solid 2px orange;
 }

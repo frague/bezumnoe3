@@ -533,3 +533,16 @@ table.Grid td label {
 	font-size:10pt;
 }
 
+#OpenIds img {
+	margin: 2px;
+	padding: 1px;
+}
+
+#OpenIds a img {
+	border: 0;
+}
+
+#OpenIds a.Selected img {
+	border: solid 2px orange;
+	margin: 0;
+}

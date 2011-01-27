@@ -76,6 +76,9 @@
 		</td>
 	</tr>
 </table>
+
+<div id="OpenIds"></div>
+
 <ul class="Links">
 	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>
 	<li id="liDeletePhoto"> <a href="javascript:void(0)" onclick="DeletePhoto(this)" id="linkDeletePhoto" class="Delete">Удалить фотографию</a>

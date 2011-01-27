@@ -12,11 +12,11 @@
 					пароль: <input type="password" name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" size="20" tabindex="1001" />
 				</div></td>
 			<td width="50%">
-				<input type="radio" name="AUTH" id="AUTH_OPENID" value="2" disabled /> <label for="AUTH_OPENID">с использованием OpenID</label>
+				<input type="radio" name="AUTH" id="AUTH_OPENID" value="2" /> <label for="AUTH_OPENID">с использованием OpenID</label>
 				<div id="AuthByOpenID">
 						<input type="hidden" name="openid_action" value="login" />
 						<input type="hidden" name="<?php echo REFERER_KEY ?>" id="<?php echo REFERER_KEY ?>" />
-						логин: <input name="<?php echo OPENID_LOGIN_KEY ?>" id="<?php echo OPENID_LOGIN_KEY ?>" size="20" disabled /><br />
+						логин: <input name="<?php echo OPENID_LOGIN_KEY ?>" id="<?php echo OPENID_LOGIN_KEY ?>" size="20" /><br />
 						сервис: <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" /><br />
 						<span class="OpenID">
 <?php
