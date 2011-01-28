@@ -545,4 +545,8 @@ table.Grid td label {
 #OpenIds a.Selected img {
 	border: solid 2px orange;
 	margin: 0;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 }

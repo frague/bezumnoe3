@@ -218,4 +218,8 @@ ul.BottomNav li.First a {
 .OpenID a.Selected img {
 	margin: 0;
 	border: solid 2px orange;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 }
