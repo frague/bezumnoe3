@@ -14,7 +14,9 @@
 		$q->NextResult();
 		$gallery->FillFromResult($q);
 
-		echo "<li>".$gallery->ToLink($yesterday);
+		if (!$gallery->IsHidden) {
+			echo "<li>".$gallery->ToLink($yesterday);
+		}
 		
 	}
 	echo "</ul>";

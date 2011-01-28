@@ -25,7 +25,7 @@
 		$access = $gallery->GetAccess($user->User->Id);
 	}
 	
-	if ($access == Gallery::NO_ACCESS) {
+	if ($access == Gallery::NO_ACCESS || $gallery->IsHidden) {
 		ErrorPage("У вас нет доступа к данной фотогалерее.", "Права доступа к галерее ограничены владельцем.");
 		die;
 	}
