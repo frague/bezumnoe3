@@ -9,6 +9,7 @@ class ForumBase extends EntityBase {
 	const TITLE = "TITLE";
 	const DESCRIPTION = "DESCRIPTION";
 	const IS_PROTECTED = "IS_PROTECTED";
+	const IS_HIDDEN = "IS_HIDDEN";
 	const LINKED_ID = "LINKED_ID";
 	const TOTAL_COUNT = "TOTAL_COUNT";
 	const RATING = "RATING";
@@ -34,6 +35,7 @@ class ForumBase extends EntityBase {
 	var $Title;
 	var $Description;
 	var $IsProtected;
+	var $IsHidden;
 	var $LinkedId;
 	var $TotalCount;
 	var $Rating;
@@ -61,6 +63,7 @@ class ForumBase extends EntityBase {
 		$this->Type			= "";
 		$this->Description	= "";
 		$this->IsProtected	= 0;
+		$this->IsHidden		= 0;
 		$this->LinkedId		= -1;
 		$this->TotalCount	= 0;
 		$this->Rating		= 0;
@@ -72,7 +75,8 @@ class ForumBase extends EntityBase {
 		$this->Type = $result->Get(self::TYPE);
 		$this->Title = $result->Get(self::TITLE);
 		$this->Description = $result->Get(self::DESCRIPTION);
-		$this->IsProtected = $result->Get(self::IS_PROTECTED);
+		$this->IsProtected = Boolean($result->Get(self::IS_PROTECTED));
+		$this->IsHidden = Boolean($result->Get(self::IS_HIDDEN));
 		$this->LinkedId = $result->Get(self::LINKED_ID);
 		$this->TotalCount = $result->Get(self::TOTAL_COUNT);
 		$this->Rating = $result->Get(self::RATING);
@@ -82,7 +86,8 @@ class ForumBase extends EntityBase {
 	function FillFromHash($hash) {
 		$this->Title = $hash[self::TITLE];
 		$this->Description = $hash[self::DESCRIPTION];
-		$this->IsProtected = $hash[self::IS_PROTECTED];
+		$this->IsProtected = Boolean($hash[self::IS_PROTECTED]);
+		$this->IsHidden = Boolean($hash[self::IS_HIDDEN]);
 		$this->TotalCount = $hash[self::TOTAL_COUNT];
 	}
 
@@ -100,6 +105,7 @@ class ForumBase extends EntityBase {
 		$s.= "<li>".self::TITLE." = ".$this->Title."</li>\n";
 		$s.= "<li>".self::DESCRIPTION." = ".$this->Description."</li>\n";
 		$s.= "<li>".self::IS_PROTECTED." = ".$this->IsProtected."</li>\n";
+		$s.= "<li>".self::IS_HIDDEN." = ".$this->IsHidden."</li>\n";
 		$s.= "<li>".self::LINKED_ID." = ".$this->LinkedId."</li>\n";
 		$s.= "<li>".self::TOTAL_COUNT." = ".$this->TotalCount."</li>\n";
 		$s.= "<li>".self::RATING." = ".$this->Rating."</li>\n";
@@ -257,6 +263,7 @@ $expression);
 	t1.".self::TITLE.",
 	t1.".self::DESCRIPTION.",
 	t1.".self::IS_PROTECTED.",
+	t1.".self::IS_HIDDEN.",
 	t1.".self::LINKED_ID.",
 	t1.".self::TOTAL_COUNT.",
 	t1.".self::RATING.",
@@ -291,6 +298,7 @@ WHERE
 ".self::TITLE.",
 ".self::DESCRIPTION.",
 ".self::IS_PROTECTED.",
+".self::IS_HIDDEN.",
 ".self::LINKED_ID.",
 ".self::TOTAL_COUNT."
 )
@@ -299,6 +307,7 @@ VALUES
 '".SqlQuote($this->Title)."',
 '".SqlQuote($this->Description)."',
 ".Boolean($this->IsProtected).",
+".Boolean($this->IsHidden).",
 ".NullableId($this->LinkedId).",
 ".round($this->TotalCount).")";
 	}
@@ -309,6 +318,7 @@ VALUES
 ".self::TITLE."='".SqlQuote($this->Title)."', 
 ".self::DESCRIPTION."='".SqlQuote($this->Description)."', 
 ".self::IS_PROTECTED."=".Boolean($this->IsProtected).",
+".self::IS_HIDDEN."=".Boolean($this->IsHidden).",
 ".self::LINKED_ID."=".NullableId($this->LinkedId).",
 ".self::TOTAL_COUNT."=".round($this->TotalCount).",
 ".self::RATING."=".round($this->Rating).",

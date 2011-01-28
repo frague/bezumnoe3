@@ -16,6 +16,8 @@
 <input type="checkbox" id="IS_PROTECTED" name="IS_PROTECTED" /> <label for="IS_PROTECTED">–аздел защищЄн от просмотра</label><br />
 <p class="Note">ѕри установке только пользователи из "белого списка" смогут видеть записи в разделе</p>
 
+<span id="IsHidden"><input type="checkbox" id="IS_HIDDEN" name="IS_HIDDEN" /> <label for="IS_HIDDEN">–аздел скрыт дл€ всех пользователей</label><br /></span>
+
 		</td></tr>
 	<tr id="forum">
 		<td width="50%">

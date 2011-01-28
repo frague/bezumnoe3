@@ -15,8 +15,9 @@
 		$u->FillFromResult($q);
 		$alias = $q->Get(JournalSettings::ALIAS);
 
-//		echo MakeListItem($i < 10 ? "Leading" : "")." &laquo;".JournalSettings::MakeLink($alias, $j->Title)."&raquo; &rarr; <b>".$j->Rating."</b> <sup>".$j->GetRatingDelta()."</sup>";
-		echo MakeListItem($i < 10 ? "Leading" : "").$j->GetRatingDelta()." &laquo;<b>".JournalSettings::MakeLink($alias, $j->Title)."</b>&raquo;, ".$u->ToInfoLink();
+		if (!$j->IsHidden) {
+			echo MakeListItem($i < 10 ? "Leading" : "").$j->GetRatingDelta()." &laquo;<b>".JournalSettings::MakeLink($alias, $j->Title)."</b>&raquo;, ".$u->ToInfoLink();
+		}
 	}
 	echo "</ul>";
 	$q->Release();

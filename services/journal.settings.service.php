@@ -2,8 +2,15 @@
 	require_once "base.service.php";
 
 	function FillForumData($journal) {
+	  global $user;
+
 		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
-		$journal->IsProtected = $_POST[Journal::IS_PROTECTED] ? 1 : 0;
+		$journal->IsProtected = Boolean($_POST[Journal::IS_PROTECTED]);
+		
+		if ($user->IsAdmin()) {
+			$journal->IsHidden = Boolean($_POST[Journal::IS_HIDDEN]);
+		}
+
 		if (!$journal->IsGallery()) {
 			$journal->Description = trim(UTF8toWin1251($_POST[Journal::DESCRIPTION]));
 		}
@@ -42,6 +49,7 @@
 	    }
 
 	    FillForumData($journal);
+
 	    if ($error) {
 			echo "this.data=".$settings->ToJs($journal->Title, $journal->Description).";";
 			echo JsAlert($error, 1);
@@ -88,10 +96,7 @@
 
 	if ($go == "save") {
 		FillForumData($journal);
-/*		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
-		if (!$journal->IsGallery()) {
-			$journal->Description = trim(UTF8toWin1251($_POST[Journal::DESCRIPTION]));
-		}*/
+
 		$journal->Save();
 		echo JsAlert("Ќазвание и описание журнала сохранены.");
 
@@ -121,7 +126,7 @@
 		}
 	}	
 
-	echo "this.data=".$settings->ToJs($journal->Title, $journal->Description, $journal->IsProtected).";";
+	echo "this.data=".$settings->ToJs($journal->Title, $journal->Description, $journal->IsProtected, $journal->IsHidden).";";
 	echo "this.type='".$journal->Type."';";
 
 ?>

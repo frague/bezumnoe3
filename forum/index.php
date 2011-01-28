@@ -31,7 +31,7 @@
 			$access = $forum->LoggedUsersAccess($forumUser, $user->User->Id);
 		}
 
-		if ($access > Forum::NO_ACCESS) {
+		if ($access > Forum::NO_ACCESS && !$forum->IsHidden) {
 			echo "<li>";
 			$forum->DoPrint("/forum", $yesterday);
 		}

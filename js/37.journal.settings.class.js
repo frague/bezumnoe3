@@ -1,10 +1,10 @@
-//2.3
+//2.5
 /*
 	Journal settings of user menu.
 */
 
 function JournalSettings() {
-	this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION", "IS_PROTECTED"];
+	this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION", "IS_PROTECTED", "IS_HIDDEN"];
 	this.ServicePath = servicesPath + "journal.settings.service.php";
 	this.Template = "journal_settings";
 	this.ClassName = "JournalSettings";
@@ -29,6 +29,10 @@ JournalSettings.prototype.TemplateLoaded = function(req) {
 	}
 
 	this.TemplateBaseLoaded(req);
+
+	if (!me.IsAdmin()) {
+		this.SetTabElementValue("IsHidden", "");
+	};
 
 	this.AssignTabTo("linkRefresh");
 	this.FindRelatedControls();
