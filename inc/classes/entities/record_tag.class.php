@@ -119,7 +119,7 @@ WHERE
 (".self::TAG_ID.",
 ".self::RECORD_ID.")
 VALUES
-(".round($this->TagId).",
+(".round($this->RecordId).",
 ".round($this->RecordId).")";
 	}
 
