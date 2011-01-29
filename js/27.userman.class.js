@@ -1,4 +1,4 @@
-//5.4
+//6.1
 /*
 	User Manager admin functionality
 */
@@ -44,14 +44,7 @@ Userman.prototype.TemplateLoaded = function(req) {
 		}
 	}
 
-	var by_room = this.Inputs["BY_ROOM"];
-	if (by_room) {
-		if (opener.rooms) {
-			opener.rooms.Gather(by_room);
-		} else {
-			/* TODO: Request via Ajax or something */
-		}
-	}
+	BindRooms(this.Inputs["BY_ROOM"]);
 };
 
 
@@ -65,14 +58,39 @@ function udto(id, login, nickname) {
 
 udto.prototype = new DTO();
 
+udto.prototype.MakeTitle = function() {
+	return this.Login + (this.Nickname ? "&nbsp;(" + this.Nickname + ")" : "");
+};
+
 udto.prototype.ToString = function(index, obj) {
 	var tr = MakeGridRow(index);
 
 	var td1 = d.createElement("td");
-	var name = this.Login + (this.Nickname ? "&nbsp;(" + this.Nickname + ")" : "");
+	var name = this.MakeTitle();
 	td1.appendChild(umDisplayName(this, name, td1, obj));
 	tr.appendChild(td1);
 	return tr;
+};
+
+udto.prototype.ToLiString = function(index, obj, callbackObj) {
+	this.CallbackObj = callbackObj;
+
+	var li = d.createElement("li");
+
+	var a = d.createElement("a");
+	a.Obj = this;
+	a.href = voidLink;
+	a.onclick = function() {this.Obj.Select()};
+	a.innerHTML = this.MakeTitle();
+	
+	li.appendChild(a);
+	return li;
+};
+
+udto.prototype.Select = function() {
+	if (this.CallbackObj) {
+		this.CallbackObj.Select(this);
+	};
 };
 
 /* Helper methods */

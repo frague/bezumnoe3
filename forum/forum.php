@@ -28,7 +28,7 @@
 		$access = $forum->GetAccess($user->User->Id);
 	}
 
-	if ($access == Forum::NO_ACCESS) {
+	if ($access == Forum::NO_ACCESS || $forum->IsHidden) {
 		error("У вас нет доступа к форуму.");
 		Foot();
 		die;

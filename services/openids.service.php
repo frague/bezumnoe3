@@ -9,15 +9,29 @@
 
 	$id = round($_POST[UserOpenId::USER_OPENID_ID]);
 	$userOpenId = new UserOpenId();
+	$p = new OpenIdProvider();
 
 	switch ($go) {
 		case "save":
+
 			$userOpenId->FillFromHash($_POST);
+			if (!round($userOpenId->OpenIdProviderId)) {
+				JsAlert("Провайдер OpenID не указан.", 1);
+				break;
+			}
+
+			$p->GetById(round($userOpenId->OpenIdProviderId));
+			if ($p->IsEmpty()) {
+				JsAlert("Некоректное указание провайдера OpenID.", 1);
+				break;
+			}
+
 			$error = $userOpenId->SaveChecked();
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
 				echo JsAlert("Изменения сохранены.");
+				SaveLog("OpenID: <b>".$p->MakeUrl($userOpenId->Login)."</b>", $user->User->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 			}
 			break;
 		case "delete":
@@ -25,8 +39,7 @@
 				$userOpenId->Id = $id;
 				$userOpenId->Retrieve();
 				if (!$userOpenId->IsEmpty()) {
-					// Getting standard status with same level of rights
-					//$userOpenId->Delete();
+					$userOpenId->Delete();
 					echo JsAlert("OpenID удалён.");
 				}
 			}
@@ -34,7 +47,6 @@
 	}
 
 	echo "OpenIdProviders={";
-	$p = new OpenIdProvider();
 	$q = $p->GetAll();
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

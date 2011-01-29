@@ -58,7 +58,7 @@
 		$access = $journal->GetAccess($user->User->Id);
 	}
 	
-	if ($access == Journal::NO_ACCESS) {
+	if ($access == Journal::NO_ACCESS || $journal->IsHidden) {
 		ErrorPage("У вас нет доступа к журналу.", "Владелец журнала ограничил к нему доступ.");
 		die;
 	}
