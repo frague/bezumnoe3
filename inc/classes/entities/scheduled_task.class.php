@@ -20,11 +20,8 @@ class ScheduledTask extends EntityBase {
 	const TYPE_RATINGS			= "ratings";
 	
 	const SCHEDULER_LOGIN = "по расписанию";
-<<<<<<< .merge_file_a04564
 	const HANGED_TIMEOUT = "00:10:00";		// 10 minutes to recover
-=======
-	const HANGED_TIMEOUT = "0000-00-00 00:10:00";		// 10 minutes to recover
->>>>>>> .merge_file_a00828
+	const PARAMETER = "PARAMETER";
 
 	// Properties
 	var $Type;
@@ -83,11 +80,7 @@ class ScheduledTask extends EntityBase {
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
-<<<<<<< .merge_file_a04564
 			"((".self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), '".self::HANGED_TIMEOUT."')) AND ".self::IS_ACTIVE."=1",
-=======
-			"((".self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), ".self::HANGED_TIMEOUT.") AND ".self::IS_ACTIVE."=1",
->>>>>>> .merge_file_a00828
 			$this->LockExpression()
 		);
 		return $q->AffectedRows();
