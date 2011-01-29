@@ -18,6 +18,12 @@ class ForumRecordBase extends EntityBase {
 	const GUID 			= "GUID";
 	const IS_COMMENTABLE = "IS_COMMENTABLE";
 	const IS_DELETED 	= "IS_DELETED";
+
+	const THREAD_ID 	= "THREAD_ID";
+	const THREAD_ORDER 	= "THREAD_ORDER";
+	const DEPTH 		= "DEPTH";
+	const VISIBLE_TO	= "VISIBLE_TO";
+	
 	const UPDATE_DATE 	= "UPDATE_DATE";
 	const ANSWERS_COUNT = "ANSWERS_COUNT";
 	const DELETED_COUNT = "DELETED_COUNT";
@@ -50,6 +56,12 @@ class ForumRecordBase extends EntityBase {
 	var $Guid;
 	var $IsCommentable;
 	var $IsDeleted;
+
+	var $ThreadId;
+	var $ThreadOrder;
+	var $Depth;
+	var $VisibleTo;
+
 	var $UpdateDate;
 	var $AnswersCount;
 	var $DeletedCount;
@@ -79,6 +91,12 @@ class ForumRecordBase extends EntityBase {
 		$this->Guid			= MakeGuid(20);
 		$this->IsCommentable= 1;
 		$this->IsDeleted	= 0;
+
+		$this->ThreadId		= 0;
+		$this->ThreadOrder	= 0;
+		$this->Depth		= 0;
+		$this->VisibleTo	= -1;
+		
 		$this->UpdateDate	= NowDateTime();
 		$this->AnswersCount	= 0;
 		$this->DeletedCount	= 0;
@@ -138,6 +156,12 @@ class ForumRecordBase extends EntityBase {
 		$this->Guid = $result->Get(self::GUID);
 		$this->IsCommentable = $result->Get(self::IS_COMMENTABLE);
 		$this->IsDeleted = $result->Get(self::IS_DELETED);
+
+		$this->ThreadId = $result->Get(self::THREAD_ID);
+		$this->ThreadOrder = $result->Get(self::THREAD_ORDER);
+		$this->Depth = $result->Get(self::DEPTH);
+		$this->VisibleTo = $result->Get(self::VISIBLE_TO);
+		
 		$this->UpdateDate = $result->Get(self::UPDATE_DATE);
 		$this->AnswersCount = $result->Get(self::ANSWERS_COUNT);
 		$this->DeletedCount = $result->Get(self::DELETED_COUNT);
@@ -373,6 +397,12 @@ round($this->Type).")";
 		$s.= "<li>".self::GUID." = ".$this->Guid."</li>\n";
 		$s.= "<li>".self::IS_COMMENTABLE." = ".$this->IsCommentable."</li>\n";
 		$s.= "<li>".self::IS_DELETED." = ".$this->IsDeleted."</li>\n";
+
+		$s.= "<li>".self::THREAD_ID." = ".$this->ThreadId."</li>\n";
+		$s.= "<li>".self::THREAD_ORDER." = ".$this->ThreadOrder."</li>\n";
+		$s.= "<li>".self::DEPTH." = ".$this->Depth."</li>\n";
+		$s.= "<li>".self::VISIBLE_TO." = ".$this->VisibleTo."</li>\n";
+		
 		$s.= "<li>".self::UPDATE_DATE." = ".$this->UpdateDate."</li>\n";
 		$s.= "<li>".self::ANSWERS_COUNT." = ".$this->AnswersCount."</li>\n";
 		$s.= "<li>".self::DELETED_COUNT." = ".$this->DeletedCount."</li>\n";
@@ -444,7 +474,11 @@ round($this->Type).")";
 	t1.".self::IS_DELETED.",
 	t1.".self::UPDATE_DATE.",
 	t1.".self::ANSWERS_COUNT.",
-	t1.".self::DELETED_COUNT."
+	t1.".self::DELETED_COUNT.",
+	t1.".self::THREAD_ID.",
+	t1.".self::THREAD_ORDER.",
+	t1.".self::DEPTH.",
+	t1.".self::VISIBLE_TO."
 FROM 
 	".$this->table." AS t1 
 WHERE
@@ -529,7 +563,11 @@ WHERE
 ".self::IS_COMMENTABLE.",
 ".self::IS_DELETED.",
 ".self::UPDATE_DATE."
-".($this->AnswersCount > 0 ? ", ".self::ANSWERS_COUNT : "")."
+".($this->AnswersCount > 0 ? ", ".self::ANSWERS_COUNT : "").",
+".self::THREAD_ID.",
+".self::THREAD_ORDER.",
+".self::DEPTH.",
+".self::VISIBLE_TO."
 )
 VALUES
 (".round($this->ForumId).", 
@@ -546,7 +584,11 @@ VALUES
 ".Boolean($this->IsCommentable).",
 ".Boolean($this->IsDeleted).",
 '".SqlQuote($this->UpdateDate)."'
-".($this->AnswersCount > 0 ? ", ".round($this->AnswersCount) : "")."
+".($this->AnswersCount > 0 ? ", ".round($this->AnswersCount) : "").",
+".round($this->ThreadId).",
+".round($this->ThreadOrder).",
+".round($this->Depth).",
+".NullableId($this->VisibleTo)."
 )";
 	}
 	
@@ -564,7 +606,11 @@ VALUES
 ".self::GUID."='".SqlQuote($this->Guid)."', 
 ".self::IS_COMMENTABLE."=".Boolean($this->IsCommentable).", 
 ".self::IS_DELETED."=".Boolean($this->IsDeleted).", 
-".self::UPDATE_DATE."='".SqlQuote($this->UpdateDate)."'
+".self::UPDATE_DATE."='".SqlQuote($this->UpdateDate)."',
+".self::THREAD_ID."=".round($this->ThreadId).",
+".self::THREAD_ORDER."=".round($this->ThreadOrder).",
+".self::DEPTH."=".round($this->Depth).",
+".self::VISIBLE_TO."=".NullableId($this->VisibleTo)."
 WHERE 
 	".self::RECORD_ID."=".SqlQuote($this->Id);
 		return $result;
