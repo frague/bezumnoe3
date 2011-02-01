@@ -332,6 +332,23 @@ round($this->Type).")";
 		);
 	}
 
+
+/*-------------------- New Logic --------------------*/
+	function GetThreadForUser($forumId, $threadId, $userId = 0) {
+		$userId = round($userId);
+		return $this->GetByCondition(
+			"t1.".self::THREAD_ID."=".round($threadId)." AND (t1.".self::TYPE."='".self::TYPE_PUBLIC."'".
+			($userId ? 
+				" OR t1.".self::USER_ID."=".$userId." OR t1.".self::VISIBLE_TO."=".$userId.")" : 
+				")").
+			" ORDER BY t1.".self::THREAD_ORDER." ASC",
+			$this->ReadThreadNewExpression()
+		);
+	}
+
+
+/*-------------------- New Logic --------------------*/
+
 	function SetChildType() {
 	  global $db;
 
@@ -485,6 +502,22 @@ WHERE
 	##CONDITION##";
 	}
 
+	// Transforms read expression into read thread one
+	function ReadThreadNewExpression() {
+		$s = str_replace("FROM", ",
+	t2.".Profile::AVATAR.",
+	t3.".JournalSettings::ALIAS.",
+	t3.".JournalSettings::LAST_MESSAGE_DATE."
+FROM", $this->ReadExpression());
+
+		$s = str_replace("WHERE", "
+	LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
+	LEFT JOIN ".JournalSettings::table." AS t3 ON t3.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
+WHERE", $s);
+		return $s;
+	}
+
+	
 	// Transforms read expression into read thread one
 	function ReadThreadExpression($access = Forum::NO_ACCESS) {
 		$s = str_replace("FROM", ",
