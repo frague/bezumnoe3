@@ -34,7 +34,6 @@
 	$forum->DoPrint("/forum");
 
 	$messagesPerPage = 20;
-	$level = 0;
 
 	$answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
 	// $forumId, $access, $index, $from, $amount
@@ -50,6 +49,8 @@
 
 	$result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
 	$result.= "<ul class='Thread'>";
+
+	$level = 0;
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 
@@ -60,7 +61,7 @@
 		$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
 
 		$result.= $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
-		$level = $record->Level;
+		$level = $record->Depth;
 	}
 	$q->Release();
 	
