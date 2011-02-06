@@ -134,15 +134,15 @@ abstract class EntityBase {
 		return 0;
 	}
 
-	function SaveChecked() {
+	function SaveChecked($by_query = "", $lock = false) {
 		$errors = $this->HasErrors();
 		if (!$errors) {
-			$this->Save();
+			$this->Save($by_query, $lock);
 		}
 		return $errors;
 	}
 
-	function Save($by_query = "") {
+	function Save($by_query = "", $lock = false) {
 	 global $db;
 		if (!$this->IsConnected()) {
 			return false;
@@ -155,11 +155,18 @@ abstract class EntityBase {
 				$q = $db->Query("SELECT ".$this->IdentityName." FROM ".$this->table." WHERE ".$this->IdentityName."=".SqlQuote($this->Id));
 				$updateFlag = $q->NumRows() > 0;
 			}
+
+			if ($lock) {
+				$q->Query("LOCK TABLES ".$this->table." WRITE");
+			}
 			if ($updateFlag === true) {
 				$q->Query($this->UpdateExpression());
 			} else {
 				$q = $db->Query($this->CreateExpression());
 				$this->Id = $q->GetLastId();
+			}
+			if ($lock) {
+				$q->Query("UNLOCK TABLES");
 			}
 		}
 		return mysql_error();

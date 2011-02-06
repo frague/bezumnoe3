@@ -47,9 +47,7 @@
 
 	$q = $record->GetThreadForUser($record->ForumId, $record->ThreadId, $user->IsEmpty() ? 0 : $user->User->Id);
 
-	$result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
 	$result.= "<ul class='Thread'>";
-
 	$level = 0;
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

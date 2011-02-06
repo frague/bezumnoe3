@@ -440,6 +440,30 @@ round($this->Type).")";
 	  	$this->Save();
 	  	$this->UpdateAnswersCount();
 	  	$this->UpdateThreadDate();
+
+	  	$q = $db->Query("SET @ID = LAST_INSERT_ID(), @ORD = ".round($this->ThreadOrder));
+
+	  	$q->Query("UPDATE ".$this->table." 
+	SET ".self::THREAD_ORDER." = (@ORD:=@ORD+1) 
+WHERE 
+	".self::FORUM_ID."=".round($this->ForumId)." AND 
+	".self::THREAD_ID."=".round($this->ThreadId)." AND 
+	".self::THREAD_ORDER.">=".round($this->ThreadOrder)." AND 
+	".self::RECORD_ID."<>@ID
+ORDER BY ".self::THREAD_ORDER);
+
+/*
+SET @ORD = ".round($this->ThreadId).";
+
+UPDATE ".$this->table." 
+	SET ".self::THREAD_ORDER." = (@ORD:=@ORD+1) 
+WHERE 
+	".self::FORUM_ID."=".round($this->ForumId)." AND 
+	".self::THREAD_ID."=".round($this->ThreadId)." AND 
+	".self::RECORD_ID."<>LAST_INSERT_ID()
+ORDER BY ".self::THREAD_ORDER.";
+";
+*/
 	}
 
 	function SaveAsReplyTo($reply_record_id) {
@@ -622,7 +646,7 @@ VALUES
 ".round($this->ThreadOrder).",
 ".round($this->Depth).",
 ".NullableId($this->VisibleTo)."
-)";
+);";
 	}
 	
 	function UpdateExpression() {

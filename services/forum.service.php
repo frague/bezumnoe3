@@ -126,6 +126,15 @@
 						$newRecord->Type = ($oldRecord->IsEmpty() && $oldRecord->Type > $type) ? $oldRecord->Type : $type;
 						$newRecord->Title = $title;
 						$newRecord->Content = $content;
+
+						$newRecord->ThreadId = $oldRecord->ThreadId;
+						$newRecord->ThreadOrder = 1 + $oldRecord->ThreadOrder;
+						$newRecord->Depth = 1 + $oldRecord->Depth;
+						if ($newRecord->Type) {
+							# Kinda protected record
+							$newRecord->VisibleTo = $oldRecord->UserId == $user->User->Id ? $oldRecord->VisibleTo : $oldRecord->UserId;
+						}
+
 						if ($newRecord->SaveAsReplyTo($record_id)) {
 							if ($newRecord->IsTopic()) {
 								echo "newRecord='".JsQuote($newRecord->ToPrint($forum))."';";
