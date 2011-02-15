@@ -25,6 +25,7 @@
 	  	return false;
 	}
 
+	$triggerBots = false;
 	
 	$command = "";
 	function CommandsProcessor($c) {
@@ -165,6 +166,7 @@
 					break;
 				default:
 					$msg = new Message($message, $user->User);
+					$triggerBots = true;
 			}
 			if ($msg) {
 				if ($type != "away" && $user->User->AwayTime) {
@@ -175,6 +177,9 @@
 					$user->User->Save();
 				}
 				$msg->Save();
+				if ($triggerBots) {
+					TriggerBotsByMessage($msg);
+				}
 			}
 		}
 	}

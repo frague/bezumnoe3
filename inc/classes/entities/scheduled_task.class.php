@@ -80,6 +80,13 @@ class ScheduledTask extends EntityBase {
 		$this->IsActive = Boolean($hash[self::IS_ACTIVE]);
 	}
 
+	// Updates task's execution time to NOW() + PERIODICITY
+	function Iterate() {
+		if (!$this->IsEmpty()) {
+			$this->GetByCondition("", $this->IterateExpression());
+		}
+	}
+
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
@@ -97,6 +104,11 @@ class ScheduledTask extends EntityBase {
 	// Releases tasks locked with instance's TransactionGUID
 	function ReleaseLockedTasks() {
 		$this->GetByCondition("", $this->ReleaseExpression());
+	}
+
+	// Returns active bots
+	function GetActiveBots() {
+		return $this->GetByCondition("t1.".self::TYPE." IN ('".self::TYPE_YTKA_BOT."', '".self::TYPE_VICTORINA_BOT."', '".self::TYPE_LINGVIST_BOT."') AND t1.".self::IS_ACTIVE."=1");
 	}
 
 	// Returns Action by given task type
@@ -238,23 +250,33 @@ WHERE
 	function ConditionalDeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ##CONDITION##";
 	}
+
+	function IterateExpression() {
+		$result = "UPDATE ".$this->table." SET 
+".self::EXECUTION_DATE."=DATE_ADD(NOW(), INTERVAL `".self::PERIODICITY."` MINUTE),
+".self::TRANSACTION_GUID." = NULL
+WHERE 
+	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
+		return $result;
+	}
 }
 
 /* ---------------- Ready Tasks----------------- */
 
 abstract class UserScheduledTask extends ScheduledTask {
-	function UserScheduledTask($userId, $executionDate) {
+	function UserScheduledTask($type, $userId, $executionDate) {
 		parent::__construct();
 	
 		$this->ExecutionDate = $executionDate;
 		$this->Parameter1 = round($userId);
 		$this->TransactionGuid = "";
+		$this->Type = $type;
 	}
 }
 
-abstract class UserInRoomScheduledTask extends UserScheduledTask {
-	function UserInRoomScheduledTask($userId, $roomId) {
-		parent::__construct($userId, "");
+abstract class Bot extends UserScheduledTask {
+	function Bot($type, $userId, $roomId) {
+		parent::__construct($type, $userId, "");
 	
 		$this->Parameter2 = round($roomId);
 		$this->Periodicity = 1;
@@ -263,50 +285,43 @@ abstract class UserInRoomScheduledTask extends UserScheduledTask {
 
 class UnbanScheduledTask extends UserScheduledTask {
 	function UnbanScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_UNBAN;
+		parent::__construct(ScheduledTask::TYPE_UNBAN, $userId, $executionDate);
 	}
 }
 
 class StatusScheduledTask extends UserScheduledTask {
 	function StatusScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_STATUS;
+		parent::__construct(ScheduledTask::TYPE_STATUS, $userId, $executionDate);
 	}
 }
 
 class CheckSumScheduledTask extends UserScheduledTask {
 	function CheckSumScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_CHECKUM;
+		parent::__construct(ScheduledTask::TYPE_CHECKUM, $userId, $executionDate);
 	}
 }
 
 class UpdateRatingsScheduledTask extends UserScheduledTask {
 	function UpdateRatingsScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_RATINGS;
+		parent::__construct(ScheduledTask::TYPE_RATINGS, $userId, $executionDate);
 	}
 }
 
-class YtkaBotScheduledTask extends UserInRoomScheduledTask {
-	function YtkaBotScheduledTask($userId, $roomId) {
-		parent::__construct($userId, $roomId);
-		$this->Type = ScheduledTask::TYPE_YTKA_BOT;
+class YtkaBotScheduledTask extends Bot {
+	function YtkaBotScheduledTask($userId = -1, $roomId = -1) {
+		parent::__construct(ScheduledTask::TYPE_YTKA_BOT, $userId, $roomId);
 	}
 }
 
-class VictorinaBotScheduledTask extends UserInRoomScheduledTask {
-	function VictorinaBotScheduledTask($userId, $roomId) {
-		parent::__construct($userId, $roomId);
-		$this->Type = ScheduledTask::TYPE_VICTORINA_BOT;
+class VictorinaBotScheduledTask extends Bot {
+	function VictorinaBotScheduledTask($userId = -1, $roomId = -1) {
+		parent::__construct(ScheduledTask::TYPE_VICTORINA_BOT, $userId, $roomId);
 	}
 }
 
-class LingvistBotScheduledTask extends UserInRoomScheduledTask {
-	function LingvistBotScheduledTask($userId, $roomId) {
-		parent::__construct($userId, $roomId);
-		$this->Type = ScheduledTask::TYPE_LINGVIST_BOT;
+class LingvistBotScheduledTask extends Bot {
+	function LingvistBotScheduledTask($userId = -1, $roomId = -1) {
+		parent::__construct(ScheduledTask::TYPE_LINGVIST_BOT, $userId, $roomId);
 	}
 }
 
@@ -465,7 +480,7 @@ abstract class BotBaseAction extends BaseAction {
 		return true;
 	}
 
-	abstract function ExecuteByMessage();
+	abstract function ExecuteByMessage($message);
 }
 
 /*
@@ -494,6 +509,18 @@ class YtkaBotAction extends BotBaseAction {
 	    }
 		return false;
 	}
+	
+	function ExecuteByMessage($message) {
+	  global $db;
+
+	    if ($this->Init() && !$message->IsPrivate()) {
+	    	$m = new Message("Test: \"".$message->Text."\"", $this->user);
+    		$m->RoomId = $message->RoomId;
+    		$m->Save();
+			return true;
+    	}
+		return false;
+	}
 }
 
 // Victorina bot actions
@@ -512,6 +539,10 @@ class VictorinaBotAction extends BotBaseAction {
 	    }
 		return false;
 	}
+
+	function ExecuteByMessage($message) {
+		return true;
+	}
 }
 
 // Lingvist bot actions
@@ -519,6 +550,10 @@ class LingvistBotAction extends BotBaseAction {
 	function ExecuteByTimer() {
 	  global $db;
 		
+		return true;
+	}
+
+	function ExecuteByMessage($message) {
 		return true;
 	}
 }
