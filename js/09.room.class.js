@@ -68,7 +68,6 @@ Room.prototype.Gather = function(sel) {
 	var opt = d.createElement("option");
 	opt.value = this.Id;
 	opt.text = this.Title;
-
 	
 	try {
     	sel.add(opt, null); // standards compliant; doesn't work in IE

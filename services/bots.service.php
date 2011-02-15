@@ -39,13 +39,13 @@
 
 			switch ($_POST["TYPE"]) {
 				case ScheduledTask::TYPE_YTKA_BOT:
-					$bot = new YtkaBotScheduledTask($botUserId, $executionDate, $roomId);
+					$bot = new YtkaBotScheduledTask($botUserId, $roomId);
 					break;
 				case ScheduledTask::TYPE_VICTORINA_BOT:
-					$bot = new VictorinaBotScheduledTask($botUserId, $executionDate, $roomId);
+					$bot = new VictorinaBotScheduledTask($botUserId, $roomId);
 					break;
 				case ScheduledTask::TYPE_LINGVIST_BOT:
-					$bot = new LingvistBotScheduledTask($botUserId, $executionDate, $roomId);
+					$bot = new LingvistBotScheduledTask($botUserId, $roomId);
 					break;
 				default:
 					exit();
