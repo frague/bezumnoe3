@@ -1,6 +1,6 @@
 //5.3
 /*
-	Contains all global script settings, constants and variables
+	Contains all global script settings, constants, variables and common methods
 */
 
 var debug = 0;
@@ -326,4 +326,10 @@ function AddSelectOption(select, name, value, selected) {
 
 function Random(n, not_null) {
 	return (not_null ? 1 : 0) + Math.round(n * Math.random());
+};
+// Bind ddl with all rooms
+function BindRooms(ddl) {
+	if (ddl && opener && opener.rooms) {
+		opener.rooms.Gather(ddl);
+	}
 };
