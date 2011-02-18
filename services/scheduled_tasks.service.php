@@ -26,6 +26,12 @@
 				$task->Id = $id;
 				$task->Retrieve();
 				if (!$task->IsEmpty()) {
+					if ($task->IsBot()) {
+						$action = $task->GetAction();
+						if ($action) {
+							$action->ShutDown();
+						}
+					}
 					$task->Delete();
 					echo JsAlert("Задача удалена.");
 				} else {

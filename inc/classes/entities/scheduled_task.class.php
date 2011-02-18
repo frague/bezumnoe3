@@ -60,6 +60,10 @@ class ScheduledTask extends EntityBase {
 		return $this->Periodicity > 0;
 	}
 
+	function IsBot() {
+		return !$this->IsEmpty() && ($this->Type == self::TYPE_YTKA_BOT || $this->Type == self::TYPE_VICTORINA_BOT || $this->Type == self::TYPE_LINGVIST_BOT); 
+	}
+
 	function FillFromResult($result) {
 		$this->Id = $result->Get(self::SCHEDULED_TASK_ID);
 		$this->Type = $result->Get(self::TYPE);
@@ -442,48 +446,73 @@ abstract class BotBaseAction extends BaseAction {
 		return !($this->room->IsEmpty() || $this->room->IsDeleted);
 	}
 
-	function Init() {
-	  global $db;
+	function GetUserData() {
+		// Settings
+		$s = new Settings();
+		$s->GetByUserId($this->user->Id);
 
-		if (!$this->Task->IsActive) {
-			return false;
+		// Visible name
+		$nn = new Nickname();
+		$nn->GetByUserId($this->user->Id, 1);
+		$name = $this->user->Login;
+		if (!$nn->IsEmpty()) {
+			$name = $nn->Title;
 		}
+		return array($s, $name);
+	}
+	
+	function IsValid() {
 		if (!$this->GetUser() || !$this->GetRoom()) {
 	 		SaveLog("Бот (".$this->Task->Type.") остановлен. Некорректно указан пользователь или комната.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 	 		$this->Task->IsActive = 0;
 			$this->Task->Save();
 			return false;
 		}
+		return true;
+	}
+	
+	function Init() {
+	  global $db;
+		if (!$this->Task->IsActive || !$this->IsValid()) {
+			return false;
+		}
 
 		$this->lastExecutionTime = $this->Task->ExecutionDate;
-		if (!$this->lastExecutionTime) {
-			$s = new Settings();
-			$s->GetByUserId($this->user->Id);
+		if (!$this->lastExecutionTime && $this->user->RoomId) {
+			$d = $this->GetUserData();
 
-			if (!$s->IsEmpty()) {
-				$nn = new Nickname();
-				$nn->GetByUserId($this->user->Id, 1);
-
-				$name = $this->user->Login;
-				if (!$nn->IsEmpty()) {
-					$name = $nn->Title;
-				}
-
-				$text = $s->EnterMessage;
-				if (!$text) {
-					$text = "В чат входит %name";
-				}
-				$message = new EnterMessage(str_replace("%name", Clickable($name), $text), $this->room->Id);
-				$message->Save();
-
-				// Entering to room
-				$this->user->RoomId = $this->room->Id;
-				$this->user->Save();
+			$text = $d[0]->EnterMessage;
+			if (!$text) {
+				$text = "В чат входит %name.";
 			}
+			$message = new EnterMessage(str_replace("%name", Clickable($d[1]), $text), $this->room->Id);
+			$message->Save();
+
+			// Entering to room
+			$this->user->RoomId = $this->room->Id;
+			$this->user->Save();
 		}
 		// Ponging session
 		$this->user->TouchSession();
 		return true;
+	}
+
+	function ShutDown() {
+	  global $db;
+		if (!$this->Task->IsActive || !$this->IsValid()) {
+			return false;
+		}
+		$d = $this->GetUserData();
+		$text = $d[0]->QuitMessage;
+		if (!$text) {
+			$text = "%name выходит из чата.";
+		}
+		$message = new QuitMessage(str_replace("%name", Clickable($d[1]), $text), $this->user->RoomId);
+		$message->Save();
+
+		// Leaving
+		$this->user->GoOffline();
+		$this->user->Save();
 	}
 
 	abstract function ExecuteByMessage($message);
