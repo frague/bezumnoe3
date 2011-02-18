@@ -457,26 +457,32 @@ abstract class BotBaseAction extends BaseAction {
 
 		$this->lastExecutionTime = $this->Task->ExecutionDate;
 		if (!$this->lastExecutionTime) {
-			// If first execution - just update timer, skip processing
-			// TODO: Simulate entrance
+			$s = new Settings();
+			$s->GetByUserId($this->user->Id);
 
-	    	$m = new Message("Entrance event", $this->user);
-	    	$m->RoomId = $this->room->Id;
-	    	$m->Save();
+			if (!$s->IsEmpty()) {
+				$nn = new Nickname();
+				$nn->GetByUserId($this->user->Id, 1);
+
+				$name = $this->user->Login;
+				if (!$nn->IsEmpty()) {
+					$name = $nn->Title;
+				}
+
+				$text = $s->EnterMessage;
+				if (!$text) {
+					$text = "В чат входит %name";
+				}
+				$message = new EnterMessage(str_replace("%name", Clickable($name), $text), $this->room->Id);
+				$message->Save();
+
+				// Entering to room
+				$this->user->RoomId = $this->room->Id;
+				$this->user->Save();
+			}
 		}
-
-/*		$message = new Message();
-		$q = $message->GetByCondition(
-			Message::ROOM_ID."=".round($this->room->Id)." AND (".Message::TO_USER_ID." IS NULL OR ".Message::TO_USER_ID."=".Message::USER_ID.") AND ".Message::DATE.">'".SqlQuote($this->lastExecutionTime)."'", 
-			$message->ReadShortExpression());
-
-		$this->messages = array();
-		for ($i = 0; $i < $q->NumRows(); $i++) {
-			$q->NextResult();
-			$m = new Message();
-			$m->FillFromResult($q);
-			$this->messages[] = $m;
-		}*/
+		// Ponging session
+		$this->user->TouchSession();
 		return true;
 	}
 
@@ -516,7 +522,7 @@ class YtkaBotAction extends BotBaseAction {
 	    if ($this->Init() && !$message->IsPrivate()) {
 	    	$m = new Message("Test: \"".$message->Text."\"", $this->user);
     		$m->RoomId = $message->RoomId;
-    		$m->Save();
+    		#$m->Save();
 			return true;
     	}
 		return false;
