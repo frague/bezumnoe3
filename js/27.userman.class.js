@@ -1,4 +1,4 @@
-//6.1
+//6.3
 /*
 	User Manager admin functionality
 */
@@ -120,7 +120,7 @@ function ShowUserMenu(a, id, login, container, obj) {
 	
 	var tr = d.createElement("tr");
 	if (me.IsAdmin()) {
-		tr.appendChild(umExtraButtons(id, login, obj));
+		umExtraButtons(tr, id, login, obj);
 	};
 	userMenu.appendChild(tr);
 
@@ -139,9 +139,12 @@ function HideUserMenu(id) {
 	return false;
 };
 
-function MakeSection(title) {
+function MakeSection(title, className) {
 	var td = d.createElement("td");
 	var h3 = d.createElement("h4");
+	if (className) {
+		h3.className = className;
+	}
 	h3.innerHTML = title;
 	td.appendChild(h3);
 	return td;

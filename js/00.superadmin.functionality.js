@@ -1,4 +1,4 @@
-//3.1
+//4.1
 /*
 	SuperAdmin only functionality.
 	Will be loaded only if server rights checking is > adminRights.
@@ -8,14 +8,16 @@
 /* Usermanager admins' section */
 
 function umAdditionalExtraButtons(el, id, login, obj) {
+	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowSettings(" + id + ",\"" + login + "\")", "Настройки", obj, "")));
 	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowBlog(" + id + ",\"" + login + "\")", "Журнал", obj, "")));
 };
 
-/* Journal */
-
 function ShowBlog(id, name) {
-	var tab_id = "j" + id;
-	CreateUserTab(id, name, new JournalMessages(), "Журнал", "", tab_id);
+	CustomTab(id, name, JournalMessages, "j", "Журнал");
+};
+
+function ShowSettings(id, name) {
+	CustomTab(id, name, Settings, "s", "Настройки");
 };
 
 /* Admin Options */
@@ -40,7 +42,7 @@ var spoilerInits = [
 	function(tab) {new MessagesLog().LoadTemplate(tab)},
 	function(tab) {new Statuses().LoadTemplate(tab)},
 	function(tab) {new Rooms().LoadTemplate(tab)},
-	function(tab) {},
+	function(tab) {new Bots().LoadTemplate(tab)},
 	function(tab) {new ScheduledTasks().LoadTemplate(tab)}
 ];
 
