@@ -17,6 +17,7 @@
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<meta name="description" content="<? echo $meta_description ?>" />
+		<script language="javascript" src="/js1/common.js"></script>
 <?php 
 		
 		if ($css) {
