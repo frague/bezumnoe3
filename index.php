@@ -42,6 +42,7 @@
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+	<script language="javascript" src="/js1/common.js"></script>
 </head>
 
 <body>
@@ -181,10 +182,8 @@
 				<div class="Divider Horizontal Alternative"><span></span></div>
 				
 				<div class="Bottom Centered">
-					Первая версия сайта была создана 19 октября 1999 года.<br />
-					&copy; Дизайн и разработка сайта - <a href="javascript:void(0)" onclick="mail()">Николай Богданов</a>
-
-					<script>function mail() {document.location='ma'+'ilto:Николай%20Богданов%20<'+'info'+'@'+'bezumno' + 'e.ru>';return false;}</script>
+					Первая версия сайта была создана 19 октября 1999 года<br />
+					&copy; Дизайн и разработка сайта - <a href="javascript:void(0)" onclick="Feedback()">Николай Богданов</a>
 				</div>
 			</div>
 	   	</div>
