@@ -191,6 +191,7 @@
 
 		$user_key = "u_".$id1;
 		if ($_POST[$user_key] != $user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])) {
+			//print "/* ".$_POST[$user_key]." != ".$user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])." */";
 			$ChangedUsers[] = $id1;
 		}
 		$_POST[$user_key] = "-";

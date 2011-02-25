@@ -343,8 +343,9 @@ abstract class BaseAction {
 		if ($userId <= 0) {
 			$userId = round($this->Task->Parameter1);
 		}
-		$user = new User($userId);
-		$user->Retrieve();
+		$user = new UserComplete();
+		$user->GetById($userId);
+
 		if ($user->IsEmpty()) {
 		 	SaveLog("Пользователь (Id: ".$this->Task->Parameter1.") не найден. Задача: ".$this->Task->Type, -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
@@ -364,13 +365,13 @@ class UnbanAction extends BaseAction {
 			return false;
 		}
 
-		if (!$this->user->IsBanned()) {
-		 	SaveLog("Не удалось разбанить пользователя - не забанен.", $this->user->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		if (!$this->user->User->IsBanned()) {
+		 	SaveLog("Не удалось разбанить пользователя - не забанен.", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
-		$this->user->StopBan();
-		$this->user->Save();
-	 	LogBanEnd($this->user->Id, ScheduledTask::SCHEDULER_LOGIN);
+		$this->user->User->StopBan();
+		$this->user->User->Save();
+	 	LogBanEnd($this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
 		return true;
 	}
 }
@@ -384,12 +385,12 @@ class StatusAction extends BaseAction {
 		$status = new Status();
 		$status->GetStandardStatus(Status::RIGHTS_OLDBIE);
 		if ($status->IsEmpty()) {
-		 	SaveLog("Не удалось установить пользователю статус \"старожил\". Статус не найден.", $this->user->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		 	SaveLog("Не удалось установить пользователю статус \"старожил\". Статус не найден.", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 		 	return false;
 		}
-		$this->user->StatusId = $status->Id;
-	 	SaveLog("Установлен статус \"старожил\".", $this->user->Id, ScheduledTask::SCHEDULER_LOGIN);
-		$this->user->Save();
+		$this->user->User->StatusId = $status->Id;
+	 	SaveLog("Установлен статус \"старожил\".", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
+		$this->user->User->Save();
 		return true;
 	}
 }
@@ -440,27 +441,14 @@ abstract class BotBaseAction extends BaseAction {
 	var $lastExecutionTime;
 	var $messages;
 
+	var $settings, $name;
+
 	function GetRoom() {
 		$this->room = new Room();
 		$this->room->GetById(round($this->Task->Parameter2));
 		return !($this->room->IsEmpty() || $this->room->IsDeleted);
 	}
 
-	function GetUserData() {
-		// Settings
-		$s = new Settings();
-		$s->GetByUserId($this->user->Id);
-
-		// Visible name
-		$nn = new Nickname();
-		$nn->GetByUserId($this->user->Id, 1);
-		$name = $this->user->Login;
-		if (!$nn->IsEmpty()) {
-			$name = $nn->Title;
-		}
-		return array($s, $name);
-	}
-	
 	function IsValid() {
 		if (!$this->GetUser() || !$this->GetRoom()) {
 	 		SaveLog("Бот (".$this->Task->Type.") остановлен. Некорректно указан пользователь или комната.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
@@ -478,22 +466,21 @@ abstract class BotBaseAction extends BaseAction {
 		}
 
 		$this->lastExecutionTime = $this->Task->ExecutionDate;
-		if (!$this->lastExecutionTime && $this->user->RoomId) {
-			$d = $this->GetUserData();
-
-			$text = $d[0]->EnterMessage;
+		if (!$this->lastExecutionTime && $this->user->User->RoomId) {
+			$text = $this->user->Settings->EnterMessage;
 			if (!$text) {
 				$text = "В чат входит %name.";
 			}
-			$message = new EnterMessage(str_replace("%name", Clickable($d[1]), $text), $this->room->Id);
+			$message = new EnterMessage(str_replace("%name", Clickable($this->user->DisplayedName()), $text), $this->room->Id);
 			$message->Save();
 
 			// Entering to room
-			$this->user->RoomId = $this->room->Id;
-			$this->user->Save();
+			$this->user->User->RoomId = $this->room->Id;
+			$this->user->User->Save();
 		}
-		// Ponging session
-		$this->user->TouchSession();
+		// Ponging session & updating checksum
+		$this->user->User->TouchSession();
+		$this->user->UpdateChecksum();
 		return true;
 	}
 
@@ -502,17 +489,16 @@ abstract class BotBaseAction extends BaseAction {
 		if (!$this->Task->IsActive || !$this->IsValid()) {
 			return false;
 		}
-		$d = $this->GetUserData();
-		$text = $d[0]->QuitMessage;
+		$text = $this->user->Settings->QuitMessage;
 		if (!$text) {
 			$text = "%name выходит из чата.";
 		}
-		$message = new QuitMessage(str_replace("%name", Clickable($d[1]), $text), $this->user->RoomId);
+		$message = new QuitMessage(str_replace("%name", Clickable($this->user->DisplayedName()), $text), $this->room->Id);
 		$message->Save();
 
 		// Leaving
-		$this->user->GoOffline();
-		$this->user->Save();
+		$this->user->User->GoOffline();
+		$this->user->User->Save();
 	}
 
 	abstract function ExecuteByMessage($message);
@@ -533,8 +519,8 @@ class YtkaBotAction extends BotBaseAction {
 	  global $db;
 
 	    if ($this->Init()) {
-	    	$m = new Message(sizeof($this->messages), $this->user);
-	    	$m->RoomId = $this->room->Id;
+	    	#$m = new Message(sizeof($this->messages), $this->user);
+	    	#$m->RoomId = $this->room->Id;
 	    	#$m->Save();
 
 	    	$this->Task->Parameter3 = "fn:NOW()";
@@ -549,9 +535,16 @@ class YtkaBotAction extends BotBaseAction {
 	  global $db;
 
 	    if ($this->Init() && !$message->IsPrivate()) {
-	    	$m = new Message("Test: \"".$message->Text."\"", $this->user);
-    		$m->RoomId = $message->RoomId;
+
+    		$item = new YtkaDictionaryItem();
+    		$item->UserId = $message->UserId;
+    		$item->Content = str_replace($this->user->DisplayedName(), "%name", $message->Text);
+			$item->Save();
+
+	    	#$m = new Message("Test: \"11\"", $this->user);
+    		#$m->RoomId = $message->RoomId;
     		#$m->Save();
+
 			return true;
     	}
 		return false;
@@ -567,7 +560,7 @@ class VictorinaBotAction extends BotBaseAction {
 	    	$this->Task->Parameter3 = ++$this->Task->Parameter3%5;
 			$this->Task->Save();
 
-	    	$m = new Message($this->Task->Parameter3, $this->user);
+	    	$m = new Message($this->Task->Parameter3, $this->user->User);
 	    	$m->RoomId = $this->room->Id;
 	    	#$m->Save();
 			return true;
