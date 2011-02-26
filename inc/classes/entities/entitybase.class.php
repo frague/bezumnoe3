@@ -8,7 +8,7 @@ abstract class EntityBase {
 	var $FieldsNames = array();
 	var $SearchTemplate = "";
 
-	private $IdentityName = "";
+	var $IdentityName = "";
 
 	const USER_ID = "USER_ID";
 

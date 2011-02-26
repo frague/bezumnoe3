@@ -535,15 +535,25 @@ class YtkaBotAction extends BotBaseAction {
 	  global $db;
 
 	    if ($this->Init() && !$message->IsPrivate()) {
+	        $myName = $this->user->DisplayedName();
+	        if (strpos($message->Text, $myName) !== false) {
+	    		$item = new YtkaDictionaryItem();
 
-    		$item = new YtkaDictionaryItem();
-    		$item->UserId = $message->UserId;
-    		$item->Content = str_replace($this->user->DisplayedName(), "%name", $message->Text);
-			$item->Save();
+				// Reply
+				$item->PickRandom();
+				$u = new User();
+				$authorName = $u->GetUserCurrentName($message->UserId);
+	    		$m = new Message(str_replace("%name", $authorName, $item->Content), $this->user->User);
+    			$m->RoomId = $message->RoomId;
+    			$m->Save();
 
-	    	#$m = new Message("Test: \"11\"", $this->user);
-    		#$m->RoomId = $message->RoomId;
-    		#$m->Save();
+    			// Store new item in the dictionary
+    			$item->Clear();
+    			$item->UserId = $message->UserId;
+    			$item->Content = str_replace($myName, "%name", $message->Text);
+				$item->Save();
+			}
+
 
 			return true;
     	}

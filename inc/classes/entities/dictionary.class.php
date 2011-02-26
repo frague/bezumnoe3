@@ -26,7 +26,7 @@ abstract class DictionaryItem extends EntityBase {
 		return true;
 	}
 
-	function PickRandomItem() {
+	function PickRandom() {
 	  global $db;
 
 	  	if (!$this->IsConnected()) {
@@ -36,7 +36,7 @@ abstract class DictionaryItem extends EntityBase {
 		$this->FillByCondition("1=1 ORDER BY ".$this->FrequencyFieldName." ASC LIMIT ".mt_rand(0, 10).", 1");
 		// Touch filled item
 		if (!$this->IsEmpty()) {
-			$db->Query("UPDATE ".$this->table." SET ".$this->FrequencyFieldName."=".$this->FrequencyFieldName."+1 WHERE ".$this->IdentityName."=".$item->Id);
+			$db->Query("UPDATE ".$this->table." SET ".$this->FrequencyFieldName."=".$this->FrequencyFieldName."+1 WHERE ".$this->IdentityName."=".$this->Id);
 		}
 
 		return $item;
@@ -71,7 +71,7 @@ class YtkaDictionaryItem extends DictionaryItem {
 	}
 
 	function FillFromResult($result) {
-		$this->Id = round($result->Get(self::TAG_ID));
+		$this->Id = round($result->Get(self::ITEM_ID));
 		$this->UserId = round($result->Get(self::USER_ID));
 		$this->Content = $result->Get(self::CONTENT);
 		$this->UsedTimes = round($result->Get(self::USED_TIMES));
