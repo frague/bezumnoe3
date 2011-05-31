@@ -357,7 +357,7 @@ class ExpiredSessionsAction extends BaseAction {
 		}
 		
 		// Left user sessions, but remove room information
-		$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL WHERE ".$user1->ExpireCondition());
+		$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL, t1.".User::SESSION."=NULL, t1.".User::SESSION_CHECK."=NULL WHERE ".$user1->ExpireCondition());
 
 		if (sizeof($u) > 0) {
 			while (list($roomId,$users) = each($u)) {
