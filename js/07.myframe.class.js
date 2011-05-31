@@ -34,6 +34,8 @@ function MyFrame(obj, min_width, min_height) {
 				this.y += obj.offsetTop;
 			}
 		}
+
+		console.log(self.innerHeight + " : " + self.height);
 	};
 
 	this.GetWindowSize = function() {
@@ -49,6 +51,10 @@ function MyFrame(obj, min_width, min_height) {
 		} else if (document.body) {
 			this.width = document.body.clientWidth;
 			this.height = document.body.clientHeight;
+		}
+
+		if (navigator.appVersion.indexOf("Chrome") > 0) {
+			this.height -= 24;
 		}
 	};
 
