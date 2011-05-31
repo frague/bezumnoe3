@@ -142,7 +142,7 @@ p.Note {
 	margin:0;
 	font-size:8pt;
 	color:#808080;
-	font-family:"Arial Narrow";
+	font-family:"Arial Narrow",arial;
 }
 
 #fontExample {

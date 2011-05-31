@@ -4,7 +4,8 @@ body {
 }
 
 body, td, input, textarea, select, password {
-	font:10pt tahoma;
+	font-family: arial, tahoma, verdana;
+	font-size:10pt;
 }
 
 a {

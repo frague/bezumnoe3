@@ -148,7 +148,7 @@ ul.Users {
 }
 ul.Users li {
 	list-style:none;
-	font-family:'Arial Narrow';
+	font-family:'Arial Narrow',arial;
 	font-size:9pt;
 }
 
@@ -207,7 +207,7 @@ p.me {
 	font-style:italic;
 }
 p.System {
-	font-family:'arial narrow';
+	font-family:'arial narrow',arial;
 	color:white;
 }
 
@@ -233,7 +233,7 @@ p.System span.Time.Red {
 }
 
 p.SystemPrivate {
-	font-family:'arial narrow';
+	font-family:'arial narrow',arial;
 	color:#FF968E;
 }
 

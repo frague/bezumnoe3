@@ -35,7 +35,7 @@
 	h4 {
 		position:absolute;
 		color:#F0F0F0;
-		font-family: "arial narrow";
+		font-family: "arial narrow",arial;
 		font-size:52pt;
 		z-index:-1;
 		padding:0;
