@@ -77,12 +77,12 @@
 							<div class="Welcome">
 <p style="font-size:102%">Добро пожаловать в старейший саратовский чат &laquo;<b>Безумное ЧАепиТие у Мартовского Зайца</b>&raquo;!
 <p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время. 
-<p>Если вы у нас впервые, ознакомьтесь с <a href="/rules.php" class="Link">правилами</a> и <a href="/register.php" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
+<p>Если вы у нас впервые, ознакомьтесь с <a href="/rules/" class="Link">правилами</a> и <a href="/register" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
 							</p></div>
 
 							<div class="MainLink">
 								<img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" align="left" height="69" width="70">
-								<a href="/register.php" class="NoBorder"><img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /></a>
+								<a href="/register" class="NoBorder"><img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /></a>
 								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
 								<span class="Newcomers">
 									<h6>Последние зарегистрировавшиеся пользователи</h6>
@@ -154,9 +154,9 @@
 						<div class="UserList">
 							<nav>
 								<ul class="Menu" role="navigation sitemap">
-									<li> <a href="#" onclick="alert('Бывает... ==8)))');">Забыл пароль?</a><br /><br />
+									<li style="margin-bottom:10px"> <a href="/forgot/">Забыл пароль?</a>
 
-									<li> <a href="/register.php">Регистрация</a>
+									<li> <a href="/register">Регистрация</a>
 									<li class="l1 Bold"> <a href="/journal/">Журналы</a>
 									<li class="l4"> <a href="/tree/" class="Red">Фамильное древо</a>
 									<li> <a href="/gallery/">Фотогалерея</a>

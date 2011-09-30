@@ -6,7 +6,7 @@
       <priority>0.3</priority>
    </url>
    <url>
-      <loc>http://www.bezumnoe.ru/register.php</loc>
+      <loc>http://www.bezumnoe.ru/register/</loc>
       <changefreq>never</changefreq>
       <priority>0.1</priority>
    </url>
