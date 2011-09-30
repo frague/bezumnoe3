@@ -27,7 +27,7 @@
 		die;
 	} 
 
-	Head("Активация аккаунта", "register.css", "", "", "", "register.gif");
+	Head("Активация аккаунта", "register.css");
 	
 	echo "Поздравляем, <b>".$user->Login."</b>, ваш аккаунт успешно активирован!";
 	echo "<div class=\"Spacer\"></div>";

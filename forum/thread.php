@@ -23,7 +23,8 @@
 
 	$meta_description = MetaContent($record->Title." - ".$record->Content);
 
-	Head($record->Title, "forum.css", "forum.js", "", "", "forums.gif");
+	Head($record->Title, "forum.css", "forum.js", "", "", "Форумы");
+
 	require_once $root."references.php";
 
 	$access = 1 - $forum->IsProtected;
@@ -45,7 +46,7 @@
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 
-	$result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
+//	$result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
 	$result.= "<ul class='Thread'>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

@@ -2,6 +2,7 @@
 	
 	$root = "../";
 	require_once $root."server_references.php";
+	require_once $root."inc/helpers/like_buttons.helper.php";
 	require_once "gallery.template.php";
 
 	$messagesPerPage = 20;
@@ -26,11 +27,12 @@
 		DieWith404();
 	}
 
-	$meta_description = MetaContent($record->Title);
+	$meta_description = MetaContent("Фотогалерея \"".$gallery->Title."\": ".$record->Title);
 
+	$buttons = FillButtonObjects($gallery->Title, $record->Title, "", $record->GetImageUrl($gallery->Description));
 
 	AddEtagHeader(strtotime($record->UpdateDate));
-	Head($record->Title, "forum.css", "forum.js");
+	Head($record->Title, "forum.css", "forum.js", "", false, "Фотогалерея", $buttons);
 	require_once $root."references.php";
 
 	$gallery->DoPrint(true);
@@ -39,7 +41,11 @@
 	echo "	".$record->GetPreviousLink()."<div class=\"Previous\" style=\"height:".$record->GetHeight($gallery->Description)."px;\"></div></a>";
 	echo "	".$record->GetNextLink()."<div class=\"Next\" style=\"height:".$record->GetHeight($gallery->Description)."px;\"></div></a>";
 	echo $record->ToPrint($gallery->Description, 0);
-	echo "</div>";
+	echo "</div>\n";
+
+	echo "<div class=\"Likes\">";
+	echo GetButtonsMarkup($gallery->Title, $record->Title, "", $record->GetImageUrl($gallery->Description));
+	echo "</div>\n";
 
 	if ($record->IsCommentable) {
 		echo "<h3>Комментарии:</h3>";
