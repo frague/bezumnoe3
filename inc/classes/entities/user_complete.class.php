@@ -122,6 +122,12 @@ class UserComplete extends EntityBase {
 		}
 	}
 
+	function GetByLoginGuid($login_guid) {
+		if ($login_guid and strlen($login_guid) == 19) {	# TODO: Get rid of magic numbers
+			$this->FillByCondition("t1.".User::LOGIN_GUID."='".SqlQuote($login_guid)."'");
+		}
+	}
+
 
 	function __tostring() {
 		$s = $this->User->__tostring();

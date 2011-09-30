@@ -125,7 +125,7 @@
 		$source = StripTags($source);
 		$source = str_replace("\n", " ", $source);
 		$source = str_replace("\r", "", $source);
-		$source = str_replace("\"", "&quote;", $source);
+		$source = str_replace("\"", "&quot;", $source);
 		$source = str_replace(">", "&gt;", $source);
 		$source = str_replace("<", "&lt;", $source);
 		$source = preg_replace("/\s{2,}/", " ", $source);
@@ -225,7 +225,7 @@
 
 	function MakeLinks($a, $imagesMode = false) {
 		$a = MakeUrls($a);
-	   	$a = preg_replace("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;]+)+)/ie","MakeLink('\\3','\\1',\$imagesMode)", $a);
+	   	$a = preg_replace("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;,]+)+)/ie","MakeLink('\\3','\\1',\$imagesMode)", $a);
 	    return $a;
 	}
 

@@ -22,6 +22,23 @@ class JournalRecord extends ForumRecordBase {
 		return JournalSettings::MakeLink($alias, $title, $this);
 	}
 
+	function GetImageUrl() {
+		if ($this->IsEmpty()) {
+			return "";
+		}
+		if (preg_match("/<img[^>]+src=[\"']*([^\"' >]+)[\"'][^>]*>/", $this->Content, $matches)) {
+			if (sizeof($matches)) {
+				if (strrpos($matches[1], "://") === false) {
+					return "http://bezumnoe.ru".$matches[1];
+				} else {
+					return $matches[1];
+				}
+			}
+		}
+		return "";
+	}
+	
+
 	// ----- Single Journal -----
 	// Gets journal records by condition
 	function GetJournalRecords($access, $from = 0, $limit, $condition) {

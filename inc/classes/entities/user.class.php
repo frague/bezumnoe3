@@ -22,6 +22,7 @@ class User extends EntityBase {
 	const BANNED_BY = "BANNED_BY";
 	const KICK_MESSAGES = "KICK_MESSAGES";
 	const GUID = "GUID";
+	const LOGIN_GUID = "LOGIN_GUID";
 	const CHECK_SUM = "CHECK_SUM";
 	const IS_DELETED = "IS_DELETED";
 	
@@ -243,6 +244,15 @@ class User extends EntityBase {
 		$this->KickMessages = $result->Get(self::KICK_MESSAGES);
 		$this->Guid = $result->Get(self::GUID);
 		$this->CheckSum = $result->Get(self::CHECK_SUM);
+	}
+
+	function SaveLoginGuid($generateGuid = false) {
+	  global $db;
+		
+		if (!$this->IsEmpty() && $this->IsConnected()) {
+			$this->LoginGuid = $generateGuid ? MakeGuid(19) : "";
+			$db->Query($this->UpdateLoginGuidExpression());
+		}
 	}
 
 /*
@@ -469,6 +479,14 @@ WHERE
 	function UpdateSessionAddressExpression() {
 		$result = "UPDATE ".$this->table." SET 
 	".self::SESSION_ADDRESS."='".SqlQuote($this->SessionAddress)."'
+WHERE 
+	".self::USER_ID."=".SqlQuote($this->Id);
+		return $result;
+	}
+
+	function UpdateLoginGuidExpression() {
+		$result = "UPDATE ".$this->table." SET 
+	".self::LOGIN_GUID."=".Nullable($this->LoginGuid)."
 WHERE 
 	".self::USER_ID."=".SqlQuote($this->Id);
 		return $result;

@@ -1,7 +1,7 @@
 <?php
 
-	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $title_img = "") {
-	  global $user, $meta_description;
+	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $title_img = "", $like_buttons = array()) {
+	  global $user, $meta_description, $root;
 
 	  	if (!$meta_description) {
 	  		$meta_description = "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
@@ -32,6 +32,13 @@
 	?>
 		<script language="javascript" src="/js1/reply_common.js"></script>
 		<?php include "google_analythics.php" ?>
+
+<?php
+		if (sizeof($like_buttons)) {
+			require_once $root."inc/helpers/like_buttons.helper.php";
+			echo GetMetadata($like_buttons);
+		}
+?>
 	</head>
 	<body onload="OnLoad()">
 		<div id="AlertContainer">
@@ -41,6 +48,11 @@
 					</div>
 				</td></tr></table></div>
 
+<?php
+		if (sizeof($like_buttons)) {
+			echo GetHeadIncludes();
+		}
+?>
 		<div class="Main">
 <?php
 		echo "		<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>\n";

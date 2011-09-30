@@ -63,8 +63,11 @@ class Nickname extends EntityBase {
 		$this->IsSelected = $result->Get(self::IS_SELECTED) > 0;
 	}
 
-	function GetByUserId($userId) {
-		return $this->FillByCondition("t1.".self::USER_ID."=".SqlQuote($userId)." AND t1.".self::IS_SELECTED."=".Boolean($this->IsSelected));
+	function GetByUserId($userId, $isActive = "-1") {
+		if ($isActive == "-1") {
+			$isActive = Boolean($this->IsSelected);
+		}
+		return $this->FillByCondition("t1.".self::USER_ID."=".SqlQuote($userId)." AND t1.".self::IS_SELECTED."=".$isActive);
 	}
 
 	function GetUserNicknames($userId) {

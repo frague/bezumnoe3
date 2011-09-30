@@ -6,6 +6,7 @@
 	define("OPENID_KEY", "openid");
 	define("REFERER_KEY", "referer");
 	define("SESSION_KEY", "sdjfhk_session");
+	define("LOGIN_GUID_KEY", "f");
 
 	function LookInRequest($keyName) {
 		if ($_POST[$keyName] != "") {
@@ -53,6 +54,30 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 		return 0;
 	}
 
+	function DoPong($user) {
+		global $db;
+
+		// Check forbidden ip/host
+		$addrBan = new BannedAddress();
+		if (AddressIsBanned(new Bans(1,0,0))) {
+  			DebugLine("Address is banned!");
+			$user->User->ClearSession();
+			$user->User->Save();
+			$user->Clear();
+		} else {
+			$user->User->CreateSession();
+			$user->User->Save();
+		}
+
+		// Update LastVisited
+		$profile = new Profile();
+		$profile->GetByUserId($user->User->Id);
+		if (!$profile->IsEmpty()) {
+			$profile->LastVisit = NowDateTime();
+			$profile->Save();
+		}
+	}
+
 	
 	function GetAuthorizedUser($doPong = false, $debug = false) {
 	  global $db;
@@ -67,6 +92,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 		$password = LookInRequest(PASSWORD_KEY);
 		$session = LookInRequest(SESSION_KEY);
 		$sessionCheck = LookInRequest(User::SESSION_CHECK);
+		$login_guid = LookInRequest(LOGIN_GUID_KEY);
 
 		$user = new UserComplete();
 
@@ -80,25 +106,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 							$user = new UserComplete();
 						} else {
 							if ($doPong) {
-								// Check forbidden ip/host
-								$addrBan = new BannedAddress();
-								if (AddressIsBanned(new Bans(1,0,0))) {
-  									DebugLine("Address is banned!");
-									$user->User->ClearSession();
-									$user->User->Save();
-									$user->Clear();
-								} else {
-									$user->User->CreateSession();
-									$user->User->Save();
-								}
-
-								// Update LastVisited
-								$profile = new Profile();
-								$profile->GetByUserId($user->User->Id);
-								if (!$profile->IsEmpty()) {
-									$profile->LastVisit = NowDateTime();
-									$profile->Save();
-								}
+								DoPong($user);
 							}
 						}
 					}
@@ -108,6 +116,16 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 				# OpenID
 				break;
 			default:
+				if ($login_guid) {
+					$user->GetByLoginGuid($login_guid);
+					if (!$user->IsEmpty()) {
+						# Clean up login guid
+						$user->User->SaveLoginGuid();
+						DoPong($user);
+					}
+					return $user;
+				}   
+
 				# Session ID exists
 				if ($session && !$login && !$password) {
 					$user->GetBySession($session, GetRequestAddress(), $sessionCheck);
