@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Фотки чатлан", "photos.css", "", "", "", "photos2.gif");
+	Head("Фотки чатлан", "photos.css");
 	require_once $root."references.php";
 
 	$search = LookInRequest("search");

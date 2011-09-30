@@ -6,7 +6,7 @@
 
 	$user = GetAuthorizedUser(true);
 
-	Head("Правила чата", "", "", "", "", "rules.gif");
+	Head("Правила чата");
 
 	require_once $root."references.php";
 

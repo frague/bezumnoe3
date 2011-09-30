@@ -7,7 +7,7 @@
 						<li> <a href="/gallery/">Фотогалерея</a>
 					</ul>
 					<ul class="BottomNav">
-						<li class="First"> <a href="/rating.php">Рейтинг</a>
+						<li class="First"> <a href="/rating/">Рейтинг</a>
 						<li> <a href="/photos/">Фотографии</a>
 						<li> <a href="/tree/">Фамильное древо</a>
 					</ul>

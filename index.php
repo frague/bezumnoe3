@@ -36,9 +36,9 @@
 	<meta name="Address" content="Saratov, Russia">
 	<meta name="home_url" content="http://bezumnoe.ru/">
 	<!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+	<link rel="stylesheet" href="/css/global.css" />
 	<link rel="stylesheet" href="/css/template_layout.css" />
 	<link rel="stylesheet" href="/css/default3.css" />
-	<link rel="stylesheet" href="/css/global.css" />
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
@@ -51,23 +51,27 @@
 			<div class="Main">
 				<div>
 					<div class="Column Left">
-						<img src="/img/titles/online.gif" alt="Сейчас в чате:" title="Сейчас в чате:" style="margin-top:20px" />
+						<!--img src="/img/titles/online.gif" alt="Сейчас в чате:" title="Сейчас в чате:" style="margin-top:20px" /-->
 						<div class="UserList">
+							<h5>Сейчас в чате:</h5>
 							<?php include $root."inc/ui_parts/online_users.php"; ?>
 						</div>
 
-						<img src="/img/titles/news.gif" alt="Новости чата" title="Новости чата" style="margin-top:20px" />
+						<!--img src="/img/titles/news.gif" alt="Новости чата" title="Новости чата" style="margin-top:20px" /-->
 						<div class="News">
+							<h5>Новости</h5>
 							<?php ShowNews(-1, 3); ?>
 						</div>
 
-						<img src="/img/titles/birthdays.gif" alt="Дни рождения" title="Дни рождения" style="margin-top:20px" />
+						<!--img src="/img/titles/birthdays.gif" alt="Дни рождения" title="Дни рождения" style="margin-top:20px" /-->
 						<div class="Birthdays">
+							<h5>Дни рождения</h5>
 							<?php include $root."inc/ui_parts/birthdays.php"; ?>
 						</div>
 
-						<img src="/img/titles/photos.gif" alt="Фотографии участников" title="Фотографии участников" style="margin:20px 15px 5px" />
+						<!--img src="/img/titles/photos.gif" alt="Фотографии участников" title="Фотографии участников" style="margin:20px 15px 5px" /-->
 						<div class="UserList Photos">
+							<h5>Новые лица</h5>
 							<?php include $root."inc/ui_parts/new_photos.php"; ?>
 						</div>
 					</div>
@@ -80,9 +84,11 @@
 <p>Если вы у нас впервые, ознакомьтесь с <a href="/rules/" class="Link">правилами</a> и <a href="/register" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
 							</p></div>
 
-							<div class="MainLink">
+							<div class="MainLink Register">
 								<img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" align="left" height="69" width="70">
-								<a href="/register" class="NoBorder"><img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /></a>
+								<a href="/register" class="NoBorder">
+									<h4>Регистрация</h4>
+									<!--img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /--></a>
 								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
 								<span class="Newcomers">
 									<h6>Последние зарегистрировавшиеся пользователи</h6>
@@ -92,13 +98,17 @@
 
 							<div class="MainLink RightOriented">
 								<img src="/img/t/pict/forum.gif" align="right" height="79" width="95" alt="Форумы" title="Форумы">
-								<a href="/forum/" class="NoBorder"><img src="/img/titles/forums.gif" alt="Форумы" title="Форумы" /></a>
+								<a href="/forum/" class="NoBorder">
+									<h4>Форум</h4>
+									<!--img src="/img/titles/forums.gif" alt="Форумы" title="Форумы" /--></a>
 								<p>В форумах происходит обсуждение всех вопросов чата, публикуются объявления и поздравления. Авторизуйтесь для добавления сообщений.
 							</div>
 
 							<div class="MainLink Gallery UserList">
 								<img src="/img/t/pict/photo.gif" align="left" height="66" width="70" alt="Фотогалерея" title="Фотогалерея">
-								<a href="/gallery/" class="NoBorder"><img src="/img/titles/gallery.gif" alt="Фотогалерея" title="Фотогалерея" /></a>
+								<a href="/gallery/" class="NoBorder">
+									<h4>Фотогалерея</h4>
+									<!--img src="/img/titles/gallery.gif" alt="Фотогалерея" title="Фотогалерея" /--></a>
 								<p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
 								<h6>Последний комментарий:</h6>
 								<?php 
@@ -109,7 +119,9 @@
 
 							<div class="MainLink RightOriented Blogs UserList">
 								<img src="/img/t/pict/journals.gif" align="right" width="70" height="64" alt="Журналы (блоги)" title="Журналы (блоги)">
-								<a href="/journal/" class="NoBorder"><img src="/img/titles/journals.gif" alt="Журналы (блоги)" title="Журналы (блоги)" /></a>
+								<a href="/journal/" class="NoBorder">
+									<h4>Журналы (блоги)</h4>
+									<!--img src="/img/titles/journals.gif" alt="Журналы (блоги)" title="Журналы (блоги)" /--></a>
 								<p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.
 								<h6>Список последних записей в журналах:</h6>
 								<?php include $root."inc/ui_parts/journal.posts.php"; ?>
@@ -162,8 +174,8 @@
 									<li> <a href="/gallery/">Фотогалерея</a>
 									<li class="l2"> <a href="/forum/">Форумы чата</a>
 									<li class=""> <a href="/photos/">Фотки чатлан</a>
-									<li class="l3"> <a href="/banned.php">&laquo;Чёрный список&raquo;</a>
-									<li class="l1"> <a href="/rating.php">Рейтинг</a>
+									<li class="l3"> <a href="/banned/">&laquo;Чёрный список&raquo;</a>
+									<li class="l1"> <a href="/rating/">Рейтинг</a>
 							</ul>
 							<nav>
 						</div>

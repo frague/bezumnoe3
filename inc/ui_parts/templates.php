@@ -1,6 +1,6 @@
 <?php
 
-	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $title_img = "", $like_buttons = array()) {
+	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $main_title = "", $like_buttons = array()) {
 	  global $user, $meta_description, $root;
 
 	  	if (!$meta_description) {
@@ -54,12 +54,14 @@
 		}
 ?>
 		<div class="Main">
-<?php
-		echo "		<div class='Logged'>Авторизация: <strong id=\"Logged\">".(!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login)."</strong></div>\n";
+			<div class='Logged'>Авторизация: <strong id="Logged"><?php echo (!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login); ?></strong></div>
 
-		echo "		<header>".($title_img ? "<a href=\"/\" class=\"NoBorder\"><img alt=\"На главную\" title=\"На главную\" src=\"/img/t/logo_small.gif\" width=\"31\" height=\"30\" style=\"vertical-align:top;margin-top:22px;\" /></a> <img alt=\"".$title."\" title=\"".$title."\" src=\"/img/titles/".$title_img."\" style=\"margin-top:20px\" />" : "<h1>".$title."</h1>")."</header>\n";
+			<header>
+				<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>>
+					<a href="/" class="NoBorder"><img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" style="vertical-align:top;margin-top:2px;" /></a>
+					<?php echo $main_title ? $main_title : $title; ?>
+					</h1></header>
 
-?>
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 <?php
 	}

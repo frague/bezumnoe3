@@ -18,6 +18,13 @@ body {
   src: local('bezumnoe'), url('/fonts/bezumnoe.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'bezumnoe2';
+  font-style: normal;
+  font-weight: normal;
+  src: local('bezumnoe2'), url('/fonts/bezumnoe2.ttf') format('truetype');
+}
+
 a {
 	color: #923200;
 	text-decoration:none;
@@ -39,13 +46,23 @@ ul {
 
 h1 {
 	color: Black;
-	font-family: 'bezumnoe', 'Neucha', 'Arial Narrow',arial;
-	letter-spacing: 100%;
-	line-height:  25px;
-	font-size: 20pt;
-	padding: 10px 0 0 0;
+	font-family: 'bezumnoe2', 'Neucha', 'Arial Narrow',arial;
+	letter-spacing: 2px;
+	line-height:  32px;
+	font-size: 28pt;
+	padding: 10px 0 0 10px;
 	margin: 0;
-	font-weight: normal;
+	ffont-weight: normal;
+}
+
+h1 img {
+	float: left;
+	margin: 6px 14px;
+}
+
+h1.LongText {
+	line-height:  30px;
+	font-size: 18pt;
 }
 
 h6 {

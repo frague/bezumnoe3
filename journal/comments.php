@@ -2,6 +2,7 @@
 	
 	$root = "../";
 	require_once $root."server_references.php";
+	require_once $root."inc/helpers/like_buttons.helper.php";
 	require_once "journal.template.php";
 
 	$messagesPerPage = 20;
@@ -57,8 +58,10 @@
 //	AddEtagHeader(strtotime($record->UpdateDate));
 
 	$meta_description = MetaContent($record->Title." - ".$record->Content);
+
+	$buttons = FillButtonObjects($journal->Title, $record->Title, "", $record->GetImageUrl());
 	
-	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js");
+	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js", "", false, "Комментарии", $buttons);
 	require_once $root."references.php";
 
 	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);
@@ -71,9 +74,13 @@
 		die;
 	}
 
+	echo "<div class=\"Likes\">";
+	echo GetButtonsMarkup($journal->Title, $record->Title, "", $record->GetImageUrl());
+	echo "</div>\n";
+
 	?>
 	
-	<ul> <strong>Вернуться</strong>
+	<ul style="margin-top:10px"> <strong>Вернуться</strong>
 		<li> к сообщению &laquo;<?php echo $record->ToLink(100, $alias); ?>&raquo;<br />
 		<li> к журналу &laquo;<?php echo $journal->GetLink($alias, 0, false); ?>&raquo;
 	</ul>

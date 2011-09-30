@@ -6,7 +6,8 @@
 
 	$meta_description = "Фото галерея саратовского чата Безумное Чаепитие у Мартовского Зайца. Фотографии самых интересных событий чата. Фотки чатлан. Интересные события Саратова.";
 
-	Head("Фотогалерея", "forum.css", "forum.js", "", "", "gallery.gif");
+#	Head("Фотогалерея", "forum.css", "forum.js", "", "", "gallery.gif");
+	Head("Фотогалерея", "forum.css", "forum.js", "", "");
 	require_once $root."references.php";
 
 ?>

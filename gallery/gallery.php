@@ -66,7 +66,7 @@
 
 	// Printing
 	AddEtagHeader(strtotime($lastModified));
-	Head($gallery->Title, "forum.css", "");
+	Head($gallery->Title, "forum.css", "", "", "", "Фотогалерея");
 
 	$gallery->DoPrint();
 

@@ -41,6 +41,44 @@ sup {
 	width: 140px;
 }
 
+.Column.Left h5 {
+	font-family: "bezumnoe2", "arial";
+	color: 0;
+	letter-spacing: 1px;
+	padding:0;
+	margin: 20px 0 5px 0;
+	text-align: center;
+}
+
+.Column.Left .UserList h5 {
+	font-size: 16px;
+
+	-webkit-transform: rotate(358deg);
+	-moz-transform: rotate(358deg);
+	-o-transform: rotate(358deg);
+	writing-mode: lr-tb;
+}
+
+.Column.Left .News h5 {
+	font-size: 22px;
+	color: orangered;
+
+	-webkit-transform: rotate(184deg);
+	-moz-transform: rotate(184deg);
+	-o-transform: rotate(184deg);
+	writing-mode: lr-tb;
+}
+
+.Column.Left .Birthdays h5 {
+	font-size: 17px;
+	color: orangered;
+
+	-webkit-transform: rotate(359deg);
+	-moz-transform: rotate(359deg);
+	-o-transform: rotate(359deg);
+	writing-mode: lr-tb;
+}
+
 .Column.Center {
 	float: left;
 	width: 360px;
@@ -72,6 +110,26 @@ sup {
 .MainLink.RightOriented {
 	text-align: right;
 	background: url(/img/t/div2.gif) repeat-x top left;
+}
+
+.MainLink h4 {
+	font-family: "bezumnoe2", "arial";
+	letter-spacing: 2px;
+	font-size: 40px;
+	padding: 0 10px;
+	display: inline;
+	color: 0;
+}
+
+.MainLink.Blogs h4 {
+	font-size: 34px;
+	color: red;
+}
+
+.MainLink.Register h4 {
+	color: #DD4B0D;
+	text-shadow:2px 2px 0px #FCA601;
+	font-size: 42px;
 }
 
 .Welcome {
