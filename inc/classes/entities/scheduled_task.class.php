@@ -18,6 +18,9 @@ class ScheduledTask extends EntityBase {
 	const TYPE_STATUS			= "status";
 	const TYPE_EXPIRED_SESSIONS	= "expired_sessions";
 	const TYPE_RATINGS			= "ratings";
+	const TYPE_YTKA_BOT			= "ytka";
+	const TYPE_VICTORINA_BOT	= "victorina";
+	const TYPE_LINGVIST_BOT		= "lingvist";
 	
 	const SCHEDULER_LOGIN = "по расписанию";
 	const HANGED_TIMEOUT = "00:10:00";		// 10 minutes to recover
@@ -44,7 +47,7 @@ class ScheduledTask extends EntityBase {
 	function Clear() {
 		$this->Id = -1;
 		$this->Type = self::TYPE_UNBAN;
-		$this->ExecutionDate = NowDateTime();
+		$this->ExecutionDate = "";
 		$this->Periodicity = 0;
 		$this->Parameter1 = "";
 		$this->Parameter2 = "";
@@ -55,6 +58,10 @@ class ScheduledTask extends EntityBase {
 
 	function IsPeriodical() {
 		return $this->Periodicity > 0;
+	}
+
+	function IsBot() {
+		return !$this->IsEmpty() && ($this->Type == self::TYPE_YTKA_BOT || $this->Type == self::TYPE_VICTORINA_BOT || $this->Type == self::TYPE_LINGVIST_BOT); 
 	}
 
 	function FillFromResult($result) {
@@ -77,10 +84,17 @@ class ScheduledTask extends EntityBase {
 		$this->IsActive = Boolean($hash[self::IS_ACTIVE]);
 	}
 
+	// Updates task's execution time to NOW() + PERIODICITY
+	function Iterate() {
+		if (!$this->IsEmpty()) {
+			$this->GetByCondition("", $this->IterateExpression());
+		}
+	}
+
 	// Marks currently pending tasks with TransactionGUID to avaiod duplicated execution
 	function LockPendingTasks() {
 		$q = $this->GetByCondition(
-			"((".self::EXECUTION_DATE." <= NOW() AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), '".self::HANGED_TIMEOUT."')) AND ".self::IS_ACTIVE."=1",
+			"(((".self::EXECUTION_DATE." <= NOW() OR ".self::EXECUTION_DATE." IS NULL) AND ".self::TRANSACTION_GUID." IS NULL) OR ".self::EXECUTION_DATE." <= SUBTIME(NOW(), '".self::HANGED_TIMEOUT."')) AND ".self::IS_ACTIVE."=1",
 			$this->LockExpression()
 		);
 		return $q->AffectedRows();
@@ -96,6 +110,11 @@ class ScheduledTask extends EntityBase {
 		$this->GetByCondition("", $this->ReleaseExpression());
 	}
 
+	// Returns active bots
+	function GetActiveBots() {
+		return $this->GetByCondition("t1.".self::TYPE." IN ('".self::TYPE_YTKA_BOT."', '".self::TYPE_VICTORINA_BOT."', '".self::TYPE_LINGVIST_BOT."') AND t1.".self::IS_ACTIVE."=1");
+	}
+
 	// Returns Action by given task type
 	function GetAction() {
 		if (!$this->IsEmpty()) {
@@ -104,6 +123,9 @@ class ScheduledTask extends EntityBase {
 				case self::TYPE_STATUS:				return new StatusAction($this);
 				case self::TYPE_EXPIRED_SESSIONS:	return new ExpiredSessionsAction($this);
 				case self::TYPE_RATINGS:			return new UpdateRatingAction($this);
+				case self::TYPE_YTKA_BOT:			return new YtkaBotAction($this);
+				case self::TYPE_VICTORINA_BOT:		return new VictorinaBotAction($this);
+				case self::TYPE_LINGVIST_BOT:		return new LingvistBotAction($this);
 			}
 		}
 		return 0;
@@ -176,11 +198,11 @@ WHERE
 	".self::IS_ACTIVE." 
 ) VALUES (
 	'".SqlQuote($this->Type)."', 
-	'".SqlQuote($this->ExecutionDate)."', 
+	".Nullable($this->ExecutionDate).", 
 	".round($this->Periodicity).", 
-	'".SqlQuote($this->Parameter1)."', 
-	'".SqlQuote($this->Parameter2)."', 
-	'".SqlQuote($this->Parameter3)."', 
+	".SqlFnQuote($this->Parameter1).", 
+	".SqlFnQuote($this->Parameter2).", 
+	".SqlFnQuote($this->Parameter3).", 
 	".Nullable($this->TransactionGuid).",
 	".Boolean($this->IsActive)."
 )";
@@ -188,30 +210,26 @@ WHERE
 
 	function UpdateExpression() {
 		$result = "UPDATE ".$this->table." SET 
-".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
+".self::EXECUTION_DATE."=".Nullable($this->ExecutionDate).", 
 ".self::PERIODICITY."=".round($this->Periodicity).", 
+".self::PARAMETER1."=".SqlFnQuote($this->Parameter1).", 
+".self::PARAMETER2."=".SqlFnQuote($this->Parameter2).", 
+".self::PARAMETER3."=".SqlFnQuote($this->Parameter3).", 
 ".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid).",
 ".self::IS_ACTIVE."=".Boolean($this->IsActive)."
 WHERE 
-	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
+	".self::SCHEDULED_TASK_ID."=".round($this->Id);
 		return $result;
-/*
-		$result = "UPDATE ".$this->table." SET 
-".self::TYPE."='".SqlQuote($this->Type)."', 
-".self::EXECUTION_DATE."='".SqlQuote($this->ExecutionDate)."', 
-".self::PERIODICITY."=".round($this->Periodicity).", 
-".self::PARAMETER1."='".SqlQuote($this->Parameter1)."', 
-".self::PARAMETER2."='".SqlQuote($this->Parameter2)."', 
-".self::PARAMETER3."='".SqlQuote($this->Parameter3)."', 
-".self::TRANSACTION_GUID."=".Nullable($this->TransactionGuid).",
-".self::IS_ACTIVE."=".Boolean($this->IsActive)."
-WHERE 
-	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
-		return $result;
-
-*/
-	
 	}
+
+	function UpdateParameterExpression($parameter, $value) {
+		$result = "UPDATE ".$this->table." SET 
+".self::PARAMETER.round($parameter)."=".$value." 
+WHERE 
+	".self::SCHEDULED_TASK_ID."=".round($this->Id);
+		return $result;
+	}
+
 
 	function LockExpression() {
 		$result = "UPDATE ".$this->table." SET 
@@ -236,47 +254,81 @@ WHERE
 	function ConditionalDeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ##CONDITION##";
 	}
+
+	function IterateExpression() {
+		$result = "UPDATE ".$this->table." SET 
+".self::EXECUTION_DATE."=DATE_ADD(NOW(), INTERVAL `".self::PERIODICITY."` MINUTE),
+".self::TRANSACTION_GUID." = NULL
+WHERE 
+	".self::SCHEDULED_TASK_ID."=".SqlQuote($this->Id);
+		return $result;
+	}
 }
 
 /* ---------------- Ready Tasks----------------- */
 
 abstract class UserScheduledTask extends ScheduledTask {
-	function UserScheduledTask($userId, $executionDate) {
+	function UserScheduledTask($type, $userId, $executionDate) {
 		parent::__construct();
 	
-		$this->Parameter1 = round($userId);
 		$this->ExecutionDate = $executionDate;
+		$this->Parameter1 = round($userId);
 		$this->TransactionGuid = "";
+		$this->Type = $type;
+	}
+}
+
+abstract class Bot extends UserScheduledTask {
+	function Bot($type, $userId, $roomId) {
+		parent::__construct($type, $userId, "");
+	
+		$this->Parameter2 = round($roomId);
+		$this->Periodicity = 1;
 	}
 }
 
 class UnbanScheduledTask extends UserScheduledTask {
 	function UnbanScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_UNBAN;
+		parent::__construct(ScheduledTask::TYPE_UNBAN, $userId, $executionDate);
 	}
 }
 
 class StatusScheduledTask extends UserScheduledTask {
 	function StatusScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_STATUS;
+		parent::__construct(ScheduledTask::TYPE_STATUS, $userId, $executionDate);
 	}
 }
 
 class CheckSumScheduledTask extends UserScheduledTask {
 	function CheckSumScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_CHECKUM;
+		parent::__construct(ScheduledTask::TYPE_CHECKUM, $userId, $executionDate);
 	}
 }
 
 class UpdateRatingsScheduledTask extends UserScheduledTask {
 	function UpdateRatingsScheduledTask($userId, $executionDate) {
-		parent::__construct($userId, $executionDate);
-		$this->Type = ScheduledTask::TYPE_RATINGS;
+		parent::__construct(ScheduledTask::TYPE_RATINGS, $userId, $executionDate);
 	}
 }
+
+class YtkaBotScheduledTask extends Bot {
+	function YtkaBotScheduledTask($userId = -1, $roomId = -1) {
+		parent::__construct(ScheduledTask::TYPE_YTKA_BOT, $userId, $roomId);
+	}
+}
+
+class VictorinaBotScheduledTask extends Bot {
+	function VictorinaBotScheduledTask($userId = -1, $roomId = -1) {
+		parent::__construct(ScheduledTask::TYPE_VICTORINA_BOT, $userId, $roomId);
+	}
+}
+
+class LingvistBotScheduledTask extends Bot {
+	function LingvistBotScheduledTask($userId = -1, $roomId = -1) {
+		parent::__construct(ScheduledTask::TYPE_LINGVIST_BOT, $userId, $roomId);
+	}
+}
+
 
 /* ------------------ Actions ------------------ */
 
@@ -289,10 +341,11 @@ abstract class BaseAction {
 
 	function GetUser($userId = -1) {
 		if ($userId <= 0) {
-			$userId = $this->Task->Parameter1;
+			$userId = round($this->Task->Parameter1);
 		}
-		$user = new User($userId);
-		$user->Retrieve();
+		$user = new UserComplete();
+		$user->GetById($userId);
+
 		if ($user->IsEmpty()) {
 		 	SaveLog("Пользователь (Id: ".$this->Task->Parameter1.") не найден. Задача: ".$this->Task->Type, -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
@@ -301,50 +354,50 @@ abstract class BaseAction {
 		return true;
 	}
 
-	abstract function Execute();
+	abstract function ExecuteByTimer();
 }
 
 // Unban action
 class UnbanAction extends BaseAction {
 	
-	function Execute() {
+	function ExecuteByTimer() {
 		if (!$this->GetUser()) {
 			return false;
 		}
 
-		if (!$this->user->IsBanned()) {
-		 	SaveLog("Не удалось разбанить пользователя - не забанен.", $this->user->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		if (!$this->user->User->IsBanned()) {
+		 	SaveLog("Не удалось разбанить пользователя - не забанен.", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
-		$this->user->StopBan();
-		$this->user->Save();
-	 	LogBanEnd($this->user->Id, ScheduledTask::SCHEDULER_LOGIN);
+		$this->user->User->StopBan();
+		$this->user->User->Save();
+	 	LogBanEnd($this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
 		return true;
 	}
 }
 
 // Setting "Oldbie" status to user
 class StatusAction extends BaseAction {
-	function Execute() {
+	function ExecuteByTimer() {
 		if (!$this->GetUser()) {
 			return false;
 		}
 		$status = new Status();
 		$status->GetStandardStatus(Status::RIGHTS_OLDBIE);
 		if ($status->IsEmpty()) {
-		 	SaveLog("Не удалось установить пользователю статус \"старожил\". Статус не найден.", $this->user->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		 	SaveLog("Не удалось установить пользователю статус \"старожил\". Статус не найден.", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 		 	return false;
 		}
-		$this->user->StatusId = $status->Id;
-	 	SaveLog("Установлен статус \"старожил\".", $this->user->Id, ScheduledTask::SCHEDULER_LOGIN);
-		$this->user->Save();
+		$this->user->User->StatusId = $status->Id;
+	 	SaveLog("Установлен статус \"старожил\".", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
+		$this->user->User->Save();
 		return true;
 	}
 }
 
 // Removing expired user sessions
 class ExpiredSessionsAction extends BaseAction {
-	function Execute() {
+	function ExecuteByTimer() {
 	  global $db;
 
 		$user1 = new User();
@@ -357,11 +410,11 @@ class ExpiredSessionsAction extends BaseAction {
 		}
 		
 		// Left user sessions, but remove room information
-		$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL, t1.".User::SESSION."=NULL, t1.".User::SESSION_CHECK."=NULL WHERE ".$user1->ExpireCondition());
+		$q = $db->Query("UPDATE ".User::table." t1 SET t1.".User::ROOM_ID."=NULL, t1.".User::SESSION_PONG."=NULL WHERE ".$user1->ExpireCondition());
 
 		if (sizeof($u) > 0) {
 			while (list($roomId,$users) = each($u)) {
-				$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат.", $roomId);
+				$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат. ", $roomId);
 				$message->Save();
 			}
 		}
@@ -371,7 +424,7 @@ class ExpiredSessionsAction extends BaseAction {
 
 // Update ratings
 class UpdateRatingAction extends BaseAction {
-	function Execute() {
+	function ExecuteByTimer() {
 
 		Rating::UpdateRatings();
 	 	SaveLog("Обновление рейтингов.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
@@ -379,5 +432,170 @@ class UpdateRatingAction extends BaseAction {
 		return true;
 	}
 }
+
+
+//---------------------------------------------------------------------------
+// Base bots actions actions
+abstract class BotBaseAction extends BaseAction {
+	var $room;
+	var $lastExecutionTime;
+	var $messages;
+
+	var $settings, $name;
+
+	function GetRoom() {
+		$this->room = new Room();
+		$this->room->GetById(round($this->Task->Parameter2));
+		return !($this->room->IsEmpty() || $this->room->IsDeleted);
+	}
+
+	function IsValid() {
+		if (!$this->GetUser() || !$this->GetRoom()) {
+	 		SaveLog("Бот (".$this->Task->Type.") остановлен. Некорректно указан пользователь или комната.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+	 		$this->Task->IsActive = 0;
+			$this->Task->Save();
+			return false;
+		}
+		return true;
+	}
+	
+	function Init() {
+	  global $db;
+		if (!$this->Task->IsActive || !$this->IsValid()) {
+			return false;
+		}
+
+		$this->lastExecutionTime = $this->Task->ExecutionDate;
+		if (!$this->lastExecutionTime && $this->user->User->RoomId) {
+			$text = $this->user->Settings->EnterMessage;
+			if (!$text) {
+				$text = "В чат входит %name.";
+			}
+			$message = new EnterMessage(str_replace("%name", Clickable($this->user->DisplayedName()), $text), $this->room->Id);
+			$message->Save();
+
+			// Entering to room
+			$this->user->User->RoomId = $this->room->Id;
+			$this->user->User->Save();
+		}
+		// Ponging session & updating checksum
+		$this->user->User->TouchSession();
+		$this->user->UpdateChecksum();
+		return true;
+	}
+
+	function ShutDown() {
+	  global $db;
+		if (!$this->Task->IsActive || !$this->IsValid()) {
+			return false;
+		}
+		$text = $this->user->Settings->QuitMessage;
+		if (!$text) {
+			$text = "%name выходит из чата.";
+		}
+		$message = new QuitMessage(str_replace("%name", Clickable($this->user->DisplayedName()), $text), $this->room->Id);
+		$message->Save();
+
+		// Leaving
+		$this->user->User->GoOffline();
+		$this->user->User->Save();
+	}
+
+	abstract function ExecuteByMessage($message);
+}
+
+/*
+	These bots actions will be performed on timer basis:
+	e.g. Victorina phases switching, YTKA random phrase etc.
+	+ Session maintainance to be shown in users list.
+
+	New message reactions will be set in separate class.
+*/
+
+
+// Ytka bot actions
+class YtkaBotAction extends BotBaseAction {
+	function ExecuteByTimer() {
+	  global $db;
+
+	    if ($this->Init()) {
+	    	#$m = new Message(sizeof($this->messages), $this->user);
+	    	#$m->RoomId = $this->room->Id;
+	    	#$m->Save();
+
+	    	$this->Task->Parameter3 = "fn:NOW()";
+			$this->Task->Save();
+
+			return true;
+	    }
+		return false;
+	}
+	
+	function ExecuteByMessage($message) {
+	  global $db;
+
+	    if ($this->Init() && !$message->IsPrivate()) {
+	        $myName = $this->user->DisplayedName();
+	        if (strpos($message->Text, $myName) !== false) {
+	    		$item = new YtkaDictionaryItem();
+
+				// Reply
+				$item->PickRandom();
+				$u = new User();
+				$authorName = $u->GetUserCurrentName($message->UserId);
+	    		$m = new Message(str_replace("%name", $authorName, $item->Content), $this->user->User);
+    			$m->RoomId = $message->RoomId;
+    			$m->Save();
+
+    			// Store new item in the dictionary
+    			$item->Clear();
+    			$item->UserId = $message->UserId;
+    			$item->Content = str_replace($myName, "%name", $message->Text);
+				$item->Save();
+			}
+
+
+			return true;
+    	}
+		return false;
+	}
+}
+
+// Victorina bot actions
+class VictorinaBotAction extends BotBaseAction {
+	function ExecuteByTimer() {
+	  global $db;
+		
+	    if ($this->Init()) {
+	    	$this->Task->Parameter3 = ++$this->Task->Parameter3%5;
+			$this->Task->Save();
+
+	    	$m = new Message($this->Task->Parameter3, $this->user->User);
+	    	$m->RoomId = $this->room->Id;
+	    	#$m->Save();
+			return true;
+	    }
+		return false;
+	}
+
+	function ExecuteByMessage($message) {
+		return true;
+	}
+}
+
+// Lingvist bot actions
+class LingvistBotAction extends BotBaseAction {
+	function ExecuteByTimer() {
+	  global $db;
+		
+		return true;
+	}
+
+	function ExecuteByMessage($message) {
+		return true;
+	}
+}
+
+
 
 ?>

@@ -7,6 +7,11 @@ class GalleryPhoto extends JournalRecord {
     function ToLink() {
     	return self::MakeLink($this->ForumId, $this->Id);
     }
+
+	function GetImageUrl($galleryFile, $isThumb = true) {
+	  global $SiteHost, $PathToGalleries;
+		return "http://".$SiteHost.$PathToGalleries.$galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
+	}
 	
 	function ToPreview($galleryFile, $isThumb = true) {
 	  global $root, $PathToGalleries, $ServerPathToGalleries;

@@ -8,7 +8,7 @@ abstract class EntityBase {
 	var $FieldsNames = array();
 	var $SearchTemplate = "";
 
-	private $IdentityName = "";
+	var $IdentityName = "";
 
 	const USER_ID = "USER_ID";
 
@@ -211,10 +211,6 @@ abstract class EntityBase {
 	abstract function ReadExpression();
 	abstract function UpdateExpression();
 	abstract function DeleteExpression();
-
-	function BaseDeleteExpression() {
-		return "DELETE FROM ".$this->table." WHERE ".$this->IdentityName."=".round($this->Id);
-	}
 
 	function DeleteByUserExpression($id) {
 		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($id);

@@ -1,7 +1,7 @@
 				<nav>
 					<ul class="BottomNav">
 						<li class="First"> <a href="/">На главную</a>
-					<li> <a href="/register.php">Регистрация</a>
+					<li> <a href="/register/">Регистрация</a>
 						<li> <a href="/forum/">Форум</a>
 						<li> <a href="/journal/">Журналы</a>
 						<li> <a href="/gallery/">Фотогалерея</a>

@@ -34,7 +34,7 @@ class Query {
 
 		if ($this->Q) {
 			$this->Queried = true;
-		} else {
+		} else if ($this->Debugging) {
 			error("Ошибка в запросе: <strong>".$query."</strong>: <span class='Red'>".mysql_error()."</span>!");
 		}
 	}
