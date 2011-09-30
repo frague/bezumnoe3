@@ -11,6 +11,13 @@ body {
   src: local('Neucha'), url('/fonts/Neucha.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'bezumnoe';
+  font-style: normal;
+  font-weight: normal;
+  src: local('bezumnoe'), url('/fonts/bezumnoe.ttf') format('truetype');
+}
+
 a {
 	color: #923200;
 	text-decoration:none;
@@ -32,8 +39,10 @@ ul {
 
 h1 {
 	color: Black;
-	font-family: 'Neucha', 'Arial Narrow',arial;
-	font-size: 18pt;
+	font-family: 'bezumnoe', 'Neucha', 'Arial Narrow',arial;
+	letter-spacing: 100%;
+	line-height:  25px;
+	font-size: 20pt;
 	padding: 10px 0 0 0;
 	margin: 0;
 	font-weight: normal;
@@ -232,4 +241,14 @@ ul.BottomNav li.First a {
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
+}
+
+.Likes {
+	text-align:left;
+ 	vertical-align: middle;
+}
+
+.Likes div {
+	float: left;
+	margin-right: 4px;
 }
