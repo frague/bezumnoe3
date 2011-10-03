@@ -73,9 +73,7 @@
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("a[rel^='prettyPhoto']").prettyPhoto({
-			social_tools: ''
-		});
+		$("a[rel^='pp']").prettyPhoto();
 	});
 </script>
 <?php
