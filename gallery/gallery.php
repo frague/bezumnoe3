@@ -42,7 +42,7 @@
 	while ($c < $amount) {
 		$result.= "<tr>";
 		for ($i = 0; $i < $row; $i++) {
-			$result.= "<td".($c < $row ? " width='".(100 / $row)."%'" : "").">";
+			$result.= "<td".($c < $row ? " width='".sprintf("%01.2f", 100 / $row)."%'" : "").">";
 			if (($c < $amount)) {
 				$q->NextResult();
 				$photo->FillFromResult($q);
@@ -66,10 +66,19 @@
 
 	// Printing
 	AddEtagHeader(strtotime($lastModified));
-	Head($gallery->Title, "forum.css", "", "", "", "Фотогалерея");
+	Head($gallery->Title, array("forum.css", "prettyPhoto.css"), "jquery/jquery.prettyPhoto.js", "", "", "Фотогалерея");
 
 	$gallery->DoPrint();
-
 	echo $result;
+?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("a[rel^='prettyPhoto']").prettyPhoto({
+			social_tools: ''
+		});
+	});
+</script>
+<?php
+
 	Foot();
 ?>

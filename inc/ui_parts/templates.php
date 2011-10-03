@@ -18,16 +18,28 @@
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<meta name="description" content="<? echo $meta_description ?>" />
 		<script language="javascript" src="/js1/common.js"></script>
+		<script language="javascript" src="/js1/jquery/jquery-1.6.4.min.js"></script>
+		<script language="javascript" src="/js1/jquery/jquery-ui-1.8.16.custom.min.js"></script>
 <?php 
 		
 		if ($css) {
-			echo "		<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$css."\" />\n";
+			if (!is_array($css)) {
+				$css = array($css);
+			}
+			foreach ($css as $i) {
+				echo "		<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$i."\" />\n";
+			}
 		}
 		if ($rss) {
 			echo "		<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"".$rss."\" />\n";
 		}
 		if ($js) {
-			echo "		<script language=\"javascript\" src=\"/js1/".$js."\"></script>\n";
+			if (!is_array($js)) {
+				$js = array ($js);
+			}
+			foreach ($js as $i) {
+				echo "		<script language=\"javascript\" src=\"/js1/".$i."\"></script>\n";
+		   	}
 		}
 	?>
 		<script language="javascript" src="/js1/reply_common.js"></script>
