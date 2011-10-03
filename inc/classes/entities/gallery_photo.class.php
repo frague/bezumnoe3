@@ -24,10 +24,22 @@ class GalleryPhoto extends JournalRecord {
 		return $result;
 	}
 
+	function ToGalleryPreview($galleryFile, $isThumb = true) {
+	  global $root, $PathToGalleries, $ServerPathToGalleries;
+
+		$path = $galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
+
+		$result = $isThumb ? "<a href=\"".($PathToGalleries.$galleryFile."/".$this->Content)."\" rel=\"prettyPhoto[pp_gal]\">" : "";
+		$result .= HtmlImage($PathToGalleries.$path, $root.$ServerPathToGalleries.$path, "", $this->Title).($isThumb ? "</a>" : "");
+
+		return $result;
+	}
+
 	function ToPrint($galleryFile, $isThumb = true) {
 	  global $root, $PathToGalleries, $ServerPathToGalleries;
 
-		$result = $this->ToPreview($galleryFile, $isThumb);
+		$result = $this->ToGalleryPreview($galleryFile, $isThumb);
+//		$result = $this->ToPreview($galleryFile, $isThumb);
 
 		if ($this->Title) {
 			$result .= "<p>".nl2br($this->Title)."</p>";
