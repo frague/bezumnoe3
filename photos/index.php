@@ -4,8 +4,7 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Фотки чатлан", "photos.css");
-	require_once $root."references.php";
+	Head("Фотки чатлан", array("photos.css", "prettyPhoto.css"), "jquery/jquery.prettyPhoto.js");
 
 	$search = LookInRequest("search");
 
@@ -28,15 +27,13 @@
 
 		$photo = ProfilePhoto($p, $login);
 		if ($photo) {
-			$photos .= $photo."<div>".$link."</div>";
+			$photos .= $photo."<div>".$link."</div>\n";
 			$link = "<b>".$link."</b>";
 		}
 		$result .= MakeListItem()." ".$link;
 	}
 
 ?>
-<script language="javascript" src="/js1/photos.js"></script>
-
 <table width="100%">
 	<tr>
 		<td width="30%" valign="top" class='UserList'>
@@ -75,8 +72,14 @@
 		</td>
 	</tr>
 </table>
-
-<?php
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("a[rel^='pp']").prettyPhoto({
+			social_tools: false
+		});
+	});
+</script>
+	<?php
 
 
 	Foot();

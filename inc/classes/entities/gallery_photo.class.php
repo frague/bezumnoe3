@@ -29,7 +29,7 @@ class GalleryPhoto extends JournalRecord {
 
 		$path = $galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
 
-		$result = $isThumb ? "<a href=\"".($PathToGalleries.$galleryFile."/".$this->Content)."\" rel=\"prettyPhoto[pp_gal]\">" : "";
+		$result = $isThumb ? "<a href=\"".($PathToGalleries.$galleryFile."/".$this->Content)."\" rel=\"pp[pp_gal]\" src=\"".$this->ForumId."/".$this->Id."|".($this->AnswersCount - $this->DeletedCount)."\">" : "";
 		$result .= HtmlImage($PathToGalleries.$path, $root.$ServerPathToGalleries.$path, "", $this->Title).($isThumb ? "</a>" : "");
 
 		return $result;
