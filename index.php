@@ -39,6 +39,7 @@
 	<link rel="stylesheet" href="/css/global.css" />
 	<link rel="stylesheet" href="/css/template_layout.css" />
 	<link rel="stylesheet" href="/css/default3.css" />
+<!--[if IE]>	<link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>

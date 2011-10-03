@@ -1,0 +1,29 @@
+.Column.Left h5 {
+	font-family: "arial";
+	letter-spacing: normal;
+}
+
+.Column.Left .UserList h5, .Column.Left .News h5, .Column.Left .Birthdays h5 {
+	font-size: 13px;
+}
+
+
+
+
+.MainLink h4 {
+	font-family: "arial";
+	letter-spacing: normal;
+	font-size: 32px;
+}
+
+.MainLink.Blogs h4 {
+	font-size: 26px;
+	color: red;
+}
+
+.MainLink.Register h4 {
+	color: #DD4B0D;
+	text-shadow:2px 2px 0px #FCA601;
+	font-size: 34px;
+}
+
