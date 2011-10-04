@@ -6,8 +6,7 @@
 
 	$meta_description = "Форум саратовского чата Безумное Чаепитие у Мартовского Зайца. Самые интересные темы, вопросы, объявления.";
 
-#	Head("Форумы", "forum.css", "forum.js", "", "", "forums.gif");
-	Head("Форумы", "forum.css", "forum.js", "", "");
+	Head("Форумы", "forum.css", "", "", "");
 	require_once $root."references.php";
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday

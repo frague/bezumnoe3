@@ -23,7 +23,7 @@
 
 	$meta_description = MetaContent($record->Title." - ".$record->Content);
 
-	Head($record->Title, array("forum.css", "jqueryui.css"), "forum.js", "", "", "Форумы");
+	Head($record->Title, array("forum.css", "jqueryui.css"), "", "", "", "Форумы");
 
 	require_once $root."references.php";
 

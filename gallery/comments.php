@@ -32,7 +32,7 @@
 	$buttons = FillButtonObjects($gallery->Title, $record->Title, "", $record->GetImageUrl($gallery->Description));
 
 	AddEtagHeader(strtotime($record->UpdateDate));
-	Head($record->Title, array("forum.css", "jqueryui.css"), "forum.js", "", false, "Фотогалерея", $buttons);
+	Head($record->Title, array("forum.css", "jqueryui.css"), "", "", false, "Фотогалерея", $buttons);
 	require_once $root."references.php";
 
 	$gallery->DoPrint(true);
@@ -63,7 +63,7 @@
 
 
 		echo "<div class='NewThread'>";
-		echo "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,".$record->Id.",".$gallery->Id.")'>Новый комментарий</a>";
+		echo "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$gallery->Id.")'>Новый комментарий</a>";
 		echo "</div>";
 
 		echo "<ul class='Thread'>";

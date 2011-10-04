@@ -219,7 +219,7 @@ class ForumRecordBase extends EntityBase {
 
 		$result .= "<div class='Links'>";
 		if ($this->IsCommentable) {
-			$result .= "<a name='r".round($this->Id)."' href='#r".round($this->Id)."' id='replyLink' onclick='ForumReply(this,".$this->Id.",".$this->ForumId.")'>Ответить</a>";
+			$result .= "<a name='r".round($this->Id)."' href='#r".round($this->Id)."' class='replyLink' onclick='ForumReply(this,".$this->Id.",".$this->ForumId.")'>Ответить</a>";
 		}
 		if ($user && ($user->IsAdmin() || $user->User->Id == $this->UserId)) {
 			$result .= "&nbsp;<a href='javascript:void(0)' onclick='ForumDelete(this,".$this->Id.",".$this->ForumId.")'>Удалить</a>";
