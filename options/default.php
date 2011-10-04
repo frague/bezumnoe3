@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/global.css">
 		<link rel="stylesheet" type="text/css" href="/css/menu_layout.css">
+		<script language="javascript" src="/js1/stub.js"></script>
 		<?
 
 	$root = "../";

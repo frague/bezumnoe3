@@ -20,7 +20,7 @@
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
 
-	Head($forum->Title, "forum.css", "forum.js", "", "", "Форумы");
+	Head($forum->Title, array("forum.css", "jqueryui.css"), "forum.js", "", "", "Форумы");
 
 	require_once $root."references.php";
 

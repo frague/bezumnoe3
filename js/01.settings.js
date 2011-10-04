@@ -29,7 +29,7 @@ var ReplaceTags = new RegExp("\<[\/a-z][^\>]*\>", "gim");
 
 /* Service methods */
 
-function $(id) {
+/*function $(id) {
 	if (d.getElementById) {
 		return d.getElementById(id);
 	} else if (d.all) {
@@ -38,7 +38,7 @@ function $(id) {
 		return d.layers[id];
 	}
 	return false;
-};
+};*/
 
 function DisplayElement(el, state) {
 	if (!el.style) {

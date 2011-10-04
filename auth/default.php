@@ -15,6 +15,8 @@
 				SetUserSessionCookie($user->User);
 			}
 
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Pragma: no-cache");
 			header("Location: ".$referer);
 			break;
 
@@ -56,6 +58,8 @@
 			        $result = "ERROR CODE: ".$error["code"]."<br>";
 			        $result .= "ERROR DESCRIPTION: ".$error["description"]."<br>";
 
+					header("Cache-Control: no-cache, must-revalidate");
+					header("Pragma: no-cache");
 					header("Location: ".$referer);
 					exit;
 			    }
