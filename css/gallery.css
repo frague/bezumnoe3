@@ -83,7 +83,7 @@ ul.Threads li.Protected a {
 	text-decoration:line-through;
 }
 
-.Hidden #replyLink {
+.Hidden .replyLink {
 	display:none;
 }
 

@@ -20,7 +20,7 @@
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
 
-	Head($forum->Title, array("forum.css", "jqueryui.css"), "forum.js", "", "", "Форумы");
+	Head($forum->Title, array("forum.css", "jqueryui.css"), "", "", "", "Форумы");
 
 	require_once $root."references.php";
 
@@ -47,7 +47,7 @@
 	
 	$result.= "<style>#buttonCite".($forum->IsProtected ? "" : ", #IsProtected")." {display:none;}</style>";
 	$result.= "<div class='NewThread'>";
-	$result.= "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Новая тема</a>";
+	$result.= "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Новая тема</a>";
 	$result.= "</div>";
 	
 	$result.= "<ul class='Threads'>";

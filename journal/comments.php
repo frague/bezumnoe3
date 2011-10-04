@@ -61,7 +61,7 @@
 
 	$buttons = FillButtonObjects($journal->Title, $record->Title, "", $record->GetImageUrl());
 	
-	Head("Комментарии к &laquo;".$record->Title."&raquo;", array("forum.css", "jqueryui.css"), "forum.js", "", false, "Комментарии", $buttons);
+	Head("Комментарии к &laquo;".$record->Title."&raquo;", array("forum.css", "jqueryui.css"), "", "", false, "Комментарии", $buttons);
 	require_once $root."references.php";
 
 	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);
@@ -99,7 +99,7 @@
 
 	echo "<a name='c'></a>";
 	echo "<div class='NewThread'>";
-	echo "<a href='javascript:void(0)' id='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>";
+	echo "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>";
 	echo "</div>";
 
 	echo "<ul class='Thread'>";

@@ -2,19 +2,24 @@ var hiderElement, replyFormElement;
 var isVisible = 0, lastLink;
 var replyErrorElement, replyTitleElement, replyContentElement, replyIsProtected;
 
+var replyMessageId, forumId;
+
+var citeLevel;
+
 var brClean = new RegExp("(<br[^>]*>)", "g");
 var addCite = new RegExp("(\\n)", "g");
 
 function FindReplyElements() {
+	// Finds all reply form elements necessary
+
 	hiderElement = $("#Hider")[0];
 	replyFormElement = $("#ReplyForm")[0];
-	replyErrorElement = $("#ERROR")[0];
-	replyTitleElement = $("#TITLE")[0];
-	replyContentElement = $("#CONTENT")[0];
-	replyIsProtected = $("#IS_PROTECTED")[0];
-};
 
-var citeLevel;
+	replyErrorElement = $("#ERROR");
+	replyTitleElement = $("#TITLE");
+	replyContentElement = $("#CONTENT");
+	replyIsProtected = $("#IS_PROTECTED");
+};
 
 function SubstrCount(s, subStr, offset) {
 	var ex = new RegExp("(" + subStr + ")");
@@ -26,6 +31,7 @@ function SubstrCount(s, subStr, offset) {
 }
 
 function MakeCite() {
+	// Makes cite from text
 	if (lastLink) {
 		var text = lastLink.parentNode.previousSibling.innerHTML;
 		text = text.replace(brClean, "");
@@ -45,16 +51,8 @@ function MakeCite() {
 		}
 
 		if (replyContentElement) {
-			replyContentElement.value = text;
+			replyContentElement.val(text);
 		}
-	}
-};
-
-function ClearReply() {
-	if (replyTitleElement) {
-		replyErrorElement.innerHTML = "";
-		replyTitleElement.value = "";
-		replyContentElement.value = "";
 	}
 };
 
@@ -109,12 +107,173 @@ function SetChildClass(tag, el, className) {
 	}
 };
 
+// Opens reply form after authentication
 function OpenReplyForm() {
 	var l = window.location.hash;
 	if (l) {
-		var a = document.getElementsByName(l.substr(1));
-		if (a && a.length > 0 && a[0].name.charAt(0) == "r") {
-			a[0].onclick();
-		}
+		$('a[name='+l.substr(1)+']').click();
 	}
 };
+
+
+function ForumReply(a, id, forum_id) {
+    if (!GetCurrentSession()) {
+		$("#auth_form").dialog("open");
+    	return true;
+    }
+	
+	if (!replyFormElement) {
+		FindReplyElements();
+	}
+	if (!replyFormElement) {
+		return false;
+	} else {
+		ForumClearReply();
+		replyMessageId = id;
+		forumId = forum_id;
+		if (isVisible && lastLink == a) {
+			CancelReply();
+		} else {
+			// Treat protected replies
+			LockProtection(a.parentNode.previousSibling);
+			replyErrorElement.hide();
+			
+			insertAfter(replyFormElement, a.parentNode);
+	   		isVisible = 1;
+	   		if (replyTitleElement) {
+	   			replyTitleElement.focus();
+	   		}
+	   	}
+	}
+	lastLink = a;
+};
+
+function LockProtection(el) {
+	if (!el || !replyIsProtected) {
+		return;
+	}
+	var state = (el.className.indexOf("Protected") >= 0);
+	replyIsProtected.attr('checked', state);
+	if (state) 
+		replyIsProtected.attr('disabled', 'disabled'); 
+	else 
+		replyIsProtected.removeAttr('disabled'); 
+};
+
+// Clears reply form
+function ClearReply() {
+	if (replyTitleElement) {
+		replyErrorElement.html('');
+		replyTitleElement.val('');
+		replyContentElement.val('');
+	}
+};
+
+// Clears form and message and forum relations
+function ForumClearReply() {
+	replyMessageId = "";
+	forumId = "";
+	ClearReply();
+};
+
+// Sends new message information to server
+function AddMessage(lnk) {
+	// Tries to submit the form
+	if (replyTitleElement) {
+		lnk.disabled = true;
+		params = MakeParametersPair("RECORD_ID", replyMessageId);
+		params+= MakeParametersPair("FORUM_ID", forumId);
+		params+= MakeParametersPair("TITLE", replyTitleElement.val());
+		params+= MakeParametersPair("CONTENT", replyContentElement.val());
+		params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.is('checked') ? 1 : 0);
+
+		sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
+	}
+};
+
+// New message adding callback
+function ForumMessageAddCallback(req, el) {
+	var newRecord = '', error = '', logged_user = '';
+	eval(req.responseText);
+
+	if (!error) {
+		CancelReply();
+		var ul = FindTargetElement(el);
+		if (ul) {
+			var li = d.createElement("li");
+			li.innerHTML = newRecord;
+
+			if (ul.hasChildNodes()) {
+				ul.insertBefore(li, ul.firstChild);
+			} else {
+				ul.appendChild(li);
+			}
+		}
+	} else {
+		if (replyErrorElement) {
+			replyErrorElement.html(error).show().delay(5000).hide('blind', {}, 'slow');
+		}
+	}
+	$("#SubmitMessageButton").removeAttr("disabled");
+};
+
+// Message deletion
+function ForumDelete(a, id, forum_id) {
+	params = MakeParametersPair("RECORD_ID", id);
+	params+= MakeParametersPair("FORUM_ID", forum_id);
+	params+= MakeParametersPair("go", "delete");
+
+	sendRequest(servicesPath + "forum.service.php", ForumMessageDelCallback, params, a);
+}
+
+// Deletion callback
+function ForumMessageDelCallback(req, a) {
+	var error = '', className = '';
+	eval(req.responseText);
+	if (!error) {
+		var li = FindParentTag("li", a);
+		SetChildClass("li", li, className);
+	} else {
+		alert(error);	// TODO:
+	}
+};
+
+// OpenID provider visual selection
+var selectedProvider = "";
+function SetOpenID(id, el, a) {
+	el = $("#" + el);
+	if (!el || !id || !a) {
+		return;
+	}
+	if (selectedProvider) {
+		selectedProvider.className = "";
+	}
+	selectedProvider = a;
+	a.className = "Selected";
+	a.blur();
+	el.val(id);
+};
+
+// Schedule reply form opening
+$(function() {
+	$( "#auth_form" ).dialog({
+		title: 'Авторизация в чате',
+		autoOpen: false,
+		height: 230,
+		width: 420,
+		modal: true,
+		buttons: {
+			"Авторизоваться": function() {
+				$( "#auth" ).submit();
+				$( this ).dialog( "close" );
+			},
+			"Отмена": function() {
+				$( this ).dialog( "close" );
+			}
+		},
+		close: function() {
+			allFields.val( "" ).removeClass( "ui-state-error" );
+		},
+	});
+	OpenReplyForm();
+});
