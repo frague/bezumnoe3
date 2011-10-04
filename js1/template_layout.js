@@ -1,6 +1,6 @@
 // Scripts related to site pages only, not menu
 
-var alerts = new MyFrame($('AlertContainer'));
+/*var alerts = new MyFrame($('AlertContainer'));
 var winSize = new MyFrame(window);
 
 function AdjustDivs() {
@@ -21,3 +21,4 @@ if (window.addEventListener) {
 	window.addEventListener("resize", AdjustDivs, true);
 	window.addEventListener("scroll", AdjustDivs, true);
 };
+*/

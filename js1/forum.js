@@ -2,7 +2,7 @@ var replyMessageId, forumId;
 
 function ForumReply(a, id, forum_id) {
     if (!GetCurrentSession()) {
-    	setTimeout(AuthPopUp, 100);
+		$("#auth_form").dialog("open");
     	return true;
     }
 	
@@ -20,7 +20,6 @@ function ForumReply(a, id, forum_id) {
 		} else {
 			// Treat protected replies
 			LockProtection(a.parentNode.previousSibling);
-
 			insertAfter(replyFormElement, a.parentNode);
 	   		isVisible = 1;
 	   		if (replyTitleElement) {
@@ -118,7 +117,7 @@ function ForumMessageDelCallback(req, a) {
 // OpenID provider visual selection
 var selectedProvider = "";
 function SetOpenID(id, el, a) {
-	el = $(el);
+	el = $("#"+el);
 	if (!el || !id || !a) {
 		return;
 	}
@@ -128,7 +127,7 @@ function SetOpenID(id, el, a) {
 	selectedProvider = a;
 	a.className = "Selected";
 	a.blur();
-	el.value = id;
+	el.val(id);
 };
 
 // Submit authorization form

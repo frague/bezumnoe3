@@ -61,7 +61,7 @@
 
 	$buttons = FillButtonObjects($journal->Title, $record->Title, "", $record->GetImageUrl());
 	
-	Head("Комментарии к &laquo;".$record->Title."&raquo;", "forum.css", "forum.js", "", false, "Комментарии", $buttons);
+	Head("Комментарии к &laquo;".$record->Title."&raquo;", array("forum.css", "jqueryui.css"), "forum.js", "", false, "Комментарии", $buttons);
 	require_once $root."references.php";
 
 	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);

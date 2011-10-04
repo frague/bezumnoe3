@@ -6,12 +6,12 @@ var brClean = new RegExp("(<br[^>]*>)", "g");
 var addCite = new RegExp("(\\n)", "g");
 
 function FindReplyElements() {
-	hiderElement = $("Hider");
-	replyFormElement = $("ReplyForm");
-	replyErrorElement = $("ERROR");
-	replyTitleElement = $("TITLE");
-	replyContentElement = $("CONTENT");
-	replyIsProtected = $("IS_PROTECTED");
+	hiderElement = $("#Hider")[0];
+	replyFormElement = $("#ReplyForm")[0];
+	replyErrorElement = $("#ERROR")[0];
+	replyTitleElement = $("#TITLE")[0];
+	replyContentElement = $("#CONTENT")[0];
+	replyIsProtected = $("#IS_PROTECTED")[0];
 };
 
 var citeLevel;

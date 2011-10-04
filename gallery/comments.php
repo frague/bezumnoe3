@@ -32,7 +32,7 @@
 	$buttons = FillButtonObjects($gallery->Title, $record->Title, "", $record->GetImageUrl($gallery->Description));
 
 	AddEtagHeader(strtotime($record->UpdateDate));
-	Head($record->Title, "forum.css", "forum.js", "", false, "Фотогалерея", $buttons);
+	Head($record->Title, array("forum.css", "jqueryui.css"), "forum.js", "", false, "Фотогалерея", $buttons);
 	require_once $root."references.php";
 
 	$gallery->DoPrint(true);
@@ -93,11 +93,10 @@
 		} else {
 			echo "</ul>";
 		}
+		include $root."inc/ui_parts/post_form.php";
 	} else {
 		echo "<div class='Error'>Комментарии к фотографии отключены.</div>";
 	}
-
-	include $root."inc/ui_parts/post_form.php";
 
 	Foot();
 
