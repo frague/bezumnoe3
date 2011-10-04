@@ -107,10 +107,12 @@ function SetChildClass(tag, el, className) {
 	}
 };
 
+var linkExpr = new RegExp('^#[a-z]\\d+$');
+
 // Opens reply form after authentication
 function OpenReplyForm() {
 	var l = window.location.hash;
-	if (l) {
+	if (l && linkExpr.test(l)) {
 		$('a[name='+l.substr(1)+']').click();
 	}
 };
