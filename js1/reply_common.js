@@ -121,7 +121,7 @@ function OpenReplyForm() {
 function ForumReply(a, id, forum_id) {
     if (!GetCurrentSession()) {
 		$("#auth_form").dialog("open");
-    	return true;
+    	return false;
     }
 	
 	if (!replyFormElement) {
