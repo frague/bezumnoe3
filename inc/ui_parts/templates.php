@@ -1,7 +1,7 @@
 <?php
 
 	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $main_title = "", $like_buttons = array()) {
-	  global $user, $meta_description, $root;
+	  global $user, $meta_description, $root, $no_jquery;
 
 	  	if (!$meta_description) {
 	  		$meta_description = "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
@@ -18,9 +18,11 @@
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<meta name="description" content="<? echo $meta_description ?>" />
 		<script language="javascript" src="/js1/common.js"></script>
+<?php if (!$no_jquery) {?>
 		<script language="javascript" src="/js1/jquery/jquery-1.6.4.min.js"></script>
 		<script language="javascript" src="/js1/jquery/jquery-ui-1.8.16.custom.min.js"></script>
-<?php 
+<?php
+		}
 		
 		if ($css) {
 			if (!is_array($css)) {
@@ -70,9 +72,9 @@
 
 			<header>
 				<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>>
-					<a href="/" class="NoBorder"><img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" style="vertical-align:top;margin-top:2px;" /></a>
-					<?php echo $main_title ? $main_title : $title; ?>
-					</h1></header>
+					<a href="/" class="NoBorder">
+						<img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" style="vertical-align:top;margin-top:2px;" /></a>
+					<?php echo $main_title ? $main_title : $title; ?></h1></header>
 
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 <?php

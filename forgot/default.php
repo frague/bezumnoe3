@@ -4,7 +4,8 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Изменение забытого пароля", "register.css");
+	$no_jquery = 1;
+	Head("Изменение забытого пароля", "register.css", "stub.js");
 	require_once $root."references.php";
 
 

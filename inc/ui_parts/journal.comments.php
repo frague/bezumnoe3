@@ -46,6 +46,7 @@
 
 		$topic = new JournalRecord();
 		$topic->FillFromResult($q);
+		if (!$topic->IsCommentable) break;
 
 		$index = $topic->Index."_".$topic->ForumId;
 		$topics[$index] = $topic;

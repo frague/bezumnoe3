@@ -4,10 +4,9 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Регистрация в чате", "register.css");
+	$no_jquery = 1;
+	Head("Регистрация в чате", "register.css", "stub.js");
 	require_once $root."references.php";
-
-
 
 
 	$errors = array();
