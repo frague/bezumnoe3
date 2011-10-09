@@ -69,22 +69,26 @@
 	echo $record->ToPrint($author);
 
 	if (!$record->IsCommentable) {
-		echo Error("Комментарии к данному сообщению отключены.");
-		Foot();
-		die;
+		echo "<div class='ErrorHolder'><h2>Ошибка</h2>Комментарии к данному сообщению отключены.</div>";
+	} else {
+		echo "<div class=\"Likes\">";
+		echo GetButtonsMarkup($journal->Title, $record->Title, "", $record->GetImageUrl());
+		echo "</div>\n";
 	}
 
-	echo "<div class=\"Likes\">";
-	echo GetButtonsMarkup($journal->Title, $record->Title, "", $record->GetImageUrl());
-	echo "</div>\n";
-
-	?>
+		?>
 	
 	<ul style="margin-top:10px"> <strong>Вернуться</strong>
 		<li> к сообщению &laquo;<?php echo $record->ToLink(100, $alias); ?>&raquo;<br />
 		<li> к журналу &laquo;<?php echo $journal->GetLink($alias, 0, false); ?>&raquo;
 	</ul>
 
+<?
+	if (!$record->IsCommentable) {
+		Foot();
+		die();
+	}
+?>
 	<h3 style='clear:both'>Комментарии:</h3><?php
 
 	$answers = $record->AnswersCount - ($access == Journal::FULL_ACCESS ? 0 : $record->DeletedCount);
