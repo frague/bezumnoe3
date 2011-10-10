@@ -72,7 +72,7 @@
 		echo "<div class='ErrorHolder'><h2>Ошибка</h2>Комментарии к данному сообщению отключены.</div>";
 	} else {
 		echo "<div class=\"Likes\">";
-		echo GetButtonsMarkup($journal->Title, $record->Title, "", $record->GetImageUrl());
+		echo GetButtonsMarkup($buttons);
 		echo "</div>\n";
 	}
 
