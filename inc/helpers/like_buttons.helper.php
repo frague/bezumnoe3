@@ -10,6 +10,16 @@
 		return $result;
 	}
 
+	function MakeDescription($record) {
+		$DESCRIPTION_LENGTH = 255;
+		$strip_expression = "/[. \t()\n\r][^. \t()\n\r]*$/";
+
+		$result = substr(strip_tags($record->Content), 0, $DESCRIPTION_LENGTH);
+		$result = preg_replace($strip_expression, "", $result);
+//		$result = $record->Title."\\n".$result;
+		return $result;
+	}
+	
 	function FillButtonObjects($title = "", $description = "", $url = "", $image = "") {
 		$result = array();
 		foreach (array(VkLikeButton, TwitterLikeButton, FacebookLikeButton) as $b) {
@@ -30,11 +40,10 @@
 		return $result;
 	}
 
-	function GetButtonsMarkup($title = "", $description = "", $url = "", $image = "") {
+	function GetButtonsMarkup($buttons = array()) {
 		$result = "";
-		foreach (array(VkLikeButton, TwitterLikeButton, FacebookLikeButton) as $b) {
-			$button = new $b($title, $description, $url, $image);
-			$result .= $button->getButtonContent()."\n";
+		foreach ($buttons as $b) {
+			$result .= $b->getButtonContent()."\n";
 		}
 		return $result;
 	}
