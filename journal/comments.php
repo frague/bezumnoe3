@@ -57,9 +57,10 @@
 //	Etag removed to prevent authorized session caching
 //	AddEtagHeader(strtotime($record->UpdateDate));
 
-	$meta_description = MetaContent($record->Title." - ".$record->Content);
+    $descr = MakeDescription($record);
+	$meta_description = MetaContent($record->Title." - ".$descr);
 
-	$buttons = FillButtonObjects($journal->Title, $record->Title, "", $record->GetImageUrl());
+	$buttons = FillButtonObjects($record->Title, $descr, "", $record->GetImageUrl());
 	
 	Head("Комментарии к &laquo;".$record->Title."&raquo;", array("forum.css", "jqueryui.css"), "", "", false, "Комментарии", $buttons);
 	require_once $root."references.php";

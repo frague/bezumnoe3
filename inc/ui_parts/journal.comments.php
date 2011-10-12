@@ -46,7 +46,7 @@
 
 		$topic = new JournalRecord();
 		$topic->FillFromResult($q);
-		if (!$topic->IsCommentable) break;
+		if (!$topic->IsCommentable) continue;
 
 		$index = $topic->Index."_".$topic->ForumId;
 		$topics[$index] = $topic;
@@ -59,9 +59,11 @@
 		$rec = $topics[$record];
 		$alias = $aliases[$record];
 
-		if ($rec && !$rec->IsEmpty()) {
-			echo "&laquo;<b>".$rec->ToLink(255, $alias)."</b>&raquo;, ".JournalSettings::MakeLink($alias, $rec->Author);
+		if (!$rec || $rec->IsEmpty()) {
+			continue;
 		}
+
+		echo "&laquo;<b>".$rec->ToLink(255, $alias)."</b>&raquo;, ".JournalSettings::MakeLink($alias, $rec->Author);
 
 		echo "<ul>";
 		while (list($k, $comment) = each($comments)) {

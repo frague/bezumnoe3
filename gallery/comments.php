@@ -29,7 +29,7 @@
 
 	$meta_description = MetaContent("Фотогалерея \"".$gallery->Title."\": ".$record->Title);
 
-	$buttons = FillButtonObjects($gallery->Title, $record->Title, "", $record->GetImageUrl($gallery->Description));
+	$buttons = FillButtonObjects($record->Title, $gallery->Title, "", $record->GetImageUrl($gallery->Description));
 
 	AddEtagHeader(strtotime($record->UpdateDate));
 	Head($record->Title, array("forum.css", "jqueryui.css"), "", "", false, "Фотогалерея", $buttons);
