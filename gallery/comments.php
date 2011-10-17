@@ -44,7 +44,7 @@
 	echo "</div>\n";
 
 	echo "<div class=\"Likes\">";
-	echo GetButtonsMarkup($gallery->Title, $record->Title, "", $record->GetImageUrl($gallery->Description));
+	echo GetButtonsMarkup($buttons);
 	echo "</div>\n";
 
 	if ($record->IsCommentable) {
