@@ -1,6 +1,7 @@
 <?
 
 abstract class DictionaryItem extends EntityBase {
+	const RANDOM_INDEX = "RANDOM_INDEX";
 
 	// Fields
 	var $FrequencyFieldName = "", $Size = 1000;
@@ -33,10 +34,13 @@ abstract class DictionaryItem extends EntityBase {
 	  		return false;
 	  	}
 
-		$this->FillByCondition("1=1 ORDER BY ".$this->FrequencyFieldName." ASC LIMIT ".mt_rand(0, 10).", 1");
+		$this->FillByCondition("1=1 ORDER BY ".self::RANDOM_INDEX." ASC, ".$this->FrequencyFieldName." ASC LIMIT ".mt_rand(0, 10).", 1");
 		// Touch filled item
 		if (!$this->IsEmpty()) {
-			$db->Query("UPDATE ".$this->table." SET ".$this->FrequencyFieldName."=".$this->FrequencyFieldName."+1 WHERE ".$this->IdentityName."=".$this->Id);
+			$db->Query("UPDATE ".$this->table." 
+				SET ".$this->FrequencyFieldName."=".$this->FrequencyFieldName."+1,
+				".self::RANDOM_INDEX."=".mt_rand(0, $this->Size)."
+				WHERE ".$this->IdentityName."=".$this->Id);
 		}
 
 		return $item;
@@ -51,7 +55,6 @@ class YtkaDictionaryItem extends DictionaryItem {
 	const USER_ID = "USER_ID";
 	const CONTENT = "CONTENT";
 	const USED_TIMES = "USED_TIMES";
-	const RANDOM_INDEX = "RANDOM_INDEX";
 
 	var $Id;
 	var $UserId;
