@@ -1,43 +1,65 @@
-    #bb {
-    	width:800px;
-    	height:800px;
-    }
-	p {
-		position:absolute;
-		padding:0;
-		margin:0;
-		font-size:1px;
-		line-height:0;
-		border: 0;
-		background-color:black;
-	}
-	label {
-		position:absolute;
-		display:block;
-		border-radius: 6px;
-		-moz-border-radius: 6px;
-		-webkit-border-radius: 6px;
-		padding: 1px 3px;
-		margin: 0;
-		border: solid 1px black;
-		font-family: arial;
-		font-size:7pt;
-		font-weight:bold;
-		width:auto;
-		white-space:nowrap;
-		z-index:10;
-	}
-	label a {
-		color:black;
-		text-decoration:none;
-	}
+#bb {
+  	width: 800px;
+   	height: 800px;
+}
+p {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	font-size: 1px;
+	line-height: 0;
+	border: 0;
+	background-color: #000;
+}
 
-	h4 {
-		position:absolute;
-		color:#F0F0F0;
-		font-family: "arial narrow",arial;
-		font-size:52pt;
-		z-index:-1;
-		padding:0;
-		margin:0;
-	}
+label {
+	position: absolute;
+	display: block;
+
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+
+	padding: 1px 3px;
+	margin: 0;
+	border: solid 1px black;
+	font-family: arial;
+	font-size: 10px;
+	font-weight: bold;
+	width: auto;
+	white-space: nowrap;
+	z-index: 10;
+}
+
+label a {
+	color: black;
+	text-decoration: none;
+	border: 0;
+}
+
+h4 {
+	position: absolute;
+	color: #F0F0F0;
+	font-family: "bezumnoe2", "arial narrow", "arial";
+	font-size: 120pt;
+	z-index: -1;
+	padding: 0;
+	margin: 0;
+}
+
+
+.char9 {
+	margin-left: -3px;
+}
+.char10 {
+	margin-left: 1px;
+}
+.char14 {
+	margin-left: -2px;
+}
+.char19 {
+	margin-left: -3px;
+}
+.char21 {
+	margin-left: -1px;
+}

@@ -4,7 +4,7 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Фамильное древо", "tree.css", "", "", "", "tree.gif");
+	Head("Фамильное древо", "tree.css");
 	require_once $root."references.php";
 
 	$t = new TreeNode();

@@ -255,27 +255,3 @@ function SetOpenID(id, el, a) {
 	a.blur();
 	el.val(id);
 };
-
-// Schedule reply form opening
-$(function() {
-	$( "#auth_form" ).dialog({
-		title: 'Авторизация в чате',
-		autoOpen: false,
-		height: 230,
-		width: 420,
-		modal: true,
-		buttons: {
-			"Авторизоваться": function() {
-				$( "#auth" ).submit();
-				$( this ).dialog( "close" );
-			},
-			"Отмена": function() {
-				$( this ).dialog( "close" );
-			}
-		},
-		close: function() {
-			allFields.val( "" ).removeClass( "ui-state-error" );
-		},
-	});
-	OpenReplyForm();
-});

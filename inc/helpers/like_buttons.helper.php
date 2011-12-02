@@ -3,7 +3,7 @@
 
 	function GetHeadIncludes() {
 		$result = "";
-		foreach (array(VkLikeButton, TwitterLikeButton, FacebookLikeButton) as $b) {
+		foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
 			$button = new $b();
 			$result .= $button->getHeadContent()."\n";
 		}
@@ -22,7 +22,7 @@
 	
 	function FillButtonObjects($title = "", $description = "", $url = "", $image = "") {
 		$result = array();
-		foreach (array(VkLikeButton, TwitterLikeButton, FacebookLikeButton) as $b) {
+		foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
 			array_push($result, new $b($title, $description, $url, $image));
 
 		}
@@ -41,11 +41,11 @@
 	}
 
 	function GetButtonsMarkup($buttons = array()) {
-		$result = "";
+		$result = "<table class=\"Likes\"><tr>\n";
 		foreach ($buttons as $b) {
-			$result .= $b->getButtonContent()."\n";
+			$result .= "<td>".$b->getButtonContent()."</td>\n";
 		}
-		return $result;
+		return $result."</tr></table>";
 	}
 
 ?>

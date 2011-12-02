@@ -55,7 +55,7 @@ label {
 }
 
 #AuthByLogin div label, #AuthByOpenID div label {
-	float: left;
+	/*float: left;*/
 }
 
 .Counts {

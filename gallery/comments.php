@@ -43,9 +43,7 @@
 	echo $record->ToPrint($gallery->Description, 0);
 	echo "</div>\n";
 
-	echo "<div class=\"Likes\">";
 	echo GetButtonsMarkup($buttons);
-	echo "</div>\n";
 
 	if ($record->IsCommentable) {
 		echo "<h3>Комментарии:</h3>";

@@ -9,7 +9,7 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/ui_parts/news.php";
 
-	require_once $root."references.php";
+	#require_once $root."references.php";
 
 ?><!DOCTYPE html>
 <html lang="ru">
@@ -43,6 +43,7 @@
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+	<script language="javascript" src="/js1/modernizr.js"></script>
 	<script language="javascript" src="/js1/common.js"></script>
 </head>
 
@@ -52,25 +53,21 @@
 			<div class="Main">
 				<div>
 					<div class="Column Left">
-						<!--img src="/img/titles/online.gif" alt="Сейчас в чате:" title="Сейчас в чате:" style="margin-top:20px" /-->
 						<div class="UserList">
 							<h5>Сейчас в чате:</h5>
 							<?php include $root."inc/ui_parts/online_users.php"; ?>
 						</div>
 
-						<!--img src="/img/titles/news.gif" alt="Новости чата" title="Новости чата" style="margin-top:20px" /-->
 						<div class="News">
 							<h5>Новости</h5>
 							<?php ShowNews(-1, 3); ?>
 						</div>
 
-						<!--img src="/img/titles/birthdays.gif" alt="Дни рождения" title="Дни рождения" style="margin-top:20px" /-->
 						<div class="Birthdays">
 							<h5>Дни рождения</h5>
 							<?php include $root."inc/ui_parts/birthdays.php"; ?>
 						</div>
 
-						<!--img src="/img/titles/photos.gif" alt="Фотографии участников" title="Фотографии участников" style="margin:20px 15px 5px" /-->
 						<div class="UserList Photos">
 							<h5>Новые лица</h5>
 							<?php include $root."inc/ui_parts/new_photos.php"; ?>
@@ -88,8 +85,7 @@
 							<div class="MainLink Register">
 								<img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" align="left" height="69" width="70">
 								<a href="/register" class="NoBorder">
-									<h4>Регистрация</h4>
-									<!--img src="/img/titles/register.gif" alt="Регистрация в чате" title="Регистрация в чате" /--></a>
+									<h4>Регистрация</h4></a>
 								<p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
 								<span class="Newcomers">
 									<h6>Последние зарегистрировавшиеся пользователи</h6>
@@ -97,19 +93,17 @@
 								</span>
 							</div>
 
-							<div class="MainLink RightOriented">
+							<div class="MainLink RightOriented Forum">
 								<img src="/img/t/pict/forum.gif" align="right" height="79" width="95" alt="Форумы" title="Форумы">
 								<a href="/forum/" class="NoBorder">
-									<h4>Форум</h4>
-									<!--img src="/img/titles/forums.gif" alt="Форумы" title="Форумы" /--></a>
+									<h4>Форум</h4></a>
 								<p>В форумах происходит обсуждение всех вопросов чата, публикуются объявления и поздравления. Авторизуйтесь для добавления сообщений.
 							</div>
 
 							<div class="MainLink Gallery UserList">
 								<img src="/img/t/pict/photo.gif" align="left" height="66" width="70" alt="Фотогалерея" title="Фотогалерея">
 								<a href="/gallery/" class="NoBorder">
-									<h4>Фотогалерея</h4>
-									<!--img src="/img/titles/gallery.gif" alt="Фотогалерея" title="Фотогалерея" /--></a>
+									<h4>Фотогалерея</h4></a>
 								<p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
 								<h6>Последний комментарий:</h6>
 								<?php 
@@ -121,8 +115,7 @@
 							<div class="MainLink RightOriented Blogs UserList">
 								<img src="/img/t/pict/journals.gif" align="right" width="70" height="64" alt="Журналы (блоги)" title="Журналы (блоги)">
 								<a href="/journal/" class="NoBorder">
-									<h4>Журналы (блоги)</h4>
-									<!--img src="/img/titles/journals.gif" alt="Журналы (блоги)" title="Журналы (блоги)" /--></a>
+									<h4>Журналы (блоги)</h4></a>
 								<p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.
 								<h6>Список последних записей в журналах:</h6>
 								<?php include $root."inc/ui_parts/journal.posts.php"; ?>
@@ -142,7 +135,7 @@
 								<tr>
 									<td class="FormTitle">Пароль</td>
 									<td><input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password">
-									<script>$("<?php echo PASSWORD_KEY ?>").focus()</script></td></tr>
+									<!--script>$("<?php echo PASSWORD_KEY ?>").focus()</script--></td></tr>
 								<tr>
 									<td></td>
 									<td><input src="/img/t/auth.gif" border="0" width="90" height="30" alt="Авторизоваться в чате" type="image" style="margin-top:5px" /></td></tr></table>
