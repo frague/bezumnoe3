@@ -5,13 +5,6 @@ body {
 }
 
 @font-face {
-  font-family: 'Neucha';
-  font-style: normal;
-  font-weight: normal;
-  src: local('Neucha'), url('/fonts/Neucha.ttf') format('truetype');
-}
-
-@font-face {
   font-family: 'bezumnoe';
   font-style: normal;
   font-weight: normal;
@@ -22,7 +15,7 @@ body {
   font-family: 'bezumnoe2';
   font-style: normal;
   font-weight: normal;
-  src: local('bezumnoe2'), url('/fonts/bezumnoe2.ttf') format('truetype');
+  src: local('bezumnoe2'), url('/fonts/bezumnoe3.ttf') format('truetype');
 }
 
 a {
@@ -43,34 +36,36 @@ ul {
 }
 
 
+.Header {
+	padding-top: 10px;
+}
 
-h1 {
-	color: Black;
-	font-family: 'bezumnoe2', 'Neucha', 'Arial Narrow',arial;
-	letter-spacing: 2px;
+.Header h1 {
+	color: #000;
+	font-family: 'bezumnoe2', 'Arial Narrow', 'arial';
 	line-height:  32px;
 	font-size: 28pt;
-	padding: 10px 0 0 10px;
-	margin: 0;
-	ffont-weight: normal;
+	padding: 50px 0 0 10px;
+	margin-top: 50px;
+	display: inline;
 }
 
-h1 img {
+.Header img {
 	float: left;
-	margin: 6px 14px;
+	margin-left: 50px;
 }
 
-h1.LongText {
+.Header h1.LongText {
 	line-height:  30px;
 	font-size: 18pt;
 }
 
 h6 {
-	font-size:9pt;
-	text-align:center;
-	padding:0;
+	font-size: 9pt;
+	text-align: center;
+	padding: 0;
 	margin: 5px 0;
-	color:#E27603;
+	color: #E27603;
 }
 
 
@@ -265,11 +260,4 @@ ul.BottomNav li.First a {
 }
 
 .Likes {
-	text-align:left;
- 	vertical-align: middle;
-}
-
-.Likes div {
-	float: left;
-	margin-right: 4px;
 }

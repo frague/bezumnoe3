@@ -14,13 +14,13 @@
 		<title><?php echo $title ?></title>
 		<link rel="stylesheet" href="/css/global.css" />
 		<link rel="stylesheet" href="/css/template_layout.css" />
+<!--[if IE]>	<link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<meta name="description" content="<? echo $meta_description ?>" />
-		<script language="javascript" src="/js1/common.js"></script>
 <?php if (!$no_jquery) {?>
-		<script language="javascript" src="/js1/jquery/jquery-1.6.4.min.js"></script>
-		<script language="javascript" src="/js1/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+		<script language="javascript" src="/js1/modernizr.js"></script>
+		<script language="javascript" src="/js1/common.js"></script>
 <?php
 		}
 		
@@ -71,10 +71,11 @@
 			<div class='Logged'>Авторизация: <strong id="Logged"><?php echo (!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login); ?></strong></div>
 
 			<header>
-				<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>>
+				<div class="Header">
 					<a href="/" class="NoBorder">
-						<img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" style="vertical-align:top;margin-top:2px;" /></a>
-					<?php echo $main_title ? $main_title : $title; ?></h1></header>
+						<img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" /></a>
+					<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>>
+						<?php echo $main_title ? $main_title : $title; ?></h1></div></header>
 
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 <?php

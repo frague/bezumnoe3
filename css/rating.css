@@ -12,3 +12,10 @@ li.Leading {
 li.Leading a {
 	color:orangered;
 }
+
+.char9 {
+	margin-left: -3px;
+}
+.char13 {
+	margin-left: -1px;
+}

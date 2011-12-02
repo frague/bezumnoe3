@@ -42,11 +42,20 @@
 	// Facebook like button
 	class FacebookLikeButton extends LikeButton {
 		public static function getHeadContent() {
-			return "";
+			return "<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = \"//connect.facebook.net/en_US/all.js#xfbml=1\";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+";
 		}
 
 		function getButtonContent() {
-			return "<div id=\"fb-root\"></div><script src=\"http://connect.facebook.net/en_US/all.js#appId=140609669351753&amp;xfbml=1\"></script><fb:like href=\"\" send=\"false\" width=\"450\" show_faces=\"false\" action=\"recommend\" font=\"\"></fb:like>";
+			return "<div id=\"fb-root\"></div>
+<div class=\"fb-like\" data-send=\"false\" data-layout=\"button_count\" data-width=\"100\" data-show-faces=\"true\" data-action=\"recommend\"></div>";
+//			return "<div id=\"fb-root\"></div><script src=\"http://connect.facebook.net/en_US/all.js#appId=140609669351753&amp;xfbml=1\"></script><fb:like href=\"\" send=\"false\" width=\"450\" show_faces=\"false\" action=\"recommend\" font=\"\"></fb:like>";
 		}
 		
 		function getMetadata() {
@@ -63,6 +72,20 @@
 
 		function getButtonContent() {
 			return "<a href=\"http://twitter.com/share\" class=\"twitter-share-button\" data-count=\"horizontal\" data-via=\"bezumnoe\" data-lang=\"en\">Tweet</a><script type=\"text/javascript\" src=\"http://platform.twitter.com/widgets.js\"></script>";
+		}
+		
+		function getMetadata() {
+			return "";
+		}
+	}
+
+	// Google +1 button
+	class GooglePlusButton extends LikeButton {
+		public static function getHeadContent() {
+			return "<script type=\"text/javascript\" src=\"https://apis.google.com/js/plusone.js\">{lang: 'ru'}</script>\n";
+		}
+		function getButtonContent() {
+			return "<g:plusone size=\"medium\"></g:plusone>";
 		}
 		
 		function getMetadata() {
