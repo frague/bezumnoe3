@@ -18,12 +18,8 @@
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<meta name="description" content="<? echo $meta_description ?>" />
-<?php if (!$no_jquery) {?>
-		<script language="javascript" src="/js1/modernizr.js"></script>
-		<script language="javascript" src="/js1/common.js"></script>
+		<script language="javascript" src="/js1/reply_common.js"></script>
 <?php
-		}
-		
 		if ($css) {
 			if (!is_array($css)) {
 				$css = array($css);
@@ -44,7 +40,10 @@
 		   	}
 		}
 	?>
-		<script language="javascript" src="/js1/reply_common.js"></script>
+<?php if (!$no_jquery) {?>
+		<script language="javascript" src="/js1/modernizr.js"></script>
+		<script language="javascript" src="/js1/common.js"></script>
+<?php } ?>
 		<?php include "google_analythics.php" ?>
 
 <?php
@@ -74,8 +73,8 @@
 				<div class="Header">
 					<a href="/" class="NoBorder">
 						<img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" /></a>
-					<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>>
-						<?php echo $main_title ? $main_title : $title; ?></h1></div></header>
+					<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>><?php echo $main_title ? $main_title : $title; ?></h1>
+					</div></header>
 
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 <?php

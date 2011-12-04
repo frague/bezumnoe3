@@ -76,6 +76,21 @@
 	}
 
 		?>
+
+	<style>
+		h1 .char2 {
+			margin-left: -2px;
+		}
+		h1 .char4 {
+			margin-left: 1px;
+		}
+		h1 .char7 {
+			margin-left: -1px;
+		}
+		h1 .char8 {
+			margin-left: -2px;
+		}
+	</style>
 	
 	<ul style="margin-top:10px"> <strong>Вернуться</strong>
 		<li> к сообщению &laquo;<?php echo $record->ToLink(100, $alias); ?>&raquo;<br />
@@ -100,28 +115,39 @@
 		$from * $messagesPerPage, 
 		$messagesPerPage);
 
-	echo "<a name='c'></a>";
-	echo "<div class='NewThread'>";
-	echo "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>";
-	echo "</div>";
+	echo "<a name='c'></a>
+<div class='NewThread'>
+	<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>
+</div>";
 
 	echo "<ul class='Thread'>";
 	$comments = $q->NumRows();
 	if ($comments > 0) {
+		$min_level = 1000;
+		$lines = array();
 		for ($i = 0; $i < $comments; $i++) {
 			$q->NextResult();
 
+			$record = new JournalRecord();
 			$record->FillFromResult($q);
-		
 			$avatar = $q->Get(Profile::AVATAR);
 			$alias = $q->Get(JournalSettings::ALIAS);
 			$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
 
-			//echo "<a name='cm".$record->Id."'></a>";
-			echo $record->ToExtendedString($level, $avatar, ($lastMessageDate ? $alias : ""), $user, $yesterday);
-			$level = $record->Level;
+			if ($record->Level < $min_level) $min_level = $record->Level;
+			array_push($lines, array("record" => $record, "avatar" => $avatar, "alias" => $alias, "lastMessage" => $lastMessageDate));
 		}
 		$q->Release();
+
+
+		$level = 0;
+		for ($i = 0; $i < sizeof($lines); $i++) {
+			$l = $lines[$i];
+			$record = $l["record"];
+			$record->Level = $record->Level - $min_level;
+			echo $record->ToExtendedString($level, $l["avatar"], ($l["lastMessageDate"] ? $l["alias"] : ""), $user, $yesterday);
+			$level = $record->Level;
+		}
 	
 		for ($i = 0; $i < $level + 1; $i++) {
 			echo "</ul>";

@@ -36,7 +36,7 @@ Modernizr.load([
 						}
 					}
 				});
-				OpenReplyForm();
+				startup();
 			});
     	}
   	}

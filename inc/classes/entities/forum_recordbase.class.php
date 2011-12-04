@@ -198,10 +198,10 @@ class ForumRecordBase extends EntityBase {
 		$cssClass .= $this->IsProtected() ? " Protected" : "";
 
 		if (!$skipLi) {
-			$result .= "<li class='".($this->IsDeleted ? "Hidden " : "")."'>";
+			$result .= "<li".($this->IsDeleted ? " class='Hidden'" : "").">";
 		}
 
-		$result .= "<article>\n<table class='".$cssClass."'><tr>";
+		$result .= "<article>\n<table".($cssClass ? " class='".$cssClass."'":"")."><tr>";
 		if ($avatar) {
 			$result .= "<th>".User::InfoLink($this->UserId, HtmlImage($PathToAvatars.$avatar, $root.$ServerPathToAvatars.$avatar))."</th>";
 		}
