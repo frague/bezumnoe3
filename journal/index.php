@@ -11,6 +11,24 @@
 
 ?>
 
+<style>
+	h1 .char2 {
+		margin-left: -2px;
+	}
+	h1 .char3 {
+		margin-left: -2px;
+	}
+	h1 .char4 {
+		margin-left: -1px;
+	}
+	h1 .char5 {
+		margin-left: -1px;
+	}
+	h1 .char6 {
+		margin-left: 1px;
+	}
+</style>
+
 <table width="100%">
 	<tr>
 		<td width="40%" valign="top">

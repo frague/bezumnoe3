@@ -154,7 +154,7 @@ function LockProtection(el) {
 	if (!el || !replyIsProtected) {
 		return;
 	}
-	var state = (el.className.indexOf("Protected") >= 0);
+	var state = (el.className && el.className.indexOf("Protected") >= 0);
 	replyIsProtected.attr('checked', state);
 	if (state) 
 		replyIsProtected.attr('disabled', 'disabled'); 
@@ -254,4 +254,8 @@ function SetOpenID(id, el, a) {
 	a.className = "Selected";
 	a.blur();
 	el.val(id);
+};
+
+function startup() {
+	OpenReplyForm();
 };

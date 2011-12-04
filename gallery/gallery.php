@@ -66,16 +66,35 @@
 
 	// Printing
 	AddEtagHeader(strtotime($lastModified));
-	Head($gallery->Title, array("forum.css", "prettyPhoto.css"), "jquery/jquery.prettyPhoto.js", "", "", "Фотогалерея");
+	Head($gallery->Title, array("forum.css", "prettyPhoto.css"), "gallery.js", "", "", "Фотогалерея");
 
 	$gallery->DoPrint();
 	echo $result;
 ?>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("a[rel^='pp']").prettyPhoto();
-	});
-</script>
+<style>
+	h1 .char2 {
+		margin-left: -1px;
+	}
+	h1 .char3 {
+		margin-left: -1px;
+	}
+	h1 .char4 {
+		margin-left: -1px;
+	}
+	h1 .char6 {
+		margin-left: -2px;
+	}
+	h1 .char7 {
+		margin-left: 1px;
+	}
+	h1 .char8 {
+		margin-left: 1px;
+	}
+	h1 .char9 {
+		margin-left: -1px;
+	}
+</style>
+
 <?php
 
 	Foot();

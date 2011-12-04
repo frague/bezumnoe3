@@ -6,10 +6,34 @@
 
 	$meta_description = "Фото галерея саратовского чата Безумное Чаепитие у Мартовского Зайца. Фотографии самых интересных событий чата. Фотки чатлан. Интересные события Саратова.";
 
-	Head("Фотогалерея", "forum.css", "", "", "");
+	Head("Фотогалерея", "forum.css");
 	require_once $root."references.php";
 
 ?>
+<style>
+	h1 .char2 {
+		margin-left: -1px;
+	}
+	h1 .char3 {
+		margin-left: -1px;
+	}
+	h1 .char4 {
+		margin-left: -1px;
+	}
+	h1 .char6 {
+		margin-left: -2px;
+	}
+	h1 .char7 {
+		margin-left: 1px;
+	}
+	h1 .char8 {
+		margin-left: 1px;
+	}
+	h1 .char9 {
+		margin-left: -1px;
+	}
+</style>
+
 <table width="100%">
 	<tr>
 		<td width="40%">

@@ -48,18 +48,24 @@ h4 {
 }
 
 
+.char2 {
+	margin-left: -4px;
+}
+.char3 {
+	margin-left: 1px;
+}
+.char7 {
+	margin-left: -2px;
+}
 .char9 {
+	margin-left: -1px;
+}
+.char12 {
 	margin-left: -3px;
 }
-.char10 {
-	margin-left: 1px;
+.char15 {
+	margin-left: -1px;
 }
 .char14 {
 	margin-left: -2px;
-}
-.char19 {
-	margin-left: -3px;
-}
-.char21 {
-	margin-left: -1px;
 }
