@@ -16,14 +16,20 @@
 	$error = "";
 
 	$user_id = round($_GET["id"]);
+	$user_uid = $_GET["uid"];
 
-	if (!$user_id)  {
+	if (!$user_id && !$user_uid)  {
 		$error = "Не задан ID пользователя.";
 	}
 
 	if (!$error) {
 		$person = new UserComplete();
-		$person->GetById($user_id);
+		if ($user_id) {
+			$person->GetById($user_id);
+		} else {
+			$person->GetByGuid($user_uid);
+		}
+
 		if ($person->IsEmpty()) {
 			$error = "Пользователь не найден.";
 		} else {
