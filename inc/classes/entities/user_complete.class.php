@@ -128,6 +128,11 @@ class UserComplete extends EntityBase {
 		}
 	}
 
+	function GetByGuid($guid) {
+		if ($guid) {
+			$this->FillByCondition("t1.".User::GUID."='".SqlQuote($guid)."'");
+		}
+	}
 
 	function __tostring() {
 		$s = $this->User->__tostring();
