@@ -279,7 +279,11 @@
 			$month = 1;
 			$year++;
 		}
-		return MakeJournalLink($alias, sprintf("%s", $MonthsNames[$month], $year), 0, $year, $month, 0);
+		if (strtotime("$year-$month-01 12:59:57") <= time()) {
+			return MakeJournalLink($alias, sprintf("%s", $MonthsNames[$month], $year), 0, $year, $month, 0);
+		} else {
+			return $MonthsNames[$month];
+		}
 	}
 
 ?>
