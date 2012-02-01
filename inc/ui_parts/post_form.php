@@ -39,6 +39,9 @@
 	</div>
 </div>
 
+<style>
+	#auth_form {display:none}
+</style>
 <div id="auth_form">
 	<form method="POST" action="/auth/" name="auth" id="auth">
 		<table class="Wide">
@@ -56,6 +59,7 @@
 						<input type="hidden" name="<?php echo REFERER_KEY ?>" id="<?php echo REFERER_KEY ?>" />
 						<div><label for="<?php echo OPENID_LOGIN_KEY ?>">Логин</label> <input name="<?php echo OPENID_LOGIN_KEY ?>" id="<?php echo OPENID_LOGIN_KEY ?>" size="20" /></div>
 						Сервис <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" /><br />
+						<input type="hidden" id="callback" name="callback" />
 						<span class="OpenID">
 <?php
 
