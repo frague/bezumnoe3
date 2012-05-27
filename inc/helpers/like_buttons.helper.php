@@ -16,6 +16,9 @@
 
 		$result = substr(strip_tags($record->Content), 0, $DESCRIPTION_LENGTH);
 		$result = preg_replace($strip_expression, "", $result);
+        $result = preg_replace("/##CUTLINK=([^#]+)##/", "\\1", $result);
+        $result = preg_replace("/##([A-Z]+)##/", "", $result);
+
 //		$result = $record->Title."\\n".$result;
 		return $result;
 	}
