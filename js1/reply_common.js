@@ -56,9 +56,14 @@ function MakeCite() {
 	}
 };
 
+function ClearHash() {
+    document.location.hash = "";
+}
+
 function CancelReply() {
 	hiderElement.appendChild(replyFormElement);
 	isVisible = 0;
+    ClearHash();
 };
 
 function FindTargetElement(el) {
@@ -108,17 +113,23 @@ function SetChildClass(tag, el, className) {
 };
 
 var linkExpr = new RegExp('^#[a-z]\\d+$');
+var linkNewExpr = new RegExp('^#new_comment$');
 
 // Opens reply form after authentication
 function OpenReplyForm() {
 	var l = window.location.hash;
-	if (l && linkExpr.test(l)) {
-		$('a[name='+l.substr(1)+']').click();
+	if (l) {
+		if (linkExpr.test(l)) {
+			$('a[name='+l.substr(1)+']').click();
+		} else if (linkNewExpr.test(l)) {
+			$('a[name=new_comment]').click();
+		}
 	}
 };
 
 
 function ForumReply(a, id, forum_id) {
+	$("#callback").val(a.href);
     if (!GetCurrentSession()) {
 		$("#auth_form").dialog("open");
     	return false;
