@@ -262,8 +262,10 @@
 		}
 		$q->Release();
 
-		for ($i = 0; $i < sizeof($tags); $i++) {
-			$cloud.= ($i ? " " : "").$tags[$i]->ToCloud($maxWeight, $settings->Alias);
+        for ($i = 0; $i < sizeof($tags); $i++) {
+            $t = $tags[$i];
+            $cloud.= ($i ? " " : "").$t->ToCloud($maxWeight, $settings->Alias);
+            $bodyText = str_replace("#".$t->Title, "#".$t->ToPrint(0, $settings->Alias), $bodyText);
 		}
 
 		$bodyText = str_replace("##TAGSCLOUD##", $cloud, $bodyText);
