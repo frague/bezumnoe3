@@ -71,8 +71,11 @@ class Tag extends EntityBase {
 		return "new tagdto(\"".JsQuote($this->Title)."\",\"".JsQuote(Mark($this->Title, $mark))."\")";
 	}
 
-	function ToPrint($index, $alias, $style = "") {
-		return ($index ? ", " : "")."<a href=\"/journal/".$alias."/tag/".urlencode($this->Title)."\"".($style ? " style='".$style."'" : "").">".$this->Title."</a>";
+    function ToPrint($index, $alias, $style="", $text="") {
+        if (!$text) {
+            $text = $this->Title;
+        }
+		return ($index ? ", " : "")."<a href=\"/journal/".$alias."/tag/".urlencode($this->Title)."\"".($style ? " style='".$style."'" : "").">".$text."</a>";
 	}
 
 	function ToCloud($maxWeight, $alias) {
