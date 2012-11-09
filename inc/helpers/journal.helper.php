@@ -286,4 +286,19 @@
 		}
 	}
 
+    // Renders all occurences of #POST\d+ to links to the posts
+    function RenderPostsLinks($bodyText) {
+        preg_match_all("/#POST(\d+)/", $bodyText, $matches, PREG_SET_ORDER);
+
+        $ids = array();
+        foreach ($matches as $link) {
+            $ids[] = $link[1];
+        }
+        $tmp = new JournalRecord();
+        for ($tmp->GetJournalTopicsByIds($ids) as $record) {
+            $bodyText = str_replace("#POST".$record->Id, )
+        }
+        return $bodyText;
+    }
+
 ?>

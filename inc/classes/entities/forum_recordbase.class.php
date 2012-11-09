@@ -102,6 +102,7 @@ class ForumRecordBase extends EntityBase {
 		$this->DeletedCount	= 0;
 
 		$this->Level = 0;
+        $this->Alias = "";
 	}
 
 	/* Conditional properties */
@@ -167,6 +168,7 @@ class ForumRecordBase extends EntityBase {
 		$this->DeletedCount = $result->Get(self::DELETED_COUNT);
 
 		$this->Level = substr_count($this->Index, self::INDEX_DIVIDER);
+        $this->Alias = $result->Get(JournalSettings::ALIAS);
 	}
 
 	function FillFromHash($hash) {
