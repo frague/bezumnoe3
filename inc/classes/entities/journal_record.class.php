@@ -18,9 +18,19 @@ class JournalRecord extends ForumRecordBase {
 	}
 
 	function ToLink($trimBy = 0, $alias = "") {
+        if (!$alias) {
+            $alias = $this->Alias;
+        }
 		$title = $trimBy ? TrimBy($this->Title, $trimBy) : $this->Title;
 		return JournalSettings::MakeLink($alias, $title, $this);
 	}
+
+    function ToHref($alias = "") {
+        if (!$alias) {
+            $alias = $this->Alias;
+        }
+        return JournalSettings::MakeHref($alias, $this->RecordId);
+    } 
 
 	function GetImageUrl() {
 		if ($this->IsEmpty()) {
@@ -108,6 +118,11 @@ class JournalRecord extends ForumRecordBase {
 	  		ORDER BY t1.".self::DATE." DESC"
 	  	); 
 	}
+
+    // Gets topics from different journals by array of ids
+    function GetJournalTopicsByIds($ids) {
+        return $this->GetMixedJournalTopics(0, 0, 100, JournalRecord::table." IN (".implode(",", $ids).")");
+    }
 
 	// Gets topics of friendly journals of given
 	function GetFriendlyTopics($forumId, $from = 0, $limit) {

@@ -271,6 +271,9 @@
 		$bodyText = str_replace("##TAGSCLOUD##", $cloud, $bodyText);
 	}
 
+    // --- Links to posts
+    $bodyText = RenderPostsLinks($bodyText);
+
 	$bodyText = str_replace("##FRIENDSLINK##", "/journal/".$settings->Alias."/friends/", $bodyText);
         
 	$bodyText = InjectionProtection(OuterLinks(MakeLinks($bodyText)));
