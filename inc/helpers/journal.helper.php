@@ -294,9 +294,17 @@
         foreach ($matches as $link) {
             $ids[] = $link[1];
         }
-        $tmp = new JournalRecord();
-        for ($tmp->GetJournalTopicsByIds($ids) as $record) {
-            $bodyText = str_replace("#POST".$record->Id, )
+        if (!sizeof($ids)) {
+            return $bodyText;
+        }
+        $record = new JournalRecord();
+        $q = $record->GetJournalsTopicsByIds($ids);
+        $n = $q->NumRows();
+        for ($i = 0; $i < $n; $i++) {
+            $q->NextResult();
+            $record->FillFromResult($q);
+            $alias = $q->Get(JournalSettings::ALIAS);
+            $bodyText = str_replace("#POST".$record->Id, $record->ToHref($alias), $bodyText);
         }
         return $bodyText;
     }

@@ -134,6 +134,8 @@
 	$bodyText = str_replace("##USERID##", $user_id, $bodyText);
 
 	$bodyText = str_replace("##META##", $metaDescription, $bodyText);
+    
+    $bodyText = RenderPostsLinks($bodyText);
 
 	print $bodyText;
 
