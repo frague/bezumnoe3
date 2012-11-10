@@ -71,7 +71,7 @@
 		$item = new rssGenerator_item();
 		$item->author = $message->Author;
 		$item->title = MakeTagsPrintable($message->Author.": \"".$message->Title."\"");
-		$item->description = MakeTagsPrintable(nl2br(FormatMessageBody($message, $alias, false)));
+		$item->description = MakeTagsPrintable(RenderPostsLinks(nl2br(FormatMessageBody($message, $alias, false))));
 		$item->link = "http://www.bezumnoe.ru/journal/".$alias."/post".$message->Id."/";
 		$item->pubDate = date("r", ParseDate($message->Date));
 		$rss_channel->items[] = $item;

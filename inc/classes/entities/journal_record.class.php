@@ -18,18 +18,12 @@ class JournalRecord extends ForumRecordBase {
 	}
 
 	function ToLink($trimBy = 0, $alias = "") {
-        if (!$alias) {
-            $alias = $this->Alias;
-        }
 		$title = $trimBy ? TrimBy($this->Title, $trimBy) : $this->Title;
 		return JournalSettings::MakeLink($alias, $title, $this);
 	}
 
     function ToHref($alias = "") {
-        if (!$alias) {
-            $alias = $this->Alias;
-        }
-        return JournalSettings::MakeHref($alias, $this->RecordId);
+        return "http://www.bezumnoe.ru".JournalSettings::MakeHref($alias, $this->Id);
     } 
 
 	function GetImageUrl() {
@@ -120,8 +114,8 @@ class JournalRecord extends ForumRecordBase {
 	}
 
     // Gets topics from different journals by array of ids
-    function GetJournalTopicsByIds($ids) {
-        return $this->GetMixedJournalTopics(0, 0, 100, JournalRecord::table." IN (".implode(",", $ids).")");
+    function GetJournalsTopicsByIds($ids) {
+        return $this->GetMixedJournalsTopics(0, 0, 100, JournalRecord::RECORD_ID." IN (".implode(",", $ids).")");
     }
 
 	// Gets topics of friendly journals of given
