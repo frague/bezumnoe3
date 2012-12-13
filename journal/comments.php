@@ -67,7 +67,8 @@
 
 	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);
 
-	echo $record->ToPrint($author);
+	$record->Content = ReplaceLinks($record->Content, $record->Id, $alias);
+    echo $record->ToPrint($author);
 
 	if (!$record->IsCommentable) {
 		echo "<div class='ErrorHolder'><h2>Ошибка</h2>Комментарии к данному сообщению отключены.</div>";
