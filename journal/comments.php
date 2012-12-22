@@ -67,7 +67,7 @@
 
 	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);
 
-	$record->Content = ReplaceLinks($record->Content, $record->Id, $alias);
+	$record->Content = RenderPostsLinks(ReplaceLinks($record->Content, $record->Id, $alias));
     echo $record->ToPrint($author);
 
 	if (!$record->IsCommentable) {
