@@ -1,4 +1,4 @@
-//6.3
+//6.4
 /*
 	Journal functionality: Blog templates, messages, settings
 */
@@ -70,9 +70,8 @@ function InitMCE() {
 	tinyMCE.init({
 		mode : "textareas",
 		theme : "advanced",
-		theme_advanced_resizing : true,
 		language : "ru",
-		plugins : "safari,pagebreak,style,advimage,advlink,inlinepopups,insertdatetime,preview,searchreplace,contextmenu,paste,directionality,visualchars,nonbreaking,xhtmlxtras,template",
+		plugins : "pagebreak,style,advimage,advlink,inlinepopups,preview,contextmenu,paste,directionality,visualchars,nonbreaking,xhtmlxtras,template,media",
 		convert_urls : false,
 		extended_valid_elements : "a[name|href|target|title|onclick],img[class|style|src|border=1|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 		editor_selector : "Editable",
@@ -82,6 +81,7 @@ function InitMCE() {
 		theme_advanced_buttons3 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,undo,redo,|,visualchars,removeformat,|,code,preview",
 		theme_advanced_toolbar_location : "bottom",
 		theme_advanced_toolbar_align : "left",
-		theme_advanced_resizing : true
+		theme_advanced_resizing : true,
+        media_strict : false
 	});
 };
