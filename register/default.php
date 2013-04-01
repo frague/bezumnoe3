@@ -3,13 +3,14 @@
 	$root = "../";
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
-
-	$no_jquery = 1;
+    
+    $no_jquery = 1;
 	Head("Регистрация в чате", "register.css", "stub.js");
 	require_once $root."references.php";
 
 
 	$errors = array();
+    $errors[] = "Регистрация временно закрыта";
 
 	$doSave = LookInRequest("DO_SAVE");
 	if ($doSave) {
@@ -26,7 +27,8 @@
 
 		/* Validation */
 
-		if (!$is_human || ($gender && !preg_match("/^[mf]$/", $gender))) {
+
+        if (!$is_human || ($gender && !preg_match("/^[mf]$/", $gender))) {
 			$errors[] = "Заблокирована автоматическая регистрация.";
 
 			// Commented to prevent log drammatical growth
@@ -126,27 +128,6 @@
 			// Schedule oldbie status
 			$task = new StatusScheduledTask($newborn->Id, DateFromTime(MakeTime(1 + date("Y"), date("m"), date("d"))));
 			$task->Save();
-
-			// Journal
-/*			$journal = new Journal();
-			$journal->LinkedId = $newborn->Id;
-			$journal->Title = $newborn->Login;
-			$journal->Description = "Персональный журнал";
-			$journal->Save();
-
-			// Journal template
-			$skin = new JournalSkin();
-			$template = new JournalTemplate($skin->GetDefaultTemplateId());
-			$template->Retrieve();
-			$template->Id = -1;
-			$template->UserId = $newborn->Id;
-			$template->Save();
-				
-			// Journal settings
-			$journalSettings = new JournalSettings();
-			$journalSettings->UserId = $newborn->Id;
-			$journalSettings->Alias = $newborn->Guid;
-			$journalSettings->Save();*/
 
 			// Write registration Log
 			LogRegistration($newborn->Id, $login);
@@ -252,7 +233,6 @@
 		</td>
 	</tr>
 </table>
-
 </form>
 
 <script>
