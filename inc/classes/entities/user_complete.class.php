@@ -132,7 +132,11 @@ class UserComplete extends EntityBase {
 		if ($guid) {
 			$this->FillByCondition("t1.".User::GUID."='".SqlQuote($guid)."'");
 		}
-	}
+    }
+
+    function GetNotActivatedBefore($deadline) {
+        return $this->GetByCondition("", $this->ReadInactivatedForPeriodExpression($deadline));
+    }
 
 	function __tostring() {
 		$s = $this->User->__tostring();
@@ -311,6 +315,18 @@ WHERE ##CONDITION##", $result);
 FROM ".User::table." t1
 WHERE ##CONDITION##";
 	}
+
+    function ReadInactivatedForPeriodExpression($deadline) {
+        return "SELECT
+    t1.".User::USER_ID.",
+    t1.".User::LOGIN."
+FROM ".User::table." t1
+    JOIN ".Profile::table." AS t2
+        ON t2.".Profile::USER_ID."=t1.".User::USER_ID."
+WHERE
+    t1.".User::GUID." LIKE '\\_%' AND 
+    t2.".Profile::REGISTERED."<'".SqlQuote($deadline)."'";
+    }
 
 	function CreateExpression() {
 		error("Record cannot be created directly!");
