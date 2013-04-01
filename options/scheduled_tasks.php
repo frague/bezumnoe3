@@ -12,11 +12,15 @@
 	<tr>
 		<td width="50%">
 			<input type="checkbox" id="status" name="status"> <label for="status">смена статуса (старожил)</label><br />
-			<input type="checkbox" id="unban" name="unban" checked> <label for="unban">бан-амнистия</label>
+			<input type="checkbox" id="unban" name="unban" checked> <label for="unban">бан-амнистия</label><br />
+			<input type="checkbox" id="expired_sessions" name="expired_sessions" checked> <label for="expired_sessions">истекшие сесии</label><br />
+			<input type="checkbox" id="ratings" name="ratings" checked> <label for="ratings">обновление рейтинга</label><br />
+			<input type="checkbox" id="inactivated" name="inactivated" checked> <label for="inactivated">неактивированные аккаунты</label><br />
 			</td>
 		<td width="50%">
-			<input type="checkbox" id="expired_sessions" name="expired_sessions" checked> <label for="expired_sessions">истекшие сесии</label><br />
-			<input type="checkbox" id="ratings" name="ratings" checked> <label for="ratings">обновление рейтинга</label>
+			<input type="checkbox" id="ytka" name="ytka" checked> <label for="ytka">Бот: YTKA</label><br />
+			<input type="checkbox" id="victorina" name="victorina" checked> <label for="victorina">Бот: BUKTOPUHA</label><br />
+			<input type="checkbox" id="lingvist" name="lingvist" checked> <label for="lingvist">Бот: Lingvist</label><br />
 			</td></tr></table>
 
 <ul class="Links">

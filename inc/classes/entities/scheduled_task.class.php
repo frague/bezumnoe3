@@ -16,6 +16,7 @@ class ScheduledTask extends EntityBase {
 
 	const TYPE_UNBAN			= "unban";
 	const TYPE_STATUS			= "status";
+	const TYPE_INACTIVATED		= "inactivated";
 	const TYPE_EXPIRED_SESSIONS	= "expired_sessions";
 	const TYPE_RATINGS			= "ratings";
 	const TYPE_YTKA_BOT			= "ytka";
@@ -34,7 +35,9 @@ class ScheduledTask extends EntityBase {
 	var $Parameter2;
 	var $Parameter3;
 	var $TransactionGuid;
-	var $IsActive;
+    var $IsActive;
+
+    var $Bots = array(self::TYPE_YTKA_BOT, self::TYPE_VICTORINA_BOT, self::TYPE_LINGVIST_BOT);
 
 	function ScheduledTask() {
 		$this->table = self::table;
@@ -61,7 +64,7 @@ class ScheduledTask extends EntityBase {
 	}
 
 	function IsBot() {
-		return !$this->IsEmpty() && ($this->Type == self::TYPE_YTKA_BOT || $this->Type == self::TYPE_VICTORINA_BOT || $this->Type == self::TYPE_LINGVIST_BOT); 
+		return !$this->IsEmpty() && in_array($this->Type, $this->Bots); 
 	}
 
 	function FillFromResult($result) {
@@ -112,7 +115,7 @@ class ScheduledTask extends EntityBase {
 
 	// Returns active bots
 	function GetActiveBots() {
-		return $this->GetByCondition("t1.".self::TYPE." IN ('".self::TYPE_YTKA_BOT."', '".self::TYPE_VICTORINA_BOT."', '".self::TYPE_LINGVIST_BOT."') AND t1.".self::IS_ACTIVE."=1");
+		return $this->GetByCondition("t1.".self::TYPE." IN ('".join("', '", $this->Bots)."') AND t1.".self::IS_ACTIVE."=1");
 	}
 
 	// Returns Action by given task type
@@ -121,6 +124,7 @@ class ScheduledTask extends EntityBase {
 			switch ($this->Type) {
 				case self::TYPE_UNBAN:				return new UnbanAction($this);
 				case self::TYPE_STATUS:				return new StatusAction($this);
+				case self::TYPE_INACTIVATED:		return new InactivatedAction($this);
 				case self::TYPE_EXPIRED_SESSIONS:	return new ExpiredSessionsAction($this);
 				case self::TYPE_RATINGS:			return new UpdateRatingAction($this);
 				case self::TYPE_YTKA_BOT:			return new YtkaBotAction($this);
@@ -293,6 +297,12 @@ class UnbanScheduledTask extends UserScheduledTask {
 	}
 }
 
+class InactivatedScheduledTask extends UserScheduledTask {
+	function StatusScheduledTask($userId, $executionDate) {
+		parent::__construct(ScheduledTask::TYPE_INACTIVATED, $userId, $executionDate);
+	}
+}
+
 class StatusScheduledTask extends UserScheduledTask {
 	function StatusScheduledTask($userId, $executionDate) {
 		parent::__construct(ScheduledTask::TYPE_STATUS, $userId, $executionDate);
@@ -418,6 +428,32 @@ class ExpiredSessionsAction extends BaseAction {
 				$message->Save();
 			}
 		}
+		return true;
+	}
+}
+
+// Removing accounts not activated during the 48 hours after the registration
+class InactivatedAction extends BaseAction {
+	function ExecuteByTimer() {
+        $deadline = DateFromTime(time() - 60 * 60 * 48);
+
+		$users = new UserComplete();
+		$q = $users->GetNotActivatedBefore($deadline);
+        $n = $q->NumRows();
+        if (!$n) {
+	 	    SaveLog("Проверка неактивированных за 48 часов аккаунтов - не обнаружено", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
+            return true;
+        }
+        $log = "Удалены неактивированные аккаунты (".$n."): ";
+		for ($i = 0; $i < $n; $i++) {
+			$q->NextResult();
+            $tmp_user = new UserComplete();
+            $tmp_user->FillFromResult($q);
+            $log .= ($i ? ", " : " ").$tmp_user->User->Login;
+            $tmp_user->Delete();
+		}
+	 	SaveLog($log, -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
+
 		return true;
 	}
 }
