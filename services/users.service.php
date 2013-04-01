@@ -9,13 +9,14 @@
 
 	$type = $_POST["type"];
 
+	$result = "";
 	$condition = "";
 	$expression = "";
 	$u = new User();
 
 	$value = "";
 	$limit = 0;
-	$expression = $u->FindUserExpression();
+    $expression = $u->FindUserExpression();
 	
 	switch ($type) {
 		case "BY_ROOM":
@@ -37,13 +38,16 @@
 	$year = DateFromTime(time() - $RangeYear, "Y-m-d");
 
 	$datesConditions = 0;
-	$filters = array("FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY");
+	$filters = array("FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY", "FILTER_REGDATE");
 	for ($i = 0; $i < sizeof($filters); $i++) {
 		$filter = $filters[$i];
 		if (!$_POST[$filter]) {
 			continue;
 		}
 		switch ($filter) {
+            case "FILTER_REGDATE":
+                $condition .= " AND t3.".Profile::REGISTERED." LIKE '".SqlQuote(trim(substr($_POST["REG_DATE"], 0, 10)))."%'";
+                break;
 			case "FILTER_BANNED":
 				$condition .= " AND t1.".User::BANNED_BY." IS NOT NULL";
 				break;
@@ -68,7 +72,6 @@
 
 	$q = $u->GetByCondition($condition." AND ".User::IS_DELETED."<>1", $expression.($limit ? " LIMIT ".($limit + 1) : ""));
 	$rows = $q->NumRows();
-	$result = "";
 	if ($limit) {
 		$result .= "this.more=".($rows > $limit ? 1 : 0).";";
 		if ($rows > $limit) {
@@ -86,7 +89,7 @@
 		$result .= ($i > 0 ? "," : "")."new udto(".$q->Get(User::USER_ID).",'".JsQuote($login)."','".JsQuote($nick)."')";
 	}
 	$result .= "];";
-	$q->Release();
+    $q->Release();
 
 	echo $result;
 
