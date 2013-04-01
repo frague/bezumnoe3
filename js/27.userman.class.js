@@ -1,10 +1,10 @@
-//6.3
+//6.5
 /*
 	User Manager admin functionality
 */
 
 function Userman() {
-	this.fields = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY"];
+	this.fields = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY", "FILTER_REGDATE", "REG_DATE"];
 	this.ServicePath = servicesPath + "users.service.php";
 	this.Template = "userman";
 	this.ClassName = "Userman";
@@ -35,7 +35,7 @@ Userman.prototype.RequestCallback = function(req, obj) {
 Userman.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
-	var assignee = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY"];
+	var assignee = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY", "FILTER_REGDATE", "REG_DATE"];
 	for (var i = 0, l = assignee.length; i <l; i++) {
 		var el = this.Inputs[assignee[i]];
 		if (el) {
@@ -45,6 +45,7 @@ Userman.prototype.TemplateLoaded = function(req) {
 	}
 
 	BindRooms(this.Inputs["BY_ROOM"]);
+    new DatePicker(this.Inputs["REG_DATE"]);
 };
 
 
@@ -69,6 +70,14 @@ udto.prototype.ToString = function(index, obj) {
 	var name = this.MakeTitle();
 	td1.appendChild(umDisplayName(this, name, td1, obj));
 	tr.appendChild(td1);
+    if (me.IsAdmin()) {
+        td2 = d.createElement("td");
+        cb = CreateBitInput("usr" + this.Id, 0);
+        td2.appendChild(cb);
+        tr.appendChild(td2);
+    } else {
+        td1.colSpan = 2;
+    }
 	return tr;
 };
 
