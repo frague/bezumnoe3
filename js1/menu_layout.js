@@ -1,7 +1,7 @@
 // Scripts related to menu only
 
 
-var container = new MyFrame($('OptionsContainer'), 580);
+var container = new MyFrame($('OptionsContainer'), 580, 400);
 var content = new MyFrame($('OptionsContent'));
 var alerts = new MyFrame($('AlertContainer'));
 var winSize = new MyFrame(window);
