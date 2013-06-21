@@ -1,5 +1,30 @@
 <?
 
+    function get_sequence() {
+    	$result = "";
+    	for ($i = 0; $i < rand(2, 5); $i++) {
+    		$result .= rand(0, 9);
+    	}
+    	return $result;
+    }
+	
+	function encrypt($num) {
+		$result = get_sequence();
+		foreach (str_split($num) as $c) {
+			$result .= chr(65 + 1 * $c) . get_sequence();
+		}
+		return $result;
+	}
+
+	function decrypt($text) {
+	    $result = "";
+		$text = preg_replace("/[^A-Z]/", "", $text);
+		foreach (str_split($text) as $c) {
+			$result .= ord($c) - 65;
+		}
+		return $result;
+	}
+	
 	$root = "../";
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
@@ -8,9 +33,10 @@
 	Head("Регистрация в чате", "register.css", "stub.js");
 	require_once $root."references.php";
 
+	$operations = array("+", "-", "*");
 
 	$errors = array();
-    $errors[] = "Регистрация временно закрыта";
+#	$errors[] = "Регистрация временно закрыта";
 
 	$doSave = LookInRequest("DO_SAVE");
 	if ($doSave) {
@@ -22,12 +48,12 @@
 		$full_name = trim(LookInRequest("FULL_NAME"));
 		$gender = trim(LookInRequest("GENDER"));
 		$location = trim(LookInRequest("LOCATION"));
+		$answer = trim(LookInRequest("ANSWER"));
 
 		$is_human = !trim(LookInRequest("HUMAN"));
+		$session = LookInRequest("SESSION");
 
 		/* Validation */
-
-
         if (!$is_human || ($gender && !preg_match("/^[mf]$/", $gender))) {
 			$errors[] = "Заблокирована автоматическая регистрация.";
 
@@ -59,6 +85,10 @@
 		}
 		if ($password != $confirmPassword) {
 			$errors[] = "Пароли не совпадают.";
+		}
+
+		if ($answer != decrypt($session)) {
+			$errors[] = "Неверный ответ на математическую задачу.";
 		}
 
 		if (!$accept) {
@@ -94,6 +124,19 @@
 		}
 	}
 
+    // Math task
+    $a = rand(10, 100);
+    $b = rand(10, 100);
+    if ($b > $a) {
+    	$c = $b;
+    	$b = $a;
+    	$a = $c;
+    }
+    $operation = $operations[rand(0, 2)];
+	$equation = $a." ".$operation." ".$b;
+	$equation_result = encrypt(eval("return ".$equation.";"));
+
+	// Success
 	if (!sizeof($errors)) {
 		if ($doSave) {
 			// User
@@ -211,12 +254,21 @@
 			<input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">женский</label> 
 			<input type="radio" name="GENDER" id="GENDER_UNKNOWN" value="" <?php echo ($gender ? "" : "checked"); ?>> <label for="GENDER_UNKNOWN">другое</label> 
 			<input name="HUMAN" id="HUMAN" style="visibility:hidden" value="">
+			<input type="hidden" name="SESSION" id="SESSION" value="<?php echo $equation_result ?>" />
 		</td>
 	</tr>
 	<tr>
 		<th>Город:</th>
 		<td>
 			<input name="LOCATION" id="LOCATION" class="RegData" value="<?php echo $location ?>">
+		</td>
+	</tr>
+	<tr>
+		<td class="Mandatory"></td>
+		<td>
+			Я не бот и вообще против авторегистрации.
+			<p class="Tip">Готов доказать, решив простое уравнение.
+			<p><?php echo $equation ?> = <input name="ANSWER" id="ANSWER" size="4" width="20px" />
 		</td>
 	</tr>
 	<tr>
