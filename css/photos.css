@@ -1,6 +1,11 @@
 h4 {
 	clear:both;
-	margin:16 0 0 0;
+	font-family: 'bezumnoe2', 'Arial Narrow', 'Arial';
+	font-size:12.5pt;
+	padding:0;
+	margin:20px 0 10px;
+	font-weight: normal;
+	-webkit-text-stroke: 0.35px;
 }
 
 .UserList b a {

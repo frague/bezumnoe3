@@ -201,7 +201,7 @@
 	}
 ?>
 
-<h2>Ознакомьтесь с условиями регистрации:</h2>
+<h2>Условия регистрации</h2>
 Для регистрации в чате необходимо выбрать логин, пароль достаточной сложности и
 указать свой e-mail адрес для подтверждения регистрации.<br>
 Более полную информацию можно будет указать из меню после входа в чат.<br>
@@ -215,7 +215,7 @@
 
 <table width="auto">
 	<tr>
-		<th class="Mandatory">Логин:</th>
+		<th class="Mandatory">Логин</th>
 		<td>
 			<input name="LOGIN" id="LOGIN" class="RegData" maxlength="20" value="<?php echo $login ?>">
 			<input name="DO_SAVE" id="DO_SAVE" type="hidden" value="1">
@@ -223,32 +223,32 @@
 		</td>
 	</tr>
 	<tr>
-		<th class="Mandatory">Пароль:</th>
+		<th class="Mandatory">Пароль</th>
 		<td>
 			<input type="password" name="PASSWORD" id="PASSWORD" class="RegData">
 		</td>
 	</tr>
 	<tr>
-		<th class="Mandatory">Подтверждение пароля:</th>
+		<th class="Mandatory">Подтверждение пароля</th>
 		<td>
 			<input type="password" name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM" class="RegData">
 		</td>
 	</tr>
 	<tr>
-		<th class="Mandatory">E-mail адрес:</th>
+		<th class="Mandatory">E-mail адрес</th>
 		<td>
 			<input name="E-MAIL" id="E-MAIL" class="RegData" value="<?php echo $email ?>">
 			<p class="Tip">Укажите актуальный адрес, т.к. на него будут высланы инструкции по активации аккаунта.
 		</td>
 	</tr>
 	<tr>
-		<th>Имя:</th>
+		<th>Имя</th>
 		<td>
 			<input name="FULL_NAME" id="FULL_NAME" class="RegData" value="<?php echo $full_name ?>">
 		</td>
 	</tr>
 	<tr>
-		<th>Пол:</th>
+		<th>Пол</th>
 		<td>
 			<input type="radio" name="GENDER" id="GENDER_MALE" value="m" <?php echo ($gender == "m" ? "checked" : ""); ?>> <label for="GENDER_MALE">мужской</label> 
 			<input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">женский</label> 
@@ -258,7 +258,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th>Город:</th>
+		<th>Откуда вы</th>
 		<td>
 			<input name="LOCATION" id="LOCATION" class="RegData" value="<?php echo $location ?>">
 		</td>

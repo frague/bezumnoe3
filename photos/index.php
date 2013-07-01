@@ -38,10 +38,10 @@
 	<tr>
 		<td width="30%" valign="top" class='UserList'>
 			<form action="/photos/">
-			<h4>Поиск:</h4>
+			<h4>Поиск</h4>
 			<input name="search" id="search" value="<?php echo $search; ?>" maxlength="20" /> <input type="image" src="/img/search_button_inv.gif" border="0" align="absmiddle" />
 
-			<h4>По первому символу:</h4>
+			<h4>По первому символу</h4>
 			<?php
 			
 				$symbols = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -54,7 +54,7 @@
 			
 			?>
 
-			<h4>Результаты поиска:</h4>
+			<h4>Найдено</h4>
 			<?php 
 				if ($results > 20) {
 					echo "<div class='Error'>Отображены первые 20 совпадений!</div>";

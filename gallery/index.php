@@ -37,11 +37,11 @@
 <table width="100%">
 	<tr>
 		<td width="40%">
-			<h4>Новые комментарии:</h4>
+			<h4>Новые комментарии</h4>
 			<?php include $root."/inc/ui_parts/gallery.comments.php" ?>
 			</td>
 		<td valign="top">
-			<h4>Галереи:</h4>
+			<h4>События и коллекции фотографий</h4>
 			<?php include $root."/inc/ui_parts/galleries.php" ?>
 			</td></tr></table>
 <?php
