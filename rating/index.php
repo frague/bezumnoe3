@@ -52,12 +52,12 @@
 	<tr>
 		<td valign="top" width="50%">
 			<ol>
-				<h4>Лучшие за сутки</h4>
+				<h3>Лучшие за сутки</h3>
 				<?php GetUsersRatings("1=1 ORDER BY ".Profile::RATING."-".Profile::LAST_RATING." DESC LIMIT 40"); ?>
 			</ol>
 		</td><td valign="top">
 			<ol>
-				<h4>Топ 40</h4>
+				<h3>40 лучших</h3>
 				<?php GetUsersRatings("1=1 ORDER BY ".Profile::RATING." DESC LIMIT 40"); ?>
 			</ol>
 		</td>

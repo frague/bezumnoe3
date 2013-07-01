@@ -1,9 +1,5 @@
-h4 {
-	font-family: 'bezumnoe2', 'Arial Narrow', 'Arial';
-	font-size:12.5pt;
-	padding:0;
-	margin:20px 0 10px;
-	font-weight: normal;
+h3 {
+	font-size: 14pt;
 	-webkit-text-stroke: 0.35px;
 }
 

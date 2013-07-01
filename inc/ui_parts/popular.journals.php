@@ -7,7 +7,7 @@
 		"1=1",
 		$j->RatingExpression(" ORDER BY ".ForumBase::RATING."-".ForumBase::LAST_RATING." DESC LIMIT 20"));
 
-	echo "<h4>Популярные за сутки</h4>";
+	echo "<h3>Популярные за сутки</h3>";
 	echo "<ul>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();

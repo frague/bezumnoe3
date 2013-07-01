@@ -6,7 +6,7 @@
 		$settings->GetUpdatedTemplatesExpression()
 	);
 
-	echo "<h4>Обновления дизайна</h4>";
+	echo "<h3>Обновления дизайна</h3>";
 	echo "<ul>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
