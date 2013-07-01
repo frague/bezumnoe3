@@ -18,6 +18,13 @@ body {
   src: local('bezumnoe2'), url('/fonts/bezumnoe3.ttf') format('truetype');
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'bezumnoe2', 'arial';
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
+}
+
 a {
 	color: #923200;
 	text-decoration:none;
