@@ -1,4 +1,4 @@
-//7.7
+//7.8
 /*
 	User options UI and helper methods
 */
@@ -291,7 +291,7 @@ OptionsBase.prototype.UpdateToPrintableDate = function(field) {
 var optionsWindow;
 function ShowOptions() {
 	if (!optionsWindow || optionsWindow.closed) {
-		optionsWindow = open("options", "options", "width=600,height=400,toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=1");
+		optionsWindow = open("options", "options", "width=600,height=420,toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=1");
 	}
 	optionsWindow.focus();
 };
