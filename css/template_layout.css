@@ -43,11 +43,13 @@ ul {
 .Header h1 {
 	color: #000;
 	font-family: 'bezumnoe2', 'Arial Narrow', 'arial';
+	font-weight: normal;
 	line-height:  32px;
 	font-size: 28pt;
 	padding: 50px 0 0 10px;
 	margin-top: 50px;
 	display: inline;
+	-webkit-text-stroke: 0.35px;
 }
 
 .Header img {
@@ -61,11 +63,14 @@ ul {
 }
 
 h6 {
-	font-size: 9pt;
+	font-family: 'bezumnoe2', 'Arial';
+	font-size: 12pt;
+	font-weight: normal;
 	text-align: center;
 	padding: 0;
 	margin: 5px 0;
 	color: #E27603;
+	-webkit-text-stroke: 0.25px;
 }
 
 

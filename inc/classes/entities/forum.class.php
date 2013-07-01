@@ -8,11 +8,11 @@ class Forum extends ForumBase {
 	}
 
 	function ToPrint($link = "", $lastVisitDate = "") {
-		$result = "\n<h4".($this->IsProtected ? " class='Hidden'" : "").">";
+		$result = "\n<h3".($this->IsProtected ? " class='Hidden'" : "").">";
 		if ($link) {
 			$result.= "<a href='".$this->BasePath()."'>";
 		}
-		$result.= $this->Title.($link ? "</a>" : "")."</h4>";
+		$result.= $this->Title.($link ? "</a>" : "")."</h3>";
 		$result.= $this->Description;
 		$result.= "<div class='Counts'>В форуме ".Countable("тема", $this->TotalCount, "нет").".";
 		if ($lastVisitDate) {

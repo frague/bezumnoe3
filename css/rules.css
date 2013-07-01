@@ -1,3 +1,16 @@
+h3 {
+	font-family: 'bezumnoe2', 'Arial Narrow', 'Arial';
+	font-size:16pt;
+	padding:0;
+	margin:20px 0 10px;
+	font-weight: normal;
+	-webkit-text-stroke: 0.35px;
+}
+
+ul ul {
+	padding-left: 30px;
+}
+
 .char10 {
 	margin-left: -1px;
 }

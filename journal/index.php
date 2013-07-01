@@ -32,7 +32,7 @@
 <table width="100%">
 	<tr>
 		<td width="40%" valign="top">
-			<h4>Новые сообщения:</h4>
+			<h4>Новые сообщения</h4>
 			<?php include $root."inc/ui_parts/journal.posts.php"; ?>
 			<?php include $root."inc/ui_parts/updated.journals.php"; ?>
 

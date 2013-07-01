@@ -1,11 +1,20 @@
-h4 {
-	font-family:'Arial Narrow',arial;
-	font-size:12.5pt;
-	padding:0;
-	margin:10px 0 0 0;
+h3, h4 {
+	font-family:'bezumnoe2','Arial Narrow','Arial';
+	font-weight: normal;
+	padding: 0;
+	margin: 20px 0 10px;
+	-webkit-text-stroke: 0.35px;
 }
 
-h4 .Count {
+h3 {
+	font-size: 14pt;
+}
+
+h4 {
+	font-size: 12.5pt;
+}
+
+h3 .Count {
 	position:relative;
 	top:-4px;
 	left:4px;
@@ -13,17 +22,17 @@ h4 .Count {
 	font-weight:normal;
 }
 
-h4.Hidden {
+h3.Hidden {
 	text-decoration:none;
 	padding-left:18px;
 	background:url(/img/icons/forum_lock.gif) no-repeat;
 }
 
-h4.Hidden a {
+h3.Hidden a {
 	color:red;
 }
 
-h4.Mandatory {
+h3.Mandatory {
 	display:inline;
 	clear:both;
 }
