@@ -6,12 +6,24 @@ h3, h4 {
 	-webkit-text-stroke: 0.35px;
 }
 
+h2 {
+	font-family: 'Arial';
+	font-weight: lighter;
+	-webkit-text-stroke: 0;
+}
+
 h3 {
 	font-size: 14pt;
 }
 
 h4 {
 	font-size: 12.5pt;
+}
+
+header>h4 {
+	font-family: 'Arial';
+	font-weight: normal;
+	-webkit-text-stroke: 0;
 }
 
 h3 .Count {
@@ -121,7 +133,7 @@ ul.Threads li.Protected a {
 }
 
 .Recent {
-	font-weight:bold;
+	/*font-weight:bold;*/
 }
 
 ul.Thread table.Recent h4 {
