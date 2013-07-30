@@ -7,6 +7,12 @@ h3, h3 a {
 	color:#FB8C00;
 }
 
+h4 {
+	font-family: 'Arial';
+	font-weight: bold;
+	padding-bottom: 4px;
+}
+
 sup {
 	color:red;
 }

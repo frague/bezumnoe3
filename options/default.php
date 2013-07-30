@@ -14,7 +14,7 @@
 	
 
 	?>		<title>Меню пользователя</title>
-		<script language="javascript" src="/js1/wysiwyg/tiny_mce.js"></script>
+		<script language="javascript" src="/js1/wysiwyg/tinymce.min.js"></script>
 	</head>
 
 	<body onload="OnLoad()">
