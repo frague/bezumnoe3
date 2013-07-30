@@ -1,4 +1,4 @@
-//6.4
+//6.6
 /*
 	Journal functionality: Blog templates, messages, settings
 */
@@ -67,7 +67,30 @@ Journal.prototype.TemplateLoaded = function(req) {
 
 // tinyMCE initialization
 function InitMCE() {
-	tinyMCE.init({
+	tinymce.init({
+		selector: "textarea",
+		schema: "html5",
+		language: "ru",
+		theme: "modern",
+		skin: "lightgray",
+		resize: true,
+		relative_urls: false,
+		image_advtab: true,
+		height: 500,
+		statusbar: false,
+		plugins: [
+			"advlist autolink link image lists charmap hr anchor pagebreak",
+			"searchreplace visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+			"save contextmenu directionality template paste preview"
+		],
+		content_css: "css/content.css",
+		menubar: "insert format",
+		toolbar: "insertfile undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code preview"
+	}); 
+};
+
+/*
+
 		mode : "textareas",
 		theme : "advanced",
 		language : "ru",
@@ -84,4 +107,4 @@ function InitMCE() {
 		theme_advanced_resizing : true,
         media_strict : false
 	});
-};
+*/
