@@ -1,4 +1,4 @@
-//2.3
+//2.4
 /*
 	Allows color selection with mouse click
 */
@@ -17,6 +17,8 @@ function ColorPicker(input) {
 	}
 	if (this.Input) {
 		this.Input.className = "Color";
+		this.Input.type = "color";
+
 		this.Table = d.createElement("table");
 		DisplayElement(this.Table, false);
 		var t = d.createElement("tbody");
