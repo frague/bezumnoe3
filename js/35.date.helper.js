@@ -1,4 +1,4 @@
-//2.1
+//2.2
 /*
 	Helper methods to work with dates.
 */

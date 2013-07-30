@@ -1,4 +1,4 @@
-//7.8
+//7.10
 /*
 	User options UI and helper methods
 */
@@ -46,6 +46,12 @@ OptionsBase.prototype.TemplateBaseLoaded = function(req) {
 	this.Request();
 };
 
+/* Checks if element type is allowed for value-operations */
+
+OptionsBase.prototype.ValueType = function(t) {
+	return (t == "text" || t == "password" || t == "hidden" || t == "select-one" || t == "textarea" || t == "color" || t == "date" || t == "datetime");
+};
+
 /* Gathering object properties from UI controls */
 
 OptionsBase.prototype.GatherOne = function(name, property) {
@@ -53,7 +59,7 @@ OptionsBase.prototype.GatherOne = function(name, property) {
 
 	var prop = property ? property : name;
 	if (el) {
-		if (el.type == "text" || el.type == "password" || el.type == "hidden" || el.type == "select-one" || el.type == "textarea") {
+		if (this.ValueType(el.type)) {
 			this[prop] = el.value;
 			return MakeParametersPair(name, el.value);
 		} else if (el.type == "checkbox" || el.type == "radio") {
@@ -182,7 +188,7 @@ OptionsBase.prototype.SetTabElementValue = function(element, value) {
 	this.FindRelatedControls();
 	var el = this.Inputs[element];
 	if (el) {
-		if (el.type == "text" || el.type == "hidden" || el.type == "select-one" || el.type == "textarea") {
+		if (this.ValueType(el.type)) {
 			el.value = value;
 			return;
 		} else if (el.type == "checkbox" || el.type == "radio") {
