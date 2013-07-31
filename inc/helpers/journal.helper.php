@@ -127,8 +127,7 @@
 			return;
 		}
 
-		$result = "<article>".$template."</article>";
-        $result = str_replace("##TITLE##", $message->Title, $result);
+        $result = str_replace("##TITLE##", $message->Title, $template);
 
 		// Date & time
 		$msgTime = strtotime($message->Date);
