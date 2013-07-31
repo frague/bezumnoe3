@@ -4,7 +4,7 @@
 */
 
 function JournalSettings() {
-	this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION", "IS_PROTECTED", "IS_HIDDEN"];
+	this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION", "IS_PROTECTED", "IS_HIDDEN", "OWN_MARKUP_ALLOWED"];
 	this.ServicePath = servicesPath + "journal.settings.service.php";
 	this.Template = "journal_settings";
 	this.ClassName = "JournalSettings";

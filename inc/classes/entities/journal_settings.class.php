@@ -10,6 +10,7 @@ class JournalSettings extends EntityBase {
 	const REQUESTED_ALIAS = "REQUESTED_ALIAS";
 	const SKIN_TEMPLATE_ID = "SKIN_TEMPLATE_ID";
 	const LAST_MESSAGE_DATE = "LAST_MESSAGE_DATE";
+	const OWN_MARKUP_ALLOWED = "OWN_MARKUP_ALLOWED";
 
 	const PARAMETER = "alias";
 
@@ -19,6 +20,7 @@ class JournalSettings extends EntityBase {
 	var $RequestedAlias;
 	var $SkinTemplateId;
 	var $LastMessageDate;
+	var $OwnMarkupAllowed;
 
 	// Fields
 	function JournalSettings($id = -1) {
@@ -33,6 +35,7 @@ class JournalSettings extends EntityBase {
 		$this->RequestedAlias = "";
 		$this->SkinTemplateId = -1;
 		$this->LastMessageDate = "";
+		$this->OwnMarkupAllowed = 0;
 	}
 
 	function FillFromResult($result) {
@@ -42,6 +45,7 @@ class JournalSettings extends EntityBase {
 		$this->RequestedAlias = $result->Get(self::REQUESTED_ALIAS);
 		$this->SkinTemplateId = $result->GetNullableId(self::SKIN_TEMPLATE_ID);
 		$this->LastMessageDate = $result->Get(self::LAST_MESSAGE_DATE);
+		$this->OwnMarkupAllowed = $result->Get(self::OWN_MARKUP_ALLOWED);
 	}
 
 	function GetByAlias($alias) {
@@ -60,6 +64,7 @@ class JournalSettings extends EntityBase {
 		$s.= "<li>".self::REQUESTED_ALIAS." = ".$this->RequestedAlias."</li>\n";
 		$s.= "<li>".self::SKIN_TEMPLATE_ID." = ".$this->SkinTemplateId."</li>\n";
 		$s.= "<li>".self::LAST_MESSAGE_DATE." = ".$this->LastMessageDate."</li>\n";
+		$s.= "<li>".self::OWN_MARKUP_ALLOWED." = ".$this->OwnMarkupAllowed."</li>\n";
 
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>Journal Settings are not saved!</b>";
@@ -75,7 +80,8 @@ JsQuote($this->RequestedAlias)."\",\"".
 JsQuote($title)."\", \"".
 JsQuote($description)."\",".
 Boolean($is_protected).",".
-Boolean($is_hidden)."]";
+Boolean($is_hidden).",".
+Boolean($this->OwnMarkupAllowed)."]";
 		return $s;
 	}
 
@@ -95,7 +101,8 @@ Boolean($is_hidden)."]";
 	t1.".self::ALIAS.",
 	t1.".self::REQUESTED_ALIAS.",
 	t1.".self::SKIN_TEMPLATE_ID.",
-	t1.".self::LAST_MESSAGE_DATE."
+	t1.".self::LAST_MESSAGE_DATE.",
+	t1.".self::OWN_MARKUP_ALLOWED."
 FROM 
 	".$this->table." AS t1 
 WHERE
@@ -108,14 +115,16 @@ WHERE
 ".self::ALIAS.", 
 ".self::REQUESTED_ALIAS.", 
 ".self::SKIN_TEMPLATE_ID.", 
-".self::LAST_MESSAGE_DATE."
+".self::LAST_MESSAGE_DATE.",
+".self::OWN_MARKUP_ALLOWED."
 )
 VALUES
 (".round($this->ForumId).", 
 ".Nullable($this->Alias).", 
 ".Nullable($this->RequestedAlias).", 
 ".NullableId($this->SkinTemplateId).", 
-".Nullable($this->LastMessageDate)."
+".Nullable($this->LastMessageDate).",
+".Boolean($this->OwnMarkupAllowed)."
 )";
 	}
 
@@ -125,7 +134,8 @@ VALUES
 ".self::ALIAS."=".Nullable($this->Alias).", 
 ".self::REQUESTED_ALIAS."=".Nullable($this->RequestedAlias).", 
 ".self::SKIN_TEMPLATE_ID."=".NullableId($this->SkinTemplateId).", 
-".self::LAST_MESSAGE_DATE."=".Nullable($this->LastMessageDate)."
+".self::LAST_MESSAGE_DATE."=".Nullable($this->LastMessageDate).",
+".self::OWN_MARKUP_ALLOWED."=".Boolean($this->OwnMarkupAllowed)."
 WHERE 
 	".self::JOURNAL_SETTINGS_ID."=".round($this->Id);
 		return $result;

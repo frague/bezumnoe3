@@ -17,7 +17,6 @@
 	$record = new JournalRecord();
 	$settings = new JournalSettings();
 
-
 	// Getting the journal
 	if ($record_id > 0) {
 		// ... by record
