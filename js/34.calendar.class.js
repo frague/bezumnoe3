@@ -300,7 +300,7 @@ function DatePicker(input, with_time) {
 	}
 	if (this.Input) {
 		this.Input.className = (with_time ? "DateTime" : "Date");
-		this.Input.type = with_time ? "datetime" : "date"; 
+		/*this.Input.type = with_time ? "datetime" : "date"; */
 
 		this.Holder = d.createElement("div");
 		this.Holder.className = "DatePicker";
