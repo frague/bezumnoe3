@@ -4,7 +4,7 @@
 ?>
 <h2>Сообщение: <span id="TITLE1"></span></h2>
 
-<span style="display:none">
+<span>
 	<h4>Дата и время:</h4>
 	<input id="DATE" name="DATE" maxlength="16">
 </span>
