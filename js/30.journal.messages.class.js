@@ -1,4 +1,4 @@
-//7.4
+//7.5
 /*
 	Journal messages grid. Edit & delete buttons.
 */

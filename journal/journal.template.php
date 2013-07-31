@@ -7,15 +7,18 @@
 		return !AddressIsBanned(new Bans(0, 0, 1));
 	}
 
-
 	// Gets Journal Template by given Settings object
 	// Dies with 404 if not found
 	function GetTemplateOrDie($settings) {
 		$template = new JournalTemplate();
 		if ($settings->SkinTemplateId > 0) {
+			// Getting template from skin in settings if set
 			$template->GetById($settings->SkinTemplateId);
 		} else {
-			$template->FillByForumId($settings->ForumId);
+			if ($settings->OwnMarkupAllowed) {
+				// if custom template permitted, read it
+				$template->FillByForumId($settings->ForumId);
+			}
 
 			if ($template->IsEmpty()) {
 				// Getting default template

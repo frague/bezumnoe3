@@ -98,13 +98,13 @@ class JournalSkin extends EntityBase {
 
 	function ToHtml($pathToScreenshots, $onclick="") {
 #		$s = "<div class=\"skinPreview\">";
-		$s = "<label for=\"skin_".$this->Id."\"> <input type=\"radio\" name=\"skintemplateid\" value=\"".$this->TemplateId."\" id=\"skin_".$this->Id."\" onclick=\"".$onclick."\"> ";
+		$s = "<label for=\"skin_".$this->Id."\" id=\"label_".str_replace("-", "_", $this->Id)."\"> <input type=\"radio\" name=\"skintemplateid\" value=\"".$this->TemplateId."\" id=\"skin_".$this->Id."\" onclick=\"".$onclick."\"> ";
 		if (!$this->IsEmpty()) {
 			$s .= $this->Title." (".$this->Author.")";
 		} else {
 			$s .= "Собственный шаблон";
 		}
-		$s .= "<img src=\"".$pathToScreenshots."/".($this->IsEmpty() ? "custom.jpg" : $this->Screenshot)."\" class=\"Photo\">";
+		$s .= "<img src=\"".$pathToScreenshots."/".($this->IsEmpty() ? "custom.png" : $this->Screenshot)."\" class=\"Photo\">";
 		$s .= "</label>";
 #		$s .= "</div>";
 		return $s;

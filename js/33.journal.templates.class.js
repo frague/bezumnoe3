@@ -1,4 +1,4 @@
-//3.2
+//3.4
 /*
 	Journal templates: Global markup, single message & stylesheets.
 */
@@ -25,13 +25,21 @@ JournalTemplates.prototype.Request = function(params, callback) {
 JournalTemplates.prototype.RequestCallback = function(req, obj) {
 	if (obj) {
 		obj.skinTemplateId = "";
+		obj.ownMarkupAllowed = "";
+		obj.defaultTemplateId = "";
 		obj.RequestBaseCallback(req, obj);
 
 		if (obj.data) {
 			obj.FillFrom(obj.data);
 			obj.Bind();
 		}
-		button = SetRadioValue(obj.Inputs["SKIN_TEMPLATE_ID"], obj.skinTemplateId);
+		if (!obj.ownMarkupAllowed) {
+			obj.DisplayTabElement("label__1", false);
+			bId = obj.skinTemplateId > 0 ? obj.skinTemplateId : obj.defaultTemplateId;
+		} else {
+			bId = obj.skinTemplateId;
+		}
+		button = SetRadioValue(obj.Inputs["SKIN_TEMPLATE_ID"], bId);
 		if (button) {
 			button.click();
 		}

@@ -1,4 +1,4 @@
-//6.6
+//6.7
 /*
 	Journal functionality: Blog templates, messages, settings
 */
@@ -68,7 +68,7 @@ Journal.prototype.TemplateLoaded = function(req) {
 // tinyMCE initialization
 function InitMCE() {
 	tinymce.init({
-		selector: "textarea",
+		selector: "textarea.Editable",
 		schema: "html5",
 		language: "ru",
 		theme: "modern",
