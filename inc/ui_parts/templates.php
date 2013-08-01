@@ -107,7 +107,7 @@
 	}
 
 	function ErrorPage($message, $description = "") {
-		Head("Ошибка &mdash; ".$message, "", "", "", false, "error.gif");
+		Head("Ошибка &mdash; ".$message, "", "", "", false, "Ошибка");
 		?><div class="ErrorHolder">
 	<h2>Ошибка</h2>
 	<?php echo $message.($description ? "<br />\n".$description : ""); ?>
