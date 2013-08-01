@@ -280,6 +280,9 @@ WHERE
 	t2.".User::LOGIN.",
 	t2.".User::USER_ID.",
 	t3.".JournalSettings::ALIAS.",
+	t3.".JournalSettings::SKIN_TEMPLATE_ID.",
+	t3.".JournalSettings::OWN_MARKUP_ALLOWED.",
+	t1.".self::FORUM_ID.",
 	t1.".self::TITLE.",
 	t1.".self::RATING.",
 	t1.".self::LAST_RATING."
