@@ -392,12 +392,26 @@ class StatusAction extends BaseAction {
 		if (!$this->GetUser()) {
 			return false;
 		}
+		
 		$status = new Status();
 		$status->GetStandardStatus(Status::RIGHTS_OLDBIE);
 		if ($status->IsEmpty()) {
 		 	SaveLog("Ќе удалось установить пользователю статус \"старожил\". —татус не найден.", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 		 	return false;
 		}
+		$p = new Profile();
+		$p->GetByUserId($this->user->User->Id);
+
+		if ($p->IsEmpty()) {
+			SaveLog("Ќе удалось изменить статус пользователю: профиль не найден", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+			return false;
+		}
+
+		if (DatesDiff($p->LastVisit) > 31) {
+			SaveLog("ќтказано в установке нового статуса: не по€вл€лс€ в чате больше мес€ца", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR)
+			return false;
+		}
+
 		$this->user->User->StatusId = $status->Id;
 	 	SaveLog("”становлен статус \"старожил\".", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
 		$this->user->User->Save();
