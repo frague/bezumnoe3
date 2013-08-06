@@ -6,7 +6,10 @@
 
 	$meta_description = "Фото галерея саратовского чата Безумное Чаепитие у Мартовского Зайца. Фотографии самых интересных событий чата. Фотки чатлан. Интересные события Саратова.";
 
-	Head("Фотогалерея", "forum.css");
+	$p = new Page("Фотогалерея");
+	$p->AddCss("forum.css");
+	$p->PrintHeader();
+
 	require_once $root."references.php";
 
 ?>
@@ -46,5 +49,5 @@
 			</td></tr></table>
 <?php
 
-	Foot();
+	$p->PrintFooter();
 ?>

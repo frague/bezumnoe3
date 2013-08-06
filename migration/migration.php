@@ -2,7 +2,10 @@
 
 	$root = "../";
 	require "../inc/ui_parts/templates.php";
-	Head("Миграция данных", "forum.css", "");
+
+	$p = new Page("Миграция данных");
+	$p->AddCss("forum.css");
+	$p->PrintHeader();
 
 	require_once $root."references.php";
 
@@ -34,6 +37,6 @@
 
 <?php
 
-	Foot();
+	$p->PrintFooter();
 
 ?>

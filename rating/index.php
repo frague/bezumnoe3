@@ -5,7 +5,10 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/base_template.php";
 
-	Head("Рейтинг", "rating.css");
+	$pg = new Page("Рейтинг");
+	$pg->AddCss("rating.css");
+	$pg->PrintHeader();
+
 	require_once $root."references.php";
 
 
@@ -21,31 +24,14 @@
 			$p->FillFromResult($q);
 			$u->FillFromResult($q);
 
-			echo MakeListItem($i < 10 ? "Leading" : "").$u->ToInfoLink()." &rarr; <b>".$p->Rating."</b> <sup>".$p->GetRatingDelta()."</sup>";
-		}
-	}
-
-	function GetJournalsRating($condition) {
-		$j = new Journal();
-		$u = new User();
-
-		$q = $j->GetByCondition(
-			$condition,
-			$j->RatingExpression(" ORDER BY ".ForumBase::RATING."-".ForumBase::LAST_RATING." DESC LIMIT 20"));
-
-		for ($i = 0; $i < $q->NumRows(); $i++) {
-			$q->NextResult();
-			$j->FillFromResult($q);
-			$alias = $q->Get(JournalSettings::ALIAS);
-
-//			echo MakeListItem($i < 10 ? "Leading" : "")." &laquo;".JournalSettings::MakeLink($alias, $j->Title)."&raquo; &rarr; <b>".$j->Rating."</b> <sup>".$j->GetRatingDelta()."</sup>";
-			echo MakeListItem($i < 10 ? "Leading" : "")." &laquo;".JournalSettings::MakeLink($alias, $j->Title)."&raquo;";
+			$delta = $p->GetRatingDelta();
+			echo MakeListItem($i < 10 ? "Leading" : "").$u->ToInfoLink()." &rarr; <b>".$p->Rating."</b> <sup class=\"".($delta > 0 ? "Positive" : "Negative")."\">".$delta."</sup>";
 		}
 	}
 
 ?>
 
-Обновление рейтинга производится раз в сутки.
+<p>Обновление рейтинга производится раз в сутки.</p>
 
 <div align="center">
 <table width="90%">
@@ -67,5 +53,5 @@
 
 <?php
 
-	Foot();
+	$pg->PrintFooter();
 ?>

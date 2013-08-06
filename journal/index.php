@@ -6,7 +6,11 @@
 
 	$meta_description = "Блог-сервис саратовского чата Безумное Чаепитие у Мартовского Зайца. Персональные журналы, интересные события из жизни Саратова и его обитателей. Блоги Саратова. Саратовский блог-сервис.";
 
-	Head("Журналы", "forum.css", "", "/journal/rss/");
+	$p = new Page("Журналы", $meta_description);
+	$p->AddCss("forum.css");
+	$p->SetRss("/journal/rss/");
+	$p->PrintHeader();
+
 	require_once $root."references.php";
 
 ?>
@@ -46,6 +50,5 @@
 
 <?php
 
-
-	Foot();
+	$p->PrintFooter();
 ?>

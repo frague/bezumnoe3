@@ -27,13 +27,16 @@
 		die;
 	} 
 
-	Head("Активация аккаунта", "register.css");
+
+	$p = new Page("Активация аккаунта");
+	$p->AddCss("register.css");
+	$p->PrintHeader();
 	
 	echo "Поздравляем, <b>".$user->Login."</b>, ваш аккаунт успешно активирован!";
 	echo "<div class=\"Spacer\"></div>";
 
 	SaveLog("Активация профиля <b>".$user->Login."</b>.", $user->Id, "", AdminComment::SEVERITY_WARNING);
 
-	Foot();
+	$p->PrintFooter();
 
 ?>

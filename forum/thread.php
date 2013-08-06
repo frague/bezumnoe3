@@ -23,8 +23,10 @@
 
 	$meta_description = MetaContent($record->Title." - ".$record->Content);
 
-	Head($record->Title, array("forum.css", "jqueryui.css"), "", "", "", "Форумы");
-
+	$p = new Page($record->Title, $meta_description, "Форумы");
+	$p->AddCss(array("forum.css", "jqueryui.css"));
+	$p->PrintHeader();
+	                  
 	require_once $root."references.php";
 
 	$access = 1 - $forum->IsProtected;
@@ -80,5 +82,5 @@
 
 	include $root."/inc/ui_parts/li.php";
 	
-	Foot();
+	$p->PrintFooter();
 ?>

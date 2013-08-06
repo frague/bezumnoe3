@@ -6,7 +6,9 @@
 
 	$user = GetAuthorizedUser(true);
 
-	Head("Правила чата", "rules.css");
+	$p = new Page("Правила чата");
+	$p->AddCss("rules.css");
+	$p->PrintHeader();
 
 	require_once $root."references.php";
 
@@ -100,5 +102,5 @@
 
 <?php
 
-	Foot();
+	$p->PrintFooter();
 ?>

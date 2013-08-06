@@ -201,7 +201,7 @@
 				setHashtag();
 		
 			// Rebuild Facebook Like Button with updated href
-			if(settings.social_tools){
+			if(settings.social_tools && pp_srcs.length > set_position){
 				c_parts = pp_srcs[set_position].split('\|');
 				if (c_parts.length == 2) {
 					facebook_like_link = settings.social_tools.replace('{comments_link}', c_parts[0]).replace('{comments}', c_parts[1] > 0 ? '('+c_parts[1]+')': '');
@@ -750,7 +750,7 @@
 			if(settings.social_tools)
 				facebook_like_link = settings.social_tools.replace('{location_href}', encodeURIComponent(location.href)); 
 
-			settings.markup=settings.markup.replace('{pp_social}',(settings.social_tools)?facebook_like_link:''); 
+			settings.markup=settings.markup.replace('{pp_social}',(settings.social_tools && settings.social_tools.indexOf('{') === 0)?facebook_like_link:''); 
 			
 			$('body').append(settings.markup); // Inject the markup
 			

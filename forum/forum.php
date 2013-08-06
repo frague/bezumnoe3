@@ -20,7 +20,9 @@
 
 	$yesterday = DateFromTime(time() - 60*60*24);	// Yesterday
 
-	Head($forum->Title, array("forum.css", "jqueryui.css"), "", "", "", "Форумы");
+	$p = new Page($forum->Title, $meta_description, "Форумы");
+	$p->AddCss(array("forum.css", "jqueryui.css"));
+	$p->PrintHeader();
 
 	require_once $root."references.php";
 
@@ -31,7 +33,7 @@
 
 	if ($access == Forum::NO_ACCESS || $forum->IsHidden) {
 		error("У вас нет доступа к форуму.");
-		Foot();
+		$p->PrintFooter();
 		die;
 	}
 	
@@ -75,5 +77,5 @@
 	echo $result;
 	include $root."inc/ui_parts/post_form.php";
 
-	Foot();
+	$p->PrintFooter();
 ?>

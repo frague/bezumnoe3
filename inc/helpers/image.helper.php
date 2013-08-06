@@ -95,21 +95,21 @@
 		if ($profile->Photo) {
 			if (file_exists($root.$ServerPathToThumbs.$profile->Photo)) {
 				$size = @GetImageSize($root.$ServerPathToThumbs.$profile->Photo);
-				return "<a href=\"".$PathToPhotos.$profile->Photo."\" rel=\"pp[pp_gal]\"><img src='".$PathToThumbs.$profile->Photo."' ".$size[3]." class='Photo' alt='".HtmlQuote($login)."' title='".HtmlQuote($login)."' /></a>";
+				return "<a href=\"".$PathToPhotos.$profile->Photo."\" rel=\"pp[pp_gal]\"><img src=\"".$PathToThumbs.$profile->Photo."\" ".$size[3]." class=\"Photo\" alt=\"".HtmlQuote($login)."\" title=\"".HtmlQuote($login)."\" /></a>";
 			} else {
 				$lnk = "";
 				$w = "width=\"300\"";
+				$cache = preg_replace("/[^0-9]/", "", $profile->PhotoUploadDate);
+
 				if (file_exists($root.$ServerPathToPhotos.$profile->Photo)) {
 					$size = @GetImageSize($root.$ServerPathToPhotos.$profile->Photo);
 					if ($size[0] <= 300) {
 						$w = $size[3];
 					} else {
-						$lnk = "<a href=\"".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."\" rel=\"pp[pp_gal]\">";
-#						$lnk = "<a href='".$PathToPhotos.$profile->Photo."' rel='pp[pp_gal]' aa='?".$profile->PhotoUploadDate."'>";
+						$lnk = "<a href=\"".$PathToPhotos.$profile->Photo."\" rel=\"pp[pp_gal]\">";
 					}
 				}
-				return $lnk."<img src=\"".$PathToPhotos.$profile->Photo."?".$profile->PhotoUploadDate."\" ".$w." class='Photo' alt=\"".HtmlQuote($login)."\" title=\"".HtmlQuote($login)."\" />".($lnk ? "</a>" : "");
-#				return $lnk."<img src='".$PathToPhotos.$profile->Photo."' aa='?".$profile->PhotoUploadDate."' ".$w." class='Photo' alt='".HtmlQuote($login)."' title='".HtmlQuote($login)."' />".($lnk ? "</a>" : "");
+				return $lnk."<img src=\"".$PathToPhotos.$profile->Photo."\" ".$w." class=\"Photo\" alt=\"".HtmlQuote($login)."\" title=\"".HtmlQuote($login)."\" />".($lnk ? "</a>" : "");
 			}
 		}
 		return "";
