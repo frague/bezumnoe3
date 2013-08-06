@@ -1,58 +1,94 @@
 <?php
 
-	function Head($title, $css = "", $js = "", $rss = "", $is_wide = false, $main_title = "", $like_buttons = array()) {
-	  global $user, $meta_description, $root, $no_jquery;
+	class Page {
+		var $title = "";
+		var $meta = "";
+		var $rss = "";
+		var $css = array(
+			"<link rel=\"stylesheet\" href=\"/css/global.css\" />", 
+			"<link rel=\"stylesheet\" href=\"/css/template_layout.css\" />", 
+			"<!--[if IE]><link rel=\"stylesheet\" href=\"/css/ie.css\" /><![endif]-->"
+		);
+		var $scripts = array();
+		var $buttons = array();
 
-	  	if (!$meta_description) {
-	  		$meta_description = "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
-	  	}
+		function Page($title, $meta = "", $header_title = "", $no_jquery = false) {
+		    $this->no_jquery = $no_jquery;
+			$this->title = $title;
+			$this->header_title = $header_title;
+			$this->meta = $meta ? $meta : "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
+			
+			$this->AddCss($css);
+
+			if (!$this->no_jquery) {
+				$this->AddJs(array("modernizr.js", "common.js"));
+			}
+			$this->AddJs("reply_common.js");
+			$this->AddJs($scripts);
+
+			$this->SetRss($rss);
+		}
+		
+		function SetRss($url) {
+			if ($url) {
+				$this->rss = "\n		<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"".$url."\" />";
+			}
+		}
+
+		function SetLikeButtons($buttons) {
+			$this->buttons = $buttons;
+		}
+
+		function AddItems(&$where, $items, $format = "%s") {
+	    	if (!$items) {
+	    		return;
+	    	}
+			if (!is_array($items)) {
+				$items = array($items);
+			}
+			foreach ($items as $i) {
+				$where[] = str_replace("%s", $i, $format);
+			}
+			return $where;
+		}
+	    
+	    function AddCss($urls) {
+	    	$this->AddItems($this->css, $urls, "<link rel=\"stylesheet\" href=\"/css/%s\" />");
+	    }
+	
+	    function AddJs($urls) {
+	    	$this->AddItems($this->scripts, $urls, "<script src=\"/js1/%s\"></script>");
+	    }
+
+	    function PrintArray($array, $prefix = "") {
+			foreach ($array as $i) {
+				print $prefix.$i."\n";
+			}
+	    }
+
+	    function PrintHeader() {
+		  global $user, $root;
 
 ?><!DOCTYPE html>
 <html lang="ru">
 	<head>
 		<meta charset="windows-1251" />
-		<title><?php echo $title ?></title>
-		<link rel="stylesheet" href="/css/global.css" />
-		<link rel="stylesheet" href="/css/template_layout.css" />
-<!--[if IE]>	<link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
+		<title><?php print $this->title; ?></title>
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-		<meta name="description" content="<? echo $meta_description ?>" />
-		<script language="javascript" src="/js1/reply_common.js"></script>
-<?php
-		if ($css) {
-			if (!is_array($css)) {
-				$css = array($css);
-			}
-			foreach ($css as $i) {
-				echo "		<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/".$i."\" />\n";
-			}
-		}
-		if ($rss) {
-			echo "		<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"".$rss."\" />\n";
-		}
-		if ($js) {
-			if (!is_array($js)) {
-				$js = array ($js);
-			}
-			foreach ($js as $i) {
-				echo "		<script language=\"javascript\" src=\"/js1/".$i."\"></script>\n";
-		   	}
-		}
-	?>
-<?php if (!$no_jquery) {?>
-		<script language="javascript" src="/js1/modernizr.js"></script>
-		<script language="javascript" src="/js1/common.js"></script>
-<?php } ?>
-		<?php include "google_analythics.php" ?>
+		<meta name="description" content="<?php print $this->meta; ?>" /><?php print $this->rss; ?>
 
-<?php
-		if (sizeof($like_buttons)) {
-			require_once $root."inc/helpers/like_buttons.helper.php";
-			echo GetMetadata($like_buttons);
-		}
-?>
-	</head>
+<?php 
+			$this->PrintArray($this->css, "		");
+			$this->PrintArray($this->scripts, "		"); 
+			include "google_analythics.php";
+
+			if (sizeof($this->buttons)) {
+				require_once $root."inc/helpers/like_buttons.helper.php";
+				print GetMetadata($this->buttons);
+			}
+
+?>	</head>
 	<body>
 		<div id="AlertContainer">
 			<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
@@ -62,28 +98,29 @@
 				</td></tr></table></div>
 
 <?php
-		if (sizeof($like_buttons)) {
-			echo GetHeadIncludes();
-		}
+			if (sizeof($this->buttons)) {
+				print GetHeadIncludes();
+			}
 ?>
 		<div class="Main">
-			<div class='Logged'>Авторизация: <strong id="Logged"><?php echo (!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login); ?></strong></div>
+			<div class='Logged'>Авторизация: <strong id="Logged"><?php print (!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login); ?></strong></div>
 
 			<header>
 				<div class="Header">
 					<a href="/" class="NoBorder">
 						<img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" /></a>
-					<h1<?php echo (!$main_title && strlen($title) > 30) ? " class='LongText'" : ""; ?>><?php echo $main_title ? $main_title : $title; ?></h1>
+					<h1<?php print (!$this->header_title && strlen($this->title) > 30) ? " class=\"LongText\"" : ""; ?>><?php print $this->header_title ? $this->header_title : $this->title; ?></h1>
 					</div></header>
 
 		<div style="clear: both;" class="Divider Horizontal"><span></span></div>
-<?php
-	}
 
-	function Foot() {
-	  global $root;
+<?php	    
+		}
+
+		function PrintFooter() {
+		  global $root;
 	?>
-				<script language="javascript" src="/js1/template_layout.js"></script>
+				<script src="/js1/template_layout.js"></script>
 			<footer>
 				<div style="clear: both;" class="Divider Horizontal"><span></span></div>
 				<?php include $root."inc/ui_parts/rle_banner.php"; ?>
@@ -103,20 +140,26 @@
 ?>
 	</body>
 </html>
-<?php
+
+
+<?php	
+		}
 	}
 
 	function ErrorPage($message, $description = "") {
-		Head("Ошибка &mdash; ".$message, "", "", "", false, "Ошибка");
-		?><div class="ErrorHolder">
+		
+		$p = new Page("Ошибка &mdash; ".$message, "", "Ошибка");
+		$p->PrintHeader();
+
+		?>
+<div class="ErrorHolder">
 	<h2>Ошибка</h2>
 	<?php echo $message.($description ? "<br />\n".$description : ""); ?>
-		</div>
-		<div class="Spacer"></div>
+</div>
+<div class="Spacer"></div>
 		<?php
 		
-		Foot();
+		$p->PrintFooter();
 	}
-
 
 ?>

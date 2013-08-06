@@ -29,8 +29,11 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
     
-    $no_jquery = 1;
-	Head("Регистрация в чате", "register.css", "stub.js");
+    $p = new Page("Регистрация в чате", "", "", true);
+    $p->AddCss("register.css");
+    $p->AddJs("stub.js");
+    $p->PrintHeader();
+	
 	require_once $root."references.php";
 
 	$operations = array("+", "-", "*");
@@ -195,7 +198,7 @@
 <br /><br /><br /><br /><br /><br /><br /><br />
 
 <?php
-			Foot();
+			$p->PrintFooter();
 			die;
 		}
 	}
@@ -311,6 +314,6 @@
 </script>
 <?php
 
-	Foot();
+	$p->PrintFooter();
 
 ?>

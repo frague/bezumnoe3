@@ -59,10 +59,14 @@
 
     $descr = MakeDescription($record);
 	$meta_description = MetaContent($record->Title." - ".$descr);
-
-	$buttons = FillButtonObjects($record->Title, $descr, "", $record->GetImageUrl());
 	
-	Head("Комментарии к &laquo;".$record->Title."&raquo;", array("forum.css", "jqueryui.css"), "", "", false, "Комментарии", $buttons);
+	$buttons = FillButtonObjects($record->Title, $descr, "", $record->GetImageUrl());
+
+	$p = new Page("Комментарии к &laquo;".$record->Title."&raquo;", $meta_description, "Комментарии");
+	$p->buttons = $buttons;
+	$p->AddCss(array("forum.css", "jqueryui.css"));
+	$p->PrintHeader();
+
 	require_once $root."references.php";
 
 	$postAccess = ($access >= Journal::FRIENDLY_ACCESS);
@@ -100,7 +104,7 @@
 
 <?
 	if (!$record->IsCommentable) {
-		Foot();
+		$p->PrintFooter();
 		die();
 	}
 ?>
@@ -162,6 +166,6 @@
 
 	include $root."inc/ui_parts/post_form.php";
 
-	Foot();
+	$p->PrintFooter();
 
 ?>

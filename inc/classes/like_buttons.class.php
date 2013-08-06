@@ -12,10 +12,15 @@
 		}
 
 		function getBasicMetadata() {
+			// Sorry for the stubs in urls (((
+
+			$url = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+			$url = preg_replace("/\/comments$/", "", $url);
+
 			return "<meta property=\"og:title\" content=\"".MetaContent($this->Title)."\" />
 <meta property=\"og:description\" content=\"".MetaContent($this->Description)."\" />
 <meta property=\"og:type\" content=\"blog\" />
-<meta property=\"og:url\" content=\"http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']."\" />
+<meta property=\"og:url\" content=\"http://".$url."\" />
 <meta property=\"og:image\" content=\"".MetaContent($this->Image)."\" />\n";
 		}	
 

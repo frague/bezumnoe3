@@ -32,7 +32,12 @@
 	$buttons = FillButtonObjects($record->Title, $gallery->Title, "", $record->GetImageUrl($gallery->Description));
 
 	AddEtagHeader(strtotime($record->UpdateDate));
-	Head($record->Title, array("forum.css", "jqueryui.css"), "", "", false, "Фотогалерея", $buttons);
+	
+	$p = new Page($record->Title, $meta_description, "Фотогалерея");
+	$p->AddCss(array("forum.css", "jqueryui.css"));
+	$p->buttons = $buttons;
+	$p->PrintHeader();
+
 	require_once $root."references.php";
 
 	$gallery->DoPrint(true);
@@ -96,6 +101,6 @@
 		echo "<div class='Error'>Комментарии к фотографии отключены.</div>";
 	}
 
-	Foot();
+	$p->PrintFooter();
 
 ?>

@@ -66,7 +66,10 @@
 
 	// Printing
 	AddEtagHeader(strtotime($lastModified));
-	Head($gallery->Title, array("forum.css", "prettyPhoto.css"), "gallery.js", "", "", "Фотогалерея");
+	$p = new Page($gallery->Title, $meta_description, "Фотогалерея");
+	$p->AddCss(array("forum.css", "prettyPhoto.css"));
+	$p->AddJs("gallery.js");
+	$p->PrintHeader();
 
 	$gallery->DoPrint();
 	echo $result;
@@ -97,5 +100,5 @@
 
 <?php
 
-	Foot();
+	$p->PrintFooter();
 ?>

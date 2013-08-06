@@ -70,7 +70,7 @@
 	<link rel=\"shortcut icon\" href=\"/img/icons/favicon.ico\" type=\"image/x-icon\" />
 	<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS: ".HtmlQuote($journal->Title)."\" href=\"/journal/##USERURLNAME##/friends/rss/\" />
 	##META##
-	<link rel=\"stylesheet\" href=\"/journal/css/".$template->Id.".css\" />
+	<link href=\"/journal/css/".$template->Id.".css\" />
 ".file_get_contents($root."inc/ui_parts/google_analythics.php")."
 </head>
 

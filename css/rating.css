@@ -11,6 +11,15 @@ li.Leading a {
 	color:orangered;
 }
 
+.Positive {
+	color:#00A000;
+}
+
+.Negative {
+	color:#FF8080;
+}
+
+
 .char2 {
 	margin-left: -3px;
 }

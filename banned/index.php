@@ -5,20 +5,22 @@
 	require $root."inc/ui_parts/templates.php";
 	require $root."inc/base_template.php";
 
-	Head("&laquo;Чёрный список&raquo;", "banned.css");
+	$p = new Page("&laquo;Чёрный список&raquo;");
+	$p->AddCss("banned.css");
+	$p->PrintHeader();
+
 	require_once $root."references.php";
 
 ?>
 
 На этой странице собраны все нарушители чата, отбывающие наказание в виде бана.
 
-<h4>Нарушители:</h4>
+<h2>Нарушители:</h2>
 <?php include $root."inc/ui_parts/banned.php"; ?>
 
 <br /><br /><br /><br /><br />
 
 <?php
 
-
-	Foot();
+	$p->PrintFooter();
 ?>

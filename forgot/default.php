@@ -4,8 +4,11 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	$no_jquery = 1;
-	Head("Изменение забытого пароля", "register.css", "stub.js");
+	$p = new Page("Изменение забытого пароля", "", "", true);
+	$p->AddCss("register.css");
+	$p->AddJs("stub.js");
+	$p->PrintHeader();
+
 	require_once $root."references.php";
 
 
@@ -94,7 +97,7 @@
 <br /><br /><br /><br /><br /><br /><br /><br />
 
 <?php
-			Foot();
+			$p->PrintFooter();
 			die;
 		}
 	}
@@ -153,6 +156,6 @@
 </script>
 <?php
 
-	Foot();
+	$p->PrintFooter();
 
 ?>

@@ -4,10 +4,12 @@
 	require_once $root."server_references.php";
 	require $root."inc/ui_parts/templates.php";
 
-	Head("Фотки чатлан", array("photos.css", "prettyPhoto.css"), "jquery/jquery.prettyPhoto.js");
+	$pg = new Page("Фотки чатлан");
+	$pg->AddCss(array("photos.css", "prettyPhoto.css"));
+	$pg->AddJs("gallery.js");
+	$pg->PrintHeader();
 
 	$search = LookInRequest("search");
-
 
 	$u = new User();
 	$p = new Profile();
@@ -72,15 +74,8 @@
 		</td>
 	</tr>
 </table>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$("a[rel^='pp']").prettyPhoto({
-			social_tools: false
-		});
-	});
-</script>
 	<?php
 
 
-	Foot();
+	$pg->PrintFooter();
 ?>
