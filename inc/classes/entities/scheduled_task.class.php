@@ -403,12 +403,12 @@ class StatusAction extends BaseAction {
 		$p->GetByUserId($this->user->User->Id);
 
 		if ($p->IsEmpty()) {
-			SaveLog("Не удалось изменить статус пользователю: профиль не найден", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+			SaveLog("Не удалось изменить статус пользователю: профиль не найден", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
 
 		if (DatesDiff($p->LastVisit) > 31) {
-			SaveLog("Отказано в установке нового статуса: не появлялся в чате больше месяца", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+			SaveLog("Отказано в установке нового статуса: не появлялся в чате больше месяца", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
 
