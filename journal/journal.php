@@ -289,7 +289,7 @@
 
 	$bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
 	$bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
-	$bodyText = str_replace("##DESCRIPTION##", $journal->Description, $bodyText);
+	$bodyText = str_replace("##DESCRIPTION##", $journal->Description ? $journal->Description : "Дневник на <a href=\"http://bezumnoe.ru\">bezumnoe.ru</a>", $bodyText);
 	$bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
 	$bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
 	$bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);

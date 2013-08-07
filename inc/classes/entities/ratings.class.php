@@ -173,31 +173,23 @@ SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.SAID";
 
 		$d = NowDate();
 		
-//		JsPoint("Start");
-
 		$db->Query(Profile::PushRatingsExpression());
-//		JsPoint("PushRatingsExpression");
 
 		$db->Query(Forum::PushRatingsExpression());
-//		JsPoint("PushRatingsExpression");
 
 		$db->Query(Rating::CountTodayMessagesExpression($d));
-//		JsPoint("CountTodayMessagesExpression");
 
 		$db->Query(Rating::UpdateUsersRatingsExpression($d));
-//		JsPoint("UpdateUsersRatingsExpression");
 
 		$db->Query(Rating::UpdateForumsRatingsExpression($d));
-//		JsPoint("UpdateForumsRatingsExpression");
 
 		$db->Query(Rating::ReduceRatingsExpression());
-//		JsPoint("ReduceRatingsExpression");
 
 		// TODO: Calculate journals ratings
 
 		$r = new Rating(0, 0);
 		$r->GetByCondition(Rating::DATE."<'".$d."'", $r->DeleteExpression());
-//		JsPoint("Delete");
+		JsPoint("Delete");
 	}
 
 }
