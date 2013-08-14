@@ -34,7 +34,7 @@ Modernizr.load([
 					modal: true,
 					buttons: {
 						"Авторизоваться": function() {
-							$( "#auth" ).submit();
+							$( "form#auth" ).submit();
 							$( this ).dialog( "close" );
 						},
 						"Отмена": function() {
@@ -42,6 +42,13 @@ Modernizr.load([
 						}
 					}
 				});
+
+				$('.submitter').keypress(function (e) {
+					if (e.which == 13) {
+						$('form#auth').submit();
+					}
+				});
+
 				startup();
 			});
     	}
