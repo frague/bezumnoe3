@@ -175,7 +175,7 @@
 						</div>
 
 						<div class="Counters">
-							<a href="http://www.yandex.ru/cy?base=0&host=bezumnoe.ru" rel="nofollow"><img src="http://www.yandex.ru/cycounter?www.bezumnoe.ru" width=88 height=31 alt="Яндекс цитирования bezumnoe.RU" border=0 hspace=5 vspace=8></a><br />
+							<a href="http://pr-cy.ru/a/bezumnoe.ru" target="_blank" rel="nofollow"><img src="http://counter.pr-cy.ru/prcy/bezumnoe.ru" alt="Счетчик тИЦ и PR" style="margin:10px 0"></a><br />
 							<!--LiveInternet counter--><script type="text/javascript">document.write("<a href='http://www.liveinternet.ru/click' target=_blank><img src='//counter.yadro.ru/hit?t14.5;r" + escape(document.referrer) + ((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ";u" + escape(document.URL) +";i" + escape("Жж"+document.title.substring(0,80)) + ";" + Math.random() + "' border=0 width=88 height=31 alt='' title=''><\/a>")</script><!--/LiveInternet-->
 						</div>
 					</div>
@@ -189,7 +189,7 @@
 				
 				<div class="Bottom Centered">
 					Первая версия сайта была создана 19 октября 1999 года<br />
-					&copy; Дизайн и разработка сайта - <a href="javascript:void(0)" onclick="Feedback()">Николай Богданов</a>
+					&copy; Дизайн и разработка сайта - <a href="mailto:me@bezumnoe.ru" rel="nofollow">Николай Богданов</a>
 				</div>
 			</div>
 	   	</div>
