@@ -49,15 +49,15 @@
 				<td width="50%" valign="top">
 					<input type="radio" name="AUTH" id="AUTH_NOW" value="1" checked /> <label for="AUTH_NOW">по логину и паролю</label>
 					<div id="AuthByLogin">
-						<div><label for="<?php echo LOGIN_KEY ?>">Логин</label> <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1000" /></div>
-						<div><label for="<?php echo PASSWORD_KEY ?>">Пароль</label> <input type="password" name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" size="20" tabindex="1001" /></div>
+						<div><label for="<?php echo LOGIN_KEY ?>">Логин</label> <input class="submitter" name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1000" /></div>
+						<div><label for="<?php echo PASSWORD_KEY ?>">Пароль</label> <input class="submitter" type="password" name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" size="20" tabindex="1001" /></div>
 					</div></td>
 				<td width="50%">
 					<input type="radio" name="AUTH" id="AUTH_OPENID" value="2" /> <label for="AUTH_OPENID">с использованием OpenID</label>
 					<div id="AuthByOpenID">
 						<input type="hidden" name="openid_action" value="login" />
 						<input type="hidden" name="<?php echo REFERER_KEY ?>" id="<?php echo REFERER_KEY ?>" />
-						<div><label for="<?php echo OPENID_LOGIN_KEY ?>">Логин</label> <input name="<?php echo OPENID_LOGIN_KEY ?>" id="<?php echo OPENID_LOGIN_KEY ?>" size="20" /></div>
+						<div><label for="<?php echo OPENID_LOGIN_KEY ?>">Логин</label> <input class="submitter" name="<?php echo OPENID_LOGIN_KEY ?>" id="<?php echo OPENID_LOGIN_KEY ?>" size="20" /></div>
 						Сервис <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" /><br />
 						<input type="hidden" id="callback" name="callback" />
 						<span class="OpenID">
