@@ -13,9 +13,11 @@ body {
 
 @font-face {
   font-family: 'bezumnoe2';
+  src: url('/fonts/bezumnoe3.eot');
+  src: url('/fonts/bezumnoe3.eot?') format('embedded-opentype'),
+       url('/fonts/bezumnoe3.ttf') format('truetype');
   font-style: normal;
   font-weight: normal;
-  src: local('bezumnoe2'), url('/fonts/bezumnoe3.ttf') format('truetype');
 }
 
 h1, h2, h3, h4, h5, h6 {
