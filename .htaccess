@@ -161,11 +161,17 @@ RewriteRule ^journal/([^/]{4,})/([0-9]{4})/friends.php$ journal/$1/friends/$2? [
 RewriteRule ^journal/([^/]{4,})/friends.php$ journal/$1/friends? [R=301,L]
 
 # Journal posts
-RewriteRule ^journal/([^/]{4,})/post([0-9]+)\.html$ journal/$1/post$2? [R=301,L]
+RewriteRule ^journal/([^/]{4,})/([^/]+/)*post([0-9]+)\.html$ journal/$1/post$3? [R=301,L]
 
 # Journal comments
 RewriteRule ^journal/([^/]+)/comments([0-9]+).html journal/$1/post$2/comments? [R=301,L]
-
+RewriteRule ^journal/([^/]+)/addcomment([0-9]+).html journal/$1/post$2/comments? [R=301,L]
+RewriteRule ^journal/([^/]+)/post([0-9]+)/comments/comment.php journal/$1/post$2/comments? [R=301,L]
+RewriteRule ^journal/([^/]+)/post([0-9]+)/comment.php journal/$1/post$2/comments? [R=301,L]
 
 # Rating
 RewriteRule ^rating/(.+)$ rating [R=301,L]
+RewriteRule ^rating.html$ rating [R=301,L]
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule . /index.php [L]
