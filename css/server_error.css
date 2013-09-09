@@ -1,20 +1,64 @@
 h1 {
-	text-align: center;
-	font: bold 120pt arial;
-	padding: 0;
-	margin: 0;
-	-webkit-transform: rotate(189deg);
-	-moz-transform: rotate(189deg);
-	-o-transform: rotate(189deg);
-	writing-mode: lr-tb;
-	text-shadow: -10px 6px 29px #808080;
+	font-size: 36pt;
 }
-table {
-	width: 100%;
-	height: 100%;
-}
+
 div {
-	font: 10pt tahoma;
-	width: 350px;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	width: 400px;
+	height: 200px;
 	text-align: left;
+
+	margin-top: -100px;
+	margin-left: -200px;
 }
+
+/* Not found 404 */
+
+h1.e404 .char2 {
+	margin-left: -5px;
+}
+
+h1.e404 .char6 {
+	margin-left: -3px;
+}
+
+h1.e404 .char15 {
+	margin-left: -3px;
+}
+
+/* Internal Server Error 500 */
+
+h1.e500 .char4 {
+	margin-left: -4px;
+}
+
+h1.e500 .char9 {
+	margin-left: -4px;
+}
+
+h1.e500 .char10 {
+	margin-left: -2px;
+}
+
+h1.e500 .char11 {
+	margin-left: -1px;
+}
+
+h1.e500 .char12 {
+	margin-left: -1px;
+}
+
+h1.e500 .char13 {
+	margin-left: -2px;
+}
+
+h1.e500 .char14 {
+	margin-left: -2px;
+}
+
+h1.e500 .char6 {
+	margin-left: -3px;
+}
+
