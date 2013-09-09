@@ -43,8 +43,13 @@
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-	<script language="javascript" src="/js1/modernizr.js"></script>
-	<script language="javascript" src="/js1/common.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="/js1/jquery/jquery.lettering-0.6.1.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("h1").lettering();
+	});
+	</script>
 </head>
 
 <body>
