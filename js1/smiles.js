@@ -1,5 +1,5 @@
 function GetSmilesContainer() {
-	c = $("Smiles");
+	c = $("#Smiles")[0];
 	if (!c) {
 		return;
 	}

@@ -7,6 +7,7 @@
 		var $css = array(
 			"<link rel=\"stylesheet\" href=\"/css/global.css\" />", 
 			"<link rel=\"stylesheet\" href=\"/css/template_layout.css\" />", 
+			"<link rel=\"stylesheet\" href=\"/css/lettering.css\" />", 
 			"<!--[if IE]><link rel=\"stylesheet\" href=\"/css/ie.css\" /><![endif]-->"
 		);
 		var $scripts = array();
@@ -20,9 +21,7 @@
 			
 			$this->AddCss($css);
 
-			if (!$this->no_jquery) {
-				$this->AddJs(array("modernizr.js", "common.js"));
-			}
+			$this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "modernizr.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
 			$this->AddJs("reply_common.js");
 			$this->AddJs($scripts);
 

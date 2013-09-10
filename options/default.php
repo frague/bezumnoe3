@@ -2,7 +2,8 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/global.css">
 		<link rel="stylesheet" type="text/css" href="/css/menu_layout.css">
-		<script language="javascript" src="/js1/stub.js"></script>
+		<script src="/js1/jquery/jquery.js"></script>
+		<script src="/js1/jquery/jquery-ui.js"></script>
 		<?
 
 	$root = "../";

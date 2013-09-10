@@ -35,7 +35,7 @@ function MyFrame(obj, min_width, min_height) {
 			}
 		}
 
-		console.log(self.innerHeight + " : " + self.height);
+		/*console.log(self.innerHeight + " : " + self.height);*/
 	};
 
 	this.GetWindowSize = function() {

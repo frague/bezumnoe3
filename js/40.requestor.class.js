@@ -1,4 +1,4 @@
-//4.0
+//4.1
 /*
 	Performs single async request with given set of parameters
 */
@@ -22,7 +22,7 @@ Requestor.prototype.BaseCallback = function(req) {
 	var obj = this.obj;
 	var tabObject = this.obj.Tab;
 	tabObject.Alerts.Clear();
-	eval(req.responseText);
+	eval(req);
 	this.req = req;
 	this.Callback(this);
 };

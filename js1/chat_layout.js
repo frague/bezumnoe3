@@ -1,11 +1,11 @@
 // Scripts related to main chat window only
 
-var usersFrame = new MyFrame($('Users'), 0, 100);
-var formFrame = new MyFrame($('MessageForm'), 500);
-var messagesFrame = new MyFrame($('Messages'), 500, 100);
-var textLinesFrame = new MyFrame($('MessagesContainer'));
-var statusFrame = new MyFrame($('Status'), 660);
-var alerts = new MyFrame($('AlertContainer'));
+var usersFrame = new MyFrame($("#Users")[0], 0, 100);
+var formFrame = new MyFrame($("#MessageForm")[0], 500);
+var messagesFrame = new MyFrame($("#Messages")[0], 500, 100);
+var textLinesFrame = new MyFrame($("#MessagesContainer")[0]);
+var statusFrame = new MyFrame($("#Status")[0], 660);
+var alerts = new MyFrame($("#AlertContainer")[0]);
 var winSize = new MyFrame(window);
 
 var configIndex = 0;
@@ -95,7 +95,7 @@ if (window.addEventListener) {
 	window.addEventListener("resize", AdjustDivs, true);
 };
 
-var textForm = $('Message');
+var textForm = $("#Message")[0];
 function _s(text, erase) {
 	if (textForm) {
 		textForm.value = (erase ? "" : textForm.value) + text;

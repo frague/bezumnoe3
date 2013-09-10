@@ -296,7 +296,7 @@ function DatePicker(input, with_time) {
 	this.WithTime = with_time;
 	this.Input = input;
 	if (!input.type) {
-		this.Input = $(input);
+		this.Input = $(GetElement(input))[0];
 	}
 	if (this.Input) {
 		this.Input.className = (with_time ? "DateTime" : "Date");

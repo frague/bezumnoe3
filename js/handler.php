@@ -105,6 +105,7 @@
     	if ($version) {
     		//AddLastModified($lastModifiedTime);
     		AddEtagHeader($lastModifiedTime.$user->User->Id);
+			header("Content-type: text/javascript");
     		//Process (encode) data somehow
     	}
 		echo $v;

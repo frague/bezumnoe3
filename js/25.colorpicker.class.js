@@ -13,7 +13,7 @@ function ColorPicker(input) {
 	if (input.tagName) {
 		this.Input = input;
 	} else {
-		this.Input = $(input);
+		this.Input = $("#" + input)[0];
 	}
 	if (this.Input) {
 		this.Input.className = "Color";

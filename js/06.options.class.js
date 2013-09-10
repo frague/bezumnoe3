@@ -34,9 +34,9 @@ OptionsBase.prototype.TemplateLoaded = function(req) {	// To be overriden
 
 OptionsBase.prototype.TemplateBaseLoaded = function(req) {
 	text = req;
-	if (req.responseText) {
+	if (req) {
 		DebugLine("Template " + this.Template + " caching");
-		text = req.responseText;
+		text = req;
 		KeepRequestedContent(this.Template, text);
 	}
 	DebugLine("Template publishing");
@@ -263,7 +263,7 @@ OptionsBase.prototype.RequestBaseCallback = function(req, obj) {
 	if (obj) {
 		var tabObject = obj.Tab;
 		tabObject.Alerts.Clear();
-		eval(req.responseText);
+		eval(req);
 	}
 };
 

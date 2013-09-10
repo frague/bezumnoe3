@@ -1,13 +1,13 @@
-var UsersDiv = $("UsersContainer");
-var Topic = $("TopicContainer");
-var Messages = $("MessagesContainer");
-var Status = $("Status");
-var Recepients = $("RecepientsContainer");
-var PongImg = $("pong");
+var UsersDiv = $("#UsersContainer")[0];
+var Topic = $("#TopicContainer")[0];
+var Messages = $("#MessagesContainer")[0];
+var Status = $("#Status")[0];
+var Recepients = $("#RecepientsContainer")[0];
+var PongImg = $("#pong")[0];
 var pongImage = new Image(); pongImage.src = imagesPath + 'pong.gif';
 
-var textField = $("Message");
-var historyContainer = $("History");
+var textField = $("#Message")[0];
+var historyContainer = $("#History")[0];
 
 var topicMessage = '';
 var lastMessageId = -1;
@@ -67,7 +67,7 @@ var newRoomTab;
 function PrintRooms() {
 	UsersDiv.innerHTML = rooms.ToString();
 
-	var container = $("NewRoom");
+	var container = $("#NewRoom")[0];
 	if (!newRoomTab && me && me.Rights >= 11) {	// Allowed to create rooms
 		MakeNewRoomSpoiler(container);
 	}
@@ -242,7 +242,7 @@ function ForcePing(do_check) {
 	}
 };
 
-function Pong(req) {
+function Pong(responseText) {
 	busy = 0;
 	requestSent = 0;
 	clearTimeout(tiomeoutTimer);
@@ -251,14 +251,14 @@ function Pong(req) {
 	wakeups.Clear();
 
 	try {
-		eval(req.responseText);
+		eval(responseText);
 		if (showRooms) {
 			showRooms = 0;
 			PrintRooms();
 		}
 	} catch (e) {
 		DebugLine(e.description);
-		DebugLine(req.responseText);
+		DebugLine(responseText);
 	}
 
 	PrintWakeups();
@@ -269,10 +269,10 @@ function Pong(req) {
 	}
 
 	if (!menuInitilized && me.Login) {
-		InitMenu($("MenuContainer"));
+		InitMenu($("#MenuContainer")[0]);
 	}
 
-	var currentName = $("CurrentName");
+	var currentName = $("#CurrentName")[0];
 	if (currentName) {
 		var oldName = currentName.innerHTML;
 		if ((me.Nickname && oldName != me.Nickname) || (!me.Nickname && currentName.innerHTML != me.Nickname)) {

@@ -39,17 +39,15 @@
 	<link rel="stylesheet" href="/css/global.css" />
 	<link rel="stylesheet" href="/css/template_layout.css" />
 	<link rel="stylesheet" href="/css/default3.css" />
+	<link rel="stylesheet" href="/css/lettering.css" />
 <!--[if IE]>	<link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
 	<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 	<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="/js1/jquery/jquery.js"></script>
+	<script src="/js1/jquery/jquery-ui.js"></script>
 	<script src="/js1/jquery/jquery.lettering-0.6.1.min.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$("h1").lettering();
-	});
-	</script>
+	<script src="/js1/common.js"></script>
 </head>
 
 <body>

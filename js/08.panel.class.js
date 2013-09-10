@@ -15,7 +15,7 @@ function Panel() {
 
 Panel.prototype.Init = function(id, size) {
 	this.Id = id;
-	this.Holder = $(id);
+	this.Holder = $(GetElement(id))[0];
 	this.Position = size;
 	this.CurrentSize = size;
 
