@@ -6,7 +6,6 @@
 
 	$p = new Page("Изменение забытого пароля", "", "", true);
 	$p->AddCss("register.css");
-	$p->AddJs("stub.js");
 	$p->PrintHeader();
 
 	require_once $root."references.php";
@@ -140,13 +139,13 @@
 </form>
 
 <script>
-	PageValidators.Add(new Validator($("LOGIN"), new RequiredField(), "Необходимо задать логин.", 1));
-	PageValidators.Add(new Validator($("LOGIN"), new LengthRange(3, 20), "Логин должен быть не менее 6 и не более 20 символов.", 1));
+	PageValidators.Add(new Validator("LOGIN", new RequiredField(), "Необходимо задать логин.", 1));
+	PageValidators.Add(new Validator("LOGIN", new LengthRange(3, 20), "Логин должен быть не менее 6 и не более 20 символов.", 1));
 
-	PageValidators.Add(new Validator($("E-MAIL"), new RequiredField(), "Не указан e-mail.", 1));
-	PageValidators.Add(new Validator($("E-MAIL"), new MatchPattern(emailPattern), "Неверный формат e-mail адреса.", 1));
+	PageValidators.Add(new Validator("E-MAIL", new RequiredField(), "Не указан e-mail.", 1));
+	PageValidators.Add(new Validator("E-MAIL", new MatchPattern(emailPattern), "Неверный формат e-mail адреса.", 1));
 
-	PageValidators.Init($("Summary"), "Выявлены ошибки:");
+	PageValidators.Init("Summary", "Выявлены ошибки:");
 <?php
 		
 	if (sizeof($errors)) {

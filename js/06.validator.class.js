@@ -1,4 +1,4 @@
-//2.7
+//3.0
 /*
 	Validation of controls against rules given.
 */
@@ -11,7 +11,7 @@ function ValidatorsCollection() {
 ValidatorsCollection.prototype = new Collection();
 
 ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
-	this.Summary = summary_control;
+	this.Summary = $(GetElement(summary_control))[0];
 	this.SummaryText = summary_text ? "<h2>" + summary_text + "</h2>" : "";
 	this.InitSummary();
 
@@ -25,13 +25,19 @@ ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
 ValidatorsCollection.prototype.InitSummary = function() {
 	if (this.Summary) {
 		this.Summary.innerHTML = this.SummaryText;
-		this.Summary.style.display = "none";
+		DoHide(this.Summary);
+	}
+};
+
+ValidatorsCollection.prototype.ShowSummary = function(errors) {
+	if (this.Summary && errors && errors.length) {
+		this.Summary.innerHTML = this.SummaryText + "<li> " + errors.join("<li> ");
+		DoShow(this.Summary);
 	}
 };
 
 ValidatorsCollection.prototype.AreValid = function() {
 	this.InitSummary();
-
 
 	var result = true;
 	for (var id in this.Base) {
@@ -45,10 +51,7 @@ ValidatorsCollection.prototype.AreValid = function() {
 };
 
 var PageValidators = new ValidatorsCollection();
-
-
-
-
+                                                 
 function ValueHasChanged() {
 	return PageValidators.AreValid();
 };
@@ -57,7 +60,7 @@ function ValueHasChanged() {
 /* --------------- Single Validator --------------- */
 
 function Validator(control, rule, message, summarize, on_the_fly) {
-	this.Control = control;
+	this.Control = $(GetElement(control))[0];
 	this.Rule = rule;
 	this.Message = message;
 	this.ShowInSummary = summarize;
@@ -94,7 +97,7 @@ Validator.prototype.Validate = function(summary_control) {
 Validator.prototype.Display = function(state, summary_control) {
 	if (summary_control && this.ShowInSummary) {
 		summary_control.innerHTML += "<li>" + this.Message;
-		summary_control.style.display = "";
+		DoShow(summary_control);
 	} else {
 		this.ErrorContainer.className = "Validator" + (state ? "" : " Hidden");
    	}
