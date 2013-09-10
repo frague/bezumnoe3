@@ -13,8 +13,8 @@ function Confirm() {
 };
 
 Confirm.prototype.Init = function(coverId, holderId) {
-	this.Cover = $(coverId);
-	this.Holder = $(holderId);
+	this.Cover = $(GetElement(coverId))[0];
+	this.Holder = $(GetElement(holderId))[0];
 
 	this.Holder.className = "ConfirmContainer";
 };

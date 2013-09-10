@@ -6,7 +6,8 @@
 		<link rel="stylesheet" href="/css/info.css">
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-		<script language="javascript" src="/js1/stub.js"></script>
+		<script src="/js1/jquery/jquery.js"></script>
+		<script src="/js1/jquery/jquery-ui.js"></script>
 		<?php
 
 	$root = "./";

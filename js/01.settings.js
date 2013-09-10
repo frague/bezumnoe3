@@ -1,4 +1,4 @@
-//5.3
+//6.0
 /*
 	Contains all global script settings, constants, variables and common methods
 */
@@ -29,23 +29,25 @@ var ReplaceTags = new RegExp("\<[\/a-z][^\>]*\>", "gim");
 
 /* Service methods */
 
-/*function $(id) {
-	if (d.getElementById) {
-		return d.getElementById(id);
-	} else if (d.all) {
-		return d.all[id];
-	} else if (d.layers) {
-		return d.layers[id];
+function GetElement(el) {
+	if (el && (el.nodeType || el.jquery)) {
+		return el;
 	}
-	return false;
-};*/
+	return "#" + el;
+};
+
+var display_options = {effect: "fade", easing: "easeInOutBack", duration: 600};
 
 function DisplayElement(el, state) {
-	if (!el.style) {
-		el = $(el);
+	if (!el) {
+		return;
 	}
-	if (el) {
-		el.style.display = state ? "" : "none";
+
+	el = GetElement(el);
+	if (state) {
+		$(el).show();
+	} else {
+		$(el).hide();
 	}
 }
 
@@ -55,6 +57,11 @@ function DoShow(el) {
 
 function DoHide(el) {
 	DisplayElement(el, false);
+};
+
+function SwitchVisibility(el) {
+	el = GetElement(el);
+	$(el).toggle(display_options);
 };
 
 var empty_pass = "**********";
@@ -68,10 +75,7 @@ function ClearInput(el) {
 
 function RestoreInput(el, relatedBlockId) {
 	if (el.value != el.previousValue) {
-		var el2 = $(relatedBlockId);
-		if (el2) {
-			DisplayElement(el2, el.value);
-		}
+		DisplayElement(relatedBlockId, el.value);
 	}
 	if (!el.value) {
 		el.value = empty_pass;

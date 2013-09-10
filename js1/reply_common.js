@@ -205,9 +205,9 @@ function AddMessage(lnk) {
 };
 
 // New message adding callback
-function ForumMessageAddCallback(req, el) {
-	var newRecord = '', error = '', logged_user = '';
-	eval(req.responseText);
+function ForumMessageAddCallback(reesponseText, el) {
+	var newRecord = "", error = "", logged_user = "";
+	eval(reesponseText);
 
 	if (!error) {
 		CancelReply();
@@ -240,9 +240,9 @@ function ForumDelete(a, id, forum_id) {
 }
 
 // Deletion callback
-function ForumMessageDelCallback(req, a) {
-	var error = '', className = '';
-	eval(req.responseText);
+function ForumMessageDelCallback(reesponseText, a) {
+	var error = "", className = "";
+	eval(reesponseText);
 	if (!error) {
 		var li = FindParentTag("li", a);
 		SetChildClass("li", li, className);
@@ -264,7 +264,7 @@ function SetOpenID(id, el, a) {
 	selectedProvider = a;
 	a.className = "Selected";
 	a.blur();
-	el.val(id);
+	el[0].val(id);
 };
 
 function startup() {

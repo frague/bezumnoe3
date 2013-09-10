@@ -52,7 +52,8 @@
 		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
 		<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-		<script language="javascript" src="/js1/stub.js"></script>
+		<script src="/js1/jquery/jquery.js"></script>
+		<script src="/js1/jquery/jquery-ui.js"></script>
 	</head>
 
 	<body onload="OnLoad()">
@@ -124,7 +125,7 @@
 			SessionKey = '<?php echo SESSION_KEY ?>';
 
 			/* Tabs */
-			var tabs = new Tabs($("Messages"), $("MessagesContainer"));
+			var tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
 			var MainTab = new Tab(1, "×àò", 1);
 			tabs.Add(MainTab);
 			CurrentTab = MainTab;

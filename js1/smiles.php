@@ -1,3 +1,7 @@
+<?php 
+	header("Content-type: text/javascript");
+ ?>
+
 InitSmiles(<?php
 
 	$smiles = array(); 

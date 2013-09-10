@@ -151,22 +151,6 @@ User.prototype.HasAccessTo = function(room) {
 	return false;
 };
 
-function SetVisibility(id, state) {
-	var e = id.style ?  id : $(id);
-	if (e) {
-		e.style.display = state ? '' : 'none';
-	}
-};
-
-function SwitchVisibility(id) {
-	var e = id.style ?  id : $(id);
-	if (e.style.display == 'none') {
-		Show(e);
-	} else {
-		HideDelayed();
-	}
-};
-
 /* Helper methods */
 
 var shownElement;
@@ -180,7 +164,7 @@ function Show(id) {
 			return;
 		}
 	}
-	SetVisibility(id, true);
+	DisplayElement(id, true);
 	shownElement = id;
 };
 
@@ -189,6 +173,6 @@ function Hide() {
 };
 
 function HideDelayed() {
-	SetVisibility(shownElement, false);
+	DisplayElement(shownElement, false);
 	shownElement = '';
 };

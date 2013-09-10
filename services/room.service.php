@@ -11,7 +11,7 @@
 	$title = substr($title, 0, 50);
 
 	$title = str_replace("	", " ", $title);
-	$title = ereg_replace("\s+", " ", $title);
+	$title = preg_replace("/\s+/", " ", $title);
 
 	if (!$title) {
 		echo "¬ведите название";

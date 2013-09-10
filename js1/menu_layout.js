@@ -1,9 +1,9 @@
 // Scripts related to menu only
 
 
-var container = new MyFrame($('OptionsContainer'), 580, 400);
-var content = new MyFrame($('OptionsContent'));
-var alerts = new MyFrame($('AlertContainer'));
+var container = new MyFrame($("#OptionsContainer")[0], 580, 400);
+var content = new MyFrame($("#OptionsContent")[0]);
+var alerts = new MyFrame($("#AlertContainer")[0]);
 var winSize = new MyFrame(window);
 
 function AdjustDivs(e) {
@@ -30,10 +30,10 @@ if (window.addEventListener) {
 if (opener) {
 	var me = opener.me;
 	if (me) {
-		var UploadFrame = $("uploadFrame");
+		var UploadFrame = $("#uploadFrame")[0];
 
 		/* Tabs */
-		var tabs = new Tabs($("OptionsContainer"), $("OptionsContent"));
+		var tabs = new Tabs($("#OptionsContainer")[0], $("#OptionsContent")[0]);
 		ProfileTab = new Tab(1, "Личные данные", 1, "");
 		CurrentTab = ProfileTab;
 		tabs.Add(CurrentTab);
