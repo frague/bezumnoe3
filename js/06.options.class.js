@@ -308,8 +308,7 @@ var cachedContent = new Array();
 function RequestContent(obj) {
 	var req;
 	if (cachedContent[obj.Template] && obj.TemplateLoaded) {
-		var req = new Object();
-		req.responseText = cachedContent[obj.Template];
+		var req = cachedContent[obj.Template];
 		obj.TemplateLoaded(req);
 	} else {
 		// No callback passed as parameter. Supposed to be taken from Obj.

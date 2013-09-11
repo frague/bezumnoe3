@@ -19,13 +19,9 @@ AuthForm.prototype.CreateControls = function(container) {
 	container.appendChild(this.Holder);
 };
 
-AuthForm.prototype.TemplateLoaded = function(req) {
-	text = req;
-	if (req.responseText) {
-		text = req.responseText;
-		KeepRequestedContent(this.Template, text);
-	}
-	this.Holder.innerHTML = text;
+AuthForm.prototype.TemplateLoaded = function(responseText) {
+	KeepRequestedContent(this.Template, responseText);
+	this.Holder.innerHTML = responseText;
 };
 
 AuthForm.prototype.RequestData = function() {

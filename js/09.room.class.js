@@ -125,9 +125,9 @@ function RoomLightweight() {
 
 RoomLightweight.prototype = new OptionsBase();
 
-RoomLightweight.prototype.RequestCallback = function(req, obj) {
-	if (req.responseText) {
-		obj.SetRoomStatus(req.responseText);
+RoomLightweight.prototype.RequestCallback = function(responseText, obj) {
+	if (responseText) {
+		obj.SetRoomStatus(responseText);
 	} else {
 		obj.SetRoomStatus("");
 		obj.Clear();
