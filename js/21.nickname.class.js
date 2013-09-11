@@ -113,14 +113,14 @@ ChangeNickname.prototype.RequestData = function() {
 	sendRequest(servicesPath + "nickname.service.php", NamesResponse, "");
 };
 
-function NamesResponse(req) {
+function NamesResponse(responseText) {
 	if (nicknames1.Holder) {
 
 		nicknames.Clear();
 		nicknames.Add(new Nickname(0, 0, me.Login));
 
 		try {
-			eval(req.responseText);
+			eval(responseText);
 		} catch (e) {
 		}
 		for (var i = nicknames.Count(); i <= max_names; i++) {

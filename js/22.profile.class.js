@@ -171,10 +171,10 @@ function SaveProfile(a) {
 	}
 };
 
-function ProfileSaved(req, obj) {
-	if (obj && req.responseText) {
+function ProfileSaved(responseText, obj) {
+	if (obj && responseText) {
 		var tabObject = obj.Tab;
-		obj.RequestCallback(req, obj);
+		obj.RequestCallback(responseText, obj);
 
 		// Refresh admin comments
 		obj.FindRelatedControls(true);
