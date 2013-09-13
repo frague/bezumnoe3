@@ -1,11 +1,11 @@
-var container = new MyFrame($('WakeupContainer'), 400);
-var replyDiv = $('WakeupReply');
+var container = new MyFrame($("#WakeupContainer")[0], 400);
+var replyDiv = $("#WakeupReply")[0];
 var reply = new MyFrame(replyDiv, 400);
 var winSize = new MyFrame(window);
 var replyFormHeight = 75;
 var offset = 0;
-var inputReply = $('reply');
-var statusLabel = $('status');
+var inputReply = $("#reply")[0];
+var statusLabel = $("#status")[0];
 
 function AdjustDivs(e) {
 	if (!e) {
@@ -41,10 +41,10 @@ function Send(message_id) {
 	inputReply.value = "";
 }
 
-function MessageAdded(req) {
-	if (req.responseText) {
-		statusLabel.style.backgroundColor = req.responseText.charAt(0) == '-' ? "#983418" : "#728000";
-		statusLabel.innerHTML = req.responseText.substring(1);
+function MessageAdded(responseText) {
+	if (responseText) {
+		statusLabel.style.backgroundColor = responseText.charAt(0) == '-' ? "#983418" : "#728000";
+		statusLabel.innerHTML = responseText.substring(1);
 	}
 	setTimeout("self.close()", 2000);
 }
