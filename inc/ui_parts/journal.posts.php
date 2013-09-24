@@ -1,7 +1,7 @@
 <?php
 
 	$record = new JournalRecord();
-	$q = $record->GetMixedJournalsTopics($user->User->Id, 0, 20);
+	$q = $record->GetMixedJournalsTopics($user->User->Id, 0, 20, "", False);
 
 	echo "<ul>";
 	for ($i = 0; $i < $q->NumRows(); $i++) {

@@ -71,6 +71,8 @@
 	}
 
 	function InjectionProtection($text) {
+		return CloseTags($text);
+
         $text = preg_replace("/( |:)on([a-z ]+=)/i", "\\1în\\2", $text);
 		$text = preg_replace("/visibility/i","invisibility", $text);
 		$text = preg_replace("/z-index/i","zzz-index", $text);

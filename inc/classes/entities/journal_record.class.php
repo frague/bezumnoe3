@@ -101,7 +101,7 @@ class JournalRecord extends ForumRecordBase {
 	}
 	
 	// Gets journal topics by condition
-	function GetMixedJournalsTopics($userId, $from = 0, $limit, $condition = "") {
+	function GetMixedJournalsTopics($userId, $from = 0, $limit, $condition = "", $order_by_date = True) {
 		$forumId = round($forumId);
 	  	return $this->GetMixedJournalsRecords(
 	  		$userId, 
@@ -109,7 +109,7 @@ class JournalRecord extends ForumRecordBase {
 	  		$limit,
 	  		($condition ? $condition." AND " : "").
 	  		"LENGTH(t1.".self::INDEX.")=4
-	  		ORDER BY t1.".self::DATE." DESC"
+	  		ORDER BY ".($order_by_date ? "t1.".self::DATE." DESC" : "t1.".self::RECORD_ID." DESC")
 	  	); 
 	}
 
