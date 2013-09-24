@@ -118,7 +118,7 @@ function SetTopic(text, author_id, author_name, lock) {
 		MainTab.TopicDiv.className = "TabTopic" + ((!author_id && !author_name) ? " Alert" : "");
 	}
 	
-	document.title = "[" + users.Count() + "] " + (author_name ? "\"" : "") + StripTags(text) + (author_name ? "\", " + author_name : "");
+	document.title = "(" + users.Count() + ") " + (author_name ? "\"" : "") + StripTags(text) + (author_name ? "\", " + author_name : "");
 };
 
 

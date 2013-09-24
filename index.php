@@ -178,7 +178,7 @@
 						</div>
 
 						<div class="Counters">
-							<a href="http://pr-cy.ru/a/bezumnoe.ru" target="_blank" rel="nofollow"><img src="http://counter.pr-cy.ru/prcy/bezumnoe.ru" alt="Ñ÷åò÷èê òÈÖ è PR" style="margin:10px 0"></a><br />
+							<img src="http://s.pr-cy.ru/counters/bezumnoe.ru" alt="Ñ÷åò÷èê PR-CY.Rank" style="margin:10px 0;"><br />
 							<!--LiveInternet counter--><script type="text/javascript">document.write("<a href='http://www.liveinternet.ru/click' target=_blank><img src='//counter.yadro.ru/hit?t14.5;r" + escape(document.referrer) + ((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ";u" + escape(document.URL) +";i" + escape("Ææ"+document.title.substring(0,80)) + ";" + Math.random() + "' border=0 width=88 height=31 alt='' title=''><\/a>")</script><!--/LiveInternet-->
 						</div>
 					</div>
