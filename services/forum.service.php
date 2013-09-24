@@ -127,6 +127,7 @@
 						$newRecord->Title = $title;
 						$newRecord->Content = $content;
 						if ($newRecord->SaveAsReplyTo($record_id)) {
+							echo "newId='".JsQuote($newRecord->Id)."';";
 							if ($newRecord->IsTopic()) {
 								echo "newRecord='".JsQuote($newRecord->ToPrint($forum))."';";
 
