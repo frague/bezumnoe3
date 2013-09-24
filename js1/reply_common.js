@@ -206,7 +206,7 @@ function AddMessage(lnk) {
 
 // New message adding callback
 function ForumMessageAddCallback(reesponseText, el) {
-	var newRecord = "", error = "", logged_user = "";
+	var newId = "", newRecord = "", error = "", logged_user = "";
 	eval(reesponseText);
 
 	if (!error) {
@@ -220,6 +220,9 @@ function ForumMessageAddCallback(reesponseText, el) {
 				ul.insertBefore(li, ul.firstChild);
 			} else {
 				ul.appendChild(li);
+			}
+			if (newId) {
+				window.location.hash = "cm" + newId;
 			}
 		}
 	} else {
