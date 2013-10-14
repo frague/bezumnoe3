@@ -288,7 +288,7 @@
 
     // Renders all occurences of #POST\d+ to links to the posts
     function RenderPostsLinks($bodyText) {
-        preg_match_all("/#POST(\d+)/", $bodyText, $matches, PREG_SET_ORDER);
+        preg_match_all("/#POST(\d+)/i", $bodyText, $matches, PREG_SET_ORDER);
 
         $ids = array();
         foreach ($matches as $link) {
