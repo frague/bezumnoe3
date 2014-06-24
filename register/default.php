@@ -296,7 +296,7 @@
 	PageValidators.Add(new Validator("PASSWORD", new RequiredField(), "Необходимо задать пароль.", 1));
 
 	PageValidators.Add(new Validator("PASSWORD_CONFIRM", new RequiredField(), "Необходимо подтвердить пароль.", 1));
-	PageValidators.Add(new Validator("PASSWORD_CONFIRM", new EqualTo($("PASSWORD")), "Пароли не идентичны.", 1));
+	PageValidators.Add(new Validator("PASSWORD_CONFIRM", new EqualTo($("#PASSWORD")[0]), "Пароли не идентичны.", 1));
 
 	PageValidators.Add(new Validator("E-MAIL", new RequiredField(), "Не указан e-mail.", 1));
 	PageValidators.Add(new Validator("E-MAIL", new MatchPattern(emailPattern), "Неверный формат e-mail адреса.", 1));
