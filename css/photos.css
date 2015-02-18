@@ -1,41 +1,47 @@
-h4 {
-	clear:both;
-	font-family: 'bezumnoe2', 'Arial Narrow', 'Arial';
-	font-size:12.5pt;
-	padding:0;
-	margin:20px 0 10px;
-	font-weight: normal;
-	-webkit-text-stroke: 0.35px;
+h2, h3, .ui-dialog-title {
+    font-family:'bezumnoe2','Arial Narrow','Arial';
+    font-weight: normal;
+    padding: 0;
+    margin: 20px 0 10px;
+    -webkit-text-stroke: 0.35px;
 }
 
-.UserList b a {
-	color:orangered;
+h2 {
+    font-size: 20px;
 }
 
-.UserList div {
-	font-size:70%;
-	margin-bottom:10px;
+table.users_list {
+    width: 100%;
 }
 
-img.Photo {
-	border:solid 6px #808080;
-	background-color:#808080;
+table.users_list tr > td:first-child {
+    width: 30%;
+    vertical-align: top;
+}
 
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+.users_list div {
+    padding-bottom: 20px;
+}
+
+img.photo {
+    border: solid 6px #888;
+    background-color: #888;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 .Centered {
-	padding-top:16px;
+    padding-top:16px;
 }
 
 .Centered div {
-	margin-bottom:10px;
+    margin-bottom:10px;
 }
 
 #Symbols a {
-	display:block;
-	float:left;
-	margin-right:4px;
+    display:block;
+    float:left;
+    margin-right:4px;
 }

@@ -1,23 +1,23 @@
 <?php 
 
-	$settings = new JournalSettings();
-	$q = $settings->GetByCondition(
-		"t5.".JournalTemplate::UPDATED." IS NOT NULL ORDER BY ".JournalTemplate::UPDATED." DESC LIMIT 20",
-		$settings->GetUpdatedTemplatesExpression()
-	);
+    $settings = new JournalSettings();
+    $q = $settings->GetByCondition(
+        "t5.".JournalTemplate::UPDATED." IS NOT NULL ORDER BY ".JournalTemplate::UPDATED." DESC LIMIT 20",
+        $settings->GetUpdatedTemplatesExpression()
+    );
 
-	echo "<h3>Обновления дизайна</h3>";
-	echo "<ul>";
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
+    echo "<h2>Обновления дизайна</h2>";
+    echo "<ul class='template_updates random'>";
+    for ($i = 0; $i < $q->NumRows(); $i++) {
+        $q->NextResult();
 
-		$settings->Alias = $q->Get(JournalSettings::ALIAS);
-		$login = $q->Get(User::LOGIN);
-		$updated = $q->Get(JournalTemplate::UPDATED);
+        $settings->Alias = $q->Get(JournalSettings::ALIAS);
+        $login = $q->Get(User::LOGIN);
+        $updated = $q->Get(JournalTemplate::UPDATED);
 
-		echo "<li>".$settings->ToLink($login)." (".PrintableShortDate($updated).")";
-	}
-	echo "</ul>";
-	$q->Release();
+        echo "\n<li>".$settings->ToLink($login).", <span>".PrintableShortDate($updated)."</span>";
+    }
+    echo "</ul>";
+    $q->Release();
 
 ?>

@@ -159,21 +159,20 @@
     }
 
 ?>
-
                         <div class="UserList">
                             <nav>
-                                <ul class="Menu" role="navigation sitemap">
+                                <ul class="random bold" role="navigation sitemap">
                                     <li style="margin-bottom:10px"> <a href="/forgot/">Забыл пароль?</a>
 
                                     <li> <a href="/register">Регистрация</a>
-                                    <li class="l1 Bold"> <a href="/journal/">Журналы</a>
-                                    <li class="l4"> <a href="/tree/" class="Red">Фамильное древо</a>
+                                    <li> <a href="/journal/">Журналы</a>
+                                    <li> <a href="/tree/" class="Red">Фамильное древо</a>
                                     <li> <a href="/gallery/">Фотогалерея</a>
-                                    <li class="l2"> <a href="/forum/">Форумы чата</a>
-                                    <li class=""> <a href="/photos/">Фотки чатлан</a>
-                                    <li class="l3"> <a href="/banned/">&laquo;Чёрный список&raquo;</a>
-                                    <li class="l1"> <a href="/rating/">Рейтинг</a>
-                            </ul>
+                                    <li> <a href="/forum/">Форумы чата</a>
+                                    <li> <a href="/photos/">Фотки чатлан</a>
+                                    <li> <a href="/banned/">&laquo;Чёрный список&raquo;</a>
+                                    <li> <a href="/rating/">Рейтинг</a>
+                                </ul>
                             <nav>
                         </div>
 
