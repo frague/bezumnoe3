@@ -1,20 +1,20 @@
 h3 {
-	margin-bottom:5px;
+    margin-bottom:5px;
 }
 
 h3, h3 a {
-	font-size:12pt;
-	color:#FB8C00;
+    font-size:12pt;
+    color:#FB8C00;
 }
 
 h4 {
-	font-family: 'Arial';
-	font-weight: bold;
-	padding-bottom: 4px;
+    font-family: 'Arial';
+    font-weight: bold;
+    padding-bottom: 4px;
 }
 
 sup {
-	color:red;
+    color:red;
 }
 
 .MainLeft {
@@ -24,235 +24,259 @@ sup {
 }
 
 .Main {
-	text-align: left;
-	width: 720px;
-	/*width: 900px;*/
+    text-align: left;
+    width: 720px;
+    /*width: 900px;*/
 }
 
 /* Aligned Columns */
 
 .Left {
-	float: left;
+    float: left;
 }
 
 .Right {
-	float: right;
+    float: right;
 }
 
 .Column {
-	/*height: 800px;*/
+    /*height: 800px;*/
 }
 
 .Column.Left {
-	width: 140px;
+    width: 140px;
 }
 
 .Column.Left h5 {
-	font-family: "bezumnoe2", "arial";
-	font-weight: normal;
-	color: 0;
-	padding:0;
-	margin: 20px 0 5px 0;
-	text-align: center;
-	-webkit-text-stroke: 0.25px;
+    font-family: "bezumnoe2", "arial";
+    font-weight: normal;
+    color: 0;
+    padding:0;
+    margin: 20px 0 5px 0;
+    text-align: center;
+    -webkit-text-stroke: 0.25px;
 }
 
 .Column.Left .UserList h5 {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 .Column.Left .News h5 {
-	font-size: 22px;
-	color: orangered;
+    font-size: 22px;
+    color: orangered;
 }
 
 .Column.Left .Birthdays h5 {
-	font-size: 17px;
-	color: orangered;
+    font-size: 17px;
+    color: orangered;
 }
 
 .Column.Center {
-	float: left;
-	width: 360px;
-	/*width: 550px;*/
-	padding: 0 4px 0 4px;
+    float: left;
+    width: 360px;
+    /*width: 550px;*/
+    padding: 0 4px 0 4px;
 }
 
 .Column.Right {
-	width: 187px;
-	text-align: center;
+    width: 187px;
+    text-align: center;
 }
 
 .UserList {
-	text-align: left;
+    text-align: left;
 }
 
 .MainLink {
-	text-align: left;
-	margin-top: 1px;
-	padding-top: 25px;
-	clear: both;
-	background: url(/img/t/div1.gif) repeat-x top left;
+    text-align: left;
+    margin-top: 1px;
+    padding-top: 25px;
+    clear: both;
+    background: url(/img/t/div1.gif) repeat-x top left;
 }
 
 .MainLink p {
-	margin-top:0;
+    margin-top:0;
 }
 
 .MainLink.RightOriented {
-	text-align: right;
-	background: url(/img/t/div2.gif) repeat-x top left;
+    text-align: right;
+    background: url(/img/t/div2.gif) repeat-x top left;
 }
 
 .MainLink h4 {
-	font-family: "bezumnoe2", "arial";
-	font-weight: normal;
-	font-size: 40px;
-	padding: 0 4px;
-	display: inline;
-	color: 0;
-	-webkit-text-stroke: 0.35px;
+    font-family: "bezumnoe2", "arial";
+    font-weight: normal;
+    font-size: 40px;
+    padding: 0 4px;
+    display: inline;
+    color: 0;
+    -webkit-text-stroke: 0.35px;
 }
 
 .MainLink a.NoBorder {
-	color: #000;
+    color: #000;
 }
 
 .MainLink.Blogs h4 {
-	font-size: 34px;
-	color: red;
+    font-size: 34px;
+    color: red;
 }
 
 .MainLink.Register h4 {
-	color: #DD4B0D;
-	text-shadow:2px 2px 0px #FCA601;
-	font-size: 42px;
+    color: #DD4B0D;
+    text-shadow:2px 2px 0px #FCA601;
+    font-size: 42px;
 }
 
 .Welcome {
-	ttext-align: justify;
+    ttext-align: justify;
 }
 
 .Auth {
-	text-align:center;
-	font-size:80%;
-	border:solid 1px #D0D0D0;
-	background-color:#FFF0F0;
-	padding:4px;
-	margin-bottom:10px
+    text-align:center;
+    font-size:80%;
+    border:solid 1px #D0D0D0;
+    background-color:#FFF0F0;
+    padding:4px;
+    margin-bottom:10px
 }
 
 .Counters {
-	text-align:center;
-	margin-top:8px;
+    text-align:center;
+    margin-top:8px;
 }
 /* Pages Layout */
 
 
 /* Formatting */
 .Centered {
-	text-align: center;
+    text-align: center;
 }
 
 .Red {
-	color: red;
+    color: red;
 }
 
 .New {
-	font-style: italic;
-	padding: 0 2 0 4;
+    font-style: italic;
+    padding: 0 2 0 4;
 }
 
 .Super {
-	position: relative;
-	top: -3;
-	font-size: 7pt;
+    position: relative;
+    top: -3;
+    font-size: 7pt;
 }
 
 .Sub {
-	position: relative;
-	top: 3;
-	font-size: 7pt;
+    position: relative;
+    top: 3;
+    font-size: 7pt;
 }
 
 .Bordered {
-	border: solid 1px red;
+    border: solid 1px red;
 }
 
 .Small {
-	font-size: 8pt;
+    font-size: 8pt;
 }
 
 .Smallest {
-	font-size: 7pt;
+    font-size: 7pt;
 }
 
 .Separated {
-	padding-bottom: 16px;
+    padding-bottom: 16px;
 }
 
 /* Formatting */
 
 ul.Menu {
-	padding-left:40px;
-	font-size:103%;
+    padding-left:40px;
+    font-size:103%;
 }
 
 li.Inactive a {
-	color:#A0A0A0;
+    color:#A0A0A0;
 }
 
 .News ul {
-	padding-left:0;
-	list-style:none;
-	margin:5px 0 0 0;
-	font-size:90%;
+    padding-left:0;
+    list-style:none;
+    margin:5px 0 0 0;
+    font-size:90%;
 }
 
 .News ul li {
-	margin-top:7px;
+    margin-top:7px;
 }
 
 .News h4 {
-	margin:0;
-	font-size:8pt;
+    margin:0;
+    font-size:8pt;
 }
 
 .News h4 span {
-	color:red;
-	font-weight:normal;
-	font-size:80%;
+    color:red;
+    font-weight:normal;
+    font-size:80%;
 }
 
 .Blogs ul {
-	text-align: left;
-	padding-left:30px;
+    text-align: left;
+    padding-left:30px;
 }
 
 .FormTitle {
-	padding-right:8px;
-	text-align:right;
+    padding-right:8px;
+    text-align:right;
 }
 
 .Birthdays h4 {
-	margin: 5px 0 0 0;
-	font-size:10pt;
+    margin: 5px 0 0 0;
+    font-size:10pt;
 }
 
 .Photos .Centered {
-	font-size:7pt;
-	padding-top:8px;
+    font-size:7pt;
+    padding-top:8px;
 }
 
 .Photos .Centered img, .NewComments div img {
-	border: solid 4px #D0D0D0;
-	background-color: #D0D0D0;
+    border: solid 4px #D0D0D0;
+    background-color: #D0D0D0;
 
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 .Newcomers a {
-	font-weight:bold;
+    font-weight:bold;
 }
+
+ul.new_posts > li > a:first-child {
+    font-weight: 700;
+}
+
+ul.new_comments > li {
+    list-style: none;
+}
+
+.new_comments > li > a {
+    display: block;
+    text-align:center;
+    border: none;
+}
+
+.new_comments img {
+    border: solid 6px #D0D0D0;
+    background-color: #D0D0D0;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+

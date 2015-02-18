@@ -136,7 +136,7 @@
     <a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>
 </div>";
 
-    echo "<ul class='Thread'>";
+    echo "<ul class='thread'>";
     $comments = $q->NumRows();
     if ($comments > 0) {
         $min_level = 1000;
