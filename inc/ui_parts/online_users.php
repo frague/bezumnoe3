@@ -1,40 +1,47 @@
 <?php
 
-	$room = new Room();
-	$q = $room->GetAllAlive($room->GetTitleExpression());
-	$rooms = array();
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
-		$rooms[$q->Get(Room::ROOM_ID)] = $q->Get(Room::TITLE);
-	}
-	$q->Release();
-	
-	$expiredSession = DateFromTime(mktime()-$SessionLifetime);
+    $room = new Room();
+    $q = $room->GetAllAlive($room->GetTitleExpression());
+    $rooms = array();
+    for ($i = 0; $i < $q->NumRows(); $i++) {
+        $q->NextResult();
+        $rooms[$q->Get(Room::ROOM_ID)] = $q->Get(Room::TITLE);
+    }
+    $q->Release();
+    
+    $expiredSession = DateFromTime(mktime()-$SessionLifetime);
 
-	$u = new User();
-	$q = $u->GetByCondition("1", $u->GetOnlineUsersExpression());
-	$lastRoom = "     ";
-	$toPrint = "";
-	$inside = 0;
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-		$q->NextResult();
-		$u->FillFromResult($q);
-		if ($u->SessionPong > $expiredSession) {
-			$roomId = $q->Get(User::ROOM_ID);
-			$room = $rooms[$roomId];
-			if ($room != $lastRoom) {
-				$toPrint .= ($lastRoom ? ($inside ? " <sup>(".$inside.")</sup>" : "").$people."</ul>" : "")."<ul><b>".($room ? $room : "Авторизация вне чата")."</b>";
-				$lastRoom = $room;
-				$people = "";
-				$inside = 0;
-			}
-			$people .= MakeListItem()." ".$u->ToInfoLink();
-			$inside++;
-		}
-	}
-	$q->Release();
+    $u = new User();
+    $q = $u->GetByCondition("1", $u->GetOnlineUsersExpression());
 
-	$toPrint .= ($lastRoom ? ($inside ? " <sup>(".$inside.")</sup>" : "").$people."</ul>" : "");
-	echo $toPrint;
+    $lastRoom = False;
+    $peope = "";
+    $inside = 0;
+
+    function PrintRoom($lastRoom, $room, $inside, $people) {
+        if ($room != $lastRoom && $lastRoom) {
+            echo "<h6>".$lastRoom .($inside ? " <span>".$inside."</span>" : "")."</h6>";
+            echo ($people ? "<ul class='random'>".$people."</ul>" : "");
+        }
+    }
+    
+    for ($i = 0; $i < $q->NumRows(); $i++) {
+        $q->NextResult();
+        $u->FillFromResult($q);
+        if ($u->SessionPong > $expiredSession) {
+            $roomId = $q->Get(User::ROOM_ID);
+            $room = $rooms[$roomId];
+            if ($room != $lastRoom) {
+                PrintRoom($lastRoom, $room, $inside, $people);
+                $lastRoom = $room;
+                $people = "";
+                $inside = 0;
+            }
+            $people .= "<li> ".$u->ToInfoLink();
+            $inside++;
+        }
+    }
+    $q->Release();
+    PrintRoom($room, False, $inside, $people);
 
 ?>

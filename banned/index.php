@@ -1,15 +1,15 @@
 <?php
-	
-	$root = "../";
-	require_once $root."server_references.php";
-	require $root."inc/ui_parts/templates.php";
-	require $root."inc/base_template.php";
+    
+    $root = "../";
+    require_once $root."server_references.php";
+    require $root."inc/ui_parts/templates.php";
+    require $root."inc/base_template.php";
 
-	$p = new Page("&laquo;Чёрный список&raquo;");
-	$p->AddCss("banned.css");
-	$p->PrintHeader();
+    $p = new Page("&laquo;Чёрный список&raquo;");
+    $p->AddCss("banned.css");
+    $p->PrintHeader();
 
-	require_once $root."references.php";
+    require_once $root."references.php";
 
 ?>
 
@@ -18,9 +18,7 @@
 <h2>Нарушители:</h2>
 <?php include $root."inc/ui_parts/banned.php"; ?>
 
-<br /><br /><br /><br /><br />
-
 <?php
 
-	$p->PrintFooter();
+    $p->PrintFooter();
 ?>

@@ -1,3 +1,9 @@
+h1, h2, h3, h4 , h5 {
+    font-family: "bezumnoe2", "arial";
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+}
+
 h3 {
     margin-bottom:5px;
 }
@@ -8,9 +14,19 @@ h3, h3 a {
 }
 
 h4 {
-    font-family: 'Arial';
+    font-size: 28px;
     font-weight: bold;
     padding-bottom: 4px;
+    margin: 0;
+}
+
+h5 {
+    font-size: 20px;
+}
+
+h6 {
+    font-size: 12px;
+    margin: 6px 0 4px 0;
 }
 
 sup {
@@ -48,27 +64,10 @@ sup {
 }
 
 .Column.Left h5 {
-    font-family: "bezumnoe2", "arial";
     font-weight: normal;
-    color: 0;
     padding:0;
-    margin: 20px 0 5px 0;
+    margin: 20px 0 10px 0;
     text-align: center;
-    -webkit-text-stroke: 0.25px;
-}
-
-.Column.Left .UserList h5 {
-    font-size: 16px;
-}
-
-.Column.Left .News h5 {
-    font-size: 22px;
-    color: orangered;
-}
-
-.Column.Left .Birthdays h5 {
-    font-size: 17px;
-    color: orangered;
 }
 
 .Column.Center {
@@ -83,25 +82,38 @@ sup {
     text-align: center;
 }
 
-.UserList {
+.main_links p {
+    margin-top: 0;
     text-align: left;
 }
 
-.MainLink {
+.main_links .register,
+.main_links .gallery {
     text-align: left;
     margin-top: 1px;
     padding-top: 25px;
     clear: both;
     background: url(/img/t/div1.gif) repeat-x top left;
 }
-
-.MainLink p {
-    margin-top:0;
+.main_links .register img,
+.main_links .gallery img {
+    float: left;
+    padding: 0 10px 10px 10px;
 }
 
-.MainLink.RightOriented {
+.main_links .forum,
+.main_links .blogs {
     text-align: right;
+    margin-top: 1px;
+    padding-top: 25px;
+    clear: both;
     background: url(/img/t/div2.gif) repeat-x top left;
+}
+
+.main_links .forum img,
+.main_links .blogs img {
+    float: right;
+    padding: 0 0 10px 10px;
 }
 
 .MainLink h4 {
@@ -118,34 +130,7 @@ sup {
     color: #000;
 }
 
-.MainLink.Blogs h4 {
-    font-size: 34px;
-    color: red;
-}
 
-.MainLink.Register h4 {
-    color: #DD4B0D;
-    text-shadow:2px 2px 0px #FCA601;
-    font-size: 42px;
-}
-
-.Welcome {
-    ttext-align: justify;
-}
-
-.Auth {
-    text-align:center;
-    font-size:80%;
-    border:solid 1px #D0D0D0;
-    background-color:#FFF0F0;
-    padding:4px;
-    margin-bottom:10px
-}
-
-.Counters {
-    text-align:center;
-    margin-top:8px;
-}
 /* Pages Layout */
 
 
@@ -202,28 +187,6 @@ li.Inactive a {
     color:#A0A0A0;
 }
 
-.News ul {
-    padding-left:0;
-    list-style:none;
-    margin:5px 0 0 0;
-    font-size:90%;
-}
-
-.News ul li {
-    margin-top:7px;
-}
-
-.News h4 {
-    margin:0;
-    font-size:8pt;
-}
-
-.News h4 span {
-    color:red;
-    font-weight:normal;
-    font-size:80%;
-}
-
 .Blogs ul {
     text-align: left;
     padding-left:30px;
@@ -234,27 +197,19 @@ li.Inactive a {
     text-align:right;
 }
 
-.Birthdays h4 {
-    margin: 5px 0 0 0;
-    font-size:10pt;
+
+.welcome h1 {
+    font-size: 16px;
+    margin: 4px 0 20px 0;
 }
 
-.Photos .Centered {
-    font-size:7pt;
-    padding-top:8px;
-}
-
-.Photos .Centered img, .NewComments div img {
+.gallery_comments div img {
     border: solid 4px #D0D0D0;
     background-color: #D0D0D0;
 
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-}
-
-.Newcomers a {
-    font-weight:bold;
 }
 
 ul.new_posts > li > a:first-child {
@@ -280,3 +235,86 @@ ul.new_comments > li {
     -webkit-border-radius: 4px;
 }
 
+.users_online span {
+    font-size: 80%;
+    color: #555;
+    font-weight: 100;
+}
+
+.news ul li {
+    list-style: none;
+    padding: 0 0 10px 0;
+}
+
+.news span {
+    color: #555;
+    font-size: 80%;
+    display: block;
+}
+
+.photos .preview {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.photos .preview img {
+    border: solid 6px #DDD;
+    background-color: #DDD;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.photos .preview a {
+    clear:both;
+}
+
+.auth_form label {
+    display: none;
+}
+
+.auth_form input {
+    margin: 4px 0;
+    clear: both;
+}
+
+.auth_form input[type="text"],
+.auth_form input[type="password"] {
+    width: 100px;
+}
+
+.authenticated {
+    width: 75%;
+    border: solid 1px darkorange;
+    padding:6px;
+    margin: 0 auto;
+    font-size: 80%;
+
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.main_menu {
+    text-align: left;
+    padding: 20px 0 0 40px;
+}
+
+.main_menu ul li {
+    padding-bottom: 4px;
+}
+
+.main_menu ul li:first-child {
+    margin-bottom: 10px;
+}
+
+.main_menu a {
+    color: black;
+    font-weight: 700;
+}
+
+.counters {
+    text-align:center;
+    margin-top:8px;
+}

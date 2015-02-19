@@ -13,7 +13,7 @@
         $u->FillFromResult($q);
         $photo = $q->Get(Profile::PHOTO);
         if ($i == $r) {
-            $s = "<div class=\"Centered\">".$u->ToInfoLink("<img src=\"/img/photos/small/".$photo."\"><br />".$u->Login)."</div>";
+            $s = "<div class=\"preview\"><img src=\"/img/photos/small/".$photo."\">".$u->ToInfoLink($u->Login)."</div>";
         }
         echo MakeListItem()." ".$u->ToInfoLink();
     }

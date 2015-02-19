@@ -1,27 +1,3 @@
-h2, h3, .ui-dialog-title {
-    font-family:'bezumnoe2','Arial Narrow','Arial';
-    font-weight: normal;
-    padding: 0;
-    margin: 20px 0 10px;
-    -webkit-text-stroke: 0.35px;
-}
-
-h2 {
-    font-size: 24px;
-}
-
-h3, .ui-dialog-title {
-    font-size: 14pt;
-}
-
-header > h4 {
-    font-family: 'Arial';
-    font-size: 18px;
-    font-weight: 200;
-    margin-bottom: 10px;
-    -webkit-text-stroke: 0;
-}
-
 h3 .Count {
     position:relative;
     top:-4px;
