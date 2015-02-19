@@ -1,33 +1,52 @@
-.UserList a {
-	font-weight:bold;
-}
-
-.UserList div {
-	font-size:80%;
-	margin-bottom:10px;
-}
-
 .char4 {
-	margin-left: -2px;
+    margin-left: -2px;
 }
 .char5 {
-	margin-left: -1px;
+    margin-left: -1px;
 }
 .char6 {
-	margin-left: -1px;
+    margin-left: -1px;
 }
 .char10 {
-	margin-left: -4px;
+    margin-left: -4px;
 }
 .char11 {
-	
+    
 }
 .char13 {
-	margin-left: -4px;
+    margin-left: -4px;
 }
 .char14 {
-	margin-left: -1px;
+    margin-left: -1px;
 }
 .char9 {
-	margin-left: 3px;
+    margin-left: 3px;
+}
+
+ul ul {
+    padding: 4px 0 6px 30px;
+}
+
+ul.random ul li {
+    padding: 0;
+    list-style: none;
+    ffont-size: 90%;
+    display: inline;
+}
+
+ul.random ul li:after {
+    content: ". ";
+}
+
+ul.random ul li span:before {
+    content: open-quote;
+}
+
+ul.random ul li span:after {
+    content: close-quote;
+}
+
+
+ul.random > li > a {
+    font-weight: bold;
 }

@@ -56,73 +56,73 @@
             <div class="Main">
                 <div>
                     <div class="Column Left">
-                        <div class="UserList">
+                        <div class="users_online">
                             <h5>Сейчас в чате</h5>
                             <?php include $root."inc/ui_parts/online_users.php"; ?>
                         </div>
 
-                        <div class="News">
+                        <div class="news">
                             <h5>Новости</h5>
                             <?php ShowNews(-1, 3); ?>
                         </div>
 
-                        <div class="Birthdays">
+                        <div class="birthdays">
                             <h5>Дни рождения</h5>
                             <?php include $root."inc/ui_parts/birthdays.php"; ?>
                         </div>
 
-                        <div class="UserList Photos">
+                        <div class="photos">
                             <h5>Новые лица</h5>
                             <?php include $root."inc/ui_parts/new_photos.php"; ?>
                         </div>
                     </div>
 
                     <div class="Column Center Left">
-                        <div class="Divider Vertical">
-                            <div class="Welcome">
-<p style="font-size:102%">Добро пожаловать в старейший саратовский чат &laquo;<b>Безумное ЧАепиТие у Мартовского Зайца</b>&raquo;!
+                        <div class="Divider Vertical main_links">
+                            <div class="welcome">
+<p>Добро пожаловать в старейший саратовский чат 
+<h1>Безумное ЧАепиТие у Мартовского Зайца</h1>
 <p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время. 
 <p>Если вы у нас впервые, ознакомьтесь с <a href="/rules/" class="Link">правилами</a> и <a href="/register" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
-                            </p></div>
-
-                            <div class="MainLink Register">
-                                <img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" align="left" height="69" width="70">
-                                <a href="/register" class="NoBorder">
-                                    <h4>Регистрация</h4></a>
-                                <p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
-                                <span class="Newcomers">
-                                    <h6>Новые пользователи</h6>
-                                    <?php include $root."inc/ui_parts/newcomers.php"; ?>
-                                </span>
                             </div>
 
-                            <div class="MainLink RightOriented Forum">
-                                <img src="/img/t/pict/forum.gif" align="right" height="79" width="95" alt="Форумы" title="Форумы">
-                                <a href="/forum/" class="NoBorder">
-                                    <h4>Форум</h4></a>
+                            <div class="register">
+                                <img alt="Регистрация в чате" title="Регистрация в чате" src="/img/t/pict/register.gif" height="69" width="70">
+                                <a href="/register" class="NoBorder">
+                                    <h4>Регистрация</h4>
+                                </a>
+                                <p>Зарегистрировавшись, вы получаете доступ к чату, форумам и персональному журналу.
+                            </div>
+                            <div class="newcomers">
+                                <h5>Новые пользователи</h5>
+                                <ul class="listed"><?php include $root."inc/ui_parts/newcomers.php"; ?></ul>
+                            </div>
+
+                            <div class="forum">
+                                <img src="/img/t/pict/forum.gif" height="79" width="95" alt="Форумы" title="Форумы">
+                                <a href="/forum/" class="NoBorder"><h4>Форум</h4></a>
                                 <p>В форумах происходит обсуждение всех вопросов чата, публикуются объявления и поздравления. Авторизуйтесь для добавления сообщений.
                             </div>
 
-                            <div class="MainLink Gallery UserList">
-                                <img src="/img/t/pict/photo.gif" align="left" height="66" width="70" alt="Фотогалерея" title="Фотогалерея">
-                                <a href="/gallery/" class="NoBorder">
-                                    <h4>Фотогалерея</h4></a>
+                            <div class="gallery">
+                                <img src="/img/t/pict/photo.gif" height="66" width="70" alt="Фотогалерея" title="Фотогалерея">
+                                <a href="/gallery/" class="NoBorder"><h4>Фотогалерея</h4></a>
                                 <p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
-                                <h6>Последний комментарий</h6>
-                                <?php 
-                                    $shownComments = 1;
-                                    include $root."inc/ui_parts/gallery.comments.php"; 
-                                ?>
                             </div>
+                            <h5>Последний комментарий</h5>
+                            <?php 
+                                $shownComments = 1;
+                                include $root."inc/ui_parts/gallery.comments.php"; 
+                            ?>
 
-                            <div class="MainLink RightOriented Blogs UserList">
-                                <img src="/img/t/pict/journals.gif" align="right" width="70" height="64" alt="Журналы (блоги)" title="Журналы (блоги)">
+                            <div class="blogs">
+                                <img src="/img/t/pict/journals.gif" width="70" height="64" alt="Журналы (блоги)" title="Журналы (блоги)">
                                 <a href="/journal/" class="NoBorder">
                                     <h4>Журналы (блоги)</h4></a>
                                 <p>Одним из наиболее популярных разделов чата является раздел персональных блогов (журналов). Многие журналы существуют и поддерживаются уже много лет.
-                                <h6>Свежие записи</h6>
-                                <?php include $root."inc/ui_parts/journal.posts.php"; ?>
                             </div>
+                            <h5>Свежие записи</h5>
+                            <?php include $root."inc/ui_parts/journal.posts.php"; ?>
                         </div>
                     </div>
 
@@ -130,18 +130,13 @@
                         <img src="/img/t/logo.gif" height="184" width="187" alt="Лучший саратовский чат" title="Лучший саратовский чат" >
                         <img alt="Саратовский чат" title="Саратовский чат" src="/img/t/title.gif" height="126" width="187">
 
-                        <form method="POST"><input type="hidden" name="AUTH" id="AUTH" value="1" />
-                            <table cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td class="FormTitle">Логин</td>
-                                    <td width="100%"><input name="<?php echo LOGIN_KEY ?>" value="<? echo $_POST[LOGIN_KEY] ?>" size="10"></td></tr>
-                                <tr>
-                                    <td class="FormTitle">Пароль</td>
-                                    <td><input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password">
-                                    <!--script>$("<?php echo PASSWORD_KEY ?>").focus()</script--></td></tr>
-                                <tr>
-                                    <td></td>
-                                    <td><input src="/img/t/auth.gif" border="0" width="90" height="30" alt="Авторизоваться в чате" type="image" style="margin-top:5px" /></td></tr></table>
+                        <form method="POST" class="auth_form">
+                            <input type="hidden" name="AUTH" id="AUTH" value="1" />
+                            <label for="<?php echo LOGIN_KEY ?>">Логин</label>
+                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" value="<? echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
+                            <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
+                            <input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password" placeholder="Пароль" />
+                            <input src="/img/t/auth.gif" width="90" height="30" alt="Авторизоваться в чате" type="image" />
                         </form>
 <?php
 
@@ -149,7 +144,7 @@
         $user->User->TouchSession();
         $user->User->Save();
 
-        echo "<div class='Auth'>Вы авторизованы как<br>
+        echo "<div class='authenticated'>Вы авторизованы как<br>
             <b>".$user->User->Login."</b><br>
             и можете <a href='/inside.php'>войти</a> в чат.</div>";
     } else {
@@ -159,14 +154,14 @@
     }
 
 ?>
-                        <div class="UserList">
+                        <div class="main_menu">
                             <nav>
-                                <ul class="random bold" role="navigation sitemap">
-                                    <li style="margin-bottom:10px"> <a href="/forgot/">Забыл пароль?</a>
+                                <ul class="random" role="navigation sitemap">
+                                    <li> <a href="/forgot/">Забыл пароль?</a>
 
                                     <li> <a href="/register">Регистрация</a>
                                     <li> <a href="/journal/">Журналы</a>
-                                    <li> <a href="/tree/" class="Red">Фамильное древо</a>
+                                    <li> <a href="/tree/">Фамильное древо</a>
                                     <li> <a href="/gallery/">Фотогалерея</a>
                                     <li> <a href="/forum/">Форумы чата</a>
                                     <li> <a href="/photos/">Фотки чатлан</a>
@@ -176,7 +171,7 @@
                             <nav>
                         </div>
 
-                        <div class="Counters">
+                        <div class="counters">
                             <img src="http://s.pr-cy.ru/counters/bezumnoe.ru" alt="Счетчик PR-CY.Rank" style="margin:10px 0;"><br />
                             <!--LiveInternet counter--><script type="text/javascript">document.write("<a href='http://www.liveinternet.ru/click' target=_blank><img src='//counter.yadro.ru/hit?t14.5;r" + escape(document.referrer) + ((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ";u" + escape(document.URL) +";i" + escape("Жж"+document.title.substring(0,80)) + ";" + Math.random() + "' border=0 width=88 height=31 alt='' title=''><\/a>")</script><!--/LiveInternet-->
                         </div>
@@ -189,9 +184,9 @@
 
                 <div class="Divider Horizontal Alternative"><span></span></div>
                 
-                <div class="Bottom Centered">
-                    Первая версия сайта была создана 19 октября 1999 года<br />
-                    &copy; Дизайн и разработка сайта - <a href="mailto:me@bezumnoe.ru" rel="nofollow">Николай Богданов</a>
+                <div class="footer">
+                    <p>Первая версия сайта была запущена 19 октября 1999 года
+                    <p>&copy; Дизайн и разработка сайта - <a href="mailto:me@bezumnoe.ru">Николай Богданов</a>
                 </div>
             </div>
         </div>
