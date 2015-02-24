@@ -108,9 +108,10 @@
         }
     </style>
     
-    <ul style="margin-top:10px"> <strong>Вернуться</strong>
-        <li> к сообщению &laquo;<?php echo $record->ToLink(100, $alias); ?>&raquo;<br />
-        <li> к журналу &laquo;<?php echo $journal->GetLink($alias, 0, false); ?>&raquo;
+    <h3>Вернуться</h3>
+    <ul class="back_links random"> 
+        <li> к сообщению <?php echo $record->ToLink(100, $alias) ?>
+        <li> к журналу <?php echo $journal->GetLink($alias, 0, false) ?>
     </ul>
 
 <?

@@ -289,9 +289,14 @@ ul.popular > li a:nth-child(2) {
     color:red;
 }
 
-/* Gallery */
+ul.back_links {
+    margin: 10px 0;
+    padding-left: 16px;
+}
 
-/* Types */
+ul.back_links li a {
+    font-weight: 700;
+}
 
 .preview {
     width:700px;
