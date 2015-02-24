@@ -9,14 +9,18 @@ class Forum extends ForumBase {
 
     function ToPrint($link = "", $lastVisitDate = "") {
         $result = "\n<h2".($this->IsProtected ? " class='Hidden'" : "").">";
-        $result.= $this->Title."</h2>";
+        $result.= $this->Title;
+        $result.= " <span>(".$this->TotalCount.")</span>";
+        $result.= "</h2>";
 
         if ($link) {
             $result = "<a href='".$this->BasePath()."'>".$result."</a>";
         }
 
         $result.= $this->Description;
-        $result.= "<div class='Counts'>В форуме ".Countable("тема", $this->TotalCount, "нет").".";
+        $result.= "<div>";
+        
+        #$result.= "В форуме ".Countable("тема", $this->TotalCount, "нет").". ";
         
         if ($lastVisitDate) {
             $unread = $this->GetUnreadCount($lastVisitDate);
@@ -27,7 +31,7 @@ class Forum extends ForumBase {
         if ($this->IsProtected) {
             $result.= " <span class='Red'>Это закрытый форум.</span>";
         }
-        $result.= "</div>";
+        $result .= "</div>";
         return $result;
     }
 
