@@ -1,3 +1,10 @@
+h2 > span {
+    font-family: arial, tahoma;
+    font-weight: 100;
+    font-size: 60%;
+    color: #888;
+}
+
 h3 .Count {
     position:relative;
     top:-4px;
@@ -34,14 +41,6 @@ table.columns td:first-child {
     padding: 0 40px 0 0;
 }
 
-ul {
-
-}
-
-ul li {
-    padding: 0 0 8px 0;
-}
-
 ul.forums, 
 ul.threads, 
 ul.thread {
@@ -50,7 +49,6 @@ ul.thread {
 }
 
 ul.forums li, 
-ul.threads li, 
 ul.thread li {
     list-style: none;
 }
@@ -75,33 +73,40 @@ ul.galleries li a {
     margin-top: 12px;
 }
 
-.Counts {
-    /*font-size:8pt;*/
-}
-
 ul.thread ul {
     padding:0;
     margin:0 0 0 10px;
 }
 
+ul.thread ul li {
+    margin: 0;
+}
+
 ul.thread table {
     width: 100%;
     background-color: #eee;
-    border-top: solid 1px #aaa;
+    border: none;
     margin: 4px 0;
     padding: 4px;
 }
 
 ul.thread th {
     width: 1%;
-}
-
-ul.thread th {
     vertical-align: top;
 }
 
+ul.thread th a {
+    border: none;
+}
+
 ul.thread h4 {
-    margin: 0;
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 100;
+}
+
+ul.thread table.Recent h4 {
+    color:red;
 }
 
 ul.thread img {
@@ -120,20 +125,37 @@ ul.threads li.Protected a {
     color:red;
 }
 
-.Hidden table, .Hidden div.Content, li.Hidden {
+ul.threads li {
+    margin-bottom: 4px;
+}
+
+ul.threads li span {
+    bottom: 2px;
+    font-size: 80%;
+    font-weight: 700;
+    color: #555;
+}
+
+.Hidden table, 
+.Hidden div.content, 
+li.Hidden {
     text-decoration:line-through;
+}
+
+div.content {
+    line-height: 18px;
 }
 
 .Hidden .replyLink {
     display:none;
 }
 
-.Recent {
-    /*font-weight:bold;*/
+.thread ul.links {
+    margin: 0 0 10px 0;
 }
-
-ul.thread table.Recent h4 {
-    color:red;
+.thread ul.links li {
+    display: inline-block;
+    padding: 0 10px 0 0;
 }
 
 cite {
@@ -217,7 +239,7 @@ ul.new_replies > li {
 }
 
 .new_comments img,
-ul.Thread th img {
+ul.thread th img {
     border: solid 6px #D0D0D0;
     background-color: #D0D0D0;
 

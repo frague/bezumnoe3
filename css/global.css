@@ -501,7 +501,10 @@ ul.random {
     margin-left: 10px;
 }
 
-ul.random li {
+ul.random li,
+ul.popular li
+
+{
     padding: 0 0 6px 0;
 }
 

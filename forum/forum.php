@@ -52,7 +52,7 @@
     $result.= "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Создать новую тему</a>";
     $result.= "</div>";
     
-    $result.= "<ul class='threads'>";
+    $result.= "<ul class='random threads'>";
 
     for ($i = 0; $i < $q->NumRows(); $i++) {
         $q->NextResult();

@@ -46,18 +46,18 @@ class ForumRecord extends ForumRecordBase {
         $cssClass .= $this->UpdateDate > $lastVisit ? " Recent" : "";
 
         $result .= "\n<li".($cssClass ? " class='".$cssClass."'" : "").">";
+
         $result .= $forum ? "<a href='".$forum->BasePath().$this->Id."'>" : "";
         $result .= $this->Title;
         $result .= $forum ? "</a>" : "";
-        $result .= ", <span class='author'>".$this->Author."</span>";
-        $result .= ", ".PrintableShortDate($this->Date).".";
+        $result .= ", ".$this->Author;
+        #$result .= " ".PrintableShortDate($this->Date);
 
         if ($this->AnswersCount > $this->DeletedCount && $this->IsCommentable) {
-            $result .= " <span class='Counts'>".Countable("ответ", $this->AnswersCount - $this->DeletedCount);
-            if ($this->AnswersCount) {
+            $result .= " <span>(".Countable("ответ", $this->AnswersCount - $this->DeletedCount).")</span>";
+            /*if ($this->AnswersCount) {
                 $result .= ", последний от ".PrintableShortDate($this->UpdateDate);
-            }
-            $result .= "</span>";
+            }*/
         }
 
         return $result;
