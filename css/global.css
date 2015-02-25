@@ -240,24 +240,41 @@ ul.Links li, ul#UsersContainer li, ul.NoDots li {
 }
 
 /* Pager styles */
-.Pager {
-    width:400px;
-    margin:10px auto 10px;
-    padding:10px;
-    border:solid 1px #404040;
-    background-color:#111111;
-    text-align:center;
+ul.pager {
+    width: 80%;
+    text-align: center;
+    margin: 4px auto;
+    padding: 16px 0;
+    color: #888;
 }
 
-.Pager a, .Pager span {
-    padding:2px;
-    margin: 0 2px 0 2px;
+ul.pager li {
+    font-family: 'bezumnoe2';
+    font-size: 14px;
+    font-weight: 700;
+    display: inline;
 }
 
-.Pager span {
-    color:white;
-    background-color:#F3771F;
-    font-weight:bold;
+ul.pager li a {
+    color: black;
+    border: none;
+}
+
+ul.pager h4 {
+    color: black;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pager strong {
+    color: red;
+    padding: 0 4px;
+    margin: 0;
+}
+
+ul.pager a {
+    padding: 0 4px;
+    margin: 0;
 }
 
 /* Spoilers */

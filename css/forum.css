@@ -174,40 +174,6 @@ cite cite cite {
     background-color:#ccc;
 }
 
-.Pager {
-    width: 80%;
-    text-align:center;
-    margin: 4px auto;
-    padding:4px;
-    border: solid 1px #aaa;
-    background-color:#eee;
-    color: #ccc;
-}
-
-.Pager h4 {
-    color:black;
-    padding:0;
-    margin:0;
-    font-size:9.5pt;
-}
-
-.Pager strong {
-    color:red;
-    font-weight:bold;
-    /*border-left: solid 1px #e0e0e0;*/
-    padding:0 4px;
-    margin:0;
-}
-
-.Pager a {
-    /*border-left: solid 1px #e0e0e0;*/
-    padding:0 4px;
-    margin:0;
-}
-
-.Pager .Sided  {
-    border-left: 0;
-}
 
 .NewThread {
     margin:10px 0;
