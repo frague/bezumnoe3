@@ -134,7 +134,9 @@
 
     echo "<a name='c'></a>
 <div class='NewThread'>
-    <a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>
+    <div>
+        <a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>
+    </div>
 </div>";
 
     echo "<ul class='thread'>";

@@ -17,6 +17,7 @@
     $lastRoom = False;
     $peope = "";
     $inside = 0;
+    $roomId = -1;
 
     function PrintRoom($lastRoom, $room, $inside, $people) {
         if ($room != $lastRoom && $lastRoom) {
@@ -31,7 +32,7 @@
         if ($u->SessionPong > $expiredSession) {
             $roomId = $q->Get(User::ROOM_ID);
             $room = $rooms[$roomId];
-            if ($room != $lastRoom) {
+            if ($room != $lastRoom && $roomId > 0) {
                 PrintRoom($lastRoom, $room, $inside, $people);
                 $lastRoom = $room;
                 $people = "";
@@ -42,6 +43,10 @@
         }
     }
     $q->Release();
-    PrintRoom($room, False, $inside, $people);
+    if ($roomId > 0) {
+        PrintRoom($room, False, $inside, $people);
+    } else {
+        echo "никого нет";
+    }
 
 ?>

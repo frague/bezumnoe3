@@ -48,9 +48,9 @@
         $threadsPerPage);
     
     $result.= "<style>#buttonCite".($forum->IsProtected ? "" : ", #IsProtected")." {display:none;}</style>";
-    $result.= "<div class='NewThread'>";
+    $result.= "<div class='NewThread'><div>";
     $result.= "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Создать новую тему</a>";
-    $result.= "</div>";
+    $result.= "</div></div>";
     
     $result.= "<ul class='random threads'>";
 
