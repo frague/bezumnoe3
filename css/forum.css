@@ -247,8 +247,8 @@ ul.popular > li a:nth-child(2) {
 }
 
 .Private {
-    font-weight:bold;
-    color:red;
+    font-style: italic;
+    color: #DD4B0D;
 }
 
 .Hidden {
