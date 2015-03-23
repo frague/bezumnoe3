@@ -65,9 +65,9 @@
             1);
 
 
-        echo "<div class='NewThread'>";
+        echo "<div class='NewThread'><div>";
         echo "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$gallery->Id.")'>Новый комментарий</a>";
-        echo "</div>";
+        echo "</div></div>";
 
         echo "<ul class='thread'>";
         $comments = $q->NumRows();

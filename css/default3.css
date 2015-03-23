@@ -216,6 +216,11 @@ ul.new_posts > li > a:first-child {
     font-weight: 700;
 }
 
+ul.new_posts a.Private {
+    font-style: italic;
+    color: #DD4B0D;
+}
+
 ul.new_comments > li {
     list-style: none;
 }

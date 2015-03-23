@@ -33,10 +33,10 @@ function SubstrCount(s, subStr, offset) {
 function MakeCite() {
     // Makes cite from text
     if (lastLink) {
-        var text = lastLink.parentNode.previousSibling.innerHTML;
+        var text = lastLink.parentNode.parentNode.previousSibling.innerHTML;
         text = text.replace(brClean, "");
 
-        cites = ">>>>>>>>>>>>";
+        cites = new Array(10).join('>');
         citeLevel = 1;
 
         lines = text.split("\n");
@@ -58,7 +58,7 @@ function MakeCite() {
 
 function ClearHash() {
     document.location.hash = "";
-}
+};
 
 function CancelReply() {
     hiderElement.appendChild(replyFormElement);
@@ -67,7 +67,7 @@ function CancelReply() {
 };
 
 function FindTargetElement(el) {
-    var div = el.parentNode;
+    var div = el.parentNode.parentNode;
     if (div.nextSibling) {
         return div.nextSibling;
     } else {
@@ -77,20 +77,25 @@ function FindTargetElement(el) {
     }
 };
 
-function FindParentTag(tag, el)  {
+function FindParentTag(tag, el, skip)  {
     var parent = el.parentNode;
-    if (parent) {
-        if (parent.tagName.toLowerCase() == tag) {
-            return parent;
-        } else {
-            return FindParentTag(tag, parent);
+    if (!skip) {
+        skip = 0;
+    };
+    if (parent && parent.tagName) {
+        if (parent.tagName.toLowerCase() === tag) {
+            if (!skip) {
+                return parent;
+            }
+            skip--;
         }
+        return FindParentTag(tag, parent, skip);
     }
-    return "";
+    return null;
 };
 
 function SetElementClass(tag, el, className) {
-    if (el.tagName && el.tagName.toLowerCase() == tag) {
+    if (el.tagName && el.tagName.toLowerCase() === tag) {
         el.className = className;
     }
 };
@@ -126,7 +131,6 @@ function OpenReplyForm() {
         }
     }
 };
-
 
 function ForumReply(a, id, forum_id) {
     $("#callback").val(a.href);
@@ -243,11 +247,11 @@ function ForumDelete(a, id, forum_id) {
 }
 
 // Deletion callback
-function ForumMessageDelCallback(reesponseText, a) {
+function ForumMessageDelCallback(responseText, a) {
     var error = "", className = "";
-    eval(reesponseText);
+    eval(responseText);
     if (!error) {
-        var li = FindParentTag("li", a);
+        var li = FindParentTag("li", a, 1);
         SetChildClass("li", li, className);
     } else {
         alert(error);   // TODO:
