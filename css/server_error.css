@@ -1,64 +1,74 @@
+@font-face {
+  font-family: 'bezumnoe2';
+  src: url('/fonts/bezumnoe3.eot');
+  src: url('/fonts/bezumnoe3.eot?') format('embedded-opentype'),
+       url('/fonts/bezumnoe3.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+}
+
 h1 {
-	font-size: 36pt;
+    font-family: 'bezumnoe2';
+    font-size: 36pt;
 }
 
 div {
-	top: 50%;
-	left: 50%;
-	position: absolute;
-	width: 400px;
-	height: 200px;
-	text-align: left;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    width: 400px;
+    height: 200px;
+    text-align: left;
 
-	margin-top: -100px;
-	margin-left: -200px;
+    margin-top: -100px;
+    margin-left: -200px;
 }
 
 /* Not found 404 */
 
 h1.e404 .char2 {
-	margin-left: -5px;
+    margin-left: -5px;
 }
 
 h1.e404 .char6 {
-	margin-left: -3px;
+    margin-left: -3px;
 }
 
 h1.e404 .char15 {
-	margin-left: -3px;
+    margin-left: -3px;
 }
 
 /* Internal Server Error 500 */
 
 h1.e500 .char4 {
-	margin-left: -4px;
+    margin-left: -4px;
 }
 
 h1.e500 .char9 {
-	margin-left: -4px;
+    margin-left: -4px;
 }
 
 h1.e500 .char10 {
-	margin-left: -2px;
+    margin-left: -2px;
 }
 
 h1.e500 .char11 {
-	margin-left: -1px;
+    margin-left: -1px;
 }
 
 h1.e500 .char12 {
-	margin-left: -1px;
+    margin-left: -1px;
 }
 
 h1.e500 .char13 {
-	margin-left: -2px;
+    margin-left: -2px;
 }
 
 h1.e500 .char14 {
-	margin-left: -2px;
+    margin-left: -2px;
 }
 
 h1.e500 .char6 {
-	margin-left: -3px;
+    margin-left: -3px;
 }
 
