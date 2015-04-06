@@ -56,7 +56,7 @@ Room.prototype.ToString = function() {
 		}
 	}
 	if (requestors) {
-		t += "<div class=\"Requestors\">Ожидают допуска:</div>" + requestors;
+		t += "<div class=\"Requestors\">РћР¶РёРґР°СЋС‚ РґРѕРїСѓСЃРєР°:</div>" + requestors;
 	}
 	t += "</ul></li>";
 	s = s + (inside ? ("&nbsp;<span class='Count'>(" + inside + ")</span>") : "") + (inside || requestors ? t : "");
@@ -144,7 +144,7 @@ RoomLightweight.prototype.Save = function(callback) {
 	if (this.NEW_ROOM) {
 		this.BaseRequest(params, callback);
 	} else {
-		this.SetRoomStatus("Введите название");
+		this.SetRoomStatus("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ");
 	}
 };
 

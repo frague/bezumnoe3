@@ -77,9 +77,9 @@ wdto.prototype.ToString = function(index, obj, holder) {
 
 	var td1 = d.createElement("td");
 	td1.className = "Centered";
-	var sender = "<i>вы сами (" + this.UserName + ")</i>";
+	var sender = "<i>РІС‹ СЃР°РјРё (" + this.UserName + ")</i>";
 	if (!me || this.UserId != me.Id) {
-		sender = (this.IsIncoming == "1" ? "от " : "для ") + this.UserName;
+		sender = (this.IsIncoming == "1" ? "РѕС‚ " : "РґР»СЏ ") + this.UserName;
 	}
 	td1.innerHTML = sender;
 	tr.appendChild(td1);

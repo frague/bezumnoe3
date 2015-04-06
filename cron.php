@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
-	$root = "./";
-	require_once $root."server_references.php";
+    $root = "./";
+    require_once $root."server_references.php";
 
-	ExecuteScheduledTasks();
+    ExecuteScheduledTasks();
 
 ?>

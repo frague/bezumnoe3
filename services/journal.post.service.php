@@ -16,7 +16,7 @@
 		if (!$record->IsEmpty()) {
 			$forum->GetById($record->ForumId);
 		} else {
-			echo JsAlert("Ïîñò íå íàéäåí!", 1);
+			echo JsAlert("ÐŸÐ¾ÑÑ‚ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½!", 1);
 			die;
 		}
 	} elseif ($forum_id) {
@@ -26,13 +26,13 @@
 	}
 
 	if ($forum->IsEmpty()) {
-		echo JsAlert("Æóðíàë íå íàéäåí!", 1);
+		echo JsAlert("Ð–ÑƒÑ€Ð½Ð°Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½!", 1);
 		die;
 	}
 
 	$access = $forum->GetAccess($user->User->Id);
 	if ($access != Forum::FULL_ACCESS && $access != Forum::READ_ADD_ACCESS) {
-		echo JsAlert("Ó âàñ íåò äîñòóïà ê óêàçàííîìó æóðíàëó!", 1);
+		echo JsAlert("Ð£ Ð²Ð°Ñ Ð½ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº ÑƒÐºÐ°Ð·Ð°Ð½Ð½Ð¾Ð¼Ñƒ Ð¶ÑƒÑ€Ð½Ð°Ð»Ñƒ!", 1);
 		die;
 	}
 	
@@ -43,7 +43,7 @@
 	switch ($go) {
 		case "save":
 			if (!$user->IsSuperAdmin() && ($access != Forum::FULL_ACCESS || (!$record->IsEmpty() && $record->UserId != $user->User->Id))) {
-				echo JsAlert("Íåò äîñòóïà ê ïóáëèêàöèè ñîîáùåíèé!", 1);
+				echo JsAlert("ÐÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð¿ÑƒÐ±Ð»Ð¸ÐºÐ°Ñ†Ð¸Ð¸ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹!", 1);
 				die;
 			}
 
@@ -53,7 +53,7 @@
 			if ($record->IsEmpty()) {
 				$record->Author = $user->User->Login;
 				$record->SaveAsTopic();
-				echo JsAlert("Ñîîáùåíèå äîáàâëåíî.");
+				echo JsAlert("Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¾.");
 
 				TopicRating($user->User->Id);
 
@@ -80,7 +80,7 @@
   				$forum->CountRecords();
 			} else {
 				$record->Save();
-				echo JsAlert("Ñîîáùåíèå îáíîâëåíî.");
+				echo JsAlert("Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾.");
 				if ($record->Type != $oldType) {
 					$record->SetChildType();
 				}
@@ -90,7 +90,7 @@
 			// Post tags (labels)
 			$tags = trim(substr(UTF8toWin1251($_POST["TAGS"]), 0, 1010));
 			if ($tags && !$record->IsEmpty()) {
-				$tags = preg_replace("/[^a-zA-Zà-ÿ¸À-ß¨0-9\-_\ |]/", "", strip_tags($tags));
+				$tags = preg_replace("/[^a-zA-ZÐ°-ÑÑ‘Ð-Ð¯Ð0-9\-_\ |]/", "", strip_tags($tags));
 
 				// Create tags
 				$tagsArray = split("\|", $tags);
@@ -105,10 +105,10 @@
 			break;
 		case "delete":
 			if (!$user->IsSuperAdmin() && $access != Forum::FULL_ACCESS && $record->UserId != $user->User->Id) { 
-				echo JsAlert("Íåäîñòàòî÷íî ïðàâ äëÿ óäàëåíèÿ!", 1);
+				echo JsAlert("ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ñ€Ð°Ð² Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ!", 1);
 				die;
 			}
-			echo JsAlert("Ñîîáùåíèå &laquo;".$record->Title."&raquo; óäàëåíî.");
+			echo JsAlert("Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ &laquo;".$record->Title."&raquo; ÑƒÐ´Ð°Ð»ÐµÐ½Ð¾.");
 			$record->GetByCondition(
 					ForumRecord::INDEX." LIKE '".substr($record->Index, 0, 4)."%' AND
 					".ForumRecord::FORUM_ID."=".$forum->Id,

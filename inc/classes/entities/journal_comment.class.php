@@ -46,7 +46,7 @@ class JournalComment extends JournalRecord {
 
 	/* Static Methods */
 
-	public static function MakeLink($recordId, $alias, $commentId = 0, $text = "комментарий", $is_hidden = 0) {
+	public static function MakeLink($recordId, $alias, $commentId = 0, $text = "РєРѕРјРјРµРЅС‚Р°СЂРёР№", $is_hidden = 0) {
 		return "<a ".($is_hidden ? "class='Hidden' " : "")."href='/journal/".$alias."/post".round($recordId)."/comments".($commentId > 0 ? "#cm".$commentId : "#c")."'>".$text."</a>";
 	}
 }

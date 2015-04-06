@@ -2,7 +2,7 @@
 
 class Gallery extends ForumBase {
 
-    var $SpellType = "фотогалерею";
+    var $SpellType = "С„РѕС‚РѕРіР°Р»РµСЂРµСЋ";
 
     function IsFull() {
         return (!$this->IsEmpty() && $this->Type == self::TYPE_GALLERY);
@@ -21,16 +21,16 @@ class Gallery extends ForumBase {
             $result = "<a href='".$this->BasePath()."'>".$result."</a>";
         }
 
-        $result .= "<div class='Counts'>В галерее ".Countable("фотография", $this->TotalCount, "нет");
+        $result .= "<div class='Counts'>Р’ РіР°Р»РµСЂРµРµ ".Countable("С„РѕС‚РѕРіСЂР°С„РёСЏ", $this->TotalCount, "РЅРµС‚");
         if ($lastVisitDate) {
             $unread = $this->GetUnreadCount($lastVisitDate);
             if ($unread > 0) {
-                $result .= ", из них <strong>".Countable("новое", $unread)."</strong>";
+                $result .= ", РёР· РЅРёС… <strong>".Countable("РЅРѕРІРѕРµ", $unread)."</strong>";
             }
         }
         $result .= ".";
         if ($this->IsProtected) {
-            $result .= " <span class='Red'>Это закрытая галерея.</span>";
+            $result .= " <span class='Red'>Р­С‚Рѕ Р·Р°РєСЂС‹С‚Р°СЏ РіР°Р»РµСЂРµСЏ.</span>";
         }
 
         $result .= "</div>";
@@ -41,16 +41,16 @@ class Gallery extends ForumBase {
         $result = "<a href='".$this->BasePath()."'".($this->IsProtected ? " class='Hidden'" : "").">";
         $result .= $this->Title."</a>";
 
-        $result .= " <span>(".Countable("фотография", $this->TotalCount, "нет");
+        $result .= " <span>(".Countable("С„РѕС‚РѕРіСЂР°С„РёСЏ", $this->TotalCount, "РЅРµС‚");
         if ($lastVisitDate) {
             $unread = $this->GetUnreadCount($lastVisitDate);
             if ($unread > 0) {
-                $result .= ", <strong>".Countable("новый комментарий", $unread)."</strong>";
+                $result .= ", <strong>".Countable("РЅРѕРІС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№", $unread)."</strong>";
             }
         }
         $result .= ")</span>";
         if ($this->IsProtected) {
-            $result .= " <span class='Red'>Это закрытая галерея.</span>";
+            $result .= " <span class='Red'>Р­С‚Рѕ Р·Р°РєСЂС‹С‚Р°СЏ РіР°Р»РµСЂРµСЏ.</span>";
         }
         return $result;
     }

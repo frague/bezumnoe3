@@ -32,7 +32,7 @@
 			}
 		}
 		if ($targetUser->IsEmpty()) {
-			echo "co.AlertType=true;co.Show(\"\", \"Íåò äîñòóïà ê ïðîôèëþ\", \"Ó àäìèíîâ íåò äîñòóïà ê ïðîôèëÿì äðóãèõ àäìèíèñòðàòîðîâ è õðàíèòåëåé ÷àòà.\");CloseTab(obj.Tab.Id);";
+			echo "co.AlertType=true;co.Show(\"\", \"ÐÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŽ\", \"Ð£ Ð°Ð´Ð¼Ð¸Ð½Ð¾Ð² Ð½ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑÐ¼ Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð°Ð´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ‚Ð¾Ñ€Ð¾Ð² Ð¸ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÐµÐ»ÐµÐ¹ Ñ‡Ð°Ñ‚Ð°.\");CloseTab(obj.Tab.Id);";
 			return;
 		}
 
@@ -76,8 +76,8 @@
 								$profile->Avatar = $name;
 								$profile->Save();
 							}
-							$response .= AddJsAlert("Àâàòàð îáíîâë¸í.");
-							SaveLog("Íîâûé àâàòàð.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
+							$response .= AddJsAlert("ÐÐ²Ð°Ñ‚Ð°Ñ€ Ð¾Ð±Ð½Ð¾Ð²Ð»Ñ‘Ð½.");
+							SaveLog("ÐÐ¾Ð²Ñ‹Ð¹ Ð°Ð²Ð°Ñ‚Ð°Ñ€.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
 						} else {
 							// Main picture uploaded
 							$maxWidth = 600;
@@ -88,8 +88,8 @@
 							}
 							$profile->PhotoUploadDate = NowDateTime();
 							$profile->Save();
-							$response .= AddJsAlert("Ôîòîãðàôèÿ îáíîâëåíà.");
-							SaveLog("Íîâîå ôîòî.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
+							$response .= AddJsAlert("Ð¤Ð¾Ñ‚Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ñ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð°.");
+							SaveLog("ÐÐ¾Ð²Ð¾Ðµ Ñ„Ð¾Ñ‚Ð¾.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 						}
 							
 						// Image resizing
@@ -123,8 +123,8 @@
 				$pass_result = $targetUser->FillPasswordFromHash($_POST);
 				if ($pass_result != -1) {
 					if (!$pass_result) {
-						$response .= JsAlert("Ïàðîëü èçìåí¸í.");
-						SaveLog("Èçìåíåíèå ïàðîëÿ.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
+						$response .= JsAlert("ÐŸÐ°Ñ€Ð¾Ð»ÑŒ Ð¸Ð·Ð¼ÐµÐ½Ñ‘Ð½.");
+						SaveLog("Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ð¿Ð°Ñ€Ð¾Ð»Ñ.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
 						$save_user = true;
 					} else {
 						$response .= JsAlert($pass_result, 1);
@@ -151,7 +151,7 @@
 								$targetUser->StatusId = $newStatus->Id;
 								$save_user = true;
 							} else {
-								$response .= JsAlert("Íåäîñòàòî÷íî ïðàâ äëÿ ñìåíû ñòàòóñà!", 1);
+								$response .= JsAlert("ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ñ€Ð°Ð² Ð´Ð»Ñ ÑÐ¼ÐµÐ½Ñ‹ ÑÑ‚Ð°Ñ‚ÑƒÑÐ°!", 1);
 							}
 						}
 					}
@@ -190,7 +190,7 @@
 				// Write to log 
 				LogProfileChanges($targetUser->Id, $profile, $oldProfile, $user->User->Login);
 
-				$response .= JsAlert("Ïðîôèëü óñïåøíî ñîõðàí¸í.");
+				$response .= JsAlert("ÐŸÑ€Ð¾Ñ„Ð¸Ð»ÑŒ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ ÑÐ¾Ñ…Ñ€Ð°Ð½Ñ‘Ð½.");
 
 				break;
 			case "delete_photo":
@@ -198,8 +198,8 @@
 					unlink($PathToPhotos.$profile->Photo);
 					$profile->Photo = "";
 					$profile->Save();
-					$response = JsAlert("Ôîòîãðàôèÿ óäàëåíà.");
-					SaveLog("Óäàëåíèå ôîòî.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
+					$response = JsAlert("Ð¤Ð¾Ñ‚Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð°.");
+					SaveLog("Ð£Ð´Ð°Ð»ÐµÐ½Ð¸Ðµ Ñ„Ð¾Ñ‚Ð¾.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
 				}
 				break;
 			case "delete_avatar":
@@ -207,8 +207,8 @@
 					unlink($PathToAvatars.$profile->Avatar);
 					$profile->Avatar = "";
 					$profile->Save();
-					$response = JsAlert("Àâàòàð óäàë¸í.");
-					SaveLog("Óäàëåíèå àâàòàðà.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
+					$response = JsAlert("ÐÐ²Ð°Ñ‚Ð°Ñ€ ÑƒÐ´Ð°Ð»Ñ‘Ð½.");
+					SaveLog("Ð£Ð´Ð°Ð»ÐµÐ½Ð¸Ðµ Ð°Ð²Ð°Ñ‚Ð°Ñ€Ð°.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_NORMAL);
 				}
 				break;
 		}

@@ -19,11 +19,11 @@
 
 	if ($go == "create") {
 		if ($hasJournal) {
-			echo JsAlert("Âàø ïåðñîíàëüíûé æóðíàë óæå ñîçäàí!", 1);
+			echo JsAlert("Ð’Ð°Ñˆ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¶ÑƒÑ€Ð½Ð°Ð» ÑƒÐ¶Ðµ ÑÐ¾Ð·Ð´Ð°Ð½!", 1);
 		} else {
 			$journal = new Journal();
 			$journal->Title = $user->User->Login;
-			$journal->Description = "Ïåðñîíàëüíûé æóðíàë";
+			$journal->Description = "ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¶ÑƒÑ€Ð½Ð°Ð»";
 
 		    $journal->LinkedId = $user->User->Id;
 			$journal->Save();
@@ -43,8 +43,8 @@
 			$template->Id = -1;
 			$template->Save();
 			
-			echo JsAlert("Âàø ïåðñîíàëüíûé æóðíàë óñïåøíî ñîçäàí!");
-			SaveLog("Ñîçäàí ïåðñîíàëüíûé æóðíàë.", $user->User->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
+			echo JsAlert("Ð’Ð°Ñˆ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¶ÑƒÑ€Ð½Ð°Ð» ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ ÑÐ¾Ð·Ð´Ð°Ð½!");
+			SaveLog("Ð¡Ð¾Ð·Ð´Ð°Ð½ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¶ÑƒÑ€Ð½Ð°Ð».", $user->User->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 
 			$hasJournal = 1;
 		}

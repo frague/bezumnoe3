@@ -1,19 +1,19 @@
 <?php
 
-	$timeStart = microtime(true);
+    $timeStart = microtime(true);
 
-	function MeasureAtThisPoint() {
-	   global $timeStart;
+    function MeasureAtThisPoint() {
+       global $timeStart;
 
-		$timeEnd = microtime(true);
-		$s = $timeEnd - $timeStart;
-		$timeStart = $timeEnd;
+        $timeEnd = microtime(true);
+        $s = $timeEnd - $timeStart;
+        $timeStart = $timeEnd;
 
-		return $s;
-	}
+        return $s;
+    }
 
-	function JsPoint($label) {
-		echo "/*	".$label."	".str_replace(".", ",", sprintf("%01.4f", MeasureAtThisPoint()))."	*/\n";
-	}
+    function JsPoint($label) {
+        echo "/*    ".$label."  ".str_replace(".", ",", sprintf("%01.4f", MeasureAtThisPoint()))."  */\n";
+    }
 
 ?>

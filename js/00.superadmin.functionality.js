@@ -8,30 +8,30 @@
 /* Usermanager admins' section */
 
 function umAdditionalExtraButtons(el, id, login, obj) {
-	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowSettings(" + id + ",\"" + login + "\")", "Настройки", obj, "")));
-	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowBlog(" + id + ",\"" + login + "\")", "Журнал", obj, "")));
+	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowSettings(" + id + ",\"" + login + "\")", "РќР°СЃС‚СЂРѕР№РєРё", obj, "")));
+	el.appendChild(MakeUserMenuLink(MakeButtonLink("ShowBlog(" + id + ",\"" + login + "\")", "Р–СѓСЂРЅР°Р»", obj, "")));
 };
 
 function ShowBlog(id, name) {
-	CustomTab(id, name, JournalMessages, "j", "Журнал");
+	CustomTab(id, name, JournalMessages, "j", "Р–СѓСЂРЅР°Р»");
 };
 
 function ShowSettings(id, name) {
-	CustomTab(id, name, Settings, "s", "Настройки");
+	CustomTab(id, name, Settings, "s", "РќР°СЃС‚СЂРѕР№РєРё");
 };
 
 /* Admin Options */
 
 var spoilerNames = [
-	"Кодекс администратора", 
-	"Новости чата", 
-	"Запреты", 
-	"Логи системы", 
-	"Лог сообщений чата", 
-	"Персональные статусы",
-	"Комнаты",
-	"Боты",
-	"Задачи по расписанию"
+	"РљРѕРґРµРєСЃ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°", 
+	"РќРѕРІРѕСЃС‚Рё С‡Р°С‚Р°", 
+	"Р—Р°РїСЂРµС‚С‹", 
+	"Р›РѕРіРё СЃРёСЃС‚РµРјС‹", 
+	"Р›РѕРі СЃРѕРѕР±С‰РµРЅРёР№ С‡Р°С‚Р°", 
+	"РџРµСЂСЃРѕРЅР°Р»СЊРЅС‹Рµ СЃС‚Р°С‚СѓСЃС‹",
+	"РљРѕРјРЅР°С‚С‹",
+	"Р‘РѕС‚С‹",
+	"Р—Р°РґР°С‡Рё РїРѕ СЂР°СЃРїРёСЃР°РЅРёСЋ"
 ];
 
 var spoilerInits = [

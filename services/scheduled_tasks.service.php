@@ -18,7 +18,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("Изменения сохранены.");
+				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
 			}
 			break;
 		case "delete":
@@ -33,9 +33,9 @@
 						}
 					}
 					$task->Delete();
-					echo JsAlert("Задача удалена.");
+					echo JsAlert("Р—Р°РґР°С‡Р° СѓРґР°Р»РµРЅР°.");
 				} else {
-					echo JsAlert("Задача не найдена!", 1);
+					echo JsAlert("Р—Р°РґР°С‡Р° РЅРµ РЅР°Р№РґРµРЅР°!", 1);
 				}
 			}
 			break;

@@ -35,8 +35,8 @@ Journal.prototype.TemplateLoaded = function(req) {
 	this.GroupSelfAssign(["linkNewPost", "linkDeleteJournal"]);
 	this.SetTabElementValue("FORUM_ID", this.Forum.FORUM_ID);
 	this.SetTabElementValue("Title", this.Forum.TITLE);
-	this.SetTabElementValue("linkNewPost", "Создать новую запись в	&laquo;" + this.Forum.TITLE + "&raquo;");
-	this.SetTabElementValue("linkDeleteJournal", "Удалить	&laquo;" + this.Forum.TITLE + "&raquo;");
+	this.SetTabElementValue("linkNewPost", "РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ Р·Р°РїРёСЃСЊ РІ	&laquo;" + this.Forum.TITLE + "&raquo;");
+	this.SetTabElementValue("linkDeleteJournal", "РЈРґР°Р»РёС‚СЊ	&laquo;" + this.Forum.TITLE + "&raquo;");
 
 	if (this.Forum.ACCESS != FULL_ACCESS) {
 		this.DisplayTabElement("linkDeleteJournal", 0);
@@ -47,10 +47,10 @@ Journal.prototype.TemplateLoaded = function(req) {
 	var spoilers = this.Inputs["Spoilers"];
 	if (spoilers) {
 		// TODO: Check type here
-		MessagesSpoiler = new Spoiler(1, "Сообщения", 0, 0, function(tab) {new JournalMessages().LoadTemplate(tab, me.Id, me.Login)});
-		TemplatesSpoiler = new Spoiler(2, "Шаблоны отображения", 0, 0, function(tab) {new JournalTemplates().LoadTemplate(tab, me.Id)});
-		SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {new JournalSettings().LoadTemplate(tab, me.Id)});
-		AccessSpoiler = new Spoiler(4, "Доступ / друзья", 0, 0, function(tab) {new ForumAccess().LoadTemplate(tab, me.Id)});
+		MessagesSpoiler = new Spoiler(1, "РЎРѕРѕР±С‰РµРЅРёСЏ", 0, 0, function(tab) {new JournalMessages().LoadTemplate(tab, me.Id, me.Login)});
+		TemplatesSpoiler = new Spoiler(2, "РЁР°Р±Р»РѕРЅС‹ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ", 0, 0, function(tab) {new JournalTemplates().LoadTemplate(tab, me.Id)});
+		SettingsSpoiler = new Spoiler(3, "РќР°СЃС‚СЂРѕР№РєРё", 0, 0, function(tab) {new JournalSettings().LoadTemplate(tab, me.Id)});
+		AccessSpoiler = new Spoiler(4, "Р”РѕСЃС‚СѓРї / РґСЂСѓР·СЊСЏ", 0, 0, function(tab) {new ForumAccess().LoadTemplate(tab, me.Id)});
 
 		s = [MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler, AccessSpoiler];
 		accessRow = accessMatrix[this.Forum.ACCESS][this.Forum.TYPE];

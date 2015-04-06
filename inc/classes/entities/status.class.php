@@ -86,7 +86,7 @@ class Status extends EntityBase {
 
 		$errors = "";
 		if (!$this->Title) {
-			$errors .= "Не указано название!<br>";
+			$errors .= "РќРµ СѓРєР°Р·Р°РЅРѕ РЅР°Р·РІР°РЅРёРµ!<br>";
 		}
 		return $errors;
 	}

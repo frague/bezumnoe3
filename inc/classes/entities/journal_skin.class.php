@@ -102,7 +102,7 @@ class JournalSkin extends EntityBase {
 		if (!$this->IsEmpty()) {
 			$s .= $this->Title." (".$this->Author.")";
 		} else {
-			$s .= "Собственный шаблон";
+			$s .= "РЎРѕР±СЃС‚РІРµРЅРЅС‹Р№ С€Р°Р±Р»РѕРЅ";
 		}
 		$s .= "<img src=\"".$pathToScreenshots."/".($this->IsEmpty() ? "custom.png" : $this->Screenshot)."\" class=\"Photo\">";
 		$s .= "</label>";
