@@ -35,7 +35,7 @@ JournalsManager.prototype.Bind = function() {
 	}
 
 	this.DisplayTabElement("CreateJournal", !this.HasJournal);
-	this.SetTabElementValue("linkNewForum", (this.HasJournal ? "" : "Создать журнал"));
+	this.SetTabElementValue("linkNewForum", (this.HasJournal ? "" : "РЎРѕР·РґР°С‚СЊ Р¶СѓСЂРЅР°Р»"));
 };
 
 JournalsManager.prototype.TemplateLoaded = function(req) {
@@ -48,7 +48,7 @@ JournalsManager.prototype.TemplateLoaded = function(req) {
 
 /* Forum line DTO */
 
-var ForumTypes = {"f": "Форум", "g": "Фотогалерея", "j": "Журнал"};
+var ForumTypes = {"f": "Р¤РѕСЂСѓРј", "g": "Р¤РѕС‚РѕРіР°Р»РµСЂРµСЏ", "j": "Р–СѓСЂРЅР°Р»"};
 function jjdto(id, title, type, access) {
 	this.fields = ["FORUM_ID", "TITLE", "TYPE", "ACCESS"];
 	this.Init(arguments);

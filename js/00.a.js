@@ -1,6 +1,6 @@
 //1.0
 /*
-	Functions to be overridden.
+    Functions to be overridden.
 */
 
 var spoilerNames = [];

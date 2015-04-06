@@ -175,13 +175,13 @@ class Settings extends EntityBase {
 	function Validate() {
 		$result = "";
 		if (!preg_match("/^[a-zA-Z0-9_ \-\.]*$/", $this->FontFace)) {
-			$result .= "<li> Недопустимое название шрифта (возможные варианты: verdana, arial, tahoma и др.)";
+			$result .= "<li> РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ РЅР°Р·РІР°РЅРёРµ С€СЂРёС„С‚Р° (РІРѕР·РјРѕР¶РЅС‹Рµ РІР°СЂРёР°РЅС‚С‹: verdana, arial, tahoma Рё РґСЂ.)";
 		}
 		if ($this->EnterMessage && !preg_match("/\%name/", $this->EnterMessage)) {
-			$result .= "<li> Фраза о входе в чат не содержит ссылки на имя (%name)";
+			$result .= "<li> Р¤СЂР°Р·Р° Рѕ РІС…РѕРґРµ РІ С‡Р°С‚ РЅРµ СЃРѕРґРµСЂР¶РёС‚ СЃСЃС‹Р»РєРё РЅР° РёРјСЏ (%name)";
 		}
 		if ($this->QuitMessage && !preg_match("/\%name/", $this->QuitMessage)) {
-			$result .= "<li> Фраза о выходе из чата не содержит ссылки на имя (%name)";
+			$result .= "<li> Р¤СЂР°Р·Р° Рѕ РІС‹С…РѕРґРµ РёР· С‡Р°С‚Р° РЅРµ СЃРѕРґРµСЂР¶РёС‚ СЃСЃС‹Р»РєРё РЅР° РёРјСЏ (%name)";
 		}
 		return $result;
 	}

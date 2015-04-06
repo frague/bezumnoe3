@@ -43,13 +43,13 @@ class Profile extends EntityBase {
 	var $LastRating;
 
 	var $FieldsNames = array(
-		"Имя",
-		"Пол",
-		"День рождения",
-		"Город",
+		"РРјСЏ",
+		"РџРѕР»",
+		"Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ",
+		"Р“РѕСЂРѕРґ",
 		"ICQ",
-		"Адрес сайта",
-		"О себе"
+		"РђРґСЂРµСЃ СЃР°Р№С‚Р°",
+		"Рћ СЃРµР±Рµ"
 	);
 
 	// Constructor
@@ -356,7 +356,7 @@ WHERE
 
 	/* Static methods */
 
-	public static function MakeLink($userId = 0, $text = "Инфо") {
+	public static function MakeLink($userId = 0, $text = "РРЅС„Рѕ") {
 		return "<a href='/info.php?id=".$userId."'>".$text."</a>";
 	}
 

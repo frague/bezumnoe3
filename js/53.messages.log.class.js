@@ -96,7 +96,7 @@ mdto.prototype.ToString = function(index, obj, holder) {
 	var td3 = d.createElement("td");
 	if (this.Name) {
 		var td2 = d.createElement("td");
-		td2.innerHTML = this.Name + (this.NameTo ? " для " + this.NameTo : "&nbsp;");
+		td2.innerHTML = this.Name + (this.NameTo ? " РґР»СЏ " + this.NameTo : "&nbsp;");
 		tr.appendChild(td2);
 	} else {
 		td3.colSpan = 2;

@@ -90,7 +90,7 @@ Boolean($this->OwnMarkupAllowed)."]";
     }
 
     function ToTitleLink($title, $target = "") {
-        return self::MakeLink($this->Alias, ($title ? $title : "без названия"), new ForumRecordBase(), $target);
+        return self::MakeLink($this->Alias, ($title ? $title : "Р±РµР· РЅР°Р·РІР°РЅРёСЏ"), new ForumRecordBase(), $target);
     }
 
     // SQL

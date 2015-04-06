@@ -1,6 +1,6 @@
 <?php
 
-    echo "<h2>Комментарии в журналах</h2>";
+    echo "<h2>РљРѕРјРјРµРЅС‚Р°СЂРёРё РІ Р¶СѓСЂРЅР°Р»Р°С…</h2>";
 
     $userId = $someoneIsLogged ? $user->User->Id : -1;
     $comment = new JournalComment();

@@ -23,7 +23,7 @@ class ScheduledTask extends EntityBase {
 	const TYPE_VICTORINA_BOT	= "victorina";
 	const TYPE_LINGVIST_BOT		= "lingvist";
 	
-	const SCHEDULER_LOGIN = "по расписанию";
+	const SCHEDULER_LOGIN = "РїРѕ СЂР°СЃРїРёСЃР°РЅРёСЋ";
 	const HANGED_TIMEOUT = "00:10:00";		// 10 minutes to recover
 	const PARAMETER = "PARAMETER";
 
@@ -357,7 +357,7 @@ abstract class BaseAction {
 		$user->GetById($userId);
 
 		if ($user->IsEmpty()) {
-		 	SaveLog("Пользователь (Id: ".$this->Task->Parameter1.") не найден. Задача: ".$this->Task->Type, -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		 	SaveLog("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ (Id: ".$this->Task->Parameter1.") РЅРµ РЅР°Р№РґРµРЅ. Р—Р°РґР°С‡Р°: ".$this->Task->Type, -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
 		$this->user = $user;
@@ -376,7 +376,7 @@ class UnbanAction extends BaseAction {
 		}
 
 		if (!$this->user->User->IsBanned()) {
-		 	SaveLog("Не удалось разбанить пользователя - не забанен.", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		 	SaveLog("РќРµ СѓРґР°Р»РѕСЃСЊ СЂР°Р·Р±Р°РЅРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ - РЅРµ Р·Р°Р±Р°РЅРµРЅ.", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
 		$this->user->User->StopBan();
@@ -396,24 +396,24 @@ class StatusAction extends BaseAction {
 		$status = new Status();
 		$status->GetStandardStatus(Status::RIGHTS_OLDBIE);
 		if ($status->IsEmpty()) {
-		 	SaveLog("Не удалось установить пользователю статус \"старожил\". Статус не найден.", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+		 	SaveLog("РќРµ СѓРґР°Р»РѕСЃСЊ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ СЃС‚Р°С‚СѓСЃ \"СЃС‚Р°СЂРѕР¶РёР»\". РЎС‚Р°С‚СѓСЃ РЅРµ РЅР°Р№РґРµРЅ.", $this->user->User->Id, self::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 		 	return false;
 		}
 		$p = new Profile();
 		$p->GetByUserId($this->user->User->Id);
 
 		if ($p->IsEmpty()) {
-			SaveLog("Не удалось изменить статус пользователю: профиль не найден", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+			SaveLog("РќРµ СѓРґР°Р»РѕСЃСЊ РёР·РјРµРЅРёС‚СЊ СЃС‚Р°С‚СѓСЃ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ: РїСЂРѕС„РёР»СЊ РЅРµ РЅР°Р№РґРµРЅ", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
 
 		if (DatesDiff($p->LastVisit) > 31) {
-			SaveLog("Отказано в установке нового статуса: не появлялся в чате больше месяца", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+			SaveLog("РћС‚РєР°Р·Р°РЅРѕ РІ СѓСЃС‚Р°РЅРѕРІРєРµ РЅРѕРІРѕРіРѕ СЃС‚Р°С‚СѓСЃР°: РЅРµ РїРѕСЏРІР»СЏР»СЃСЏ РІ С‡Р°С‚Рµ Р±РѕР»СЊС€Рµ РјРµСЃСЏС†Р°", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 			return false;
 		}
 
 		$this->user->User->StatusId = $status->Id;
-	 	SaveLog("Установлен статус \"старожил\".", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
+	 	SaveLog("РЈСЃС‚Р°РЅРѕРІР»РµРЅ СЃС‚Р°С‚СѓСЃ \"СЃС‚Р°СЂРѕР¶РёР»\".", $this->user->User->Id, ScheduledTask::SCHEDULER_LOGIN);
 		$this->user->User->Save();
 		return true;
 	}
@@ -438,7 +438,7 @@ class ExpiredSessionsAction extends BaseAction {
 
 		if (sizeof($u) > 0) {
 			while (list($roomId,$users) = each($u)) {
-				$message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат. ", $roomId);
+				$message = new QuitMessage($users.(ereg(", ", $users) ? " РїРѕРєРёРґР°СЋС‚" : " РїРѕРєРёРґР°РµС‚")." С‡Р°С‚. ", $roomId);
 				$message->Save();
 			}
 		}
@@ -455,10 +455,10 @@ class InactivatedAction extends BaseAction {
 		$q = $users->GetNotActivatedBefore($deadline);
         $n = $q->NumRows();
         if (!$n) {
-	 	    SaveLog("Проверка неактивированных за 48 часов аккаунтов - не обнаружено", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
+	 	    SaveLog("РџСЂРѕРІРµСЂРєР° РЅРµР°РєС‚РёРІРёСЂРѕРІР°РЅРЅС‹С… Р·Р° 48 С‡Р°СЃРѕРІ Р°РєРєР°СѓРЅС‚РѕРІ - РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅРѕ", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
             return true;
         }
-        $log = "Удалены неактивированные аккаунты (".$n."): ";
+        $log = "РЈРґР°Р»РµРЅС‹ РЅРµР°РєС‚РёРІРёСЂРѕРІР°РЅРЅС‹Рµ Р°РєРєР°СѓРЅС‚С‹ (".$n."): ";
 		for ($i = 0; $i < $n; $i++) {
 			$q->NextResult();
             $tmp_user = new UserComplete();
@@ -477,7 +477,7 @@ class UpdateRatingAction extends BaseAction {
 	function ExecuteByTimer() {
 
 		Rating::UpdateRatings();
-	 	SaveLog("Обновление рейтингов.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
+	 	SaveLog("РћР±РЅРѕРІР»РµРЅРёРµ СЂРµР№С‚РёРЅРіРѕРІ.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_WARNING);
 
 		return true;
 	}
@@ -501,7 +501,7 @@ abstract class BotBaseAction extends BaseAction {
 
 	function IsValid() {
 		if (!$this->GetUser() || !$this->GetRoom()) {
-	 		SaveLog("Бот (".$this->Task->Type.") остановлен. Некорректно указан пользователь или комната.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
+	 		SaveLog("Р‘РѕС‚ (".$this->Task->Type.") РѕСЃС‚Р°РЅРѕРІР»РµРЅ. РќРµРєРѕСЂСЂРµРєС‚РЅРѕ СѓРєР°Р·Р°РЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РёР»Рё РєРѕРјРЅР°С‚Р°.", -1, ScheduledTask::SCHEDULER_LOGIN, AdminComment::SEVERITY_ERROR);
 	 		$this->Task->IsActive = 0;
 			$this->Task->Save();
 			return false;
@@ -519,7 +519,7 @@ abstract class BotBaseAction extends BaseAction {
 		if (!$this->lastExecutionTime && $this->user->User->RoomId) {
 			$text = $this->user->Settings->EnterMessage;
 			if (!$text) {
-				$text = "В чат входит %name.";
+				$text = "Р’ С‡Р°С‚ РІС…РѕРґРёС‚ %name.";
 			}
 			$message = new EnterMessage(str_replace("%name", Clickable($this->user->DisplayedName()), $text), $this->room->Id);
 			$message->Save();
@@ -541,7 +541,7 @@ abstract class BotBaseAction extends BaseAction {
 		}
 		$text = $this->user->Settings->QuitMessage;
 		if (!$text) {
-			$text = "%name выходит из чата.";
+			$text = "%name РІС‹С…РѕРґРёС‚ РёР· С‡Р°С‚Р°.";
 		}
 		$message = new QuitMessage(str_replace("%name", Clickable($this->user->DisplayedName()), $text), $this->room->Id);
 		$message->Save();

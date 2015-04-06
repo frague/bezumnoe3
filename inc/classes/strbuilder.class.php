@@ -1,19 +1,19 @@
 <?
 
 class StrBuilder {
-	var $Text;
+    var $Text;
 
-	function StrBuilder() {
-		$this->Clear();
-	}
+    function StrBuilder() {
+        $this->Clear();
+    }
 
-	function Clear() {
-		$this->Text = "";
-	}
+    function Clear() {
+        $this->Text = "";
+    }
 
-	function Append($line) {
-		$this->Text .= $line;
-	}
+    function Append($line) {
+        $this->Text .= $line;
+    }
 }
 
 ?>

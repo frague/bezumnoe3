@@ -1,44 +1,44 @@
 <?php
 
-	$root = "../";
-	require_once $root."server_references.php";
+    $root = "../";
+    require_once $root."server_references.php";
 
-	$message = new JournalRecord();
+    $message = new JournalRecord();
 
-	header("Content-Type: text/xml");
-	
-	$showMessages = 30;
+    header("Content-Type: text/xml");
+    
+    $showMessages = 30;
 
-	$rss_channel = new rssGenerator_channel();
-	$rss_channel->title = "Æóðíàëû íà Áåçóìíîå.Ðó";
-	$rss_channel->link = "http://www.bezumnoe.ru/journal/";
-	$rss_channel->description = "Ñîîáùåíèÿ â æóðíàëàõ ïîëüçîâàòåëåé";
-	$rss_channel->language = "en-us";
-	$rss_channel->generator = "";
-	$rss_channel->managingEditor = "bezumnoe@gamil.com";
-	$rss_channel->webMaster = "bezumnoe@gamil.com";
+    $rss_channel = new rssGenerator_channel();
+    $rss_channel->title = "Ð–ÑƒÑ€Ð½Ð°Ð»Ñ‹ Ð½Ð° Ð‘ÐµÐ·ÑƒÐ¼Ð½Ð¾Ðµ.Ð Ñƒ";
+    $rss_channel->link = "http://www.bezumnoe.ru/journal/";
+    $rss_channel->description = "Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð² Ð¶ÑƒÑ€Ð½Ð°Ð»Ð°Ñ… Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹";
+    $rss_channel->language = "en-us";
+    $rss_channel->generator = "";
+    $rss_channel->managingEditor = "bezumnoe@gamil.com";
+    $rss_channel->webMaster = "bezumnoe@gamil.com";
 
-	$q = $message->GetMixedJournalsTopics(-1, 0, $showMessages);
+    $q = $message->GetMixedJournalsTopics(-1, 0, $showMessages);
 
-	for ($i = 0; $i < $q->NumRows(); $i++) {
-       	$q->NextResult();
+    for ($i = 0; $i < $q->NumRows(); $i++) {
+        $q->NextResult();
 
-		$message->FillFromResult($q);
-		$alias = $q->Get(JournalSettings::ALIAS);
+        $message->FillFromResult($q);
+        $alias = $q->Get(JournalSettings::ALIAS);
 
-		$item = new rssGenerator_item();
-		$item->author = $message->Author;
-		$item->title = MakeTagsPrintable($message->Author.": \"".$message->Title."\"");
-		$item->description = MakeTagsPrintable(nl2br(FormatMessageBody($message, $alias, false)));
-		$item->link = "http://www.bezumnoe.ru/journal/".$alias."/post".$message->Id."/";
-		$item->pubDate = date("r", ParseDate($message->Date));
-		$rss_channel->items[] = $item;
-	}
-	$q->Release();
+        $item = new rssGenerator_item();
+        $item->author = $message->Author;
+        $item->title = MakeTagsPrintable($message->Author.": \"".$message->Title."\"");
+        $item->description = MakeTagsPrintable(nl2br(FormatMessageBody($message, $alias, false)));
+        $item->link = "http://www.bezumnoe.ru/journal/".$alias."/post".$message->Id."/";
+        $item->pubDate = date("r", ParseDate($message->Date));
+        $rss_channel->items[] = $item;
+    }
+    $q->Release();
 
-	$rss_feed = new rssGenerator_rss();
-	$rss_feed->encoding = "windows-1251";
-	$rss_feed->version = "2.0";
-	echo $rss_feed->createFeed($rss_channel);
+    $rss_feed = new rssGenerator_rss();
+    $rss_feed->encoding = "windows-1251";
+    $rss_feed->version = "2.0";
+    echo $rss_feed->createFeed($rss_channel);
 
 ?>

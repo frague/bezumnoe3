@@ -17,7 +17,7 @@
       global $cutCount;
 
         $caption = str_replace("\\\"", "&quot;", $caption);
-        return "<span class='cutlink'>(<a href='##LINK###cut".$cutCount++."'>".($caption ? $caption : "���������")."</a>)</span>";
+        return "<span class='cutlink'>(<a href='##LINK###cut".$cutCount++."'>".($caption ? $caption : "РџРѕРґСЂРѕР±РЅРµРµ")."</a>)</span>";
     }
     
     $cutCount = 1;
@@ -73,15 +73,15 @@
     function InjectionProtection($text) {
         return CloseTags($text);
 
-        $text = preg_replace("/( |:)on([a-z ]+=)/i", "\\1�n\\2", $text);
+        $text = preg_replace("/( |:)on([a-z ]+=)/i", "\\1Рѕn\\2", $text);
         $text = preg_replace("/visibility/i","invisibility", $text);
         $text = preg_replace("/z-index/i","zzz-index", $text);
         $text = preg_replace("/noscript/i","yescript", $text);
-        $text = preg_replace("/\<script/i","\<scr�pt", $text );
-        $text = preg_replace("/<frame/i","<fr�me", $text );
-        $text = preg_replace("/display( *)[:=]/i","displ�y:", $text );
-        $text = preg_replace("/absolute/i","abs�lute", $text );
-        $text = preg_replace("/scroll( *)=( *)no/i","scroll=���", $text );
+        $text = preg_replace("/\<script/i","\<scrС‹pt", $text );
+        $text = preg_replace("/<frame/i","<frР°me", $text );
+        $text = preg_replace("/display( *)[:=]/i","displР°y:", $text );
+        $text = preg_replace("/absolute/i","absРѕlute", $text );
+        $text = preg_replace("/scroll( *)=( *)no/i","scroll=СѓРіСѓ", $text );
         $text = preg_replace("/ rel( *)=( *)stylesheet/i"," rel=styleshit", $text );
         $text = preg_replace("/:( *)\-/",":- ", $text );
 
@@ -168,7 +168,7 @@
                 $message->Id, 
                 $userUrlName,
                 0, 
-                Countable("�����������", $commentsCount, "���"));
+                Countable("РєРѕРјРјРµРЅС‚Р°СЂРёР№", $commentsCount, "РЅРµС‚"));
             $commentsN = JournalComment::MakeLink(
                 $message->Id, 
                 $userUrlName,

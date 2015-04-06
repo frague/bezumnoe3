@@ -3,29 +3,29 @@ var content = new MyFrame($("#InfoContent")[0]);
 var winSize = new MyFrame(window);
 
 function AdjustDivs(e) {
-	if (!e) {
-		var e = window.event;
-	}
+    if (!e) {
+        var e = window.event;
+    }
 
-	winSize.GetPosAndSize();
-	container.Replace(10, 10, winSize.width - 20, winSize.height - 20);
-	content.Replace(-1, -1, -1, container.height - 40);
+    winSize.GetPosAndSize();
+    container.Replace(10, 10, winSize.width - 20, winSize.height - 20);
+    content.Replace(-1, -1, -1, container.height - 40);
 }
 
 AdjustDivs();
 
 window.onresize = AdjustDivs;
 if (window.addEventListener) {
-	window.addEventListener("resize", AdjustDivs, true);
+    window.addEventListener("resize", AdjustDivs, true);
 };
 
 /* Tabs */
 var tabs;
 $(document).ready(function(){
-	tabs = new Tabs($("#InfoContainer")[0], $("#InfoContent")[0]);
-	CurrentTab = new Tab(1, "»ÌÙÓ", 1);
-	tabs.Add(CurrentTab, $("#Info")[0]);
-	//tabs.Add(new Tab(2, "¡Î‡·Î‡1", 1));
-	//tabs.Add(new Tab(3, "¡Î‡·Î‡2", 1));
-	tabs.Print();
+    tabs = new Tabs($("#InfoContainer")[0], $("#InfoContent")[0]);
+    CurrentTab = new Tab(1, "–ò–Ω—Ñ–æ", 1);
+    tabs.Add(CurrentTab, $("#Info")[0]);
+    //tabs.Add(new Tab(2, "–ë–ª–∞–±–ª–∞1", 1));
+    //tabs.Add(new Tab(3, "–ë–ª–∞–±–ª–∞2", 1));
+    tabs.Print();
 });

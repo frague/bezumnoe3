@@ -1,14 +1,14 @@
                 <nav class="bottom">
                     <ul>
-                        <li> <a href="/">На главную</a>
-                        <li> <a href="/register/">Регистрация</a>
-                        <li> <a href="/forum/">Форум</a>
-                        <li> <a href="/journal/">Журналы</a>
-                        <li> <a href="/gallery/">Фотогалерея</a>
+                        <li> <a href="/">РќР° РіР»Р°РІРЅСѓСЋ</a>
+                        <li> <a href="/register/">Р РµРіРёСЃС‚СЂР°С†РёСЏ</a>
+                        <li> <a href="/forum/">Р¤РѕСЂСѓРј</a>
+                        <li> <a href="/journal/">Р–СѓСЂРЅР°Р»С‹</a>
+                        <li> <a href="/gallery/">Р¤РѕС‚РѕРіР°Р»РµСЂРµСЏ</a>
                     </ul>
                     <ul>
-                        <li> <a href="/rating/">Рейтинг</a>
-                        <li> <a href="/photos/">Фотографии</a>
-                        <li> <a href="/tree/">Фамильное древо</a>
+                        <li> <a href="/rating/">Р РµР№С‚РёРЅРі</a>
+                        <li> <a href="/photos/">Р¤РѕС‚РѕРіСЂР°С„РёРё</a>
+                        <li> <a href="/tree/">Р¤Р°РјРёР»СЊРЅРѕРµ РґСЂРµРІРѕ</a>
                     </ul>
                 </nav>

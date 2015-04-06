@@ -45,7 +45,7 @@ class GalleryPhoto extends JournalRecord {
             $result .= "<p>".nl2br($this->Title)."</p>";
         }
         if ($this->AnswersCount > 0 && $isThumb) {
-            $result .= $this->ToLink()."<p>".Countable("êîììåíòàðèé", $this->AnswersCount - $this->DeletedCount)."</p></a>";
+            $result .= $this->ToLink()."<p>".Countable("ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¹", $this->AnswersCount - $this->DeletedCount)."</p></a>";
         }
 
         return $result;

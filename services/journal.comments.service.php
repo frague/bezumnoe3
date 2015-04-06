@@ -14,14 +14,14 @@
 	$record = new JournalRecord($post_id);
 	$record->Retrieve();
 	if ($record->IsEmpty()) {
-		echo JsAlert("Запись не найдена!", 1);
+		echo JsAlert("Р—Р°РїРёСЃСЊ РЅРµ РЅР°Р№РґРµРЅР°!", 1);
 		die;
 	}
 
 	$forum = new ForumBase($record->ForumId);
 	$forum->Retrieve();
 	if ($forum->IsEmpty()) {
-		echo JsAlert("Журнал (форум) не существует!", 1);
+		echo JsAlert("Р–СѓСЂРЅР°Р» (С„РѕСЂСѓРј) РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!", 1);
 		die;
 	}
 
@@ -29,7 +29,7 @@
 
 #	if ($access != Forum::FRIENDLY_ACCESS && $access != Forum::READ_ADD_ACCESS && $access != Forum::FULL_ACCESS) {
 	if ($access != Forum::FULL_ACCESS) {
-		echo JsAlert("Нет доступа к комментариям!", 1);
+		echo JsAlert("РќРµС‚ РґРѕСЃС‚СѓРїР° Рє РєРѕРјРјРµРЅС‚Р°СЂРёСЏРј!", 1);
 		die;
 	}
 
@@ -38,9 +38,9 @@
 	if ($go == "delete" && $id) {
 		$comment->GetById($id);
 		if ($comment->IsEmpty()) {
-			echo JsAlert("Комментарий не найден!", 1);
+			echo JsAlert("РљРѕРјРјРµРЅС‚Р°СЂРёР№ РЅРµ РЅР°Р№РґРµРЅ!", 1);
 		} else if (round($comment->Index) != round($record->Index)) {
-			echo JsAlert("Комментарий оставлен к другому сообщению!", 1);
+			echo JsAlert("РљРѕРјРјРµРЅС‚Р°СЂРёР№ РѕСЃС‚Р°РІР»РµРЅ Рє РґСЂСѓРіРѕРјСѓ СЃРѕРѕР±С‰РµРЅРёСЋ!", 1);
 		} else {
 			$comment->GetByCondition(
 				ForumRecord::INDEX." LIKE '".$comment->Index."%' AND
@@ -48,7 +48,7 @@
 				$comment->DeleteThreadExpression()
 			);
 			$comment->UpdateAnswersCount();
-			echo JsAlert("Комментарий удалён.");
+			echo JsAlert("РљРѕРјРјРµРЅС‚Р°СЂРёР№ СѓРґР°Р»С‘РЅ.");
 		};
 	}
 
