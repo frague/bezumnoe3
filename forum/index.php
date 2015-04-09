@@ -1,12 +1,12 @@
 <?php
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require_once "forum.template.php";
 
-    $meta_description = "Ôîğóì ñàğàòîâñêîãî ÷àòà Áåçóìíîå ×àåïèòèå ó Ìàğòîâñêîãî Çàéöà. Ñàìûå èíòåğåñíûå òåìû, âîïğîñû, îáúÿâëåíèÿ.";
+    $meta_description = "Ğ¤Ğ¾Ñ€ÑƒĞ¼ ÑĞ°Ñ€Ğ°Ñ‚Ğ¾Ğ²ÑĞºĞ¾Ğ³Ğ¾ Ñ‡Ğ°Ñ‚Ğ° Ğ‘ĞµĞ·ÑƒĞ¼Ğ½Ğ¾Ğµ Ğ§Ğ°ĞµĞ¿Ğ¸Ñ‚Ğ¸Ğµ Ñƒ ĞœĞ°Ñ€Ñ‚Ğ¾Ğ²ÑĞºĞ¾Ğ³Ğ¾ Ğ—Ğ°Ğ¹Ñ†Ğ°. Ğ¡Ğ°Ğ¼Ñ‹Ğµ Ğ¸Ğ½Ñ‚ĞµÑ€ĞµÑĞ½Ñ‹Ğµ Ñ‚ĞµĞ¼Ñ‹, Ğ²Ğ¾Ğ¿Ñ€Ğ¾ÑÑ‹, Ğ¾Ğ±ÑŠÑĞ²Ğ»ĞµĞ½Ğ¸Ñ.";
 
-    $p = new Page("Ôîğóìû", $meta_description);
+    $p = new Page("Ğ¤Ğ¾Ñ€ÑƒĞ¼Ñ‹", $meta_description);
     $p->AddCss("forum.css");
     $p->PrintHeader();
 
