@@ -2,40 +2,40 @@
     require "menu_base.php";
 
 ?>
-<h2>Сообщение: <span id="TITLE1"></span></h2>
+<h2>РЎРѕРѕР±С‰РµРЅРёРµ: <span id="TITLE1"></span></h2>
 
 <span>
-	<h4>Дата и время:</h4>
-	<input id="DATE" name="DATE" maxlength="16">
+    <h4>Р”Р°С‚Р° Рё РІСЂРµРјСЏ:</h4>
+    <input id="DATE" name="DATE" maxlength="16">
 </span>
 
-<h4>Заголовок:</h4>
+<h4>Р—Р°РіРѕР»РѕРІРѕРє:</h4>
 <input id="TITLE" name="TITLE" class="Wide" maxlength="1024">
 
-<h4>Текст сообщения:</h4>
+<h4>РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ:</h4>
 <div id="ContentHolder"></div>
 
 <br>
 <div id="TagsContainer"></div>
 
 <table class="Wide">
-	<tr>
-		<td width="50%">
+    <tr>
+        <td width="50%">
 
-<h4>Тип сообщения:</h4>
+<h4>РўРёРї СЃРѕРѕР±С‰РµРЅРёСЏ:</h4>
 
 <div id="TYPE" class="Radios">
-	<input type="radio" name="TYPE1" id="TYPE0" value="0" checked /> <label for="TYPE0">Публичное (видимое для всех)</label><br />
-	<input type="radio" name="TYPE1" id="TYPE1" value="1" /> <label for="TYPE1">Для друзей (скрытое)</label><br />
-	<input type="radio" name="TYPE1" id="TYPE2" value="2" /> <label for="TYPE2" id="TYPE2LABEL">Приватное (видимое только вам)</label><br />
+    <input type="radio" name="TYPE1" id="TYPE0" value="0" checked /> <label for="TYPE0">РџСѓР±Р»РёС‡РЅРѕРµ (РІРёРґРёРјРѕРµ РґР»СЏ РІСЃРµС…)</label><br />
+    <input type="radio" name="TYPE1" id="TYPE1" value="1" /> <label for="TYPE1">Р”Р»СЏ РґСЂСѓР·РµР№ (СЃРєСЂС‹С‚РѕРµ)</label><br />
+    <input type="radio" name="TYPE1" id="TYPE2" value="2" /> <label for="TYPE2" id="TYPE2LABEL">РџСЂРёРІР°С‚РЅРѕРµ (РІРёРґРёРјРѕРµ С‚РѕР»СЊРєРѕ РІР°Рј)</label><br />
 </div>
 
-		</td><td>
+        </td><td>
 
-<h4>Комментарии к сообщению:</h4>
-	<input type="checkbox" id="IS_COMMENTABLE" name="IS_COMMENTABLE" checked /> <label for="IS_COMMENTABLE">Разрешить комментировать сообщение</label>
+<h4>РљРѕРјРјРµРЅС‚Р°СЂРёРё Рє СЃРѕРѕР±С‰РµРЅРёСЋ:</h4>
+    <input type="checkbox" id="IS_COMMENTABLE" name="IS_COMMENTABLE" checked /> <label for="IS_COMMENTABLE">Р Р°Р·СЂРµС€РёС‚СЊ РєРѕРјРјРµРЅС‚РёСЂРѕРІР°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ</label>
 
-		</td></tr></table>
+        </td></tr></table>
 
 <br />
 <br />

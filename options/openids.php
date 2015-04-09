@@ -1,19 +1,19 @@
 <?
     require "menu_base.php";
 
-	if ($user->IsEmpty()) {
-		exit();
-	}
+    if ($user->IsEmpty()) {
+        exit();
+    }
 
 ?>
 
-<p class="Note">Укажите принадлежащие вам аккаунты в службах-провайдерах OpenID и вы сможете авторизовываться в чате посредством авторизации в
-этих сервисах. Например, если у вас есть почтовый аккаунт на <u>mail.ru</u>, то привязав его к вашему аккаунту в чате, вы сможете
-в 2 клика авторизовываться через <u>mail.ru</u>.</p>
+<p class="Note">РЈРєР°Р¶РёС‚Рµ РїСЂРёРЅР°РґР»РµР¶Р°С‰РёРµ РІР°Рј Р°РєРєР°СѓРЅС‚С‹ РІ СЃР»СѓР¶Р±Р°С…-РїСЂРѕРІР°Р№РґРµСЂР°С… OpenID Рё РІС‹ СЃРјРѕР¶РµС‚Рµ Р°РІС‚РѕСЂРёР·РѕРІС‹РІР°С‚СЊСЃСЏ РІ С‡Р°С‚Рµ РїРѕСЃСЂРµРґСЃС‚РІРѕРј Р°РІС‚РѕСЂРёР·Р°С†РёРё РІ
+СЌС‚РёС… СЃРµСЂРІРёСЃР°С…. РќР°РїСЂРёРјРµСЂ, РµСЃР»Рё Сѓ РІР°СЃ РµСЃС‚СЊ РїРѕС‡С‚РѕРІС‹Р№ Р°РєРєР°СѓРЅС‚ РЅР° <u>mail.ru</u>, С‚Рѕ РїСЂРёРІСЏР·Р°РІ РµРіРѕ Рє РІР°С€РµРјСѓ Р°РєРєР°СѓРЅС‚Сѓ РІ С‡Р°С‚Рµ, РІС‹ СЃРјРѕР¶РµС‚Рµ
+РІ 2 РєР»РёРєР° Р°РІС‚РѕСЂРёР·РѕРІС‹РІР°С‚СЊСЃСЏ С‡РµСЂРµР· <u>mail.ru</u>.</p>
 
-<table cellpadding="2" cellspacing="0" id="OpenIdsGrid" class="Grid"><tbody><tr><th>Провайдер</th><th style="width:100%">Логин</th><th>Операции</th></tr></tbody></table>
+<table cellpadding="2" cellspacing="0" id="OpenIdsGrid" class="Grid"><tbody><tr><th>РџСЂРѕРІР°Р№РґРµСЂ</th><th style="width:100%">Р›РѕРіРёРЅ</th><th>РћРїРµСЂР°С†РёРё</th></tr></tbody></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="AddOpenId(this)" class="Add" id="AddOpenId">Новый OpenID</a>
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshOpenIds">Обновить список</a>
+    <li> <a href="javascript:void(0)" onclick="AddOpenId(this)" class="Add" id="AddOpenId">РќРѕРІС‹Р№ OpenID</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshOpenIds">РћР±РЅРѕРІРёС‚СЊ СЃРїРёСЃРѕРє</a>
 </ul>

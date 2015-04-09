@@ -3,129 +3,129 @@
 
 ?>
 
-<h2>Профиль пользователя <span id="LOGIN">%username%</span> <a href="javascript:void(0);" onclick="debug=1-debug;this.innerHTML=debug;" style="text-decoration:none">&nbsp;</a></h2>
+<h2>РџСЂРѕС„РёР»СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ <span id="LOGIN">%username%</span> <a href="javascript:void(0);" onclick="debug=1-debug;this.innerHTML=debug;" style="text-decoration:none">&nbsp;</a></h2>
 
 
 <table width="100%" cellpadding="4">
-	<tr>
-		<td width="50%">
+    <tr>
+        <td width="50%">
 
-<h4>Дата регистрации:</h4>
+<h4>Р”Р°С‚Р° СЂРµРіРёСЃС‚СЂР°С†РёРё:</h4>
 <div id="REGISTERED"></div>
 
-<h4>Последнее посещение:</h4>
+<h4>РџРѕСЃР»РµРґРЅРµРµ РїРѕСЃРµС‰РµРЅРёРµ:</h4>
 <div id="LAST_VISIT"></div>
 
 <h4>E-mail:</h4>
 <div id="EMAIL"></div>
 
-<h4>Пароль:</h4>
+<h4>РџР°СЂРѕР»СЊ:</h4>
 <input name="PASSWORD" id="PASSWORD" type="password" value="**********" maxlength="255" onfocus="ClearInput(this)" onblur="RestoreInput(this,'ConfirmBlock')" class="Wide" />
 
 <div id="ConfirmBlock" style="display:none;margin-bottom:10px;">
-	<h4 style="color:red;">Подтверждение пароля:</h4>
-	<input name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM" type="password" maxlength="255" class="Wide" /></div>
+    <h4 style="color:red;">РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РїР°СЂРѕР»СЏ:</h4>
+    <input name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM" type="password" maxlength="255" class="Wide" /></div>
 
-<h4>Имя:</h4>
+<h4>РРјСЏ:</h4>
 <input name="NAME" id="NAME" class="Wide" />
 
-<h4>Пол:</h4>
-<select name="GENDER" id="GENDER" class="Wide"><option value="m">мужской</option><option value="f">женский</option><option value="">неопределённый</option></select>
+<h4>РџРѕР»:</h4>
+<select name="GENDER" id="GENDER" class="Wide"><option value="m">РјСѓР¶СЃРєРѕР№</option><option value="f">Р¶РµРЅСЃРєРёР№</option><option value="">РЅРµРѕРїСЂРµРґРµР»С‘РЅРЅС‹Р№</option></select>
 
-<h4>День рождения:</h4>
+<h4>Р”РµРЅСЊ СЂРѕР¶РґРµРЅРёСЏ:</h4>
 <input name="BIRTHDAY" id="BIRTHDAY" maxlength="10" />
 
-<h4>Город:</h4>
+<h4>Р“РѕСЂРѕРґ:</h4>
 <input name="CITY" id="CITY" maxlength="100" class="Wide" />
 
-<h4>Адрес сайта в интернете:</h4>
+<h4>РђРґСЂРµСЃ СЃР°Р№С‚Р° РІ РёРЅС‚РµСЂРЅРµС‚Рµ:</h4>
 <input name="URL" id="URL" maxlength="255" class="Wide" />
 
 <h4>ICQ:</h4>
 <input name="ICQ" id="ICQ" maxlength="20" class="Wide" />
 
-<h4>О себе:</h4>
+<h4>Рћ СЃРµР±Рµ:</h4>
 <textarea name="ABOUT" id="ABOUT" rows="6" onclick="Maximize(this)"></textarea>
 
-		</td><td>
-<h4>Фотография:</h4>
+        </td><td>
+<h4>Р¤РѕС‚РѕРіСЂР°С„РёСЏ:</h4>
 <div id="Photo"></div>
 <form name="uploadForm" id="uploadForm" action="/services/profile.service.php" method="POST" enctype="multipart/form-data">
-<h4>Изменить фотографию:</h4>
-	<input type="hidden" name="go" id="go" value="upload_photo" />
-	<input type="hidden" name="tab_id" id="tab_id" />
-	<input type="hidden" name="USER_ID" id="USER_ID" />
-	<input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
-	<input type="file" name="PHOTO1" id="PHOTO1" />
-	<p class="Note">Допускается загружать файлы размером не более 2 Мб.</p>
+<h4>РР·РјРµРЅРёС‚СЊ С„РѕС‚РѕРіСЂР°С„РёСЋ:</h4>
+    <input type="hidden" name="go" id="go" value="upload_photo" />
+    <input type="hidden" name="tab_id" id="tab_id" />
+    <input type="hidden" name="USER_ID" id="USER_ID" />
+    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
+    <input type="file" name="PHOTO1" id="PHOTO1" />
+    <p class="Note">Р”РѕРїСѓСЃРєР°РµС‚СЃСЏ Р·Р°РіСЂСѓР¶Р°С‚СЊ С„Р°Р№Р»С‹ СЂР°Р·РјРµСЂРѕРј РЅРµ Р±РѕР»РµРµ 2 РњР±.</p>
 </form>
 
-<h4>Аватар:</h4>
+<h4>РђРІР°С‚Р°СЂ:</h4>
 <div id="Avatar"></div>
 <form name="avatarUploadForm" id="avatarUploadForm" action="/services/profile.service.php" method="POST" enctype="multipart/form-data">
-<h4>Изменить аватар:</h4>
-	<input type="hidden" name="go" id="go" value="upload_avatar" />
-	<input type="hidden" name="tab_id" id="tab_id" />
-	<input type="hidden" name="USER_ID" id="USER_ID" />
-	<input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
-	<input type="file" name="PHOTO1" id="PHOTO1" />
-	<p class="Note">Допускается загружать файлы размером не более 2 Мб.</p>
+<h4>РР·РјРµРЅРёС‚СЊ Р°РІР°С‚Р°СЂ:</h4>
+    <input type="hidden" name="go" id="go" value="upload_avatar" />
+    <input type="hidden" name="tab_id" id="tab_id" />
+    <input type="hidden" name="USER_ID" id="USER_ID" />
+    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
+    <input type="file" name="PHOTO1" id="PHOTO1" />
+    <p class="Note">Р”РѕРїСѓСЃРєР°РµС‚СЃСЏ Р·Р°РіСЂСѓР¶Р°С‚СЊ С„Р°Р№Р»С‹ СЂР°Р·РјРµСЂРѕРј РЅРµ Р±РѕР»РµРµ 2 РњР±.</p>
 </form>
 
 
-		</td>
-	</tr>
+        </td>
+    </tr>
 </table>
 
 <div id="OpenIds"></div>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>
-	<li id="liDeletePhoto"> <a href="javascript:void(0)" onclick="DeletePhoto(this)" id="linkDeletePhoto" class="Delete">Удалить фотографию</a>
-	<li id="liDeleteAvatar"> <a href="javascript:void(0)" onclick="DeleteAvatar(this)" id="linkDeleteAvatar" class="Delete">Удалить аватар</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">РћР±РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ СЃ СЃРµСЂРІРµСЂР°</a>
+    <li id="liDeletePhoto"> <a href="javascript:void(0)" onclick="DeletePhoto(this)" id="linkDeletePhoto" class="Delete">РЈРґР°Р»РёС‚СЊ С„РѕС‚РѕРіСЂР°С„РёСЋ</a>
+    <li id="liDeleteAvatar"> <a href="javascript:void(0)" onclick="DeleteAvatar(this)" id="linkDeleteAvatar" class="Delete">РЈРґР°Р»РёС‚СЊ Р°РІР°С‚Р°СЂ</a>
 </ul>
 
 <?
-	if (!$user->IsEmpty() && $user->IsAdmin()) {
+    if (!$user->IsEmpty() && $user->IsAdmin()) {
 ?><div id="AdminSection">
-	<h2>Административная часть:</h2>
+    <h2>РђРґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅР°СЏ С‡Р°СЃС‚СЊ:</h2>
 
-	<table cellpadding="4" id="NotForMe">
-		<tr>
-			<td width="50%">
+    <table cellpadding="4" id="NotForMe">
+        <tr>
+            <td width="50%">
 
-	<h4>Права/статус:</h4>
-	<select id="STATUS_ID" name="STATUS_ID" class="Wide"><? 
-	$status = new Status();
-	echo $status->ToSelect(Status::STATUS_ID, $user);
+    <h4>РџСЂР°РІР°/СЃС‚Р°С‚СѓСЃ:</h4>
+    <select id="STATUS_ID" name="STATUS_ID" class="Wide"><?
+    $status = new Status();
+    echo $status->ToSelect(Status::STATUS_ID, $user);
 ?></select>
 
-	<h4>IP-адрес (хост) последней сессии:</h4>
-	<span id="SESSION_ADDRESS"></span> (<a href="javascript:void(0)" onclick="LockIP(this)" id="linkLockIP">закрыть адрес</a>)
+    <h4>IP-Р°РґСЂРµСЃ (С…РѕСЃС‚) РїРѕСЃР»РµРґРЅРµР№ СЃРµСЃСЃРёРё:</h4>
+    <span id="SESSION_ADDRESS"></span> (<a href="javascript:void(0)" onclick="LockIP(this)" id="linkLockIP">Р·Р°РєСЂС‹С‚СЊ Р°РґСЂРµСЃ</a>)
 
-			</td><td>
+            </td><td>
 
-	<h4>Бан:</h4>
-	<div id="BanStatus"></div>
-	<input type="checkbox" id="BANNED" name="BANNED" onclick="ShowBanDetails(this)" /> Пользователь забанен
-	<input type="hidden" id="BANNED_BY" name="BANNED_BY" />
+    <h4>Р‘Р°РЅ:</h4>
+    <div id="BanStatus"></div>
+    <input type="checkbox" id="BANNED" name="BANNED" onclick="ShowBanDetails(this)" /> РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°Р±Р°РЅРµРЅ
+    <input type="hidden" id="BANNED_BY" name="BANNED_BY" />
 
-	<div id="BanDetails" style="display:none">
-		<h4>Причина бана:</h4>
-		<textarea name="BAN_REASON" id="BAN_REASON" class="Wide" rows="3"></textarea>
-		<p class="Note">Будьте предельно корректны в формулировке причины бана. Не допускайте оскорблений в адрес пользователя.</p>
+    <div id="BanDetails" style="display:none">
+        <h4>РџСЂРёС‡РёРЅР° Р±Р°РЅР°:</h4>
+        <textarea name="BAN_REASON" id="BAN_REASON" class="Wide" rows="3"></textarea>
+        <p class="Note">Р‘СѓРґСЊС‚Рµ РїСЂРµРґРµР»СЊРЅРѕ РєРѕСЂСЂРµРєС‚РЅС‹ РІ С„РѕСЂРјСѓР»РёСЂРѕРІРєРµ РїСЂРёС‡РёРЅС‹ Р±Р°РЅР°. РќРµ РґРѕРїСѓСЃРєР°Р№С‚Рµ РѕСЃРєРѕСЂР±Р»РµРЅРёР№ РІ Р°РґСЂРµСЃ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.</p>
 
-		<h4>Срок бана:</h4>
-		<input name="BANNED_TILL" id="BANNED_TILL" />
-	</div>
+        <h4>РЎСЂРѕРє Р±Р°РЅР°:</h4>
+        <input name="BANNED_TILL" id="BANNED_TILL" />
+    </div>
 
-			</td>
-		</tr>
-	</table>
+            </td>
+        </tr>
+    </table>
 
-	<div id="AdminComments"></div>
+    <div id="AdminComments"></div>
 
 </div><?
-	}
+    }
 ?>
 <br><br>
