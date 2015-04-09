@@ -17,7 +17,7 @@
             $this->no_jquery = $no_jquery;
             $this->title = $title;
             $this->header_title = $header_title;
-            $this->meta = $meta ? $meta : "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
+            $this->meta = $meta ? $meta : "РЎС‚Р°СЂРµР№С€РёР№ СЃР°СЂР°С‚РѕРІСЃРєРёР№ С‡Р°С‚. РРЅС‚РµСЂРµСЃРЅРѕРµ РѕР±С‰РµРЅРёРµ, Р·РЅР°РєРѕРјСЃС‚РІР°, РїРµСЂСЃРѕРЅР°Р»СЊРЅС‹Рµ Р¶СѓСЂРЅР°Р»С‹ (Р±Р»РѕРіРё)";
             
             $this->AddCss($css);
 
@@ -71,7 +71,7 @@
 ?><!DOCTYPE html>
 <html lang="ru">
     <head>
-        <meta charset="windows-1251" />
+        <meta charset="utf-8" />
         <title><?php print $this->title; ?></title>
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
@@ -102,12 +102,12 @@
             }
 ?>
         <div class="Main">
-            <div class='Logged'>Авторизация: <strong id="Logged"><?php print (!$user || $user->IsEmpty() ? "анонимно" : $user->User->Login); ?></strong></div>
+            <div class='Logged'>РђРІС‚РѕСЂРёР·Р°С†РёСЏ: <strong id="Logged"><?php print (!$user || $user->IsEmpty() ? "Р°РЅРѕРЅРёРјРЅРѕ" : $user->User->Login); ?></strong></div>
 
             <header>
                 <div class="Header">
                     <a href="/" class="NoBorder">
-                        <img alt="На главную" title="На главную" src="/img/t/logo_small.gif" width="31" height="30" /></a>
+                        <img alt="РќР° РіР»Р°РІРЅСѓСЋ" title="РќР° РіР»Р°РІРЅСѓСЋ" src="/img/t/logo_small.gif" width="31" height="30" /></a>
                     <h1<?php print (!$this->header_title && strlen($this->title) > 30) ? " class=\"LongText\"" : ""; ?>><?php print $this->header_title ? $this->header_title : $this->title; ?></h1>
                     </div></header>
 
@@ -148,12 +148,12 @@
 
     function ErrorPage($message, $description = "") {
         
-        $p = new Page("Ошибка &mdash; ".$message, "", "Ошибка");
+        $p = new Page("РћС€РёР±РєР° &mdash; ".$message, "", "РћС€РёР±РєР°");
         $p->PrintHeader();
 
         ?>
 <div class="ErrorHolder">
-    <h2>Ошибка</h2>
+    <h2>РћС€РёР±РєР°</h2>
     <?php echo $message.($description ? "<br />\n".$description : ""); ?>
 </div>
 <div class="Spacer"></div>
