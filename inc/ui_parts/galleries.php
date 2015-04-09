@@ -17,7 +17,7 @@
         if (!$gallery->IsHidden) {
             echo "\n<li>".$gallery->ToLink($yesterday);
         }
-        
+
     }
     echo "</ul>";
     $q->Release();

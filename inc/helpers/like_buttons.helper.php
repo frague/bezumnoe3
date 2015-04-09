@@ -22,7 +22,7 @@
 //      $result = $record->Title."\\n".$result;
         return $result;
     }
-    
+
     function FillButtonObjects($title = "", $description = "", $url = "", $image = "", $site_name = "", $tags = "") {
         $result = array();
         foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
@@ -31,7 +31,7 @@
         }
         return $result;
     }
-    
+
     function GetMetadata($buttons = array()) {
         $result = "";
         foreach ($buttons as $b) {

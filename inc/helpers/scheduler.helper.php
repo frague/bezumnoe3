@@ -1,69 +1,69 @@
 <?php
 
-	function ExecuteScheduledTasks() {
-		$task = new ScheduledTask();
-		$tasks = $task->LockPendingTasks();
-		if (!$tasks) {
-			return false;	// No tasks to execute
-		}
+    function ExecuteScheduledTasks() {
+        $task = new ScheduledTask();
+        $tasks = $task->LockPendingTasks();
+        if (!$tasks) {
+            return false;   // No tasks to execute
+        }
 
-		$guid = $task->TransactionGuid;
-		$q = $task->GetLockedTasks();
-		for ($i = 0; $i < $q->NumRows(); $i++) {
-			$q->NextResult();
-			$task->FillFromResult($q);
+        $guid = $task->TransactionGuid;
+        $q = $task->GetLockedTasks();
+        for ($i = 0; $i < $q->NumRows(); $i++) {
+            $q->NextResult();
+            $task->FillFromResult($q);
 
-			// Execute the task
-			$action = $task->GetAction();
-			if ($action) {
-				try {
-					$action->ExecuteByTimer();
-				} catch (Exception $e) {
-	    	 		SaveLog("Îøèáêà èñïîëíåíèÿ çàäà÷è ïî ðàñïèñàíèþ: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
-	    	 		//TODO: Disable this task?
-				}
-			}
-			if ($task->IsPeriodical()) {
-				$task->Iterate();
-			} else {
-				$task->Delete();
-			}
-		}
-		$q->Release();
-	}
+            // Execute the task
+            $action = $task->GetAction();
+            if ($action) {
+                try {
+                    $action->ExecuteByTimer();
+                } catch (Exception $e) {
+                    SaveLog("ÐžÑˆÐ¸Ð±ÐºÐ° Ð¸ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð·Ð°Ð´Ð°Ñ‡Ð¸ Ð¿Ð¾ Ñ€Ð°ÑÐ¿Ð¸ÑÐ°Ð½Ð¸ÑŽ: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
+                    //TODO: Disable this task?
+                }
+            }
+            if ($task->IsPeriodical()) {
+                $task->Iterate();
+            } else {
+                $task->Delete();
+            }
+        }
+        $q->Release();
+    }
 
-	function UnconditionalTasks() {
-	
-	}
+    function UnconditionalTasks() {
 
-	function TriggerBotsByMessage($message) {
-		// Getting active bots
-		$st = new ScheduledTask();
-		$q = $st->GetActiveBots();
+    }
 
-		print "/*";
+    function TriggerBotsByMessage($message) {
+        // Getting active bots
+        $st = new ScheduledTask();
+        $q = $st->GetActiveBots();
 
-		for ($i = 0; $i < $q->NumRows(); $i++) {
-			$q->NextResult();
-			$st->FillFromResult($q);
+        print "/*";
 
-			if ($st->IsEmpty() || ($st->Parameter2 && $st->Parameter2 != $message->RoomId)) {
-				continue;
-			}
-			
-			$action = $st->GetAction();
+        for ($i = 0; $i < $q->NumRows(); $i++) {
+            $q->NextResult();
+            $st->FillFromResult($q);
 
-			if ($action) {
-				try {
-					print $st->Type;
-					$action->ExecuteByMessage($message);
-				} catch (Exception $e) {
-	    	 		//SaveLog("Îøèáêà èñïîëíåíèÿ çàäà÷è ïî ðàñïèñàíèþ: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
-	    	 		//TODO: Disable this task?
-				}
-			}
-		}
-		print "*/";
-	}
+            if ($st->IsEmpty() || ($st->Parameter2 && $st->Parameter2 != $message->RoomId)) {
+                continue;
+            }
+
+            $action = $st->GetAction();
+
+            if ($action) {
+                try {
+                    print $st->Type;
+                    $action->ExecuteByMessage($message);
+                } catch (Exception $e) {
+                    //SaveLog("ÐžÑˆÐ¸Ð±ÐºÐ° Ð¸ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð·Ð°Ð´Ð°Ñ‡Ð¸ Ð¿Ð¾ Ñ€Ð°ÑÐ¿Ð¸ÑÐ°Ð½Ð¸ÑŽ: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
+                    //TODO: Disable this task?
+                }
+            }
+        }
+        print "*/";
+    }
 
 ?>
