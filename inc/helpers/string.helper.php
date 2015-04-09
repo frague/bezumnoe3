@@ -140,6 +140,8 @@
     }
 
     function UTF8toWin1251($s) {
+        return $s;
+
         $out = "";
         $c1 = "";
         $byte2 = false;
