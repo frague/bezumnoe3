@@ -1,10 +1,10 @@
 <?php
-	
-	require "../inc/ui_parts/templates.php";
-	require "../inc/base_template.php";
 
-	function IsPostingAllowed() {
-		return !AddressIsBanned(new Bans(0, 1, 0));
-	}
+    require "../inc/ui_parts/templates.php";
+    require "../inc/base_template.php";
+
+    function IsPostingAllowed() {
+        return !AddressIsBanned(new Bans(0, 1, 0));
+    }
 
 ?>
