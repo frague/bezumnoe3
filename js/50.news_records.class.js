@@ -62,21 +62,21 @@ nrdto.prototype.ToEditView = function(index, obj) {
 	var tr = MakeGridRow(index);
 
 	var td1 = d.createElement("td");
-		td1.appendChild(MakeDiv("Р”Р°С‚Р°:", "h4"));
+		td1.appendChild(MakeDiv("Дата:", "h4"));
 
 		this.DateInput = d.createElement("input");
 		this.DateInput.value = this.Date;
 		td1.appendChild(this.DateInput);
 		new DatePicker(this.DateInput);
 
-		td1.appendChild(MakeDiv("Р—Р°РіРѕР»РѕРІРѕРє:", "h4"));
+		td1.appendChild(MakeDiv("Заголовок:", "h4"));
 
 		this.TitleInput = d.createElement("input");
 		this.TitleInput.value = this.Title;
 		this.TitleInput.className = "Wide";
 		td1.appendChild(this.TitleInput);
 
-		td1.appendChild(MakeDiv("РЎРѕРґРµСЂР¶Р°РЅРёРµ:", "h4"));
+		td1.appendChild(MakeDiv("Содержание:", "h4"));
 
 		this.ContentInput = d.createElement("textarea");
 		this.ContentInput.value = this.Content;
@@ -93,6 +93,6 @@ nrdto.prototype.ToEditView = function(index, obj) {
 
 function AddNewsRecord(a) {
 	if (a.obj) {
-		a.obj.AddRow(new nrdto(0, a.obj["USER_ID"], "РќРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ", "", 0, ""));
+		a.obj.AddRow(new nrdto(0, a.obj["USER_ID"], "Новое сообщение", "", 0, ""));
 	}
 };

@@ -14,17 +14,17 @@ $(document).ready(function() {
     $(letterize.join(',')).lettering();
 
     $("#auth_form").dialog({
-        title: 'РђРІС‚РѕСЂРёР·Р°С†РёСЏ РІ С‡Р°С‚Рµ',
+        title: 'Авторизация в чате',
         autoOpen: false,
         height: 250,
         width: 420,
         modal: true,
         buttons: {
-            "РђРІС‚РѕСЂРёР·РѕРІР°С‚СЊСЃСЏ": function() {
+            "Авторизоваться": function() {
                 $("form#auth").submit();
                 $(this).dialog("close");
             },
-            "РћС‚РјРµРЅР°": function() {
+            "Отмена": function() {
                 $(this).dialog("close");
             }
         }

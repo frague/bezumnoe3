@@ -148,7 +148,7 @@ class ForumRecordBase extends EntityBase {
         $this->Author = $result->Get(self::AUTHOR);
         $this->UserId = $result->GetNullableId(self::USER_ID);
         $this->Title = $result->Get(self::TITLE);
-        $this->Title = ($this->Title ? $this->Title : "Р‘РµР· РЅР°Р·РІР°РЅРёСЏ");
+        $this->Title = ($this->Title ? $this->Title : "Без названия");
 
         $this->Content = $result->Get(self::CONTENT);
         $this->Date = $result->Get(self::DATE);
@@ -211,7 +211,7 @@ class ForumRecordBase extends EntityBase {
         $result .= "<td><h4>".$this->Title."</h4>";
         $result .= ($this->UserId > 1 ? User::InfoLink($this->UserId, $this->Author) : $this->Author);
         if ($alias) {
-            $result .= " (<a href='".JournalSettings::MakeHref($alias)."'>Р¶СѓСЂРЅР°Р»</a>)";
+            $result .= " (<a href='".JournalSettings::MakeHref($alias)."'>журнал</a>)";
         }
         $result .= "<div>".PrintableDate($this->Date)."</div>";
         $result .= "</td></tr></table>";
@@ -221,10 +221,10 @@ class ForumRecordBase extends EntityBase {
 
         $result .= "<ul class='links'>";
         if ($this->IsCommentable) {
-            $result .= "<li> <a name='r".round($this->Id)."' href='#r".round($this->Id)."' class='replyLink' onclick='return ForumReply(this,".$this->Id.",".$this->ForumId.")'>РћС‚РІРµС‚РёС‚СЊ</a>";
+            $result .= "<li> <a name='r".round($this->Id)."' href='#r".round($this->Id)."' class='replyLink' onclick='return ForumReply(this,".$this->Id.",".$this->ForumId.")'>Ответить</a>";
         }
         if ($user && ($user->IsAdmin() || $user->User->Id == $this->UserId)) {
-            $result .= "<li> <a href='javascript:void(0)' onclick='ForumDelete(this,".$this->Id.",".$this->ForumId.")'>РЈРґР°Р»РёС‚СЊ</a>";
+            $result .= "<li> <a href='javascript:void(0)' onclick='ForumDelete(this,".$this->Id.",".$this->ForumId.")'>Удалить</a>";
         }
         $result .= "</ul>";
 

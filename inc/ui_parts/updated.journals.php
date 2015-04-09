@@ -6,7 +6,7 @@
         $settings->GetUpdatedTemplatesExpression()
     );
 
-    echo "<h2>РћР±РЅРѕРІР»РµРЅРёСЏ РґРёР·Р°Р№РЅР°</h2>";
+    echo "<h2>Обновления дизайна</h2>";
     echo "<ul class='template_updates random'>";
     for ($i = 0; $i < $q->NumRows(); $i++) {
         $q->NextResult();

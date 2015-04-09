@@ -22,112 +22,112 @@
 class RSSWriter {
 
 function RSSWriter($uri, $title, $description, $meta=array()) {
-    $this->chaninfo=array();
-    $this->website=$uri;
-    $this->chaninfo["link"]=$uri;
-    $this->chaninfo["description"]=$description;
-    $this->chaninfo["title"]=$title;
-    $this->items=array();
-    $this->modules=array("dc" => "http://purl.org/dc/elements/1.1/");
-    // thanks James Mills for bugfix to this line
-    $this->channelURI=str_replace("&", "&amp;", "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
-    foreach ($meta as $key => $value) {
-        $this->chaninfo[$key]=$value;
-    }
+	$this->chaninfo=array();
+	$this->website=$uri;
+	$this->chaninfo["link"]=$uri;
+	$this->chaninfo["description"]=$description;
+	$this->chaninfo["title"]=$title;
+	$this->items=array();
+	$this->modules=array("dc" => "http://purl.org/dc/elements/1.1/");
+	// thanks James Mills for bugfix to this line
+	$this->channelURI=str_replace("&", "&amp;", "http://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]);
+	foreach ($meta as $key => $value) {
+		$this->chaninfo[$key]=$value;
+	}
 }
 
 function useModule($prefix, $uri) {
-    $this->modules[$prefix]=$uri;
+	$this->modules[$prefix]=$uri;
 }
 
 function setImage($imgURI, $imgAlt, $imgWidth=88, $imgHeight=31) {
-    $this->image=array(
-        "uri" => $imgURI, "title" => $imgAlt, "width" => $imgWidth,
-        "height" => $imgHeight);
+	$this->image=array(
+		"uri" => $imgURI, "title" => $imgAlt, "width" => $imgWidth,
+		"height" => $imgHeight);
 }
 
 function addItem($uri, $title, $meta=array()) {
-    $item=array("uri" => $uri, "link" => $uri, 
-        "title" => $this->deTag($title));
-    foreach ($meta as $key => $value) {
-        if ($key == "description" || $key == "dc:description") {
-            $value=$this->deTag($value);
-        }
-        $item[$key]=$value;
-    }
-    $this->items[]=$item;
+	$item=array("uri" => $uri, "link" => $uri, 
+		"title" => $this->deTag($title));
+	foreach ($meta as $key => $value) {
+		if ($key == "description" || $key == "dc:description") {
+			$value=$this->deTag($value);
+		}
+		$item[$key]=$value;
+	}
+	$this->items[]=$item;
 }
 
 function serialize() {
-    $this->preamble();
-    $this->channelinfo();
-    $this->image();
-    $this->items();
-    $this->postamble();
+	$this->preamble();
+	$this->channelinfo();
+	$this->image();
+	$this->items();
+	$this->postamble();
 }
 
 function deTag($in) {
 //  while(ereg('<[^>]+>', $in)) {
-//  $in = ereg_replace('<[^>]+>', '', $in);
-//  $in = ereg_replace('<', '&lt;', $in);
-//  $in = ereg_replace('>', '&gt;', $in);
+//	$in = ereg_replace('<[^>]+>', '', $in);
+//	$in = ereg_replace('<', '&lt;', $in);
+//	$in = ereg_replace('>', '&gt;', $in);
 //  }
   return $in;
 }
 
 function preamble() {
-    header("Content-type: text/xml");
-    print '<?xml version="1.0" encoding="windows-1251"?'.'>
+	header("Content-type: text/xml");
+	print '<?xml version="1.0" encoding="windows-1251"?'.'>
 <rss version="2.0">
 <rdf:RDF 
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns="http://purl.org/rss/1.0/"
          xmlns:mn="http://bezumnoe.ru/rss/manifest/"
 ';
-    foreach ($this->modules as $prefix => $uri) {
-        print "         xmlns:${prefix}=\"${uri}\"\n";
-    }
-    print ">\n\n";
+	foreach ($this->modules as $prefix => $uri) {
+		print "         xmlns:${prefix}=\"${uri}\"\n";
+	}
+	print ">\n\n";
 }
 
 function channelinfo() {
-    print '  <channel rdf:about="' .  $this->channelURI . '">
+	print '  <channel rdf:about="' .  $this->channelURI . '">
 ';
-    $i=$this->chaninfo;
-    foreach (array("title", "link", "description", "dc:subject", "dc:creator", "dc:rights") as $f) {
-        if (isset($i[$f])) {
-            print "    <${f}>" . htmlspecialchars($i[$f]) . "</${f}>\n";
-        }
-    }
-    if (isset($this->image)) {
-        print "    <image rdf:resource=\"" . htmlspecialchars($this->image["uri"]) . "\" />\n";
-    }
-    print "    <items>\n";
-    print "      <rdf:Seq>\n";
-    foreach ($this->items as $i) {
-        print "        <rdf:li rdf:resource=\"" . htmlspecialchars($i["uri"]) . "\" />\n";
-    }
-    print "      </rdf:Seq>\n";
-    print "    </items>\n";
-    print "  </channel>\n";
-    print "</rss>\n\n";
+	$i=$this->chaninfo;
+	foreach (array("title", "link", "description", "dc:subject", "dc:creator", "dc:rights") as $f) {
+		if (isset($i[$f])) {
+			print "    <${f}>" . htmlspecialchars($i[$f]) . "</${f}>\n";
+		}
+	}
+	if (isset($this->image)) {
+		print "    <image rdf:resource=\"" . htmlspecialchars($this->image["uri"]) . "\" />\n";
+	}
+	print "    <items>\n";
+	print "      <rdf:Seq>\n";
+	foreach ($this->items as $i) {
+		print "        <rdf:li rdf:resource=\"" . htmlspecialchars($i["uri"]) . "\" />\n";
+	}
+	print "      </rdf:Seq>\n";
+	print "    </items>\n";
+	print "  </channel>\n";
+	print "</rss>\n\n";
 }
 
 function image() {
-    if (isset($this->image)) {
-    print "  <image rdf:about=\"" . htmlspecialchars($this->image["uri"]) . "\">\n";
+	if (isset($this->image)) {
+	print "  <image rdf:about=\"" . htmlspecialchars($this->image["uri"]) . "\">\n";
     print "     <title>" . htmlspecialchars($this->image["title"]) . "</title>\n";
     print "     <url>" . htmlspecialchars($this->image["uri"]) . "</url>\n";
     print "     <link>" . htmlspecialchars($this->website) . "</link>\n";
     if ($this->chaninfo["description"]) 
-     print "     <dc:description>" . htmlspecialchars($this->chaninfo["description"]) . 
-        "</dc:description>\n";
-    print "  </image>\n\n";
-    }
+   	 print "     <dc:description>" . htmlspecialchars($this->chaninfo["description"]) . 
+   	 	"</dc:description>\n";
+	print "  </image>\n\n";
+	}
 }
 
 function postamble() {
-    print '  <rdf:Description rdf:ID="manifest">
+	print '  <rdf:Description rdf:ID="manifest">
     <mn:channels>
       <rdf:Seq>
         <rdf:li rdf:resource="' . $this->channelURI . '" />
@@ -140,21 +140,21 @@ function postamble() {
 }
 
 function items() {
-    foreach ($this->items as $item) {
-        print "  <item rdf:about=\"" .  htmlspecialchars($item["uri"]) . "\">\n";
-        foreach ($item as $key => $value) {
-            if ($key!="uri") {
-                if (is_array($value)) {
-                    foreach ($value as $v1) {
-                        print "    <${key}>" . htmlspecialchars($v1) . "</${key}>\n";
-                    }
-                } else {
-                    print "    <${key}>" . htmlspecialchars($value) . "</${key}>\n";
-                }
-            }
-        }
-        print "  </item>\n\n";
-    }
+	foreach ($this->items as $item) {
+		print "  <item rdf:about=\"" .  htmlspecialchars($item["uri"]) . "\">\n";
+		foreach ($item as $key => $value) {
+			if ($key!="uri") {
+				if (is_array($value)) {
+					foreach ($value as $v1) {
+						print "    <${key}>" . htmlspecialchars($v1) . "</${key}>\n";
+					}
+				} else {
+					print "    <${key}>" . htmlspecialchars($value) . "</${key}>\n";
+				}
+			}
+		}
+		print "  </item>\n\n";
+	}
 }
 
 }

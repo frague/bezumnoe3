@@ -91,7 +91,7 @@ acdto.prototype.ToString = function(index, obj, holder) {
 	tr.appendChild(td1);
 
 	var td2 = d.createElement("td");
-	td2.innerHTML = (this.User ? "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ	<b>" + this.User + "</b>:<br>" : "") + this.Content;
+	td2.innerHTML = (this.User ? "Пользователь	<b>" + this.User + "</b>:<br>" : "") + this.Content;
 	tr.appendChild(td2);
 	
 	return tr;

@@ -1,7 +1,7 @@
 <div id="Hider">
     <div id="ReplyForm" class="ui-dialog ui-widget ui-widget-content ui-corner-all" style="position: static; font-size: inherit;">
         <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
-            <span id="ui-dialog-title-dialog" class="ui-dialog-title">РќРѕРІС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№</span>
+            <span id="ui-dialog-title-dialog" class="ui-dialog-title">Новый комментарий</span>
         </div>
         <div  class="ui-dialog-content ui-widget-content">
 <?php
@@ -9,7 +9,7 @@
     if (!IsPostingAllowed()) {
 
 ?>
-                <span class="Warning">Р’Р°Рј Р·Р°РєСЂС‹С‚ РґРѕСЃС‚СѓРї Рє РїСѓР±Р»РёРєР°С†РёРё СЃРѕРѕР±С‰РµРЅРёР№.</span>
+                <span class="Warning">Вам закрыт доступ к публикации сообщений.</span>
 
 <?php
 
@@ -18,25 +18,25 @@
                 <div id="ERROR"></div>
         
                 <div>
-                    РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ: <strong id="LoggedLogin"><?php echo $user->User->Login ?></strong>
+                    Пользователь: <strong id="LoggedLogin"><?php echo $user->User->Login ?></strong>
                 </div>
 
                 <div>
-                    <label for="TITLE">Р—Р°РіРѕР»РѕРІРѕРє</label>
+                    <label for="TITLE">Заголовок</label>
                     <input id="TITLE" name="TITLE" class="Wide" size="30" tabindex="3" />
                 </div>
 
                 <div>
-                    <label for="CONTENT" class="Mandatory">РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ</label>
+                    <label for="CONTENT" class="Mandatory">Текст сообщения</label>
                     <textarea id="CONTENT" name="CONTENT" class="Wide" cols="30" rows="8" tabindex="4"></textarea>
                 </div>
 
                 <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                    <button onclick="AddMessage(this)" id="SubmitMessageButton" tabindex="5">РћС‚РїСЂР°РІРёС‚СЊ</button>
-                    <button onclick="CancelReply()">РћС‚РјРµРЅРёС‚СЊ</button>
-                    <button onclick="MakeCite()" id="buttonCite">Р¦РёС‚Р°С‚Р°</button>
+                    <button onclick="AddMessage(this)" id="SubmitMessageButton" tabindex="5">Отправить</button>
+                    <button onclick="CancelReply()">Отменить</button>
+                    <button onclick="MakeCite()" id="buttonCite">Цитата</button>
 
-                    <input type="checkbox" name="IS_PROTECTED" id="IS_PROTECTED" /> РЎРєСЂС‹С‚РѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
+                    <input type="checkbox" name="IS_PROTECTED" id="IS_PROTECTED" /> Скрытое сообщение
                 </div><?php } ?>
         </div>
     </div>
@@ -54,29 +54,29 @@
             <tr>
                 <td>
                     <input type="radio" name="AUTH" id="AUTH_NOW" value="1" checked /> 
-                    <label for="AUTH_NOW">РїРѕ Р»РѕРіРёРЅСѓ Рё РїР°СЂРѕР»СЋ</label>
+                    <label for="AUTH_NOW">по логину и паролю</label>
                     <div id="AuthByLogin">
                         <div>
-                            <label for="<?php echo LOGIN_KEY ?>">Р›РѕРіРёРЅ</label>
+                            <label for="<?php echo LOGIN_KEY ?>">Логин</label>
                             <input class="submitter" name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" size="20" tabindex="1000" />
                         </div>
                         <div>
-                            <label for="<?php echo PASSWORD_KEY ?>">РџР°СЂРѕР»СЊ</label>
+                            <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
                             <input class="submitter" type="password" name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" size="20" tabindex="1001" />
                         </div>
                     </div></td>
                 <td>
                     <input type="radio" name="AUTH" id="AUTH_OPENID" value="2" /> 
-                    <label for="AUTH_OPENID">РїРѕ OpenID</label>
+                    <label for="AUTH_OPENID">по OpenID</label>
                     <div id="AuthByOpenID">
                         <input type="hidden" name="openid_action" value="login" />
                         <input type="hidden" name="<?php echo REFERER_KEY ?>" id="<?php echo REFERER_KEY ?>" />
                         <div>
-                            <label for="<?php echo OPENID_LOGIN_KEY ?>">Р›РѕРіРёРЅ</label>
+                            <label for="<?php echo OPENID_LOGIN_KEY ?>">Логин</label>
                             <input class="submitter" name="<?php echo OPENID_LOGIN_KEY ?>" id="<?php echo OPENID_LOGIN_KEY ?>" size="20" />
                         </div>
                         <div>
-                            РЎРµСЂРІРёСЃ <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" /><br />
+                            Сервис <input name="<?php echo OPENID_KEY ?>" id="<?php echo OPENID_KEY ?>" type="hidden" /><br />
                             <input type="hidden" id="callback" name="callback" />
                             <span class="OpenID">
 <?php

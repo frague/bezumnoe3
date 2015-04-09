@@ -16,7 +16,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
+				echo JsAlert("Изменения сохранены.");
 
 				// Write log
 				LogAddressBan($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList(), $ban->Comment);
@@ -40,7 +40,7 @@
 				LogAddressBanEnd($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList());
 
 				$ban->Delete();
-				echo JsAlert("Р—Р°РїСЂРµС‚ СЃРЅСЏС‚.");
+				echo JsAlert("Запрет снят.");
 			}
 			break;
 	}

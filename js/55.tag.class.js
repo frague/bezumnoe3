@@ -3,7 +3,7 @@
 	Forum records tags (labels)
 */
 
-var tagPattern = new RegExp("^[a-zA-ZР°-СЏ\С‘Рђ-РЇ\РЃ0-9\-_\ ]+$", "gim");
+var tagPattern = new RegExp("^[a-zA-Zа-я\ёА-Я\Ё0-9\-_\ ]+$", "gim");
 var maxTags = 10;
 
 function Tags() {
@@ -63,7 +63,7 @@ Tags.prototype.TemplateLoaded = function(req) {
 
 	// Validation
 	this.Tab.Validators = new ValidatorsCollection();
-	this.Tab.Validators.Add(new Validator(this.Inputs["SEARCH_TAG"], new MatchPattern(tagPattern), "РўРµРі СЃРѕРґРµСЂР¶РёС‚ Р·Р°РїСЂРµС€С‘РЅРЅС‹Рµ СЃРёРјРІРѕР»С‹&nbsp;(СЂР°Р·СЂРµС€РµРЅРѕ a-z Р°-СЏ 0-9 -_)", Random(10000)));
+	this.Tab.Validators.Add(new Validator(this.Inputs["SEARCH_TAG"], new MatchPattern(tagPattern), "Тег содержит запрешённые символы&nbsp;(разрешено a-z а-я 0-9 -_)", Random(10000)));
 	this.Tab.Validators.Init(this.Inputs["Errors"]);
 
 	var req = new DelayedRequestor(this, this.Inputs["SEARCH_TAG"]);
@@ -89,7 +89,7 @@ Tags.prototype.AddNewTag = function(input) {
 
 Tags.prototype.AT = function(tag) {
 	if (this.Tab.AddedTags.Count() >= maxTags) {
-		this.Inputs["Errors"].innerHTML = "<li> РњРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РЅРµ Р±РѕР»РµРµ " + maxTags + " С‚РµРіРѕРІ";
+		this.Inputs["Errors"].innerHTML = "<li> Можно добавить не более " + maxTags + " тегов";
 		return false;
 	}
 	this.Tab.AddedTags.Add(tag);
@@ -104,7 +104,7 @@ Tags.prototype.DT = function(id) {
 };
 
 Tags.prototype.ShowTags = function() {
-	this.SetTabElementValue("TagsContainer", this.Tab.AddedTags.Count() > 0 ? "" : "РЅРµ СѓРєР°Р·Р°РЅС‹");
+	this.SetTabElementValue("TagsContainer", this.Tab.AddedTags.Count() > 0 ? "" : "не указаны");
 	this.Tab.AddedTags.ToString(this.Inputs["TagsContainer"]);
 };
 

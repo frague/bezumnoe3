@@ -54,9 +54,9 @@ class ForumRecord extends ForumRecordBase {
         #$result .= " ".PrintableShortDate($this->Date);
 
         if ($this->AnswersCount > $this->DeletedCount && $this->IsCommentable) {
-            $result .= " <span>(".Countable("РѕС‚РІРµС‚", $this->AnswersCount - $this->DeletedCount).")</span>";
+            $result .= " <span>(".Countable("ответ", $this->AnswersCount - $this->DeletedCount).")</span>";
             /*if ($this->AnswersCount) {
-                $result .= ", РїРѕСЃР»РµРґРЅРёР№ РѕС‚ ".PrintableShortDate($this->UpdateDate);
+                $result .= ", последний от ".PrintableShortDate($this->UpdateDate);
             }*/
         }
 

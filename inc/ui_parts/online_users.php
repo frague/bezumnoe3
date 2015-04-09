@@ -46,7 +46,7 @@
     if ($roomId > 0) {
         PrintRoom($room, False, $inside, $people);
     } else {
-        echo "РЅРёРєРѕРіРѕ РЅРµС‚";
+        echo "никого нет";
     }
 
 ?>

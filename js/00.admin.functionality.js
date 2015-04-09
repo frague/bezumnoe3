@@ -7,25 +7,25 @@
 /* Options Admin tab */
 
 function CreateAdminTab() {
-	return new Tab(7, "РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ", 1, "", function(tab) {new AdminOptions().LoadTemplate(tab, me.Id)})
+	return new Tab(7, "Администрирование", 1, "", function(tab) {new AdminOptions().LoadTemplate(tab, me.Id)})
 };
 
 /* Usermanager admins' section */
 
 function umExtraButtons(tr, id, login, obj) {
- 	var td1 = MakeSection("РћРїС†РёРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°:");
+ 	var td1 = MakeSection("Опции администратора:");
  	var ul1 = d.createElement("ul");
 
-	ul1.appendChild(MakeUserMenuLink(MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "РџСЂРѕС„РёР»СЊ", obj, "")));
+	ul1.appendChild(MakeUserMenuLink(MakeButtonLink("ShowUser(" + id + ",'" + login + "')", "Профиль", obj, "")));
 	if (me.IsSuperAdmin()) {
 		umAdditionalExtraButtons(ul1, id, login, obj);
 	}
 	td1.appendChild(ul1);
 	tr.appendChild(td1);
 
- 	var td2 = MakeSection("РћРїРµСЂР°С†РёРё:", "Red");
+ 	var td2 = MakeSection("Операции:", "Red");
  	var ul2 = d.createElement("ul");
-	ul2.appendChild(MakeUserMenuLink(MakeButtonLink("DeleteUser(" + id + ",'" + login + "', this)", "РЈРґР°Р»РёС‚СЊ", obj, "Red")));
+	ul2.appendChild(MakeUserMenuLink(MakeButtonLink("DeleteUser(" + id + ",'" + login + "', this)", "Удалить", obj, "Red")));
 	td2.appendChild(ul2);
 	tr.appendChild(td2);
 };
@@ -43,7 +43,7 @@ function ShowUser(id, name) {
 
 function DeleteUser(id, name, a) {
 	co.AlertType = false;
-	co.Show(function() {DeleteUserConfirmed(id, a.obj)}, "РЈРґР°Р»РёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ?", "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ	<b>" + name + "</b> Рё РІСЃРµ РґР°РЅРЅС‹Рµ,	РѕС‚РЅРѕСЃСЏС‰РёРµСЃСЏ Рє РЅРµРјСѓ	(С„РѕС‚РѕРіСЂР°С„РёРё,	Р·Р°РїРёСЃРё РІ Р¶СѓСЂРЅР°Р»Рµ Рё С„РѕСЂСѓРјР°С…,	РїСЂРѕС„РёР»СЊ) Р±СѓРґСѓС‚ СѓРґР°Р»РµРЅС‹.<br>Р’С‹ СѓРІРµСЂРµРЅС‹?");
+	co.Show(function() {DeleteUserConfirmed(id, a.obj)}, "Удалить пользователя?", "Пользователь	<b>" + name + "</b> и все данные,	относящиеся к нему	(фотографии,	записи в журнале и форумах,	профиль) будут удалены.<br>Вы уверены?");
 };
 
 function DeleteUserConfirmed(id, obj) {
@@ -56,9 +56,9 @@ function DeleteUserConfirmed(id, obj) {
 /* Admin Options */
 
 var spoilerNames = [
-	"РљРѕРґРµРєСЃ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°	(РѕР±СЏР·Р°С‚РµР»РµРЅ РґР»СЏ РїСЂРѕС‡С‚РµРЅРёСЏ)",
-	"Р—Р°РїСЂРµС‚С‹",
-	"РљРѕРјРЅР°С‚С‹"
+	"Кодекс администратора	(обязателен для прочтения)",
+	"Запреты",
+	"Комнаты"
 ];
 
 var spoilerInits = [

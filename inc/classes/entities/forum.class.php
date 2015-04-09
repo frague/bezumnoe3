@@ -20,16 +20,16 @@ class Forum extends ForumBase {
         $result.= $this->Description;
         $result.= "<div>";
         
-        #$result.= "Р’ С„РѕСЂСѓРјРµ ".Countable("С‚РµРјР°", $this->TotalCount, "РЅРµС‚").". ";
+        #$result.= "В форуме ".Countable("тема", $this->TotalCount, "нет").". ";
         
         if ($lastVisitDate) {
             $unread = $this->GetUnreadCount($lastVisitDate);
             if ($unread > 0) {
-                $result.= " <span class='Red'>".Countable("РЅРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ", $unread)."</span>.";
+                $result.= " <span class='Red'>".Countable("новое сообщение", $unread)."</span>.";
             }
         }
         if ($this->IsProtected) {
-            $result.= " <span class='Red'>Р­С‚Рѕ Р·Р°РєСЂС‹С‚С‹Р№ С„РѕСЂСѓРј.</span>";
+            $result.= " <span class='Red'>Это закрытый форум.</span>";
         }
         $result .= "</div>";
         return $result;

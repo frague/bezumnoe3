@@ -94,6 +94,6 @@ sdto.prototype.ToEditView = function(index, obj) {
 
 function AddStatus(a) {
 	if (a.obj) {
-		a.obj.AddRow(new sdto(0, 1, "White", "РќРѕРІС‹Р№ СЃС‚Р°С‚СѓСЃ"));
+		a.obj.AddRow(new sdto(0, 1, "White", "Новый статус"));
 	}
 };

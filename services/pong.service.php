@@ -86,7 +86,7 @@
 		$newRoom->Retrieve();
 		if (!$newRoom->IsEmpty() && !$newRoom->IsDeleted) {
 			$prefix = "ClearMessages();";
-			$message = new SystemMessage(Clickable($displayedName)." РїРµСЂРµС…РѕРґРёС‚ РІ РєРѕРјРЅР°С‚Сѓ &laquo;".$newRoom->Title."&raquo;", $user->User->RoomId);
+			$message = new SystemMessage(Clickable($displayedName)." переходит в комнату &laquo;".$newRoom->Title."&raquo;", $user->User->RoomId);
 			$message->Save();
 			if (!$newRoom->BeenVisited) {
 				$newRoom->BeenVisited = 1;
@@ -99,7 +99,7 @@
 			$room = $newRoom;
 
 			$lastId = "";
-			$message = new SystemMessage("Р’ РєРѕРјРЅР°С‚Сѓ РїРµСЂРµС…РѕРґРёС‚ ".Clickable($displayedName), $newRoom->Id);
+			$message = new SystemMessage("В комнату переходит ".Clickable($displayedName), $newRoom->Id);
 			$message->Save();
 		 }
 	}
@@ -191,7 +191,6 @@
 
 		$user_key = "u_".$id1;
 		if ($_POST[$user_key] != $user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])) {
-			//print "/* ".$_POST[$user_key]." != ".$user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])." */";
 			$ChangedUsers[] = $id1;
 		}
 		$_POST[$user_key] = "-";

@@ -17,15 +17,15 @@
 		$forbid->CommenterId = $commenterId;
 		if (!$state) {
 			if ($forbid->Save()) {
-				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РґРѕР±Р°РІР»РµРЅ.");
+				echo AddJsAlert("Пользователь добавлен.");
 			} else {
-				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ РІ СЃРїРёСЃРєРµ!", 1);
+				echo AddJsAlert("Пользователь уже в списке!", 1);
 			}
 		} else {
 			if ($forbid->Delete()) {
-				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓРґР°Р»С‘РЅ РёР· СЃРїРёСЃРєР°.");
+				echo AddJsAlert("Пользователь удалён из списка.");
 			} else {
-				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµС‚ РІ СЃРїРёСЃРєРµ!", 1);
+				echo AddJsAlert("Пользователя нет в списке!", 1);
 			}
 		}
 	}

@@ -1,10 +1,10 @@
 <?
 
-    header("Content-type: text/html;charset=utf-8");
+    header("Content-type: text/html;charset=windows-1251");
 
-    $root = "../";
-    require_once $root."server_references.php";
+	$root = "../";
+	require_once $root."server_references.php";
 
-    $user = GetAuthorizedUser(true);
+	$user = GetAuthorizedUser(true);
 
 ?>

@@ -39,7 +39,7 @@ class Room extends EntityBase {
 	function Clear() {
 		$this->Id = -1;
 		$this->OwnerId = -1;
-		$this->Title = "РќРѕРІР°СЏ РєРѕРјРЅР°С‚Р°";
+		$this->Title = "Новая комната";
 		$this->Topic = "";
 		$this->TopicLock = 0;
 		$this->TopicAuthorId = 0;

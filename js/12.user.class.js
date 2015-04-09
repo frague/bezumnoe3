@@ -75,28 +75,28 @@ User.prototype.ToString = function(room) {
 	var s = this.NameToString(name, has_access);
 
 	s += '<div class="UserInfo" style="display:none" onmouseover="Show(this);" onclick="HideDelayed();" onmouseout="Hide();" id="_' + this.Id + '">';
-	s += '<ul><li> <a ' + voidHref + ' class="Close">x</a><a ' + voidHref + ' onclick="Info(' + this.Id + ')">РРЅС„Рѕ</a>';
+	s += '<ul><li> <a ' + voidHref + ' class="Close">x</a><a ' + voidHref + ' onclick="Info(' + this.Id + ')">Инфо</a>';
 
 	if (this.Id != me.Id && me.RoomId == this.RoomId) {
 		if (!has_access && me.RoomIsPermitted == 1 && this.RoomIsPermitted == 0) {
-			s += '<li class="Grant"> <a ' + voidHref + ' onclick="AG(' + this.Id + ',1)">Р’РїСѓСЃС‚РёС‚СЊ</a>';
+			s += '<li class="Grant"> <a ' + voidHref + ' onclick="AG(' + this.Id + ',1)">Впустить</a>';
 		} else if (room.OwnerId == me.Id && this.Id != room.OwnerId) {
-			s += '<li class="Deny"> <a ' + voidHref + ' onclick="AG(' + this.Id + ',0)">Р—Р°РєСЂС‹С‚СЊ РґРѕСЃС‚СѓРї</a>';
+			s += '<li class="Deny"> <a ' + voidHref + ' onclick="AG(' + this.Id + ',0)">Закрыть доступ</a>';
 		}
 	}
 
-	s += '<li> <a ' + voidHref + ' onclick="_(\'' + qname + '\')">РћР±СЂР°С‚РёС‚СЊСЃСЏ</a>';
-	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\')">РЁС‘РїРѕС‚РѕРј</a>';
-	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'wakeup\')">Р’РµР№РєР°Рї</a>';
+	s += '<li> <a ' + voidHref + ' onclick="_(\'' + qname + '\')">Обратиться</a>';
+	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\')">Шёпотом</a>';
+	s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'wakeup\')">Вейкап</a>';
 	if (!me || this.Id != me.Id) {
-		s += '<li> <a ' + voidHref + ' onclick="IG(' + this.Id + ',\'' + this.IsIgnored + '\')">' + (this.IsIgnored ? 'РЈР±СЂР°С‚СЊ РёРіРЅРѕСЂ' : 'Р’ РёРіРЅРѕСЂ') + '</a>';
+		s += '<li> <a ' + voidHref + ' onclick="IG(' + this.Id + ',\'' + this.IsIgnored + '\')">' + (this.IsIgnored ? 'Убрать игнор' : 'В игнор') + '</a>';
 	}
 	if (me && me.Rights >= this.Rights) {
 		if (me.IsAdmin() || me.Rights == keeperRights) {
-			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Р’С‹РіРЅР°С‚СЊ</a>';
+			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Выгнать</a>';
 		}
 		if ((me.IsAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.IsSuperAdmin()) {
-			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Р—Р°Р±Р°РЅРёС‚СЊ</a>';
+			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Забанить</a>';
 			if (this.Login) {
 				s += '<li class="Overlined"><span>' + this.Login + '</span>';
 				if (this.SessionAddress) {
@@ -130,7 +130,7 @@ User.prototype.NameToString = function(name, has_access) {
 		className += " IgnoresMe";
 	}
 
-	var title = HtmlQuotes(name) + (this.AwayMessage ? " РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚	&laquo;" + this.AwayMessage + "&raquo;" : "");
+	var title = HtmlQuotes(name) + (this.AwayMessage ? " отсутствует	&laquo;" + this.AwayMessage + "&raquo;" : "");
 
 	var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + voidHref + ' onclick="SwitchVisibility(\'_' + this.Id + '\')" ';
 	s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';

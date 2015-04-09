@@ -41,7 +41,7 @@ Nickname.prototype.CreateButton = function(src, action) {
 Nickname.prototype.CreateViewControls = function() {
 	this.Div.innerHTML = "";
 	if (this.Mode == "show") {
-		this.Div.innerHTML += (this.Name ? this.Name + (this.Name == me.Login ? "&nbsp;(РІР°С€ Р»РѕРіРёРЅ)" : "") : "&lt;РЅРµ Р·Р°РґР°РЅРѕ&gt;") + "&nbsp;";
+		this.Div.innerHTML += (this.Name ? this.Name + (this.Name == me.Login ? "&nbsp;(ваш логин)" : "") : "&lt;не задано&gt;") + "&nbsp;";
 		if (this.Id) {
 			this.Div.appendChild(this.CreateButton("edit_icon.gif", "Edit(this)"));
 			if (this.Name) {
@@ -198,7 +198,7 @@ function SavingResults(req) {
 	status = "";
 	NamesResponse(req);
 	if (!status) {
-		SetStatus("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
+		SetStatus("Изменения сохранены.");
 		setTimeout("co.Hide()", 2000);
 	}
 	ForcePing();

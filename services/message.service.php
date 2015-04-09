@@ -25,7 +25,6 @@
 	  	return false;
 	}
 
-	$triggerBots = false;
 	
 	$command = "";
 	function CommandsProcessor($c) {
@@ -72,10 +71,10 @@
 							$n = $targetUser->GetUserCurrentName();
 							if ($user->Status->Rights >= $targetStatus->Rights) {
 								$targetUser->Kick($message, $user->DisplayedName());
-								$msg = new SystemMessage($user->DisplayedName()." РІС‹РіРѕРЅСЏРµС‚ РёР· С‡Р°С‚Р° ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
+								$msg = new SystemMessage($user->DisplayedName()." выгоняет из чата ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
 								KickRating($targetUser->Id);
 							} else {
-								$msg = new PrivateSystemMessage("РќРµРІРѕР·РјРѕР¶РЅРѕ РІС‹РіРЅР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
+								$msg = new PrivateSystemMessage("Невозможно выгнать пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
 						   	}
 							$msg->Save();
 						} else {
@@ -93,7 +92,7 @@
 							if ($user->Status->Rights > $targetStatus->Rights && $targetStatus->Rights != $KeeperRights) {
 								$targetUser->Ban($message, "", $user->User->Id);
 								$targetUser->Save();
-								$msg = new SystemMessage($user->DisplayedName()." Р±Р°РЅРёС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
+								$msg = new SystemMessage($user->DisplayedName()." банит пользователя ".Clickable($n).($message ? " &laquo;".$message."&raquo;" : "."), $user->User->RoomId);
 
 								// Write log
 								LogBan($targetUser->Id, $targetUser->BanReason, $user->User->Login, $targetUser->BannedTill);
@@ -105,7 +104,7 @@
 								// Rating affection
 								BanRating($targetUser->Id);
 							} else {
-								$msg = new PrivateSystemMessage("РќРµРІРѕР·РјРѕР¶РЅРѕ Р·Р°Р±Р°РЅРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
+								$msg = new PrivateSystemMessage("Невозможно забанить пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
 							}
 							$msg->Save();
 						}
@@ -126,9 +125,9 @@
 					if ($roomExists) {
 						if ($user->IsAdmin()) {
 							$room->TopicLock = ($type == "locktopic" ? 1 : 0);
-							$msg = new SystemMessage($user->DisplayedName()." ".($room->TopicLock ? "Р±Р»РѕРєРёСЂСѓРµС‚" : "СЂР°Р·Р±Р»РѕРєРёСЂСѓРµС‚")." С‚РµРјСѓ.", $user->User->RoomId);
+							$msg = new SystemMessage($user->DisplayedName()." ".($room->TopicLock ? "блокирует" : "разблокирует")." тему.", $user->User->RoomId);
 						} else {
-							$msg = new PrivateSystemMessage("РР·РјРµРЅРµРЅРёРµ С‚РµРјС‹ РЅРµРІРѕР·РјРѕР¶РЅРѕ!!", $user->User->RoomId, $user->User->Id);
+							$msg = new PrivateSystemMessage("Изменение темы невозможно!!", $user->User->RoomId, $user->User->Id);
 							break;
 						}
 					}
@@ -138,11 +137,11 @@
 							if ($message || $type == "topic") {
 								$room->Topic = OuterLinks(MakeLinks($message, true));
 								$room->TopicAuthorId = $user->User->Id;
-								$msg = new SystemMessage(Clickable($user->DisplayedName())." РјРµРЅСЏРµС‚ С‚РµРјСѓ РЅР° &laquo;".$message."&raquo;.", $user->User->RoomId);
+								$msg = new SystemMessage(Clickable($user->DisplayedName())." меняет тему на &laquo;".$message."&raquo;.", $user->User->RoomId);
 							}
 							$room->Save();
 						} else {
-							$msg = new PrivateSystemMessage("РР·РјРµРЅРµРЅРёРµ С‚РµРјС‹ РЅРµРІРѕР·РјРѕР¶РЅРѕ!", $user->User->RoomId, $user->User->Id);
+							$msg = new PrivateSystemMessage("Изменение темы невозможно!", $user->User->RoomId, $user->User->Id);
 						}
 					}
 					break;
@@ -150,7 +149,7 @@
 					$user->User->AwayTime = NowDateTime();
 					$user->User->AwayMessage = $message;
 					$user->User->Save();
-					$msg = new SystemMessage(Clickable($user->DisplayedName())." РѕС‚Р»СѓС‡Р°РµС‚СЃСЏ РёР· С‡Р°С‚Р°. ".($message ? " &laquo;".$message."&raquo;" : ""), $user->User->RoomId);
+					$msg = new SystemMessage(Clickable($user->DisplayedName())." отлучается из чата. ".($message ? " &laquo;".$message."&raquo;" : ""), $user->User->RoomId);
 					break;
 				case "quit":
 					$text = "";
@@ -158,7 +157,7 @@
 						$text = $user->Settings->QuitMessage;
 					}
 					if (!$text) {
-						$text = "%name РІС‹С…РѕРґРёС‚ РёР· С‡Р°С‚Р°.".($message ? " &laquo;".$message."&raquo;" : "");
+						$text = "%name выходит из чата.".($message ? " &laquo;".$message."&raquo;" : "");
 					}
 					$msg = new QuitMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $user->User->RoomId);
 					$user->User->GoOffline();
@@ -166,20 +165,16 @@
 					break;
 				default:
 					$msg = new Message($message, $user->User);
-					$triggerBots = true;
 			}
 			if ($msg) {
 				if ($type != "away" && $user->User->AwayTime) {
-					$backMsg = new SystemMessage(Clickable($user->DisplayedName())." РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ".($user->User->AwayMessage ? ", Р·Р°РєРѕРЅС‡РёРІ &laquo;".$user->User->AwayMessage."&raquo;" : " РІ С‡Р°С‚").", РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°РІ СЃ ".PrintableTime($user->User->AwayTime), $user->User->RoomId);
+					$backMsg = new SystemMessage(Clickable($user->DisplayedName())." возвращается".($user->User->AwayMessage ? ", закончив &laquo;".$user->User->AwayMessage."&raquo;" : " в чат").", отсутствовав с ".PrintableTime($user->User->AwayTime), $user->User->RoomId);
 					$backMsg->Save();
 					$user->User->AwayMessage = "";
 					$user->User->AwayTime = "";
 					$user->User->Save();
 				}
 				$msg->Save();
-				if ($triggerBots) {
-					TriggerBotsByMessage($msg);
-				}
 			}
 		}
 	}

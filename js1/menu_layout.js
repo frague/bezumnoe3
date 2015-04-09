@@ -7,60 +7,60 @@ var alerts = new MyFrame($("#AlertContainer")[0]);
 var winSize = new MyFrame(window);
 
 function AdjustDivs(e) {
-    if (!e) {
-        var e = window.event;
-    }
+	if (!e) {
+		var e = window.event;
+	}
 
-    winSize.GetPosAndSize();
-    container.Replace(10, 10, winSize.width - 20, winSize.height - 20);
-    content.Replace(-1, -1, -1, container.height - 40);
+	winSize.GetPosAndSize();
+	container.Replace(10, 10, winSize.width - 20, winSize.height - 20);
+	content.Replace(-1, -1, -1, container.height - 40);
 
-    alerts.Replace(-1, -1, winSize.width, winSize.height);
+	alerts.Replace(-1, -1, winSize.width, winSize.height);
 }
 
 AdjustDivs();
 
 window.onresize = AdjustDivs;
 if (window.addEventListener) {
-    window.addEventListener("resize", AdjustDivs, true);
+	window.addEventListener("resize", AdjustDivs, true);
 };
 
 /* Initial data request */
 
 if (opener) {
-    var me = opener.me;
-    if (me) {
-        var UploadFrame = $("#uploadFrame")[0];
+	var me = opener.me;
+	if (me) {
+		var UploadFrame = $("#uploadFrame")[0];
 
-        /* Tabs */
-        var tabs = new Tabs($("#OptionsContainer")[0], $("#OptionsContent")[0]);
-        ProfileTab = new Tab(1, "Р›РёС‡РЅС‹Рµ РґР°РЅРЅС‹Рµ", 1, "");
-        CurrentTab = ProfileTab;
-        tabs.Add(CurrentTab);
+		/* Tabs */
+		var tabs = new Tabs($("#OptionsContainer")[0], $("#OptionsContent")[0]);
+		ProfileTab = new Tab(1, "Личные данные", 1, "");
+		CurrentTab = ProfileTab;
+		tabs.Add(CurrentTab);
 
-        tabs.Add(new Tab(2, "РќР°СЃС‚СЂРѕР№РєРё", 1, "", function(tab){new Settings().LoadTemplate(tab, me.Id)}));
+		tabs.Add(new Tab(2, "Настройки", 1, "", function(tab){new Settings().LoadTemplate(tab, me.Id)}));
 
-        var journalTab = new Tab(3, "Р–СѓСЂРЅР°Р»", 1, "", function(tab){new JournalsManager().LoadTemplate(tab, me.Id)});
-        tabs.Add(journalTab);
+		var journalTab = new Tab(3, "Журнал", 1, "", function(tab){new JournalsManager().LoadTemplate(tab, me.Id)});
+		tabs.Add(journalTab);
 
-        WakeupsTab = new Tab(5, "РЎРѕРѕР±С‰РµРЅРёСЏ", 1, "", function(tab){new Wakeups().LoadTemplate(tab, me.Id)});
-        tabs.Add(WakeupsTab);
+		WakeupsTab = new Tab(5, "Сообщения", 1, "", function(tab){new Wakeups().LoadTemplate(tab, me.Id)});
+		tabs.Add(WakeupsTab);
 
-        if (me.Rights >= adminRights) {
-            tabs.Add(new Tab(6, "РџРѕР»СЊР·РѕРІР°С‚РµР»Рё", 1, "", function(tab){new Userman().LoadTemplate(tab,me.Id)}));
+		if (me.Rights >= adminRights) {
+			tabs.Add(new Tab(6, "Пользователи", 1, "", function(tab){new Userman().LoadTemplate(tab,me.Id)}));
 
-            MainTab = new Tab(7, "РђРґРјРёРЅРёСЃС‚СЂРёСЂРѕРІР°РЅРёРµ", 1, "", function(tab){new AdminOptions().LoadTemplate(tab, me.Id)});
-            tabs.Add(MainTab);
-        } else {
-            MainTab = ProfileTab;
+			MainTab = new Tab(7, "Администрирование", 1, "", function(tab){new AdminOptions().LoadTemplate(tab, me.Id)});
+			tabs.Add(MainTab);
+		} else {
+        	MainTab = ProfileTab;
         }
 
-        tabs.Print();
+		tabs.Print();
 
-        new Profile().LoadTemplate(ProfileTab, me.Id);  // Loading profile to 1st tab
-    } else {
-        alert("РњРµРЅСЋ СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РїРѕРєР° РІС‹ РЅР°С…РѕРґРёС‚РµСЃСЊ РІ С‡Р°С‚Рµ.");
-    }
+		new Profile().LoadTemplate(ProfileTab, me.Id);	// Loading profile to 1st tab
+	} else {
+		alert("Меню работает только пока вы находитесь в чате.");
+	}
 }
 
 var co = new Confirm();

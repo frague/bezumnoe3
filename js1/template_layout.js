@@ -4,11 +4,11 @@
 var winSize = new MyFrame(window);
 
 function AdjustDivs() {
-    winSize.GetPosAndSize();
-    xo = d.all ? d.body.scrollLeft : window.pageXOffset;
-    yo = d.all ? d.body.scrollTop : window.pageYOffset;
+	winSize.GetPosAndSize();
+	xo = d.all ? d.body.scrollLeft : window.pageXOffset;
+	yo = d.all ? d.body.scrollTop : window.pageYOffset;
 
-    alerts.Replace(xo, yo, winSize.width, winSize.height);
+	alerts.Replace(xo, yo, winSize.width, winSize.height);
 }
 
 
@@ -18,7 +18,7 @@ AdjustDivs();
 window.onresize = AdjustDivs;
 window.onscroll = AdjustDivs;
 if (window.addEventListener) {
-    window.addEventListener("resize", AdjustDivs, true);
-    window.addEventListener("scroll", AdjustDivs, true);
+	window.addEventListener("resize", AdjustDivs, true);
+	window.addEventListener("scroll", AdjustDivs, true);
 };
 */

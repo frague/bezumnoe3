@@ -1,4 +1,4 @@
-//3.7
+//3.8
 /*
 	Represents settings entity on client-side.
 */
@@ -62,7 +62,6 @@ Settings.prototype.TemplateLoaded = function(req) {
 	setTimeout("UpdateFontView()", 1000);	// Set delay for IE
 
 	// Init ColorPicker
-//	var cp = new ColorPicker("FONT_COLOR");
 	new ColorPicker("FONT_COLOR");
    	
 	/* Submit button */
