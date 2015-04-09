@@ -61,14 +61,14 @@ ndto.prototype.ToEditView = function(index, obj) {
 	var tr = MakeGridRow(index);
 
 	var td1 = d.createElement("td");
-		td1.appendChild(MakeDiv("РќР°Р·РІР°РЅРёРµ:"));
+		td1.appendChild(MakeDiv("Название:"));
 
 		this.TitleInput = d.createElement("input");
 		this.TitleInput.value = this.Title;
 		this.TitleInput.className = "Wide";
 		td1.appendChild(this.TitleInput);
 
-		td1.appendChild(MakeDiv("РћРїРёСЃР°РЅРёРµ:"));
+		td1.appendChild(MakeDiv("Описание:"));
 
 		this.DescriptionInput = d.createElement("textarea");
 		this.DescriptionInput.innerHTML = this.Description;
@@ -85,7 +85,7 @@ ndto.prototype.ToEditView = function(index, obj) {
 
 function AddNews(a) {
 	if (a.obj) {
-		a.obj.AddRow(new ndto(0, "РќРѕРІС‹Р№ СЂР°Р·РґРµР»", ""));
+		a.obj.AddRow(new ndto(0, "Новый раздел", ""));
 	}
 };
 

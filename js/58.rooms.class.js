@@ -73,15 +73,15 @@ rdto.prototype.ToEditView = function(index, obj) {
 
 		this.IsLockedInput = CreateCheckBox("IsLocked", this.IsLocked);
 		td2.appendChild(this.IsLockedInput);
-		td2.appendChild(CreateLabel(this.IsLockedInput, "Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅР°СЏ"));
+		td2.appendChild(CreateLabel(this.IsLockedInput, "заблокированная"));
 
 		this.IsInvitationRequiredInput = CreateCheckBox("IsInvitationRequired", this.IsInvitationRequired);
 		td2.appendChild(this.IsInvitationRequiredInput);
-		td2.appendChild(CreateLabel(this.IsInvitationRequiredInput, "РїРѕ РїСЂРёРіР»Р°С€РµРЅРёСЋ"));
+		td2.appendChild(CreateLabel(this.IsInvitationRequiredInput, "по приглашению"));
 
 		this.IsDeletedInput = CreateCheckBox("IsDeleted", this.IsDeleted);
 		td2.appendChild(this.IsDeletedInput);
-		td2.appendChild(CreateLabel(this.IsDeletedInput, "СѓРґР°Р»С‘РЅРЅР°СЏ"));
+		td2.appendChild(CreateLabel(this.IsDeletedInput, "удалённая"));
 
 	tr.appendChild(td2);
 

@@ -45,13 +45,13 @@ class Nickname extends EntityBase {
 	 global $MaxNicknameLength;
 
 		if (strlen($this->Title) > $MaxNicknameLength) {
-			return "РџСЂРµРІС‹С€РµРЅР° РґРѕРїСѓСЃС‚РёРјР°СЏ РґР»РёРЅР° РёРјРµРЅРё (РјР°РєСЃРёРјСѓРј - ".Countable("СЃРёРјРІРѕР»", $MaxNicknameLength).").";
+			return "Превышена допустимая длина имени (максимум - ".Countable("символ", $MaxNicknameLength).").";
 		}
-		if (preg_match("/[a-zA-Z]/", $this->Title) && preg_match("/[Р°-СЏРђ-РЇ]/", $this->Title)) {
-			return "РќРµРґРѕРїСѓСЃС‚РёРјРѕ СЃРјРµС€РµРЅРёРµ РІ РёРјРµРЅРё СЂСѓСЃСЃРєРѕРіРѕ Рё Р»Р°С‚РёРЅСЃРєРѕРіРѕ Р°Р»С„Р°РІРёС‚РѕРІ.";
+		if (preg_match("/[a-zA-Z]/", $this->Title) && preg_match("/[а-яА-Я]/", $this->Title)) {
+			return "Недопустимо смешение в имени русского и латинского алфавитов.";
 		}
-		if (!preg_match("/^[a-zA-ZР°-СЏРђ-РЇ0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/", $this->Title)) {
-			return  "РРјСЏ СЃРѕРґРµСЂР¶РёС‚ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Рµ СЃРёРјРІРѕР»С‹.";
+		if (!preg_match("/^[a-zA-Zа-яА-Я0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/", $this->Title)) {
+			return  "Имя содержит недопустимые символы.";
 		}
 		return "";
 	}

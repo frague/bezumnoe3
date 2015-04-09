@@ -35,7 +35,7 @@ function PrintWakeups() {
 	if (WakeupsHolder) {
 		ReceivedWakeups = wakeups.Count();
 		if (ReceivedWakeups > 0) {
-			WakeupsHolder.innerHTML = "<h3>Р’РµР№РєР°РїС‹	<span class='Count'>(" + ReceivedWakeups + ")</span>:</h3>";
+			WakeupsHolder.innerHTML = "<h3>Вейкапы	<span class='Count'>(" + ReceivedWakeups + ")</span>:</h3>";
 			wakeups.ToString(WakeupsHolder);
 			DisplayElement(WakeupsHolder, true);
 		} else {
@@ -51,7 +51,7 @@ function WakeupMessage(id, sender) {
 
 WakeupMessage.prototype.ToString = function(holder, i) {
 	if (i == MaxShownWakeups) {
-		holder.appendChild(d.createTextNode(",	Рё РµС‰С‘ " + (ReceivedWakeups - MaxShownWakeups)));
+		holder.appendChild(d.createTextNode(",	и ещё " + (ReceivedWakeups - MaxShownWakeups)));
 		return;
 	} else if (i > MaxShownWakeups) {
 		return;

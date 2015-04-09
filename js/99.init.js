@@ -19,26 +19,26 @@ var me = "";
 var menuInitilized = 0;
 function InitMenu(div) {
 	var menu = new MenuItemsCollection(true);
-	var main = new MenuItem(1, "РљРѕРјР°РЅРґС‹");
+	var main = new MenuItem(1, "Команды");
 
-/*	main.SubItems.Items.Add(new MenuItem(1, "/me СЃРѕРѕР±С‰РµРЅРёРµ", "MI('me')"));
-		var w = new MenuItem(2, "Р’РµР№РєР°Рї");
-		w.SubItems.Items.Add(new MenuItem(1, "РџРѕРёСЃРє...", "", 1));
+/*	main.SubItems.Items.Add(new MenuItem(1, "/me сообщение", "MI('me')"));
+		var w = new MenuItem(2, "Вейкап");
+		w.SubItems.Items.Add(new MenuItem(1, "Поиск...", "", 1));
 		main.SubItems.Items.Add(w);*/
-	main.SubItems.Items.Add(new MenuItem(3, "РћС‚РѕР№С‚Рё&nbsp;(Away)", "MI('away')"));
-	main.SubItems.Items.Add(new MenuItem(4, "РЎРјРµРЅРёС‚СЊ СЃС‚Р°С‚СѓСЃ", "MI('status')"));
+	main.SubItems.Items.Add(new MenuItem(3, "Отойти&nbsp;(Away)", "MI('away')"));
+	main.SubItems.Items.Add(new MenuItem(4, "Сменить статус", "MI('status')"));
 
-	main.SubItems.Items.Add(new MenuItem(5, "РЎРјРµРЅРёС‚СЊ РЅРёРєРЅРµР№Рј", "ChangeName()"));
+	main.SubItems.Items.Add(new MenuItem(5, "Сменить никнейм", "ChangeName()"));
 	if (me.Rights >= topicRights) {
-		var t = new MenuItem(6, "РЎРјРµРЅРёС‚СЊ С‚РµРјСѓ", "MI('topic')");
+		var t = new MenuItem(6, "Сменить тему", "MI('topic')");
 		if (me.Rights >= adminRights) {
-			t.SubItems.Items.Add(new MenuItem(1, "РЎ Р±Р»РѕРєРёСЂРѕРІРєРѕР№", "MI('locktopic')"));
-			t.SubItems.Items.Add(new MenuItem(2, "Р Р°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ", "MI('unlocktopic')"));
+			t.SubItems.Items.Add(new MenuItem(1, "С блокировкой", "MI('locktopic')"));
+			t.SubItems.Items.Add(new MenuItem(2, "Разблокировать", "MI('unlocktopic')"));
 		}
 		main.SubItems.Items.Add(t);
 	}
-	main.SubItems.Items.Add(new MenuItem(7, "<b>РњРµРЅСЋ</b>", "ShowOptions()"));
-	main.SubItems.Items.Add(new MenuItem(8, "Р’С‹С…РѕРґ РёР· С‡Р°С‚Р°", "MI('quit')"));
+	main.SubItems.Items.Add(new MenuItem(7, "<b>Меню</b>", "ShowOptions()"));
+	main.SubItems.Items.Add(new MenuItem(8, "Выход из чата", "MI('quit')"));
 
 	menu.Items.Add(main);
 	menu.Create(div);

@@ -14,14 +14,14 @@
 	$title = preg_replace("/\s+/", " ", $title);
 
 	if (!$title) {
-		echo "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ";
+		echo "Введите название";
 		die;
 	}
 
 	$room = new Room();
 	$room->FillByTitle($title);
 	if (!$room->IsEmpty()) {
-		echo "РљРѕРјРЅР°С‚Р° СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚";
+		echo "Комната уже существует";
 		die;
 	}
 

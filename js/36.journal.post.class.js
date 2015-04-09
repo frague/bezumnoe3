@@ -107,7 +107,7 @@ JournalPost.prototype.TemplateLoaded = function(req) {
 	// Tags (labels) spoiler
 	var tagsContainer = this.Inputs["TagsContainer"];
 	if (tagsContainer) {
-		this.TagsSpoiler = new Spoiler(1, "РўРµРіРё&nbsp;(РјРµС‚РєРё)", 0, 0, function(tab) {new Tags().LoadTemplate(tab, me.Id, me.Login)});
+		this.TagsSpoiler = new Spoiler(1, "Теги&nbsp;(метки)", 0, 0, function(tab) {new Tags().LoadTemplate(tab, me.Id, me.Login)});
 		this.TagsSpoiler.ToString(tagsContainer);
 		this.TagsSpoiler.RECORD_ID = this.RECORD_ID;
 	}
@@ -124,6 +124,6 @@ function EditJournalPost(obj, post_id) {
 //		var login = obj.LOGIN ? obj.LOGIN : "";
 		var login = "";
 		var tab_id = "post" + post_id;
-		CreateUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "РќРѕРІР°СЏ Р·Р°РїРёСЃСЊ", post_id, tab_id);
+		CreateUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "Новая запись", post_id, tab_id);
 	}
 };

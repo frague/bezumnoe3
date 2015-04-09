@@ -38,7 +38,7 @@ JournalComments.prototype.LoadTemplate = function(tab, user_id, login) {
 	this.TITLE = this.jrdto.Title;
 
 	/* Update tab title */
-	tab.Title = "РљРѕРјРјРµРЅС‚Р°СЂРёРё Рє&nbsp;&laquo;" + this.jrdto.Title.substr(0, 10) + "...&raquo;";
+	tab.Title = "Комментарии к&nbsp;&laquo;" + this.jrdto.Title.substr(0, 10) + "...&raquo;";
 	tab.Alt = this.jrdto.Title;
 	tabs.Print();
 
@@ -86,8 +86,8 @@ jcdto.prototype.ToString = function(index, obj) {
 
 	var td3 = d.createElement("td");
 	td3.className = "Centered";
-		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "РџСЂР°РІРёС‚СЊ"));
-		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "РЈРґР°Р»РёС‚СЊ"));
+		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
+		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить"));
 	tr.appendChild(td3);
 	
 	return tr;
@@ -103,12 +103,12 @@ function DeleteCommentConfirmed(obj, id) {
 
 function ShowMessageComments(a) {
 	var tab_id = "c" + a.jrdto.Id;
-	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "РљРѕРјРјРµРЅС‚Р°СЂРёРё РІ Р¶СѓСЂРЅР°Р»Рµ", a.jrdto, tab_id);
+	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "Комментарии в журнале", a.jrdto, tab_id);
 };
 
 /* Confirms */
 
 function DeleteComment(a, id) {
-	co.Show(function() {DeleteCommentConfirmed(a.obj, id)}, "РЈРґР°Р»РёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№?", "РљРѕРјРјРµРЅС‚Р°СЂРёР№ Р±СѓРґРµС‚ СѓРґР°Р»С‘РЅ.<br>РџСЂРѕРґРѕР»Р¶РёС‚СЊ?");
+	co.Show(function() {DeleteCommentConfirmed(a.obj, id)}, "Удалить комментарий?", "Комментарий будет удалён.<br>Продолжить?");
 };
 

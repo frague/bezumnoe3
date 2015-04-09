@@ -31,10 +31,10 @@
 					$settings->FillFromHash($_POST);
 					$errors = $settings->Validate();
 					if ($errors) {
-						echo JsAlert("РќР°СЃС‚СЂРѕР№РєРё РЅРµ Р±С‹Р»Рё СЃРѕС…СЂР°РЅС‘РЅС‹ РїРѕ СЃР»РµРґСѓСЋС‰РёРј РїСЂРёС‡РёРЅР°Рј:<ul>".$errors."</ul>", 1);
+						echo JsAlert("Настройки не были сохранёны по следующим причинам:<ul>".$errors."</ul>", 1);
 					} else {
 						$settings->Save();
-						echo JsAlert("РќР°СЃС‚СЂРѕР№РєРё СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅС‘РЅС‹.");
+						echo JsAlert("Настройки успешно сохранёны.");
 					}
 					break;
 			}

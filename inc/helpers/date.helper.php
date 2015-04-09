@@ -76,7 +76,7 @@
 	  global $MonthsNamesForDate;
 
 		$t = strtotime($d);
-		$pattern = "Y Рі.".($printTime ? " РІ H:i" : "");
+		$pattern = "Y �.".($printTime ? " � H:i" : "");
 		return date("j", $t)." ".$MonthsNamesForDate[date("n", $t)]." ".date($pattern, $t);
 	}
 
@@ -108,7 +108,7 @@
 		}
 		$result = round($parts[2]) ? round($parts[2])." " : "";
 		$result .= $parts[1] ? ($result ? $MonthsNamesForDate[round($parts[1])]." ": $MonthsNames[round($parts[1])]." ") : "";
-		$result .= round($parts[0]) ? round($parts[0])." Рі." : "";
+		$result .= round($parts[0]) ? round($parts[0])." �." : "";
 		return trim($result);
 	}
 

@@ -48,7 +48,7 @@
     }
     
     if ($access == Journal::NO_ACCESS) {
-        ErrorPage("РЈ РІР°СЃ РЅРµС‚ РґРѕСЃС‚СѓРїР° Рє Р¶СѓСЂРЅР°Р»Сѓ.", "Р’Р»Р°РґРµР»РµС† Р¶СѓСЂРЅР°Р»Р° РѕРіСЂР°РЅРёС‡РёР» Рє РЅРµРјСѓ РґРѕСЃС‚СѓРї.");
+        ErrorPage("У вас нет доступа к журналу.", "Владелец журнала ограничил к нему доступ.");
         die;
     }
 
@@ -73,7 +73,7 @@
 
     $buttons = FillButtonObjects($record->Title, $descr, "", $record->GetImageUrl(), $journal->Title, $tags);
 
-    $p = new Page("РљРѕРјРјРµРЅС‚Р°СЂРёРё Рє &laquo;".$record->Title."&raquo;", $meta_description, "РљРѕРјРјРµРЅС‚Р°СЂРёРё");
+    $p = new Page("Комментарии к &laquo;".$record->Title."&raquo;", $meta_description, "Комментарии");
     $p->buttons = $buttons;
     $p->AddCss(array("forum.css", "jqueryui.css"));
     $p->PrintHeader();
@@ -86,7 +86,7 @@
     echo $record->ToPrint($author);
 
     if (!$record->IsCommentable) {
-        echo "<div class='ErrorHolder'><h2>РћС€РёР±РєР°</h2>РљРѕРјРјРµРЅС‚Р°СЂРёРё Рє РґР°РЅРЅРѕРјСѓ СЃРѕРѕР±С‰РµРЅРёСЋ РѕС‚РєР»СЋС‡РµРЅС‹.</div>";
+        echo "<div class='ErrorHolder'><h2>Ошибка</h2>Комментарии к данному сообщению отключены.</div>";
     } else {
         echo GetButtonsMarkup($buttons);
     }
@@ -108,10 +108,10 @@
         }
     </style>
     
-    <h3>Р’РµСЂРЅСѓС‚СЊСЃСЏ</h3>
+    <h3>Вернуться</h3>
     <ul class="back_links random"> 
-        <li> Рє СЃРѕРѕР±С‰РµРЅРёСЋ <?php echo $record->ToLink(100, $alias) ?>
-        <li> Рє Р¶СѓСЂРЅР°Р»Сѓ <?php echo $journal->GetLink($alias, 0, false) ?>
+        <li> к сообщению <?php echo $record->ToLink(100, $alias) ?>
+        <li> к журналу <?php echo $journal->GetLink($alias, 0, false) ?>
     </ul>
 
 <?
@@ -120,7 +120,7 @@
         die();
     }
 ?>
-    <h3 style='clear:both'>РљРѕРјРјРµРЅС‚Р°СЂРёРё:</h3><?php
+    <h3 style='clear:both'>Комментарии:</h3><?php
 
     $answers = $record->AnswersCount - ($access == Journal::FULL_ACCESS ? 0 : $record->DeletedCount);
 
@@ -135,7 +135,7 @@
     echo "<a name='c'></a>
 <div class='NewThread'>
     <div>
-        <a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>РќРѕРІС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№</a>
+        <a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$journal->Id.")'>Новый комментарий</a>
     </div>
 </div>";
 

@@ -4,8 +4,6 @@ XBitHack off
 DirectoryIndex index.html index.htm index.php default.php index.phtml default.phtml
 Options -Indexes
 
-AddDefaultCharset UTF-8
-
 #Errors
 
 ErrorDocument 404 /404.html
@@ -153,7 +151,7 @@ RewriteCond %{QUERY_STRING}     cath=([0-9]+)
 RewriteRule ^forum/default\.php forum%1? [R=301,L]
 
 # Journal
-RewriteCond %{QUERY_STRING}     alias=([^&]+)
+RewriteCond %{QUERY_STRING}		alias=([^&]+)
 RewriteRule ^3/journal/journal\.php journal/%1? [R=301,L]
 
 #Journal friends

@@ -137,7 +137,7 @@ class Message extends EntityBase {
 				} else {			// Private
 					$s = "<p class='Private' #style#><a>";
 					/*if ($userId) {
-						$s .= $userId == $this->UserId ? "РґР»СЏ ".$this->ToUserName : $this->UserName;
+						$s .= $userId == $this->UserId ? "для ".$this->ToUserName : $this->UserName;
 					} else {
 						$s .= $this->UserName." &raquo; ".$this->ToUserName."]";
 					}
@@ -319,7 +319,7 @@ class PrivateSystemMessage extends Message {
 
 class MessageNotification extends SystemMessage {
 	function MessageNotification($forum, $message, $alias = "") {
-		$text = "Р’ ".$forum->SpellType." &laquo;".$forum->GetLink($alias, $message->Id)."&raquo; РґРѕР±Р°РІР»РµРЅРѕ РЅРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ.";
+		$text = "В ".$forum->SpellType." &laquo;".$forum->GetLink($alias, $message->Id)."&raquo; добавлено новое сообщение.";
 //		SystemMessage($text, $roomId);
 		parent::__construct($text, -1);
 	}

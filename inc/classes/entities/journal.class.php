@@ -2,7 +2,7 @@
 
 class Journal extends ForumBase {
 
-	var $SpellType = "Ð¶ÑƒÑ€Ð½Ð°Ð»";
+	var $SpellType = "æóðíàë";
 
 	function IsFull() {
 		return (!$this->IsEmpty() && $this->Type == self::TYPE_JOURNAL);

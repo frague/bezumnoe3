@@ -38,7 +38,7 @@
 							$n->Title = $name;
 						}
 					} else {
-					    $errors .= "<li> –û—à–∏–±–∫–∞ —Å–æ—Ö—Ä–∞–Ω–µ–Ω–∏—è &laquo;".$name."&raquo;: –Ω–∏–∫ –Ω–µ –ø—Ä–∏–Ω–∞–¥–ª–µ–∂–∏—Ç –ø–æ–ª—å–∑–æ–≤–∞—Ç–µ–ª—é";
+					    $errors .= "<li> Œ¯Ë·Í‡ ÒÓı‡ÌÂÌËˇ &laquo;".$name."&raquo;: ÌËÍ ÌÂ ÔËÌ‡‰ÎÂÊËÚ ÔÓÎ¸ÁÓ‚‡ÚÂÎ˛";
 					    $n = "";
 					}
 				} else {
@@ -47,7 +47,7 @@
 						$n->Title = $name;
 						$n->UserId = $user->Id;
 					} else {
-				    	$errors .= "<li> –û—à–∏–±–∫–∞ —Å–æ—Ö—Ä–∞–Ω–µ–Ω–∏—è &laquo;".$name."&raquo;: –ø—Ä–µ–≤—ã—à–µ–Ω–æ –º–∞–∫—Å–∏–º–∞–ª—å–Ω–æ –¥–æ–ø—É—Å—Ç–∏–º–æ–µ —á–∏—Å–ª–æ –∏–º—ë–Ω";
+				    	$errors .= "<li> Œ¯Ë·Í‡ ÒÓı‡ÌÂÌËˇ &laquo;".$name."&raquo;: ÔÂ‚˚¯ÂÌÓ Ï‡ÍÒËÏ‡Î¸ÌÓ ‰ÓÔÛÒÚËÏÓÂ ˜ËÒÎÓ ËÏ∏Ì";
 				    	$n = "";
 					}
 				}
@@ -58,15 +58,15 @@
 					$validationError = $n->Validate();
 					if (!$validationError) {
 						if (!$n->Save()) {
-							$errors .= "<li> –ò–º—è &laquo;".$n->Title."&raquo —É–∂–µ –∑–∞–Ω—è—Ç–æ";
+							$errors .= "<li> »Ïˇ &laquo;".$n->Title."&raquo ÛÊÂ Á‡ÌˇÚÓ";
 							if ($n->IsSelected) {
-								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> –º–µ–Ω—è–µ—Ç –∏–º—è –Ω–∞ ".Clickable($user->User->Login), $user->User->RoomId);
+								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> ÏÂÌˇÂÚ ËÏˇ Ì‡ ".Clickable($user->User->Login), $user->User->RoomId);
 								$msg->Save();
 							}
 						} else {
 							$userNames["_".$n->id] = $n;
 							if ($n->IsSelected && $n->Title != $user->DisplayedName()) {
-								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> –º–µ–Ω—è–µ—Ç –∏–º—è –Ω–∞ ".Clickable($n->Title), $user->User->RoomId);
+								$msg = new SystemMessage("<b>".$user->DisplayedName()."</b> ÏÂÌˇÂÚ ËÏˇ Ì‡ ".Clickable($n->Title), $user->User->RoomId);
 								$msg->Save();
 								$newNickname = $n->Title;
 							}
@@ -86,7 +86,7 @@
 			}
 		}
 		if (!$hasNickname && $user->Nickname->Title) {
-			$msg = new SystemMessage("<strong>".$user->DisplayedName()."</strong> –º–µ–Ω—è–µ—Ç –∏–º—è –Ω–∞ ".Clickable($user->User->Login), $user->User->RoomId);
+			$msg = new SystemMessage("<strong>".$user->DisplayedName()."</strong> ÏÂÌˇÂÚ ËÏˇ Ì‡ ".Clickable($user->User->Login), $user->User->RoomId);
 			$msg->Save();
 		}
 	}

@@ -33,7 +33,7 @@ BannedAddresses.prototype.RequestCallback = function(req, obj) {
 			if (obj.banData.length) {
 				BannedAddrsList.FillFrom(obj.banData);
 				BannedAddrsList.BindFields(BannedAddrsList.fields);
-				BannedAddrsList.SetFormName("Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ Р·Р°РїСЂРµС‚	" + BannedAddrsList["CONTENT"] + ":");
+				BannedAddrsList.SetFormName("Редактировать запрет	" + BannedAddrsList["CONTENT"] + ":");
 			}
 		} else {
 			// Adding entry from user profile
@@ -48,7 +48,7 @@ BannedAddresses.prototype.RequestCallback = function(req, obj) {
 
 BannedAddresses.prototype.SetFormName = function(name) {
 	if (!name) {
-		name = "Р”РѕР±Р°РІРёС‚СЊ Р·Р°РїСЂРµС‚:";
+		name = "Добавить запрет:";
 	}
 	this.SetTabElementValue("FORM_TITLE", name);
 };
@@ -76,7 +76,7 @@ function badto(id, content, type, comment, admin, date, till, chat, forum, journ
 	this.Date = ParseDate(this.Date);
 	this.Till = ParseDate(this.Till);
 
-	this.BanNames = ["С‡Р°С‚", "С„РѕСЂСѓРј", "Р¶СѓСЂРЅР°Р»С‹"];
+	this.BanNames = ["чат", "форум", "журналы"];
 	this.Bans = [this.Chat, this.Forum, this.Journal];
 };
 
@@ -94,7 +94,7 @@ badto.prototype.ToString = function(index, obj) {
 
 	var td2 = d.createElement("td");
 	td2.appendChild(MakeDiv((this.Comment ? "&laquo;" + this.Comment + "&raquo;" + (this.Admin ? ",	" : "") : "") + (this.Admin ? this.Admin : ""), "h2"));
-	td2.appendChild(MakeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " РїРѕ " + this.Till.ToPrintableString() : "")));
+	td2.appendChild(MakeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " по " + this.Till.ToPrintableString() : "")));
 
 	result = "";
 	var comma = false;
@@ -105,7 +105,7 @@ badto.prototype.ToString = function(index, obj) {
 		}
 	}
 		
-	td2.appendChild(MakeDiv("Р—Р°РїСЂРµС‚:	<b>" + result + "</b>"));
+	td2.appendChild(MakeDiv("Запрет:	<b>" + result + "</b>"));
 	tr.appendChild(td2);
 
 	var td3 = d.createElement("td");
@@ -158,7 +158,7 @@ function LockIP(a) {
 			obj.Tab = profile.Tab;
 			profile.Tab.BannedAddresses = obj;
 
-			var comment = "Р”РѕСЃС‚СѓРї Рє С‡Р°С‚Сѓ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ " + profile["LOGIN"];
+			var comment = "Доступ к чату для пользователя " + profile["LOGIN"];
 			obj.FillFrom([-1, 1, 0, 0, (addr.match(ipPattern) ? "ip" : "host"), addr, comment, ""]);
 			obj.USER_ID = profile["USER_ID"];
 			obj.Save();

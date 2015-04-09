@@ -1,5 +1,5 @@
-﻿<?
-    require_once "server_references.php";
+<?
+	require_once "server_references.php";
 
 ?>
-<script src="/js/<? include $root."js/handler.php" ?>.javascript"></script>
+<script language="javascript" type="text/javascript" src="/js/<? include $root."js/handler.php" ?>.javascript"></script>

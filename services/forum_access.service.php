@@ -14,17 +14,17 @@
 		$forum = new ForumBase($forum_id);
 		$forum->Retrieve();
 	} else {
-		echo AddJsAlert("Р–СѓСЂРЅР°Р» РЅРµ РЅР°Р№РґРµРЅ.", 1);
+		echo AddJsAlert("Журнал не найден.", 1);
 		exit;
 	}
 	
 	if ($forum->IsEmpty()) {
-		echo AddJsAlert("РЈРєР°Р·Р°РЅРЅС‹Р№ С„РѕСЂСѓРј/Р¶СѓСЂРЅР°Р» РЅРµ РЅР°Р№РґРµРЅ!", 1);
+		echo AddJsAlert("Указанный форум/журнал не найден!", 1);
 		exit;
 	}
 
 	if ($forum->GetAccess($user->User->Id) != Forum::FULL_ACCESS) {
-		echo AddJsAlert("РќРµС‚ РґРѕСЃС‚СѓРїР°!", 1);
+		echo AddJsAlert("Нет доступа!", 1);
 		exit;
 	}
 
@@ -43,16 +43,16 @@
 			switch ($go) {
 				case "add":
 					if ($friend->Save()) {
-						echo AddJsAlert("Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅС‹Р№ Р¶СѓСЂРЅР°Р» &laquo;".$journal->Title."&raquo; РґРѕР±Р°РІР»РµРЅ.");
+						echo AddJsAlert("Дружественный журнал &laquo;".$journal->Title."&raquo; добавлен.");
 					} else {
-						echo AddJsAlert("Р–СѓСЂРЅР°Р» &laquo;".$journal->Title."&raquo; СѓР¶Рµ РІ СЃРїРёСЃРєРµ РґСЂСѓР·РµР№.", 1);
+						echo AddJsAlert("Журнал &laquo;".$journal->Title."&raquo; уже в списке друзей.", 1);
 					}
 					break;
 				case "delete":
 					if ($friend->Delete()) {
-						echo AddJsAlert("Р–СѓСЂРЅР°Р» &laquo;".$journal->Title."&raquo; СѓРґР°Р»С‘РЅ РёР· СЃРїРёСЃРєР° РґСЂСѓР·РµР№.");
+						echo AddJsAlert("Журнал &laquo;".$journal->Title."&raquo; удалён из списка друзей.");
 					} else {
-						echo AddJsAlert("Р–СѓСЂРЅР°Р» &laquo;".$journal->Title."&raquo; РЅРµ РЅР°Р№РґРµРЅ РІ СЃРїРёСЃРєРµ РґСЂСѓР·РµР№.", 1);
+						echo AddJsAlert("Журнал &laquo;".$journal->Title."&raquo; не найден в списке друзей.", 1);
 					}
 					break;
 			}
@@ -60,7 +60,7 @@
 			// Forum users (B/W lists)
 			$access = $forum->GetAccess($user->User->Id);
 			if ($access != Forum::FULL_ACCESS && !$user->IsSuperAdmin()) {
-				echo AddJsAlert("Р”РѕСЃС‚СѓРї Р·Р°РїСЂРµС‰С‘РЅ!", 1);
+				echo AddJsAlert("Доступ запрещён!", 1);
 				exit;
 			}
 
@@ -77,16 +77,16 @@
 				switch ($go) {
 					case "add":
 						if ($forumUser->Save()) {
-							echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ ".$friend->Login." РґРѕР±Р°РІР»РµРЅ РІ СЃРїРёСЃРѕРє.");
+							echo AddJsAlert("Пользователь ".$friend->Login." добавлен в список.");
 						} else {
-							echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ ".$friend->Login." СѓР¶Рµ Р·Р°РЅРµСЃС‘РЅ РІ РѕРґРёРЅ РёР· СЃРїРёСЃРєРѕРІ<br>РёР»Рё СЏРІР»СЏРµС‚СЃСЏ РІР»Р°РґРµР»СЊС†РµРј С„РѕСЂСѓРјР°!", 1);
+							echo AddJsAlert("Пользователь ".$friend->Login." уже занесён в один из списков<br>или является владельцем форума!", 1);
 						}
 						break;
 					case "delete":
 						if ($forumUser->Delete()) {
-							echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ ".$friend->Login." СѓРґР°Р»С‘РЅ РёР· СЃРїРёСЃРєР°.");
+							echo AddJsAlert("Пользователь ".$friend->Login." удалён из списка.");
 						} else {
-							echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ ".$friend->Login." РЅРµ РЅР°Р№РґРµРЅ РІ СЃРїРёСЃРєРµ!", 1);
+							echo AddJsAlert("Пользователь ".$friend->Login." не найден в списке!", 1);
 						}
 						break;
 				}
@@ -123,25 +123,25 @@
 	echo "];";
 	$q->Release();
 
-	$type = "Р¶СѓСЂРЅР°Р»Сѓ";
+	$type = "журналу";
 	switch ($forum->Type) {
 		case ForumBase::TYPE_FORUM:
-			$type = "С„РѕСЂСѓРјСѓ";
+			$type = "форуму";
 			break;
 		case ForumBase::TYPE_GALLERY:
-			$type = "С„РѕС‚РѕРіР°Р»РµСЂРµРµ";
+			$type = "фотогалерее";
 			break;
 	}
 
 	$owner = "";
 	if ($forum->LinkedId) {
 		if ($forum->LinkedId == $user->User->Id) {
-			$owner = " РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ ".$user->User->Login;
+			$owner = " пользователя ".$user->User->Login;
 		} else {
 			$ownerUser = new User($forum->LinkedId);
 			$ownerUser->Retrieve();
 			if (!$ownerUser->IsEmpty()) {
-				$owner = " РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ ".$ownerUser->Login;
+				$owner = " пользователя ".$ownerUser->Login;
 			}
 		}
 	}

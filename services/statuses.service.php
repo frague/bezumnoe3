@@ -17,7 +17,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
+				echo JsAlert("Изменения сохранены.");
 			}
 			break;
 		case "delete":
@@ -34,7 +34,7 @@
 					$q = $db->Query("UPDATE ".User::table." SET ".User::STATUS_ID."=".$altStatus->Id." WHERE ".User::STATUS_ID."=".$status->Id);
 
 					$status->Delete();
-					echo JsAlert("РЎС‚Р°С‚СѓСЃ СѓРґР°Р»С‘РЅ.");
+					echo JsAlert("Статус удалён.");
 				}
 			}
 			break;

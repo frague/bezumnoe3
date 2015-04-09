@@ -215,9 +215,9 @@ class User extends EntityBase {
         }
 
         if ($password != $confirmPassword) {
-            return "Р’РІРµРґС‘РЅРЅС‹Рµ РїР°СЂРѕР»Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚. РџР°СЂРѕР»СЊ РЅРµ Р±С‹Р» РёР·РјРµРЅС‘РЅ!";
+            return "Введённые пароли не совпадают. Пароль не был изменён!";
         } else if (strlen($password) < 8) {
-            return "РџР°СЂРѕР»СЊ РєРѕСЂРѕС‡Рµ 8 СЃРёРјРІРѕР»РѕРІ. РџР°СЂРѕР»СЊ РЅРµ Р±С‹Р» РёР·РјРµРЅС‘РЅ!";
+            return "Пароль короче 8 символов. Пароль не был изменён!";
         } else {
             $this->Password = $password;
             $this->PasswordBackup = $this->Password."notequal"; // To set new pwd encoded upon saving
@@ -383,7 +383,7 @@ JsQuote($admin)."\"]";
         if (!$this->IsBanned()) {
             return;
         }
-        return ($this->BanReason ? "<li> РџСЂРёС‡РёРЅР°: <span>".$this->BanReason."</span>" : "").($this->BannedTill ? "<li> РЎСЂРѕРє: <span>".PrintableShortDate($this->BannedTill)."</span>" : "<li> Р‘РµСЃСЃСЂРѕС‡РЅРѕ").($admin ? "<li> РђРґРјРёРЅ: ".$this->InfoLink($this->BannedBy, $admin) : "");
+        return ($this->BanReason ? "<li> Причина: <span>".$this->BanReason."</span>" : "").($this->BannedTill ? "<li> Срок: <span>".PrintableShortDate($this->BannedTill)."</span>" : "<li> Бессрочно").($admin ? "<li> Админ: ".$this->InfoLink($this->BannedBy, $admin) : "");
     }
 
     // SQL

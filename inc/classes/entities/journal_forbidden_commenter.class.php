@@ -41,7 +41,7 @@ class JournalForbiddenCommenter extends EntityBase {
 	}
 
 	function ToJs($login) {
-		return "new jfÑdto(".$this->CommenterId.",\"".JsQuote($login)."\")";
+		return "new jfñdto(".$this->CommenterId.",\"".JsQuote($login)."\")";
 	}
 
 

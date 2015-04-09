@@ -13,7 +13,7 @@
 			$record->FillFromHash($_POST);
 			$record->AuthorId = $user->User->Id;
 			$record->Save();
-			echo JsAlert("Р—Р°РїРёСЃСЊ СЃРѕС…СЂР°РЅРµРЅР°.");
+			echo JsAlert("Запись сохранена.");
 			break;
 		case "delete":
 			$record->FillFromHash($_POST);
@@ -21,7 +21,7 @@
 				$record->Retrieve();
 				if (!$record->IsEmpty()) {
 					$record->Delete();
-					echo JsAlert("Р—Р°РїРёСЃСЊ СѓРґР°Р»РµРЅР°.");
+					echo JsAlert("Запись удалена.");
 				}
 			}
 			break;

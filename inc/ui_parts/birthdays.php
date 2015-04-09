@@ -16,7 +16,7 @@
         t2.".Profile::BIRTHDAY." LIKE '".$tomorrow."'",
         $u->BirthdaysExpression());
 
-    $days = array("СЃРµРіРѕРґРЅСЏ", "Р·Р°РІС‚СЂР°", "РїРѕСЃР»РµР·Р°РІС‚СЂР°");
+    $days = array("сегодня", "завтра", "послезавтра");
     $index = 0;
     $lastDay = "     ";
     for ($i = 0; $i < $q->NumRows(); $i++) {
