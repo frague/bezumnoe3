@@ -2,103 +2,103 @@
 require_once "basic.class.php";
 
 class Calendar extends Basic {
-	var $Days = array();
+    var $Days = array();
 
-	var $Month;
-	var $Year;
+    var $Month;
+    var $Year;
 
-	var $MonthDays;
-	var $FirstDay;
+    var $MonthDays;
+    var $FirstDay;
 
-	var $ShowMonthName = 1;
-	var $ShowDayNames = 1;
+    var $ShowMonthName = 1;
+    var $ShowDayNames = 1;
 
-	var $Months = array("","ßíâàðü","Ôåâðàëü","Ìàðò","Àïðåëü","Ìàé","Èþíü","Èþëü","Àâãóñò","Ñåíòÿáðü","Îêòÿáðü","Íîÿáðü","Äåêàáðü");
-	var $DayNames = array("","Ïí.","Âò.","Ñð.","×ò.","Ïò.","Ñá.","Âñ.");
+    var $Months = array("","Ð¯Ð½Ð²Ð°Ñ€ÑŒ","Ð¤ÐµÐ²Ñ€Ð°Ð»ÑŒ","ÐœÐ°Ñ€Ñ‚","ÐÐ¿Ñ€ÐµÐ»ÑŒ","ÐœÐ°Ð¹","Ð˜ÑŽÐ½ÑŒ","Ð˜ÑŽÐ»ÑŒ","ÐÐ²Ð³ÑƒÑÑ‚","Ð¡ÐµÐ½Ñ‚ÑÐ±Ñ€ÑŒ","ÐžÐºÑ‚ÑÐ±Ñ€ÑŒ","ÐÐ¾ÑÐ±Ñ€ÑŒ","Ð”ÐµÐºÐ°Ð±Ñ€ÑŒ");
+    var $DayNames = array("","ÐŸÐ½.","Ð’Ñ‚.","Ð¡Ñ€.","Ð§Ñ‚.","ÐŸÑ‚.","Ð¡Ð±.","Ð’Ñ.");
 
-	var $Out = "";
+    var $Out = "";
 
-	var $PrevMonth, $NextMonth;
+    var $PrevMonth, $NextMonth;
 
 
-	function Calendar($m = 0, $y = 0) {
+    function Calendar($m = 0, $y = 0) {
 
-		$this->Month = $m ? $m : date("n");
-		$this->Year = $y ? $y : date("Y");
+        $this->Month = $m ? $m : date("n");
+        $this->Year = $y ? $y : date("Y");
 
-		$dat = strtotime($this->Year."-".$this->Month."-01");
+        $dat = strtotime($this->Year."-".$this->Month."-01");
 
-		$this->MonthDays = date("t", $dat);
-		$this->FirstDay = date("w", $dat) - 1;
-		if ($this->FirstDay < 0) {
-			$this->FirstDay += 7;
-		}
+        $this->MonthDays = date("t", $dat);
+        $this->FirstDay = date("w", $dat) - 1;
+        if ($this->FirstDay < 0) {
+            $this->FirstDay += 7;
+        }
 
-		for ($i = 1; $i <= $this->MonthDays; $i++) {
-			$this->Days[$i] = $i;
-		}
-	}
+        for ($i = 1; $i <= $this->MonthDays; $i++) {
+            $this->Days[$i] = $i;
+        }
+    }
 
-	function CalendarPrint($do_print = 1) {
-	    $this->Out = "";
-		
-		$this->Out .= "<table class='Calendar'>\n";
-		if ($this->ShowMonthName) {
-			$this->Out .= "<tr class='Header'><th colspan=7>".$this->Months[round($this->Month)].", ".$this->Year."</th></tr>\n";
-		}
-		if ($this->ShowDayNames) {
-		    $perc = sprintf("%.02f", 100 / 7);
-		
-			$this->Out .= "<tr class='DayNames'>";
-			for ($i = 1; $i <= 7; $i++) {
-				$this->Out.="<td width='".$perc."%'".($i==6 || $i==7 ? " class='Weekend'" : "").">".$this->DayNames[$i]."</td>";
-			}
-			$this->Out .= "</tr>\n";
+    function CalendarPrint($do_print = 1) {
+        $this->Out = "";
 
-			$flag = 2;
-			$day = 1;
-			while ($flag) {
-				$this->Out .= "<tr class='Week'>\n	";
-				for ($i = 0; $i < 7; $i++) {
-					$this->Out .= "<td".($i==5 || $i==6 ? " class='Weekend'" : "").">";
+        $this->Out .= "<table class='Calendar'>\n";
+        if ($this->ShowMonthName) {
+            $this->Out .= "<tr class='Header'><th colspan=7>".$this->Months[round($this->Month)].", ".$this->Year."</th></tr>\n";
+        }
+        if ($this->ShowDayNames) {
+            $perc = sprintf("%.02f", 100 / 7);
 
-					if ($flag == 2 && $i == $this->FirstDay) {
-						$flag--;
-					}
-					if ($flag == 1) {
-						if ($day <= $this->MonthDays) {
-							$this->Out .= $this->Days[$day++];
-						} else {
-							$flag--;
-						}
-					}
-					$this->Out .= "</td>";
-				}
-				$this->Out .= "</tr>\n";
-			}
-		}
-		if ($this->PrevMonth || $this->NextMonth) {
-			$this->Out .= "<tr class='Navigation'><td colspan=7>".$this->PrevMonth." | ".$this->NextMonth."</td></tr>";
-		}
-		
-		$this->Out .= "</table>";
-		if ($do_print) {
-			echo $this->Out;
-		}
-	}
+            $this->Out .= "<tr class='DayNames'>";
+            for ($i = 1; $i <= 7; $i++) {
+                $this->Out.="<td width='".$perc."%'".($i==6 || $i==7 ? " class='Weekend'" : "").">".$this->DayNames[$i]."</td>";
+            }
+            $this->Out .= "</tr>\n";
 
-	function SetHeader($hdr) {
-		$this->Header = $hdr;
-	}
-	
-	function SetDay($day, $value) {
-		$this->Days[$day] = $value;
-	}
+            $flag = 2;
+            $day = 1;
+            while ($flag) {
+                $this->Out .= "<tr class='Week'>\n  ";
+                for ($i = 0; $i < 7; $i++) {
+                    $this->Out .= "<td".($i==5 || $i==6 ? " class='Weekend'" : "").">";
 
-	function SetPrevNext($prev, $next) {
-		$this->PrevMonth = $prev;
-		$this->NextMonth = $next;
-	}
+                    if ($flag == 2 && $i == $this->FirstDay) {
+                        $flag--;
+                    }
+                    if ($flag == 1) {
+                        if ($day <= $this->MonthDays) {
+                            $this->Out .= $this->Days[$day++];
+                        } else {
+                            $flag--;
+                        }
+                    }
+                    $this->Out .= "</td>";
+                }
+                $this->Out .= "</tr>\n";
+            }
+        }
+        if ($this->PrevMonth || $this->NextMonth) {
+            $this->Out .= "<tr class='Navigation'><td colspan=7>".$this->PrevMonth." | ".$this->NextMonth."</td></tr>";
+        }
+
+        $this->Out .= "</table>";
+        if ($do_print) {
+            echo $this->Out;
+        }
+    }
+
+    function SetHeader($hdr) {
+        $this->Header = $hdr;
+    }
+
+    function SetDay($day, $value) {
+        $this->Days[$day] = $value;
+    }
+
+    function SetPrevNext($prev, $next) {
+        $this->PrevMonth = $prev;
+        $this->NextMonth = $next;
+    }
 }
 
 ?>

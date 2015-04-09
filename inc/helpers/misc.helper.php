@@ -1,12 +1,12 @@
 <?
 
-	function Upload($file, $path) {
-		if (!is_uploaded_file($file['tmp_name'])) {
-			return "Ôàéë íå çàãðóæåí!";
-		}
-		if (!move_uploaded_file($file['tmp_name'], $path)) {
-			return "Íåâîçìîæíî ïåðåìåñòèòü ôàéë ".$file['tmp_name']." â ".$path."!";
-		}
-	}
+    function Upload($file, $path) {
+        if (!is_uploaded_file($file['tmp_name'])) {
+            return "Ð¤Ð°Ð¹Ð» Ð½Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½!";
+        }
+        if (!move_uploaded_file($file['tmp_name'], $path)) {
+            return "ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒ Ñ„Ð°Ð¹Ð» ".$file['tmp_name']." Ð² ".$path."!";
+        }
+    }
 
 ?>

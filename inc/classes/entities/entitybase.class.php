@@ -1,230 +1,230 @@
 <?
 
 abstract class EntityBase {
-	// Fields
-	var $table = "";
-	var $Id;
+    // Fields
+    var $table = "";
+    var $Id;
 
-	var $FieldsNames = array();
-	var $SearchTemplate = "";
+    var $FieldsNames = array();
+    var $SearchTemplate = "";
 
-	var $IdentityName = "";
+    var $IdentityName = "";
 
-	const USER_ID = "USER_ID";
+    const USER_ID = "USER_ID";
 
-	function __construct($id, $idName) {
-		$this->Clear();
-		$this->Id = $id;
-		$this->IdentityName = $idName;
-		$this->Order = "";
-	}
+    function __construct($id, $idName) {
+        $this->Clear();
+        $this->Id = $id;
+        $this->IdentityName = $idName;
+        $this->Order = "";
+    }
 
-	function __destruct() {
-	}
+    function __destruct() {
+    }
 
-	function IsEmpty() {
-		return ($this->Id <= 0 || $this->Id == "");
-	}
-	
-	function CheckSum($extended = false) {
-		return 0;
-	}
+    function IsEmpty() {
+        return ($this->Id <= 0 || $this->Id == "");
+    }
 
-	// SQL methods
-	function IsConnected() {
-	 global $db;
-		return $db != 0;
-	}
+    function CheckSum($extended = false) {
+        return 0;
+    }
 
-	function Retrieve() {
-		if (!$this->IsConnected()) {
-			return false;
-		}
-		$this->GetById($this->Id);
-	}
+    // SQL methods
+    function IsConnected() {
+     global $db;
+        return $db != 0;
+    }
 
-	function GetById($id) {
-		return $this->FillByCondition("t1.".$this->IdentityName."=".SqlQuote($id));
-	}
+    function Retrieve() {
+        if (!$this->IsConnected()) {
+            return false;
+        }
+        $this->GetById($this->Id);
+    }
 
-	function GetAll() {
-		return $this->GetByCondition("1=1");
-	}
+    function GetById($id) {
+        return $this->FillByCondition("t1.".$this->IdentityName."=".SqlQuote($id));
+    }
 
-	function GetByCondition($condition, $expression = "", $show = 0) {
-	 global $db;
+    function GetAll() {
+        return $this->GetByCondition("1=1");
+    }
 
-		if (!$condition) {
-			$condition = "1=1";
-		}
+    function GetByCondition($condition, $expression = "", $show = 0) {
+     global $db;
 
-		if (!$this->IsConnected()) {
-			return false;
-		}
-		if (!$expression) {
-			$expression = $this->ReadExpression();
-		}
-		$query = str_replace("##CONDITION##", $condition, $expression);
+        if (!$condition) {
+            $condition = "1=1";
+        }
 
-		if ($show) {
-			echo "<pre>".$query."</pre>";
-		}
-		return $db->Query($query);
-	}
+        if (!$this->IsConnected()) {
+            return false;
+        }
+        if (!$expression) {
+            $expression = $this->ReadExpression();
+        }
+        $query = str_replace("##CONDITION##", $condition, $expression);
 
-	function GetRange($from = 0, $amount = 0, $condition = "", $expression = "") {
-		if (!$condition) {
-			$condition = "1=1";
-		}
-		return $this->GetByCondition(
-			$condition.
-			($this->Order ? " ORDER BY ".$this->Order : "").
-			($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
-			$expression
-		);
-	}
+        if ($show) {
+            echo "<pre>".$query."</pre>";
+        }
+        return $db->Query($query);
+    }
 
-	function FillByCondition($condition, $expression = "", $show = 0) {
-		if (!$this->IsConnected()) {
-			return false;
-		}
-		$this->Clear();
+    function GetRange($from = 0, $amount = 0, $condition = "", $expression = "") {
+        if (!$condition) {
+            $condition = "1=1";
+        }
+        return $this->GetByCondition(
+            $condition.
+            ($this->Order ? " ORDER BY ".$this->Order : "").
+            ($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
+            $expression
+        );
+    }
 
-		$q = $this->GetByCondition($condition, $expression, $show);
-		if ($q->NumRows()) {
-			$q->NextResult();
-			$this->FillFromResult($q);
-			return $q;
-		} else {
-			$this->Clear();
-		}
-	}
+    function FillByCondition($condition, $expression = "", $show = 0) {
+        if (!$this->IsConnected()) {
+            return false;
+        }
+        $this->Clear();
 
-	function GetFieldset() {
-		return array();
-	}
+        $q = $this->GetByCondition($condition, $expression, $show);
+        if ($q->NumRows()) {
+            $q->NextResult();
+            $this->FillFromResult($q);
+            return $q;
+        } else {
+            $this->Clear();
+        }
+    }
 
-	function HasErrors() {
-		return "";
-	}
+    function GetFieldset() {
+        return array();
+    }
 
-	function GetResultsCount($condition = "") {
-		if (!$condition) {
-			$condition = "1=1";
-		}
-		$q = $this->GetByCondition(
-			$condition, 
-			"SELECT COUNT(1) AS RECORDS ".substr($this->ReadExpression(), strpos($this->ReadExpression(), "FROM")));
-		$q->NextResult();
-		return $q->Get("RECORDS");
-	}
+    function HasErrors() {
+        return "";
+    }
 
-	function GetExpressionCount($expr) {
-		$position = strpos($expr, "FROM");
-		if ($position === false) {
-			return 0;
-		}
-		$expr = "SELECT COUNT(1) AS RECORDS ".substr($expr, $position);
+    function GetResultsCount($condition = "") {
+        if (!$condition) {
+            $condition = "1=1";
+        }
+        $q = $this->GetByCondition(
+            $condition,
+            "SELECT COUNT(1) AS RECORDS ".substr($this->ReadExpression(), strpos($this->ReadExpression(), "FROM")));
+        $q->NextResult();
+        return $q->Get("RECORDS");
+    }
 
-		$q = $this->GetByCondition(" ", $expr);
-		if ($q->NumRows()) {
-			$q->NextResult();
-			return $q->Get("RECORDS");
-		}
-		return 0;
-	}
+    function GetExpressionCount($expr) {
+        $position = strpos($expr, "FROM");
+        if ($position === false) {
+            return 0;
+        }
+        $expr = "SELECT COUNT(1) AS RECORDS ".substr($expr, $position);
 
-	function SaveChecked() {
-		$errors = $this->HasErrors();
-		if (!$errors) {
-			$this->Save();
-		}
-		return $errors;
-	}
+        $q = $this->GetByCondition(" ", $expr);
+        if ($q->NumRows()) {
+            $q->NextResult();
+            return $q->Get("RECORDS");
+        }
+        return 0;
+    }
 
-	function Save($by_query = "") {
-	 global $db;
-		if (!$this->IsConnected()) {
-			return false;
-		}
-		if ($by_query) {
-			$q = $db->Query($by_query);
-		} else {
-		    $updateFlag = false;
-			if (!$this->IsEmpty()) {
-				$q = $db->Query("SELECT ".$this->IdentityName." FROM ".$this->table." WHERE ".$this->IdentityName."=".SqlQuote($this->Id));
-				$updateFlag = $q->NumRows() > 0;
-			}
-			if ($updateFlag === true) {
-				$q->Query($this->UpdateExpression());
-			} else {
-				$q = $db->Query($this->CreateExpression());
-				$this->Id = $q->GetLastId();
-			}
-		}
-		return mysql_error();
-	}
+    function SaveChecked() {
+        $errors = $this->HasErrors();
+        if (!$errors) {
+            $this->Save();
+        }
+        return $errors;
+    }
 
-	function Delete() {
-		$result = false;
-		if (!$this->IsEmpty()) {
-			$result = $this->DeleteById($this->Id);
-		}
-		return $result;
-	}
-	
-	function DeleteById($id) {
-	 global $db;
-		if (!$this->IsConnected()) {
-			return false;
-		}
-		$this->Id = $id;
-		$q = $db->Query($this->DeleteExpression());
-		$this->Clear();
-		return true;
-	}
+    function Save($by_query = "") {
+     global $db;
+        if (!$this->IsConnected()) {
+            return false;
+        }
+        if ($by_query) {
+            $q = $db->Query($by_query);
+        } else {
+            $updateFlag = false;
+            if (!$this->IsEmpty()) {
+                $q = $db->Query("SELECT ".$this->IdentityName." FROM ".$this->table." WHERE ".$this->IdentityName."=".SqlQuote($this->Id));
+                $updateFlag = $q->NumRows() > 0;
+            }
+            if ($updateFlag === true) {
+                $q->Query($this->UpdateExpression());
+            } else {
+                $q = $db->Query($this->CreateExpression());
+                $this->Id = $q->GetLastId();
+            }
+        }
+        return mysql_error();
+    }
 
-	function DeleteByUserId($id = 0) {
-	 global $db;
-		if (!$this->IsConnected()) {
-			return false;
-		}
+    function Delete() {
+        $result = false;
+        if (!$this->IsEmpty()) {
+            $result = $this->DeleteById($this->Id);
+        }
+        return $result;
+    }
 
-		if (!$id) {
-		 	$id = $this->UserId;
-		}
-		$id = round($id);
+    function DeleteById($id) {
+     global $db;
+        if (!$this->IsConnected()) {
+            return false;
+        }
+        $this->Id = $id;
+        $q = $db->Query($this->DeleteExpression());
+        $this->Clear();
+        return true;
+    }
 
-		if ($id <= 0) {
-		 	return false;
-		}
-		$q = $db->Query($this->DeleteByUserExpression($id));
-		//print "/* ".$this->DeleteByUserExpression($id)." */\n";
-		return $q->AffectedRows() > 0;
-	}
+    function DeleteByUserId($id = 0) {
+     global $db;
+        if (!$this->IsConnected()) {
+            return false;
+        }
 
-	// Abstract methods
-	abstract function Clear();
-	abstract function FillFromResult($result);
+        if (!$id) {
+            $id = $this->UserId;
+        }
+        $id = round($id);
 
-	abstract function CreateExpression();
-	abstract function ReadExpression();
-	abstract function UpdateExpression();
-	abstract function DeleteExpression();
+        if ($id <= 0) {
+            return false;
+        }
+        $q = $db->Query($this->DeleteByUserExpression($id));
+        //print "/* ".$this->DeleteByUserExpression($id)." */\n";
+        return $q->AffectedRows() > 0;
+    }
 
-	function DeleteByUserExpression($id) {
-		return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($id);
-	}
+    // Abstract methods
+    abstract function Clear();
+    abstract function FillFromResult($result);
 
-	// Static methods
+    abstract function CreateExpression();
+    abstract function ReadExpression();
+    abstract function UpdateExpression();
+    abstract function DeleteExpression();
+
+    function DeleteByUserExpression($id) {
+        return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($id);
+    }
+
+    // Static methods
 }
 
 // Global function for destroying all inherited objects of given one
 function destroy(&$var) {
-	if (is_object($var)) {
-		$var->__destruct();
-	}
-	unset($var);
+    if (is_object($var)) {
+        $var->__destruct();
+    }
+    unset($var);
 }
 
 

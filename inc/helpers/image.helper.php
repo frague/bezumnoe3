@@ -19,7 +19,7 @@
     class SimpleImage {
         var $image;
         var $image_type;
- 
+
         function Load($filename) {
             $image_info = getimagesize($filename);
             $this->image_type = $image_info[2];
@@ -77,7 +77,7 @@
 
         function Scale($scale) {
             $width = $this->GetWidth() * $scale/100;
-            $height = $this->GetHeight() * $scale/100; 
+            $height = $this->GetHeight() * $scale/100;
             $this->Resize($width, $height);
         }
 

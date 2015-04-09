@@ -12,7 +12,7 @@ class GalleryPhoto extends JournalRecord {
       global $SiteHost, $PathToGalleries;
         return "http://".$SiteHost.$PathToGalleries.$galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
     }
-    
+
     function ToPreview($galleryFile, $isThumb = true) {
       global $root, $PathToGalleries, $ServerPathToGalleries;
 
@@ -45,7 +45,7 @@ class GalleryPhoto extends JournalRecord {
             $result .= "<p>".nl2br($this->Title)."</p>";
         }
         if ($this->AnswersCount > 0 && $isThumb) {
-            $result .= $this->ToLink()."<p>".Countable("êîììåíòàðèé", $this->AnswersCount - $this->DeletedCount)."</p></a>";
+            $result .= $this->ToLink()."<p>".Countable("ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¹", $this->AnswersCount - $this->DeletedCount)."</p></a>";
         }
 
         return $result;
@@ -112,14 +112,14 @@ Boolean($this->IsCommentable).");";
         return $this->GetByCondition(
             $condition." LIMIT ".($from ? $from."," : "").$limit,
             $this->GalleryPhotosExpression($access)
-        ); 
+        );
     }
-    
+
     function GalleryPhotosExpression($access) {
         return str_replace(
         "WHERE",
         "LEFT JOIN ".Gallery::table." AS t5 ON t5.".Gallery::FORUM_ID."=t1.".self::FORUM_ID."
-WHERE 
+WHERE
     t5.".Journal::TYPE."='".Journal::TYPE_GALLERY."' AND ",
         $this->ReadThreadExpression($access));
     }
@@ -137,7 +137,7 @@ WHERE
     public static function MakeLink($forumId, $recordId, $commentId = "") {
         return "<a href='/gallery".$forumId."/".$recordId."/".(!$commentId || $recordId == $commentId ? "" : "#c".$commentId)."'>";
     }
-    
+
 }
 
 ?>
