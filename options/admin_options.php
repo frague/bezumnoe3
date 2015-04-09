@@ -1,11 +1,11 @@
 <?
     require "menu_base.php";
 
-	if ($user->IsEmpty()) {
-		exit();
-	}
+    if ($user->IsEmpty()) {
+        exit();
+    }
 
 ?>
-<h2>Опции администратора:</h2>
+<h2>РћРїС†РёРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°:</h2>
 
 <div id="Spoilers"></div>

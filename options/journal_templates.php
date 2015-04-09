@@ -3,39 +3,39 @@
 
 ?>
 
-<h4>Внешний вид журнала (скин):</h4>
+<h4>Р’РЅРµС€РЅРёР№ РІРёРґ Р¶СѓСЂРЅР°Р»Р° (СЃРєРёРЅ):</h4>
 <div id="SKIN_TEMPLATE_ID" name="SKIN_TEMPLATE_ID" class="Radios"><?
-	
-		$skin = new JournalSkin();
-		echo $skin->ToHtml("/img/journals", "DoShow('templates')");
 
-		$q = $skin->GetByCondition("");
-		for ($i = 0; $i < $q->NumRows(); $i++) {
-			$q->NextResult();
-			$skin->FillFromResult($q);
-			echo $skin->ToHtml("/img/journals", "DoHide('templates')");
-		}
+        $skin = new JournalSkin();
+        echo $skin->ToHtml("/img/journals", "DoShow('templates')");
+
+        $q = $skin->GetByCondition("");
+        for ($i = 0; $i < $q->NumRows(); $i++) {
+            $q->NextResult();
+            $skin->FillFromResult($q);
+            echo $skin->ToHtml("/img/journals", "DoHide('templates')");
+        }
 
 ?></div>
 
 <div id="templates">
-	<h2>Собственный шаблон</h2>
+    <h2>РЎРѕР±СЃС‚РІРµРЅРЅС‹Р№ С€Р°Р±Р»РѕРЅ</h2>
 
-	<h4>Шаблон заголовка:</h4>
-	<input type="text" id="TITLE" name="TITLE" class="Wide" />
+    <h4>РЁР°Р±Р»РѕРЅ Р·Р°РіРѕР»РѕРІРєР°:</h4>
+    <input type="text" id="TITLE" name="TITLE" class="Wide" />
 
-	<h4>Основной шаблон разметки журнала:</h4>
-	&lt;body&gt;
-	<textarea id="BODY" name="BODY" onclick="Maximize(this)"></textarea>
-	&lt;/body&gt;
+    <h4>РћСЃРЅРѕРІРЅРѕР№ С€Р°Р±Р»РѕРЅ СЂР°Р·РјРµС‚РєРё Р¶СѓСЂРЅР°Р»Р°:</h4>
+    &lt;body&gt;
+    <textarea id="BODY" name="BODY" onclick="Maximize(this)"></textarea>
+    &lt;/body&gt;
 
-	<h4>Шаблон отдельного сообщения:</h4>
-	<textarea id="MESSAGE" name="MESSAGE" onclick="Maximize(this)"></textarea>
+    <h4>РЁР°Р±Р»РѕРЅ РѕС‚РґРµР»СЊРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ:</h4>
+    <textarea id="MESSAGE" name="MESSAGE" onclick="Maximize(this)"></textarea>
 
-	<h4>Стили отображения (CSS):</h4>
-	&lt;style&gt;
-	<textarea id="CSS" name="CSS" onclick="Maximize(this)"></textarea>
-	&lt;/style&gt;
+    <h4>РЎС‚РёР»Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ (CSS):</h4>
+    &lt;style&gt;
+    <textarea id="CSS" name="CSS" onclick="Maximize(this)"></textarea>
+    &lt;/style&gt;
 </div>
 
 <div id="templates1"></div>
