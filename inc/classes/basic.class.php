@@ -2,7 +2,7 @@
 
 class Basic {
     var $Errors = array();
-    var $ErrMsg = "Îøèáêè:";
+    var $ErrMsg = "ĞÑˆĞ¸Ğ±ĞºĞ¸:";
     var	$Index = 0;
 	
 	var $Styles = array(

@@ -1,5 +1,5 @@
 <?php
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require_once $root."inc/helpers/like_buttons.helper.php";
@@ -51,15 +51,15 @@
         DieWith404();
     }
     $forumId = $journal->Id;
-    
+
     // Checking if journal is protected and logged user has access to it
     $access = 1 - $journal->IsProtected;
     if ($someoneIsLogged) {
         $access = $journal->GetAccess($user->User->Id);
     }
-    
+
     if ($access == Journal::NO_ACCESS || $journal->IsHidden) {
-        ErrorPage("У вас нет доступа к журналу.", "Владелец журнала ограничил к нему доступ.");
+        ErrorPage("РЈ РІР°СЃ РЅРµС‚ РґРѕСЃС‚СѓРїР° Рє Р¶СѓСЂРЅР°Р»Сѓ.", "Р’Р»Р°РґРµР»РµС† Р¶СѓСЂРЅР°Р»Р° РѕРіСЂР°РЅРёС‡РёР» Рє РЅРµРјСѓ РґРѕСЃС‚СѓРї.");
         die;
     }
 
@@ -99,7 +99,7 @@
     // Getting the template
     $template = GetTemplateOrDie($settings);
     $user_id = round($journal->LinkedId);
-    
+
 
     $globalTemplate = "<!DOCTYPE html>
 <html lang=\"ru\">
@@ -122,7 +122,7 @@
 </html>";
 
     $bodyText = $template->Body;
-        
+
     $shownMessages = substr_count($bodyText, $messageChunk);
     $showFrom = round($show_from) * $shownMessages;
     $metaDescription = "";
@@ -136,7 +136,7 @@
         $addTitle = " &mdash; ".$record->Title;
 
         $metaDescription = "<meta name=\"description\" content=\"".MetaContent($journal->Title.($journal->Description ? " - ".$journal->Description."" : "").": ".$record->Title)."\" />
-    <meta name=\"keywords\" content=\"".MetaContent(join(", ", array_merge(array("блог", "журнал", "Саратов", "блоги Саратова", "саратовский блог-сервис"), array_keys($usedTags))))."\" />";
+    <meta name=\"keywords\" content=\"".MetaContent(join(", ", array_merge(array("Р±Р»РѕРі", "Р¶СѓСЂРЅР°Р»", "РЎР°СЂР°С‚РѕРІ", "Р±Р»РѕРіРё РЎР°СЂР°С‚РѕРІР°", "СЃР°СЂР°С‚РѕРІСЃРєРёР№ Р±Р»РѕРі-СЃРµСЂРІРёСЃ"), array_keys($usedTags))))."\" />";
     } else {
         // Show records by given criteria or from the beginning
         if ($tag) {
@@ -175,8 +175,8 @@
 
     // Substitute chunks with user data
     $bodyText = str_replace(
-        "##AVATAR##", 
-        $profile->Avatar ? "<img class='AvatarImg' src='/img/avatars/".$profile->Avatar."' alt='' />" : "", 
+        "##AVATAR##",
+        $profile->Avatar ? "<img class='AvatarImg' src='/img/avatars/".$profile->Avatar."' alt='' />" : "",
         $bodyText);
 
     // --- Rendering the Pager
@@ -275,7 +275,7 @@
     $bodyText = RenderPostsLinks($bodyText);
 
     $bodyText = str_replace("##FRIENDSLINK##", "/journal/".$settings->Alias."/friends/", $bodyText);
-        
+
     $bodyText = InjectionProtection(OuterLinks(MakeLinks($bodyText)));
 
     // Write caching header
@@ -290,7 +290,7 @@
 
     $bodyText = str_replace("##MESSAGETITLE##", $addTitle, $bodyText);
     $bodyText = str_replace("##TITLE##", $journal->Title, $bodyText);
-    $bodyText = str_replace("##DESCRIPTION##", $journal->Description ? $journal->Description : "Дневник на <a href=\"http://bezumnoe.ru\">bezumnoe.ru</a>", $bodyText);
+    $bodyText = str_replace("##DESCRIPTION##", $journal->Description ? $journal->Description : "Р”РЅРµРІРЅРёРє РЅР° <a href=\"http://bezumnoe.ru\">bezumnoe.ru</a>", $bodyText);
     $bodyText = str_replace("##PERSON##", $person->Login, $bodyText);
     $bodyText = str_replace("##ENCPERSON##", $settings->Alias, $bodyText);
     $bodyText = str_replace("##USERURLNAME##", $settings->Alias, $bodyText);

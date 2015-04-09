@@ -36,7 +36,7 @@
 <meta property=\"og:url\" content=\"http://".$url."\" />
 <meta property=\"og:image\" content=\"".MetaContent($this->Image)."\" />
 <meta property=\"og:site_name\" content=\"".MetaContent($this->SiteName)."\" />".$tags);
-        }   
+        }
 
         public static abstract function getHeadContent();
         abstract function getButtonContent();
@@ -52,7 +52,7 @@
             return "<div id=\"vk_like".$id."\"></div>
 <script type=\"text/javascript\">VK.Widgets.Like(\"vk_like".$id."\", {type: \"mini\", verb: 1, pageTitle: \"".JsQuote($this->Title)."\", pageDescription: \"".JsQuote($this->Description)."\", pageImage: \"".JsQuote($this->Image)."\"});</script>";
         }
-        
+
         function getMetadata() {
             return $this->indent(2, "<!-- VK.com data -->");
         }
@@ -75,7 +75,7 @@
             return "<div id=\"fb-root\"></div>
 <div class=\"fb-like\" data-send=\"false\" data-layout=\"button_count\" data-width=\"100\" data-show-faces=\"true\" data-action=\"recommend\"></div>";
         }
-        
+
         function getMetadata() {
             return $this->indent(2, "<!-- Facebook data -->
 <meta property=\"fb:admins\" content=\"100002414166352\" />");
@@ -91,7 +91,7 @@
         function getButtonContent() {
             return "<a href=\"http://twitter.com/share\" class=\"twitter-share-button\" data-count=\"horizontal\" data-via=\"bezumnoe\" data-lang=\"en\">Tweet</a><script type=\"text/javascript\" src=\"http://platform.twitter.com/widgets.js\"></script>";
         }
-        
+
         function getMetadata() {
             $tags = "";
             foreach ($this->Tags as $tag) {
@@ -114,11 +114,11 @@
         function getButtonContent() {
             return "<g:plusone size=\"medium\"></g:plusone>";
         }
-        
+
         function getMetadata() {
-            return $this->indent(2, "<!-- Schema.org markup for Google+ --> 
+            return $this->indent(2, "<!-- Schema.org markup for Google+ -->
 <meta itemprop=\"name\" content=\"".MetaContent($this->Title)."\" />
-<meta itemprop=\"description\" content=\"".MetaContent($this->Description)."\" /> 
+<meta itemprop=\"description\" content=\"".MetaContent($this->Description)."\" />
 <meta itemprop=\"image\" content=\"".MetaContent($this->Image)."\" />");
         }
     }

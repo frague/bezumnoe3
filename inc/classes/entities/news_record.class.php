@@ -106,46 +106,46 @@ class NewsRecord extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::NEWS_RECORD_ID.",
     t1.".self::OWNER_ID.",
     t1.".self::AUTHOR_ID.",
-    t1.".self::DATE.", 
-    t1.".self::TITLE.", 
-    t1.".self::CONTENT.", 
+    t1.".self::DATE.",
+    t1.".self::TITLE.",
+    t1.".self::CONTENT.",
     t1.".self::IS_HIDDEN."
 FROM
-    ".$this->table." AS t1 
+    ".$this->table." AS t1
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table." 
-(".self::OWNER_ID.", 
-".self::AUTHOR_ID.", 
-".self::DATE.", 
-".self::TITLE.", 
-".self::CONTENT.", 
+        return "INSERT INTO ".$this->table."
+(".self::OWNER_ID.",
+".self::AUTHOR_ID.",
+".self::DATE.",
+".self::TITLE.",
+".self::CONTENT.",
 ".self::IS_HIDDEN."
 )
 VALUES
-('".round($this->OwnerId)."', 
-".round($this->AuthorId).", 
-'".SqlQuote($this->Date)."', 
-'".SqlQuote($this->Title)."', 
-'".SqlQuote($this->Content)."', 
+('".round($this->OwnerId)."',
+".round($this->AuthorId).",
+'".SqlQuote($this->Date)."',
+'".SqlQuote($this->Title)."',
+'".SqlQuote($this->Content)."',
 ".Boolean($this->IsHidden)."
 )";
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET 
-".self::OWNER_ID."='".round($this->OwnerId)."', 
-".self::AUTHOR_ID."=".round($this->AuthorId).", 
-".self::DATE."='".SqlQuote($this->Date)."', 
-".self::TITLE."='".SqlQuote($this->Title)."', 
-".self::CONTENT."='".SqlQuote($this->Content)."', 
+        $result = "UPDATE ".$this->table." SET
+".self::OWNER_ID."='".round($this->OwnerId)."',
+".self::AUTHOR_ID."=".round($this->AuthorId).",
+".self::DATE."='".SqlQuote($this->Date)."',
+".self::TITLE."='".SqlQuote($this->Title)."',
+".self::CONTENT."='".SqlQuote($this->Content)."',
 ".self::IS_HIDDEN."=".Boolean($this->IsHidden)."
 WHERE
     ".self::NEWS_RECORD_ID."=".SqlQuote($this->Id);

@@ -25,7 +25,7 @@
             $result .= ($postfix ? $postfix : "<li>".$postfix);
             return $result;
         }
-    
+
         function __tostring() {
             $result = "";
             $pagesCount = ceil($this->Total / $this->PerPage);
@@ -48,7 +48,7 @@
             if ($showTill != $pagesCount && $pagesCount > 0) {
                 $result .= $this->PrintLink($pagesCount - 1, " .. ", "", false);
             }
-            
+
             if ($result) {
                 $result = "<ul class='pager'>".($this->Title ? "<h4>".$this->Title."</h4>" : "").$result."</ul>";
             }
