@@ -1,24 +1,24 @@
 <?
     require "menu_base.php";
 
-	if ($user->IsEmpty() || !$user->IsSuperAdmin()) {
-		exit();
-	}
+    if ($user->IsEmpty() || !$user->IsSuperAdmin()) {
+        exit();
+    }
 
 ?>
 
-<h4>Показывать только комнаты:</h4>
-<input type="checkbox" id="locked" name="locked"> <label for="locked">заблокированные</label>&nbsp;
-<input type="checkbox" id="by_invitation" name="by_invitation"> <label for="by_invitation">с допуском</label>&nbsp;
-<input type="checkbox" id="deleted" name="deleted" checked> <label for="deleted">не удалённые</label>
+<h4>РџРѕРєР°Р·С‹РІР°С‚СЊ С‚РѕР»СЊРєРѕ РєРѕРјРЅР°С‚С‹:</h4>
+<input type="checkbox" id="locked" name="locked"> <label for="locked">Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅРЅС‹Рµ</label>&nbsp;
+<input type="checkbox" id="by_invitation" name="by_invitation"> <label for="by_invitation">СЃ РґРѕРїСѓСЃРєРѕРј</label>&nbsp;
+<input type="checkbox" id="deleted" name="deleted" checked> <label for="deleted">РЅРµ СѓРґР°Р»С‘РЅРЅС‹Рµ</label>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshRooms">Обновить список комнат/применить фильтр</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshRooms">РћР±РЅРѕРІРёС‚СЊ СЃРїРёСЃРѕРє РєРѕРјРЅР°С‚/РїСЂРёРјРµРЅРёС‚СЊ С„РёР»СЊС‚СЂ</a>
 </ul>
 
-<table cellpadding="2" cellspacing="0" id="RoomsGrid" class="Grid"><tbody><tr><th style="width:100%">Комната</th><th>Операции</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="RoomsGrid" class="Grid"><tbody><tr><th style="width:100%">РљРѕРјРЅР°С‚Р°</th><th>РћРїРµСЂР°С†РёРё</th></tr></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="AddNewRoom(this)" class="Add" id="AddRoom">Новая комната</a>
+    <li> <a href="javascript:void(0)" onclick="AddNewRoom(this)" class="Add" id="AddRoom">РќРѕРІР°СЏ РєРѕРјРЅР°С‚Р°</a>
 </ul>
 

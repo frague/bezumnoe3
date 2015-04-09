@@ -1,17 +1,17 @@
 <?
     require "menu_base.php";
 
-	if ($user->IsEmpty() || !$user->IsSuperAdmin()) {
-		exit();
-	}
+    if ($user->IsEmpty() || !$user->IsSuperAdmin()) {
+        exit();
+    }
 
 ?>
 
-<table cellpadding="2" cellspacing="0" id="NewsGrid" class="Grid"><tbody><tr><th style="width:100%">Название</th><th>Операции</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="NewsGrid" class="Grid"><tbody><tr><th style="width:100%">РќР°Р·РІР°РЅРёРµ</th><th>РћРїРµСЂР°С†РёРё</th></tr></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="AddNews(this)" class="Add" id="AddNews">Новый новостной раздел</a>
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshNews">Обновить список разделов</a>
+    <li> <a href="javascript:void(0)" onclick="AddNews(this)" class="Add" id="AddNews">РќРѕРІС‹Р№ РЅРѕРІРѕСЃС‚РЅРѕР№ СЂР°Р·РґРµР»</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshNews">РћР±РЅРѕРІРёС‚СЊ СЃРїРёСЃРѕРє СЂР°Р·РґРµР»РѕРІ</a>
 </ul>
 
 <div id="NewsItems"></div>

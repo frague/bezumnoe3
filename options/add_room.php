@@ -3,7 +3,7 @@
 <input id="NEW_ROOM" name="NEW_ROOM" />
 <div id="RoomStatus"></div>
 
-<input type="checkbox" name="IS_PRIVATE" id="IS_PRIVATE" /> Приватная
+<input type="checkbox" name="IS_PRIVATE" id="IS_PRIVATE" /> РџСЂРёРІР°С‚РЅР°СЏ
 <div id="AdminOnly">
-	<input type="checkbox" name="IS_LOCKED" id="IS_LOCKED" /> Заблокировать<br>
+    <input type="checkbox" name="IS_LOCKED" id="IS_LOCKED" /> Р—Р°Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ<br>
 </div>

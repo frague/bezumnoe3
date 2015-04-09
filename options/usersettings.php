@@ -3,56 +3,56 @@
 
 ?>
 
-<h2>Настройки пользователя <span id="LOGIN">%username%</span></h2>
+<h2>РќР°СЃС‚СЂРѕР№РєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ <span id="LOGIN">%username%</span></h2>
 
 <table width="100%" cellpadding="4">
-	<tr>
-		<td width="50%" colspan="2">
-<h4>Шрифт:</h4>
-Название шрифта:<br>
+    <tr>
+        <td width="50%" colspan="2">
+<h4>РЁСЂРёС„С‚:</h4>
+РќР°Р·РІР°РЅРёРµ С€СЂРёС„С‚Р°:<br>
 <input id="FONT_FACE" name="FONT_FACE" class="Wide" onchange="UpdateFontView()" /><br />
 
-Размер шрифта: <select id="FONT_SIZE" name="FONT_SIZE" onchange="UpdateFontView()"><option value="1">самый малый<option value="2">малый<option value="3">нормальный<option value="4">большой<option value="5">очень большой</select><br />
+Р Р°Р·РјРµСЂ С€СЂРёС„С‚Р°: <select id="FONT_SIZE" name="FONT_SIZE" onchange="UpdateFontView()"><option value="1">СЃР°РјС‹Р№ РјР°Р»С‹Р№<option value="2">РјР°Р»С‹Р№<option value="3">РЅРѕСЂРјР°Р»СЊРЅС‹Р№<option value="4">Р±РѕР»СЊС€РѕР№<option value="5">РѕС‡РµРЅСЊ Р±РѕР»СЊС€РѕР№</select><br />
 
-Цвет:<br>
+Р¦РІРµС‚:<br>
 <input id="FONT_COLOR" name="FONT_COLOR" onchange="UpdateFontView()" /><br />
 
-Стили:<br>
-<input type="checkbox" id="FONT_BOLD" name="FONT_BOLD" onclick="UpdateFontView()" /> <label for="FONT_BOLD"><b>Жирный</b></label><br />
-<input type="checkbox" id="FONT_ITALIC" name="FONT_ITALIC" onclick="UpdateFontView()" /> <label for="FONT_ITALIC"><i>Курсив</i></label><br />
-<input type="checkbox" id="FONT_UNDERLINED" name="FONT_UNDERLINED" onclick="UpdateFontView()" /> <label for="FONT_UNDERLINED" class="NoBorder"><u>Подчёркнутый</u></label><br />
+РЎС‚РёР»Рё:<br>
+<input type="checkbox" id="FONT_BOLD" name="FONT_BOLD" onclick="UpdateFontView()" /> <label for="FONT_BOLD"><b>Р–РёСЂРЅС‹Р№</b></label><br />
+<input type="checkbox" id="FONT_ITALIC" name="FONT_ITALIC" onclick="UpdateFontView()" /> <label for="FONT_ITALIC"><i>РљСѓСЂСЃРёРІ</i></label><br />
+<input type="checkbox" id="FONT_UNDERLINED" name="FONT_UNDERLINED" onclick="UpdateFontView()" /> <label for="FONT_UNDERLINED" class="NoBorder"><u>РџРѕРґС‡С‘СЂРєРЅСѓС‚С‹Р№</u></label><br />
 
-<h4>Ваш шрифт выглядит так:</h4>
+<h4>Р’Р°С€ С€СЂРёС„С‚ РІС‹РіР»СЏРґРёС‚ С‚Р°Рє:</h4>
 <div id="fontExample">
-	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam nibh nunc, ultricies eu, ultricies id, tristique vel, purus.
-	<p>Съешь ещё этих мягких французских булок, да выпей же чаю.
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam nibh nunc, ultricies eu, ultricies id, tristique vel, purus.
+    <p>РЎСЉРµС€СЊ РµС‰С‘ СЌС‚РёС… РјСЏРіРєРёС… С„СЂР°РЅС†СѓР·СЃРєРёС… Р±СѓР»РѕРє, РґР° РІС‹РїРµР№ Р¶Рµ С‡Р°СЋ.
 </div>
 
-		</td><td colspan="2">
-<h4>Отображать сообщения чата:</h4>
-<input type="checkbox" id="IGNORE_FONTS" name="IGNORE_FONTS" /> <label for="IGNORE_FONTS">шрифтом по умолчанию</label><br />
-<input type="checkbox" id="IGNORE_COLORS" name="IGNORE_COLORS" /> <label for="IGNORE_COLORS">одним цветом</label><br />
-<input type="checkbox" id="IGNORE_FONT_SIZE" name="IGNORE_FONT_SIZE" /> <label for="IGNORE_FONT_SIZE">шрифтом одного размера</label><br />
-<input type="checkbox" id="IGNORE_FONT_STYLE" name="IGNORE_FONT_STYLE" /> <label for="IGNORE_FONT_STYLE">игнорировать стили</label><br />
+        </td><td colspan="2">
+<h4>РћС‚РѕР±СЂР°Р¶Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёСЏ С‡Р°С‚Р°:</h4>
+<input type="checkbox" id="IGNORE_FONTS" name="IGNORE_FONTS" /> <label for="IGNORE_FONTS">С€СЂРёС„С‚РѕРј РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ</label><br />
+<input type="checkbox" id="IGNORE_COLORS" name="IGNORE_COLORS" /> <label for="IGNORE_COLORS">РѕРґРЅРёРј С†РІРµС‚РѕРј</label><br />
+<input type="checkbox" id="IGNORE_FONT_SIZE" name="IGNORE_FONT_SIZE" /> <label for="IGNORE_FONT_SIZE">С€СЂРёС„С‚РѕРј РѕРґРЅРѕРіРѕ СЂР°Р·РјРµСЂР°</label><br />
+<input type="checkbox" id="IGNORE_FONT_STYLE" name="IGNORE_FONT_STYLE" /> <label for="IGNORE_FONT_STYLE">РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ СЃС‚РёР»Рё</label><br />
 
-<h4>Другие настройки:</h4>
-<input type="checkbox" id="RECEIVE_WAKEUPS" name="RECEIVE_WAKEUPS" /> <label for="RECEIVE_WAKEUPS">Раскрывать вейкап сообщения при получении</label>
+<h4>Р”СЂСѓРіРёРµ РЅР°СЃС‚СЂРѕР№РєРё:</h4>
+<input type="checkbox" id="RECEIVE_WAKEUPS" name="RECEIVE_WAKEUPS" /> <label for="RECEIVE_WAKEUPS">Р Р°СЃРєСЂС‹РІР°С‚СЊ РІРµР№РєР°Рї СЃРѕРѕР±С‰РµРЅРёСЏ РїСЂРё РїРѕР»СѓС‡РµРЅРёРё</label>
 
-<h4>Сообщения входа и выхода:</h4>
-Сообщение о входе в чат:<br>
+<h4>РЎРѕРѕР±С‰РµРЅРёСЏ РІС…РѕРґР° Рё РІС‹С…РѕРґР°:</h4>
+РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РІС…РѕРґРµ РІ С‡Р°С‚:<br>
 <input id="ENTER_MESSAGE" name="ENTER_MESSAGE" class="Wide" /><br />
-<p class="Note">Используйте ключевое слово <b>%name</b> в том месте, куда будет подставлен ваш никнейм</p>
+<p class="Note">РСЃРїРѕР»СЊР·СѓР№С‚Рµ РєР»СЋС‡РµРІРѕРµ СЃР»РѕРІРѕ <b>%name</b> РІ С‚РѕРј РјРµСЃС‚Рµ, РєСѓРґР° Р±СѓРґРµС‚ РїРѕРґСЃС‚Р°РІР»РµРЅ РІР°С€ РЅРёРєРЅРµР№Рј</p>
 
-Сообщение о выходе из чата:<br />
+РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РІС‹С…РѕРґРµ РёР· С‡Р°С‚Р°:<br />
 <input id="QUIT_MESSAGE" name="QUIT_MESSAGE" class="Wide" /><br />
-<p class="Note">Используйте ключевое слово <b>%name</b> в том месте, куда будет подставлен ваш никнейм</p>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="4">
-			<h4>Расположение "фреймов" чата:</h4></td></tr>
-	<tr class="Radios" id="FRAMESET"><td width="25%"><img src="/img/frames/0.gif" /><input type="radio" id="SET0" name="FRAMESET1" value="0" /><label for="SET0">Список пользователей слева, поле ввода вверху</label></td><td width="25%"><img src="/img/frames/1.gif" /><input type="radio" id="SET1" name="FRAMESET1" value="1" /><label for="SET1">Список пользователей справа, поле ввода вверху</label></td><td width="25%"><img src="/img/frames/2.gif" /><input type="radio" id="SET2" name="FRAMESET1" value="2"><label for="SET2" />Список пользователей слева, поле ввода внизу</label></td><td width="25%"><img src="/img/frames/3.gif" /><input type="radio" id="SET3" name="FRAMESET1" value="3" /><label for="SET3">Список пользователей справа, поле ввода внизу</label></td></tr></table>
+<p class="Note">РСЃРїРѕР»СЊР·СѓР№С‚Рµ РєР»СЋС‡РµРІРѕРµ СЃР»РѕРІРѕ <b>%name</b> РІ С‚РѕРј РјРµСЃС‚Рµ, РєСѓРґР° Р±СѓРґРµС‚ РїРѕРґСЃС‚Р°РІР»РµРЅ РІР°С€ РЅРёРєРЅРµР№Рј</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <h4>Р Р°СЃРїРѕР»РѕР¶РµРЅРёРµ "С„СЂРµР№РјРѕРІ" С‡Р°С‚Р°:</h4></td></tr>
+    <tr class="Radios" id="FRAMESET"><td width="25%"><img src="/img/frames/0.gif" /><input type="radio" id="SET0" name="FRAMESET1" value="0" /><label for="SET0">РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃР»РµРІР°, РїРѕР»Рµ РІРІРѕРґР° РІРІРµСЂС…Сѓ</label></td><td width="25%"><img src="/img/frames/1.gif" /><input type="radio" id="SET1" name="FRAMESET1" value="1" /><label for="SET1">РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃРїСЂР°РІР°, РїРѕР»Рµ РІРІРѕРґР° РІРІРµСЂС…Сѓ</label></td><td width="25%"><img src="/img/frames/2.gif" /><input type="radio" id="SET2" name="FRAMESET1" value="2"><label for="SET2" />РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃР»РµРІР°, РїРѕР»Рµ РІРІРѕРґР° РІРЅРёР·Сѓ</label></td><td width="25%"><img src="/img/frames/3.gif" /><input type="radio" id="SET3" name="FRAMESET1" value="3" /><label for="SET3">РЎРїРёСЃРѕРє РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ СЃРїСЂР°РІР°, РїРѕР»Рµ РІРІРѕРґР° РІРЅРёР·Сѓ</label></td></tr></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">РћР±РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ СЃ СЃРµСЂРІРµСЂР°</a>
 </ul>
