@@ -23,10 +23,10 @@ Userman.prototype.RequestCallback = function(req, obj) {
 		obj.RequestBaseCallback(req, obj);
 		obj.Bind(obj.data);
 		if (obj.more) {
-			obj.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
+			obj.Tab.Alerts.Add("Р‘РѕР»РµРµ	20	СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ	-	СѓС‚РѕС‡РЅРёС‚Рµ РєСЂРёС‚РµСЂРёР№ РїРѕРёСЃРєР°.", 1);
 		} else {
 			if ((!obj.data || !obj.data.length) && userSearched) {
-				obj.Tab.Alerts.Add("Пользователи не найдены.");
+				obj.Tab.Alerts.Add("РџРѕР»СЊР·РѕРІР°С‚РµР»Рё РЅРµ РЅР°Р№РґРµРЅС‹.");
 			}
 		}
 	}

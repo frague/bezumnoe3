@@ -1,7 +1,7 @@
 <?php
 
     function SendMail($to, $subject, $message) {
-        $charset = "windows-1251";
+        $charset = "utf-8";
 
         $header = "Return-Path: Безумное ЧАепиТие <info@bezumnoe.ru>\n";
         $header .= "MIME-Version: 1.0\n";

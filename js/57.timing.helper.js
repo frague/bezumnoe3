@@ -1,12 +1,12 @@
 //1.0
 /*
-	Timing functions
+    Timing functions
 */
 
 function Wait(milliseconds) {
-	var date = new Date();
-	var curDate = null;
+    var date = new Date();
+    var curDate = null;
 
-	do { curDate = new Date(); 
-	} while (curDate - date < milliseconds);
+    do { curDate = new Date();
+    } while (curDate - date < milliseconds);
 };

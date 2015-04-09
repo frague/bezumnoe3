@@ -86,8 +86,8 @@ jrdto.prototype.ToString = function(index, obj) {
 
 	var td3 = d.createElement("td");
 	td3.className = "Centered";
-		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
-		td3.appendChild(MakeButton("DeleteRecord(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить"));
+		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "РџСЂР°РІРёС‚СЊ"));
+		td3.appendChild(MakeButton("DeleteRecord(this,"+this.Id+")", "delete_icon.gif", obj, "", "РЈРґР°Р»РёС‚СЊ"));
 	tr.appendChild(td3);
 	
 	return tr;
@@ -123,6 +123,6 @@ function DeleteCallback(req, obj) {
 /* Confirms */
 
 function DeleteRecord(a, id) {
-	co.Show(function() {DeleteRecordConfirmed(a.obj, id)}, "Удалить запись?", "Запись в блоге и все комментарии к ней будут удалены.<br>Продолжить?");
+	co.Show(function() {DeleteRecordConfirmed(a.obj, id)}, "РЈРґР°Р»РёС‚СЊ Р·Р°РїРёСЃСЊ?", "Р—Р°РїРёСЃСЊ РІ Р±Р»РѕРіРµ Рё РІСЃРµ РєРѕРјРјРµРЅС‚Р°СЂРёРё Рє РЅРµР№ Р±СѓРґСѓС‚ СѓРґР°Р»РµРЅС‹.<br>РџСЂРѕРґРѕР»Р¶РёС‚СЊ?");
 };
 

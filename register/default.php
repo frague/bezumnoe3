@@ -7,7 +7,7 @@
         }
         return $result;
     }
-    
+
     function encrypt($num) {
         $result = get_sequence();
         foreach (str_split($num) as $c) {
@@ -24,21 +24,21 @@
         }
         return $result;
     }
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";
-    
-    $p = new Page("Регистрация в чате", "", "", true);
+
+    $p = new Page("Р РµРіРёСЃС‚СЂР°С†РёСЏ РІ С‡Р°С‚Рµ", "", "", true);
     $p->AddCss("register.css");
     $p->PrintHeader();
-    
+
     require_once $root."references.php";
 
     $operations = array("+", "-", "*");
 
     $errors = array();
-#   $errors[] = "Регистрация временно закрыта";
+#   $errors[] = "Р РµРіРёСЃС‚СЂР°С†РёСЏ РІСЂРµРјРµРЅРЅРѕ Р·Р°РєСЂС‹С‚Р°";
 
     $doSave = LookInRequest("DO_SAVE");
     if ($doSave) {
@@ -57,50 +57,50 @@
 
         /* Validation */
         if (!$is_human || ($gender && !preg_match("/^[mf]$/", $gender))) {
-            $errors[] = "Заблокирована автоматическая регистрация.";
+            $errors[] = "Р—Р°Р±Р»РѕРєРёСЂРѕРІР°РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ СЂРµРіРёСЃС‚СЂР°С†РёСЏ.";
 
             // Commented to prevent log drammatical growth
-            // SaveLog("Заблокирована автоматическая регистрация пользователя ".$login, -1, "", AdminComment::SEVERITY_ERROR);
+            // SaveLog("Р—Р°Р±Р»РѕРєРёСЂРѕРІР°РЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєР°СЏ СЂРµРіРёСЃС‚СЂР°С†РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ ".$login, -1, "", AdminComment::SEVERITY_ERROR);
         }
 
         if (!$login) {
-            $errors[] = "Не указан логин.";
+            $errors[] = "РќРµ СѓРєР°Р·Р°РЅ Р»РѕРіРёРЅ.";
         }
-        if (!preg_match("/^[a-zA-Zа-яА-Я0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/", $login)) {
-            $errors[] = "Логин содержит недопустимые символы.";
+        if (!preg_match("/^[a-zA-ZР°-СЏРђ-РЇ0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/", $login)) {
+            $errors[] = "Р›РѕРіРёРЅ СЃРѕРґРµСЂР¶РёС‚ РЅРµРґРѕРїСѓСЃС‚РёРјС‹Рµ СЃРёРјРІРѕР»С‹.";
         }
-        if (preg_match("/[a-zA-Z]/", $login) && preg_match("/[а-яА-Я]/", $login)) {
-            $errors[] = "Недопустимо смешение в имени русского и латинского алфавитов.";
+        if (preg_match("/[a-zA-Z]/", $login) && preg_match("/[Р°-СЏРђ-РЇ]/", $login)) {
+            $errors[] = "РќРµРґРѕРїСѓСЃС‚РёРјРѕ СЃРјРµС€РµРЅРёРµ РІ РёРјРµРЅРё СЂСѓСЃСЃРєРѕРіРѕ Рё Р»Р°С‚РёРЅСЃРєРѕРіРѕ Р°Р»С„Р°РІРёС‚РѕРІ.";
         }
         if (!$password) {
-            $errors[] = "Не указан пароль.";
+            $errors[] = "РќРµ СѓРєР°Р·Р°РЅ РїР°СЂРѕР»СЊ.";
         }
         if (!$confirmPassword) {
-            $errors[] = "Не указано подтверждение пароля.";
+            $errors[] = "РќРµ СѓРєР°Р·Р°РЅРѕ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РїР°СЂРѕР»СЏ.";
         }
         if (!$email) {
-            $errors[] = "Не указан e-mail.";
+            $errors[] = "РќРµ СѓРєР°Р·Р°РЅ e-mail.";
         }
 
         if (strlen($login) < 3 || strlen($login) > 20) {
-            $errors[] = "Логин должен быть не короче 3 и не длиннее 20 символов.";
+            $errors[] = "Р›РѕРіРёРЅ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅРµ РєРѕСЂРѕС‡Рµ 3 Рё РЅРµ РґР»РёРЅРЅРµРµ 20 СЃРёРјРІРѕР»РѕРІ.";
         }
         if ($password != $confirmPassword) {
-            $errors[] = "Пароли не совпадают.";
+            $errors[] = "РџР°СЂРѕР»Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.";
         }
 
         if ($answer != decrypt($session)) {
-            $errors[] = "Неверный ответ на математическую задачу.";
+            $errors[] = "РќРµРІРµСЂРЅС‹Р№ РѕС‚РІРµС‚ РЅР° РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р·Р°РґР°С‡Сѓ.";
         }
 
         if (!$accept) {
-            $errors[] = "Необходимо ознакомиться с правилами чата.";
+            $errors[] = "РќРµРѕР±С…РѕРґРёРјРѕ РѕР·РЅР°РєРѕРјРёС‚СЊСЃСЏ СЃ РїСЂР°РІРёР»Р°РјРё С‡Р°С‚Р°.";
         }
 
         if (!sizeof($errors)) {
             // Check if name is already taken
 
-            $taken = "Имя &laquo;".$login."&raquo; уже занято.";
+            $taken = "РРјСЏ &laquo;".$login."&raquo; СѓР¶Рµ Р·Р°РЅСЏС‚Рѕ.";
             $loginQuoted = SqlQuote($login);
 
             $q = $db->Query("SELECT 1 FROM ".User::table." WHERE ".User::LOGIN."='".$loginQuoted."' LIMIT 1");
@@ -121,7 +121,7 @@
             // Check if e-mail exists
             $q = $db->Query("SELECT 1 FROM ".Profile::table." WHERE ".Profile::EMAIL."='".SqlQuote($email)."' LIMIT 1");
             if ($q->NumRows()) {
-                $errors[] = "E-mail &laquo;".$email."&raquo; уже был использован при регистрации.";
+                $errors[] = "E-mail &laquo;".$email."&raquo; СѓР¶Рµ Р±С‹Р» РёСЃРїРѕР»СЊР·РѕРІР°РЅ РїСЂРё СЂРµРіРёСЃС‚СЂР°С†РёРё.";
             }
         }
     }
@@ -177,22 +177,22 @@
             // Write registration Log
             LogRegistration($newborn->Id, $login);
 
-            SendMail($email, "Регистрация в чате \"Безумное ЧАепиТие у Мартовского Зайца\"", "Здравствуйте.
+            SendMail($email, "Р РµРіРёСЃС‚СЂР°С†РёСЏ РІ С‡Р°С‚Рµ \"Р‘РµР·СѓРјРЅРѕРµ Р§РђРµРїРёРўРёРµ Сѓ РњР°СЂС‚РѕРІСЃРєРѕРіРѕ Р—Р°Р№С†Р°\"", "Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ.
 
-Вы, или кто-то с указанием вашего e-mail адреса, прошли регистрацию в чате \"Безумное ЧАепиТие у Мартовского Зайца\" (http://www.bezumnoe.ru) под ником \"".$login."\".
-Для активации вашего аккаунта пройдите по ссылке http://www.bezumnoe.ru/activate/?g=".$guid.".
+Р’С‹, РёР»Рё РєС‚Рѕ-С‚Рѕ СЃ СѓРєР°Р·Р°РЅРёРµРј РІР°С€РµРіРѕ e-mail Р°РґСЂРµСЃР°, РїСЂРѕС€Р»Рё СЂРµРіРёСЃС‚СЂР°С†РёСЋ РІ С‡Р°С‚Рµ \"Р‘РµР·СѓРјРЅРѕРµ Р§РђРµРїРёРўРёРµ Сѓ РњР°СЂС‚РѕРІСЃРєРѕРіРѕ Р—Р°Р№С†Р°\" (http://www.bezumnoe.ru) РїРѕРґ РЅРёРєРѕРј \"".$login."\".
+Р”Р»СЏ Р°РєС‚РёРІР°С†РёРё РІР°С€РµРіРѕ Р°РєРєР°СѓРЅС‚Р° РїСЂРѕР№РґРёС‚Рµ РїРѕ СЃСЃС‹Р»РєРµ http://www.bezumnoe.ru/activate/?g=".$guid.".
 
-Если же вы получили это письмо по ошибке - просто проигнорируйте это сообщение и запись в нашей базе данных будет удалена автоматически в недельный срок.
+Р•СЃР»Рё Р¶Рµ РІС‹ РїРѕР»СѓС‡РёР»Рё СЌС‚Рѕ РїРёСЃСЊРјРѕ РїРѕ РѕС€РёР±РєРµ - РїСЂРѕСЃС‚Рѕ РїСЂРѕРёРіРЅРѕСЂРёСЂСѓР№С‚Рµ СЌС‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ Рё Р·Р°РїРёСЃСЊ РІ РЅР°С€РµР№ Р±Р°Р·Рµ РґР°РЅРЅС‹С… Р±СѓРґРµС‚ СѓРґР°Р»РµРЅР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІ РЅРµРґРµР»СЊРЅС‹Р№ СЃСЂРѕРє.
 
- С уважением,
- администрация чата.");
+ РЎ СѓРІР°Р¶РµРЅРёРµРј,
+ Р°РґРјРёРЅРёСЃС‚СЂР°С†РёСЏ С‡Р°С‚Р°.");
 
 ?>
 
-<h2>Регистрация прошла успешно</h2>
-Поздравляем с регистрацией в чате &laquo;Безумное ЧАепиТие&raquo;.
-<p>На указанный вами при регистрации адрес были высланы инструкции по активации вашего аккаунта.
-<p>Желаем приятного общения!
+<h2>Р РµРіРёСЃС‚СЂР°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ</h2>
+РџРѕР·РґСЂР°РІР»СЏРµРј СЃ СЂРµРіРёСЃС‚СЂР°С†РёРµР№ РІ С‡Р°С‚Рµ &laquo;Р‘РµР·СѓРјРЅРѕРµ Р§РђРµРїРёРўРёРµ&raquo;.
+<p>РќР° СѓРєР°Р·Р°РЅРЅС‹Р№ РІР°РјРё РїСЂРё СЂРµРіРёСЃС‚СЂР°С†РёРё Р°РґСЂРµСЃ Р±С‹Р»Рё РІС‹СЃР»Р°РЅС‹ РёРЅСЃС‚СЂСѓРєС†РёРё РїРѕ Р°РєС‚РёРІР°С†РёРё РІР°С€РµРіРѕ Р°РєРєР°СѓРЅС‚Р°.
+<p>Р–РµР»Р°РµРј РїСЂРёСЏС‚РЅРѕРіРѕ РѕР±С‰РµРЅРёСЏ!
 
 <br /><br /><br /><br /><br /><br /><br /><br />
 
@@ -203,12 +203,12 @@
     }
 ?>
 
-<h2>Условия регистрации</h2>
-Для регистрации в чате необходимо выбрать логин, пароль достаточной сложности и
-указать свой e-mail адрес для подтверждения регистрации.<br>
-Более полную информацию можно будет указать из меню после входа в чат.<br>
+<h2>РЈСЃР»РѕРІРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё</h2>
+Р”Р»СЏ СЂРµРіРёСЃС‚СЂР°С†РёРё РІ С‡Р°С‚Рµ РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹Р±СЂР°С‚СЊ Р»РѕРіРёРЅ, РїР°СЂРѕР»СЊ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕР№ СЃР»РѕР¶РЅРѕСЃС‚Рё Рё
+СѓРєР°Р·Р°С‚СЊ СЃРІРѕР№ e-mail Р°РґСЂРµСЃ РґР»СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ СЂРµРіРёСЃС‚СЂР°С†РёРё.<br>
+Р‘РѕР»РµРµ РїРѕР»РЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РјРѕР¶РЅРѕ Р±СѓРґРµС‚ СѓРєР°Р·Р°С‚СЊ РёР· РјРµРЅСЋ РїРѕСЃР»Рµ РІС…РѕРґР° РІ С‡Р°С‚.<br>
 
-<p>Поля, отмеченные значком <span class="Mandatory"></span>, обязательны для заполнения!
+<p>РџРѕР»СЏ, РѕС‚РјРµС‡РµРЅРЅС‹Рµ Р·РЅР°С‡РєРѕРј <span class="Mandatory"></span>, РѕР±СЏР·Р°С‚РµР»СЊРЅС‹ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ!
 
 <div id="Summary" class="ErrorHolder"></div>
 
@@ -216,48 +216,48 @@
 
     <table>
         <tr>
-            <th class="Mandatory">Логин</th>
+            <th class="Mandatory">Р›РѕРіРёРЅ</th>
             <td>
-                <input name="LOGIN" id="LOGIN" type="text" maxlength="20" value="<?php echo $login ?>" placeholder="6 - 20 символов кириллицей или латинскими буквами">
+                <input name="LOGIN" id="LOGIN" type="text" maxlength="20" value="<?php echo $login ?>" placeholder="6 - 20 СЃРёРјРІРѕР»РѕРІ РєРёСЂРёР»Р»РёС†РµР№ РёР»Рё Р»Р°С‚РёРЅСЃРєРёРјРё Р±СѓРєРІР°РјРё">
                 <input name="DO_SAVE" id="DO_SAVE" type="hidden" value="1">
             </td>
         </tr>
         <tr>
-            <th class="Mandatory">Пароль</th>
+            <th class="Mandatory">РџР°СЂРѕР»СЊ</th>
             <td>
                 <input type="password" name="PASSWORD" id="PASSWORD">
             </td>
         </tr>
         <tr>
-            <th class="Mandatory">Подтверждение пароля</th>
+            <th class="Mandatory">РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РїР°СЂРѕР»СЏ</th>
             <td>
                 <input type="password" name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM">
             </td>
         </tr>
         <tr>
-            <th class="Mandatory">E-mail адрес</th>
+            <th class="Mandatory">E-mail Р°РґСЂРµСЃ</th>
             <td>
-                <input name="E-MAIL" id="E-MAIL" type="text" value="<?php echo $email ?>" placeholder="Актуальный адрес для отправки инструкций по активации">
+                <input name="E-MAIL" id="E-MAIL" type="text" value="<?php echo $email ?>" placeholder="РђРєС‚СѓР°Р»СЊРЅС‹Р№ Р°РґСЂРµСЃ РґР»СЏ РѕС‚РїСЂР°РІРєРё РёРЅСЃС‚СЂСѓРєС†РёР№ РїРѕ Р°РєС‚РёРІР°С†РёРё">
             </td>
         </tr>
         <tr>
-            <th>Имя</th>
+            <th>РРјСЏ</th>
             <td>
                 <input name="FULL_NAME" id="FULL_NAME" type="text" value="<?php echo $full_name ?>">
             </td>
         </tr>
         <tr>
-            <th>Пол</th>
+            <th>РџРѕР»</th>
             <td>
-                <input type="radio" name="GENDER" id="GENDER_MALE" value="m" <?php echo ($gender == "m" ? "checked" : ""); ?>> <label for="GENDER_MALE">мужской</label> 
-                <input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">женский</label> 
-                <input type="radio" name="GENDER" id="GENDER_UNKNOWN" value="" <?php echo ($gender ? "" : "checked"); ?>> <label for="GENDER_UNKNOWN">другое</label> 
+                <input type="radio" name="GENDER" id="GENDER_MALE" value="m" <?php echo ($gender == "m" ? "checked" : ""); ?>> <label for="GENDER_MALE">РјСѓР¶СЃРєРѕР№</label>
+                <input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">Р¶РµРЅСЃРєРёР№</label>
+                <input type="radio" name="GENDER" id="GENDER_UNKNOWN" value="" <?php echo ($gender ? "" : "checked"); ?>> <label for="GENDER_UNKNOWN">РґСЂСѓРіРѕРµ</label>
                 <input name="HUMAN" id="HUMAN" style="visibility:hidden" value="">
                 <input type="hidden" name="SESSION" id="SESSION" value="<?php echo $equation_result ?>" />
             </td>
         </tr>
         <tr>
-            <th>Откуда вы</th>
+            <th>РћС‚РєСѓРґР° РІС‹</th>
             <td>
                 <input name="LOCATION" id="LOCATION" type="text" value="<?php echo $location ?>">
             </td>
@@ -265,46 +265,46 @@
         <tr>
             <th>
                 <br />
-                <p><?php echo $equation ?> = 
+                <p><?php echo $equation ?> =
             </th>
             <td>
-                Я не бот и вообще против авторегистрации. Готов доказать, решив простое уравнение:
+                РЇ РЅРµ Р±РѕС‚ Рё РІРѕРѕР±С‰Рµ РїСЂРѕС‚РёРІ Р°РІС‚РѕСЂРµРіРёСЃС‚СЂР°С†РёРё. Р“РѕС‚РѕРІ РґРѕРєР°Р·Р°С‚СЊ, СЂРµС€РёРІ РїСЂРѕСЃС‚РѕРµ СѓСЂР°РІРЅРµРЅРёРµ:
                 <p><input name="ANSWER" id="ANSWER" size="4" width="20px" type="text" />
             </td>
         </tr>
         <tr>
             <td class="Mandatory"></td>
             <td>
-                <input name="ACCEPT" id="ACCEPT" type="checkbox"> Я прочитал(а) <a href="/rules">правила чата</a> и обязуюсь их соблюдать.
-                <p class="Tip">Несоблюдение правил поведения в чате может повлечь наказание, вплоть до удаления пользователя.
+                <input name="ACCEPT" id="ACCEPT" type="checkbox"> РЇ РїСЂРѕС‡РёС‚Р°Р»(Р°) <a href="/rules">РїСЂР°РІРёР»Р° С‡Р°С‚Р°</a> Рё РѕР±СЏР·СѓСЋСЃСЊ РёС… СЃРѕР±Р»СЋРґР°С‚СЊ.
+                <p class="Tip">РќРµСЃРѕР±Р»СЋРґРµРЅРёРµ РїСЂР°РІРёР» РїРѕРІРµРґРµРЅРёСЏ РІ С‡Р°С‚Рµ РјРѕР¶РµС‚ РїРѕРІР»РµС‡СЊ РЅР°РєР°Р·Р°РЅРёРµ, РІРїР»РѕС‚СЊ РґРѕ СѓРґР°Р»РµРЅРёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <input type="image" alt="Зарегистрироваться" src="/img/t/send.gif" width="80" height="67" style="margin-top:10px" />
+                <input type="image" alt="Р—Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°С‚СЊСЃСЏ" src="/img/t/send.gif" width="80" height="67" style="margin-top:10px" />
             </td>
         </tr>
     </table>
 </form>
 
 <script>
-    PageValidators.Add(new Validator("LOGIN", new RequiredField(), "Необходимо задать логин.", 1));
-    PageValidators.Add(new Validator("LOGIN", new LengthRange(3, 20), "Логин должен быть не менее 6 и не более 20 символов.", 1));
+    PageValidators.Add(new Validator("LOGIN", new RequiredField(), "РќРµРѕР±С…РѕРґРёРјРѕ Р·Р°РґР°С‚СЊ Р»РѕРіРёРЅ.", 1));
+    PageValidators.Add(new Validator("LOGIN", new LengthRange(3, 20), "Р›РѕРіРёРЅ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅРµ РјРµРЅРµРµ 6 Рё РЅРµ Р±РѕР»РµРµ 20 СЃРёРјРІРѕР»РѕРІ.", 1));
 
-    PageValidators.Add(new Validator("PASSWORD", new RequiredField(), "Необходимо задать пароль.", 1));
+    PageValidators.Add(new Validator("PASSWORD", new RequiredField(), "РќРµРѕР±С…РѕРґРёРјРѕ Р·Р°РґР°С‚СЊ РїР°СЂРѕР»СЊ.", 1));
 
-    PageValidators.Add(new Validator("PASSWORD_CONFIRM", new RequiredField(), "Необходимо подтвердить пароль.", 1));
-    PageValidators.Add(new Validator("PASSWORD_CONFIRM", new EqualTo($("#PASSWORD")[0]), "Пароли не идентичны.", 1));
+    PageValidators.Add(new Validator("PASSWORD_CONFIRM", new RequiredField(), "РќРµРѕР±С…РѕРґРёРјРѕ РїРѕРґС‚РІРµСЂРґРёС‚СЊ РїР°СЂРѕР»СЊ.", 1));
+    PageValidators.Add(new Validator("PASSWORD_CONFIRM", new EqualTo($("#PASSWORD")[0]), "РџР°СЂРѕР»Рё РЅРµ РёРґРµРЅС‚РёС‡РЅС‹.", 1));
 
-    PageValidators.Add(new Validator("E-MAIL", new RequiredField(), "Не указан e-mail.", 1));
-    PageValidators.Add(new Validator("E-MAIL", new MatchPattern(emailPattern), "Неверный формат e-mail адреса.", 1));
+    PageValidators.Add(new Validator("E-MAIL", new RequiredField(), "РќРµ СѓРєР°Р·Р°РЅ e-mail.", 1));
+    PageValidators.Add(new Validator("E-MAIL", new MatchPattern(emailPattern), "РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ e-mail Р°РґСЂРµСЃР°.", 1));
 
-    PageValidators.Add(new Validator("ACCEPT", new IsChecked(), "Необходимо ознакомиться с правилами чата.", 1));
+    PageValidators.Add(new Validator("ACCEPT", new IsChecked(), "РќРµРѕР±С…РѕРґРёРјРѕ РѕР·РЅР°РєРѕРјРёС‚СЊСЃСЏ СЃ РїСЂР°РІРёР»Р°РјРё С‡Р°С‚Р°.", 1));
 
-    PageValidators.Init("Summary", "Выявлены ошибки:");
+    PageValidators.Init("Summary", "Р’С‹СЏРІР»РµРЅС‹ РѕС€РёР±РєРё:");
 <?php
-        
+
     if (sizeof($errors)) {
         echo "PageValidators.ShowSummary([\"".join("\", \"", $errors)."\"]);";
     }

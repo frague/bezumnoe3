@@ -36,10 +36,10 @@ Profile.prototype.Bind = function() {
 
 	var ban_status = "";
 	if (this.ADMIN) {
-		ban_status += "Пользователь забанен администратором&nbsp;<b>" + this.ADMIN + "</b>";
-		ban_status += "&nbsp;" + (this.BANNED_TILL ? "до " + this.BANNED_TILL : "бессрочно");
+		ban_status += "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°Р±Р°РЅРµРЅ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРј&nbsp;<b>" + this.ADMIN + "</b>";
+		ban_status += "&nbsp;" + (this.BANNED_TILL ? "РґРѕ " + this.BANNED_TILL : "Р±РµСЃСЃСЂРѕС‡РЅРѕ");
 		if (this.BAN_REASON) {
-			ban_status += "&nbsp;по причине&nbsp;&laquo;" + this.BAN_REASON + "&raquo;";
+			ban_status += "&nbsp;РїРѕ РїСЂРёС‡РёРЅРµ&nbsp;&laquo;" + this.BAN_REASON + "&raquo;";
 		}
 	}
 	this.SetTabElementValue("BanStatus", ban_status);
@@ -79,7 +79,7 @@ Profile.prototype.ReloadImage = function(img) {
 };
 
 Profile.prototype.PrintLoadedImage = function(img) {
-	var p = this.Inputs[img.Container], result = "не загружено";
+	var p = this.Inputs[img.Container], result = "РЅРµ Р·Р°РіСЂСѓР¶РµРЅРѕ";
 	if (p) {
 		if (img.ImageObject) {
 			var dim = "width='" + img.MaxWidth + "'";
@@ -134,7 +134,7 @@ Profile.prototype.TemplateLoaded = function(req) {
 
 	/* Admin comments spoiler */
 	if (me.IsAdmin()) {
-		var acs = new Spoiler(2, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().LoadTemplate(tab, this.USER_ID)});
+		var acs = new Spoiler(2, "РљРѕРјРјРµРЅС‚Р°СЂРёРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРІ	&	Р»РѕРіРё", 0, 0, function(tab) {new AdminComments().LoadTemplate(tab, this.USER_ID)});
 		acs.USER_ID = this.USER_ID;
 		acs.ToString(this.Inputs["AdminComments"]);
    	}
@@ -229,9 +229,9 @@ Img.prototype.HasImage = function() {
 /* Confirms */
 
 function DeletePhoto(a) {
-	co.Show(function() {DeletePhotoConfirmed(a,"photo")}, "Удалить фотографию?", "Фотография пользователя будет удалена из профиля.<br>Вы уверены?");
+	co.Show(function() {DeletePhotoConfirmed(a,"photo")}, "РЈРґР°Р»РёС‚СЊ С„РѕС‚РѕРіСЂР°С„РёСЋ?", "Р¤РѕС‚РѕРіСЂР°С„РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Р±СѓРґРµС‚ СѓРґР°Р»РµРЅР° РёР· РїСЂРѕС„РёР»СЏ.<br>Р’С‹ СѓРІРµСЂРµРЅС‹?");
 };
 
 function DeleteAvatar(a) {
-	co.Show(function() {DeletePhotoConfirmed(a,"avatar")}, "Удалить аватар?", "Автар будет удален из профиля.<br>Вы уверены?");
+	co.Show(function() {DeletePhotoConfirmed(a,"avatar")}, "РЈРґР°Р»РёС‚СЊ Р°РІР°С‚Р°СЂ?", "РђРІС‚Р°СЂ Р±СѓРґРµС‚ СѓРґР°Р»РµРЅ РёР· РїСЂРѕС„РёР»СЏ.<br>Р’С‹ СѓРІРµСЂРµРЅС‹?");
 };
