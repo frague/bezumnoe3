@@ -3,38 +3,38 @@
 
 ?>
 <table class="Wide">
-	<tr>
-		<td colspan="2">
-<h4>Название:</h4>
+    <tr>
+        <td colspan="2">
+<h4>РќР°Р·РІР°РЅРёРµ:</h4>
 <input id="TITLE" name="TITLE" class="Wide" /><br />
-		
+
 <div id="gallery">
-	<h4>Краткое описание:</h4>
-	<textarea id="DESCRIPTION" name="DESCRIPTION" rows="5" class="Wide"></textarea>
+    <h4>РљСЂР°С‚РєРѕРµ РѕРїРёСЃР°РЅРёРµ:</h4>
+    <textarea id="DESCRIPTION" name="DESCRIPTION" rows="5" class="Wide"></textarea>
 </div>
 
-<input type="checkbox" id="IS_PROTECTED" name="IS_PROTECTED" /> <label for="IS_PROTECTED">Раздел защищён от просмотра</label><br />
-<p class="Note">При установке только пользователи из "белого списка" смогут видеть записи в разделе</p>
+<input type="checkbox" id="IS_PROTECTED" name="IS_PROTECTED" /> <label for="IS_PROTECTED">Р Р°Р·РґРµР» Р·Р°С‰РёС‰С‘РЅ РѕС‚ РїСЂРѕСЃРјРѕС‚СЂР°</label><br />
+<p class="Note">РџСЂРё СѓСЃС‚Р°РЅРѕРІРєРµ С‚РѕР»СЊРєРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РёР· "Р±РµР»РѕРіРѕ СЃРїРёСЃРєР°" СЃРјРѕРіСѓС‚ РІРёРґРµС‚СЊ Р·Р°РїРёСЃРё РІ СЂР°Р·РґРµР»Рµ</p>
 
-<span id="IsHidden"><input type="checkbox" id="IS_HIDDEN" name="IS_HIDDEN" /> <label for="IS_HIDDEN">Раздел скрыт для всех пользователей</label><br /></span>
+<span id="IsHidden"><input type="checkbox" id="IS_HIDDEN" name="IS_HIDDEN" /> <label for="IS_HIDDEN">Р Р°Р·РґРµР» СЃРєСЂС‹С‚ РґР»СЏ РІСЃРµС… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№</label><br /></span>
 
-		</td></tr>
-	<tr id="forum">
-		<td width="50%">
+        </td></tr>
+    <tr id="forum">
+        <td width="50%">
 
-<h4>Алиас:</h4>
-Текущий: <span id="ALIAS" class="Bold">не задан</span>
-<p class="Note">Альтернативное название журнала (латинские буквы, цифры, знак "_"),
-используемое при построении ссылки. Например, http://www.bezumnoe.ru/journal/your_alias</p>
+<h4>РђР»РёР°СЃ:</h4>
+РўРµРєСѓС‰РёР№: <span id="ALIAS" class="Bold">РЅРµ Р·Р°РґР°РЅ</span>
+<p class="Note">РђР»СЊС‚РµСЂРЅР°С‚РёРІРЅРѕРµ РЅР°Р·РІР°РЅРёРµ Р¶СѓСЂРЅР°Р»Р° (Р»Р°С‚РёРЅСЃРєРёРµ Р±СѓРєРІС‹, С†РёС„СЂС‹, Р·РЅР°Рє "_"),
+РёСЃРїРѕР»СЊР·СѓРµРјРѕРµ РїСЂРё РїРѕСЃС‚СЂРѕРµРЅРёРё СЃСЃС‹Р»РєРё. РќР°РїСЂРёРјРµСЂ, http://www.bezumnoe.ru/journal/your_alias</p>
 
-		</td><td>
+        </td><td>
 
-<h4>Смена алиаса:</h4>
-<p class="Note">Если вы хотите изменить алиас журнала, введите желаемый в это поле и сохраните настройки.
-После проверки администратором будет принято решение о смене алиаса.</p>
+<h4>РЎРјРµРЅР° Р°Р»РёР°СЃР°:</h4>
+<p class="Note">Р•СЃР»Рё РІС‹ С…РѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ Р°Р»РёР°СЃ Р¶СѓСЂРЅР°Р»Р°, РІРІРµРґРёС‚Рµ Р¶РµР»Р°РµРјС‹Р№ РІ СЌС‚Рѕ РїРѕР»Рµ Рё СЃРѕС…СЂР°РЅРёС‚Рµ РЅР°СЃС‚СЂРѕР№РєРё.
+РџРѕСЃР»Рµ РїСЂРѕРІРµСЂРєРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂРѕРј Р±СѓРґРµС‚ РїСЂРёРЅСЏС‚Рѕ СЂРµС€РµРЅРёРµ Рѕ СЃРјРµРЅРµ Р°Р»РёР°СЃР°.</p>
 <input id="REQUESTED_ALIAS" name="REQUESTED_ALIAS" class="Wide" maxlength="20" />
 
-		</td></tr>
+        </td></tr>
 </table>
 
 <br />

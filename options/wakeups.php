@@ -3,31 +3,31 @@
 
 ?>
 
-<h2>Wakeup-сообщения</h2>
+<h2>Wakeup-СЃРѕРѕР±С‰РµРЅРёСЏ</h2>
 
 <table class="Wide">
-	<tr>
-		<td class="Nowrap">
-			<h4>Дата:</h4>
-			<input name="DATE" id="DATE" /></td>
-		<td class="Wide">
-			<h4>Поиск по ключевым словам:</h4>
-			<input name="SEARCH" id="SEARCH" class="Wide" /></td></tr>
-	<tr>
-		<td colspan="2">
-			<h4>Тип сообщений:</h4>
-			<input type="checkbox" id="IS_INCOMING" name="IS_INCOMING" checked> <label for="IS_INCOMING">входящие</label>&nbsp;
-			<input type="checkbox" id="IS_OUTGOING" name="IS_OUTGOING" checked> <label for="IS_OUTGOING">исходящие</label>&nbsp;
-			</td></tr></table>
+    <tr>
+        <td class="Nowrap">
+            <h4>Р”Р°С‚Р°:</h4>
+            <input name="DATE" id="DATE" /></td>
+        <td class="Wide">
+            <h4>РџРѕРёСЃРє РїРѕ РєР»СЋС‡РµРІС‹Рј СЃР»РѕРІР°Рј:</h4>
+            <input name="SEARCH" id="SEARCH" class="Wide" /></td></tr>
+    <tr>
+        <td colspan="2">
+            <h4>РўРёРї СЃРѕРѕР±С‰РµРЅРёР№:</h4>
+            <input type="checkbox" id="IS_INCOMING" name="IS_INCOMING" checked> <label for="IS_INCOMING">РІС…РѕРґСЏС‰РёРµ</label>&nbsp;
+            <input type="checkbox" id="IS_OUTGOING" name="IS_OUTGOING" checked> <label for="IS_OUTGOING">РёСЃС…РѕРґСЏС‰РёРµ</label>&nbsp;
+            </td></tr></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="SwitchPage(this)" class="Refresh" id="buttonSearch">Применить фильтр</a>
-	<li> <a href="javascript:void(0)" onclick="ResetFilter(this)" class="Delete" id="ResetFilter">Сбросить фильтр</a>
+    <li> <a href="javascript:void(0)" onclick="SwitchPage(this)" class="Refresh" id="buttonSearch">РџСЂРёРјРµРЅРёС‚СЊ С„РёР»СЊС‚СЂ</a>
+    <li> <a href="javascript:void(0)" onclick="ResetFilter(this)" class="Delete" id="ResetFilter">РЎР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂ</a>
 </ul>
 
 <div id="Pager"></div>
-<table cellpadding="2" cellspacing="0" id="WakeupsGrid" class="Grid"><tbody><tr><th width="60">Время</th><th width="100">Пользователь</th><th>Сообщения</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="WakeupsGrid" class="Grid"><tbody><tr><th width="60">Р’СЂРµРјСЏ</th><th width="100">РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ</th><th>РЎРѕРѕР±С‰РµРЅРёСЏ</th></tr></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">РћР±РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ СЃ СЃРµСЂРІРµСЂР°</a>
 </ul>

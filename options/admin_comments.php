@@ -1,42 +1,42 @@
 <?
     require "menu_base.php";
 
-	if ($user->IsEmpty()) {
-		exit();
-	}
+    if ($user->IsEmpty()) {
+        exit();
+    }
 
 ?>
-<p class="Note">Все административные изменения в профиле пользователя: бан/отмена бана, смена статуса и другие произвольные комментарии.</p>
+<p class="Note">Р’СЃРµ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅС‹Рµ РёР·РјРµРЅРµРЅРёСЏ РІ РїСЂРѕС„РёР»Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: Р±Р°РЅ/РѕС‚РјРµРЅР° Р±Р°РЅР°, СЃРјРµРЅР° СЃС‚Р°С‚СѓСЃР° Рё РґСЂСѓРіРёРµ РїСЂРѕРёР·РІРѕР»СЊРЅС‹Рµ РєРѕРјРјРµРЅС‚Р°СЂРёРё.</p>
 
 <table class="Wide">
-	<tr>
-		<td class="Nowrap">
-			<h4>Дата:</h4>
-			<input name="DATE" id="DATE" /></td>
-		<td class="Wide">
-			<h4>Поиск по ключевым словам:</h4>
-			<input name="SEARCH" id="SEARCH" class="Wide" /></td></tr>
-	<tr>
-		<td colspan="2">
-			<h4>Приоритет:</h4>
-			<input type="checkbox" id="SEVERITY_NORMAL" name="SEVERITY_NORMAL" checked> нормальный&nbsp;
-			<input type="checkbox" id="SEVERITY_WARNING" name="SEVERITY_WARNING" checked> предупреждение&nbsp;
-			<input type="checkbox" id="SEVERITY_ERROR" name="SEVERITY_ERROR" checked> ошибка
-			</td></tr></table>
+    <tr>
+        <td class="Nowrap">
+            <h4>Р”Р°С‚Р°:</h4>
+            <input name="DATE" id="DATE" /></td>
+        <td class="Wide">
+            <h4>РџРѕРёСЃРє РїРѕ РєР»СЋС‡РµРІС‹Рј СЃР»РѕРІР°Рј:</h4>
+            <input name="SEARCH" id="SEARCH" class="Wide" /></td></tr>
+    <tr>
+        <td colspan="2">
+            <h4>РџСЂРёРѕСЂРёС‚РµС‚:</h4>
+            <input type="checkbox" id="SEVERITY_NORMAL" name="SEVERITY_NORMAL" checked> РЅРѕСЂРјР°Р»СЊРЅС‹Р№&nbsp;
+            <input type="checkbox" id="SEVERITY_WARNING" name="SEVERITY_WARNING" checked> РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ&nbsp;
+            <input type="checkbox" id="SEVERITY_ERROR" name="SEVERITY_ERROR" checked> РѕС€РёР±РєР°
+            </td></tr></table>
 
 <ul class="Links">
-	<li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshAdminComments">Обновить список/применить фильтр</a>
-	<li> <a href="javascript:void(0)" onclick="ResetFilter(this)" class="Delete" id="ResetFilter">Сбросить фильтр</a>
+    <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" class="Refresh" id="RefreshAdminComments">РћР±РЅРѕРІРёС‚СЊ СЃРїРёСЃРѕРє/РїСЂРёРјРµРЅРёС‚СЊ С„РёР»СЊС‚СЂ</a>
+    <li> <a href="javascript:void(0)" onclick="ResetFilter(this)" class="Delete" id="ResetFilter">РЎР±СЂРѕСЃРёС‚СЊ С„РёР»СЊС‚СЂ</a>
 </ul>
 
-<table cellpadding="2" cellspacing="0" id="AdminCommentsGrid" class="Grid"><tbody><tr><th style="width:120px">Дата/Админ</th><th>Комментарий</th></tr></table>
+<table cellpadding="2" cellspacing="0" id="AdminCommentsGrid" class="Grid"><tbody><tr><th style="width:120px">Р”Р°С‚Р°/РђРґРјРёРЅ</th><th>РљРѕРјРјРµРЅС‚Р°СЂРёР№</th></tr></table>
 <div id="Pager"></div>
 
-<h4>Добавить комментарий:</h4>
+<h4>Р”РѕР±Р°РІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№:</h4>
 <table class="Wide">
-	<tr>
-		<td width="100%">
-			<input name="ADMIN_COMMENT" id="ADMIN_COMMENT" class="Wide" />
-		</td><td>
-			<input type="image" src="/img/icons/add_to.gif" id="AddComment" onclick="AddComment(this)" />
-			</td></tr></table>
+    <tr>
+        <td width="100%">
+            <input name="ADMIN_COMMENT" id="ADMIN_COMMENT" class="Wide" />
+        </td><td>
+            <input type="image" src="/img/icons/add_to.gif" id="AddComment" onclick="AddComment(this)" />
+            </td></tr></table>
