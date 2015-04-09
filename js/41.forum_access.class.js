@@ -10,7 +10,7 @@ var FRIENDLY_ACCESS		= 2;
 var READ_ADD_ACCESS		= 3;
 var FULL_ACCESS			= 4;
 
-var accesses = ["доступ закрыт", "только чтение", "дружественный доступ", "чтение/запись", "полный доступ"];
+var accesses = ["РґРѕСЃС‚СѓРї Р·Р°РєСЂС‹С‚", "С‚РѕР»СЊРєРѕ С‡С‚РµРЅРёРµ", "РґСЂСѓР¶РµСЃС‚РІРµРЅРЅС‹Р№ РґРѕСЃС‚СѓРї", "С‡С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ", "РїРѕР»РЅС‹Р№ РґРѕСЃС‚СѓРї"];
 
 function ForumAccess(user_id, tab) {
 	this.UserId = user_id;
@@ -132,18 +132,18 @@ judto.prototype.ToString = function(index, obj, prev_id, holder, className) {
     if (prev_id != this.USER_ID) {
 		var li = d.createElement("li");
 		li.className = className;
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Дать полный доступ"));
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Дать доступ на чтение/запись"));
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FRIENDLY_ACCESS + ", this.obj)", "icons/add_magenta.gif", obj, "", "Дать дружественный доступ"));
-		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Закрыть доступ"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Р”Р°С‚СЊ РїРѕР»РЅС‹Р№ РґРѕСЃС‚СѓРї"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Р”Р°С‚СЊ РґРѕСЃС‚СѓРї РЅР° С‡С‚РµРЅРёРµ/Р·Р°РїРёСЃСЊ"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + FRIENDLY_ACCESS + ", this.obj)", "icons/add_magenta.gif", obj, "", "Р”Р°С‚СЊ РґСЂСѓР¶РµСЃС‚РІРµРЅРЅС‹Р№ РґРѕСЃС‚СѓРї"));
+		li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Р—Р°РєСЂС‹С‚СЊ РґРѕСЃС‚СѓРї"));
 		li.appendChild(MakeDiv(this.LOGIN + (this.NICKNAME ? "&nbsp;(" + this.NICKNAME + ")" : ""), "span"));
 		holder.appendChild(li);
 	}
 	if (this.JOURNAL_ID) {
 		li = d.createElement("li");
 		li.className = className + " Journal";
-		li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
-		li.appendChild(MakeDiv("Журнал &laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")", "span"));
+		li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Р”РѕР±Р°РІРёС‚СЊ РґСЂСѓР¶РµСЃС‚РІРµРЅРЅС‹Р№ Р¶СѓСЂРЅР°Р»"));
+		li.appendChild(MakeDiv("Р–СѓСЂРЅР°Р» &laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")", "span"));
 		holder.appendChild(li);
 	}
 };
@@ -237,7 +237,7 @@ function DrawUsers(sender) {
 		el.appendChild(ul);
 		sender.obj.Tab.Alerts.Clear();
 		if (sender.more) {
-			sender.obj.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
+			sender.obj.Tab.Alerts.Add("Р‘РѕР»РµРµ	20	СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ	-	СѓС‚РѕС‡РЅРёС‚Рµ РєСЂРёС‚РµСЂРёР№ РїРѕРёСЃРєР°.", 1);
 		}
 	}
 };

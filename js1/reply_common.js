@@ -138,7 +138,7 @@ function ForumReply(a, id, forum_id) {
         $("#auth_form").dialog("open");
         return false;
     }
-    
+
     if (!replyFormElement) {
         FindReplyElements();
     }
@@ -154,7 +154,7 @@ function ForumReply(a, id, forum_id) {
             // Treat protected replies
             LockProtection(a.parentNode.previousSibling);
             replyErrorElement.hide();
-            
+
             insertAfter(replyFormElement, a.parentNode.parentNode);
             isVisible = 1;
             if (replyTitleElement) {
@@ -171,10 +171,10 @@ function LockProtection(el) {
     }
     var state = (el.className && el.className.indexOf("Protected") >= 0);
     replyIsProtected.attr('checked', state);
-    if (state) 
-        replyIsProtected.attr('disabled', 'disabled'); 
-    else 
-        replyIsProtected.removeAttr('disabled'); 
+    if (state)
+        replyIsProtected.attr('disabled', 'disabled');
+    else
+        replyIsProtected.removeAttr('disabled');
 };
 
 // Clears reply form
