@@ -1,10 +1,10 @@
 <?php
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";
 
-    $pg = new Page("Фотки чатлан");
+    $pg = new Page("Р¤РѕС‚РєРё С‡Р°С‚Р»Р°РЅ");
     $pg->AddCss(array("photos.css"));
     $pg->AddJs("gallery.js");
     $pg->PrintHeader();
@@ -40,30 +40,30 @@
     <tr>
         <td>
             <form action="/photos/">
-                <h2>Поиск</h2>
+                <h2>РџРѕРёСЃРє</h2>
                 <input name="search" id="search" value="<?php echo $search; ?>" maxlength="20" />
                 <input type="image" src="/img/search_button_inv.gif" border="0" align="absmiddle" />
 
-                <h2>По первому символу</h2>
+                <h2>РџРѕ РїРµСЂРІРѕРјСѓ СЃРёРјРІРѕР»Сѓ</h2>
                 <?php
-            
-                $symbols = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+                $symbols = "РђР‘Р’Р“Р”Р•РЃР–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
                 for ($i = 0; $i < strlen($symbols); $i++) {
-                    $char = substr($symbols, $i, 1);
+                    $char = mb_substr($symbols, $i, 1);
                     echo "<a href='".rawurlencode($char)."'>".$char."</a> ";
                 }
 
                 ?>
 
-                <h2>Совпадения</h2>
+                <h2>РЎРѕРІРїР°РґРµРЅРёСЏ</h2>
                 <ul class="photo_matches random">
                     <?php echo $result ?>
                 </ul>
-                <?php 
+                <?php
                 if ($results > 20) {
-                    echo "<div class='Error'>Отображены первые 20</div>";
-                } 
+                    echo "<div class='Error'>РћС‚РѕР±СЂР°Р¶РµРЅС‹ РїРµСЂРІС‹Рµ 20</div>";
+                }
                 ?>
             </form>
         </td>

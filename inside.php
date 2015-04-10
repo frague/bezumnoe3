@@ -1,138 +1,137 @@
 <?
 
-	$root = "./";
-	require_once $root."server_references.php";
+    $root = "./";
+    require_once $root."server_references.php";
 
-	$user = GetAuthorizedUser(true, true);
+    $user = GetAuthorizedUser(true, true);
 
-	if ($user->IsEmpty()) {
-		echo "Пользователь не авторизован. До свидания...";
-		exit;
-	}
+    if ($user->IsEmpty()) {
+        echo "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ Р°РІС‚РѕСЂРёР·РѕРІР°РЅ. Р”Рѕ СЃРІРёРґР°РЅРёСЏ...";
+        exit;
+    }
 
-	/* Check room */
-	$room = new Room();
-	// TODO: Entering room logic (select room upon entering)
-	$room->FillByCondition("t1.".Room::IS_INVITATION_REQUIRED."=0 AND t1.".Room::IS_DELETED."=0 ORDER BY ".Room::TITLE." LIMIT 1");
+    /* Check room */
+    $room = new Room();
+    // TODO: Entering room logic (select room upon entering)
+    $room->FillByCondition("t1.".Room::IS_INVITATION_REQUIRED."=0 AND t1.".Room::IS_DELETED."=0 ORDER BY ".Room::TITLE." LIMIT 1");
 
-	if ($room->IsEmpty()) {
-		$room->Title = "Oсновная";
-		$room->IsLocked = 1;
-		$room->Save();
+    if ($room->IsEmpty()) {
+        $room->Title = "OСЃРЅРѕРІРЅР°СЏ";
+        $room->IsLocked = 1;
+        $room->Save();
 
-		$room = new Room();
-		$room->Title = "Можно всё";
-		$room->IsLocked = 1;
-		$room->Save();
-	}
+        $room = new Room();
+        $room->Title = "РњРѕР¶РЅРѕ РІСЃС‘";
+        $room->IsLocked = 1;
+        $room->Save();
+    }
 
-	if (IdIsNull($user->User->RoomId))  {
-		$text = $user->Settings->EnterMessage;
-		if (!$text) {
-			$text = "В чат входит %name";
-		}
-		$message = new EnterMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $room->Id);
-		$message->Save();
-		$user->User->RoomId = $room->Id;
-		$user->User->Save();
-	}
+    if (IdIsNull($user->User->RoomId))  {
+        $text = $user->Settings->EnterMessage;
+        if (!$text) {
+            $text = "Р’ С‡Р°С‚ РІС…РѕРґРёС‚ %name";
+        }
+        $message = new EnterMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $room->Id);
+        $message->Save();
+        $user->User->RoomId = $room->Id;
+        $user->User->Save();
+    }
 
-	$user->User->TouchSession();
-	SetUserSessionCookie($user->User);
+    $user->User->TouchSession();
+    SetUserSessionCookie($user->User);
 
-	require_once $root."references.php";
+    require_once $root."references.php";
 
 ?><!DOCTYPE html>
 <html lang="ru">
-	<head>
-		<meta charset="windows-1251" />
-		<title>Безумное ЧАепиТие у Мартовского Зайца</title>
-		<link rel="stylesheet" href="/css/global.css">
-		<link rel="stylesheet" href="/css/chat_layout.css">
-		<link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
-		<link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-		<?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-		<script src="/js1/jquery/jquery.js"></script>
-		<script src="/js1/jquery/jquery-ui.js"></script>
-	</head>
+    <head>
+        <meta charset="utf-8" />
+        <title>Р‘РµР·СѓРјРЅРѕРµ Р§РђРµРїРёРўРёРµ Сѓ РњР°СЂС‚РѕРІСЃРєРѕРіРѕ Р—Р°Р№С†Р°</title>
+        <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/chat_layout.css">
+        <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
+        <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+        <script src="/js1/jquery/jquery.js"></script>
+        <script src="/js1/jquery/jquery-ui.js"></script>
+    </head>
 
-	<body onload="OnLoad()">
-		<div id="AlertContainer">
-			<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
-				<tr><td align="center" valign="middle">
-					<div id="AlertBlock">
-					</div>
-				</td></tr></table></div>
-		<div id='Users'>
-			<div id="Wakeups"></div>
-			<ul id="UsersContainer"></ul>
-			<div id="NewRoom" style="display:none"></div>
-		</div>
+    <body onload="OnLoad()">
+        <div id="AlertContainer">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+                <tr><td align="center" valign="middle">
+                    <div id="AlertBlock">
+                    </div>
+                </td></tr></table></div>
+        <div id='Users'>
+            <div id="Wakeups"></div>
+            <ul id="UsersContainer"></ul>
+            <div id="NewRoom" style="display:none"></div>
+        </div>
 
-		<div id="Messages">
-			<div id="MessagesContainer"></div>
-		</div>
+        <div id="Messages">
+            <div id="MessagesContainer"></div>
+        </div>
 
-		<div id="MessageForm">
-			<form onsubmit="Send();return false;">
-			<table>
-				<tr>
-					<td></td>
-					<td id="CurrentName" colspan="2"><? echo $user->DisplayedName() ?></td></tr>
-				<tr>
-					<td></td>
-					<td id="RecepientsContainer" colspan="2"></td></tr>
-				<tr>
-					<td><a href="javascript:void(0)" onclick="MI('me')">me</a></td>
-					<td width="100%">
-						<div id="Smiles"><input id="Message" style="width:100%;" autocomplete="off"></div>
-					</td><td>
-						<input type="image" alt="Отправить сообщение" src="/img/send_button.gif" onclick="Send();return false;">
-					</td></tr>
-				<tr>
-					<td></td>
-					<td class="ServiceLinks">
-						<a href="javascript:void(0)" onclick="SwitchSmiles()">:)</a>
-						<a href="javascript:void(0)" onclick="Translit()">qwe&harr;йцу</a>
-						<a href="javascript:void(0)" onclick="HistoryGo(-1)">x</a>
-						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer+1)">&laquo;</a>
-						<span id="History">История сообщений (0/0)</span>
-						<a href="javascript:void(0)" onclick="HistoryGo(historyPointer-1)">&raquo;</a> 
-						</td>
-					<td></td></tr></table></form>
-		</div>
+        <div id="MessageForm">
+            <form onsubmit="Send();return false;">
+            <table>
+                <tr>
+                    <td></td>
+                    <td id="CurrentName" colspan="2"><? echo $user->DisplayedName() ?></td></tr>
+                <tr>
+                    <td></td>
+                    <td id="RecepientsContainer" colspan="2"></td></tr>
+                <tr>
+                    <td><a href="javascript:void(0)" onclick="MI('me')">me</a></td>
+                    <td width="100%">
+                        <div id="Smiles"><input id="Message" style="width:100%;" autocomplete="off"></div>
+                    </td><td>
+                        <input type="image" alt="РћС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ" src="/img/send_button.gif" onclick="Send();return false;">
+                    </td></tr>
+                <tr>
+                    <td></td>
+                    <td class="ServiceLinks">
+                        <a href="javascript:void(0)" onclick="SwitchSmiles()">:)</a>
+                        <a href="javascript:void(0)" onclick="Translit()">qwe&harr;Р№С†Сѓ</a>
+                        <a href="javascript:void(0)" onclick="HistoryGo(-1)">x</a>
+                        <a href="javascript:void(0)" onclick="HistoryGo(historyPointer+1)">&laquo;</a>
+                        <span id="History">РСЃС‚РѕСЂРёСЏ СЃРѕРѕР±С‰РµРЅРёР№ (0/0)</span>
+                        <a href="javascript:void(0)" onclick="HistoryGo(historyPointer-1)">&raquo;</a>
+                        </td>
+                    <td></td></tr></table></form>
+        </div>
 
-		<div id="Status">
-			<img id="pong" style="float:right" src="/img/pong.gif">
-			<ul class="StatusLinks">
-				<li> <a href="/forum/" target="forum">Форум</a>
-				<li> <a href="/journal/" target="journal">Журналы</a>
-				<li> <a href="/gallery/" target="gallery">Фотогалерея</a>
-				<li> <a href="javascript:void(0);" onclick="MI('quit')" class="Red">Выход</a>
-				<li> <a href="javascript:void(0);" onclick="debug=1-debug;this.innerHTML=debug;" style="text-decoration:none">&nbsp;</a>
-			</ul>
-			<div id="MenuContainer"></div>
-		</div>
+        <div id="Status">
+            <img id="pong" style="float:right" src="/img/pong.gif">
+            <ul class="StatusLinks">
+                <li> <a href="/forum/" target="forum">Р¤РѕСЂСѓРј</a>
+                <li> <a href="/journal/" target="journal">Р–СѓСЂРЅР°Р»С‹</a>
+                <li> <a href="/gallery/" target="gallery">Р¤РѕС‚РѕРіР°Р»РµСЂРµСЏ</a>
+                <li> <a href="javascript:void(0);" onclick="MI('quit')" class="Red">Р’С‹С…РѕРґ</a>
+            </ul>
+            <div id="MenuContainer"></div>
+        </div>
 
-		<script language="javascript" src="/js1/chat_layout.js"></script>
-		<script language="javascript" src="/js1/prototype.js"></script>
-		<script language="javascript" src="/js1/smiles.js"></script>
-		<script language="javascript" src="/js1/smiles.php"></script>
-		<script>
-			CurrentRoomId = '<?php echo $user->User->RoomId ?>';
-			Session = '<?php echo $user->User->Session ?>';
-			SessionCheck = '<?php echo $user->User->SessionCheck ?>';
-			SessionKey = '<?php echo SESSION_KEY ?>';
+        <script src="/js1/chat_layout.js"></script>
+        <script src="/js1/prototype.js"></script>
+        <script src="/js1/smiles.js"></script>
+        <script src="/js1/smiles.php"></script>
+        <script>
+            CurrentRoomId = '<?php echo $user->User->RoomId ?>';
+            Session = '<?php echo $user->User->Session ?>';
+            SessionCheck = '<?php echo $user->User->SessionCheck ?>';
+            SessionKey = '<?php echo SESSION_KEY ?>';
 
-			/* Tabs */
-			var tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
-			var MainTab = new Tab(1, "Чат", 1);
-			tabs.Add(MainTab);
-			CurrentTab = MainTab;
+            /* Tabs */
+            var tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
+            var MainTab = new Tab(1, "Р§Р°С‚", 1);
+            tabs.Add(MainTab);
+            CurrentTab = MainTab;
 
-			tabs.Print();
+            tabs.Print();
 
-			HistoryGo(0);
-		</script>
-	</body>
+            HistoryGo(0);
+        </script>
+    </body>
 </html>

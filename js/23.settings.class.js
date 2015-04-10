@@ -1,89 +1,90 @@
-//3.8
+//3.7
 /*
-	Represents settings entity on client-side.
+    Represents settings entity on client-side.
 */
 
 function Settings(status, ignore_colors, ignore_sizes, ignore_fonts, ignore_styles, receive_wakes, frameset, font) {
-	// Properties
-	this.Status = status;
-	this.IgnoreColors = ignore_colors;
-	this.IgnoreSizes = ignore_sizes;
-	this.IgnoreFonts = ignore_fonts;
-	this.IgnoreStyles = ignore_styles;
-	this.ReceiveWakeups = receive_wakes;
-	this.Frameset = frameset;
+    // Properties
+    this.Status = status;
+    this.IgnoreColors = ignore_colors;
+    this.IgnoreSizes = ignore_sizes;
+    this.IgnoreFonts = ignore_fonts;
+    this.IgnoreStyles = ignore_styles;
+    this.ReceiveWakeups = receive_wakes;
+    this.Frameset = frameset;
 
-	this.Font = font;
+    this.Font = font;
 
-	this.fields = new Array("LOGIN", "STATUS", "IGNORE_COLORS", "IGNORE_FONT_SIZE", "IGNORE_FONTS", "IGNORE_FONT_STYLE", "RECEIVE_WAKEUPS", "FRAMESET", "ENTER_MESSAGE", "QUIT_MESSAGE", "FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED");
-	this.ServicePath = servicesPath + "settings.service.php";
-	this.Template = "usersettings";
-	this.ClassName = "Settings";
+    this.fields = new Array("LOGIN", "STATUS", "IGNORE_COLORS", "IGNORE_FONT_SIZE", "IGNORE_FONTS", "IGNORE_FONT_STYLE", "RECEIVE_WAKEUPS", "FRAMESET", "ENTER_MESSAGE", "QUIT_MESSAGE", "FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED");
+    this.ServicePath = servicesPath + "settings.service.php";
+    this.Template = "usersettings";
+    this.ClassName = "Settings";
 };
 
 Settings.prototype = new OptionsBase();
 
 // Methods
 Settings.prototype.CheckSum = function() {
-	var cs = CheckSum(this.Status);
-	cs += CheckSum(this.IgnoreColors);
-	cs += CheckSum(this.IgnoreSizes);
-	cs += CheckSum(this.IgnoreFonts);
-	cs += CheckSum(this.IgnoreStyles);
-	cs += CheckSum(this.ReceiveWakeups);
-	cs += CheckSum(this.Frameset);
+    var cs = CheckSum(this.Status);
+    cs += CheckSum(this.IgnoreColors);
+    cs += CheckSum(this.IgnoreSizes);
+    cs += CheckSum(this.IgnoreFonts);
+    cs += CheckSum(this.IgnoreStyles);
+    cs += CheckSum(this.ReceiveWakeups);
+    cs += CheckSum(this.Frameset);
 
-	if (this.Font && this.Font.CheckSum) {
-		cs += this.Font.CheckSum();
-	}
+    if (this.Font && this.Font.CheckSum) {
+        cs += this.Font.CheckSum();
+    }
 
-	return cs;
+    return cs;
 };
 
 Settings.prototype.Bind = function() {
-	this.BaseBind();
-	UpdateFontView();
+    this.BaseBind();
+    UpdateFontView();
 };
 
 Settings.prototype.RequestCallback = function(req, obj) {
-	if (obj) {
-		obj.RequestBaseCallback(req, obj);
-		obj.Bind();
-	}
+    if (obj) {
+        obj.RequestBaseCallback(req, obj);
+        obj.Bind();
+    }
 };
 
 Settings.prototype.TemplateLoaded = function(req) {
-	this.TemplateBaseLoaded(req);
-	this.AssignSelfTo("linkRefresh");
+    this.TemplateBaseLoaded(req);
+    this.AssignSelfTo("linkRefresh");
 
-	// Create Font object
-	font = new Font();
-	font.Inputs = this.Inputs;
-	setTimeout("UpdateFontView()", 1000);	// Set delay for IE
+    // Create Font object
+    font = new Font();
+    font.Inputs = this.Inputs;
+    setTimeout("UpdateFontView()", 1000);   // Set delay for IE
 
-	// Init ColorPicker
-	new ColorPicker("FONT_COLOR");
-   	
-	/* Submit button */
-	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
+    // Init ColorPicker
+//  var cp = new ColorPicker("FONT_COLOR");
+    new ColorPicker("FONT_COLOR");
+
+    /* Submit button */
+    this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
 /* Links actions */
 
 function RefreshSettings(a) {
-	if (a.Tab) {
-		a.Tab.Alerts.Clear();
-		a.Tab.Settings.Request();
-	}
+    if (a.Tab) {
+        a.Tab.Alerts.Clear();
+        a.Tab.Settings.Request();
+    }
 };
 
 var font;
 function UpdateFontView() {
-	if (font && font.Inputs) {
-		var el = font.Inputs["fontExample"];
-		if (el) {
-			font.Gather();
-			font.ApplyTo(el);
-		}
-	}
+    if (font && font.Inputs) {
+        var el = font.Inputs["fontExample"];
+        if (el) {
+            font.Gather();
+            font.ApplyTo(el);
+        }
+    }
 };

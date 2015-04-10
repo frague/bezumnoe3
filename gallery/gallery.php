@@ -1,5 +1,5 @@
 <?php
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require_once "gallery.template.php";
@@ -24,13 +24,13 @@
     if ($someoneIsLogged) {
         $access = $gallery->GetAccess($user->User->Id);
     }
-    
+
     if ($access == Gallery::NO_ACCESS || $gallery->IsHidden) {
-        ErrorPage("Ó âàñ íåò äîñòóïà ê äàííîé ôîòîãàëåðåå.", "Ïðàâà äîñòóïà ê ãàëåðåå îãðàíè÷åíû âëàäåëüöåì.");
+        ErrorPage("Ð£ Ð²Ð°Ñ Ð½ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð´Ð°Ð½Ð½Ð¾Ð¹ Ñ„Ð¾Ñ‚Ð¾Ð³Ð°Ð»ÐµÑ€ÐµÐµ.", "ÐŸÑ€Ð°Ð²Ð° Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð³Ð°Ð»ÐµÑ€ÐµÐµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ñ‹ Ð²Ð»Ð°Ð´ÐµÐ»ÑŒÑ†ÐµÐ¼.");
         die;
     }
 
-    $meta_description = "Ôîòîãàëåðåÿ '".MetaContent($gallery->Title)."'";
+    $meta_description = "Ð¤Ð¾Ñ‚Ð¾Ð³Ð°Ð»ÐµÑ€ÐµÑ '".MetaContent($gallery->Title)."'";
 
     $photo = new GalleryPhoto();
     $q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
@@ -59,14 +59,14 @@
     }
     $result.= "</table>";
     $q->Release();
-    
+
     $threads = $photo->GetForumThreadsCount($gallery->Id, $access);
     $pager = new Pager($threads, $perPage, $from, $gallery->BasePath());
     $result.= $pager;
 
     // Printing
     AddEtagHeader(strtotime($lastModified));
-    $p = new Page($gallery->Title, $meta_description, "Ôîòîãàëåðåÿ");
+    $p = new Page($gallery->Title, $meta_description, "Ð¤Ð¾Ñ‚Ð¾Ð³Ð°Ð»ÐµÑ€ÐµÑ");
     $p->AddCss(array("forum.css"));
     //$p->AddJs("gallery.js");
     $p->PrintHeader();

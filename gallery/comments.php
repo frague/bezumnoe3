@@ -1,5 +1,5 @@
 <?php
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require_once $root."inc/helpers/like_buttons.helper.php";
@@ -27,13 +27,13 @@
         DieWith404();
     }
 
-    $meta_description = MetaContent("Фотогалерея \"".$gallery->Title."\": ".$record->Title);
+    $meta_description = MetaContent("Р¤РѕС‚РѕРіР°Р»РµСЂРµСЏ \"".$gallery->Title."\": ".$record->Title);
 
     $buttons = FillButtonObjects($record->Title, $gallery->Title, "", $record->GetImageUrl($gallery->Description));
 
     AddEtagHeader(strtotime($record->UpdateDate));
-    
-    $p = new Page($record->Title, $meta_description, "Фотогалерея");
+
+    $p = new Page($record->Title, $meta_description, "Р¤РѕС‚РѕРіР°Р»РµСЂРµСЏ");
     $p->AddCss(array("forum.css", "jqueryui.css"));
     $p->buttons = $buttons;
     $p->PrintHeader();
@@ -51,22 +51,22 @@
     echo GetButtonsMarkup($buttons);
 
     if ($record->IsCommentable) {
-        echo "<h3>Комментарии:</h3>";
+        echo "<h3>РљРѕРјРјРµРЅС‚Р°СЂРёРё:</h3>";
 
         $answers = $record->AnswersCount - $record->DeletedCount;
 
         $comment = new GalleryComment();
         $q = $comment->GetByIndex(
-            $record->ForumId, 
+            $record->ForumId,
             $user,
-            $record->Index."_", 
-            $from * $messagesPerPage, 
+            $record->Index."_",
+            $from * $messagesPerPage,
             $messagesPerPage,
             1);
 
 
         echo "<div class='NewThread'><div>";
-        echo "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$gallery->Id.")'>Новый комментарий</a>";
+        echo "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,".$record->Id.",".$gallery->Id.")'>РќРѕРІС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№</a>";
         echo "</div></div>";
 
         echo "<ul class='thread'>";
@@ -76,7 +76,7 @@
                 $q->NextResult();
 
                 $record->FillFromResult($q);
-        
+
                 $avatar = $q->Get(Profile::AVATAR);
                 $alias = $q->Get(JournalSettings::ALIAS);
                 $lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
@@ -86,7 +86,7 @@
                 $level = $record->Level;
             }
             $q->Release();
-    
+
             for ($i = 0; $i < $level + 1; $i++) {
                 echo "</ul>";
             }
@@ -98,7 +98,7 @@
         }
         include $root."inc/ui_parts/post_form.php";
     } else {
-        echo "<div class='Error'>Комментарии к фотографии отключены.</div>";
+        echo "<div class='Error'>РљРѕРјРјРµРЅС‚Р°СЂРёРё Рє С„РѕС‚РѕРіСЂР°С„РёРё РѕС‚РєР»СЋС‡РµРЅС‹.</div>";
     }
 
     $p->PrintFooter();

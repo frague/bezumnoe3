@@ -1,42 +1,42 @@
 <?php
 
-	$root = "../";
-	require_once $root."server_references.php";
-	require $root."inc/ui_parts/templates.php";
+    $root = "../";
+    require_once $root."server_references.php";
+    require $root."inc/ui_parts/templates.php";
 
-	require_once $root."references.php";
+    require_once $root."references.php";
 
-	$guid = trim(LookInRequest("g"));
-
-
-	if ($guid && strlen($guid) == 10) {
-		$user = new User();
-		$user->FillByCondition("t1.".User::GUID."='_".SqlQuote($guid)."'");
-		if (!$user->IsEmpty()) {
-			$user->Guid = substr($user->Guid, 1);
-			$user->Save();
-		} else {
-			$error = "Пользователь по указанному ключу не найден!";
-		}
-	} else {
-		$error = "Указан некорректный ключ активации!";
-	}
-	
-	if ($error) {
-		ErrorPage("Ошибка активации профиля.", $error);
-		die;
-	} 
+    $guid = trim(LookInRequest("g"));
 
 
-	$p = new Page("Активация аккаунта");
-	$p->AddCss("register.css");
-	$p->PrintHeader();
-	
-	echo "Поздравляем, <b>".$user->Login."</b>, ваш аккаунт успешно активирован!";
-	echo "<div class=\"Spacer\"></div>";
+    if ($guid && strlen($guid) == 10) {
+        $user = new User();
+        $user->FillByCondition("t1.".User::GUID."='_".SqlQuote($guid)."'");
+        if (!$user->IsEmpty()) {
+            $user->Guid = substr($user->Guid, 1);
+            $user->Save();
+        } else {
+            $error = "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РєР»СЋС‡Сѓ РЅРµ РЅР°Р№РґРµРЅ!";
+        }
+    } else {
+        $error = "РЈРєР°Р·Р°РЅ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РєР»СЋС‡ Р°РєС‚РёРІР°С†РёРё!";
+    }
 
-	SaveLog("Активация профиля <b>".$user->Login."</b>.", $user->Id, "", AdminComment::SEVERITY_WARNING);
+    if ($error) {
+        ErrorPage("РћС€РёР±РєР° Р°РєС‚РёРІР°С†РёРё РїСЂРѕС„РёР»СЏ.", $error);
+        die;
+    }
 
-	$p->PrintFooter();
+
+    $p = new Page("РђРєС‚РёРІР°С†РёСЏ Р°РєРєР°СѓРЅС‚Р°");
+    $p->AddCss("register.css");
+    $p->PrintHeader();
+
+    echo "РџРѕР·РґСЂР°РІР»СЏРµРј, <b>".$user->Login."</b>, РІР°С€ Р°РєРєР°СѓРЅС‚ СѓСЃРїРµС€РЅРѕ Р°РєС‚РёРІРёСЂРѕРІР°РЅ!";
+    echo "<div class=\"Spacer\"></div>";
+
+    SaveLog("РђРєС‚РёРІР°С†РёСЏ РїСЂРѕС„РёР»СЏ <b>".$user->Login."</b>.", $user->Id, "", AdminComment::SEVERITY_WARNING);
+
+    $p->PrintFooter();
 
 ?>
