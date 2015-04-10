@@ -104,7 +104,7 @@
     $globalTemplate = "<!DOCTYPE html>
 <html lang=\"ru\">
 <head>
-    <meta charset=\"windows-1251\" />
+    <meta charset=\"utf-8\" />
     <title>".$template->Title."</title>
     <link rel=\"icon\" href=\"/img/icons/favicon.ico\" type=\"image/x-icon\" />
     <link rel=\"shortcut icon\" href=\"/img/icons/favicon.ico\" type=\"image/x-icon\" />

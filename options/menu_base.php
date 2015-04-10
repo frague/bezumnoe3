@@ -1,6 +1,6 @@
 <?
 
-    header("Content-type: text/html;charset=windows-1251");
+    header("Content-type: text/html");
 
     $root = "../";
     require_once $root."server_references.php";

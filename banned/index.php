@@ -1,11 +1,11 @@
 <?php
-    
+
     $root = "../";
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";
     require $root."inc/base_template.php";
 
-    $p = new Page("&laquo;Чёрный список&raquo;");
+    $p = new Page("&laquo;Р§С‘СЂРЅС‹Р№ СЃРїРёСЃРѕРє&raquo;");
     $p->AddCss("banned.css");
     $p->PrintHeader();
 
@@ -13,9 +13,9 @@
 
 ?>
 
-На этой странице собраны все нарушители чата, отбывающие наказание в виде бана.
+РќР° СЌС‚РѕР№ СЃС‚СЂР°РЅРёС†Рµ СЃРѕР±СЂР°РЅС‹ РІСЃРµ РЅР°СЂСѓС€РёС‚РµР»Рё С‡Р°С‚Р°, РѕС‚Р±С‹РІР°СЋС‰РёРµ РЅР°РєР°Р·Р°РЅРёРµ РІ РІРёРґРµ Р±Р°РЅР°.
 
-<h2>Нарушители:</h2>
+<h2>РќР°СЂСѓС€РёС‚РµР»Рё:</h2>
 <?php include $root."inc/ui_parts/banned.php"; ?>
 
 <?php

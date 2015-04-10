@@ -189,7 +189,7 @@ Calendar.prototype.MakeTimePicker = function() {
 	var th = d.createElement("th");
 	th.colSpan = 7;
 
-	th.appendChild(d.createTextNode("Время: "));
+	th.appendChild(d.createTextNode("Р’СЂРµРјСЏ: "));
 
 	this.HoursHolder = d.createElement("span");
 	this.MakeHours(false);
@@ -312,7 +312,7 @@ function DatePicker(input, with_time) {
 		this.Calendar.Callback = function() {this.Picker.Selected()};
 
 		insertAfter(this.Holder, this.Input);
-		insertAfter(MakeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton", "Выбрать дату"), this.Input);
+		insertAfter(MakeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton", "Р’С‹Р±СЂР°С‚СЊ РґР°С‚Сѓ"), this.Input);
 	}
 };
 

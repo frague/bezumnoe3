@@ -1,32 +1,32 @@
 <?php
-	
-	$root = "../";
-	require_once $root."server_references.php";
-	require_once $root."references.php";
 
-	$user = GetAuthorizedUser(true);
-	if (!$user || $user->IsEmpty() || !$user->IsAdmin()) {
-		die("User is not authorized");
-	}
+    $root = "../";
+    require_once $root."server_references.php";
+    require_once $root."references.php";
 
-	$id = round(LookInRequest("jid"));
-	if (!$id) {
-		die("No id is specified!");
-	}
+    $user = GetAuthorizedUser(true);
+    if (!$user || $user->IsEmpty() || !$user->IsAdmin()) {
+        die("User is not authorized");
+    }
 
-	$j = new Journal($id);
-	$j->Retrieve();
+    $id = round(LookInRequest("jid"));
+    if (!$id) {
+        die("No id is specified!");
+    }
 
-	if ($j->IsEmpty() || !$j->IsJournal()) {
-		die("Error fetching journal data!");
-	}
+    $j = new Journal($id);
+    $j->Retrieve();
 
-	$settings = new JournalSettings();
-	$settings->GetByForumId($j->Id);
+    if ($j->IsEmpty() || !$j->IsJournal()) {
+        die("Error fetching journal data!");
+    }
 
-	$settings->OwnMarkupAllowed = 1 - $settings->OwnMarkupAllowed;
-	$settings->Save();
-	
-	echo "Own markup for journal \"".$j->Title."\" <b>".($settings->OwnMarkupAllowed ? "Allowed" : "Disabled")."</b>";
+    $settings = new JournalSettings();
+    $settings->GetByForumId($j->Id);
+
+    $settings->OwnMarkupAllowed = 1 - $settings->OwnMarkupAllowed;
+    $settings->Save();
+
+    echo "Own markup for journal \"".$j->Title."\" <b>".($settings->OwnMarkupAllowed ? "Allowed" : "Disabled")."</b>";
 
 ?>

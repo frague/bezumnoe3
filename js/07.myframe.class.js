@@ -1,99 +1,99 @@
 //1.1
 /*
 
-	MyFrame class
-	Handles window resize and update object's properties correspondingly
+    MyFrame class
+    Handles window resize and update object's properties correspondingly
 
 */
 function MyFrame(obj, min_width, min_height) {
-	this.x = 0;
-	this.y = 0;
-	this.width = 0;
-	this.height = 0;
+    this.x = 0;
+    this.y = 0;
+    this.width = 0;
+    this.height = 0;
 
-	this.minWidth = min_width ? parseInt(min_width) : 0;
-	this.minHeight = min_height ? parseInt(min_height) : 0;
+    this.minWidth = min_width ? parseInt(min_width) : 0;
+    this.minHeight = min_height ? parseInt(min_height) : 0;
 
-	this.element = 0;
+    this.element = 0;
 
-	this.GetPosAndSize = function() {
-		if (this.element == window) {
-			return this.GetWindowSize();
-		}
+    this.GetPosAndSize = function() {
+        if (this.element == window) {
+            return this.GetWindowSize();
+        }
 
-		this.width = parseInt(this.element.clientWidth);
-		this.height = parseInt(this.element.clientHeight);
+        this.width = parseInt(this.element.clientWidth);
+        this.height = parseInt(this.element.clientHeight);
 
-		var obj = this.element;
+        var obj = this.element;
 
-		if (obj.offsetParent) {
-			this.x = obj.offsetLeft;
-			this.y = obj.offsetTop;
-			while (obj = obj.offsetParent) {
-				this.x += obj.offsetLeft;
-				this.y += obj.offsetTop;
-			}
-		}
+        if (obj.offsetParent) {
+            this.x = obj.offsetLeft;
+            this.y = obj.offsetTop;
+            while (obj = obj.offsetParent) {
+                this.x += obj.offsetLeft;
+                this.y += obj.offsetTop;
+            }
+        }
 
-		/*console.log(self.innerHeight + " : " + self.height);*/
-	};
+        /*console.log(self.innerHeight + " : " + self.height);*/
+    };
 
-	this.GetWindowSize = function() {
-		this.x = 0;
-		this.y = 0;
+    this.GetWindowSize = function() {
+        this.x = 0;
+        this.y = 0;
 
-		if (self.innerWidth) {
-			this.width = self.innerWidth;
-			this.height = self.innerHeight;
-		} else if (document.documentElement && document.documentElement.clientWidth) {
-			this.width = document.documentElement.clientWidth;
-			this.height = document.documentElement.clientHeight;
-		} else if (document.body) {
-			this.width = document.body.clientWidth;
-			this.height = document.body.clientHeight;
-		}
+        if (self.innerWidth) {
+            this.width = self.innerWidth;
+            this.height = self.innerHeight;
+        } else if (document.documentElement && document.documentElement.clientWidth) {
+            this.width = document.documentElement.clientWidth;
+            this.height = document.documentElement.clientHeight;
+        } else if (document.body) {
+            this.width = document.body.clientWidth;
+            this.height = document.body.clientHeight;
+        }
 
-		if (navigator.appVersion.indexOf("Chrome") > 0) {
-			this.height -= 24;
-		}
-	};
+        if (navigator.appVersion.indexOf("Chrome") > 0) {
+            this.height -= 24;
+        }
+    };
 
-	this.Replace = function(x, y, w, h) {
-		if (this.element == window || !this.element.style) {
-			return;
-		}
+    this.Replace = function(x, y, w, h) {
+        if (this.element == window || !this.element.style) {
+            return;
+        }
 
-		if (x >= 0) {
-			this.element.style.left = x +  'px';
-		}
-		if (y >= 0) {
-			this.element.style.top = y +  'px';
-		}
-		if (w >= 0) {
-			if (w < this.minWidth) {
-				w = this.minWidth;
-			}
-			this.element.style.width = w + 'px';
-		}
-		if (h >= 0) {
-			if (h < this.minHeight) {
-				h = this.minHeight;
-			}
-			this.element.style.height = h + 'px';
-		}
-		this.GetPosAndSize();
-	};
+        if (x >= 0) {
+            this.element.style.left = x +  'px';
+        }
+        if (y >= 0) {
+            this.element.style.top = y +  'px';
+        }
+        if (w >= 0) {
+            if (w < this.minWidth) {
+                w = this.minWidth;
+            }
+            this.element.style.width = w + 'px';
+        }
+        if (h >= 0) {
+            if (h < this.minHeight) {
+                h = this.minHeight;
+            }
+            this.element.style.height = h + 'px';
+        }
+        this.GetPosAndSize();
+    };
 
-	this.Info = function() {
-		var s = 'x=' + this.x + ', ';
-		s += 'y='+ this.y + ', ';
-		s += 'width='+ this.width + ', ';
-		s += 'height='+ this.height;
-		return s;
-	};
+    this.Info = function() {
+        var s = 'x=' + this.x + ', ';
+        s += 'y='+ this.y + ', ';
+        s += 'width='+ this.width + ', ';
+        s += 'height='+ this.height;
+        return s;
+    };
 
-	if (obj) {
-		this.element = obj;
-		this.GetPosAndSize();
-	}
+    if (obj) {
+        this.element = obj;
+        this.GetPosAndSize();
+    }
 }
