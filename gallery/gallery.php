@@ -68,7 +68,6 @@
     AddEtagHeader(strtotime($lastModified));
     $p = new Page($gallery->Title, $meta_description, "Фотогалерея");
     $p->AddCss(array("forum.css"));
-    //$p->AddJs("gallery.js");
     $p->PrintHeader();
 
     $gallery->DoPrint();

@@ -6,7 +6,6 @@
 
     $pg = new Page("Фотки чатлан");
     $pg->AddCss(array("photos.css"));
-    $pg->AddJs("gallery.js");
     $pg->PrintHeader();
 
     $search = LookInRequest("search");
