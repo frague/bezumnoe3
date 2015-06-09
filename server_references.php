@@ -44,12 +44,13 @@
     require_once $root."inc/classes/entities/tree_node.class.php";
     require_once $root."inc/classes/entities/openid_provider.class.php";
     require_once $root."inc/classes/entities/user_openid.class.php";
+    require_once $root."inc/classes/entities/dictionary.class.php";
 
     /* Service classes */
     require_once $root."inc/classes/sql.class.php";
     require_once $root."inc/classes/pager.class.php";
     require_once $root."inc/classes/entities/calendar.class.php";
-
+    
     /* Helpers */
     require_once $root."inc/helpers/security.helper.php";
     require_once $root."inc/helpers/string.helper.php";
