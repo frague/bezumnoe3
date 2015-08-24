@@ -17,12 +17,12 @@ AdminComments.prototype = new PagedGrid();
 AdminComments.prototype.BaseBind = function() {};
 
 AdminComments.prototype.InitPager = function() {
-	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.AdminComments.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.AdminComments.SwitchPage()}, this.PerPage);
 };
 
-AdminComments.prototype.RequestCallback = function(req, obj) {
+AdminComments.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 	}
 };
@@ -36,16 +36,16 @@ AdminComments.prototype.TemplateLoaded = function(req) {
 	this.AssignTabTo("AddComment");
 	this.GroupSelfAssign(["RefreshAdminComments", "ResetFilter"]);
 
-	new DatePicker(this.Inputs["DATE"]);
+	new DatePicker(this.inputs["DATE"]);
 
-	BindEnterTo(this.Inputs["ADMIN_COMMENT"], this.Inputs["AddComment"]);
-	BindEnterTo(this.Inputs["DATE"], this.Inputs["RefreshAdminComments"]);
-	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.inputs["ADMIN_COMMENT"], this.inputs["AddComment"]);
+	BindEnterTo(this.inputs["DATE"], this.inputs["RefreshAdminComments"]);
+	BindEnterTo(this.inputs["SEARCH"], this.inputs["RefreshAdminComments"]);
 
 	// System log checkboxes
-	BindEnterTo(this.Inputs["SEVERITY_NORMAL"], this.Inputs["RefreshAdminComments"]);
-	BindEnterTo(this.Inputs["SEVERITY_WARNING"], this.Inputs["RefreshAdminComments"]);
-	BindEnterTo(this.Inputs["SEVERITY_ERROR"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.inputs["SEVERITY_NORMAL"], this.inputs["RefreshAdminComments"]);
+	BindEnterTo(this.inputs["SEVERITY_WARNING"], this.inputs["RefreshAdminComments"]);
+	BindEnterTo(this.inputs["SEVERITY_ERROR"], this.inputs["RefreshAdminComments"]);
 
 	if (this.Init) {
 		this.Init();
@@ -82,7 +82,7 @@ acdto.prototype.ToString = function(index, obj, holder) {
 
 	var tr = MakeGridRow(index);
 	if (this.Severity) {
-		tr.className += " " + SeverityCss[this.Severity - 1];
+		tr.className += " " + severityCss[this.Severity - 1];
 	}
 
 	var td1 = d.createElement("td");
@@ -109,6 +109,6 @@ function AddComment(img) {
 function AdminCommentSaved(req, obj) {
 	if (obj) {
 		obj.SetTabElementValue("ADMIN_COMMENT", "");
-		obj.RequestCallback(req, obj);
+		obj.requestCallback(req, obj);
 	}
 };

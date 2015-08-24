@@ -262,7 +262,7 @@ tinyMCEPopup = {
 	 */
 	openBrowser : function(element_id, type, option) {
 		tinyMCEPopup.restoreSelection();
-		this.editor.execCallback('file_browser_callback', element_id, document.getElementById(element_id).value, type, window);
+		this.editor.execcallback('file_browser_callback', element_id, document.getElementById(element_id).value, type, window);
 	},
 
 	/**
@@ -271,7 +271,7 @@ tinyMCEPopup = {
 	 *
 	 * @method confirm
 	 * @param {String} t Title for the new confirm dialog.
-	 * @param {function} cb Callback function to be executed after the user has selected ok or cancel.
+	 * @param {function} cb callback function to be executed after the user has selected ok or cancel.
 	 * @param {Object} s Optional scope to execute the callback in.
 	 */
 	confirm : function(t, cb, s) {
@@ -284,7 +284,7 @@ tinyMCEPopup = {
 	 *
 	 * @method alert
 	 * @param {String} t Title for the new alert dialog.
-	 * @param {function} cb Callback function to be executed after the user has selected ok.
+	 * @param {function} cb callback function to be executed after the user has selected ok.
 	 * @param {Object} s Optional scope to execute the callback in.
 	 */
 	alert : function(tx, cb, s) {

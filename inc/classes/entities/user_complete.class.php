@@ -54,8 +54,8 @@ class UserComplete extends EntityBase {
 		return $this->Status->IsAdmin();
 	}
 
-	function IsSuperAdmin() {
-		return $this->Status->IsSuperAdmin();
+	function isSuperAdmin() {
+		return $this->Status->isSuperAdmin();
 	}
 
 	function CheckSum($extended = false) {

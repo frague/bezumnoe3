@@ -59,7 +59,7 @@ Spoiler.prototype.Display = function(state) {
 Spoiler.prototype.Switch = function() {
     this.Display(!this.IsOpened);
     if (this.OnSelect) {
-        this.RelatedDiv.innerHTML = LoadingIndicator;
+        this.RelatedDiv.innerHTML = loadingIndicator;
         this.OnSelect(this);
         this.OnSelect = ""; /* TODO: Treat failure */
     }

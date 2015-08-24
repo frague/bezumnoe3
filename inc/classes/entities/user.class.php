@@ -120,7 +120,7 @@ class User extends EntityBase {
 
                 //Remove scheduled unbans
                 $task = new ScheduledTask();
-                $task->DeleteUserUnbans($this->Id);
+                $task->deleteUserUnbans($this->Id);
 
                 // Write log
                 LogBanEnd($this->Id, ScheduledTask::SCHEDULER_LOGIN);

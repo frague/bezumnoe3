@@ -3,7 +3,7 @@
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
-	if (!$user || $user->IsEmpty() || !$user->IsSuperAdmin()) {
+	if (!$user || $user->IsEmpty() || !$user->isSuperAdmin()) {
 		die();	// TODO: Implement client functionality
 	}
 

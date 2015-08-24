@@ -12,10 +12,10 @@
 <div>
     <div id="Selector">
         <h4>Поиск:</h4>
-        <INPUT id="SEARCH" name="SEARCH" class="Wide" onchange="this.obj.Request()" />
-        <input type="checkbox" id="SHOW_JOURNALS" name="SHOW_JOURNALS" checked onchange="this.obj.Request()"> <label for="SHOW_JOURNALS">Журналы</label>
-        <input type="checkbox" id="SHOW_FORUMS" name="SHOW_FORUMS" onchange="this.obj.Request()"> <label for="SHOW_FORUMS">Форумы</label>
-        <input type="checkbox" id="SHOW_GALLERIES" name="SHOW_GALLERIES" onchange="this.obj.Request()"> <label for="SHOW_GALLERIES">Фотогалереи</label>
+        <INPUT id="SEARCH" name="SEARCH" class="Wide" onchange="this.obj.request()" />
+        <input type="checkbox" id="SHOW_JOURNALS" name="SHOW_JOURNALS" checked onchange="this.obj.request()"> <label for="SHOW_JOURNALS">Журналы</label>
+        <input type="checkbox" id="SHOW_FORUMS" name="SHOW_FORUMS" onchange="this.obj.request()"> <label for="SHOW_FORUMS">Форумы</label>
+        <input type="checkbox" id="SHOW_GALLERIES" name="SHOW_GALLERIES" onchange="this.obj.request()"> <label for="SHOW_GALLERIES">Фотогалереи</label>
     </div>
 
     <div id="ForumsContainer"></div>

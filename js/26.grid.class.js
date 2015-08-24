@@ -32,11 +32,11 @@ Grid.prototype.FindTableBase = function() {
     }
     this.FindRelatedControls();
 
-    if (!this.Inputs) {
+    if (!this.inputs) {
         return false;
     }
 
-    var el = this.Inputs[this.GridId];
+    var el = this.inputs[this.GridId];
     if (el) {
         this.Tbody = el.firstChild;
     }
@@ -68,7 +68,7 @@ Grid.prototype.ClearRecords = function(show_indicator) {
 
         var td = d.createElement("td");
         td.colSpan = this.Columns;
-        td.innerHTML = LoadingIndicator;
+        td.innerHTML = loadingIndicator;
 
         tr.appendChild(td);
         this.Tbody.appendChild(td);
@@ -77,7 +77,7 @@ Grid.prototype.ClearRecords = function(show_indicator) {
     this.HasEmptyRow = false;
 };
 
-Grid.prototype.Request = function(params, callback) {
+Grid.prototype.request = function(params, callback) {
     this.ClearRecords(true);
     this.BaseRequest(params, callback);
     this.HasEmptyRow = false;
@@ -117,7 +117,7 @@ function PagedGrid() {
 PagedGrid.prototype = new Grid();
 
 PagedGrid.prototype.InitPager = function() {    // Method to override
-    this.Pager = new Pager(this.Inputs[this.PagerId], function(){}, this.PerPage);
+    this.Pager = new Pager(this.inputs[this.PagerId], function(){}, this.PerPage);
     this.Tab.Pager = this.Pager;
 };
 
@@ -134,19 +134,16 @@ PagedGrid.prototype.Bind = function(content, total) {
     this.Pager.Print();
 };
 
-PagedGrid.prototype.Request = function(params, callback) {
+PagedGrid.prototype.request = function(params, callback) {
     this.ClearRecords(true);
-    if (!params) {
-        params = "";
-    }
-    params += this.Gather();
-    params += MakeParametersPair("from", this.Pager.Offset());
-    params += MakeParametersPair("amount", this.Pager.PerPage);
-    this.BaseRequest(params, callback);
+    var s = new ParamsBuilder((params || '') + this.Gather());
+    s.add('from', this.Pager.Offset());
+    s.add('amount', this.Pager.PerPage);
+    this.BaseRequest(s.build(), callback);
 };
 
 PagedGrid.prototype.SwitchPage = function() {
-    this.Request();
+    this.request();
 };
 
 

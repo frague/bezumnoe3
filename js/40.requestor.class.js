@@ -8,27 +8,28 @@ function Requestor(service, obj) {
     this.obj = obj;
 };
 
-Requestor.prototype.Request = function(names, values) {
-    var params = MakeParametersPair("no-cache", Math.random(1000));
-    for (var i = 0, l = names.length; i < l; i++) {
-        params += MakeParametersPair(names[i], values[i]);
-    }
-    sendRequest(this.ServicePath, this.RequestCallback, params, this);
+Requestor.prototype.request = function(names, values) {
+    var s = new ParamsBuilder()
+        .add('no-cache', _.random(1000, 9999));
+    names.forEach(function(name, index) {
+        s.add(name, values[index]);
+    });
+    sendRequest(this.ServicePath, this.requestCallback, s.build(), this);
 };
 
-Requestor.prototype.Callback = function() {};
+Requestor.prototype.callback = function() {};
 
-Requestor.prototype.BaseCallback = function(req) {
+Requestor.prototype.Basecallback = function(req) {
     var obj = this.obj;
     var tabObject = this.obj.Tab;
     tabObject.Alerts.Clear();
     eval(req);
     this.req = req;
-    this.Callback(this);
+    this.callback(this);
 };
 
-Requestor.prototype.RequestCallback = function(req, sender) {
-    sender.BaseCallback(req);
+Requestor.prototype.requestCallback = function(req, sender) {
+    sender.Basecallback(req);
 };
 
 
@@ -37,13 +38,13 @@ Requestor.prototype.RequestCallback = function(req, sender) {
     Performs delayed async request by reaction to user-entered "needle"
 */
 
-function DelayedRequestor(obj, input, request_method) {
+function delayedRequestor(obj, input, request_method) {
     this.Timer = "";
     this.LastValue = "";
     this.obj = obj;
-    input.DelayedRequestor = this;
+    input.delayedRequestor = this;
     this.Input = input;
-    this.RequestMethod = request_method;
+    this.requestMethod = request_method;
 
     this.Submitter = "";    // Treating enter button
 
@@ -51,7 +52,7 @@ function DelayedRequestor(obj, input, request_method) {
     input.onchange = function(){GetData(this)};
 };
 
-DelayedRequestor.prototype.Request = function() {
+delayedRequestor.prototype.request = function() {
     var obj = this.obj;
     if (obj) {
         params = this.GetParams();
@@ -59,29 +60,33 @@ DelayedRequestor.prototype.Request = function() {
             return;
         }
         this.LastValue = params;
-        if (this.RequestMethod) {
-            this.RequestMethod(this.Input);
+        if (this.requestMethod) {
+            this.requestMethod(this.Input);
         } else {
-            obj.Request(params);
+            obj.request(params);
         }
     }
 };
 
 // To be overridden
-DelayedRequestor.prototype.GetParams = function() {return MakeParametersPair(this.Input.name, this.Input.value);};
+delayedRequestor.prototype.GetParams = function() {
+    return new ParamsBuilder()
+        .add(this.Input.name, this.Input.value)
+        .build();
+};
 
 function GetData(input, e) {
-    if (!input || !input.DelayedRequestor) {
+    if (!input || !input.delayedRequestor) {
         return;
     }
 
-    if (e && input.DelayedRequestor.Submitter && EnterHandler(e, input.DelayedRequestor)) {
+    if (e && input.delayedRequestor.Submitter && EnterHandler(e, input.delayedRequestor)) {
         return;
     }
 
-    if (input.DelayedRequestor.Timer) {
-        clearTimeout(input.DelayedRequestor.Timer);
+    if (input.delayedRequestor.Timer) {
+        clearTimeout(input.delayedRequestor.Timer);
     }
-    input.DelayedRequestor.Timer = setTimeout(function(){input.DelayedRequestor.Request()}, 500);
+    input.delayedRequestor.Timer = setTimeout(function(){input.delayedRequestor.request()}, 500);
 };
 

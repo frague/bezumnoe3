@@ -7,9 +7,9 @@ var spoilerNames = [];
 var spoilerInits = [];
 
 
-function ShowBlog() {};
-function ShowUser() {};
-function CreateAdminTab() {};
+function showBlog() {};
+function showUser() {};
+function createAdminTab() {};
 function umExtraButtons() {};
 function umAdditionalExtraButtons() {};
 

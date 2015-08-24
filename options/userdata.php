@@ -20,7 +20,7 @@
 <div id="EMAIL"></div>
 
 <h4>Пароль:</h4>
-<input name="PASSWORD" id="PASSWORD" type="password" value="**********" maxlength="255" onfocus="ClearInput(this)" onblur="RestoreInput(this,'ConfirmBlock')" class="Wide" />
+<input name="PASSWORD" id="PASSWORD" type="password" value="**********" maxlength="255" onfocus="clearInput(this)" onblur="restoreInput(this,'ConfirmBlock')" class="Wide" />
 
 <div id="ConfirmBlock" style="display:none;margin-bottom:10px;">
     <h4 style="color:red;">Подтверждение пароля:</h4>

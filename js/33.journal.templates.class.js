@@ -14,20 +14,18 @@ function JournalTemplates() {
 
 JournalTemplates.prototype = new OptionsBase();
 
-JournalTemplates.prototype.Request = function(params, callback) {
-    if (!params) {
-        params = "";
-    }
-    params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
-    this.BaseRequest(params, callback);
+JournalTemplates.prototype.request = function(params, callback) {
+    var s = new ParamsBuilder(params);
+    s.add('FORUM_ID', this.Forum.FORUM_ID);
+    this.BaseRequest(s.build, callback);
 };
 
-JournalTemplates.prototype.RequestCallback = function(req, obj) {
+JournalTemplates.prototype.requestCallback = function(req, obj) {
     if (obj) {
         obj.skinTemplateId = "";
         obj.ownMarkupAllowed = "";
         obj.defaultTemplateId = "";
-        obj.RequestBaseCallback(req, obj);
+        obj.requestBaseCallback(req, obj);
 
         if (obj.data) {
             obj.FillFrom(obj.data);
@@ -39,7 +37,7 @@ JournalTemplates.prototype.RequestCallback = function(req, obj) {
         } else {
             bId = obj.skinTemplateId;
         }
-        button = SetRadioValue(obj.Inputs["SKIN_TEMPLATE_ID"], bId);
+        button = SetRadioValue(obj.inputs["SKIN_TEMPLATE_ID"], bId);
         if (button) {
             button.click();
         }

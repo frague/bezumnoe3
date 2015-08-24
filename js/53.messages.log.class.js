@@ -18,19 +18,19 @@ MessagesLog.prototype = new PagedGrid();
 MessagesLog.prototype.BaseBind = function() {};
 
 MessagesLog.prototype.InitPager = function() {
-	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.MessagesLog.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.MessagesLog.SwitchPage()}, this.PerPage);
 };
 
-MessagesLog.prototype.RequestCallback = function(req, obj) {
+MessagesLog.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 		obj.BindRooms(obj.Rooms);
 	}
 };
 
 MessagesLog.prototype.BindRooms = function(rooms) {
-	var select = this.Inputs["ROOM_ID"];
+	var select = this.inputs["ROOM_ID"];
 	if (select) {
 		select.innerHTML = "";
 		for (var i = 0, l = rooms.length; i < l; i++) {
@@ -48,11 +48,11 @@ MessagesLog.prototype.TemplateLoaded = function(req) {
 
 	this.GroupSelfAssign(["RefreshMessagesLog", "ResetFilter", "ROOM_ID"]);
 
-	new DatePicker(this.Inputs["DATE"]);
+	new DatePicker(this.inputs["DATE"]);
 
-	BindEnterTo(this.Inputs["DATE"], this.Inputs["RefreshMessagesLog"]);
-	BindEnterTo(this.Inputs["ROOM_ID"], this.Inputs["RefreshMessagesLog"]);
-	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["RefreshMessagesLog"]);
+	BindEnterTo(this.inputs["DATE"], this.inputs["RefreshMessagesLog"]);
+	BindEnterTo(this.inputs["ROOM_ID"], this.inputs["RefreshMessagesLog"]);
+	BindEnterTo(this.inputs["SEARCH"], this.inputs["RefreshMessagesLog"]);
 
 	if (this.Init) {
 		this.Init();

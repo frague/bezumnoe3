@@ -18,9 +18,9 @@ OpenIds.prototype = new EditableGrid();
 
 OpenIds.prototype.BaseBind = function() {};
 
-OpenIds.prototype.RequestCallback = function(req, obj) {
+OpenIds.prototype.requestCallback = function(req, obj) {
     if (obj) {
-        obj.RequestBaseCallback(req, obj);
+        obj.requestBaseCallback(req, obj);
         obj.Bind(obj.data);
     }
 };

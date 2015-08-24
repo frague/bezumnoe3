@@ -23,12 +23,12 @@ function JournalMessages() {
 JournalMessages.prototype = new PagedGrid();
 
 JournalMessages.prototype.InitPager = function() {
-	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.JournalMessages.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.JournalMessages.SwitchPage()}, this.PerPage);
 };
 
-JournalMessages.prototype.RequestCallback = function(req, obj) {
+JournalMessages.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 	}
 };
@@ -42,8 +42,8 @@ JournalMessages.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
 	this.GroupSelfAssign(["buttonSearch", "ResetFilter"]);
-	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
-	new DatePicker(this.Inputs["DATE"]);
+	BindEnterTo(this.inputs["SEARCH"], this.inputs["buttonSearch"]);
+	new DatePicker(this.inputs["DATE"]);
 };
 
 /* Journal Record Data Transfer Object */
@@ -89,7 +89,7 @@ jrdto.prototype.ToString = function(index, obj) {
 		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
 		td3.appendChild(MakeButton("DeleteRecord(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить"));
 	tr.appendChild(td3);
-	
+
 	return tr;
 };
 
@@ -103,18 +103,19 @@ function EditRecord(a, post_id) {
 // TODO: Rewrite using Requestor
 function DeleteRecordConfirmed(obj, id) {
 	obj.Tab.Alerts.Clear();
-	var params = MakeParametersPair("go", "delete");
-	params += MakeParametersPair("USER_ID", obj.USER_ID);
-	params += MakeParametersPair("RECORD_ID", id);
-	sendRequest(post_service, DeleteCallback, params, obj);
+	var s = new ParamsBuilder();
+	s.add('go', 'delete');
+	s.add('USER_ID', obj.USER_ID);
+	s.add('RECORD_ID', id);
+	$.post(post_service, s.build, Deletecallback.bind(obj));
 
 };
 
-function DeleteCallback(req, obj) {
+function Deletecallback(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		if (!obj.Tab.Alerts.HasErrors) {
-			obj.Request();
+			obj.request();
 		}
 	}
 };

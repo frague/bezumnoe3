@@ -16,9 +16,9 @@ NewsRecords.prototype = new EditablePagedGrid();
 
 NewsRecords.prototype.BaseBind = function() {};
 
-NewsRecords.prototype.RequestCallback = function(req, obj) {
+NewsRecords.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 	}
 };
@@ -28,8 +28,8 @@ NewsRecords.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
 	this.GroupSelfAssign(["buttonSearch", "ResetFilter", "linkRefresh", "AddNewsRecord", "RefreshNewsRecords"]);
-	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
-	new DatePicker(this.Inputs["SEARCH_DATE"]);
+	BindEnterTo(this.inputs["SEARCH"], this.inputs["buttonSearch"]);
+	new DatePicker(this.inputs["SEARCH_DATE"]);
 };
 
 NewsRecords.prototype.CustomReset = function() {

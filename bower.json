@@ -1,0 +1,30 @@
+{
+  "name": "bezumnoe3",
+  "version": "4.0.0",
+  "homepage": "https://github.com/frague/bezumnoe3",
+  "authors": [
+    "Nick Bogdanov <nikolay.bogdanov@gmail.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "tinymce": "~4.2.4",
+    "letteringjs": "~0.7.0",
+    "jquery-ui": "~1.11.4",
+    "jquery-fittext.js": "~1.2.0",
+    "boot": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "lodash": "~3.10.1"
+  }
+}

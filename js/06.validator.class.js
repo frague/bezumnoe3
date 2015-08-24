@@ -11,7 +11,7 @@ function ValidatorsCollection() {
 ValidatorsCollection.prototype = new Collection();
 
 ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
-    this.Summary = $(GetElement(summary_control))[0];
+    this.Summary = $(getElement(summary_control))[0];
     this.SummaryText = summary_text ? "<h2>" + summary_text + "</h2>" : "";
     this.InitSummary();
 
@@ -25,14 +25,14 @@ ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
 ValidatorsCollection.prototype.InitSummary = function() {
     if (this.Summary) {
         this.Summary.innerHTML = this.SummaryText;
-        DoHide(this.Summary);
+        doHide(this.Summary);
     }
 };
 
 ValidatorsCollection.prototype.ShowSummary = function(errors) {
     if (this.Summary && errors && errors.length) {
         this.Summary.innerHTML = this.SummaryText + "<li> " + errors.join("<li> ");
-        DoShow(this.Summary);
+        doShow(this.Summary);
     }
 };
 
@@ -60,7 +60,7 @@ function ValueHasChanged() {
 /* --------------- Single Validator --------------- */
 
 function Validator(control, rule, message, summarize, on_the_fly) {
-    this.Control = $(GetElement(control))[0];
+    this.Control = $(getElement(control))[0];
     this.Rule = rule;
     this.Message = message;
     this.ShowInSummary = summarize;
@@ -97,7 +97,7 @@ Validator.prototype.Validate = function(summary_control) {
 Validator.prototype.Display = function(state, summary_control) {
     if (summary_control && this.ShowInSummary) {
         summary_control.innerHTML += "<li>" + this.Message;
-        DoShow(summary_control);
+        doShow(summary_control);
     } else {
         this.ErrorContainer.className = "Validator" + (state ? "" : " Hidden");
     }

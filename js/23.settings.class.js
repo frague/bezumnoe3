@@ -45,9 +45,9 @@ Settings.prototype.Bind = function() {
     UpdateFontView();
 };
 
-Settings.prototype.RequestCallback = function(req, obj) {
+Settings.prototype.requestCallback = function(req, obj) {
     if (obj) {
-        obj.RequestBaseCallback(req, obj);
+        obj.requestBaseCallback(req, obj);
         obj.Bind();
     }
 };
@@ -58,7 +58,7 @@ Settings.prototype.TemplateLoaded = function(req) {
 
     // Create Font object
     font = new Font();
-    font.Inputs = this.Inputs;
+    font.inputs = this.inputs;
     setTimeout("UpdateFontView()", 1000);   // Set delay for IE
 
     // Init ColorPicker
@@ -74,14 +74,14 @@ Settings.prototype.TemplateLoaded = function(req) {
 function RefreshSettings(a) {
     if (a.Tab) {
         a.Tab.Alerts.Clear();
-        a.Tab.Settings.Request();
+        a.Tab.Settings.request();
     }
 };
 
 var font;
 function UpdateFontView() {
-    if (font && font.Inputs) {
-        var el = font.Inputs["fontExample"];
+    if (font && font.inputs) {
+        var el = font.inputs["fontExample"];
         if (el) {
             font.Gather();
             font.ApplyTo(el);

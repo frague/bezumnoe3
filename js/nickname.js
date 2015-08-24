@@ -15,65 +15,65 @@ function Nickname(index, id, name) {
 	this.Id = id;
 	this.OldName = name;
 	this.Name = name;
-	this.Mode = "show";
+	this.Mode = 'show';
 };
 
 Nickname.prototype.IsEmpty = function() {
-	return (this.Name == "");
+	return this.Name == '';
 };
 
 Nickname.prototype.HasChanged = function() {
-	return (this.OldName != this.Name);
+	return this.OldName != this.Name;
 };
 
 Nickname.prototype.CreateButton = function(src, action) {
-	var button = d.createElement("input");
-	button.type = "image";
+	var button = d.createElement('input');
+	button.type = 'image';
 	button.RelatedItem = this;
-	eval("button.onclick = function(){" + action + "}");
-	button.className = "Button";
-	button.style.width = "15px";
-	button.style.height = "15px";
+	eval('button.onclick = function(){' + action + '}');
+	button.className = 'Button';
+	button.style.width = '15px';
+	button.style.height = '15px';
 	button.src = imagesPath + src;
 	return button;
 };
 
 Nickname.prototype.CreateViewControls = function() {
-	this.Div.innerHTML = "";
-	if (this.Mode == "show") {
-		this.Div.innerHTML += (this.Name ? this.Name + (this.Name == me.Login ? "&nbsp;(ваш логин)" : "") : "&lt;не задано&gt;") + "&nbsp;";
+	this.Div.innerHTML = '';
+	if (this.Mode == 'show') {
+		this.Div.innerHTML += (this.Name ? this.Name + (this.Name == me.Login ? '&nbsp;(ваш логин)' : '') : '&lt;не задано&gt;') + '&nbsp;';
 		if (this.Id) {
-			this.Div.appendChild(this.CreateButton("edit_icon.gif", "Edit(this)"));
+			this.Div.appendChild(this.CreateButton('edit_icon.gif', 'Edit(this)'));
 			if (this.Name) {
-			this.Div.appendChild(this.CreateButton("delete_icon.gif", "Clear(this)"));
+			this.Div.appendChild(this.CreateButton('delete_icon.gif', 'Clear(this)'));
 		}
 		}
 	} else {
-		this.Input = d.createElement("input");
-		this.Input.className = "NewNick";
+		this.Input = d.createElement('input');
+		this.Input.className = 'NewNick';
 		this.Input.value = this.Name;
-		this.Input.setAttribute("maxlength", name_length);
+		this.Input.setAttribute('maxlength', name_length);
 		this.Div.appendChild(this.Input);
 		if (this.Id) {
-			this.Div.appendChild(this.CreateButton("icons/done.gif", "StopEditing(true)"));
-			this.Div.appendChild(this.CreateButton("icons/cancel.gif", "StopEditing(false)"));
+			this.Div.appendChild(this.CreateButton('icons/done.gif', 'StopEditing(true)'));
+			this.Div.appendChild(this.CreateButton('icons/cancel.gif', 'StopEditing(false)'));
 		}
 	}
 };
 
 Nickname.prototype.ToString = function(holder) {
 	if (!this.Li) {
-		this.Li = d.createElement("li");
+		this.Li = d.createElement('li');
 	} else {
-		this.Li.innerHTML = "";
+		this.Li.innerHTML = '';
 	}
-	this.Radio = CreateRadio("nickname", ((!me.Nickname && this.Name == me.Login) || (me.Nickname && this.Name == me.Nickname)));
+	this.Radio = CreateRadio('nickname', ((!me.Nickname && this.Name == me.Login) || (me.Nickname && this.Name == me.Nickname)));
 	this.Radio.RelatedItem = this;
-	eval("this.Radio.onclick = function(){Select(this)}");
+	eval('this.Radio.onclick = function(){Select(this)}');
 
 	this.Li.appendChild(this.Radio);
-	this.Div = d.createElement("span");
-	
+	this.Div = d.createElement('span');
+
 	this.CreateViewControls();
 
 	this.Li.appendChild(this.Div);
@@ -81,13 +81,11 @@ Nickname.prototype.ToString = function(holder) {
 };
 
 Nickname.prototype.Gather = function(index) {
-	var s = "";
-	s += MakeParametersPair("id" + index, this.Id > 0 ? this.Id : "");
-	s += MakeParametersPair("name" + index, this.Name);
-	if (this.Radio.checked) {
-		s += MakeParametersPair("selected", index);
-	}
-	return s;
+	var s = new ParamsBuilder()
+		.add('id' + index, this.Id > 0 ? this.Id : '')
+		.add('name' + index, this.Name);
+	if (this.Radio.checked) s.add('selected', index);
+	return s.build();
 };
 
 /* Change Nickname class */
@@ -96,21 +94,22 @@ function ChangeNickname() {
 };
 
 ChangeNickname.prototype.CreateControls = function(container) {
-	this.Holder = d.createElement("ul");
-	this.Holder.className = "NamesList";
+	this.Holder = d.createElement('ul');
+	this.Holder.className = 'NamesList';
 
-	this.Holder.innerHTML = LoadingIndicator;
+	this.Holder.innerHTML = loadingIndicator;
 
 	container.appendChild(this.Holder);
 
-	this.Status = d.createElement("div");
-	this.Status.className = "Status";
+	this.Status = d.createElement('div');
+	this.Status.className = 'Status';
 	container.appendChild(this.Status);
 	nicknames1 = this;
 };
 
-ChangeNickname.prototype.RequestData = function() {
-	sendRequest(servicesPath + "nickname.service.php", NamesResponse, "");
+ChangeNickname.prototype.requestData = function() {
+	$.get(servicesPath + 'nickname.service.php')
+		.done(NamesResponse);
 };
 
 function NamesResponse(responseText) {
@@ -124,15 +123,15 @@ function NamesResponse(responseText) {
 		} catch (e) {
 		}
 		for (var i = nicknames.Count(); i <= max_names; i++) {
-			nicknames.Add(new Nickname(i + 1, - (i + 1), ""));
+			nicknames.Add(new Nickname(i + 1, - (i + 1), ''));
 		}
-		if (NewNickname != "-1") {
+		if (NewNickname != '-1') {
 			me.Nickname = NewNickname;
 			if (PrintRooms) {
 				PrintRooms();
 			}
 		}
-		nicknames1.Holder.innerHTML = "";
+		nicknames1.Holder.innerHTML = '';
 		nicknames.ToString(nicknames1.Holder);
 	}
 };
@@ -152,7 +151,7 @@ function Edit(e) {
 	if (e.RelatedItem) {
 		StopEditing(true);
 		var item = e.RelatedItem;
-		item.Mode = "edit";
+		item.Mode = 'edit';
 		item.CreateViewControls();
 		item.Input.focus();
 		activeItem = item;
@@ -162,14 +161,14 @@ function Edit(e) {
 function Clear(e) {
 	if (e.RelatedItem) {
 		var item = e.RelatedItem;
-		item.Name = "";
+		item.Name = '';
 		item.CreateViewControls();
 	}
 };
 
 function StopEditing(acceptChanges) {
 	if (activeItem) {
-		activeItem.Mode = "show";
+		activeItem.Mode = 'show';
 		if (acceptChanges) {
 			activeItem.Name = activeItem.Input.value;
 		}
@@ -185,8 +184,9 @@ function SaveNicknameChanges() {
 	}
 	StopEditing(true);
 	nicknameSaving = 1;
-	setTimeout("UnLockSaving()", 10000);
-	sendRequest(servicesPath + "nickname.service.php", SavingResults, nicknames.Gather());
+	setTimeout('UnLockSaving()', 10000);
+	$.post(servicesPath + 'nickname.service.php', nicknames.Gather())
+		.done(SavingResults);
 };
 
 function UnLockSaving() {
@@ -195,11 +195,11 @@ function UnLockSaving() {
 
 function SavingResults(req) {
 	UnLockSaving();
-	status = "";
+	status = '';
 	NamesResponse(req);
 	if (!status) {
-		SetStatus("Изменения сохранены.");
-		setTimeout("co.Hide()", 2000);
+		SetStatus('Изменения сохранены.');
+		setTimeout('co.Hide()', 2000);
 	}
 	ForcePing();
 };

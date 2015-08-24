@@ -2,8 +2,6 @@
     <head>
         <link rel="stylesheet" type="text/css" href="/css/global.css">
         <link rel="stylesheet" type="text/css" href="/css/menu_layout.css">
-        <script src="/js1/jquery/jquery.js"></script>
-        <script src="/js1/jquery/jquery-ui.js"></script>
         <?
 
     $root = "../";
@@ -11,14 +9,12 @@
 
     $user = GetAuthorizedUser(true);
 
-    require_once $root."references.php";
-
 
     ?>      <title>Меню пользователя</title>
-        <script language="javascript" src="/js1/wysiwyg/tinymce.min.js"></script>
+        <!--script language="javascript" src="/js1/wysiwyg/tinymce.min.js"></script-->
     </head>
 
-    <body onload="OnLoad()">
+    <body>
         <div id="AlertContainer">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
                 <tr><td align="center" valign="middle">
@@ -39,6 +35,6 @@
         ?>
             </div>
         </div>
-        <script src="/js1/menu_layout.js"></script>
+        <script src="/scripts/scripts.js"></script>
     </body>
 </html>

@@ -16,9 +16,9 @@ News.prototype = new EditableGrid();
 
 News.prototype.BaseBind = function() {};
 
-News.prototype.RequestCallback = function(req, obj) {
+News.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind(obj.data);
 	}
 };
@@ -27,7 +27,7 @@ News.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 	this.GroupSelfAssign(["AddNews", "RefreshNews"]);
 
-	this.Tab.NewsItems = this.Inputs["NewsItems"];
+	this.Tab.NewsItems = this.inputs["NewsItems"];
 };
 
 /* News Data Transfer Object */
@@ -96,6 +96,6 @@ function ShowNewsRecords(a) {
 		var s = new Spoiler(0, a.obj.Title, 0, 1);
 		s.ToString(tab.NewsItems);
 
-		new NewsRecords().LoadTemplate(s, a.obj.Id);
+		new NewsRecords().loadTemplate(s, a.obj.Id);
 	}
 };

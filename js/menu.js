@@ -40,7 +40,7 @@ function MenuItemsCollection(shown) {
     this.Items = new Collection();
     this.Container = document.createElement("ul");
     if (!shown) {
-        DisplayElement(this.Container, false);
+        displayElement(this.Container, false);
     }
 };
 
@@ -53,7 +53,7 @@ MenuItemsCollection.prototype.Create = function(where) {
 };
 
 MenuItemsCollection.prototype.Display = function(state) {
-    DisplayElement(this.Container, state);
+    displayElement(this.Container, state);
 };
 
 function DisplaySubmenu(el, state, force) {

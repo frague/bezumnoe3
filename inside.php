@@ -40,8 +40,6 @@
     $user->User->TouchSession();
     SetUserSessionCookie($user->User);
 
-    require_once $root."references.php";
-
 ?><!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -52,11 +50,9 @@
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-        <script src="/js1/jquery/jquery.js"></script>
-        <script src="/js1/jquery/jquery-ui.js"></script>
     </head>
 
-    <body onload="OnLoad()">
+    <body>
         <div id="AlertContainer">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
                 <tr><td align="center" valign="middle">
@@ -113,25 +109,14 @@
             <div id="MenuContainer"></div>
         </div>
 
-        <script src="/js1/chat_layout.js"></script>
-        <script src="/js1/prototype.js"></script>
-        <script src="/js1/smiles.js"></script>
+        <script src="/scripts/scripts.js"></script>
         <script src="/js1/smiles.php"></script>
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';
             Session = '<?php echo $user->User->Session ?>';
             SessionCheck = '<?php echo $user->User->SessionCheck ?>';
             SessionKey = '<?php echo SESSION_KEY ?>';
-
-            /* Tabs */
-            var tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
-            var MainTab = new Tab(1, "Чат", 1);
-            tabs.Add(MainTab);
-            CurrentTab = MainTab;
-
-            tabs.Print();
-
-            HistoryGo(0);
+            initLayout(pages.inside);
         </script>
     </body>
 </html>

@@ -18,14 +18,14 @@ BannedAddresses.prototype = new Grid();
 
 BannedAddresses.prototype.BaseBind = function() {};
 
-BannedAddresses.prototype.RequestCallback = function(req, obj) {
+BannedAddresses.prototype.requestCallback = function(req, obj) {
 	if (obj) {
 		if (BannedAddrsList) {
 			BannedAddrsList.Tab.Alerts.Clear();
 		}
 
 		obj.banData = [];
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 
 		if (BannedAddrsList) {
 			// Adding entry from bans tab
@@ -59,12 +59,12 @@ BannedAddresses.prototype.TemplateLoaded = function(req) {
 
 	this.GroupSelfAssign(["RefreshBannedAddresses", "ResetBannedAddresses"]);
 
-	new DatePicker(this.Inputs["TILL"]);
+	new DatePicker(this.inputs["TILL"]);
 
 	/* Submit button */
 	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
-	BindEnterTo(this.Inputs["CONTENT"], this.Tab.SubmitButton);
-	BindEnterTo(this.Inputs["TILL"], this.Tab.SubmitButton);
+	BindEnterTo(this.inputs["CONTENT"], this.Tab.SubmitButton);
+	BindEnterTo(this.inputs["TILL"], this.Tab.SubmitButton);
 };
 
 /* Banned Address Data Transfer Object */
@@ -104,7 +104,7 @@ badto.prototype.ToString = function(index, obj) {
 			comma = true;
 		}
 	}
-		
+
 	td2.appendChild(MakeDiv("Запрет:	<b>" + result + "</b>"));
 	tr.appendChild(td2);
 
@@ -113,16 +113,17 @@ badto.prototype.ToString = function(index, obj) {
 	td3.appendChild(MakeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
 	td3.appendChild(MakeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));
 	tr.appendChild(td3);
-	
+
 	return tr;
 };
 
 /* Client events methods */
 
 function SendItemRequest(a, id, go) {
-	var params = MakeParametersPair("go", go);
-	params += MakeParametersPair("id", id);
-	a.obj.Request(params);
+	var s = new ParamsBuilder()
+		.add('go', go)
+		.add('id', id);
+	a.obj.request(s.build());
 };
 
 function DeleteBan(a, id) {

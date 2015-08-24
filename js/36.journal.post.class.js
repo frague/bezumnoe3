@@ -45,28 +45,26 @@ JournalPost.prototype.Bind = function() {
 	}
 };
 
-JournalPost.prototype.Request = function(params, callback) {
-	if (!params) {
-		params = "";
-	}
-	params += MakeParametersPair("RECORD_ID", this.RECORD_ID);
+JournalPost.prototype.request = function(params, callback) {
+	var s = new ParamsBuiler(params)
+		.add('RECORD_ID', this.RECORD_ID);
 	if (this.Forum) {
-		params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
-	}
+		s.add('FORUM_ID', this.Forum.FORUM_ID);
+	};
 	if (this.TagsSpoiler && this.TagsSpoiler.AddedTags) {
-		params += MakeParametersPair("TAGS", this.TagsSpoiler.AddedTags.Gather());
+		s.add('TAGS', this.TagsSpoiler.AddedTags.Gather());
 	}
-	this.BaseRequest(params, callback);
+	this.BaseRequest(s.build(), callback);
 };
 
-JournalPost.prototype.RequestCallback = function(req, obj) {
+JournalPost.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		if (obj.data && obj.data != "") {	// "" comparison makes sense
 			obj.FillFrom(obj.data);
 			obj.Bind();
 			if (journalMessagesObj) {
-				journalMessagesObj.Request();
+				journalMessagesObj.request();
 			}
 		}
 
@@ -88,31 +86,31 @@ JournalPost.prototype.TemplateLoaded = function(req) {
 	this.SetTabElementValue("LOGIN", this.LOGIN);
 
 	// Create content field
-	this.ContentField = CreateElement("textarea", "CONTENT" + Math.random(10000));
+	this.ContentField = createElement("textarea", "CONTENT" + Math.random(10000));
 	if (this.EditorIsShown()) {
 		this.ContentField.className = "Editable";
 	}
 	this.ContentField.rows = 30;
-	if (this.Inputs["ContentHolder"]) {
-		this.Inputs["ContentHolder"].appendChild(this.ContentField);
+	if (this.inputs["ContentHolder"]) {
+		this.inputs["ContentHolder"].appendChild(this.ContentField);
 	}
 
 	// Radios group rename
-	RenameRadioGroup(this.Inputs["TYPE"]);
+	RenameRadioGroup(this.inputs["TYPE"]);
 
 	// DatePicker
-	this.Inputs["DATE"].value = new Date().ToString(1);
-	var a = new DatePicker(this.Inputs["DATE"], 1);
+	this.inputs["DATE"].value = new Date().ToString(1);
+	var a = new DatePicker(this.inputs["DATE"], 1);
 
 	// Tags (labels) spoiler
-	var tagsContainer = this.Inputs["TagsContainer"];
+	var tagsContainer = this.inputs["TagsContainer"];
 	if (tagsContainer) {
-		this.TagsSpoiler = new Spoiler(1, "Теги&nbsp;(метки)", 0, 0, function(tab) {new Tags().LoadTemplate(tab, me.Id, me.Login)});
+		this.TagsSpoiler = new Spoiler(1, "Теги&nbsp;(метки)", 0, 0, function(tab) {new Tags().loadTemplate(tab, me.Id, me.Login)});
 		this.TagsSpoiler.ToString(tagsContainer);
 		this.TagsSpoiler.RECORD_ID = this.RECORD_ID;
 	}
 
-	// Submit button 
+	// Submit button
 	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
@@ -124,6 +122,6 @@ function EditJournalPost(obj, post_id) {
 //		var login = obj.LOGIN ? obj.LOGIN : "";
 		var login = "";
 		var tab_id = "post" + post_id;
-		CreateUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "Новая запись", post_id, tab_id);
+		createUserTab(obj.USER_ID, login, new JournalPost(obj.Forum), "Новая запись", post_id, tab_id);
 	}
 };

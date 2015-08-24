@@ -6,8 +6,7 @@
         <link rel="stylesheet" href="/css/wakeup.css" />
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-        <script src="/js1/jquery/jquery.js"></script>
-        <script src="/js1/jquery/jquery-ui.js"></script>
+        <script src="/js/scripts.js"></script>
         <?
 
     $root = "./";
@@ -24,9 +23,6 @@
             $wakeup->Save();
         }
     }
-
-    require_once $root."references.php";
-
 
     ?>      <title><? echo ($wakeup->IsEmpty() ? "Wakeup Error!" : "Сообщение от ".$wakeup->FromUserName) ?></title>
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
@@ -55,7 +51,7 @@
                     </p>
             </div>
             <div id='WakeupReply' style='display:none'>
-                <form target="#" onsubmit="Send(<? echo $wakeup->Id; ?>);return false;">
+                <form target="#" onsubmit="SendWakeup(<? echo $wakeup->Id; ?>);return false;">
                     <div class="RoundedCorners" id="status"></div>
                     <table>
                         <tr>
@@ -66,7 +62,7 @@
                     </table>
                 </form>
             </div>
-            <script language="javascript" src="/js1/wakeup.js"></script>
+            <script>initLayout(pages.wakeup)</script>
                 <?
                 }
             }

@@ -778,7 +778,7 @@ WHERE
         $isProtected = self::TYPE." = ".self::TYPE_PUBLIC;
 
         if ($user && !$user->IsEmpty()) {
-            if ($user->IsSuperAdmin()) {
+            if ($user->isSuperAdmin()) {
                 $isDeleted = "";
                 $isProtected = "";
             } elseif ($user->IsAdmin()) {
@@ -863,7 +863,7 @@ WHERE
 
     public static function GetDeletedCondition($user) {
         $deletedCondition = "t1.".self::IS_DELETED."=0";
-        if ($user && $user->IsSuperAdmin()) {
+        if ($user && $user->isSuperAdmin()) {
             $deletedCondition = "1";
         }
         return $deletedCondition;

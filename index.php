@@ -56,25 +56,25 @@
             <div class="Main">
                 <div>
                     <div class="Column Left">
-                        <div class="users_online">
+                        <section>
                             <h5>Сейчас в чате</h5>
                             <?php include $root."inc/ui_parts/online_users.php"; ?>
-                        </div>
+                        </section>
 
-                        <div class="news">
+                        <section>
                             <h5>Новости</h5>
                             <?php ShowNews(-1, 3); ?>
-                        </div>
+                        </section>
 
-                        <div class="birthdays">
+                        <section>
                             <h5>Дни рождения</h5>
                             <?php include $root."inc/ui_parts/birthdays.php"; ?>
-                        </div>
+                        </section>
 
-                        <div class="photos">
+                        <section>
                             <h5>Новые лица</h5>
                             <?php include $root."inc/ui_parts/new_photos.php"; ?>
-                        </div>
+                        </section>
                     </div>
 
                     <div class="Column Center Left">

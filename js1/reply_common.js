@@ -198,18 +198,19 @@ function AddMessage(lnk) {
     // Tries to submit the form
     if (replyTitleElement) {
         lnk.disabled = true;
-        params = MakeParametersPair("RECORD_ID", replyMessageId);
-        params+= MakeParametersPair("FORUM_ID", forumId);
-        params+= MakeParametersPair("TITLE", replyTitleElement.val());
-        params+= MakeParametersPair("CONTENT", replyContentElement.val());
-        params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.is('checked') ? 1 : 0);
+        var s = new ParamsBuilder()
+            .add('RECORD_ID', replyMessageId)
+            .add('FORUM_ID', forumId)
+            .add('TITLE', replyTitleElement.val())
+            .add('CONTENT', replyContentElement.val())
+            .add('IS_PROTECTED', replyIsProtected.is('checked') ? 1 : 0);
 
-        sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
+        sendRequest(servicesPath + "forum.service.php", ForumMessageAddcallback, s.build(), lastLink);
     }
 };
 
 // New message adding callback
-function ForumMessageAddCallback(reesponseText, el) {
+function ForumMessageAddcallback(reesponseText, el) {
     var newId = "", newRecord = "", error = "", logged_user = "";
     eval(reesponseText);
 
@@ -239,15 +240,16 @@ function ForumMessageAddCallback(reesponseText, el) {
 
 // Message deletion
 function ForumDelete(a, id, forum_id) {
-    params = MakeParametersPair("RECORD_ID", id);
-    params+= MakeParametersPair("FORUM_ID", forum_id);
-    params+= MakeParametersPair("go", "delete");
+    var s = new ParamsBuilder()
+        .add('RECORD_ID', id)
+        .add('FORUM_ID', forum_id)
+        .add('go', 'delete');
 
-    sendRequest(servicesPath + "forum.service.php", ForumMessageDelCallback, params, a);
+    sendRequest(servicesPath + "forum.service.php", ForumMessageDelcallback, s.build(), a);
 }
 
 // Deletion callback
-function ForumMessageDelCallback(responseText, a) {
+function ForumMessageDelcallback(responseText, a) {
     var error = "", className = "";
     eval(responseText);
     if (!error) {

@@ -24,8 +24,8 @@ Profile.prototype.Bind = function() {
 	this.BaseBind();
 
 	/* Bind images */
-	DisplayElement(this.Inputs["liDeletePhoto"], this.PHOTO);
-	DisplayElement(this.Inputs["liDeleteAvatar"], this.AVATAR);
+	displayElement(this.inputs["liDeletePhoto"], this.PHOTO);
+	displayElement(this.inputs["liDeleteAvatar"], this.AVATAR);
 
 	this.BindImage(this.Photo1);
 	this.BindImage(this.Avatar1);
@@ -69,17 +69,17 @@ Profile.prototype.CheckPhoto = function(img) {
 
 Profile.prototype.ReloadImage = function(img) {
 	if (!this.Tab.Alerts.HasErrors) {
-		this.SetTabElementValue(img.Container, LoadingIndicator);
+		this.SetTabElementValue(img.Container, loadingIndicator);
 		this.CheckPhoto(img);
 		img.ImageObject.src = img.Path + this[img.Field] + "?" + Math.random(100);
-		if (this.Inputs[img.UploadForm]) {
-			this.Inputs[img.UploadForm].reset();
+		if (this.inputs[img.UploadForm]) {
+			this.inputs[img.UploadForm].reset();
 		}
 	}
 };
 
 Profile.prototype.PrintLoadedImage = function(img) {
-	var p = this.Inputs[img.Container], result = "не загружено";
+	var p = this.inputs[img.Container], result = "не загружено";
 	if (p) {
 		if (img.ImageObject) {
 			var dim = "width='" + img.MaxWidth + "'";
@@ -92,9 +92,9 @@ Profile.prototype.PrintLoadedImage = function(img) {
 	}
 };
 
-Profile.prototype.RequestCallback = function(req, obj) {
+Profile.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind();
 		obj.Initialized = false;
 	}
@@ -109,7 +109,7 @@ Profile.prototype.TemplateLoaded = function(req) {
     this.TemplateBaseLoaded(req);
 
 	/* Init images (photo & avatar) */
-	this.Tab.InitUploadFrame("AvatarUploadFrame");
+	this.Tab.initUploadFrame("AvatarUploadFrame");
 
 	/* Assign Tab to links */
 	this.Photo1 = new Img("PHOTO", "Photo", "uploadForm", this.Tab.UploadFrame, userPhotosPath, 300);
@@ -124,19 +124,19 @@ Profile.prototype.TemplateLoaded = function(req) {
 	}
 
 	/* Date pickers */
-	new DatePicker(this.Inputs["BIRTHDAY"]);
-	new DatePicker(this.Inputs["BANNED_TILL"], 1);
+	new DatePicker(this.inputs["BIRTHDAY"]);
+	new DatePicker(this.inputs["BANNED_TILL"], 1);
 
 	/* OpenIDs associated with this user */
-	var oid = new Spoiler(1, "OpenID", 0, 0, function(tab) {new OpenIds().LoadTemplate(tab, this.USER_ID)});
+	var oid = new Spoiler(1, "OpenID", 0, 0, function(tab) {new OpenIds().loadTemplate(tab, this.USER_ID)});
 	oid.USER_ID = this.USER_ID;
-	oid.ToString(this.Inputs["OpenIds"]);
+	oid.ToString(this.inputs["OpenIds"]);
 
 	/* Admin comments spoiler */
 	if (me.IsAdmin()) {
-		var acs = new Spoiler(2, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().LoadTemplate(tab, this.USER_ID)});
+		var acs = new Spoiler(2, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().loadTemplate(tab, this.USER_ID)});
 		acs.USER_ID = this.USER_ID;
-		acs.ToString(this.Inputs["AdminComments"]);
+		acs.ToString(this.inputs["AdminComments"]);
    	}
 
 	/* Submit button */
@@ -146,7 +146,7 @@ Profile.prototype.TemplateLoaded = function(req) {
 /* Save profile */
 
 function UploadImage(profile, img) {
-	var form = profile.Inputs[img.UploadForm];
+	var form = profile.inputs[img.UploadForm];
 	if (form) {
 		var p = form["PHOTO1"];
 		if (p && p.value) {
@@ -174,11 +174,11 @@ function SaveProfile(a) {
 function ProfileSaved(responseText, obj) {
 	if (obj && responseText) {
 		var tabObject = obj.Tab;
-		obj.RequestCallback(responseText, obj);
+		obj.requestCallback(responseText, obj);
 
 		// Refresh admin comments
 		obj.FindRelatedControls(true);
-		DoClick(obj.Inputs["RefreshAdminComments"]);
+		DoClick(obj.inputs["RefreshAdminComments"]);
 	}
 };
 
@@ -187,7 +187,7 @@ function ProfileSaved(responseText, obj) {
 function DeletePhotoConfirmed(a, image) {
 	if (a.Tab) {
 		a.Tab.Alerts.Clear();
-		a.Tab.Profile.Request(MakeParametersPair("go", "delete_" + image));
+		a.Tab.Profile.request('go=delete_' + image);
 	}
 };
 
@@ -197,7 +197,7 @@ function ShowBanDetails(cb) {
 	}
 };
 
-function RestoreInput(el, relatedBlockId) {
+function restoreInput(el, relatedBlockId) {
 	var tab = el.Tab;
 	if (!tab) {
 		return;

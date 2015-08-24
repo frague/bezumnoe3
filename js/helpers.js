@@ -1,49 +1,20 @@
-//6.0
-/*
-    Contains all global script settings, constants, variables and common methods
-*/
-
-var debug = 0;
-
-var d = document;
-var w = window;
-var voidLink = "javascript:void(0);";
-var voidHref = "href=\"" + voidLink + "\"";
-
-var imagesPath = "/img/";
-var servicesPath = "/services/";
-var userPhotosPath = "/img/photos/";
-var avatarsPath = "/img/avatars/";
-var skinsPreviewPath = "/img/journals/";
-var openIdPath = "/img/openid/";
-
-var adminRights = 75;
-var keeperRights = 20;
-var topicRights = 10;
-
-var LoadingIndicator = "<div class='LoadingIndicator'></div>";
-
-var SeverityCss = ["Warning", "Error"];
-
-var ReplaceTags = new RegExp("\<[\/a-z][^\>]*\>", "gim");
-
 /* Service methods */
 
-function GetElement(el) {
+function getElement(el) {
     if (el && (el.nodeType || el.jquery)) {
         return el;
     }
     return "#" + el;
 };
 
-var display_options = {effect: "fade", easing: "easeInOutBack", duration: 600};
+var displayOptions = {effect: "fade", easing: "easeInOutBack", duration: 600};
 
-function DisplayElement(el, state) {
+function displayElement(el, state) {
     if (!el) {
         return;
     }
 
-    el = GetElement(el);
+    el = getElement(el);
     if (state) {
         $(el).show();
     } else {
@@ -51,21 +22,21 @@ function DisplayElement(el, state) {
     }
 }
 
-function DoShow(el) {
-    DisplayElement(el, true);
+function doShow(el) {
+    displayElement(el, true);
 };
 
-function DoHide(el) {
-    DisplayElement(el, false);
+function doHide(el) {
+    displayElement(el, false);
 };
 
-function SwitchVisibility(el) {
-    el = GetElement(el);
-    $(el).toggle(display_options);
+function switchVisibility(el) {
+    el = getElement(el);
+    $(el).toggle(displayOptions);
 };
 
 var empty_pass = "**********";
-function ClearInput(el) {
+function clearInput(el) {
     if (el.value == empty_pass) {
         el.value = "";
     } else {
@@ -73,9 +44,9 @@ function ClearInput(el) {
     }
 };
 
-function RestoreInput(el, relatedBlockId) {
+function restoreInput(el, relatedBlockId) {
     if (el.value != el.previousValue) {
-        DisplayElement(relatedBlockId, el.value);
+        displayElement(relatedBlockId, el.value);
     }
     if (!el.value) {
         el.value = empty_pass;
@@ -88,7 +59,7 @@ function RestoreInput(el, relatedBlockId) {
    Upd.: Opera has document.all property
    Upd.: Mozilla doesn't know try-catch
 */
-function CreateElement(tag, name) {
+function createElement(tag, name) {
     var result;
     if (d.all) {
         try {
@@ -141,7 +112,7 @@ function CreateCheckBox(name, checked) {
 };
 
 function CreateLabel(target, text) {
-    label = CreateElement("label");
+    label = createElement("label");
     label.innerHTML = text;
     if (target) {
         label.setAttribute("for", target.name ? target.name : target);
@@ -162,7 +133,7 @@ function CheckEmpty(value, def) {
     return value;
 };
 
-function MakeButtonLink(target, text, obj, css, alt) {
+function makeButtonLink(target, text, obj, css, alt) {
     var a = d.createElement("a");
     a.href = voidLink;
     a.className = css;
@@ -181,7 +152,7 @@ function MakeButton(target, src, obj, css, alt) {
     alt = CheckEmpty(alt);
     css = CheckEmpty(css);
 
-    var a = MakeButtonLink(target, "", obj, css, alt);
+    var a = makeButtonLink(target, "", obj, css, alt);
     a.className = "Button " + css;
     a.innerHTML = "<img src='" + imagesPath + src + "' alt='" + alt + "' title='" + alt + "' />";
     return a;
@@ -288,17 +259,6 @@ function CancelBubbling(e) {
 };
 
 // Create Pop & Push methods For Array if not supported
-
-function ArrayPop(a) {
-    var o = a[a.length - 1];
-    a.length--;
-    return o;
-};
-
-function ArrayPush(a, p) {
-    a[a.length] = p;
-    return a.length;
-};
 
 function ArrayInsertFirst(a, p, len) {
     if (!a) {

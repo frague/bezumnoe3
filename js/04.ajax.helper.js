@@ -8,7 +8,7 @@ function sendRequest(url, callback, postData, obj) {
     })
     .done(function(data) {
         if (callback) {
-            // Callback passed as parameter
+            // callback passed as parameter
             callback(data, obj);
         } else if (obj && obj.TemplateLoaded) {
             // Template render callback
@@ -25,5 +25,4 @@ function handleRequest(responseText) {
     } catch(e) {
         return;
     }
-    eval(responseText);
 };

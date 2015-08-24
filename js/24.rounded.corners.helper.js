@@ -5,7 +5,7 @@
 
 function RoundCorners(el, color, css) {
     if (!el.tagName) {
-        el = $(GetElement(id))[0];
+        el = $(getElement(id))[0];
     }
     if (!el) {
         return;

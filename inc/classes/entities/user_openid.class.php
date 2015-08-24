@@ -107,7 +107,7 @@ WHERE
         return $this->BaseDeleteExpression();
     }
 
-    function DeleteUserOpenIdsExpression() {
+    function deleteUserOpenIdsExpression() {
         return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($this->UserId);
     }
 }

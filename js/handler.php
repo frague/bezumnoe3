@@ -22,7 +22,7 @@
         if ($user->IsAdmin()) {
             $isAdmin = true;
         }
-        if ($user->IsSuperAdmin()) {
+        if ($user->isSuperAdmin()) {
             $isSuperAdmin = true;
         }
 

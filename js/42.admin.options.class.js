@@ -12,7 +12,7 @@ function AdminOptions() {
 
 AdminOptions.prototype = new OptionsBase();
 
-AdminOptions.prototype.Request = function() {
+AdminOptions.prototype.request = function() {
     DebugLine("Admin options request");
 };
 
@@ -21,7 +21,7 @@ AdminOptions.prototype.TemplateLoaded = function(req) {
 
     DebugLine("Related controls");
     this.FindRelatedControls();
-    var spoilers = this.Inputs["Spoilers"];
+    var spoilers = this.inputs["Spoilers"];
     if (spoilers) {
         DebugLine("Spoilers div. SpoilerInits: " + spoilerInits.length);
         for (var i = 0, l = spoilerInits.length; i < l; i++) {

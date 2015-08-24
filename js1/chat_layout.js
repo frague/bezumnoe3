@@ -1,99 +1,59 @@
-// Scripts related to main chat window only
-
-var usersFrame = new MyFrame($("#Users")[0], 0, 100);
-var formFrame = new MyFrame($("#MessageForm")[0], 500);
-var messagesFrame = new MyFrame($("#Messages")[0], 500, 100);
-var textLinesFrame = new MyFrame($("#MessagesContainer")[0]);
-var statusFrame = new MyFrame($("#Status")[0], 660);
-var alerts = new MyFrame($("#AlertContainer")[0]);
-var winSize = new MyFrame(window);
-
-var configIndex = 0;
-
-function AdjustDivs() {
-	winSize.GetPosAndSize();
-	LayoutConfigs[configIndex]();
-	alerts.Replace(-1, -1, winSize.width, winSize.height);
-	d.body.className = "Layout" + configIndex;
-}
-
-
-var LayoutConfigs = [
+var layoutConfigs = [
 	function() {
-		statusFrame.Replace(10, 10, winSize.width - 20, 28);
-		usersFrame.Replace(10, statusFrame.y + statusFrame.height + 10, 150, winSize.height - 60);
-		formFrame.Replace(10 + usersFrame.x + usersFrame.width, usersFrame.y, winSize.width - 20 - usersFrame.x - usersFrame.width, -1);
+		this.frames[4].Replace(10, 10, this.winSize.width - 20, 28);
+		this.frames[0].Replace(10, this.frames[4].y + this.frames[4].height + 10, 150, this.winSize.height - 60);
+		this.frames[1].Replace(10 + this.frames[0].x + this.frames[0].width, this.frames[0].y, this.winSize.width - 20 - this.frames[0].x - this.frames[0].width, -1);
 
-		messagesFrame.Replace(
-			formFrame.x,
-			formFrame.y + formFrame.height + 10,
-			formFrame.width + 2,
-			winSize.height - 80 - formFrame.height);
+		this.frames[2].Replace(
+			this.frames[1].x,
+			this.frames[1].y + this.frames[1].height + 10,
+			this.frames[1].width + 2,
+			this.winSize.height - 80 - this.frames[1].height);
 
-		textLinesFrame.Replace(-1, -1, -1, messagesFrame.height - 40);
+		this.frames[3].Replace(-1, -1, -1, this.frames[2].height - 40);
 	},
 	function() {
-		statusFrame.Replace(10, 10, winSize.width - 20, 26);
-		usersFrame.Replace(winSize.width - 160, statusFrame.y + statusFrame.height + 10, 150, winSize.height - 60);
-		formFrame.Replace(10, usersFrame.y, winSize.width - 30 - usersFrame.width, -1);
+		this.frames[4].Replace(10, 10, this.winSize.width - 20, 26);
+		this.frames[0].Replace(this.winSize.width - 160, this.frames[4].y + this.frames[4].height + 10, 150, this.winSize.height - 60);
+		this.frames[1].Replace(10, this.frames[0].y, this.winSize.width - 30 - this.frames[0].width, -1);
 
-		messagesFrame.Replace(
-			formFrame.x,
-			formFrame.y + formFrame.height + 10,
-			formFrame.width + 2,
-			winSize.height - 80 - formFrame.height);
+		this.frames[2].Replace(
+			this.frames[1].x,
+			this.frames[1].y + this.frames[1].height + 10,
+			this.frames[1].width + 2,
+			this.winSize.height - 80 - this.frames[1].height);
 
-		textLinesFrame.Replace(-1, -1, -1, messagesFrame.height - 40);
+		this.frames[3].Replace(-1, -1, -1, this.frames[2].height - 40);
 	},
 	function() {
-		statusFrame.Replace(10, 10, winSize.width - 20, 28);
-		usersFrame.Replace(10, statusFrame.y + statusFrame.height + 10, 150, winSize.height - statusFrame.height - 30);
+		this.frames[4].Replace(10, 10, this.winSize.width - 20, 28);
+		this.frames[0].Replace(10, this.frames[4].y + this.frames[4].height + 10, 150, this.winSize.height - this.frames[4].height - 30);
 
-		messagesFrame.Replace(
-			10 + usersFrame.x + usersFrame.width,
-			usersFrame.y,
-			winSize.width - usersFrame.width - 30,
-			winSize.height - 80 - formFrame.height);
+		this.frames[2].Replace(
+			10 + this.frames[0].x + this.frames[0].width,
+			this.frames[0].y,
+			this.winSize.width - this.frames[0].width - 30,
+			this.winSize.height - 80 - this.frames[1].height);
 
-		textLinesFrame.Replace(-1, -1, -1, messagesFrame.height - 40);
+		this.frames[3].Replace(-1, -1, -1, this.frames[2].height - 40);
 
-		formFrame.Replace(messagesFrame.x, winSize.height - 110, winSize.width - 20 - usersFrame.x - usersFrame.width, 100);
+		this.frames[1].Replace(this.frames[2].x, this.winSize.height - 110, this.winSize.width - 20 - this.frames[0].x - this.frames[0].width, 100);
 	},
 	function() {
-		statusFrame.Replace(10, 10, winSize.width - 20, 28);
+		this.frames[4].Replace(10, 10, this.winSize.width - 20, 28);
 
-		messagesFrame.Replace(
+		this.frames[2].Replace(
 			10,
-			statusFrame.y + statusFrame.height + 10,
-			winSize.width - usersFrame.width - 28,
-			winSize.height - 70 - formFrame.height);
+			this.frames[4].y + this.frames[4].height + 10,
+			this.winSize.width - this.frames[0].width - 28,
+			this.winSize.height - 70 - this.frames[1].height);
 
-		textLinesFrame.Replace(-1, -1, -1, messagesFrame.height - 40);
+		this.frames[3].Replace(-1, -1, -1, this.frames[2].height - 40);
 
-		usersFrame.Replace(winSize.width - 160, messagesFrame.y, 150, winSize.height - statusFrame.height - 30);
-		formFrame.Replace(messagesFrame.x, winSize.height - 110, winSize.width - usersFrame.width - 30, 100);
+		this.frames[0].Replace(this.winSize.width - 160, this.frames[2].y, 150, this.winSize.height - this.frames[4].height - 30);
+		this.frames[1].Replace(this.frames[2].x, this.winSize.height - 110, this.winSize.width - this.frames[0].width - 30, 100);
 	}
 ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-AdjustDivs();
-
-window.onresize = AdjustDivs;
-if (window.addEventListener) {
-	window.addEventListener("resize", AdjustDivs, true);
-};
 
 var textForm = $("#Message")[0];
 function _s(text, erase) {

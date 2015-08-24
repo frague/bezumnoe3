@@ -1,12 +1,8 @@
-var UsersDiv = $("#UsersContainer")[0];
 var Topic = $("#TopicContainer")[0];
-var Messages = $("#MessagesContainer")[0];
 var Status = $("#Status")[0];
-var Recepients = $("#RecepientsContainer")[0];
 var PongImg = $("#pong")[0];
 var pongImage = new Image(); pongImage.src = imagesPath + 'pong.gif';
 
-var textField = $("#Message")[0];
 var historyContainer = $("#History")[0];
 
 var topicMessage = '';
@@ -65,13 +61,13 @@ function ClearMessages() {
 
 var newRoomTab;
 function PrintRooms() {
-    UsersDiv.innerHTML = rooms.ToString();
+    $('#UsersContainer').html(rooms.ToString());
 
     var container = $("#NewRoom")[0];
     if (!newRoomTab && me && me.Rights >= 11) { // Allowed to create rooms
         MakeNewRoomSpoiler(container);
     }
-    DisplayElement(container, rooms.Count() < 10);
+    displayElement(container, rooms.Count() < 10);
     UpdateTopic();
 };
 
@@ -82,7 +78,7 @@ function MoveToRoom(id) {
 };
 
 function MakeNewRoomSpoiler(container) {
-    newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().LoadTemplate(tab, me.Id)});
+    newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().loadTemplate(tab, me.Id)});
     newRoomTab.ToString(container);
 };
 
@@ -124,52 +120,39 @@ function SetTopic(text, author_id, author_name, lock) {
 
 /* Recepients */
 
-var messageType = "";
+var messageType = '';
 function ShowRecepients() {
     if (CurrentTab) {
-        Recepients.innerHTML = CurrentTab.recepients.ToString();
-        if (Recepients.innerHTML) {
-            var prefix = "Для ";
+        var rec = CurrentTab.recepients.ToString(),
+            recepients = $('#RecepientsContainer');
+
+        recepients.html(rec);
+        if (rec) {
+            var prefix;
             if (CurrentTab.Id == MainTab.Id) {
-                switch (messageType) {
-                    case "wakeup":
-                        prefix = "Wakeup для ";
-                        break;
-                    case "kick":
-                        prefix = "Выгнать ";
-                        break;
-                    case "ban":
-                        prefix = "Забанить ";
-                        break;
-                    case "me":
-                        prefix = "О себе в третьем лице";
-                        break;
-                    case "status":
-                        prefix = "Установить статус";
-                        break;
-                    case "topic":
-                        prefix = "Установить тему";
-                        break;
-                    case "locktopic":
-                        prefix = "Установить и заблокировать тему";
-                        break;
-                    case "unlocktopic":
-                        prefix = "Установить и разблокировать тему";
-                        break;
-                    case "away":
-                        prefix = "Отойти";
-                        break;
-                    case "quit":
-                        prefix = "Выйти из чата";
-                        break;
+                try {
+                    prefix = {
+                        'wakeup': 'Wakeup для ',
+                        'kick': 'Выгнать ',
+                        'ban': 'Забанить ',
+                        'me': 'О себе в третьем лице',
+                        'status': 'Установить статус',
+                        'topic': 'Установить тему',
+                        'locktopic': 'Установить и заблокировать тему',
+                        'unlocktopic': 'Установить и разблокировать тему',
+                        'away': 'Отойти',
+                        'quit': 'Выйти из чата'
+                        }[messageType];
+                } catch (e) {
+                    prefix = 'Для ';
                 }
             }
-            Recepients.innerHTML = prefix + Recepients.innerHTML;
+            recepients.html(prefix + rec);
         } else {
-            messageType = "";
+            messageType = '';
         }
     }
-    textField.focus();
+    $('#Message').focus();
 };
 
 // Add recepient
@@ -210,13 +193,15 @@ function MI(type, id, name) {
 };
 
 function IG(id, state) {
-    var s = MakeParametersPair("user_id", id);
-    s += MakeParametersPair("state", state);
-    sendRequest(servicesPath + "ignore.service.php", Ignored, s);
+    var s = new ParamsBuilder();
+    s.add('user_id', id);
+    s.add('state', state);
+    $.post(servicesPath + 'ignore.service.php', s.build())
+        .done(Ignored);
 };
 
-function Ignored(req) {
-    var id = req.responseText;
+function Ignored(data) {
+    var id = data.responseText;
     if (id) {
         var u = users.Get(Math.abs(id));
         if (u) {
@@ -228,9 +213,10 @@ function Ignored(req) {
 
 // Grant room access
 function AG(id, state) {
-    var s = MakeParametersPair("user_id", id);
-    s += MakeParametersPair("state", state);
-    sendRequest(servicesPath + "room_user.service.php", "", s);
+    var s = ParamsBuilder();
+    s.add('user_id', id);
+    s.add('state', state);
+    $.post(servicesPath + 'room_user.service.php', s.build());
 };
 
 /* Pong: Messages, Rooms, Users, Topic */
@@ -285,7 +271,6 @@ function Pong(responseText) {
 var tiomeoutTimer;
 function PingTimeout() {
     busy = 0;
-//  AddContainerLine(Status, "Ping time out. Re-requesting.")
 };
 
 var busy = 0;
@@ -293,35 +278,34 @@ var requestSent = 0;
 function Ping(do_check) {
     CompareSessions();
     if (!busy) {
-        var s = '';
-        if (do_check) {
-            s += MakeParametersPair("SESSION_CHECK", SessionCheck);
-        }
+        var s = new ParamsBuilder();
+        if (do_check) s.add('SESSION_CHECK', SessionCheck);
 
         /* Rooms */
-        for (var id in rooms.Base) {
-            s += MakeParametersPair("r" + id, rooms.Base[id].CheckSum());
-        }
+        rooms.Base.forEach(function(id) {
+            s.add('r' + id, rooms.Base[id].CheckSum());
+        });
+
         /* Users */
-        for (var uid in users.Base) {
-            s += MakeParametersPair("u" + uid, users.Base[uid].CheckSum());
-        }
+        users.Base.forEach(function(uid) {
+            s.add('u' + uid, users.Base[uid].CheckSum());
+        });
 
         /* Messages */
-        s += MakeParametersPair("last_id", lastMessageId);
+        s.add('last_id', lastMessageId);
 
         /* Move to room */
         if (newRoomId) {
-            s += MakeParametersPair("room_id", newRoomId);
+            s.add('room_id', newRoomId);
             newRoomId = 0;
-        }
+        };
 
-        sendRequest(servicesPath + "pong.service.php", Pong, s);
+        $.post(servicesPath + 'pong.service.php', s.build()).done(Pong);
         requestSent = 1;
-        tiomeoutTimer = setTimeout("PingTimeout()", 20000);
+        tiomeoutTimer = setTimeout(PingTimeout, 20000);
         busy = 1;
     }
-    pingTimer = setTimeout("Ping()", 10000);
+    pingTimer = setTimeout(Ping, 10000);
 };
 
 function CompareSessions() {
@@ -332,24 +316,28 @@ function CompareSessions() {
 };
 
 function Send(button) {
-    var recepients = CurrentTab.recepients.Gather();
-    if (!recepients && !textField.value) {
+    var recepients = CurrentTab.recepients.Gather(),
+        textField = $('#Message');
+    if (!recepients && !textField.val()) {
         return;
     }
-    var s = MakeParametersPair("message", textField.value);
-    s += MakeParametersPair("type", messageType);
-    s += MakeParametersPair("recepients", recepients);
+    var s = new ParamsBuilder();
+    s.add('message', textField.val());
+    s.add('type', messageType);
+    s.add('recepients', recepients);
 
-    sendRequest(servicesPath + "message.service.php", Received, s);
+    $.post(servicesPath + 'message.service.php', s.build())
+        .done(Received);
+
     if (!CurrentTab.IsPrivate) {
         CurrentTab.recepients.Clear();
         messageType = "";
         ShowRecepients();
     }
-    ArrayInsertFirst(MessagesHistory, textField.value, historySize);
+    ArrayInsertFirst(MessagesHistory, textField.val(), historySize);
     HistoryGo(-1);
 
-    textField.value = "";
+    textField.val('');
 };
 
 function HistoryGo(i) {
@@ -357,7 +345,7 @@ function HistoryGo(i) {
         historyPointer = i;
         historyContainer.innerHTML = "История сообщений (" + (historyPointer + 1) + "/" + MessagesHistory.length + ")";
         var value = i >= 0 ? MessagesHistory[historyPointer] : "";
-        textField.value = value;
+        $('#Message').val(value);
     }
 };
 
@@ -375,7 +363,9 @@ var eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL\\:ZXCVBNM<>/&?@
 var rus = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ.?,\"ёЁ";
 
 function Translit() {
-    var val = textField.value, out = "";
+    var textField = $('#Message'),
+        val = textField.val(),
+        out = '';
 
     for (i = 0, l = val.length; i < l; i++) {
         s = val.charAt(i);
@@ -390,7 +380,7 @@ function Translit() {
         }
         out += s;
     }
-    textField.value = out;
+    textField.val(out);
 };
 
 

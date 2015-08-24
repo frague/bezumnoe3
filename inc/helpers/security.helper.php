@@ -29,9 +29,9 @@
       global $SessionLifetime;
 
         if ($inHeader) {
-            header("Set-Cookie: ".SESSION_KEY."=".$user->Session.";path=/;domain=.bezumnoe.ru;");
+            header("Set-Cookie: ".SESSION_KEY."=".$user->Session.";path=/;");
         } else {
-            setcookie(SESSION_KEY, $user->Session, 0, "/", ".bezumnoe.ru");
+            setcookie(SESSION_KEY, $user->Session, 0, "/", "");
         }
     }
 
@@ -144,7 +144,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         if (!$user || !$forum || $user->IsEmpty() || $forum->IsEmpty()) {
             return 0;
         }
-        if ($user->IsSuperAdmin()) {
+        if ($user->isSuperAdmin()) {
             return 2;
         }
 

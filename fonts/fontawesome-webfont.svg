@@ -152,7 +152,7 @@ ul.Users li {
 	font-size:9pt;
 }
 
-div.Requestors {
+div.requestors {
 	font-size:7pt;
 	padding-top:10px;
 	border-bottom:solid 1px #404040;
@@ -282,7 +282,7 @@ p strong {
 	text-decoration:line-through;
 	color:red;
 }
-.Users a.Requestor {
+.Users a.requestor {
 	padding-left:12px;
 	background:url(/img/flash_point.gif) no-repeat;
 }

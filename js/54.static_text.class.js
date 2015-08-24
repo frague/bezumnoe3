@@ -9,7 +9,7 @@ function StaticText() {
 
 StaticText.prototype = new OptionsBase();
 
-StaticText.prototype.Request = function() {
+StaticText.prototype.request = function() {
 };
 
 StaticText.prototype.TemplateLoaded = function(req) {

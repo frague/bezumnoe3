@@ -7,14 +7,14 @@
 
 function OptionsBase() {
     this.defaultValues = [];
-};
+}
 
 // Loading Template
-OptionsBase.prototype.LoadTemplate = function(tab, user_id, login) {    // To be overriden
+OptionsBase.prototype.loadTemplate = function (tab, user_id, login) {    // To be overriden
     this.LoadBaseTemplate(tab, user_id, login);
 };
 
-OptionsBase.prototype.LoadBaseTemplate = function(tab, user_id, login) {
+OptionsBase.prototype.LoadBaseTemplate = function (tab, user_id, login) {
     this.USER_ID = Math.round(user_id);
     this.LOGIN = login;
 
@@ -28,56 +28,54 @@ OptionsBase.prototype.LoadBaseTemplate = function(tab, user_id, login) {
 };
 
 // Template Callbacks
-OptionsBase.prototype.TemplateLoaded = function(req) {  // To be overriden
+OptionsBase.prototype.TemplateLoaded = function (req) {  // To be overriden
     this.TemplateBaseLoaded(req);
 };
 
-OptionsBase.prototype.TemplateBaseLoaded = function(req) {
-    text = req;
+OptionsBase.prototype.TemplateBaseLoaded = function (req) {
+    var text = req || '';
     if (req) {
-        DebugLine("Template " + this.Template + " caching");
-        text = req;
         KeepRequestedContent(this.Template, text);
     }
-    DebugLine("Template publishing");
     this.Tab.RelatedDiv.innerHTML = text;
-    this.Tab.InitUploadFrame();
-    DebugLine("Data request");
-    this.Request();
+    this.Tab.initUploadFrame();
+    this.request();
 };
 
 /* Checks if element type is allowed for value-operations */
 
 OptionsBase.prototype.ValueType = function(t) {
-    return (t == "text" || t == "password" || t == "hidden" || t == "select-one" || t == "textarea" || t == "color" || t == "date" || t == "datetime");
+    return ["text", "password", "hidden", "select-one", "textarea", "color", "date", "datetime"].indexOf(t) >= 0;
 };
 
 /* Gathering object properties from UI controls */
 
 OptionsBase.prototype.GatherOne = function(name, property) {
-    el = this.Inputs ? this.Inputs[name] : "";
+    var el = this.inputs ? this.inputs[name] : '',
+        prop = property || name,
+        s = new ParamsBuilder();
 
-    var prop = property ? property : name;
     if (el) {
         if (this.ValueType(el.type)) {
             this[prop] = el.value;
-            return MakeParametersPair(name, el.value);
+            return s.add(name, el.value).build();
         } else if (el.type == "checkbox" || el.type == "radio") {
             this[prop] = el.checked;
-            return MakeParametersPair(name, el.checked ? 1 : 0);
+            return s.add(name, el.checked ? 1 : 0).build();
         }
         if (el.className == "Radios") {
             var value = GetRadioValue(el);
             this[prop] = value;
-            return MakeParametersPair(name, value);
+            return s.add(name, value).build();
         }
     } else if (this[name] != "undefined") {
-        return MakeParametersPair(name, this[name]);    // In case if no real controls relate to object
+        return s.add(name, this[name]).build();
     }
     return "";
 };
 
 OptionsBase.prototype.GatherFields = function(fields) {
+    var properties = fields;
     this.FindRelatedControls();
     if (!fields) {
         if (!this.properties) {
@@ -85,12 +83,10 @@ OptionsBase.prototype.GatherFields = function(fields) {
         }
         fields = this.fields;
         properties = this.properties;
-    } else {
-        properties = fields;
     }
 
-    var el;
-    var result = "";
+    var el,
+        result = "";
     for (var i = 0,l = fields.length; i < l; i++) {
         result += this.GatherOne(fields[i], properties[i]);
     }
@@ -139,8 +135,8 @@ OptionsBase.prototype.FillFrom = function(source, fields) {     // Method to ove
 /* Binding tba controls with object's properties */
 
 OptionsBase.prototype.FindRelatedControls = function(force) {
-    if ((force || !this.Inputs) && this.Tab) {
-        this.Inputs = IndexElementChildElements(this.Tab.RelatedDiv);
+    if ((force || !this.inputs) && this.Tab) {
+        this.inputs = IndexElementChildElements(this.Tab.RelatedDiv);
     }
 };
 
@@ -170,7 +166,7 @@ OptionsBase.prototype.Bind = function() {   // Method to override
 
 OptionsBase.prototype.AssignObjectTo = function(id, obj, name) {
     this.FindRelatedControls();
-    var el = this.Inputs[id];
+    var el = this.inputs[id];
     if (el) {
         el[name] = obj;
     }
@@ -186,7 +182,7 @@ OptionsBase.prototype.AssignSelfTo = function(id) {
 
 OptionsBase.prototype.SetTabElementValue = function(element, value) {
     this.FindRelatedControls();
-    var el = this.Inputs[element];
+    var el = this.inputs[element];
     if (el) {
         if (this.ValueType(el.type)) {
             el.value = value;
@@ -205,9 +201,9 @@ OptionsBase.prototype.SetTabElementValue = function(element, value) {
 };
 
 OptionsBase.prototype.DisplayTabElement = function(element, state) {
-    var el = this.Inputs[element];
+    var el = this.inputs[element];
     if (el) {
-        DisplayElement(el, state);
+        displayElement(el, state);
     }
 };
 
@@ -231,33 +227,31 @@ OptionsBase.prototype.Reset = function() {
 /* Request methods */
 
 OptionsBase.prototype.BaseRequest = function(params, callback) {
-    if (!params) {
-        params = "";
-    }
-    params += MakeParametersPair("USER_ID", this.USER_ID);
-    sendRequest(this.ServicePath, callback ? callback : this.RequestCallback, params, this);
+    var s = ParamsBuilder(params);
+    s.add('USER_ID', this.USER_ID);
+    $.post(this.ServicePath, (callback || this.requestCallback).bind(this), s.build());
 };
 
-OptionsBase.prototype.Request = function(params, callback) {    /* Method to override */
+OptionsBase.prototype.request = function(params, callback) {    /* Method to override */
     this.BaseRequest(params, callback);
 };
 
 OptionsBase.prototype.Save = function(callback) {
-    var params = this.Gather();
-    params += MakeParametersPair("go", "save");
-    this.Request(params, callback);
+    var s = new ParamsBuilder(this.Gather());
+    s.add('go', 'save');
+    this.request(s.build(), callback);
 };
 
 OptionsBase.prototype.Delete = function(callback) {
-    var params = this.Gather();
-    params += MakeParametersPair("go", "delete");
-    this.Request(params, callback);
+    var s = new ParamsBuilder(this.Gather());
+    s.add('go', 'delete');
+    this.request(s.build(), callback);
 };
 
 
 /* Common callback */
 
-OptionsBase.prototype.RequestBaseCallback = function(req, obj) {
+OptionsBase.prototype.requestBaseCallback = function(req, obj) {
     this.data = [];
     this.Total = 0;
     if (obj) {
@@ -296,10 +290,12 @@ OptionsBase.prototype.UpdateToPrintableDate = function(field) {
 
 var optionsWindow;
 function ShowOptions() {
-    if (!optionsWindow || optionsWindow.closed) {
-        optionsWindow = open("options", "options", "width=600,height=420,toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=1");
+    tab = tabs.tabsCollection.Get('Меню');
+    if (!tab) {
+        tab = new Tab('Меню', null, false, true);
+        tabs.Add(tab);
     }
-    optionsWindow.focus();
+
 };
 
 /* Static content requestor */
@@ -336,7 +332,7 @@ function LoadAndBindObjectToTab(tab, user_id, obj, obj_class, callback, login) {
     }
 };
 
-function CreateUserTab(id, login, obj, prefix, parameter, tab_id) {
+function createUserTab(id, login, obj, prefix, parameter, tab_id) {
     if (!tab_id) {
         tab_id = tabs.tabsCollection.LastId + 1;
     }
@@ -350,7 +346,7 @@ function CreateUserTab(id, login, obj, prefix, parameter, tab_id) {
 
         var tab = tabs.tabsCollection.Get(tab_id);
         tab.PARAMETER = parameter;
-        obj.LoadTemplate(tab, id, login);
+        obj.loadTemplate(tab, id, login);
     } else {
         SwitchToTab(tab_id);
         tabs.Print();
@@ -372,7 +368,7 @@ function SaveObject(a) {
 function ReRequestData(a) {
     if (a.obj) {
         a.obj.Tab.Alerts.Clear();
-        a.obj.Request();
+        a.obj.request();
     }
 };
 
@@ -384,6 +380,6 @@ function ResetFilter(a) {
         if (ac.CustomReset) {
             ac.CustomReset();
         }
-        ac.Request();
+        ac.request();
     }
 };

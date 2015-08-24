@@ -27,11 +27,11 @@ function User(id, login, room_id, room_is_permitted, ip, away_message, ban_reaso
 	this.StatusTitle = status_title;
 	this.StatusColor = status_color;
 
-	this.IsIgnored = 1 * is_ignored;
-	this.IgnoresYou = 1 * ignores_you;
-};
+	this.IsIgnored = !!is_ignored;
+	this.IgnoresYou = !!ignores_you;
+}
 
-User.prototype.CheckSum = function() {
+User.prototype.CheckSum = function () {
 	var cs = 0;
 	cs += CheckSum(this.RoomId);
 	cs += CheckSum(this.RoomIsPermitted);
@@ -49,30 +49,24 @@ User.prototype.CheckSum = function() {
 	cs += CheckSum(this.StatusTitle);
 	cs += CheckSum(this.StatusColor);
 
-//	cs += CheckSum(this.IsIgnored);
-//	cs += CheckSum(this.IgnoresYou);
-
 	cs += "" + this.IsIgnored + "" + this.IgnoresYou;
-
-//	DebugLine('User: '+this.Id+' sum: '+cs);
 
 	return cs;
 };
 
-User.prototype.IsAdmin = function() {
+User.prototype.IsAdmin = function () {
 	return this.Rights >= adminRights;
 };
 
-User.prototype.IsSuperAdmin = function() {
+User.prototype.isSuperAdmin = function () {
 	return this.Rights > adminRights;
 };
 
-User.prototype.ToString = function(room) {
-	var name = (this.Nickname ? this.Nickname : this.Login);
-	var qname = Quotes(name);
-
-	var has_access = this.HasAccessTo(room);
-	var s = this.NameToString(name, has_access);
+User.prototype.ToString = function (room) {
+	var name = this.Nickname || this.Login,
+		qname = Quotes(name),
+		has_access = this.HasAccessTo(room),
+		s = this.NameToString(name, has_access);
 
 	s += '<div class="UserInfo" style="display:none" onmouseover="Show(this);" onclick="HideDelayed();" onmouseout="Hide();" id="_' + this.Id + '">';
 	s += '<ul><li> <a ' + voidHref + ' class="Close">x</a><a ' + voidHref + ' onclick="Info(' + this.Id + ')">Инфо</a>';
@@ -95,7 +89,7 @@ User.prototype.ToString = function(room) {
 		if (me.IsAdmin() || me.Rights == keeperRights) {
 			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Выгнать</a>';
 		}
-		if ((me.IsAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.IsSuperAdmin()) {
+		if ((me.IsAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.isSuperAdmin()) {
 			s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Забанить</a>';
 			if (this.Login) {
 				s += '<li class="Overlined"><span>' + this.Login + '</span>';
@@ -132,7 +126,7 @@ User.prototype.NameToString = function(name, has_access) {
 
 	var title = HtmlQuotes(name) + (this.AwayMessage ? " отсутствует	&laquo;" + this.AwayMessage + "&raquo;" : "");
 
-	var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + voidHref + ' onclick="SwitchVisibility(\'_' + this.Id + '\')" ';
+	var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + voidHref + ' onclick="switchVisibility(\'_' + this.Id + '\')" ';
 	s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';
 	return s;
 };
@@ -164,7 +158,7 @@ function Show(id) {
 			return;
 		}
 	}
-	DisplayElement(id, true);
+	displayElement(id, true);
 	shownElement = id;
 };
 
@@ -173,6 +167,6 @@ function Hide() {
 };
 
 function HideDelayed() {
-	DisplayElement(shownElement, false);
+	displayElement(shownElement, false);
 	shownElement = '';
 };

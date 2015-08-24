@@ -98,6 +98,10 @@ function AppendSubArray(arr, key, value) {
 users = [];
 generations = [];
 maxGeneration = 0;
+if (!window['u']) {
+    u = [];
+    r = [];
+};
 
 for (i in u) {
     user1 = new user(u[i]);

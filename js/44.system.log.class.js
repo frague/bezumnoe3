@@ -19,6 +19,6 @@ SystemLog.prototype.Init = function() {
 };
 
 SystemLog.prototype.InitPager = function() {
-    this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.SystemLog.SwitchPage()}, this.PerPage);
+    this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.SystemLog.SwitchPage()}, this.PerPage);
 };
 

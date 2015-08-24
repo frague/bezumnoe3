@@ -15,16 +15,18 @@ function JournalComments(forum) {
 JournalComments.prototype = new Comments();
 
 JournalComments.prototype.Gather = function() {
-	return MakeParametersPair("RECORD_ID", this.jrdto.Id) + this.BaseGather();
+	return new ParamsBuilder(this.BaseGather())
+		.add('RECORD_ID', this.jrdto.Id)
+		.build();
 };
 
 JournalComments.prototype.InitPager = function() {
-	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.JournalComments.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.JournalComments.SwitchPage()}, this.PerPage);
 };
 
-JournalComments.prototype.RequestCallback = function(req, obj) {
+JournalComments.prototype.requestCallback = function(req, obj) {
 	if (obj) {
-		obj.RequestBaseCallback(req, obj);
+		obj.requestBaseCallback(req, obj);
 		obj.Bind(obj.data, obj.Total);
 	}
 	if (obj.Forum) {
@@ -32,7 +34,7 @@ JournalComments.prototype.RequestCallback = function(req, obj) {
 	}
 };
 
-JournalComments.prototype.LoadTemplate = function(tab, user_id, login) {
+JournalComments.prototype.loadTemplate = function(tab, user_id, login) {
 	// Important!
 	this.jrdto = tab.PARAMETER;
 	this.TITLE = this.jrdto.Title;
@@ -49,7 +51,7 @@ JournalComments.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
 	this.AssignSelfTo("buttonSearch");
-	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
+	BindEnterTo(this.inputs["SEARCH"], this.inputs["buttonSearch"]);
 };
 
 /* Journal Record Data Transfer Object */
@@ -89,21 +91,22 @@ jcdto.prototype.ToString = function(index, obj) {
 		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
 		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить"));
 	tr.appendChild(td3);
-	
+
 	return tr;
 };
 
 /* Actions */
 
 function DeleteCommentConfirmed(obj, id) {
-	var params = MakeParametersPair("go", "delete");
-	params += MakeParametersPair("id", id);
-	obj.Request(params);
+	var s = new ParamsBuilder()
+		.add('go', 'delete')
+		.add('id', id);
+	obj.request(s.build());
 };
 
 function ShowMessageComments(a) {
 	var tab_id = "c" + a.jrdto.Id;
-	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "Комментарии в журнале", a.jrdto, tab_id);
+	createUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "Комментарии в журнале", a.jrdto, tab_id);
 };
 
 /* Confirms */
