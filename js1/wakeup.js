@@ -4,7 +4,7 @@ var offset = 0;
 function ReplyForm() {
     $('#WakeupReply').toggle(!offset);
     offset = replyFormHeight - offset;
-    AdjustDivs();
+    _.result(window, 'onResize');
     $('#reply').focus();
 }
 
@@ -14,7 +14,7 @@ function SendWakeup(message_id) {
     s.add('reply_to', message_id);
     $.post('../services/wakeup.service.php', s.build)
         .done(MessageAdded);
-    
+
     $('#status')
         .removeClass().addClass('RoundedCorners')
         .css('background-color', '#404040')

@@ -14,6 +14,7 @@
     "jscodehints.detectedExclusions": [
         "/Users/nick/dev/bezumnoe3/js/26.grid.class.js",
         "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/attributes/prop.js",
-        "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/attributes/support.js"
+        "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/attributes/support.js",
+        "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/core/init.js"
     ]
 }

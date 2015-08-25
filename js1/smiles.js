@@ -12,8 +12,8 @@ function SwitchSmiles() {
         return;
     }
     c.className = c.className == "On" ? "" : "On";
-    AdjustDivs();
-    return 1;
+    _.result(window, 'onResize');
+    return true;
 };
 
 

@@ -9,11 +9,11 @@ function TabBase() {
 
 TabBase.prototype.initUploadFrame = function(property) {
     if (!property) {
-        property = "UploadFrame";
+        property = 'UploadFrame';
     }
     if (!this[property]) {
-        this[property] = createElement("iframe", "UploadFrame" + Math.round(100000*Math.random()));
-        this[property].className = "UploadFrame";
+        this[property] = createElement('iframe', 'UploadFrame' + _.random(10, 99));
+        this[property].className = 'UploadFrame';
         if (this.RelatedDiv) {
             this.RelatedDiv.appendChild(this[property]);
         }
@@ -163,13 +163,11 @@ function SwitchToTab(id) {
         if (tab.onSelect) {
             tab.RelatedDiv.innerHTML = loadingIndicator;
             tab.onSelect(tab);
-            tab.onSelect = "";	/* TODO: Treat failure */
+            tab.onSelect = '';	/* TODO: Treat failure */
         }
     }
-    if (AdjustDivs) {
-        AdjustDivs();
-    }
 
+    _.result(window, 'onResize');
 }
 
 function CloseTab(id) {

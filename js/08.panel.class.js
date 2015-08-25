@@ -46,9 +46,7 @@ Panel.prototype.CreateLink = function () {
 
 Panel.prototype.LinkSwitcher = function () {
     this.SwitchLink.className = this.BaseLinkClass + " " + (this.IsOpened ? "Opened" : "Closed");
-    if (AdjustDivs) {
-        AdjustDivs();
-    }
+    _.result(window, 'onResize');
 };
 
 Panel.prototype.ResizeBy = function (to) {

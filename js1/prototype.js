@@ -252,7 +252,7 @@ function Pong(responseText) {
 
     if (me && me.Settings.Frameset != configIndex) {
         configIndex = me.Settings.Frameset;
-        AdjustDivs();
+        _.result(window, 'onResize');
     }
 
     if (!menuInitilized && me.Login) {
@@ -282,14 +282,20 @@ function Ping(do_check) {
         if (do_check) s.add('SESSION_CHECK', SessionCheck);
 
         /* Rooms */
-        rooms.Base.forEach(function(id) {
-            s.add('r' + id, rooms.Base[id].CheckSum());
-        });
+        _.each(
+            rooms.Base,
+            function(room, id) {
+                s.add('r' + id, room.CheckSum());
+            }
+        );
 
         /* Users */
-        users.Base.forEach(function(uid) {
-            s.add('u' + uid, users.Base[uid].CheckSum());
-        });
+        _.each(
+            users.Base,
+            function(user, id) {
+                s.add('u' + id, user.CheckSum());
+            }
+        );
 
         /* Messages */
         s.add('last_id', lastMessageId);
@@ -300,7 +306,8 @@ function Ping(do_check) {
             newRoomId = 0;
         };
 
-        $.post(servicesPath + 'pong.service.php', s.build()).done(Pong);
+        $.post(servicesPath + 'pong.service.php', s.build())
+            .done(Pong);
         requestSent = 1;
         tiomeoutTimer = setTimeout(PingTimeout, 20000);
         busy = 1;

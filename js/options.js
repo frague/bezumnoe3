@@ -290,12 +290,20 @@ OptionsBase.prototype.UpdateToPrintableDate = function(field) {
 
 var optionsWindow;
 function ShowOptions() {
-    tab = tabs.tabsCollection.Get('Меню');
+    var tab = tabs.tabsCollection.Get('Меню');
     if (!tab) {
-        tab = new Tab('Меню', null, false, true);
-        tabs.Add(tab);
+        var menuTab = new Tab('menu', 'Меню');
+        tabs.Add(menuTab);
+        CurrentTab = menuTab;
+        tabs.Print();
+        $(menuTab.RelatedDiv).load(
+            '/options/menu.php',
+            function() {
+                initLayout(pages.menu, menuTab.RelatedDiv);
+                $(menuTab.RelatedDiv).trigger('load');
+            }
+        );
     }
-
 };
 
 /* Static content requestor */
@@ -304,11 +312,11 @@ var cachedContent = new Array();
 function RequestContent(obj) {
     var req;
     if (cachedContent[obj.Template] && obj.TemplateLoaded) {
-        var req = cachedContent[obj.Template];
+        req = cachedContent[obj.Template];
         obj.TemplateLoaded(req);
     } else {
-        // No callback passed as parameter. Supposed to be taken from Obj.
-        req = sendRequest("/options/" + obj.Template + ".php", "", "", obj);
+        req = $.get('/options/' + obj.Template + '.php')
+            .done(obj.TemplateLoaded);
     }
     return req;
 };

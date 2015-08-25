@@ -59,14 +59,13 @@ var frames,
                 '#AlertContainer'
             ],
             onResize: function() {
-                this.frames[0].Replace(10, 10, this.winSize.width - 20, winSize.height - 20);
+                this.frames[0].Replace(10, 10, this.winSize.width - 20, this.winSize.height - 20);
                 this.frames[1].Replace(-1, -1, -1, this.frames[0].height - 40);
                 this.frames[2].Replace(-1, -1, this.winSize.width, this.winSize.height);
             },
             onLoad: function() {
-                if (!this.opener) return;
-                this.me = this.opener.me;
-                if (this.me) {
+                var me = window.me;
+                if (me) {
                     this.UploadFrame = $('#uploadFrame')[0];
 
                     this.tabs = new Tabs($('#OptionsContainer')[0], $('#OptionsContent')[0]);
@@ -94,7 +93,7 @@ var frames,
                         }
                     ));
 
-                    if (this.me.Rights >= this.adminRights) {
+                    if (me.Rights >= this.adminRights) {
                         this.tabs.Add(new Tab(
                             6, 'Пользователи', true, '',
                             function (tab) {
@@ -112,7 +111,7 @@ var frames,
                         this.MainTab = this.ProfileTab;
                     }
                     this.tabs.Print();
-                    new Profile().loadTemplate(ProfileTab, me.Id);
+                    new Profile().loadTemplate(this.ProfileTab, me.Id);
                 }
             }
         },
@@ -128,9 +127,9 @@ var frames,
         }
     };
 
-function initLayout(layout) {
+function initLayout(layout, container) {
     var context = {
-        winSize: new MyFrame(window),
+        winSize: new MyFrame(container || window),
         frames: layout.containers.map(function(params) {
             params = _.flatten([params, null, null]);
             return new MyFrame($(params[0])[0], params[1], params[2]);
@@ -143,5 +142,8 @@ function initLayout(layout) {
 
     $(window).on('resize', onResize);
     onResize();
-    if (layout.onLoad) $(window).on('load', layout.onLoad.bind(window));
+    if (layout.onLoad) $(container || window).on(
+        'load',
+        layout.onLoad.bind(container || window)
+    );
 };

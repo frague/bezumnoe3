@@ -4,83 +4,63 @@
 */
 
 function Collection() {
-    this.Base = new Array();
-    this.LastId = 0;
+    this.Base = {};
+    this.LastId = null;
 };
 
 Collection.prototype.Get = function(id) {
-    if (this.Base['_'+id]) {
-        return this.Base['_'+id];
+    if (this.Base['_' + id]) {
+        return this.Base['_' + id];
     }
-    return false;
+    return null;
 };
 
 Collection.prototype.Add = function(e) {
-    this.Base['_'+e.Id] = e;
+    this.Base['_' + e.Id] = e;
     this.LastId = e.Id;
 };
 
-Collection.prototype.BulkAdd = function(arr) {
-    for (var i = 0, l = arr.length; i < l; i++) {
-        el = arr[i];
-        if (!el.Id) {
-            el.Id = i + 1;
-        }
-        this.Add(el)
-    }
+Collection.prototype.BulkAdd = function(elements) {
+    elements.forEach(function(e) {
+        if (!e.Id) e.Id = _.uniqueId();
+        this.Add(e);
+    });
 };
 
 Collection.prototype.Delete = function(id) {
-    id = '_'+id;
-    if (this.Base[id]) {
-        var a = new Array();
-        for (var cid in this.Base) {
-            if (cid != id) {
-                a[cid] = this.Base[cid];
-            }
-        }
-        this.Base = a;
-    }
+    if (this.Base['_' + id]) delete this.Base['_' + id];
 };
 
 Collection.prototype.Clear = function() {
-    this.Base = new Array();
+    this.Base = {};
 };
 
 Collection.prototype.Count = function() {
-    var l = 0;
-    for (var k in this.Base) {
-        l += k ? 1 : 0;
-    }
-    return l;
+    return _.size(this.Base);
+};
+
+Collection.prototype.invoke = function(method, holder) {
+    var index = 0;
+    return _.reduce(
+        this.Base,
+        function (result, element) {
+            if (element[method]) {
+                if (holder) {
+                    element[method](holder, index++);
+                } else {
+                    result += element[method](index++);
+                }
+            }
+            return result;
+        },
+        ''
+    );
 };
 
 Collection.prototype.ToString = function(holder) {
-    var i = 0;
-    var s = '';
-    for (var id in this.Base) {
-        if (id && this.Base[id].ToString) {
-            if (holder) {
-                this.Base[id].ToString(holder, i++);
-            } else {
-                s += this.Base[id].ToString(i++);
-            }
-        }
-    }
-    return s;
+    return this.invoke('ToString', holder);
 };
 
 Collection.prototype.Gather = function(holder) {
-    var i = 0;
-    var s = '';
-    for (var id in this.Base) {
-        if (id && this.Base[id].Gather) {
-            if (holder) {
-                this.Base[id].Gather(holder);
-            } else {
-                s += this.Base[id].Gather(i++);
-            }
-        }
-    }
-    return s;
+    return this.invoke('Gather', holder);
 };
