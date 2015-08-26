@@ -434,7 +434,7 @@ table.UserMenu, table.UserMenu tr, table.UserMenu td {
     display:none;
 }
 
-#journal_exists.Not h4#Title, #journal_exists.Not #Selector, 
+#journal_exists.Not h4#Title, #journal_exists.Not #Selector,
 #journal_exists.Not #Spoiler1, #journal_exists.Not #Spoiler2, #journal_exists.Not #Spoiler4, #journal_exists.Not #Links
 {
     display:none;

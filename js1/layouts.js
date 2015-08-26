@@ -24,13 +24,11 @@ var frames,
                 this.co = new Confirm();
                 this.CurrentRoomId = 1;
                 this.me = null;
-                this.tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
-                this.MainTab = new Tab(1, "Чат", 1);
-                this.CurrentTab;
 
-                this.tabs.Add(this.MainTab);
-                this.CurrentTab = this.MainTab;
-                this.tabs.Print();
+                this.tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
+                currentTab = new Tab(1, "Чат", true);
+                this.tabs.Add(currentTab);
+                currentTab.switchTo();
 
                 HistoryGo(0);
 
@@ -54,13 +52,13 @@ var frames,
         },
         menu: {
             containers: [
-                ['#OptionsContainer', 580, 400],
+                ['#OptionsContainer'],
                 '#OptionsContent',
                 '#AlertContainer'
             ],
             onResize: function() {
-                this.frames[0].Replace(10, 10, this.winSize.width - 20, this.winSize.height - 20);
-                this.frames[1].Replace(-1, -1, -1, this.frames[0].height - 40);
+                this.frames[0].Replace(10, 10, this.winSize.width - 20, this.winSize.height - 16);
+                this.frames[1].Replace(-1, -1, -1, this.frames[0].height - 30);
                 this.frames[2].Replace(-1, -1, this.winSize.width, this.winSize.height);
             },
             onLoad: function() {
@@ -69,8 +67,8 @@ var frames,
                     this.UploadFrame = $('#uploadFrame')[0];
 
                     this.tabs = new Tabs($('#OptionsContainer')[0], $('#OptionsContent')[0]);
-                    this.ProfileTab = new Tab(1, 'Личные данные', 1, '');
-                    this.tabs.Add(this.ProfileTab);
+                    var profileTab = new Tab(1, 'Личные данные', true);
+                    this.tabs.Add(profileTab);
 
                     this.tabs.Add(new Tab(
                         2, 'Настройки', true, '',
@@ -108,10 +106,10 @@ var frames,
                             });
                         this.tabs.Add(MainTab);
                     } else {
-                        this.MainTab = this.ProfileTab;
+                        profileTab.switchTo();
                     }
                     this.tabs.Print();
-                    new Profile().loadTemplate(this.ProfileTab, me.Id);
+                    new Profile().loadTemplate(profileTab, me.Id);
                 }
             }
         },
@@ -142,8 +140,11 @@ function initLayout(layout, container) {
 
     $(window).on('resize', onResize);
     onResize();
-    if (layout.onLoad) $(container || window).on(
-        'load',
-        layout.onLoad.bind(container || window)
-    );
+    if (layout.onLoad) {
+         if (!container) {
+              $(window).on('load', layout.onLoad.bind(window));
+         } else {
+              layout.onLoad.call(container);
+         }
+    };
 };

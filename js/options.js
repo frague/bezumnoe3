@@ -294,12 +294,15 @@ function ShowOptions() {
     if (!tab) {
         var menuTab = new Tab('menu', 'Меню');
         tabs.Add(menuTab);
-        CurrentTab = menuTab;
+        menuTab.switchTo();
         tabs.Print();
         $(menuTab.RelatedDiv).load(
             '/options/menu.php',
             function() {
-                initLayout(pages.menu, menuTab.RelatedDiv);
+                initLayout(
+                    pages.menu,
+                    $('#MessagesContainer')[0]
+                );
                 $(menuTab.RelatedDiv).trigger('load');
             }
         );

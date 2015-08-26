@@ -53,7 +53,7 @@ function Tab(id, title, is_locked, is_private, on_select) {
 
     this.UnreadMessages = 0;
     this.lastMessageId = -1;
-    this.Alt = "";
+    this.Alt = '';
 
     this.recepients = new Collection();
     if (this.IsPrivate) {
@@ -62,27 +62,31 @@ function Tab(id, title, is_locked, is_private, on_select) {
 };
 
 Tab.prototype.ToString = function(index) {
-    var isSelected = CurrentTab.Id == this.Id;
-    if (isSelected) {
-        CurrentTab = this;
-    }
+    var isSelected = _.get(this, 'collection.current.Id') === this.Id;
     this.DisplayDiv(isSelected);
-    var s = "<li class='" + (isSelected ? "Selected " : "") + (this.UnreadMessages ? "HasUnread" : "") + "'" + (this.Alt ? " alt='"+this.Alt+"' title='"+this.Alt+"'" : "") + "><div>";
-    if (isSelected) {
-        s += "<span>" + this.Title + "</span>";
-    } else {
-        var action = "SwitchToTab(\"" + this.Id + "\")";
-        s += "<a accesskey='" + (index + 1) + "'" + voidHref + " onclick='" + action + "' onfocus='" + action + "'>" + this.Title;
-        if (this.UnreadMessages) {
-            s += "(" + this.UnreadMessages + ")";
-        }
-        s += "</a>";
-    }
+
+    var li = document.createElement('li'),
+        title;
+    li.className = (isSelected ? 'Selected ' : '') + (this.UnreadMessages ? 'HasUnread' : '');
+    li.alt = this.Alt;
+    li.title = this.Alt;
+
+    title = document.createElement('button');
+    if (!isSelected) {
+        title.onclick = this.switchTo.bind(this);
+        title.onfocus = this.switchTo.bind(this);
+    };
+    title.innerHTML = this.Title + (this.UnreadMessages ? (' (' + this.UnreadMessages + ')') : '');
+
+    li.appendChild(title);
     if (!this.IsLocked) {
-        s += "<a " + voidHref + " onclick='CloseTab(\"" + this.Id + "\")' class='CloseSign'>x</a>";
-    }
-    s += "</div></li>";
-    return s;
+        var close = document.createElement('button');
+        close.className = 'CloseSign';
+        close.onclick = this.close.bind(this);
+        close.innerHTML = '&times;';
+        li.appendChild(close);
+    };
+    return li;
 };
 
 Tab.prototype.DisplayDiv = function(state) {
@@ -96,15 +100,24 @@ Tab.prototype.Clear = function() {
     this.lastMessageId = -1;
 };
 
+Tab.prototype.switchTo = function() {
+    if (this.collection) this.collection.switchTo(this.Id);
+};
+
+Tab.prototype.close = function() {
+    if (this.collection) this.collection.Delete(this.Id);
+};
+
 /*
 	Tabs collection class.
 */
 
-var CurrentTab;
 function Tabs(tabsContainer, contentContainer) {
     this.TabsContainer = tabsContainer;
     this.ContentContainer = contentContainer;
     this.tabsCollection = new Collection();
+    this.current = null;
+    this.history = [];
 
     this.tabsList = document.createElement("ul");
     this.tabsList.className = "Tabs";
@@ -112,7 +125,15 @@ function Tabs(tabsContainer, contentContainer) {
 };
 
 Tabs.prototype.Print = function() {
-    this.tabsList.innerHTML = this.tabsCollection.ToString();
+    console.log(this.history);
+    var tabsContainer = this.tabsList;
+    tabsContainer.innerHTML = '';
+    return _.each(
+        this.tabsCollection.Base,
+        function (tab) {
+            tabsContainer.appendChild(tab.ToString());
+        }
+    );
 };
 
 Tabs.prototype.Add = function(tab, existing_container) {
@@ -120,6 +141,8 @@ Tabs.prototype.Add = function(tab, existing_container) {
     topic.className = "TabTopic";
     this.ContentContainer.appendChild(topic);
     tab.TopicDiv = topic;
+    tab.collection = this;
+    this.history.push(tab.Id);
 
     if (!existing_container) {
         existing_container = document.createElement("div");
@@ -138,37 +161,38 @@ Tabs.prototype.Delete = function(id) {
         this.ContentContainer.removeChild(tab.TopicDiv);
         this.ContentContainer.removeChild(tab.RelatedDiv);
         this.tabsCollection.Delete(id);
+
+        _.pull(this.history, id);
+        if (this.current.Id == id) this.switchTo(this.history.pop());
+        this.Print();
     }
 };
 
-Tabs.prototype.PrintTo = function(id, text) {
+Tabs.prototype.switchTo = function(id) {
     var tab = this.tabsCollection.Get(id);
-    if (tab && tab.RelatedDiv) {
-        tab.RelatedDiv.innerHTML = text;
-    }
-};
-
-/* Service functions */
-
-function SwitchToTab(id) {
-    var tab = tabs.tabsCollection.Get(id);
+    console.log(id);
     if (tab) {
-        CurrentTab = tab;
+        if (_.last(this.history) === id) this.history.push(id);
+        this.current = tab;
         tab.UnreadMessages = 0;
-        tabs.Print();
+
         recepients = tab.recepients;
-        if (window.ShowRecepients) {
-            ShowRecepients();
-        }
+        _.result(window, 'ShowRecepients');
+        this.Print();
+
         if (tab.onSelect) {
             tab.RelatedDiv.innerHTML = loadingIndicator;
             tab.onSelect(tab);
-            tab.onSelect = '';	/* TODO: Treat failure */
-        }
-    }
+        };
 
-    _.result(window, 'onResize');
-}
+        _.result(window, 'onResize');
+    }
+};
+
+
+
+/* Service functions */
+
 
 function CloseTab(id) {
     var tab = tabs.tabsCollection.Get(id);
