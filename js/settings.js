@@ -26,5 +26,3 @@ var loadingIndicator = "<div class='LoadingIndicator'></div>";
 var severityCss = ["Warning", "Error"];
 
 var replaceTagsExpr = new RegExp("\<[\/a-z][^\>]*\>", "gim");
-
-var CurrentTab;

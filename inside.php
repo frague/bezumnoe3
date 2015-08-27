@@ -70,7 +70,7 @@
         </div>
 
         <div id="MessageForm">
-            <form onsubmit="Send();return false;">
+            <form name="messageForm">
             <table>
                 <tr>
                     <td></td>
@@ -83,7 +83,7 @@
                     <td width="100%">
                         <div id="Smiles"><input id="Message" style="width:100%;" autocomplete="off"></div>
                     </td><td>
-                        <input type="image" alt="Отправить сообщение" src="/img/send_button.gif" onclick="Send();return false;">
+                        <input type="image" alt="Отправить сообщение" src="/img/send_button.gif">
                     </td></tr>
                 <tr>
                     <td></td>

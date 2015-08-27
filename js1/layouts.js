@@ -26,16 +26,15 @@ var frames,
                 this.me = null;
 
                 this.tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
-                currentTab = new Tab(1, "Чат", true);
-                this.tabs.Add(currentTab);
-                currentTab.switchTo();
-
-                HistoryGo(0);
+                chatTab = new Tab(1, "Чат", true);
+                this.tabs.Add(chatTab);
+                chatTab.switchTo();
+                this.tabs.main = chatTab;
 
                 $('#AlertContainer').hide();
                 this.co.Init("AlertContainer", "AlertBlock");
 
-                if (this.Pong) this.Ping();
+                new Chat(this.tabs);
             }
         },
         info: {

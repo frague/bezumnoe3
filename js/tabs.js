@@ -125,7 +125,6 @@ function Tabs(tabsContainer, contentContainer) {
 };
 
 Tabs.prototype.Print = function() {
-    console.log(this.history);
     var tabsContainer = this.tabsList;
     tabsContainer.innerHTML = '';
     return _.each(
@@ -170,7 +169,6 @@ Tabs.prototype.Delete = function(id) {
 
 Tabs.prototype.switchTo = function(id) {
     var tab = this.tabsCollection.Get(id);
-    console.log(id);
     if (tab) {
         if (_.last(this.history) === id) this.history.push(id);
         this.current = tab;
