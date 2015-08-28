@@ -80,12 +80,10 @@ ForumAccess.prototype.request = function(params, callback) {
 	this.BaseRequest(s.build(), callback);
 };
 
-ForumAccess.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.friends = [];
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data);
-	}
+ForumAccess.prototype.requestCallback = function(req) {
+	this.friends = [];
+	this.requestBaseCallback(req);
+	this.Bind(this.data);
 };
 
 
@@ -192,10 +190,10 @@ UserList.prototype = new EditableGrid();
 
 UserList.prototype.BaseBind = function(){};
 
-UserList.prototype.requestCallback = function(req, obj) {
-	if (obj.obj) {
-		obj.obj.requestBaseCallback(req, obj);
-		obj.obj.Bind(obj.data);
+UserList.prototype.requestCallback = function(req) {
+	if (this.obj) {
+		this.obj.requestBaseCallback(req);
+		this.obj.Bind(this.data);
 	}
 };
 

@@ -5,11 +5,12 @@
     require_once $root."server_references.php";
 
     function AddJsAlert($message, $isError = 0) {
-        return "tabObject.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
+        return JsAlert($message, $isError);
+//        return "tabObject.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
     }
 
     function JsAlert($message, $isError = 0) {
-        return "obj.Tab.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
+        return "this.Tab.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
     }
 
     function AddTypeCondition($name, $key, $value, $tail, $condition="OR") {
@@ -18,8 +19,6 @@
         }
         return $tail;
     }
-
-
 
     $go = $_POST["go"];
     $user_id = round($_POST["USER_ID"]);

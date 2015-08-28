@@ -34,9 +34,7 @@ OptionsBase.prototype.TemplateLoaded = function (req) {  // To be overriden
 
 OptionsBase.prototype.TemplateBaseLoaded = function (req) {
     var text = req || '';
-    if (req) {
-        KeepRequestedContent(this.Template, text);
-    }
+    if (req) KeepRequestedContent(this.Template, text);
     this.Tab.RelatedDiv.innerHTML = text;
     this.Tab.initUploadFrame();
     this.request();
@@ -142,15 +140,16 @@ OptionsBase.prototype.FindRelatedControls = function(force) {
 
 OptionsBase.prototype.BindFields = function(fields) {
     this.FindRelatedControls();
-    var el;
-    for (var i = 0, l = fields.length; i < l; i++) {
-        var field = fields[i];
-        var value = this[field];
-        if (value == "undefined") {
-            value = "";
-        }
-        this.SetTabElementValue(field, value);
-    }
+    _.each(
+        fields,
+        function(field) {
+            console.log(field, this[field]);
+            var value = this[field];
+            if (_.isUndefined(value)) return;
+            this.SetTabElementValue(field, value);
+        },
+        this
+    )
 };
 
 OptionsBase.prototype.BaseBind = function() {
@@ -227,9 +226,10 @@ OptionsBase.prototype.Reset = function() {
 /* Request methods */
 
 OptionsBase.prototype.BaseRequest = function(params, callback) {
-    var s = ParamsBuilder(params);
+    var s = new ParamsBuilder(params);
     s.add('USER_ID', this.USER_ID);
-    $.post(this.ServicePath, (callback || this.requestCallback).bind(this), s.build());
+    $.post(this.ServicePath, s.build())
+        .done((callback || this.requestCallback).bind(this));
 };
 
 OptionsBase.prototype.request = function(params, callback) {    /* Method to override */
@@ -251,14 +251,12 @@ OptionsBase.prototype.Delete = function(callback) {
 
 /* Common callback */
 
-OptionsBase.prototype.requestBaseCallback = function(req, obj) {
+OptionsBase.prototype.requestBaseCallback = function(req) {
     this.data = [];
     this.Total = 0;
-    if (obj) {
-        var tabObject = obj.Tab;
-        tabObject.Alerts.Clear();
-        eval(req);
-    }
+
+    this.Tab.Alerts.Clear();
+    eval(req);
 };
 
 // Reaction method to be overriden
@@ -316,10 +314,10 @@ function RequestContent(obj) {
     var req;
     if (cachedContent[obj.Template] && obj.TemplateLoaded) {
         req = cachedContent[obj.Template];
-        obj.TemplateLoaded(req);
+        obj.TemplateLoaded.call(obj, req);
     } else {
         req = $.get('/options/' + obj.Template + '.php')
-            .done(obj.TemplateLoaded);
+            .done(obj.TemplateLoaded.bind(obj));
     }
     return req;
 };

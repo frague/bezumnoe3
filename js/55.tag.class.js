@@ -43,12 +43,10 @@ Tags.prototype.Bind = function(data, found) {
 	}
 };
 
-Tags.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.FillFrom(obj.data);
-		obj.Bind(obj.data, obj.found);
-	}
+Tags.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.FillFrom(this.data);
+	this.Bind(this.data, this.found);
 };
 
 Tags.prototype.TemplateLoaded = function(req) {

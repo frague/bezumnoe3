@@ -125,14 +125,14 @@ function RoomLightweight() {
 
 RoomLightweight.prototype = new OptionsBase();
 
-RoomLightweight.prototype.requestCallback = function(responseText, obj) {
+RoomLightweight.prototype.requestCallback = function(responseText) {
     if (responseText) {
-        obj.SetRoomStatus(responseText);
+        this.SetRoomStatus(responseText);
     } else {
-        obj.SetRoomStatus("");
-        obj.Clear();
-        obj.Bind();
-        obj.Tab.Display(false);
+        this.SetRoomStatus("");
+        this.Clear();
+        this.Bind();
+        this.Tab.Display(false);
         PrintRooms();
     }
 };

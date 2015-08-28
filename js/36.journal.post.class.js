@@ -57,26 +57,25 @@ JournalPost.prototype.request = function(params, callback) {
 	this.BaseRequest(s.build(), callback);
 };
 
-JournalPost.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		if (obj.data && obj.data != "") {	// "" comparison makes sense
-			obj.FillFrom(obj.data);
-			obj.Bind();
-			if (journalMessagesObj) {
-				journalMessagesObj.request();
-			}
-		}
+JournalPost.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	if (this.data && this.data != '') {
+		this.FillFrom(this.data);
+		this.Bind();
+		if (journalMessagesObj) {
+			journalMessagesObj.request();
+		};
+	};
 
-		if (!mceInitialized && obj.EditorIsShown && obj.EditorIsShown()) {
-			InitMCE();
-			mceInitialized = 1;
-		}
-	}
-	if (obj.Forum) {
-		obj.SetTabElementValue("TITLE1", obj.Forum.MakeTitle());
-		obj.Tab.SetAdditionalClass(obj.Forum.TYPE);
-	}
+	if (!mceInitialized && this.EditorIsShown && this.EditorIsShown()) {
+		InitMCE();
+		mceInitialized = 1;
+	};
+
+	if (this.Forum) {
+		this.SetTabElementValue("TITLE1", this.Forum.MakeTitle());
+		this.Tab.SetAdditionalClass(this.Forum.TYPE);
+	};
 };
 
 JournalPost.prototype.TemplateLoaded = function(req) {

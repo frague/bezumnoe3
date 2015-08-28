@@ -20,11 +20,9 @@ Wakeups.prototype.InitPager = function() {
 	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.Wakeups.SwitchPage()}, this.PerPage);
 };
 
-Wakeups.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data, obj.Total);
-	}
+Wakeups.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data, this.Total);
 };
 
 Wakeups.prototype.TemplateLoaded = function(req) {

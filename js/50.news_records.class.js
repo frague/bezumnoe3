@@ -16,11 +16,9 @@ NewsRecords.prototype = new EditablePagedGrid();
 
 NewsRecords.prototype.BaseBind = function() {};
 
-NewsRecords.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data, obj.Total);
-	}
+NewsRecords.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data, this.Total);
 };
 
 // Template loaded

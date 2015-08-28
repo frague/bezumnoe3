@@ -16,11 +16,9 @@ News.prototype = new EditableGrid();
 
 News.prototype.BaseBind = function() {};
 
-News.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data);
-	}
+News.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data);
 };
 
 News.prototype.TemplateLoaded = function(req) {

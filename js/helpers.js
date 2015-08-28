@@ -165,17 +165,17 @@ function MakeDiv(text, tag) {
 };
 
 function IndexElementChildElements(el, hash) {
-    if (!hash) {
-        hash = new Array();
-    }
+    if (!hash) hash = [];
+
     if (el) {
-        if (el.id) {
-            hash[el.id] = el;
-        }
-        for (var i = 0, l = el.childNodes.length; i < l; i++) {
-            // Recursion
-            IndexElementChildElements(el.childNodes[i], hash);
-        }
+        if (el.id) hash[el.id] = el;
+
+        _.each(
+            el.childNodes,
+            function(child) {
+                IndexElementChildElements(child, hash);
+            }
+        );
     }
     return hash;
 };

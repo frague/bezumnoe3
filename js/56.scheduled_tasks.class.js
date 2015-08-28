@@ -20,11 +20,9 @@ ScheduledTasks.prototype.InitPager = function() {
     this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.ScheduledTasks.SwitchPage()}, this.PerPage);
 };
 
-ScheduledTasks.prototype.requestCallback = function(req, obj) {
-    if (obj) {
-        obj.requestBaseCallback(req, obj);
-        obj.Bind(obj.data, obj.Total);
-    }
+ScheduledTasks.prototype.requestCallback = function(req) {
+    this.requestBaseCallback(req);
+    this.Bind(this.data, this.Total);
 };
 
 ScheduledTasks.prototype.TemplateLoaded = function(req) {

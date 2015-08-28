@@ -1,78 +1,110 @@
 <?
     require "menu_base.php";
-
 ?>
 
-<h2>Профиль пользователя <span id="LOGIN">%username%</span> <a href="javascript:void(0);" onclick="debug=1-debug;this.innerHTML=debug;" style="text-decoration:none">&nbsp;</a></h2>
+<h2>Профиль пользователя <span id="LOGIN">%username%</span></h2>
 
-
-<table width="100%" cellpadding="4">
+<table class="halves">
     <tr>
-        <td width="50%">
+        <td>
+            <label>
+                <span>Дата регистрации</span>
+                <div id="REGISTERED"></div>
+            </label>
 
-<h4>Дата регистрации:</h4>
-<div id="REGISTERED"></div>
+            <label>
+                <span>Последнее посещение</span>
+                <div id="LAST_VISIT"></div>
+            </label>
 
-<h4>Последнее посещение:</h4>
-<div id="LAST_VISIT"></div>
+            <label>
+                <span>E-mail</span>
+                <div id="EMAIL"></div>
+            </label>
 
-<h4>E-mail:</h4>
-<div id="EMAIL"></div>
+            <label>
+                <span>Пароль</span>
+                <input name="PASSWORD" id="PASSWORD" type="password" value="**********" maxlength="255" onfocus="clearInput(this)" onblur="restoreInput(this,'ConfirmBlock')" class="Wide" />
+            </label>
 
-<h4>Пароль:</h4>
-<input name="PASSWORD" id="PASSWORD" type="password" value="**********" maxlength="255" onfocus="clearInput(this)" onblur="restoreInput(this,'ConfirmBlock')" class="Wide" />
+            <label id="ConfirmBlock" style="display:none">
+                <span>Подтверждение пароля</span>
+                <input name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM" type="password" maxlength="255" class="Wide" />
+            </label>
 
-<div id="ConfirmBlock" style="display:none;margin-bottom:10px;">
-    <h4 style="color:red;">Подтверждение пароля:</h4>
-    <input name="PASSWORD_CONFIRM" id="PASSWORD_CONFIRM" type="password" maxlength="255" class="Wide" /></div>
+            <label>
+                <span>Имя</span>
+                <input name="NAME" id="NAME" class="Wide" />
+            </label>
 
-<h4>Имя:</h4>
-<input name="NAME" id="NAME" class="Wide" />
+            <label>
+                <span>Пол</span>
+                <select name="GENDER" id="GENDER" class="Wide">
+                    <option value="m">мужской</option>
+                    <option value="f">женский</option>
+                    <option value="">неопределённый</option>
+                </select>
+            </label>
 
-<h4>Пол:</h4>
-<select name="GENDER" id="GENDER" class="Wide"><option value="m">мужской</option><option value="f">женский</option><option value="">неопределённый</option></select>
+            <label>
+                <span>День рождения</span>
+                <input name="BIRTHDAY" id="BIRTHDAY" maxlength="10" />
+            </label>
 
-<h4>День рождения:</h4>
-<input name="BIRTHDAY" id="BIRTHDAY" maxlength="10" />
+            <label>
+                <span>Откуда вы</span>
+                <input name="CITY" id="CITY" maxlength="100" class="Wide" />
+            </label>
 
-<h4>Город:</h4>
-<input name="CITY" id="CITY" maxlength="100" class="Wide" />
+            <label>
+                <span>Адрес сайта в интернете</span>
+                <input name="URL" id="URL" maxlength="255" class="Wide" />
+            </label>
 
-<h4>Адрес сайта в интернете:</h4>
-<input name="URL" id="URL" maxlength="255" class="Wide" />
+            <label>
+                <span>ICQ</span>
+                <input name="ICQ" id="ICQ" maxlength="20" class="Wide" />
+            </label>
 
-<h4>ICQ:</h4>
-<input name="ICQ" id="ICQ" maxlength="20" class="Wide" />
+            <label>
+                <span>О себе</span>
+                <textarea name="ABOUT" id="ABOUT" rows="6" onclick="Maximize(this)"></textarea>
+            </label>
+        </td>
+        <td>
+            <label>
+                <span>Фотография</span>
+                <div id="Photo"></div>
+            </label>
 
-<h4>О себе:</h4>
-<textarea name="ABOUT" id="ABOUT" rows="6" onclick="Maximize(this)"></textarea>
+            <form name="uploadForm" id="uploadForm" action="/services/profile.service.php" method="POST" enctype="multipart/form-data">
+                <label>
+                    <span>Изменить фотографию</span>
+                    <input type="hidden" name="go" id="go" value="upload_photo" />
+                    <input type="hidden" name="tab_id" id="tab_id" />
+                    <input type="hidden" name="USER_ID" id="USER_ID" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
+                    <input type="file" name="PHOTO1" id="PHOTO1" />
+                    <p>Допускается загружать файлы размером не более 2 Мб.</p>
+                </label>
+            </form>
 
-        </td><td>
-<h4>Фотография:</h4>
-<div id="Photo"></div>
-<form name="uploadForm" id="uploadForm" action="/services/profile.service.php" method="POST" enctype="multipart/form-data">
-<h4>Изменить фотографию:</h4>
-    <input type="hidden" name="go" id="go" value="upload_photo" />
-    <input type="hidden" name="tab_id" id="tab_id" />
-    <input type="hidden" name="USER_ID" id="USER_ID" />
-    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
-    <input type="file" name="PHOTO1" id="PHOTO1" />
-    <p class="Note">Допускается загружать файлы размером не более 2 Мб.</p>
-</form>
+            <label>
+                <span>Аватар</span>
+                <div id="Avatar"></div>
+            </label>
 
-<h4>Аватар:</h4>
-<div id="Avatar"></div>
-<form name="avatarUploadForm" id="avatarUploadForm" action="/services/profile.service.php" method="POST" enctype="multipart/form-data">
-<h4>Изменить аватар:</h4>
-    <input type="hidden" name="go" id="go" value="upload_avatar" />
-    <input type="hidden" name="tab_id" id="tab_id" />
-    <input type="hidden" name="USER_ID" id="USER_ID" />
-    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
-    <input type="file" name="PHOTO1" id="PHOTO1" />
-    <p class="Note">Допускается загружать файлы размером не более 2 Мб.</p>
-</form>
-
-
+            <form name="avatarUploadForm" id="avatarUploadForm" action="/services/profile.service.php" method="POST" enctype="multipart/form-data">
+                <label>
+                    <span>Изменить аватар</span>
+                    <input type="hidden" name="go" id="go" value="upload_avatar" />
+                    <input type="hidden" name="tab_id" id="tab_id" />
+                    <input type="hidden" name="USER_ID" id="USER_ID" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" class="Wide" />
+                    <input type="file" name="PHOTO1" id="PHOTO1" />
+                    <p>Допускается загружать файлы размером не более 2 Мб.</p>
+                </label>
+            </form>
         </td>
     </tr>
 </table>
@@ -84,48 +116,51 @@
     <li id="liDeletePhoto"> <a href="javascript:void(0)" onclick="DeletePhoto(this)" id="linkDeletePhoto" class="Delete">Удалить фотографию</a>
     <li id="liDeleteAvatar"> <a href="javascript:void(0)" onclick="DeleteAvatar(this)" id="linkDeleteAvatar" class="Delete">Удалить аватар</a>
 </ul>
-
 <?
     if (!$user->IsEmpty() && $user->IsAdmin()) {
-?><div id="AdminSection">
-    <h2>Административная часть:</h2>
+?>
+<div id="AdminSection">
+    <h2>Административная часть</h2>
 
-    <table cellpadding="4" id="NotForMe">
+    <table id="NotForMe" class="halves">
         <tr>
-            <td width="50%">
+            <td>
+                <label>
+                    <span>Права/статус</span>
+                    <select id="STATUS_ID" name="STATUS_ID" class="Wide">
+                        <? $status = new Status(); print $status->ToSelect(Status::STATUS_ID, $user); ?>
+                    </select>
+                </label>
 
-    <h4>Права/статус:</h4>
-    <select id="STATUS_ID" name="STATUS_ID" class="Wide"><?
-    $status = new Status();
-    echo $status->ToSelect(Status::STATUS_ID, $user);
-?></select>
+                <label>
+                    <span>IP-адрес (хост) последней сессии</span>
+                    <span id="SESSION_ADDRESS"></span> (<a href="javascript:void(0)" onclick="LockIP(this)" id="linkLockIP">закрыть адрес</a>)
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Бан</span>
+                    <div id="BanStatus"></div>
+                    <input type="checkbox" id="BANNED" name="BANNED" onclick="ShowBanDetails(this)" /> Пользователь забанен
+                    <input type="hidden" id="BANNED_BY" name="BANNED_BY" />
+                </label>
 
-    <h4>IP-адрес (хост) последней сессии:</h4>
-    <span id="SESSION_ADDRESS"></span> (<a href="javascript:void(0)" onclick="LockIP(this)" id="linkLockIP">закрыть адрес</a>)
+                <div id="BanDetails" style="display:none">
+                    <label>
+                        <span>Причина бана</span>
+                        <textarea name="BAN_REASON" id="BAN_REASON" class="Wide" rows="3"></textarea>
+                        <p>Будьте предельно корректны в формулировке причины бана. Не допускайте оскорблений в адрес пользователя.</p>
+                    </label>
 
-            </td><td>
-
-    <h4>Бан:</h4>
-    <div id="BanStatus"></div>
-    <input type="checkbox" id="BANNED" name="BANNED" onclick="ShowBanDetails(this)" /> Пользователь забанен
-    <input type="hidden" id="BANNED_BY" name="BANNED_BY" />
-
-    <div id="BanDetails" style="display:none">
-        <h4>Причина бана:</h4>
-        <textarea name="BAN_REASON" id="BAN_REASON" class="Wide" rows="3"></textarea>
-        <p class="Note">Будьте предельно корректны в формулировке причины бана. Не допускайте оскорблений в адрес пользователя.</p>
-
-        <h4>Срок бана:</h4>
-        <input name="BANNED_TILL" id="BANNED_TILL" />
-    </div>
-
+                    <label>
+                        <span>Срок бана</span>
+                        <input name="BANNED_TILL" id="BANNED_TILL" />
+                    </label>
+                </div>
             </td>
         </tr>
     </table>
 
     <div id="AdminComments"></div>
 
-</div><?
-    }
-?>
-<br><br>
+</div><? } ?>

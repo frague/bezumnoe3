@@ -16,11 +16,9 @@ JournalsManager.prototype.request = function(params, callback) {
 	this.BaseRequest(this.Gather(), callback);
 };
 
-JournalsManager.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind();
-	}
+JournalsManager.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind();
 };
 
 JournalsManager.prototype.Bind = function() {

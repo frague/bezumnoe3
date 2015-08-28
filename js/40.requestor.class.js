@@ -14,7 +14,8 @@ Requestor.prototype.request = function(names, values) {
     names.forEach(function(name, index) {
         s.add(name, values[index]);
     });
-    sendRequest(this.ServicePath, this.requestCallback, s.build(), this);
+    $.post(this.ServicePath, s.build())
+        .done(this.requestCallback.bind(this));
 };
 
 Requestor.prototype.callback = function() {};
@@ -28,8 +29,8 @@ Requestor.prototype.Basecallback = function(req) {
     this.callback(this);
 };
 
-Requestor.prototype.requestCallback = function(req, sender) {
-    sender.Basecallback(req);
+Requestor.prototype.requestCallback = function(req) {
+    this.Basecallback(req);
 };
 
 

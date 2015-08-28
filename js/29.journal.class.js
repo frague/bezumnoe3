@@ -18,11 +18,9 @@ function Journal() {
 
 Journal.prototype = new OptionsBase();
 
-Journal.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind();
-	}
+Journal.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind();
 };
 
 Journal.prototype.TemplateLoaded = function(req) {
@@ -86,7 +84,7 @@ function InitMCE() {
 		content_css: "css/content.css",
 		menubar: "insert format",
 		toolbar: "insertfile undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code preview"
-	}); 
+	});
 };
 
 /*

@@ -130,7 +130,6 @@ ul.Links li, ul#UsersContainer li, ul.NoDots li {
 .LoadingIndicator {
     height:100px;
     background:url(/img/clock.gif) no-repeat center center;
-/*  background:url(/img/pbar.gif) no-repeat center center;*/
 }
 
 /* Pager styles */

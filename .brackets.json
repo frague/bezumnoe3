@@ -18,6 +18,7 @@
         "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/attributes/support.js",
         "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/core/init.js",
         "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/core/parseHTML.js",
-        "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/core/ready.js"
+        "/Users/nick/dev/bezumnoe3/bower_components/jquery/src/core/ready.js",
+        "/Users/nick/dev/bezumnoe3/js/options.js"
     ]
 }

@@ -21,12 +21,10 @@ MessagesLog.prototype.InitPager = function() {
 	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.MessagesLog.SwitchPage()}, this.PerPage);
 };
 
-MessagesLog.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data, obj.Total);
-		obj.BindRooms(obj.Rooms);
-	}
+MessagesLog.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data, this.Total);
+	this.BindRooms(this.Rooms);
 };
 
 MessagesLog.prototype.BindRooms = function(rooms) {
@@ -87,7 +85,7 @@ mdto.prototype.ToString = function(index, obj, holder) {
 		tr.className += " Highlight Warning";
 	}
 
-	
+
 	var td1 = d.createElement("td");
 	td1.className = "Centered";
 	td1.innerHTML = date.Time();
@@ -107,7 +105,7 @@ mdto.prototype.ToString = function(index, obj, holder) {
 	}
 	td3.innerHTML = this.Text + "&nbsp;";
 	tr.appendChild(td3);
-	
+
 	return tr;
 };
 

@@ -45,7 +45,6 @@
     <head>
         <meta charset="utf-8" />
         <title>Безумное ЧАепиТие у Мартовского Зайца</title>
-        <link rel="stylesheet" href="/css/global.css">
         <link rel="stylesheet" href="/css/chat_layout.css">
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">

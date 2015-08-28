@@ -24,13 +24,11 @@ JournalComments.prototype.InitPager = function() {
 	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.JournalComments.SwitchPage()}, this.PerPage);
 };
 
-JournalComments.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data, obj.Total);
-	}
-	if (obj.Forum) {
-		obj.SetTabElementValue("FORUM", obj.Forum.MakeTitle());
+JournalComments.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data, this.Total);
+	if (this.Forum) {
+		this.SetTabElementValue("FORUM", this.Forum.MakeTitle());
 	}
 };
 

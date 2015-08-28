@@ -26,11 +26,9 @@ JournalMessages.prototype.InitPager = function() {
 	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.JournalMessages.SwitchPage()}, this.PerPage);
 };
 
-JournalMessages.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data, obj.Total);
-	}
+JournalMessages.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data, this.Total);
 };
 
 JournalMessages.prototype.TemplateLoaded = function(req) {

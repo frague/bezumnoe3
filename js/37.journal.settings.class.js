@@ -14,12 +14,10 @@ function JournalSettings() {
 
 JournalSettings.prototype = new OptionsBase();
 
-JournalSettings.prototype.requestCallback = function(req, obj) {
-    if (obj) {
-        obj.requestBaseCallback(req, obj);
-        obj.FillFrom(obj.data);
-        obj.Bind(obj.data);
-    }
+JournalSettings.prototype.requestCallback = function(req) {
+    this.requestBaseCallback(req);
+    this.FillFrom(this.data);
+    this.Bind(this.data);
 };
 
 JournalSettings.prototype.TemplateLoaded = function(req) {

@@ -92,12 +92,10 @@ Profile.prototype.PrintLoadedImage = function(img) {
 	}
 };
 
-Profile.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind();
-		obj.Initialized = false;
-	}
+Profile.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind();
+	this.Initialized = false;
 };
 
 function ImageLoaded(e) {
@@ -171,15 +169,13 @@ function SaveProfile(a) {
 	}
 };
 
-function ProfileSaved(responseText, obj) {
-	if (obj && responseText) {
-		var tabObject = obj.Tab;
-		obj.requestCallback(responseText, obj);
+function ProfileSaved(responseText) {
+	if (responseText) {
+		this.requestCallback(responseText);
 
-		// Refresh admin comments
-		obj.FindRelatedControls(true);
-		DoClick(obj.inputs["RefreshAdminComments"]);
-	}
+		this.FindRelatedControls(true);
+		DoClick(this.inputs["RefreshAdminComments"]);
+	};
 };
 
 /* Links actions */

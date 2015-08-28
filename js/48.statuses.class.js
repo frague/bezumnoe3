@@ -16,11 +16,9 @@ Statuses.prototype = new EditableGrid();
 
 Statuses.prototype.BaseBind = function() {};
 
-Statuses.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data);
-	}
+Statuses.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data);
 };
 
 Statuses.prototype.TemplateLoaded = function(req) {

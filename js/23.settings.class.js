@@ -45,11 +45,9 @@ Settings.prototype.Bind = function() {
     UpdateFontView();
 };
 
-Settings.prototype.requestCallback = function(req, obj) {
-    if (obj) {
-        obj.requestBaseCallback(req, obj);
-        obj.Bind();
-    }
+Settings.prototype.requestCallback = function(req) {
+    this.requestBaseCallback(req);
+    this.Bind();
 };
 
 Settings.prototype.TemplateLoaded = function(req) {

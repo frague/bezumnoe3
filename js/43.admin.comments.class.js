@@ -20,11 +20,9 @@ AdminComments.prototype.InitPager = function() {
 	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.AdminComments.SwitchPage()}, this.PerPage);
 };
 
-AdminComments.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data, obj.Total);
-	}
+AdminComments.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data, this.Total);
 };
 
 // Template loading
@@ -93,7 +91,7 @@ acdto.prototype.ToString = function(index, obj, holder) {
 	var td2 = d.createElement("td");
 	td2.innerHTML = (this.User ? "Пользователь	<b>" + this.User + "</b>:<br>" : "") + this.Content;
 	tr.appendChild(td2);
-	
+
 	return tr;
 };
 
@@ -106,9 +104,7 @@ function AddComment(img) {
 	}
 };
 
-function AdminCommentSaved(req, obj) {
-	if (obj) {
-		obj.SetTabElementValue("ADMIN_COMMENT", "");
-		obj.requestCallback(req, obj);
-	}
+function AdminCommentSaved(req) {
+	this.SetTabElementValue("ADMIN_COMMENT", "");
+	this.requestCallback(req);
 };

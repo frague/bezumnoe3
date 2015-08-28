@@ -17,18 +17,14 @@ Userman.prototype = new Grid();
 
 Userman.prototype.BaseBind = function() {};
 
-Userman.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.more = 0;
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data);
-		if (obj.more) {
-			obj.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
-		} else {
-			if ((!obj.data || !obj.data.length) && userSearched) {
-				obj.Tab.Alerts.Add("Пользователи не найдены.");
-			}
-		}
+Userman.prototype.requestCallback = function(req) {
+	this.more = 0;
+	this.requestBaseCallback(req);
+	this.Bind(this.data);
+	if (this.more) {
+		this.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
+	} else {
+		if (_.isEmpty(this.data) && userSearched) this.Tab.Alerts.Add("Пользователи не найдены.");
 	}
 };
 

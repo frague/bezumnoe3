@@ -16,11 +16,9 @@ Rooms.prototype = new EditableGrid();
 
 Rooms.prototype.BaseBind = function() {};
 
-Rooms.prototype.requestCallback = function(req, obj) {
-	if (obj) {
-		obj.requestBaseCallback(req, obj);
-		obj.Bind(obj.data);
-	}
+Rooms.prototype.requestCallback = function(req) {
+	this.requestBaseCallback(req);
+	this.Bind(this.data);
 };
 
 Rooms.prototype.request = function(params, callback) {
