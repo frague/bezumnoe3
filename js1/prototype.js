@@ -5,219 +5,12 @@ function Chat(tabs) {
     var pongImage = new Image();
     pongImage.src = imagesPath + 'pong.gif';
 
-    var historyContainer = $("#History")[0];
 
     var topicMessage = '';
     var lastMessageId = -1;
     var showRooms = 0;
     var newRoomId = 0;
     var pingTimer;
-
-    var MessagesHistory = [];
-    var historySize = 100;
-    var historyPointer = -1;
-
-    /* Messages */
-
-    function AddContainerLine(container, line) {
-        container.innerHTML = line + "\n" + container.innerHTML;
-    };
-
-    function AM(text, message_id, author_id, author_name, to_user_id, to_user) {
-        message_id = 1 * message_id;
-        var tab = tabs.main;
-        var renewTabs = false;
-        if (to_user_id > 0) {
-            tab = tabs.tabsCollection.Get(to_user_id);
-            if (!tab) {
-                tab = new Tab(to_user_id, to_user, 0, 1);
-                tabs.Add(tab);
-                renewTabs = true;
-            }
-        }
-
-        if (tab && (!message_id || (message_id && tab.lastMessageId < message_id))) {
-            text = Format(text, author_id, author_name);
-            AddContainerLine(tab.RelatedDiv, text);
-            if (message_id) {
-                lastMessageId = message_id;
-                tab.lastMessageId = message_id;
-            }
-            if (tab.Id != tabs.current.Id) {
-                tab.UnreadMessages++;
-                renewTabs = true;
-            }
-        }
-        if (renewTabs) tabs.Print();
-    };
-
-    function ClearMessages() {
-        if (MainTab) {
-            MainTab.RelatedDiv.innerHTML = "";
-        }
-    };
-
-    /* Rooms */
-
-    var newRoomTab;
-    function PrintRooms() {
-        $('#UsersContainer').html(rooms.ToString());
-
-        var container = $("#NewRoom")[0];
-        if (!newRoomTab && me && me.Rights >= 11) { // Allowed to create rooms
-            MakeNewRoomSpoiler(container);
-        }
-        displayElement(container, rooms.Count() < 10);
-        UpdateTopic();
-    };
-
-    function MoveToRoom(id) {
-        MainTab.Clear();
-        newRoomId = id;
-        this.forcePing();
-    };
-
-    function MakeNewRoomSpoiler(container) {
-        newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().loadTemplate(tab, me.Id)});
-        newRoomTab.ToString(container);
-    };
-
-    /* Topic */
-
-    function UpdateTopic() {
-        if (CurrentRoom) {
-            if (me && me.HasAccessTo(CurrentRoom)) {
-                SetTopic(CurrentRoom.Topic, CurrentRoom.TopicAuthorId, CurrentRoom.TopicAuthorName, CurrentRoom.TopicLock);
-            } else {
-                SetTopic("Доступ в комнату ограничен. Ожидайте допуска.");
-            }
-        }
-    };
-
-    function SetTopic(text, author_id, author_name, lock) {
-        topicMessage = text;
-        if (MainTab) {
-            var s = "";
-            if (text) {
-                s = "<div>" + (1 * lock ? "<em>x</em>" : "") + "&laquo;<strong>" + MakeSmiles(topicMessage) + "</strong>&raquo;";
-                if (author_name) {
-                    s += ", ";
-                    if (author_id) {
-                        s += Format("#info#", author_id, author_name);
-                    } else {
-                        s += author_name;
-                    }
-                }
-                s += "</div>";
-            }
-            MainTab.TopicDiv.innerHTML = s;
-            MainTab.TopicDiv.className = "TabTopic" + ((!author_id && !author_name) ? " Alert" : "");
-        }
-
-        document.title = "(" + users.Count() + ") " + (author_name ? "\"" : "") + StripTags(text) + (author_name ? "\", " + author_name : "");
-    };
-
-
-    /* Recepients */
-
-    var messageType = '';
-    function ShowRecepients() {
-        if (tabs.current) {
-            var rec = tabs.current.recepients.ToString(),
-                recepients = $('#RecepientsContainer');
-
-            recepients.html(rec);
-            if (rec) {
-                var prefix;
-                if (tabs.current.Id == tabs.main.Id) {
-                    try {
-                        prefix = {
-                            'wakeup': 'Wakeup для ',
-                            'kick': 'Выгнать ',
-                            'ban': 'Забанить ',
-                            'me': 'О себе в третьем лице',
-                            'status': 'Установить статус',
-                            'topic': 'Установить тему',
-                            'locktopic': 'Установить и заблокировать тему',
-                            'unlocktopic': 'Установить и разблокировать тему',
-                            'away': 'Отойти',
-                            'quit': 'Выйти из чата'
-                            }[messageType];
-                    } catch (e) {
-                        prefix = 'Для ';
-                    }
-                }
-                recepients.html(prefix + rec);
-            } else {
-                messageType = '';
-            }
-        }
-        $('#Message').focus();
-    };
-
-    // Add recepient
-    function AR(id, name, type) {
-        if (id == me.Id) {
-            return;
-        }
-        if (tabs.main) {
-            if (type != messageType) {
-                messageType = type;
-                tabs.main.recepients.Clear();
-            }
-            if (id && name) {
-                MainTab.recepients.Add(new Recepient(id, name));
-                if (tabs.current.Id != tabs.main.Id) {
-                    tabs.main.switchTo();
-                }
-            }
-            ShowRecepients();
-        }
-    };
-
-    // Delete recepient
-    function DR(id) {
-        if (tabs.main) {
-            tabs.main.recepients.Delete(id);
-            ShowRecepients();
-        }
-    };
-
-    // Menu item
-    function MI(type, id, name) {
-        if (!id) {
-            id = -1;
-            name = " ";
-        }
-        AR(id, name, type);
-    };
-
-    function IG(id, state) {
-        var s = new ParamsBuilder();
-        s.add('user_id', id);
-        s.add('state', state);
-        $.post(servicesPath + 'ignore.service.php', s.build())
-            .done(Ignored);
-    };
-
-    function Ignored(data) {
-        var id = data.responseText;
-        if (id) {
-            var u = users.Get(Math.abs(id));
-            if (u) {
-                u.IsIgnored = (id > 0 ? 1 : "");
-            }
-        }
-        PrintRooms();
-    };
-
-    // Grant room access
-    function AG(id, state) {
-        var s = ParamsBuilder();
-        s.add('user_id', id);
-        s.add('state', state);
-        $.post(servicesPath + 'room_user.service.php', s.build());
-    };
 
     /* Pong: Messages, Rooms, Users, Topic */
 
@@ -247,15 +40,11 @@ function Chat(tabs) {
             _.result(window, 'onResize');
         }
 
-        if (!menuInitilized && me.Login) {
-            InitMenu($("#MenuContainer")[0]);
-        }
-
-        var currentName = $("#CurrentName")[0];
+        var currentName = $('#CurrentName');
         if (currentName) {
-            var oldName = currentName.innerHTML;
+            var oldName = currentName.text();
             if ((me.Nickname && oldName != me.Nickname) || (!me.Nickname && currentName.innerHTML != me.Nickname)) {
-                currentName.innerHTML = me.Nickname ? me.Nickname : me.Login;
+                currentName.text(me.Nickname ? me.Nickname : me.Login);
             }
         }
     };
@@ -360,40 +149,6 @@ function Chat(tabs) {
         this.forcePing();
     };
 
-    function HistoryGo(i) {
-        if (i >= -1 && i < MessagesHistory.length) {
-            historyPointer = i;
-            historyContainer.innerHTML = "История сообщений (" + (historyPointer + 1) + "/" + MessagesHistory.length + ")";
-            var value = i >= 0 ? MessagesHistory[historyPointer] : "";
-            $('#Message').val(value);
-        }
-    };
-    HistoryGo(0);
-
-    var eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL\\:ZXCVBNM<>/&?@`~";
-    var rus = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ.?,\"ёЁ";
-
-    function Translit() {
-        var textField = $('#Message'),
-            val = textField.val(),
-            out = '';
-
-        for (i = 0, l = val.length; i < l; i++) {
-            s = val.charAt(i);
-            engIndex = eng.indexOf(s);
-            if (engIndex >= 0) {
-                s = rus.charAt(engIndex);
-            } else {
-                rusIndex = rus.indexOf(s);
-                if (rusIndex >= 0) {
-                    s = eng.charAt(rusIndex);
-                }
-            }
-            out += s;
-        }
-        textField.val(out);
-    };
-
 
     /* Alerts & Confirmations */
 
@@ -438,5 +193,263 @@ function Chat(tabs) {
         co.Show("", "Публикация сообщения невозможна!", "Публикация сообщений невозможна в приватных комнатах, если у вас нет туда допуска.");
     };
 
+    this.initMenu = function(div) {
+        var menu = new MenuItemsCollection(true),
+            mainItem = new MenuItem(1, 'Команды');
+
+        mainItem.SubItems.Items.Add(new MenuItem(3, 'Отойти (Away)', _.partial(MI, 'away')));
+        mainItem.SubItems.Items.Add(new MenuItem(4, 'Сменить статус', _.partial(MI, 'status')));
+
+        mainItem.SubItems.Items.Add(new MenuItem(5, 'Сменить никнейм', ChangeName));
+        if (me && me.Rights >= topicRights) {
+            var t = new MenuItem(6, 'Сменить тему', _.partial(MI, 'topic'));
+            if (me.Rights >= adminRights) {
+                t.SubItems.Items.Add(new MenuItem(1, 'С блокировкой', _.partial(MI, 'locktopic')));
+                t.SubItems.Items.Add(new MenuItem(2, 'Разблокировать', _.partial(MI, 'unlocktopic')));
+            }
+            mainItem.SubItems.Items.Add(t);
+        }
+        mainItem.SubItems.Items.Add(new MenuItem(7, '<b>Меню</b>', ShowOptions));
+        mainItem.SubItems.Items.Add(new MenuItem(8, 'Выход из чата', _.partial(MI, 'quit')));
+
+        menu.Items.Add(mainItem);
+        menu.Create(div);
+    };
+
     this.ping();
 }
+
+/* Messages */
+
+function addLine(container, line) {
+    container.innerHTML = line + "\n" + container.innerHTML;
+};
+
+function AM(text, message_id, author_id, author_name, to_user_id, to_user) {
+    message_id = 1 * message_id;
+    var tab = tabs.main;
+    var renewTabs = false;
+    if (to_user_id > 0) {
+        tab = tabs.tabsCollection.Get(to_user_id);
+        if (!tab) {
+            tab = new Tab(to_user_id, to_user, 0, 1);
+            tabs.Add(tab);
+            renewTabs = true;
+        }
+    }
+
+    if (tab && (!message_id || (message_id && tab.lastMessageId < message_id))) {
+        text = Format(text, author_id, author_name);
+        addLine(tab.RelatedDiv, text);
+        if (message_id) {
+            lastMessageId = message_id;
+            tab.lastMessageId = message_id;
+        }
+        if (tab.Id != tabs.current.Id) {
+            tab.UnreadMessages++;
+            renewTabs = true;
+        }
+    }
+    if (renewTabs) tabs.Print();
+};
+
+function ClearMessages() {
+    if (MainTab) {
+        MainTab.RelatedDiv.innerHTML = "";
+    }
+};
+
+/* Rooms */
+
+var newRoomTab;
+function PrintRooms() {
+    $('#UsersContainer').html(rooms.ToString());
+
+    var container = $("#NewRoom")[0];
+    if (!newRoomTab && me && me.Rights >= 11) { // Allowed to create rooms
+        MakeNewRoomSpoiler(container);
+    }
+    displayElement(container, rooms.Count() < 10);
+    UpdateTopic();
+};
+
+function MoveToRoom(id) {
+    MainTab.Clear();
+    newRoomId = id;
+    this.forcePing();
+};
+
+function MakeNewRoomSpoiler(container) {
+    newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().loadTemplate(tab, me.Id)});
+    newRoomTab.ToString(container);
+};
+
+/* Topic */
+
+function UpdateTopic() {
+    if (CurrentRoom) {
+        if (me && me.HasAccessTo(CurrentRoom)) {
+            SetTopic(CurrentRoom.Topic, CurrentRoom.TopicAuthorId, CurrentRoom.TopicAuthorName, CurrentRoom.TopicLock);
+        } else {
+            SetTopic("Доступ в комнату ограничен. Ожидайте допуска.");
+        }
+    }
+};
+
+function SetTopic(text, author_id, author_name, lock) {
+    topicMessage = text;
+    if (MainTab) {
+        var s = "";
+        if (text) {
+            s = "<div>" + (1 * lock ? "<em>x</em>" : "") + "&laquo;<strong>" + MakeSmiles(topicMessage) + "</strong>&raquo;";
+            if (author_name) {
+                s += ", ";
+                if (author_id) {
+                    s += Format("#info#", author_id, author_name);
+                } else {
+                    s += author_name;
+                }
+            }
+            s += "</div>";
+        }
+        MainTab.TopicDiv.innerHTML = s;
+        MainTab.TopicDiv.className = "TabTopic" + ((!author_id && !author_name) ? " Alert" : "");
+    }
+
+    document.title = "(" + users.Count() + ") " + (author_name ? "\"" : "") + StripTags(text) + (author_name ? "\", " + author_name : "");
+};
+
+
+/* Recepients */
+
+var messageType = '';
+function ShowRecepients() {
+    if (tabs.current) {
+        var rec = tabs.current.recepients.ToString(),
+            recepients = $('#RecepientsContainer');
+
+        recepients.html(rec);
+        if (rec) {
+            var prefix;
+            if (tabs.current.Id == tabs.main.Id) {
+                try {
+                    prefix = {
+                        'wakeup': 'Wakeup для ',
+                        'kick': 'Выгнать ',
+                        'ban': 'Забанить ',
+                        'me': 'О себе в третьем лице',
+                        'status': 'Установить статус',
+                        'topic': 'Установить тему',
+                        'locktopic': 'Установить и заблокировать тему',
+                        'unlocktopic': 'Установить и разблокировать тему',
+                        'away': 'Отойти',
+                        'quit': 'Выйти из чата'
+                        }[messageType];
+                } catch (e) {
+                    prefix = 'Для ';
+                }
+            }
+            recepients.html(prefix + rec);
+        } else {
+            messageType = '';
+        }
+    }
+    $('#Message').focus();
+};
+
+// Add recepient
+function AR(id, name, type) {
+    if (id == me.Id) {
+        return;
+    };
+    if (tabs.main) {
+        if (type != messageType) {
+            messageType = type;
+            tabs.main.recepients.Clear();
+        }
+        if (id && name) {
+            tabs.main.recepients.Add(new Recepient(id, name));
+            if (tabs.current.Id != tabs.main.Id) {
+                tabs.main.switchTo();
+            }
+        }
+        ShowRecepients();
+    }
+};
+
+// Delete recepient
+function DR(id) {
+    if (tabs.main) {
+        tabs.main.recepients.Delete(id);
+        ShowRecepients();
+    }
+};
+
+// Menu item
+function MI(type) {
+    AR(-1, ' ', type);
+};
+
+function IG(id, state) {
+    var s = new ParamsBuilder();
+    s.add('user_id', id);
+    s.add('state', state);
+    $.post(servicesPath + 'ignore.service.php', s.build())
+        .done(Ignored);
+};
+
+function Ignored(data) {
+    var id = data.responseText;
+    if (id) {
+        var u = users.Get(Math.abs(id));
+        if (u) {
+            u.IsIgnored = (id > 0 ? 1 : "");
+        }
+    }
+    PrintRooms();
+};
+
+// Grant room access
+function AG(id, state) {
+    var s = ParamsBuilder();
+    s.add('user_id', id);
+    s.add('state', state);
+    $.post(servicesPath + 'room_user.service.php', s.build());
+};
+
+var MessagesHistory = [];
+var historySize = 100;
+var historyPointer = -1;
+function HistoryGo(i) {
+    if (i >= -1 && i < MessagesHistory.length) {
+        historyPointer = i;
+        $('#History').text('История сообщений (' + (historyPointer + 1) + '/' + MessagesHistory.length + ')');
+        $('#Message').val(i >= 0 ? MessagesHistory[historyPointer] : '');
+    }
+};
+HistoryGo(0);
+
+var eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL\\:ZXCVBNM<>/&?@`~";
+var rus = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ.?,\"ёЁ";
+
+function Translit() {
+    var textField = $('#Message'),
+        val = textField.val(),
+        out = '';
+
+    for (i = 0, l = val.length; i < l; i++) {
+        s = val.charAt(i);
+        engIndex = eng.indexOf(s);
+        if (engIndex >= 0) {
+            s = rus.charAt(engIndex);
+        } else {
+            rusIndex = rus.indexOf(s);
+            if (rusIndex >= 0) {
+                s = eng.charAt(rusIndex);
+            }
+        }
+        out += s;
+    }
+    textField.val(out);
+};
+

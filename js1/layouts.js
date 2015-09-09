@@ -34,7 +34,8 @@ var frames,
                 $('#AlertContainer').hide();
                 this.co.Init("AlertContainer", "AlertBlock");
 
-                new Chat(this.tabs);
+                var chat = new Chat(this.tabs);
+                chat.initMenu($("#MenuContainer")[0]);
             }
         },
         info: {

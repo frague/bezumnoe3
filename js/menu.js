@@ -19,8 +19,8 @@ MenuItem.prototype.Gather = function(holder) {
     a.innerHTML = this.Title;
     a.href = voidLink;
     if (this.Action) {
-        eval("a.onclick = function() {" + this.Action + ";}");
-    }
+        a.onclick = this.Action;
+    };
 
     var li = document.createElement("li");
     li.RelatedItem = this;

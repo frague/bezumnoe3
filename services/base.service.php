@@ -6,7 +6,6 @@
 
     function AddJsAlert($message, $isError = 0) {
         return JsAlert($message, $isError);
-//        return "tabObject.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
     }
 
     function JsAlert($message, $isError = 0) {
