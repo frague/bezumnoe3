@@ -32,7 +32,7 @@ class Nickname extends EntityBase {
 		$cs = CheckSum($this->Title);
 		return $cs;
 
-/*	
+/*
 
 -	var $UserId;
 +	var $Title;
@@ -44,13 +44,13 @@ class Nickname extends EntityBase {
 	function Validate() {
 	 global $MaxNicknameLength;
 
-		if (strlen($this->Title) > $MaxNicknameLength) {
+		if (mb_strlen($this->Title) > $MaxNicknameLength) {
 			return "Превышена допустимая длина имени (максимум - ".Countable("символ", $MaxNicknameLength).").";
 		}
-		if (preg_match("/[a-zA-Z]/", $this->Title) && preg_match("/[а-яА-Я]/", $this->Title)) {
+		if (preg_match("/[a-zA-Z]/", $this->Title) && preg_match("/[а-яА-Я]/u", $this->Title)) {
 			return "Недопустимо смешение в имени русского и латинского алфавитов.";
 		}
-		if (!preg_match("/^[a-zA-Zа-яА-Я0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/", $this->Title)) {
+		if (!preg_match("/^[a-zA-Zа-яА-Я0-9_\.\=\-\ \[\]\{\}\*\+\@\#\%\&\(\)\?\~\:\;]+$/u", $this->Title)) {
 			return  "Имя содержит недопустимые символы.";
 		}
 		return "";
@@ -78,10 +78,10 @@ class Nickname extends EntityBase {
 	 global $db;
 		if ($this->IsConnected()) {
 			// Check duplicates
-			$q = $db->Query("SELECT 
+			$q = $db->Query("SELECT
    COUNT(*) +
    (SELECT COUNT(*) FROM ".User::table." WHERE ".User::LOGIN." = '".SqlQuote($this->Title)."') AS s
-FROM 
+FROM
   ".$this->table."
 WHERE
   ".self::TITLE." = '".SqlQuote($this->Title)."'
@@ -93,11 +93,11 @@ WHERE
 					return false;
 				}
 			}
-		
+
 			// Reset selected User nickname
 			if ($this->IsSelected) {
-				$q = $db->Query("UPDATE ".$this->table." SET 
-	".self::IS_SELECTED."=0 
+				$q = $db->Query("UPDATE ".$this->table." SET
+	".self::IS_SELECTED."=0
 WHERE
 	".self::USER_ID."=".$this->UserId);
 			}
@@ -123,34 +123,34 @@ WHERE
 
 	// SQL
 	function ReadExpression() {
-		return "SELECT 
+		return "SELECT
 	t1.".self::NICKNAME_ID.",
 	t1.".self::USER_ID.",
-	t1.".self::TITLE.", 
+	t1.".self::TITLE.",
 	t1.".self::IS_SELECTED."
 FROM
-	".$this->table." AS t1 
+	".$this->table." AS t1
 WHERE
 	##CONDITION##";
 	}
 
 	function CreateExpression() {
-		return "INSERT INTO ".$this->table." 
-(".self::USER_ID.", 
-".self::TITLE.", 
+		return "INSERT INTO ".$this->table."
+(".self::USER_ID.",
+".self::TITLE.",
 ".self::IS_SELECTED."
 )
 VALUES
-('".SqlQuote($this->UserId)."', 
-'".SqlQuote($this->Title)."', 
+('".SqlQuote($this->UserId)."',
+'".SqlQuote($this->Title)."',
 '".Boolean($this->IsSelected)."'
 )";
 	}
 
 	function UpdateExpression() {
-		$result = "UPDATE ".$this->table." SET 
-".self::USER_ID."='".SqlQuote($this->UserId)."', 
-".self::TITLE."='".SqlQuote($this->Title)."', 
+		$result = "UPDATE ".$this->table." SET
+".self::USER_ID."='".SqlQuote($this->UserId)."',
+".self::TITLE."='".SqlQuote($this->Title)."',
 ".self::IS_SELECTED."='".Boolean($this->IsSelected)."'
 WHERE
 	".self::NICKNAME_ID."=".SqlQuote($this->Id);
