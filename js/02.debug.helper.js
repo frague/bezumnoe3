@@ -7,6 +7,7 @@
 var debugWin;
 
 function DebugLine(line) {
+    console.log(line);
     if (!debug) {
         return;
     }

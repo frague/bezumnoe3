@@ -32,29 +32,31 @@ function User(id, login, room_id, room_is_permitted, ip, away_message, ban_reaso
 };
 
 User.prototype.CheckSum = function() {
-	var cs = 0;
-	cs += CheckSum(this.RoomId);
-	cs += CheckSum(this.RoomIsPermitted);
+	var cs,
+		sums = [
+			CheckSum(this.RoomId),
+			CheckSum(this.RoomIsPermitted),
 
-	cs += CheckSum(this.AwayMessage);
+			CheckSum(this.AwayMessage),
 
-	cs += CheckSum(this.BanReason);
-	cs += CheckSum(this.BannedBy);
+			CheckSum(this.BanReason),
+			CheckSum(this.BannedBy),
 
-	cs += this.Settings.CheckSum();
+			this.Settings.CheckSum(),
 
-	cs += CheckSum(this.Nickname);
+			CheckSum(this.Nickname),
 
-	cs += CheckSum(this.Rights);
-	cs += CheckSum(this.StatusTitle);
-	cs += CheckSum(this.StatusColor);
+			CheckSum(this.Rights),
+			CheckSum(this.StatusTitle),
+			CheckSum(this.StatusColor)
+		];
 
-//	cs += CheckSum(this.IsIgnored);
-//	cs += CheckSum(this.IgnoresYou);
+	cs = sums.reduce(function (p, v) {
+		return p + v;
+	}, 0);
+	cs += '' + this.IsIgnored + '' + this.IgnoresYou;
 
-	cs += "" + this.IsIgnored + "" + this.IgnoresYou;
-
-//	DebugLine('User: '+this.Id+' sum: '+cs);
+//	DebugLine('User: '+this.Login+' sum: '+cs+' sums: '+sums);
 
 	return cs;
 };

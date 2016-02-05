@@ -3,7 +3,6 @@
     define(allowedTags, "<strike><pre><br><object><param><a><b><em><u><body><blockquote><center><div><font><h1><h2><h3><h4><h5><h6><head><html><hr><i><img><li><meta><ol><p><span><strong><style><table><tr><td><th><colgroup><col><ul><sub><sup>");
 
     $chars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-    $ascii = array();
 
     $counting = array();
     $counting["пользователь"]       = "пользователя|пользователей";
@@ -20,19 +19,15 @@
     $counting["запись"]             = "записи|записей";
     $counting["сообщение"]          = "сообщения|сообщений";
 
-    for ($i = 0; $i < strlen($chars); $i++) {
-        $char = substr($chars, $i, 1);
-        $ascii[$char] = $i + 1;
-    }
-
     function CheckSum($source) {
-     global $ascii, $debug;
+     global $chars, $debug;
 
         $s = 0;
-        for ($i = 0; $i < strlen($source); $i++) {
-            $char = substr($source, $i, 1);
-            if ($ascii[$char]) {
-                $s1 = $ascii[$char];
+        for ($i = 0; $i < mb_strlen($source); $i++) {
+            $char = mb_substr($source, $i, 1);
+            $pos = mb_strpos($chars, $char);
+            if ($pos) {
+                $s1 = $pos + 1;
             } else {
                 $s1 = ord($char);
                 if ($s1 > 127) {
@@ -40,9 +35,9 @@
                 }
             }
             $s += $s1;
-            //DebugLine($char." = ".$s1." -> ".$s);
+//            DebugLine($char." = ".$s1." -> ".$s);
         }
-        DebugLine($source." = ".$s);
+//        DebugLine($source." = ".$s);
         return $s;
     }
 
@@ -397,7 +392,7 @@
     }
 
     function Clickable($name) {
-        return "<a>".$name."</a>";
+        return "<a href=\"javascript:void(0)\" onclick=\"__(this)\">".$name."</a>";
     }
 
     function MakeListItem($className = "") {
