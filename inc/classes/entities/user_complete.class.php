@@ -61,14 +61,14 @@ class UserComplete extends EntityBase {
     function CheckSum($extended = false) {
         $cs = 0;
         $cs += $this->User->CheckSum($extended);
+        $cs += $this->Settings->CheckSum($extended);
         $cs += $this->Nickname->CheckSum($extended);
         $cs += $this->Status->CheckSum($extended);
-        $cs += $this->Settings->CheckSum($extended);
 
 //		$cs += CheckSum($this->IIgnore);
 //		$cs += CheckSum($this->IgnoresMe);
 
-//		DebugLine("User CS: " + $cs);
+        DebugLine("User CS: " + $cs);
         return $cs;
     }
 

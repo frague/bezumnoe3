@@ -9,7 +9,7 @@
 
 	if (!$user || $user->IsEmpty()) {
 		if ($sessionCheck) {
-//			echo "/* 1 */";
+			echo "/* 1 */";
 			echo "Quit();";
 			exit;
 		} else {
@@ -17,7 +17,7 @@
 			exit;
 		}
 	} else if (IdIsNull($user->User->RoomId)) {
-//		echo "/* 2 */";
+		echo "/* 2 */";
 		echo "Quit();";
 		exit;
 	}
@@ -191,7 +191,7 @@
 
 		$user_key = "u_".$id1;
 		if ($_POST[$user_key] != $user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])) {
-			//print "/* ".$_POST[$user_key]." != ".$user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])." */";
+//			print "/* ".$_POST[$user_key]." != ".$user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])." */";
 			$ChangedUsers[] = $id1;
 		}
 		$_POST[$user_key] = "-";
