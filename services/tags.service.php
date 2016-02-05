@@ -21,14 +21,14 @@
 		echo "this.data=[];this.found=[];";
 		die;
 	}
-	
-	
+
+
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
 		$tag->FillFromResult($q);
 		echo ($i ? "," : "").$tag->ToJs($search);
 	}
-	
+
 	echo "];";
 	$q->Release();
 

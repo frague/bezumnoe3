@@ -6,9 +6,9 @@
 	if (!$user_id || !$user || $user->IsEmpty()) {
 		exit();	// TODO: Implement client functionality
 	}
-	
+
 	$tabId = $_POST["tab_id"];
-	
+
 	if ($user_id == $user->User->Id || $user->IsAdmin()) {
 		if ($user_id == $user->User->Id) {
 			$targetUser = $user->User;
@@ -31,10 +31,10 @@
 					$settings->FillFromHash($_POST);
 					$errors = $settings->Validate();
 					if ($errors) {
-						echo JsAlert("Настройки не были сохранёны по следующим причинам:<ul>".$errors."</ul>", 1);
+						echo JsAlert("РќР°СЃС‚СЂРѕР№РєРё РЅРµ Р±С‹Р»Рё СЃРѕС…СЂР°РЅС‘РЅС‹ РїРѕ СЃР»РµРґСѓСЋС‰РёРј РїСЂРёС‡РёРЅР°Рј:<ul>".$errors."</ul>", 1);
 					} else {
 						$settings->Save();
-						echo JsAlert("Настройки успешно сохранёны.");
+						echo JsAlert("РќР°СЃС‚СЂРѕР№РєРё СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅС‘РЅС‹.");
 					}
 					break;
 			}

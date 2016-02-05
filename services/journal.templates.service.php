@@ -13,9 +13,9 @@
 	if ($journal->IsEmpty()) {
 		echo "this.is_journal=0;";
 		if ($go) {
-			echo JsAlert("Íàñòðîéêè øàáëîíîâ ñîõðàíÿþòñÿ òîëüêî äëÿ æóðíàëîâ.", 1);
+			echo JsAlert("ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ ÑˆÐ°Ð±Ð»Ð¾Ð½Ð¾Ð² ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑŽÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð´Ð»Ñ Ð¶ÑƒÑ€Ð½Ð°Ð»Ð¾Ð².", 1);
 		} else {
-			echo JsAlert("Æóðíàë íå íàéäåí.", 1);
+			echo JsAlert("Ð–ÑƒÑ€Ð½Ð°Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½.", 1);
 		}
 		die;
 	}
@@ -23,10 +23,10 @@
 	$access = $journal->GetAccess($user->User->Id);
 	if ($access != Forum::FULL_ACCESS && !$user->IsSuperAdmin()) {
 		echo "this.is_journal=0;";
-		echo JsAlert("Íåò äîñòóïà ê íàñòðîéêàì æóðíàëà!", 1);
+		echo JsAlert("ÐÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°Ð¼ Ð¶ÑƒÑ€Ð½Ð°Ð»Ð°!", 1);
 		exit;
 	}
-	
+
 	$settings = new JournalSettings();
 	$settings->GetByForumId($journal->Id);
 
@@ -40,7 +40,7 @@
 			if ($template->IsEmpty()) {
 				$template->ForumId = $journal->Id;
 			}
-			
+
 			if ($settings->OwnMarkupAllowed) {
 				$template->Title = UTF8toWin1251($_POST[JournalTemplate::TITLE]);
 				$template->Body = UTF8toWin1251($_POST[JournalTemplate::BODY]);
@@ -53,15 +53,15 @@
 			$settings->SkinTemplateId = round($_POST[JournalSettings::SKIN_TEMPLATE_ID]);
 			$settings->Save();
 
-			echo JsAlert("Íàñòðîéêè øàáëîíà ñîõðàíåíû.");
+			echo JsAlert("ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ ÑˆÐ°Ð±Ð»Ð¾Ð½Ð° ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹.");
 			break;
-	}	
+	}
 	// Getting default skin
 	$skin = new JournalSkin();
 	$defaultTemplateId = $skin->GetDefaultTemplateId();
 
 	if ($template->IsEmpty() && $settings->OwnMarkupAllowed) {
-		echo JsAlert("Ïîëüçîâàòåëüñêèé øàáëîí íå ñóùåñòâóåò - âçÿò øàáëîí ïî óìîë÷àíèþ.");
+		echo JsAlert("ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÑÐºÐ¸Ð¹ ÑˆÐ°Ð±Ð»Ð¾Ð½ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚ - Ð²Ð·ÑÑ‚ ÑˆÐ°Ð±Ð»Ð¾Ð½ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ.");
 		$template->GetById($defaultTemplateId);
 	}
 	echo "this.data=".$template->ToJs(round($settings->SkinTemplateId)).";";

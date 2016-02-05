@@ -10,14 +10,14 @@
 	$u = new UserComplete($user_id);
 	$u->Retrieve();
 
-	if (!$user->IsSuperAdmin()) {	// Coz I can! (Потому, что я - ведро)
+	if (!$user->IsSuperAdmin()) {	// Coz I can! (РџРѕС‚РѕРјСѓ, С‡С‚Рѕ СЏ - РІРµРґСЂРѕ)
 		if ($u->User->IsEmpty()) {
-			echo JsAlert("Пользователь не найден!", 1);
+			echo JsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РЅР°Р№РґРµРЅ!", 1);
 			die;
 		}
 
-		if ($u->Status->Rights <= $user->StatusRights) { 
-			echo JsAlert("Недостаточно прав для просмотра!", 1);
+		if ($u->Status->Rights <= $user->StatusRights) {
+			echo JsAlert("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїСЂР°РІ РґР»СЏ РїСЂРѕСЃРјРѕС‚СЂР°!", 1);
 			die;
 		}
 	}
@@ -28,7 +28,7 @@
 		$comment->Content = substr(strip_tags(trim(UTF8toWin1251($_POST["ADMIN_COMMENT"]))), 0, 1024);
 		$comment->AdminLogin = $user->User->Login;
 		$comment->Save();
-		echo JsAlert("Комментарий добавлен.");
+		echo JsAlert("РљРѕРјРјРµРЅС‚Р°СЂРёР№ РґРѕР±Р°РІР»РµРЅ.");
 	}
 
 
@@ -48,7 +48,7 @@
 	}
 
 	/* --- */
-	
+
 
 	echo "this.data=[";
 	if ($user_id) {

@@ -22,7 +22,8 @@
       global $SessionLifetime;
 
         $pongTime = @strtotime($sessionPongTime);
-        return (time() - $pongTime < $SessionLifetime);
+        $serverTime = time();
+        return ($serverTime - $pongTime < $SessionLifetime);
     }
 
     function SetUserSessionCookie($user, $inHeader = false) {

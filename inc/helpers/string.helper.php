@@ -397,7 +397,7 @@
     }
 
     function Clickable($name) {
-        return "<a href=\"javascript:void(0)\" onclick=\"__(this)\">".$name."</a>";
+        return "<a>".$name."</a>";
     }
 
     function MakeListItem($className = "") {

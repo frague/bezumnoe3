@@ -5,7 +5,7 @@
 
 
 	$user_id = round($_POST["user_id"]);
-	
+
 	if ($user_id) {
 		// UserID specified
 		$user = new UserComplete($user_id);

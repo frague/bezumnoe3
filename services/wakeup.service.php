@@ -4,29 +4,29 @@
 	$user = GetAuthorizedUser(true);
 
 	if (!$user || $user->IsEmpty()) {
-		echo "-Сообщение не отправлено: ошибка авторизации!";
+		echo "-РЎРѕРѕР±С‰РµРЅРёРµ РЅРµ РѕС‚РїСЂР°РІР»РµРЅРѕ: РѕС€РёР±РєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё!";
 		exit;
 	}
 
 	$text = trim(substr(UTF8toWin1251($_POST["message"]), 0, 1024));
 	$message_id = round($_POST["reply_to"]);
-	
+
 	if ($message_id) {
 		if ($text) {
 			$wakeup = new Wakeup();
 			$wakeup->GetById($message_id);
 			if ($wakeup->IsEmpty()) {
-				echo "-Исходное сообщение (".$message_id.") не найдено!";
+				echo "-РСЃС…РѕРґРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ (".$message_id.") РЅРµ РЅР°Р№РґРµРЅРѕ!";
 			} else {
 				$wakeup = new Wakeup($text, $user->User->Id, $wakeup->FromUserId);
 				$wakeup->Save();
-				echo "+Сообщение успешно отправлено.";
+				echo "+РЎРѕРѕР±С‰РµРЅРёРµ СѓСЃРїРµС€РЅРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ.";
 			}
 		} else {
-			echo "-Сообщение пустое!";
+			echo "-РЎРѕРѕР±С‰РµРЅРёРµ РїСѓСЃС‚РѕРµ!";
 		}
 	} else {
-		echo "-Сообщение не отправлено: недостаточно данных!";
+		echo "-РЎРѕРѕР±С‰РµРЅРёРµ РЅРµ РѕС‚РїСЂР°РІР»РµРЅРѕ: РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґР°РЅРЅС‹С…!";
 	}
 
 ?>

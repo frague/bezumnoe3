@@ -10,7 +10,7 @@
 	$error = "";
 
 	if (!$user || $user->IsEmpty()) {
-		$error .= "Пользователь не авторизован!<br>";
+		$error .= "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ Р°РІС‚РѕСЂРёР·РѕРІР°РЅ!<br>";
 	} else {
 		SetUserSessionCookie($user->User);
 	}
@@ -27,10 +27,10 @@
 
 	$type = LookInRequest("IS_PROTECTED") ? ForumRecord::TYPE_PROTECTED : ForumRecord::TYPE_PUBLIC;
 
-	
-	
+
+
 	if (!$forum_id) {
-			$error .= "Не указан форум!<br>";
+			$error .= "РќРµ СѓРєР°Р·Р°РЅ С„РѕСЂСѓРј!<br>";
 	} else if (!$user->IsEmpty()) {
 		$forum = new ForumBase($forum_id);
 		$forum->Retrieve();
@@ -38,7 +38,7 @@
 		$forumAccess = 0;
 
 		if ($forum->IsEmpty()) {
-			$error .= "Форум не найден!<br>";
+			$error .= "Р¤РѕСЂСѓРј РЅРµ РЅР°Р№РґРµРЅ!<br>";
 		} else {
 			// Get user acces to forum
 			$forumAccess = $forum->GetAccess($user->Id);
@@ -50,7 +50,7 @@
 
 			$isJournal = $forum->IsJournal() ? 1 : 0;
 			if (AddressIsBanned(new Bans(0, 1 - $isJournal, $isJournal))) {
-				$error .= "Нет доступа к публикации сообщений!<br>";
+				$error .= "РќРµС‚ РґРѕСЃС‚СѓРїР° Рє РїСѓР±Р»РёРєР°С†РёРё СЃРѕРѕР±С‰РµРЅРёР№!<br>";
 			}
 		}
 
@@ -62,7 +62,7 @@
 			switch ($go) {
 				case "delete":
 					if ($oldRecord->IsEmpty()) {
-						$error .= "Сообщение не найдено!<br>";
+						$error .= "РЎРѕРѕР±С‰РµРЅРёРµ РЅРµ РЅР°Р№РґРµРЅРѕ!<br>";
 					} else {
 						if ($forumAccess || $user->User->Id == $oldRecord->UserId) {
 							$state = $oldRecord->IsDeleted ? 0 : 1;
@@ -75,10 +75,10 @@
 									$q->NextResult();
 									$parentRecord->FillFromResult($q);
 									if ($parentRecord->IsEmpty() || $parentRecord->IsHidden) {
-										$error .= "Вы не можете удалить данное сообщение!<br>";
+										$error .= "Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ СѓРґР°Р»РёС‚СЊ РґР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ!<br>";
 									}
 								} else {
-									$error .= "Вы не можете удалить данное сообщение!<br>";
+									$error .= "Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ СѓРґР°Р»РёС‚СЊ РґР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ!<br>";
 								}
 							}
 
@@ -89,15 +89,15 @@
 									".ForumRecord::FORUM_ID."=".$forum->Id,
 									$oldRecord->HideThreadExpression($state)
 								);
-								
+
 								// Update actual & deleted answers count (review)
 								$oldRecord->UpdateAnswersCount();
 
-  								$forum->CountRecords();
+								  $forum->CountRecords();
 								echo "className='".($state ? "Hidden" : "")."';";
 							}
 						} else {
-							$error .= "Вы не можете удалить данное сообщение!<br>";
+							$error .= "Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ СѓРґР°Р»РёС‚СЊ РґР°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ!<br>";
 						}
 					}
 
@@ -105,17 +105,17 @@
 				default:
 
 					if (!$content) {
-						$error .= "Сообщение пустое!<br>";
+						$error .= "РЎРѕРѕР±С‰РµРЅРёРµ РїСѓСЃС‚РѕРµ!<br>";
 					}
 
 					if ($forumAccess != Forum::FRIENDLY_ACCESS && $forumAccess != Forum::READ_ADD_ACCESS && $forumAccess != Forum::FULL_ACCESS) {
-						$error .= "У вас нет доступа к публикации сообщений!<br>";
+						$error .= "РЈ РІР°СЃ РЅРµС‚ РґРѕСЃС‚СѓРїР° Рє РїСѓР±Р»РёРєР°С†РёРё СЃРѕРѕР±С‰РµРЅРёР№!<br>";
 					}
 
 					if (!$error) {
 						if (!$title) {
-							$title = $oldRecord->IsEmpty() ? 
-								"Без названия" : 
+							$title = $oldRecord->IsEmpty() ?
+								"Р‘РµР· РЅР°Р·РІР°РЅРёСЏ" :
 								(preg_match("/^Re: /", $oldRecord->Title) ? "" : "Re: ").$oldRecord->Title;
 						}
 
@@ -136,7 +136,7 @@
 							} else {
 								$q = $newRecord->GetAdditionalUserInfo();
 								$q->NextResult();
-	
+
 								$avatar = $q->Get(Profile::AVATAR);
 								$alias = $q->Get(JournalSettings::ALIAS);
 								$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
@@ -159,14 +159,14 @@
 								$notify->Save();
 							}
 
-  							$forum->CountRecords();
+							  $forum->CountRecords();
 						} else {
-							$error .= "Ошибка при сохранении сообщения!<br>";
+							$error .= "РћС€РёР±РєР° РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё СЃРѕРѕР±С‰РµРЅРёСЏ!<br>";
 						}
 					}
 			}
 		}
-   	}
+	   }
 	echo "error='".JsQuote($error)."';";
 	echo "logged_user='".JsQuote($user->User->Login)."';";
 ?>

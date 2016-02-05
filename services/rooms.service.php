@@ -18,7 +18,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("Èçìåíåíèÿ ñîõðàíåíû.");
+				echo JsAlert("Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹.");
 			}
 			break;
 		case "delete":
@@ -31,9 +31,9 @@
 						$u = new User();
 						$u->GetByCondition(User::ROOM_ID."=".$id, $u->CloseSessionExpression());
 						$room->Delete();
-						echo JsAlert("Êîìíàòà óäàëåíà.");
+						echo JsAlert("ÐšÐ¾Ð¼Ð½Ð°Ñ‚Ð° ÑƒÐ´Ð°Ð»ÐµÐ½Ð°.");
 					} else {
-						echo JsAlert("Êîìíàòà óæå óäàëåíà.");
+						echo JsAlert("ÐšÐ¾Ð¼Ð½Ð°Ñ‚Ð° ÑƒÐ¶Ðµ ÑƒÐ´Ð°Ð»ÐµÐ½Ð°.");
 					}
 				}
 			}
@@ -46,7 +46,7 @@
 	$filter = AddTypeCondition(Room::IS_INVITATION_REQUIRED, "by_invitation", 1, $filter, "AND");
 
 	print "/* $filter */";
-	
+
 	echo "this.data=[";
 	$q = $room->GetByCondition($filter, $room->ListRoomsExpression());
 

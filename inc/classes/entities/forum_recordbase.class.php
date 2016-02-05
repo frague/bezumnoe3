@@ -244,7 +244,7 @@ round($this->ForumId)."];";
 
     function ToJs($mark = "") {
         $title = strip_tags($this->Title);
-        $content = substr(strip_tags($this->Content), 0, 100);
+        $content = mb_substr(strip_tags($this->Content), 0, 100);
 /*      if ($mark) {
             $title = HightlightWords($title, $mark);
             $content = HightlightWords($content, $mark);

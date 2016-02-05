@@ -1,10 +1,12 @@
-var UsersDiv = $("#UsersContainer")[0];
-var Topic = $("#TopicContainer")[0];
-var Messages = $("#MessagesContainer")[0];
-var Status = $("#Status")[0];
-var Recepients = $("#RecepientsContainer")[0];
-var PongImg = $("#pong")[0];
-var pongImage = new Image(); pongImage.src = imagesPath + 'pong.gif';
+var UsersDiv = $("#UsersContainer")[0],
+    Topic = $("#TopicContainer")[0],
+    Messages = $("#MessagesContainer")[0],
+    Status = $("#Status")[0],
+    Recepients = $("#RecepientsContainer")[0],
+    PongImg = $("#pong")[0],
+    pongImage = new Image();
+
+pongImage.src = imagesPath + 'pong.gif';
 
 var textField = $("#Message")[0];
 var historyContainer = $("#History")[0];
@@ -131,38 +133,18 @@ function ShowRecepients() {
         if (Recepients.innerHTML) {
             var prefix = "Для ";
             if (CurrentTab.Id == MainTab.Id) {
-                switch (messageType) {
-                    case "wakeup":
-                        prefix = "Wakeup для ";
-                        break;
-                    case "kick":
-                        prefix = "Выгнать ";
-                        break;
-                    case "ban":
-                        prefix = "Забанить ";
-                        break;
-                    case "me":
-                        prefix = "О себе в третьем лице";
-                        break;
-                    case "status":
-                        prefix = "Установить статус";
-                        break;
-                    case "topic":
-                        prefix = "Установить тему";
-                        break;
-                    case "locktopic":
-                        prefix = "Установить и заблокировать тему";
-                        break;
-                    case "unlocktopic":
-                        prefix = "Установить и разблокировать тему";
-                        break;
-                    case "away":
-                        prefix = "Отойти";
-                        break;
-                    case "quit":
-                        prefix = "Выйти из чата";
-                        break;
-                }
+                prefix = {
+                    "wakeup": "Wakeup для ",
+                    "kick": "Выгнать ",
+                    "ban": "Забанить ",
+                    "me": "О себе в третьем лице",
+                    "status": "Установить статус",
+                    "topic": "Установить тему",
+                    "locktopic": "Установить и заблокировать тему",
+                    "unlocktopic": "Установить и разблокировать тему",
+                    "away": "Отойти",
+                    "quit": "Выйти из чата"
+                }[messageType];
             }
             Recepients.innerHTML = prefix + Recepients.innerHTML;
         } else {

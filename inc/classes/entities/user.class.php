@@ -25,7 +25,7 @@ class User extends EntityBase {
     const LOGIN_GUID = "LOGIN_GUID";
     const CHECK_SUM = "CHECK_SUM";
     const IS_DELETED = "IS_DELETED";
-    
+
 
     // Properties
     var $Id;
@@ -84,7 +84,7 @@ class User extends EntityBase {
         $cs += CheckSum($this->BannedBy);
 
         return $cs;
-        
+
 /*
 
 -   var $Login;
@@ -102,7 +102,7 @@ class User extends EntityBase {
 +   var $BanReason;
 +   var $BannedBy;
 
-*/      
+*/
     }
 
     function ClearSession() {
@@ -134,7 +134,7 @@ class User extends EntityBase {
         $this->AwayMessage = "";
         $this->AwayTime = "";
     }
-    
+
     function CreateSession() {
         $this->Session = MakeGuid($this->sessionKeyLength);
         $this->SessionCheck = MakeGuid($this->sessionKeyLength);
@@ -163,7 +163,7 @@ class User extends EntityBase {
 
     function Kick($reason, $admin_name) {
       global $db;
-        
+
         if (!$this->IsConnected()) {
             return false;
         }
@@ -248,7 +248,7 @@ class User extends EntityBase {
 
     function SaveLoginGuid($generateGuid = false) {
       global $db;
-        
+
         if (!$this->IsEmpty() && $this->IsConnected()) {
             $this->LoginGuid = $generateGuid ? MakeGuid(19) : "";
             $db->Query($this->UpdateLoginGuidExpression());
@@ -269,7 +269,7 @@ class User extends EntityBase {
     function SessionIsCorrect($sessionId) {
         return $sessionId && strlen($sessionId) == $this->sessionKeyLength;
     }
-    
+
     function GetBySession($sessionId, $sessionAddress, $sessionCheck = "") {
         if ($this->SessionIsCorrect($sessionId) && $sessionAddress) {
             $this->FillByCondition("t1.".self::SESSION."='".SqlQuote($sessionId)."' AND t1.".self::SESSION_ADDRESS."='".SqlQuote($sessionAddress)."'");
@@ -389,7 +389,7 @@ JsQuote($admin)."\"]";
     // SQL
 
     function ReadExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::USER_ID.",
     t1.".self::LOGIN.",
     t1.".self::PASSWORD.",
@@ -407,23 +407,23 @@ JsQuote($admin)."\"]";
     t1.".self::BANNED_BY.",
     t1.".self::KICK_MESSAGES.",
     t1.".self::GUID."
-FROM 
-    ".$this->table." AS t1 
+FROM
+    ".$this->table." AS t1
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table." 
-    (".self::LOGIN.", 
-".self::PASSWORD.", 
-".self::ROOM_ID.", 
-".self::STATUS_ID.", 
-".self::SESSION.", 
-".self::SESSION_PONG.", 
-".self::SESSION_CHECK.", 
-".self::SESSION_ADDRESS.", 
-".self::AWAY_MESSAGE.", 
+        return "INSERT INTO ".$this->table."
+    (".self::LOGIN.",
+".self::PASSWORD.",
+".self::ROOM_ID.",
+".self::STATUS_ID.",
+".self::SESSION.",
+".self::SESSION_PONG.",
+".self::SESSION_CHECK.",
+".self::SESSION_ADDRESS.",
+".self::AWAY_MESSAGE.",
 ".self::AWAY_TIME.",
 ".self::BANNED_TILL.",
 ".self::BAN_REASON.",
@@ -433,15 +433,15 @@ WHERE
 )
 VALUES
 (
-'".SqlQuote($this->Login)."', 
-'".SqlQuote(Encode($this->Password))."', 
-".NullableId($this->RoomId).", 
-'".SqlQuote($this->StatusId)."', 
-'".SqlQuote($this->Session)."', 
-".Nullable(SqlQuote($this->SessionPong)).", 
-'".SqlQuote($this->SessionCheck)."', 
-'".SqlQuote($this->SessionAddress)."', 
-'".SqlQuote($this->AwayMessage)."', 
+'".SqlQuote($this->Login)."',
+'".SqlQuote(Encode($this->Password))."',
+".NullableId($this->RoomId).",
+'".SqlQuote($this->StatusId)."',
+'".SqlQuote($this->Session)."',
+".Nullable(SqlQuote($this->SessionPong)).",
+'".SqlQuote($this->SessionCheck)."',
+'".SqlQuote($this->SessionAddress)."',
+'".SqlQuote($this->AwayMessage)."',
 ".Nullable(SqlQuote($this->AwayTime)).",
 ".Nullable(SqlQuote($this->BannedTill)).",
 ".Nullable(SqlQuote($this->BanReason)).",
@@ -452,7 +452,7 @@ VALUES
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET 
+        $result = "UPDATE ".$this->table." SET
     ".self::LOGIN."='".SqlQuote($this->Login)."',";
         if ($this->Password != $this->PasswordBackup) {
             $result .= self::PASSWORD."='".SqlQuote(Encode($this->Password))."',";
@@ -461,42 +461,42 @@ VALUES
     ".self::ROOM_ID."=".NullableId($this->RoomId).",
     ".self::STATUS_ID."='".$this->StatusId."',
     ".self::SESSION."='".SqlQuote($this->Session)."',
-    ".self::SESSION_PONG."=".Nullable(SqlQuote($this->SessionPong)).", 
-    ".self::SESSION_CHECK."=".Nullable(SqlQuote($this->SessionCheck)).", 
-    ".self::SESSION_ADDRESS."='".SqlQuote($this->SessionAddress)."', 
-    ".self::AWAY_MESSAGE."='".SqlQuote($this->AwayMessage)."', 
+    ".self::SESSION_PONG."=".Nullable(SqlQuote($this->SessionPong)).",
+    ".self::SESSION_CHECK."=".Nullable(SqlQuote($this->SessionCheck)).",
+    ".self::SESSION_ADDRESS."='".SqlQuote($this->SessionAddress)."',
+    ".self::AWAY_MESSAGE."='".SqlQuote($this->AwayMessage)."',
     ".self::AWAY_TIME."=".Nullable(SqlQuote($this->AwayTime)).",
     ".self::BANNED_TILL."=".Nullable(SqlQuote($this->BannedTill)).",
     ".self::BAN_REASON."=".Nullable($this->BanReason).",
     ".self::BANNED_BY."=".NullableId($this->BannedBy).",
     ".self::KICK_MESSAGES."='".SqlQuote($this->KickMessages)."',
     ".self::GUID."='".SqlQuote($this->Guid)."'
-WHERE 
+WHERE
     ".self::USER_ID."=".SqlQuote($this->Id);
         return $result;
     }
 
     function UpdateSessionAddressExpression() {
-        $result = "UPDATE ".$this->table." SET 
+        $result = "UPDATE ".$this->table." SET
     ".self::SESSION_ADDRESS."='".SqlQuote($this->SessionAddress)."'
-WHERE 
+WHERE
     ".self::USER_ID."=".SqlQuote($this->Id);
         return $result;
     }
 
     function UpdateLoginGuidExpression() {
-        $result = "UPDATE ".$this->table." SET 
+        $result = "UPDATE ".$this->table." SET
     ".self::LOGIN_GUID."=".Nullable($this->LoginGuid)."
-WHERE 
+WHERE
     ".self::USER_ID."=".SqlQuote($this->Id);
         return $result;
     }
 
-    
+
     function DeleteExpression() {
-        return "UPDATE ".$this->table." SET 
-    ".self::PASSWORD."='DELETED', 
-    ".self::SESSION."=NULL, 
+        return "UPDATE ".$this->table." SET
+    ".self::PASSWORD."='DELETED',
+    ".self::SESSION."=NULL,
     ".self::IS_DELETED."=1
 WHERE ".self::USER_ID."=".SqlQuote($this->Id);
 //      return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".SqlQuote($this->Id);
@@ -515,20 +515,20 @@ WHERE ".self::USER_ID."=".SqlQuote($this->Id);
 
         return "t1.".self::SESSION_PONG." IS NOT NULL AND ABS(TIMESTAMPDIFF(MINUTE, NOW(), t1.".self::SESSION_PONG.")) > ".$mysqlSessionLifetime;
     }
-    
+
     function GetExpiredUsers() {
       global $mysqlSessionLifetime;
 
         return $this->GetByCondition(
-            $this->ExpireCondition(), 
+            $this->ExpireCondition(),
             $this->GetUserActualNameExpression());
     }
 
     function GetUserActualNameExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::USER_ID.",
-    COALESCE(t2.".Nickname::TITLE.",t1.".self::LOGIN.") AS ".self::LOGIN.", 
-    t1.".self::ROOM_ID." 
+    COALESCE(t2.".Nickname::TITLE.",t1.".self::LOGIN.") AS ".self::LOGIN.",
+    t1.".self::ROOM_ID."
 FROM ".$this->table." t1
     LEFT JOIN ".Nickname::table." t2 ON (t2.".Nickname::USER_ID."=t1.".self::USER_ID." AND t2.".Nickname::IS_SELECTED."=1)
 WHERE
@@ -536,7 +536,7 @@ WHERE
     }
 
     function GetUserLoginExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::LOGIN."
 FROM ".$this->table." t1
 WHERE
@@ -544,11 +544,11 @@ WHERE
     }
 
     function FindUserExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::USER_ID.",
     t1.".self::LOGIN.",
     t2.".Nickname::TITLE."
-FROM 
+FROM
     ".$this->table." t1
     LEFT JOIN ".Nickname::table." t2 ON t2.".Nickname::USER_ID."=t1.".self::USER_ID."
     LEFT JOIN ".Profile::table." t3 ON t3.".Profile::USER_ID."=t1.".self::USER_ID."
@@ -559,13 +559,13 @@ ORDER BY ".self::LOGIN." ASC";
     }
 
     function FindUserWithJournalsExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::USER_ID.",
     t1.".self::LOGIN.",
     t2.".Nickname::TITLE.",
     t3.".Forum::FORUM_ID.",
     t3.".Forum::TITLE."
-FROM 
+FROM
     ".$this->table." t1
     LEFT JOIN ".Nickname::table." t2 ON t2.".Nickname::USER_ID."=t1.".self::USER_ID."
     LEFT JOIN ".Forum::table." t3 ON t3.".Forum::LINKED_ID."=t1.".self::USER_ID." AND t3.".Forum::TYPE."='".Forum::TYPE_JOURNAL."'
@@ -576,9 +576,9 @@ ORDER BY t1.".self::LOGIN." ASC, t3.".Forum::TITLE." ASC";
     }
 
     function UserRoomAccessExpression() {
-        return "SELECT COUNT(*) FROM ".RoomUser::table." AS t0 
-WHERE 
-    t0.".RoomUser::USER_ID."=t1.".self::USER_ID." AND 
+        return "SELECT COUNT(*) FROM ".RoomUser::table." AS t0
+WHERE
+    t0.".RoomUser::USER_ID."=t1.".self::USER_ID." AND
     t0.".RoomUser::ROOM_ID."=t1.".self::ROOM_ID." LIMIT 1";
     }
 
@@ -616,10 +616,10 @@ t1.".self::LOGIN.",
 t2.".Profile::PHOTO."
     FROM ".self::table." AS t1
     LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
-    WHERE 
-        t2.".Profile::PHOTO." IS NOT NULL AND 
+    WHERE
+        t2.".Profile::PHOTO." IS NOT NULL AND
         t2.".Profile::PHOTO_UPLOAD_DATE." IS NOT NULL
-    ORDER BY ".Profile::PHOTO_UPLOAD_DATE." DESC 
+    ORDER BY ".Profile::PHOTO_UPLOAD_DATE." DESC
     LIMIT 10";
     }
 
@@ -629,20 +629,20 @@ t1.".self::USER_ID.",
 t1.".self::LOGIN."
     FROM ".self::table." AS t1
     LEFT JOIN ".Profile::table." AS t2 ON t2.".Profile::USER_ID."=t1.".self::USER_ID."
-    WHERE 
+    WHERE
         ##CONDITION##";
     }
 
     function BannedExpression() {
-        return "SELECT 
+        return "SELECT
     t1.".self::USER_ID.",
     t1.".self::LOGIN.",
     t1.".self::BANNED_TILL.",
     t1.".self::BAN_REASON.",
     t1.".self::BANNED_BY.",
     t2.".self::LOGIN." AS ADMIN
-FROM 
-    ".$this->table." AS t1 
+FROM
+    ".$this->table." AS t1
     LEFT JOIN ".$this->table." AS t2 ON t2.".User::USER_ID."=t1.".User::BANNED_BY."
 WHERE
     ##CONDITION##";
@@ -650,7 +650,7 @@ WHERE
 
     function CloseSessionExpression() {
         return "UPDATE ".$this->table."
-SET 
+SET
     ".self::ROOM_ID."=NULL,
     ".self::SESSION."=\"\"
 WHERE ##CONDITION##";

@@ -26,10 +26,10 @@
 		$expression = $message->ReadExpression();
 		$expression = str_replace("FROM", ",t6.".Settings::FONT_COLOR." FROM", $expression);
 		$expression = str_replace(
-			"WHERE", 
+			"WHERE",
 			"LEFT JOIN ".Settings::table." AS t6
 	ON t6.".Settings::USER_ID."=t1.".Message::USER_ID."
-WHERE", 
+WHERE",
 			$expression);
 
 		$q = $message->GetRange($from, $amount, $condition." ORDER BY t1.".Message::DATE." DESC", $expression);
@@ -57,7 +57,7 @@ WHERE",
 	$select = str_replace("##CONDITION##", $roomsCondition ? $roomsCondition : "1=1", $select);
 
 	$q = $room->GetByCondition(
-		"t1.".Room::ROOM_ID." IN (".$select.")", 
+		"t1.".Room::ROOM_ID." IN (".$select.")",
 		$room->ListRoomsExpression());
 	echo "this.Rooms=[";
 	for ($i = 0; $i < $q->NumRows(); $i++) {
