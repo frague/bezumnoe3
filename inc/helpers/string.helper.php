@@ -54,7 +54,9 @@
     }
 
     function Nullable($value) {
-        return $value ? "'".SqlQuote($value)."'" : "NULL";
+        return $value ? (
+            substr($value, -1) == ")" ? SqlQuote($value) : "'".SqlQuote($value)."'"
+            ) : "NULL";
     }
 
     function NullableId($value) {
@@ -77,9 +79,6 @@
     }
 
     function SqlQuote($source) {
-    //  echo "<div>".$source."</div>";
-    //  $source = str_replace("\\", "\\\\", $source);
-    //  $source = str_replace("'", "\\'", $source);
         return mysql_real_escape_string($source);
     }
 
