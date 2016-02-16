@@ -9,8 +9,6 @@
     require $root."inc/ui_parts/templates.php";
     require $root."inc/ui_parts/news.php";
 
-    #require_once $root."references.php";
-
 ?><!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -36,18 +34,13 @@
     <meta name="Address" content="Saratov, Russia">
     <meta name="home_url" content="http://bezumnoe.ru/">
     <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-    <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/template_layout.css" />
-    <link rel="stylesheet" href="/css/default3.css" />
-    <link rel="stylesheet" href="/css/lettering.css" />
-<!--[if IE]>    <link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/styles-601a4a8b52.css">
+    <link rel="stylesheet" href="/css/vendor-8e12157da5.css">
+    <!-- endinject -->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-    <script src="/js1/jquery/jquery.js"></script>
-    <script src="/js1/jquery/jquery-ui.js"></script>
-    <script src="/js1/jquery/jquery.lettering-0.6.1.min.js"></script>
-    <script src="/js1/common.js"></script>
 </head>
 
 <body>
@@ -199,5 +192,9 @@
 
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
+    <!-- inject:js -->
+    <script src="/scripts/scripts-cb9a007ffd.js"></script>
+    <script src="/scripts/vendor-6a65759443.js"></script>
+    <!-- endinject -->
 </body>
 </html>
