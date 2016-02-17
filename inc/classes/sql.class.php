@@ -26,7 +26,7 @@ class Query {
             $DB = $this->DB_stored;
         }
 
-        $this->Q=@mysql_query($query, $DB);
+        $this->Q = $DB->query($query);
 
         if ($this->Debugging) {
             error("Query: <strong>".$query."</strong>");
@@ -44,7 +44,7 @@ class Query {
             error("Не определены результаты запроса!");
             return false;
         }
-        return @mysql_numrows($this->Q);
+        return $this->Q->num_rows;
     }
 
     function Seek($row = 0) {
@@ -53,7 +53,7 @@ class Query {
             return false;
         }
 
-        mysql_data_seek ($this->Q, $row);
+        $this->Q->data_seek($row);
         $this->RecordIndex = $row;
     }
 
@@ -63,10 +63,10 @@ class Query {
             return false;
         }
 
-        $this->Record = @mysql_fetch_array($this->Q);
+        $this->Record = $this->Q->fetch_array();
         $this->RecordIndex++;
         if ($this->RecordIndex - 1 >= $this->NumRows() || !$this->NumRows()) {
-            @mysql_data_seek ($this->Q, 0);
+            $this->Seek(0);
             return false;
         } else {
             return true;
@@ -88,11 +88,11 @@ class Query {
     }
 
     function GetLastId() {
-        return @mysql_insert_id($this->DB_stored);
+        return $this->DB_stored->insert_id;
     }
 
     function AffectedRows() {
-        return @mysql_affected_rows($this->DB_stored);
+        return $this->DB_stored->affected_rows;
     }
 
     function Release() {
@@ -100,7 +100,7 @@ class Query {
             error("Не определены результаты запроса!");
             return false;
         }
-        return @mysql_free_result($this->Q);
+        return $this->Q->free();
     }
 }
 
@@ -118,28 +118,22 @@ class SQL {
     var $Connected=0;
 
     var $Errors=array();
-    var $ErrorsIndex=0;
+    var $ErrorsIndex = 0;
 
 
-    function SQL($db_name,$host="",$user,$pass) {
+    function SQL($db_name, $host = "", $user, $pass) {
         $this->DB_name=$db_name;
         $this->Host=$host;
         $this->User=$user;
         $this->UserPassword=$pass;
 
-        $this->DB = @mysql_connect($this->Host, $this->User, $this->UserPassword);
-        if (!$this->DB) {
-            error("Ошибка подключения к MySQL серверу!");
+        $this->DB = new mysqli($this->Host, $this->User, $this->UserPassword, $this->DB_name);
+        if ($this->DB->connect_errno) {
+            error("Ошибка подключения к MySQL серверу ".$this->Host." as ".$this->User.": ".$this->DB->connect_error);
         }
 
-        @mysql_query("set names utf8", $this->DB);
-
-
-        if (@mysql_select_db($this->DB_name, $this->DB)) {
-            $this->Connected=1;
-        } else {
-            error("Невозможно выбрать базу данных <b>$db_name</b>!");
-        }
+        $this->DB->query("set names utf8");
+        $this->Connected = 1;
     }
 
 

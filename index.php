@@ -35,8 +35,9 @@
     <meta name="home_url" content="http://bezumnoe.ru/">
     <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/css/styles-601a4a8b52.css">
     <link rel="stylesheet" href="/css/vendor-8e12157da5.css">
+    <link rel="stylesheet" href="/css/styles-055a3aad16.css">
+    <link rel="stylesheet" href="/css/styles-6b8084382d.css">
     <!-- endinject -->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
@@ -49,25 +50,25 @@
             <div class="Main">
                 <div>
                     <div class="Column Left">
-                        <section>
+                        <div class="users_online">
                             <h5>Сейчас в чате</h5>
                             <?php include $root."inc/ui_parts/online_users.php"; ?>
-                        </section>
+                        </div>
 
-                        <section>
+                        <div class="news">
                             <h5>Новости</h5>
                             <?php ShowNews(-1, 3); ?>
-                        </section>
+                        </div>
 
-                        <section>
+                        <div class="birthdays">
                             <h5>Дни рождения</h5>
                             <?php include $root."inc/ui_parts/birthdays.php"; ?>
-                        </section>
+                        </div>
 
-                        <section>
+                        <div class="photos">
                             <h5>Новые лица</h5>
                             <?php include $root."inc/ui_parts/new_photos.php"; ?>
-                        </section>
+                        </div>
                     </div>
 
                     <div class="Column Center Left">
@@ -193,8 +194,8 @@
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:js -->
-    <script src="/scripts/scripts-cb9a007ffd.js"></script>
     <script src="/scripts/vendor-6a65759443.js"></script>
+    <script src="/scripts/custom-be582fad94.js"></script>
     <!-- endinject -->
 </body>
 </html>

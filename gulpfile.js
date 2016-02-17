@@ -39,8 +39,8 @@ gulp.task('styles:watch', function () {
     ]);
 });
 
-gulp.task('styles', function () {
-    return runSequence('styles:vendor', 'styles:sass', callback);
+gulp.task('styles', function (callback) {
+    runSequence(['styles:vendor', 'styles:sass'])(callback);
 });
 
 gulp.task('scripts:vendor', function () {
@@ -60,40 +60,33 @@ gulp.task('scripts:vendor', function () {
 gulp.task('scripts:custom',  function () {
     return gulp.src(['js/*.js', 'js1/*.js'])
     //        .pipe(uglify())
-        .pipe(concat('scripts.js'))
+        .pipe(concat('custom.js'))
         .pipe(rev())
         .pipe(gulp.dest('scripts'));
 });
 
-gulp.task('scripts', function () {
-    return runSequence('scripts:vendor', 'scripts:custom', callback);
+gulp.task('scripts', function (callback) {
+    runSequence(['scripts:vendor', 'scripts:custom'])(callback);
 });
 
 gulp.task('cleanup', function () {
     return del(['scripts/**/*', 'css/styles-*.css']);
 });
 
-gulp.task('inject', function () {
+gulp.task('inject', ['scripts', 'styles'], function () {
     return gulp.src([
         'index.php'
     ])
         .pipe(inject(gulp.src([
-            'css/styles-*.css',
             'css/vendor-*.css',
-            'scripts/**/*'
+            'css/styles-*.css',
+            'scripts/vendor-*.js',
+            'scripts/custom-*.js'
         ])))
         .pipe(gulp.dest('.'));;
 });
 
-gulp.task('build', function () {
-    return runSequence(
-//        'cleanup',
-        'scripts',
-        'styles',
-        'inject',
-        callback
-    )
-});
+gulp.task('build', runSequence('cleanup', ['scripts', 'styles'], 'inject'));
 
 gulp.task('bower', function () {
     return runSequence(

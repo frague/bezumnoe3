@@ -8,7 +8,7 @@ body, td, input, textarea, select, password {
     font-size:10pt;
 }
 
-input[type="text"], 
+input[type="text"],
 input[type="password"] {
     padding: 4px;
 }
@@ -422,28 +422,28 @@ ul.random > li {
     list-style-image: url(/img/li/1.gif);
 }
 
-ul.random > li:nth-child(1), 
-ul.random > li:nth-child(4), 
-ul.random > li:nth-child(8), 
-ul.random > li:nth-child(13), 
+ul.random > li:nth-child(1),
+ul.random > li:nth-child(4),
+ul.random > li:nth-child(8),
+ul.random > li:nth-child(13),
 ul.random > li:nth-child(17),
 ul.random > li:nth-child(24) {
     list-style-image: url(/img/li/2.gif);
 }
 
-ul.random > li:nth-child(2), 
-ul.random > li:nth-child(6), 
-ul.random > li:nth-child(10), 
-ul.random > li:nth-child(14), 
+ul.random > li:nth-child(2),
+ul.random > li:nth-child(6),
+ul.random > li:nth-child(10),
+ul.random > li:nth-child(14),
 ul.random > li:nth-child(19),
 ul.random > li:nth-child(21) {
     list-style-image: url(/img/li/3.gif);
 }
 
-ul.random > li:nth-child(3), 
-ul.random > li:nth-child(5), 
-ul.random > li:nth-child(11), 
-ul.random > li:nth-child(16), 
+ul.random > li:nth-child(3),
+ul.random > li:nth-child(5),
+ul.random > li:nth-child(11),
+ul.random > li:nth-child(16),
 ul.random > li:nth-child(20),
 ul.random > li:nth-child(22) {
     list-style-image: url(/img/li/4.gif);
