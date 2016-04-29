@@ -1,12 +1,10 @@
-var UsersDiv = $("#UsersContainer")[0],
-    Topic = $("#TopicContainer")[0],
-    Messages = $("#MessagesContainer")[0],
-    Status = $("#Status")[0],
-    Recepients = $("#RecepientsContainer")[0],
-    PongImg = $("#pong")[0],
-    pongImage = new Image();
-
-pongImage.src = imagesPath + 'pong.gif';
+var UsersDiv = $("#UsersContainer")[0];
+var Topic = $("#TopicContainer")[0];
+var Messages = $("#MessagesContainer")[0];
+var Status = $("#Status")[0];
+var Recepients = $("#RecepientsContainer")[0];
+var PongImg = $("#pong")[0];
+var pongImage = new Image(); pongImage.src = imagesPath + 'pong.gif';
 
 var textField = $("#Message")[0];
 var historyContainer = $("#History")[0];

@@ -278,7 +278,7 @@
 	if ($showMessages) {
 
 		/* Retrieving messages */
-		$messages = "";
+		$messages = array();
 		$message = new Message();
 		$basicCondition = "(
 	(t1.".Message::ROOM_ID."=".SqlQuote($user->User->RoomId)." AND
@@ -303,6 +303,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 			$message->ReadWithIgnoresExpression($user->User->Id)
 		);
 
+		$lastDate = "";
 		if ($q !== false) {
 			for ($i = 0; $i < $q->NumRows(); $i++) {
 				$q->NextResult();
@@ -320,7 +321,12 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 				}
 				$text = $message->ToPrint($displayedName, $user->User->Id);
 				$text = OuterLinks(MakeLinks($text, true));
-				$messages = "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".JsQuote($toUser)."');".$messages;
+
+				$messageDate = date("Y, n-1, j", strtotime($message->Date));
+				if ($lastDate && $messageDate != $lastDate) array_unshift($messages, "AM('<p class=\"NewDay\"><span>' + (new Date(".$messageDate.")).ToPrintableString() + '</span></p>', 0, 0, '')");
+				$lastDate = $messageDate;
+
+				array_unshift($messages, "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".JsQuote($toUser)."')");
 			}
 			$q->Release();
 		}
@@ -332,7 +338,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	/*--------------- /Messages ---------------*/
 
 	/* Final output */
-	$s = $prefix.$s.$messages;
+	$s = $prefix.$s.join(";", $messages);
 	if ($s) {
 		echo $s;
 	}
@@ -344,7 +350,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	destroy($wakeup);
 	destroy($message);
 	destroy($ignore);
-	destroy($message);
+	destroy($messages);
 
 //	echo "/* Mem: ".number_format(memory_get_usage())." */";
 ?>
