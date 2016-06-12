@@ -3,3 +3,4 @@ node_modules/
 scripts/*
 css/styles-*.css
 css/vendor-*.css
+inc/settings.php
