@@ -80,7 +80,7 @@
 <?php 
             $this->PrintArray($this->css, "     ");
             $this->PrintArray($this->scripts, "     "); 
-            include "google_analythics.php";
+            // include "google_analythics.php";
 
             if (sizeof($this->buttons)) {
                 require_once $root."inc/helpers/like_buttons.helper.php";
@@ -128,14 +128,14 @@
 
         include "footer.php";
         include $root."/inc/li_spider_check.inc.php";
-        include $root."/inc/ui_parts/yandex_metrics.php";
+        #include $root."/inc/ui_parts/yandex_metrics.php";
 
 ?>
             </footer>
         </div>
 <?php
 
-    include $root."inc/ui_parts/li.php";
+    // include $root."inc/ui_parts/li.php";
 
 ?>
     </body>

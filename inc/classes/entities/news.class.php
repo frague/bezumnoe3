@@ -1,4 +1,4 @@
-<?
+<?php
 
 class News extends EntityBase {
     // Constants

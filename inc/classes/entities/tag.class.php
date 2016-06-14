@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Tag extends EntityBase {
     // Constants

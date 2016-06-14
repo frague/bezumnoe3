@@ -1,4 +1,4 @@
-<?
+<?php
 
     function SaveRating($id, $rating) {
         $rating = new Rating($id, $rating);

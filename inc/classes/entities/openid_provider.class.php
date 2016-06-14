@@ -1,4 +1,4 @@
-<?
+<?php
 
 class OpenIdProvider extends EntityBase {
     // Constants

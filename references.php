@@ -1,4 +1,4 @@
-<?
+<?php
     require_once "server_references.php";
 
 ?>

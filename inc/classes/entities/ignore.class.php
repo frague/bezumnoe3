@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Ignore extends EntityBase {
     // Constants
@@ -41,7 +41,7 @@ class Ignore extends EntityBase {
         return $this->GetByCondition("t2.".User::ROOM_ID."<>-1", $this->ReadForOnlineUsersExpression($user_id));
     }
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull() && $this->UserId != $this->IgnorantId) {
             // Check duplicates

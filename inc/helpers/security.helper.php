@@ -1,4 +1,4 @@
-<?
+<?php
 
     define("LOGIN_KEY", "login");
     define("PASSWORD_KEY", "password");

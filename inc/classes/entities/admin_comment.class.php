@@ -1,4 +1,4 @@
-<?
+<?php
 
 class AdminComment extends EntityBase {
     // Constants

@@ -7,7 +7,6 @@
   "devDependencies": {
     "bower": "^1.4.1",
     "del": "^2.2.0",
-    "gulp": "^3.9.0",
     "gulp-bower": "0.0.13",
     "gulp-concat": "^2.6.0",
     "gulp-inject": "^3.0.0",

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class JournalRecord extends ForumRecordBase {
 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class UserOpenId extends EntityBase {
     // Constants

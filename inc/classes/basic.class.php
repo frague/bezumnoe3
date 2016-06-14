@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Basic {
     var $Errors = array();

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class GalleryPhoto extends JournalRecord {
 

@@ -1,4 +1,4 @@
-<?
+<?php
 require_once "basic.class.php";
 
 class Calendar extends Basic {

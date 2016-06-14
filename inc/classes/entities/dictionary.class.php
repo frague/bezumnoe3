@@ -1,4 +1,4 @@
-<?
+<?php
 
 abstract class DictionaryItem extends EntityBase {
     const RANDOM_INDEX = "RANDOM_INDEX";

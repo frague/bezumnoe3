@@ -1,4 +1,4 @@
-<?
+<?php
 
 class ForumUser extends EntityBase {
     // Constants
@@ -74,7 +74,7 @@ JsQuote($this->Login)."\",".
 JsQuote($this->Access).")";
     }
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicates

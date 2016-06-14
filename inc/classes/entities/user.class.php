@@ -1,4 +1,4 @@
-<?
+<?php
 
 class User extends EntityBase {
     // Constants

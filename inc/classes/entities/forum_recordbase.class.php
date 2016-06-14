@@ -1,4 +1,4 @@
-<?
+<?php
 
 class ForumRecordBase extends EntityBase {
     // Constants

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Nickname extends EntityBase {
 	// Constants
@@ -74,7 +74,7 @@ class Nickname extends EntityBase {
 		return $this->GetByCondition("t1.".self::USER_ID."=".SqlQuote($userId)." ORDER BY t1.".self::NICKNAME_ID." ASC");
 	}
 
-	function Save() {
+	function Save($by_query = "") {
 	 global $db;
 		if ($this->IsConnected()) {
 			// Check duplicates

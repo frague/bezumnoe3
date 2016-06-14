@@ -1,4 +1,4 @@
-<?
+<?php
 
 class NewsRecord extends EntityBase {
     // Constants

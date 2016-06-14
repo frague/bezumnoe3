@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Rating extends EntityBase {
     // Constants

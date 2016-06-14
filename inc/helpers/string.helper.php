@@ -1,4 +1,4 @@
-<?
+<?php
 
     define(allowedTags, "<strike><pre><br><object><param><a><b><em><u><body><blockquote><center><div><font><h1><h2><h3><h4><h5><h6><head><html><hr><i><img><li><meta><ol><p><span><strong><style><table><tr><td><th><colgroup><col><ul><sub><sup>");
 
@@ -82,10 +82,8 @@
     }
 
     function SqlQuote($source) {
-    //  echo "<div>".$source."</div>";
-    //  $source = str_replace("\\", "\\\\", $source);
-    //  $source = str_replace("'", "\\'", $source);
-        return mysql_real_escape_string($source);
+        global $connection;
+        return mysqli_real_escape_string($connection, $source);
     }
 
     function SqlFnQuote($source) {
@@ -266,7 +264,7 @@
     }
 
     function MakeSqlSearchRequest($request, $template) {
-        $words = split(" ", ValidateSearchRequest($request));
+        $words = explode(" ", ValidateSearchRequest($request));
         $result = "";
         for ($i = 0; $i < sizeof($words); $i++) {
             if ($i == 1) {
@@ -292,7 +290,7 @@
         $lastLevel = 0;
         $text = str_replace("\r", "", $text);
 
-        $lines = split("\n", $text);
+        $lines = explode("\n", $text);
         for ($i = 0; $i < sizeof($lines); $i++) {
             $line = $lines[$i];
             if (preg_match("/^((&gt;|>)+)/", $line, $matches)) {
@@ -329,7 +327,7 @@
         $variants = $counting[$word];
         $result = $word;
         if ($variants) {
-            list($two, $many) = split("\|", $variants);
+            list($two, $many) = explode("\|", $variants);
             $lastDigit = round(substr($amount, -1));
             $last2Digits = round(substr($amount, -2));
 
@@ -344,7 +342,7 @@
         if (!$text || !$pattern) {
             return "";
         }
-        $words = split("[   ]", $text);
+        $words = explode("[   ]", $text);
         $result = "";
         for ($i = 0; $i < sizeof($words); $i++) {
             $word = $words[$i];

@@ -1,4 +1,4 @@
-<?
+<?php
 class Bans {
     const BAN_CHAT = "BAN_CHAT";
     const BAN_FORUM = "BAN_FORUM";

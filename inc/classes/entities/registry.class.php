@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Registry extends EntityBase implements ArrayAccess {
     // Constants

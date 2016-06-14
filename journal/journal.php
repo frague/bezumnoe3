@@ -23,6 +23,7 @@
         // ... by record
         $record->GetById($record_id);
         if ($record->IsEmpty()) {
+            error_log("1: ".$record_id, 1);
             DieWith404();
         }
         $forumId = $record->ForumId;
@@ -36,11 +37,13 @@
 
     // Record belongs to another person's journal
     if ($alias && $settings->Alias != $alias) {
+        error_log("2: ".$settings->Alias." - ".$alias, 1);
         DieWith404();
     }
 
     // Setting for journal not found
     if ($settings->IsEmpty()) {
+        error_log("3: ", 1);
         DieWith404();
     }
 
@@ -48,6 +51,7 @@
     $journal = new Journal($settings->ForumId);
     $journal->Retrieve();
     if (!$journal->IsFull()) {
+        error_log("4", 1);
         DieWith404();
     }
     $forumId = $journal->Id;

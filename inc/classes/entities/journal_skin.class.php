@@ -1,4 +1,4 @@
-<?
+<?php
 
 class JournalSkin extends EntityBase {
 	// Constants

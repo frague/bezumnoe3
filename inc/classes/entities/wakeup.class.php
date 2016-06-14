@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Wakeup extends EntityBase {
     // Constants

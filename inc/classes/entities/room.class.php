@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Room extends EntityBase {
 	// Constants

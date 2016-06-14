@@ -3,7 +3,7 @@
     $root = "./";
     require_once $root."server_references.php";
 
-    $user = GetAuthorizedUser(true);
+    $user = GetAuthorizedUser(true, false);
     SetUserSessionCookie($user->User);
 
     require $root."inc/ui_parts/templates.php";
@@ -37,7 +37,6 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/vendor-8e12157da5.css">
     <link rel="stylesheet" href="/css/styles-055a3aad16.css">
-    <link rel="stylesheet" href="/css/styles-6b8084382d.css">
     <!-- endinject -->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
@@ -127,7 +126,7 @@
                         <form method="POST" class="auth_form">
                             <input type="hidden" name="AUTH" id="AUTH" value="1" />
                             <label for="<?php echo LOGIN_KEY ?>">Логин</label>
-                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" value="<? echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
+                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo  echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
                             <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
                             <input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password" placeholder="Пароль" />
                             <input src="/img/t/auth.gif" width="90" height="30" alt="Авторизоваться в чате" type="image" />
@@ -194,8 +193,8 @@
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:js -->
-    <script src="/scripts/vendor-6a65759443.js"></script>
-    <script src="/scripts/custom-be582fad94.js"></script>
+    <script src="/scripts/vendor-1ce5636458.js"></script>
+    <script src="/scripts/custom-b315ec8f7f.js"></script>
     <!-- endinject -->
 </body>
 </html>

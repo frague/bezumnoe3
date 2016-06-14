@@ -1,4 +1,4 @@
-<?
+<?php
 
 class JournalForbiddenCommenter extends EntityBase {
 	// Constants

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Message extends EntityBase {
     // Constants

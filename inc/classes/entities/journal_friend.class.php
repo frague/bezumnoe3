@@ -1,4 +1,4 @@
-<?
+<?php
 
 class JournalFriend extends EntityBase {
     // Constants

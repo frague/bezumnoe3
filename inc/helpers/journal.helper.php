@@ -1,4 +1,4 @@
-<?
+<?php
 
     // Constants
     $messageChunk = "##MESSAGE##";
@@ -220,7 +220,7 @@
 
         $position = strpos($bodyText, $messageChunk);
         if ($position === 0) {
-            break;
+            return;
         } else {
             $bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
         }

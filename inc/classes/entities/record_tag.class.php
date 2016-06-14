@@ -1,4 +1,4 @@
-<?
+<?php
 
 class RecordTag extends EntityBase {
     // Constants

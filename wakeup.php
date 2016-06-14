@@ -7,7 +7,7 @@
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <script src="/js/scripts.js"></script>
-        <?
+        <?php
 
     $root = "./";
     require_once $root."server_references.php";
@@ -29,17 +29,17 @@
     </head>
 
     <body>
-            <?
+            <?php
 
             if ($user->IsEmpty()) {
                 ?>
             <div class="Error">Пользователь не авторизован!</div>
-            <?
+            <?php
             } else {
                 if ($wakeup->IsEmpty()) {
                 ?>
             <div class="Error">Сообщение не найдено!</div>
-                <?
+                <?php
                 } else {
                 ?>
             <h1>Сообщение от <? echo $wakeup->FromUserName; ?></h1>
@@ -63,7 +63,7 @@
                 </form>
             </div>
             <script>initLayout(pages.wakeup)</script>
-                <?
+                <?php
                 }
             }
 

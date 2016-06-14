@@ -1,4 +1,4 @@
-<?
+<?php
 
 class GalleryComment extends JournalComment {
 

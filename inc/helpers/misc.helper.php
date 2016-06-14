@@ -1,4 +1,4 @@
-<?
+<?php
 
     function Upload($file, $path) {
         if (!is_uploaded_file($file['tmp_name'])) {

@@ -1,4 +1,4 @@
-<?
+<?php
 
 class ForumRecord extends ForumRecordBase {
 
