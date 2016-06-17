@@ -2,96 +2,97 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var runSequence = require('gulp-sequence');
-var bower = require('gulp-bower');
 var sass = require('gulp-sass');
 var rev = require('gulp-rev');
 var del = require('del');
 var inject = require('gulp-inject');
-
+var babel = require('gulp-babel');
+ 
 function callback(error) {
-    if (error) console.error('Error:', error);
+  if (error) console.error('Error:', error);
 };
 
-gulp.task('fetch', bower);
-
 gulp.task('styles:sass', function () {
-    return gulp.src('sass/*.sass')
-        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-        .pipe(concat('styles.css'))
-        .pipe(rev())
-        .pipe(gulp.dest('css'));
+  return gulp.src('sass/*.sass')
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(concat('styles.css'))
+    .pipe(rev())
+    .pipe(gulp.dest('server/static/styles'));
 });
 
 gulp.task('styles:vendor', function () {
-    return gulp
-        .src([
-            'bower_components/font-awesome/css/font-awesome.css'
-        ])
-        .pipe(concat('vendor.css'))
-        .pipe(rev())
-        .pipe(gulp.dest('css'));
+  return gulp
+    .src([
+      'bower_components/font-awesome/css/font-awesome.css'
+    ])
+    .pipe(concat('vendor.css'))
+    .pipe(rev())
+    .pipe(gulp.dest('server/static/styles'));
 });
 
 gulp.task('styles:watch', function () {
-    gulp.watch('./sass/*.sass', [
-        'styles:sass',
-        'inject'
-    ]);
+  gulp.watch('./sass/*.sass', [
+    'styles:sass',
+    'inject'
+  ]);
 });
 
 gulp.task('styles', function (callback) {
-    runSequence(['styles:vendor', 'styles:sass'])(callback);
+  runSequence(['styles:vendor', 'styles:sass'])(callback);
 });
 
 gulp.task('scripts:vendor', function () {
-    return gulp.src([
-            'bower_components/jquery/dist/jquery.js',
-            'bower_components/jquery-ui/jquery-ui.js',
-            'bower_components/jquery-fittext.js/jquery.fittext.js',
-            'bower_components/letteringjs/jquery.lettering.js',
-            'bower_components/lodash/lodash.js'
-        ])
-        .pipe(uglify())
-        .pipe(concat('vendor.js'))
-        .pipe(rev())
-        .pipe(gulp.dest('scripts'));
+  return gulp.src([
+      'node_modules/jquery/dist/jquery.js',
+      'node_modules/jquery-ui/jquery-ui.js',
+      'node_modules/jquery-fittext.js/jquery.fittext.js',
+      'node_modules/letteringjs/jquery.lettering.js',
+      'node_modules/lodash/lodash.js'
+    ])
+    .pipe(uglify())
+    .pipe(concat('vendor.js'))
+    .pipe(rev())
+    .pipe(gulp.dest('server/static/scripts'));
 });
 
 gulp.task('scripts:custom',  function () {
-    return gulp.src(['js/*.js', 'js1/*.js'])
-    //        .pipe(uglify())
-        .pipe(concat('custom.js'))
-        .pipe(rev())
-        .pipe(gulp.dest('scripts'));
+  return gulp.src(['js/*.js', 'js1/*.js'])
+  //  .pipe(uglify())
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(concat('custom.js'))
+    .pipe(rev())
+    .pipe(gulp.dest('server/static/scripts'));
 });
 
 gulp.task('scripts', function (callback) {
-    runSequence(['scripts:vendor', 'scripts:custom'])(callback);
+  runSequence(['scripts:vendor', 'scripts:custom'])(callback);
 });
 
 gulp.task('cleanup', function () {
-    return del(['scripts/**/*', 'css/styles-*.css']);
+  return del(['scripts/**/*', 'css/styles-*.css']);
 });
 
 gulp.task('inject', ['scripts', 'styles'], function () {
-    return gulp.src([
-        'index.php'
-    ])
-        .pipe(inject(gulp.src([
-            'css/vendor-*.css',
-            'css/styles-*.css',
-            'scripts/vendor-*.js',
-            'scripts/custom-*.js'
-        ])))
-        .pipe(gulp.dest('.'));;
+  return gulp.src([
+    'index.php'
+  ])
+    .pipe(inject(gulp.src([
+      '/styles/vendor-*.css',
+      '/styles/styles-*.css',
+      '/scripts/vendor-*.js',
+      '/scripts/custom-*.js'
+    ])))
+    .pipe(gulp.dest('.'));;
 });
 
 gulp.task('build', runSequence('cleanup', ['scripts', 'styles'], 'inject'));
 
 gulp.task('bower', function () {
-    return runSequence(
-        'fetch',
-        'scripts',
-        callback
-    );
+  return runSequence(
+    'fetch',
+    'scripts',
+    callback
+  );
 });
