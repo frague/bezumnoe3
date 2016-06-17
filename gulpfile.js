@@ -71,28 +71,22 @@ gulp.task('scripts', function (callback) {
 });
 
 gulp.task('cleanup', function () {
-  return del(['scripts/**/*', 'css/styles-*.css']);
+  return del(['server/static/scripts/**/*', 'server/static/styles-*.css']);
 });
 
-gulp.task('inject', ['scripts', 'styles'], function () {
+// gulp.task('inject', ['scripts', 'styles'], function () {
+gulp.task('inject', [], function () {
   return gulp.src([
-    'index.php'
+    'server/views/layout.jade'
   ])
     .pipe(inject(gulp.src([
-      '/styles/vendor-*.css',
-      '/styles/styles-*.css',
-      '/scripts/vendor-*.js',
-      '/scripts/custom-*.js'
-    ])))
-    .pipe(gulp.dest('.'));;
+        'server/static/styles/vendor-*.css',
+        'server/static/styles/styles-*.css',
+        'server/static/scripts/vendor-*.js',
+        'server/static/scripts/custom-*.js'
+      ]))
+    )
+    .pipe(gulp.dest('./server/views'));;
 });
 
 gulp.task('build', runSequence('cleanup', ['scripts', 'styles'], 'inject'));
-
-gulp.task('bower', function () {
-  return runSequence(
-    'fetch',
-    'scripts',
-    callback
-  );
-});
