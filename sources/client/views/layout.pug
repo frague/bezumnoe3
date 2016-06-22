@@ -1,0 +1,18 @@
+doctype 5
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width')
+    title= title
+    block css
+      //- inject:css
+      //- endinject
+    block favicon
+      link(rel='shortcut icon', href='/images/favicon.ico')
+  body
+    block content
+    block js
+      //- inject:js 
+      //- endinject 
+
+

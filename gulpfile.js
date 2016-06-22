@@ -23,7 +23,7 @@ gulp.task('styles:sass', function () {
 gulp.task('styles:vendor', function () {
   return gulp
     .src([
-      'bower_components/font-awesome/css/font-awesome.css'
+      'node_modules/font-awesome/css/font-awesome.css'
     ])
     .pipe(concat('vendor.css'))
     .pipe(rev())
@@ -55,8 +55,8 @@ gulp.task('scripts:vendor', function () {
     .pipe(gulp.dest('server/static/scripts'));
 });
 
-gulp.task('scripts:custom',  function () {
-  return gulp.src(['js/*.js', 'js1/*.js'])
+gulp.task('scripts:custom', function () {
+  return gulp.src(['sources/client/js/*.js', 'sources/client/js1/*.js'])
   //  .pipe(uglify())
     .pipe(babel({
       presets: ['es2015']
@@ -66,12 +66,47 @@ gulp.task('scripts:custom',  function () {
     .pipe(gulp.dest('server/static/scripts'));
 });
 
+gulp.task('scripts:server', function () {
+  return gulp.src(['sources/server/**/*.js'])
+  //  .pipe(uglify())
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(gulp.dest('server'));
+});
+
 gulp.task('scripts', function (callback) {
-  runSequence(['scripts:vendor', 'scripts:custom'])(callback);
+  runSequence(['scripts:vendor', 'scripts:custom', 'scripts:server'])(callback);
 });
 
 gulp.task('cleanup', function () {
-  return del(['server/static/scripts/**/*', 'server/static/styles-*.css']);
+  return del([
+    'server/static/scripts/**/*', 
+    'server/static/styles/**/*',
+    'server/*.*',
+    'server/static/images/**/*'
+  ]);
+});
+
+gulp.task('copy:client', function () {
+  return gulp.src([
+    'sources/client/**/*(images|fonts|views)/**/*'
+  ])
+    .pipe(gulp.dest('server/static'));
+});
+
+gulp.task('copy:fonts', function () {
+  return gulp.src(['node_modules/font-awesome/fonts/*'])
+    .pipe(gulp.dest('sources/client/fonts'));
+});
+
+gulp.task('copy:server', function () {
+  return gulp.src(['sources/server/**/!*.js'])
+    .pipe(gulp.dest('server'));
+});
+
+gulp.task('copy', function (callback) {
+  runSequence(['copy:client', 'copy:fonts', 'copy:server'])(callback);
 });
 
 // gulp.task('inject', ['scripts', 'styles'], function () {
@@ -89,4 +124,4 @@ gulp.task('inject', [], function () {
     .pipe(gulp.dest('./server/views'));;
 });
 
-gulp.task('build', runSequence('cleanup', ['scripts', 'styles'], 'inject'));
+gulp.task('build', runSequence('cleanup', 'copy', ['scripts', 'styles'], 'inject'));
