@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  div.main
+    h1 Welcome to #{title}
+    p I'm using generator-express MVC!
+      ul
+        each forum in articles
+          li=forum.TITLE

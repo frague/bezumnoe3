@@ -1,0 +1,21 @@
+doctype 5
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width')
+    title= title
+    block css
+      //- inject:css
+      link(rel="stylesheet", href="/server/static/styles/styles-055a3aad16.css")
+      //- endinject
+    block favicon
+      link(rel='shortcut icon', href='/images/favicon.ico')
+  body
+    block content
+    block js
+      //- inject:js 
+      script(src="/server/static/scripts/vendor-de137a38a1.js") 
+      script(src="/server/static/scripts/custom-23c080795b.js") 
+      //- endinject 
+
+

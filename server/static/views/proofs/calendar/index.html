@@ -1,0 +1,192 @@
+<html>
+<style>
+	table.Calendar {
+		border: solid 1px #E0E0E0;
+		border-right:none;
+		border-bottom:none;
+		border-spacing:0;
+	}
+	.Calendar td, .Calendar th {
+		border: solid 1px #E0E0E0;
+		border-left:none;
+		border-top:none;
+		font-family:arial;
+	}
+	.Calendar td {
+		text-align:right;
+		font-size:10pt;
+	}
+	.Calendar th a {
+		font-size:12pt;
+		color:black;
+	}
+
+</style>
+<body>
+		<div id="Cal"></div>
+
+<script>
+	var voidLink = "javascript:void(0)";
+	var dayMsec = 1000 * 60 * 60 * 24;
+	var months = new Array("Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
+
+	function Calendar(holder, date) {
+		this.Holder = holder;
+		this.Date = date ? date : new Date();
+	};
+
+	Calendar.prototype.MakeHeaderLink = function(is_selectable, holder) {
+		if (holder.hasChildNodes()) {
+			holder.removeChild(holder.firstChild);
+		}
+		var result;
+		if (is_selectable) {
+			var select = d.createElement("select");
+			select.Calendar = this;
+			result = select;
+		} else {
+			var a = d.createElement("a");
+			a.href = voidLink;
+			a.Calendar = this;
+			result = a;
+		}
+		holder.appendChild(result);
+		return result;
+	};
+
+	Calendar.prototype.MakeMonth = function(is_selectable) {
+		var el = this.MakeHeaderLink(is_selectable, this.MonthHolder);
+		this.MonthSelect = is_selectable ? el : "";
+		if (is_selectable) {
+			el.onchange = function(){this.Calendar.UpdateMonth()};
+			el.onblur = el.onchange;
+
+			var month = this.Date.getMonth();
+			for (var i = 0, l = months.length; i < l; i++) {
+				var o = d.createElement("option");
+				o.text = months[i];
+				o.value = i;
+				if (i == month) {
+					o.selected = true;
+				}
+				el.options.add(o, i);
+			}
+			el.focus();
+		} else {
+			el.innerHTML = months[this.Date.getMonth()];
+			el.onclick = function(){this.Calendar.MakeMonth(true)}
+		}
+	};
+
+	Calendar.prototype.MakeYear = function(is_selectable) {
+		var el = this.MakeHeaderLink(is_selectable, this.YearHolder);
+		this.YearSelect = is_selectable ? el : "";
+		var year = this.Date.getFullYear();
+
+		if (is_selectable) {
+			el.onchange = function(){this.Calendar.UpdateYear()};
+			el.onblur = el.onchange;
+
+			for (var i = year - 20; i < year + 20; i++) {
+				var o = d.createElement("option");
+				o.text = i;
+				if (i == year) {
+					o.selected = true;
+				}
+				el.options.add(o, i);
+			}
+			el.focus();
+		} else {
+			el.innerHTML = year;
+			el.onclick = function(){this.Calendar.MakeYear(true)}
+		}
+	};
+
+
+	Calendar.prototype.UpdateMonth = function() {
+		if (this.MonthSelect) {
+			this.Date.setMonth(this.MonthSelect.value);
+			this.Print();
+		} else {
+			this.MakeMonth(false);
+		}
+	};
+
+	Calendar.prototype.UpdateYear = function() {
+		if (this.YearSelect) {
+			this.Date.setYear(this.YearSelect.value);
+			this.Print();
+		} else {
+			this.MakeYear(false);
+		}
+	};
+
+	Calendar.prototype.MakeHeader = function() {
+		var tr = d.createElement("tr");
+		var th = d.createElement("th");
+		th.colSpan = 7;
+
+		this.MonthHolder = d.createElement("span");
+		this.MakeMonth(false);
+		th.appendChild(this.MonthHolder);
+
+		th.appendChild(d.createTextNode(", "));
+
+		this.YearHolder = d.createElement("span");
+		this.MakeYear(false);
+		th.appendChild(this.YearHolder);
+
+		tr.appendChild(th);
+		return tr;
+	};
+
+	Calendar.prototype.Print = function() {
+		/* Date calculations */
+		var offset = this.Date.getDay() - 1;
+		if (offset < 0) {
+			offset = 6;
+		}
+		var days = 31;
+		if (this.Date.getMonth() != 11) {
+			var a = new Date(this.Date.getFullYear(), this.Date.getMonth(), 1);	
+			var b = new Date(this.Date.getFullYear(), this.Date.getMonth() + 1, 1);	
+			days = Math.round((b.getTime() - a.getTime()) / dayMsec);
+		}
+
+		var t = d.createElement("table");
+		var tb = d.createElement("tbody");
+		tb.appendChild(this.MakeHeader());
+
+		var i = 0;
+		var day = 1;
+		while (day <= days) {
+			var tr = d.createElement("tr");
+			for (var k = 0; k < 7; k++) {
+				var td = d.createElement("td");
+				if (i > offset && day <= days) {
+					td.innerHTML = day;
+					day++;
+				} else {
+					td.innerHTML = "&nbsp;";
+				}
+				i++;
+				tr.appendChild(td);
+			}
+			tb.appendChild(tr);
+		}
+
+		this.Holder.innerHTML = "";
+		t.appendChild(tb);
+		t.className = "Calendar";
+		this.Holder.appendChild(t);
+
+	};
+	
+	
+	var d = document;
+	var cal = new Calendar(d.getElementById("Cal"));
+	cal.Print();
+</script>
+
+</body>
+</html>

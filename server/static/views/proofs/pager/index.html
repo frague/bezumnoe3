@@ -1,0 +1,97 @@
+<html>
+<body>
+	<style>
+		.Pager {
+			width:300px;
+			margin:0 auto;
+			padding:10px;
+			border:dashed 1px red;
+			text-align:center;
+			font: 10pt 'Arial';
+		}
+
+		.Pager a, .Pager span {
+			padding:2px;
+			margin: 0 2px 0 2px;
+		}
+
+		.Pager span {
+			background-color:#A9CBFF;
+		}
+	</style>
+
+	<div id="Pager"></div>
+	<script>
+		var d = document;
+		var holder = d.getElementById("Pager");
+		
+		function Pager(holder, total, current) {
+			this.Holder = holder;
+			this.Total = total;
+			this.Current = current;
+
+			this.VisiblePages = 10;
+			this.Holder.className += " Pager";
+		};
+
+		Pager.prototype.AddLink = function(i, prefix, postfix) {
+			if (prefix) {
+				this.Holder.appendChild(d.createTextNode(prefix));
+			}
+
+			var page;
+			if (i == this.Current) {
+				page = d.createElement("span");
+			} else {
+				page = d.createElement("a");
+				page.href = "javascript:void(0)";
+				page.Pager = this;
+				page.onclick = function(){this.Pager.SwitchTo(this)};
+			}
+			page.innerHTML = i + 1;
+			this.Holder.appendChild(page);
+
+			if (postfix) {
+				this.Holder.appendChild(d.createTextNode(postfix));
+			}
+		};
+
+		Pager.prototype.Print = function() {
+			this.Holder.innerHTML = "";
+			var from = this.Current - Math.floor(this.VisiblePages / 2);
+			if (from < 0 ) {
+				from = 0;
+			}
+			var till = from + this.VisiblePages;
+			if (till > this.Total) {
+				from = this.Total - this.VisiblePages;
+				till = this.Total;
+				if (from < 0 ) {
+					from = 0;
+				}
+			}
+
+			if (from > 0) {
+				this.AddLink(0, "", "..");
+			}
+
+			for (var i = from; i < till; i++) {
+				this.AddLink(i);
+			}
+			
+			if (till < this.Total) {
+				this.AddLink(this.Total - 1, "..");
+			}
+		};
+
+		Pager.prototype.SwitchTo = function(a) {
+			this.Current = (1 * a.innerHTML) - 1;
+			this.Print();
+		};
+
+		var pager = new Pager(holder, 100, 4);
+		pager.Print();
+
+	</script>
+</body>
+</html>

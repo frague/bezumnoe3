@@ -83,8 +83,9 @@ gulp.task('cleanup', function () {
   return del([
     'server/static/scripts/**/*', 
     'server/static/styles/**/*',
-    'server/*.*',
-    'server/static/images/**/*'
+    'server/static/images/**/*',
+    'server/static/fonts/**/*',
+    'server/*.*'
   ]);
 });
 
@@ -97,7 +98,7 @@ gulp.task('copy:client', function () {
 
 gulp.task('copy:fonts', function () {
   return gulp.src(['node_modules/font-awesome/fonts/*'])
-    .pipe(gulp.dest('sources/client/fonts'));
+    .pipe(gulp.dest('server/static/fonts'));
 });
 
 gulp.task('copy:server', function () {
