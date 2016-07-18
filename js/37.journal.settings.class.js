@@ -14,10 +14,12 @@ function JournalSettings() {
 
 JournalSettings.prototype = new OptionsBase();
 
-JournalSettings.prototype.requestCallback = function(req) {
-    this.requestBaseCallback(req);
-    this.FillFrom(this.data);
-    this.Bind(this.data);
+JournalSettings.prototype.RequestCallback = function(req, obj) {
+    if (obj) {
+        obj.RequestBaseCallback(req, obj);
+        obj.FillFrom(obj.data);
+        obj.Bind(obj.data);
+    }
 };
 
 JournalSettings.prototype.TemplateLoaded = function(req) {
@@ -37,8 +39,10 @@ JournalSettings.prototype.TemplateLoaded = function(req) {
     this.Tab.AddSubmitButton("SaveObject(this)", "", this);
 };
 
-JournalSettings.prototype.request = function(params, callback) {
-    var s = new ParamsBuilder(params)
-        .add('FORUM_ID', this.FORUM_ID);
-    this.BaseRequest(s.build(), callback);
+JournalSettings.prototype.Request = function(params, callback) {
+    if (!params) {
+        params = "";
+    }
+    params += MakeParametersPair("FORUM_ID", this.FORUM_ID);
+    this.BaseRequest(params, callback);
 };

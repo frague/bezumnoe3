@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	function FillForumData($journal) {
@@ -26,7 +26,7 @@
 	    $journal = new Journal();
 	    $journal->GetByUserId($user->User->Id);
 	    if (!$journal->IsEmpty()) {
-			echo JsAlert("У вас уже есть журнал!", 1);
+			echo JsAlert("РЈ РІР°СЃ СѓР¶Рµ РµСЃС‚СЊ Р¶СѓСЂРЅР°Р»!", 1);
 		 	exit;
 	    }
 	    
@@ -34,17 +34,17 @@
 
 	    $alias = $_POST["REQUESTED_ALIAS"];
 	    if (!$alias) {
-			$error = "При создании журнала необходимо указать алиас!<br>";
+			$error = "РџСЂРё СЃРѕР·РґР°РЅРёРё Р¶СѓСЂРЅР°Р»Р° РЅРµРѕР±С…РѕРґРёРјРѕ СѓРєР°Р·Р°С‚СЊ Р°Р»РёР°СЃ!<br>";
 	    }
-	    if (!eregi("^[a-z0-9_.]+$", $alias)) {
-			$error .= "Алиас должен состоять из символов латинского алфавита, цифр и знаков '.' и '_'!<br>";
+	    if (!preg_match("/^[a-z0-9_.]+$/i", $alias)) {
+			$error .= "РђР»РёР°СЃ РґРѕР»Р¶РµРЅ СЃРѕСЃС‚РѕСЏС‚СЊ РёР· СЃРёРјРІРѕР»РѕРІ Р»Р°С‚РёРЅСЃРєРѕРіРѕ Р°Р»С„Р°РІРёС‚Р°, С†РёС„СЂ Рё Р·РЅР°РєРѕРІ '.' Рё '_'!<br>";
 	    }
 
 		$settings = new JournalSettings();
 		if ($alias) {
 		    $settings->GetByAlias($alias);
 		    if (!$settings->IsEmpty()) {
-				$error .= "Журнал с алиасом &laquo;".$alias."&raquo;! уже существует!<br>";
+				$error .= "Р–СѓСЂРЅР°Р» СЃ Р°Р»РёР°СЃРѕРј &laquo;".$alias."&raquo;! СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!<br>";
 	    	}
 	    }
 
@@ -73,7 +73,7 @@
 		$template->Id = -1;
 		$template->Save();
 
-		echo JsAlert("Создан новый журнал!", 1);	// TODO: Write log
+		echo JsAlert("РЎРѕР·РґР°РЅ РЅРѕРІС‹Р№ Р¶СѓСЂРЅР°Р»!", 1);	// TODO: Write log
 	 	exit;
 	}
 
@@ -81,13 +81,13 @@
 	$journal->Retrieve();
 
 	if ($journal->IsEmpty()) {
-		echo JsAlert("Журнал не найден!", 1);
+		echo JsAlert("Р–СѓСЂРЅР°Р» РЅРµ РЅР°Р№РґРµРЅ!", 1);
 		exit;
 	}
 
 	$access = $journal->GetAccess($user->User->Id);
 	if ($access != Forum::FULL_ACCESS && !$user->IsSuperAdmin()) {
-		echo JsAlert("Нет доступа к настройкам журнала!", 1);
+		echo JsAlert("РќРµС‚ РґРѕСЃС‚СѓРїР° Рє РЅР°СЃС‚СЂРѕР№РєР°Рј Р¶СѓСЂРЅР°Р»Р°!", 1);
 		exit;
 	}
 
@@ -98,7 +98,7 @@
 		FillForumData($journal);
 
 		$journal->Save();
-		echo JsAlert("Название и описание журнала сохранены.");
+		echo JsAlert("РќР°Р·РІР°РЅРёРµ Рё РѕРїРёСЃР°РЅРёРµ Р¶СѓСЂРЅР°Р»Р° СЃРѕС…СЂР°РЅРµРЅС‹.");
 
 		if ($settings->IsEmpty()) {
 			$settings->ForumId = $journal->Id;
@@ -109,19 +109,19 @@
 			$alias = trim(UTF8toWin1251($_POST[JournalSettings::REQUESTED_ALIAS]));
 
 			if (strlen($alias) > 20) {
-				echo JsAlert("Алиас длиннее 20 символов.", 1);
+				echo JsAlert("РђР»РёР°СЃ РґР»РёРЅРЅРµРµ 20 СЃРёРјРІРѕР»РѕРІ.", 1);
 				$hasErrors = true;
 			}
 
 			if (!ereg("^[a-zA-Z0-9_]*$", $alias)) {
-				echo JsAlert("Алиас может состоять только из символов латинского алфавита, цифр и знака \"_\".", 1);
+				echo JsAlert("РђР»РёР°СЃ РјРѕР¶РµС‚ СЃРѕСЃС‚РѕСЏС‚СЊ С‚РѕР»СЊРєРѕ РёР· СЃРёРјРІРѕР»РѕРІ Р»Р°С‚РёРЅСЃРєРѕРіРѕ Р°Р»С„Р°РІРёС‚Р°, С†РёС„СЂ Рё Р·РЅР°РєР° \"_\".", 1);
 				$hasErrors = true;
 			}
 
 			if (!$hasErrors) {
 				$settings->RequestedAlias = $alias;
 				$settings->Save();
-				echo JsAlert("Настройки журнала сохранены.");
+				echo JsAlert("РќР°СЃС‚СЂРѕР№РєРё Р¶СѓСЂРЅР°Р»Р° СЃРѕС…СЂР°РЅРµРЅС‹.");
 			}
 		}
 	}	

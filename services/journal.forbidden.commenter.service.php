@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -17,15 +17,15 @@
 		$forbid->CommenterId = $commenterId;
 		if (!$state) {
 			if ($forbid->Save()) {
-				echo AddJsAlert("Пользователь добавлен.");
+				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РґРѕР±Р°РІР»РµРЅ.");
 			} else {
-				echo AddJsAlert("Пользователь уже в списке!", 1);
+				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ РІ СЃРїРёСЃРєРµ!", 1);
 			}
 		} else {
 			if ($forbid->Delete()) {
-				echo AddJsAlert("Пользователь удалён из списка.");
+				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓРґР°Р»С‘РЅ РёР· СЃРїРёСЃРєР°.");
 			} else {
-				echo AddJsAlert("Пользователя нет в списке!", 1);
+				echo AddJsAlert("РџРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµС‚ РІ СЃРїРёСЃРєРµ!", 1);
 			}
 		}
 	}

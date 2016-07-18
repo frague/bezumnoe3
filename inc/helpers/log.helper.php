@@ -26,7 +26,7 @@
     }
 
     // User-related logs
-
+    
     function LogRegistration($userId, $login) {
         SaveLog("Регистрация пользователя <b>".$login."</b>.", $userId);
     };

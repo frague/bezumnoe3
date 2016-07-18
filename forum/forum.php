@@ -1,4 +1,4 @@
-<?php
+<?php 
 
     $root = "../";
     require_once $root."server_references.php";
@@ -35,7 +35,7 @@
         include("../403.html");
         die;
     }
-
+    
     $p->PrintHeader();
     $result.= $forum->ToPrint("forum.php");
     $threadsPerPage = 20;
@@ -44,14 +44,14 @@
     $q = $record->GetForumThreads(
         $forum->Id,
         $access,
-        $from * $threadsPerPage,
+        $from * $threadsPerPage, 
         $threadsPerPage);
-
+    
     $result.= "<style>#buttonCite".($forum->IsProtected ? "" : ", #IsProtected")." {display:none;}</style>";
     $result.= "<div class='NewThread'><div>";
     $result.= "<a href='javascript:void(0)' class='replyLink' onclick='ForumReply(this,0,".$forum->Id.")'>Создать новую тему</a>";
     $result.= "</div></div>";
-
+    
     $result.= "<ul class='random threads'>";
 
     for ($i = 0; $i < $q->NumRows(); $i++) {

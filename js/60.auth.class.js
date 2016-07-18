@@ -14,7 +14,7 @@ AuthForm.prototype.CreateControls = function(container) {
     this.Holder = d.createElement("div");
     this.Holder.className = "AuthForm";
 
-    this.Holder.innerHTML = loadingIndicator;
+    this.Holder.innerHTML = LoadingIndicator;
 
     container.appendChild(this.Holder);
 };
@@ -24,7 +24,7 @@ AuthForm.prototype.TemplateLoaded = function(responseText) {
     this.Holder.innerHTML = responseText;
 };
 
-AuthForm.prototype.requestData = function() {
+AuthForm.prototype.RequestData = function() {
     RequestContent(this);
 };
 

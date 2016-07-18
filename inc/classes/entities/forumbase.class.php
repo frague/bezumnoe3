@@ -150,7 +150,7 @@ class ForumBase extends EntityBase {
             "t1.".self::LINKED_ID."=".round($user_id).
             ($this->Type ? " AND t1.".self::TYPE."='".$this->Type."'" : ""));
     }
-
+    
     // Gets forum(s) by condition
     // joined with access data for given user
     function GetByConditionWithUserAccess($condition, $userId) {
@@ -159,16 +159,16 @@ class ForumBase extends EntityBase {
             return $this->GetByCondition($condition);
         }
 
-        $expression = str_replace("FROM",
+        $expression = str_replace("FROM", 
 ",
 t2.".ForumUser::USER_ID.",
 t2.".ForumUser::ACCESS."
-FROM",
+FROM", 
 $this->ReadExpression());
         $expression = str_replace(
-"WHERE",
+"WHERE", 
 "   LEFT JOIN ".ForumUser::table." AS t2 ON t2.".ForumUser::USER_ID."=".$userId." AND t2.".ForumUser::FORUM_ID."=t1.".self::FORUM_ID."
-WHERE",
+WHERE", 
 $expression);
         return $this->GetByCondition($condition, $expression);
     }
@@ -224,8 +224,8 @@ $expression);
         $rec = new ForumRecord();
 
         $db->Query(str_replace(
-            "##CONDITION##",
-            ForumRecord::FORUM_ID."=".round($this->Id),
+            "##CONDITION##", 
+            ForumRecord::FORUM_ID."=".round($this->Id), 
             $rec->DeleteThreadExpression()));
     }
 
@@ -238,13 +238,13 @@ $expression);
         }
         return $result;
     }
-
+    
     function CountRecords() {
       global $db;
-
+        
         $db->Query($this->UpdateThreadsCountExpression());
     }
-
+    
     function SaveAndCount() {
       global $db;
 
@@ -257,7 +257,7 @@ $expression);
 
     // SQL Expressions
     function ReadExpression($order = "") {
-        return "SELECT
+        return "SELECT 
     t1.".self::FORUM_ID.",
     t1.".self::TYPE.",
     t1.".self::TITLE.",
@@ -268,9 +268,9 @@ $expression);
     t1.".self::TOTAL_COUNT.",
     t1.".self::RATING.",
     t1.".self::LAST_RATING."
-FROM
-    ".$this->table." AS t1
-WHERE
+FROM 
+    ".$this->table." AS t1 
+WHERE 
     ".($this->Type ? "t1.".self::TYPE."='".$this->Type."' AND " : "")."
     (##CONDITION##)".$order;
     }
@@ -287,16 +287,16 @@ WHERE
     t1.".self::RATING.",
     t1.".self::LAST_RATING."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
     JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::LINKED_ID."
     JOIN ".JournalSettings::table." AS t3 ON t3.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
 WHERE
     ".($this->Type ? "t1.".self::TYPE."='".$this->Type."' AND " : "")."
     (##CONDITION##) ".$order;
     }
-
+    
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::TYPE.",
 ".self::TITLE.",
 ".self::DESCRIPTION.",
@@ -314,19 +314,19 @@ VALUES
 ".NullableId($this->LinkedId).",
 ".round($this->TotalCount).")";
     }
-
+    
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::TYPE."='".SqlQuote($this->Type)."',
-".self::TITLE."='".SqlQuote($this->Title)."',
-".self::DESCRIPTION."='".SqlQuote($this->Description)."',
+        $result = "UPDATE ".$this->table." SET 
+".self::TYPE."='".SqlQuote($this->Type)."', 
+".self::TITLE."='".SqlQuote($this->Title)."', 
+".self::DESCRIPTION."='".SqlQuote($this->Description)."', 
 ".self::IS_PROTECTED."=".Boolean($this->IsProtected).",
 ".self::IS_HIDDEN."=".Boolean($this->IsHidden).",
 ".self::LINKED_ID."=".NullableId($this->LinkedId).",
 ".self::TOTAL_COUNT."=".round($this->TotalCount).",
 ".self::RATING."=".round($this->Rating).",
 ".self::LAST_RATING."=".round($this->LastRating)."
-WHERE
+WHERE 
     ".self::FORUM_ID."=".SqlQuote($this->Id);
         return $result;
     }
@@ -343,11 +343,11 @@ WHERE
         }
         return "UPDATE ".$this->table."
 SET ".self::TOTAL_COUNT."=(
-    SELECT
-        COUNT(".ForumRecord::RECORD_ID.")
-    FROM
-        ".ForumRecord::table."
-    WHERE
+    SELECT 
+        COUNT(".ForumRecord::RECORD_ID.") 
+    FROM 
+        ".ForumRecord::table." 
+    WHERE 
         ".ForumRecord::FORUM_ID."=".$this->Id." AND LENGTH(".ForumRecord::INDEX.")=4
     )
 WHERE
@@ -360,14 +360,14 @@ WHERE
         }
         return "SELECT COUNT(1) AS ".self::UNREAD_COUNT."
 FROM ".ForumRecord::table."
-WHERE
+WHERE 
     ".ForumRecord::FORUM_ID."=".$this->Id." AND
     ".ForumRecord::TYPE."='".ForumRecord::TYPE_PUBLIC."' AND
     ".ForumRecord::DATE.">'".SqlQuote($visitDate)."'";
     }
 
     function MigrateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::FORUM_ID.",
 ".self::TITLE.",
 ".self::DESCRIPTION.",

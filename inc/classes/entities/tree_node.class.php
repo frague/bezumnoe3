@@ -51,7 +51,7 @@ class TreeNode extends EntityBase {
     function UserInfoToJs($r) {
         return "[".$r->Get(User::USER_ID).",'".JsQuote($r->Get(User::LOGIN))."',".$r->Get(Profile::GENERATION)."]";
     }
-
+    
     function __tostring() {
         $s = "<ul type=square>";
         $s.= "<li>".self::NODE_ID.": ".$this->Id."</li>\n";
@@ -68,13 +68,13 @@ class TreeNode extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::NODE_ID.",
     t1.".self::FIRST_USER_ID.",
     t1.".self::SECOND_USER_ID.",
     t1.".self::RELATION_TYPE."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##
 ";
@@ -82,22 +82,22 @@ WHERE
 
     function CreateExpression() {
         return "INSERT INTO ".$this->table." (
-    ".self::FIRST_USER_ID.",
-    ".self::SECOND_USER_ID.",
+    ".self::FIRST_USER_ID.", 
+    ".self::SECOND_USER_ID.", 
     ".self::RELATION_TYPE."
 ) VALUES (
-    '".SqlQuote($this->FirstUserId)."',
-    '".SqlQuote($this->SecondUserId)."',
+    '".SqlQuote($this->FirstUserId)."', 
+    '".SqlQuote($this->SecondUserId)."', 
     '".SqlQuote($this->RelationType)."'
 )";
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::FIRST_USER_ID."=".SqlQuote($this->FirstUserId).",
-".self::SECOND_USER_ID."=".SqlQuote($this->SecondUserId).",
+        $result = "UPDATE ".$this->table." SET 
+".self::FIRST_USER_ID."=".SqlQuote($this->FirstUserId).", 
+".self::SECOND_USER_ID."=".SqlQuote($this->SecondUserId).", 
 ".self::RELATION_TYPE."='".SqlQuote($this->RelationType)."'
-WHERE
+WHERE 
     ".self::NODE_ID."=".SqlQuote($this->Id);
         return $result;
     }
@@ -107,7 +107,7 @@ WHERE
     }
 
     function TreeUsersExpression() {
-        return "SELECT t1.".User::USER_ID.", t1.".User::LOGIN.", t2.".Profile::GENERATION."
+        return "SELECT t1.".User::USER_ID.", t1.".User::LOGIN.", t2.".Profile::GENERATION." 
 FROM ".User::table." t1
 JOIN ".Profile::table." t2 ON t1.".User::USER_ID."=t2.".Profile::USER_ID."
 WHERE t2.".Profile::GENERATION." IS NOT NULL

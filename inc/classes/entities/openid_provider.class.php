@@ -72,13 +72,13 @@ class OpenIdProvider extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
-    t1.".self::OPENID_PROVIDER_ID.",
+        return "SELECT 
+    t1.".self::OPENID_PROVIDER_ID.", 
     t1.".self::TITLE.",
     t1.".self::URL.",
     t1.".self::IMAGE."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##
 ORDER BY
@@ -86,7 +86,7 @@ ORDER BY
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::TITLE.",
 ".self::URL.",
 ".self::IMAGE.")
@@ -97,9 +97,9 @@ VALUES
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
+        $result = "UPDATE ".$this->table." SET 
 ".self::TITLE."='".SqlQuote($this->Title)."'
-WHERE
+WHERE 
     ".self::TAG_ID."=".SqlQuote($this->Id);
         return $result;
     }

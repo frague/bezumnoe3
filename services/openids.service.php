@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -16,13 +16,13 @@
 
 			$userOpenId->FillFromHash($_POST);
 			if (!round($userOpenId->OpenIdProviderId)) {
-				JsAlert("Провайдер OpenID не указан.", 1);
+				JsAlert("РџСЂРѕРІР°Р№РґРµСЂ OpenID РЅРµ СѓРєР°Р·Р°РЅ.", 1);
 				break;
 			}
 
 			$p->GetById(round($userOpenId->OpenIdProviderId));
 			if ($p->IsEmpty()) {
-				JsAlert("Некоректное указание провайдера OpenID.", 1);
+				JsAlert("РќРµРєРѕСЂРµРєС‚РЅРѕРµ СѓРєР°Р·Р°РЅРёРµ РїСЂРѕРІР°Р№РґРµСЂР° OpenID.", 1);
 				break;
 			}
 
@@ -30,7 +30,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("Изменения сохранены.");
+				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
 				SaveLog("OpenID: <b>".$p->MakeUrl($userOpenId->Login)."</b>", $user->User->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 			}
 			break;
@@ -40,7 +40,7 @@
 				$userOpenId->Retrieve();
 				if (!$userOpenId->IsEmpty()) {
 					$userOpenId->Delete();
-					echo JsAlert("OpenID удалён.");
+					echo JsAlert("OpenID СѓРґР°Р»С‘РЅ.");
 				}
 			}
 			break;

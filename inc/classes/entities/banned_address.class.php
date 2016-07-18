@@ -21,7 +21,7 @@ class Bans {
         $this->Forum = Boolean($result->Get(self::BAN_FORUM));
         $this->Journal = Boolean($result->Get(self::BAN_JOURNAL));
     }
-
+    
     function FillFromHash($hash) {
         $this->Chat = Boolean($hash[self::BAN_CHAT]);
         $this->Forum = Boolean($hash[self::BAN_FORUM]);
@@ -174,11 +174,11 @@ class BannedAddress extends EntityBase {
         $ipPart = "(2(5[0-5]|[0-4][0-9])|[0-1]{0,1}[0-9]{1,2}|\*)";
 
         if ($this->Type == "ip") {
-            if (!ereg("^".$ipPart."\.".$ipPart."\.".$ipPart."\.".$ipPart."$", $this->Content)) {
+            if (!preg_match("/^".$ipPart."\.".$ipPart."\.".$ipPart."\.".$ipPart."$/i", $this->Content)) {
                 $errors .= "Неверный формат IP-адреса - ".$this->Content."!<br>";
             }
         } else {
-            if (!eregi("^[\.0-9a-z\_\*\-]+$", $this->Content)) {
+            if (!preg_match("/^[\.0-9a-z\_\*\-]+$/i", $this->Content)) {
                 $errors .= "Неверный формат хоста - ".$this->Content."!<br>";
             }
         }
@@ -245,7 +245,7 @@ class BannedAddress extends EntityBase {
     // SQL
 
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::BAN_ID.",
     t1.".self::CONTENT.",
     t1.".self::TYPE.",
@@ -255,13 +255,13 @@ class BannedAddress extends EntityBase {
     t1.".self::TILL.",
     ".$this->Bans->ReadExpression("t1")."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::CONTENT.",
 ".self::TYPE.",
 ".self::COMMENT.",
@@ -282,15 +282,15 @@ VALUES
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::CONTENT."='".SqlQuote($this->Content)."',
-".self::TYPE."='".($this->Type == self::TYPE_HOST ? self::TYPE_HOST : self::TYPE_IP)."',
-".self::COMMENT."=".Nullable(SqlQuote($this->Comment)).",
-".self::ADMIN_LOGIN."=".Nullable(SqlQuote($this->AdminLogin)).",
+        $result = "UPDATE ".$this->table." SET 
+".self::CONTENT."='".SqlQuote($this->Content)."', 
+".self::TYPE."='".($this->Type == self::TYPE_HOST ? self::TYPE_HOST : self::TYPE_IP)."', 
+".self::COMMENT."=".Nullable(SqlQuote($this->Comment)).", 
+".self::ADMIN_LOGIN."=".Nullable(SqlQuote($this->AdminLogin)).", 
 ".self::ADDED."='".SqlQuote($this->Added)."',
 ".self::TILL."=".Nullable(SqlQuote($this->Till)).",
 ".$this->Bans->UpdateExpression()."
-WHERE
+WHERE 
     ".self::BAN_ID."=".round($this->Id);
         return $result;
     }
@@ -300,10 +300,10 @@ WHERE
     }
 
     function CheckDuplicatesExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::BAN_ID."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     t1.".self::CONTENT." LIKE '".SqlQuote($this->Content)."'
 LIMIT 1";

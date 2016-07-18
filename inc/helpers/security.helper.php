@@ -9,41 +9,43 @@
     define("LOGIN_GUID_KEY", "f");
 
     function LookInRequest($keyName) {
-        if ($_POST[$keyName] != "") {
+        if (isset($_POST[$keyName])) {
             return $_POST[$keyName];
-        } elseif ($_GET[$keyName] != "") {
+        } else if (isset($_GET[$keyName])) {
             return $_GET[$keyName];
-        } else {
+        } else if (isset($_COOKIE[$keyName])) {
             return $_COOKIE[$keyName];
         }
+        return "";
     }
-
+    
     function SessionIsAlive($sessionPongTime) {
       global $SessionLifetime;
 
         $pongTime = @strtotime($sessionPongTime);
-        return (time() - $pongTime < $SessionLifetime);
+        $serverTime = time();
+        return ($serverTime - $pongTime < $SessionLifetime);
     }
 
     function SetUserSessionCookie($user, $inHeader = false) {
       global $SessionLifetime;
 
         if ($inHeader) {
-            header("Set-Cookie: ".SESSION_KEY."=".$user->Session.";path=/;");
+            header("Set-Cookie: ".SESSION_KEY."=".$user->Session.";path=/;domain=.bezumnoe.ru;");
         } else {
-            setcookie(SESSION_KEY, $user->Session, 0, "/", "");
+            setcookie(SESSION_KEY, $user->Session, 0, "/", ".bezumnoe.ru");
         }
     }
-
+    
     function GetUserByOpenId($openIdUrl) {
       global $db;
-
+        
         $openIdUrl = trim(substr($openIdUrl, 0, 1024));
         if (!$openIdUrl) {
             return 0;
         }
 
-        $q = $db->Query("SELECT t1.".UserOpenId::USER_ID."
+        $q = $db->Query("SELECT t1.".UserOpenId::USER_ID." 
 FROM ".UserOpenId::table." AS t1
 JOIN ".OpenIdProvider::table." AS t2 ON t2.".OpenIdProvider::OPENID_PROVIDER_ID." = t1.".UserOpenId::OPENID_PROVIDER_ID."
 WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($openIdUrl)."'");
@@ -78,7 +80,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         }
     }
 
-
+    
     function GetAuthorizedUser($doPong = false, $debug = false) {
       global $db;
 
@@ -86,7 +88,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
             DebugLine("No DB connection available!");
             return new UserComplete();
         }
-
+        
         $authType = LookInRequest("AUTH");
         $login = LookInRequest(LOGIN_KEY);
         $password = LookInRequest(PASSWORD_KEY);
@@ -108,6 +110,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
                             if ($doPong) {
                                 DoPong($user);
                             }
+                            echo "<!-- ".$user."-->";
                         }
                     }
                 }
@@ -124,13 +127,12 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
                         DoPong($user);
                     }
                     return $user;
-                }
+                }   
 
                 # Session ID exists
                 if ($session && !$login && !$password) {
                     $user->GetBySession($session, GetRequestAddress(), $sessionCheck);
                 } else {
-                    DebugLine($_COOKIE[SESSION_KEY]."-");
                     DebugLine("No session ID found!");
                 }
                 break;
@@ -144,7 +146,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         if (!$user || !$forum || $user->IsEmpty() || $forum->IsEmpty()) {
             return 0;
         }
-        if ($user->isSuperAdmin()) {
+        if ($user->IsSuperAdmin()) {
             return 2;
         }
 
@@ -157,15 +159,20 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         return ($access->IsFull() ? ($access->IsModerator() ? 2 : 1) : 0);
     }
 
-
+    
     /* Net Address functionality */
 
     class NetAddress {
+        function getServerValue($name) {
+            if (isset($_SERVER[$name])) return $_SERVER[$name];
+            return "";
+        }
+
         function NetAddress() {
-            $this->ShownIp = $this->ClearUnknown($_SERVER["REMOTE_ADDR"]);
+            $this->ShownIp = $this->ClearUnknown($this->getServerValue("REMOTE_ADDR"));
             $this->ShowHost = $this->ClearUnknown(@gethostbyaddr($this->ShownIp));
 
-            $this->ProxyIp = $this->ClearUnknown($_SERVER["HTTP_X_FORWARDED_FOR"]);
+            $this->ProxyIp = $this->ClearUnknown($this->getServerValue("HTTP_X_FORWARDED_FOR"));
             $this->ProxyHost = $this->ClearUnknown(@gethostbyaddr($this->ProxyIp));
 
             $this->UnderProxy = ($this->ProxyIp && $this->ProxyIp != $this->ShownIp) ? 1 : 0;
@@ -193,7 +200,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 </ul>";
         }
     }
-
+    
     function GetRequestAddress() {
         $addr = new NetAddress();
         return $addr->ToString();
@@ -203,7 +210,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 //      echo "/* $address $pattern */\n";
         return ($address && preg_match($pattern, $address));
     }
-
+    
     function AddressIsBanned($bans = "") {
         $addr = new NetAddress();
         $ban = new BannedAddress();

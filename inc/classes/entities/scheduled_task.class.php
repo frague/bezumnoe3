@@ -136,7 +136,7 @@ class ScheduledTask extends EntityBase {
     }
 
     // Delete given user's unban tasks
-    function deleteUserUnbans($userId) {
+    function DeleteUserUnbans($userId) {
         $this->GetByCondition(
             self::TYPE."='".self::TYPE_UNBAN."' AND ".self::PARAMETER1."=".round($userId),
             $this->ConditionalDeleteExpression()

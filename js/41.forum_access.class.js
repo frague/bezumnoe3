@@ -40,7 +40,7 @@ ForumAccess.prototype.TemplateLoaded = function(req) {
 
 	this.AssignSelfTo("RefreshForumAccess");
 
-	var a = new delayedRequestor(this, this.inputs["ADD_USER"], GetJournalUsers);
+	var a = new DelayedRequestor(this, this.Inputs["ADD_USER"], GetJournalUsers);
 //	a.GetParams = function() {};
 };
 
@@ -74,16 +74,20 @@ ForumAccess.prototype.BaseBind = function() {
 	this.FriendsListGrid.Refresh();
 };
 
-ForumAccess.prototype.request = function(params, callback) {
-	var s = new ParamsBuilder(params)
-		.add('FORUM_ID', this.Forum.FORUM_ID);
-	this.BaseRequest(s.build(), callback);
+ForumAccess.prototype.Request = function(params, callback) {
+	if (!params) {
+		params = "";
+	}
+	params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
+	this.BaseRequest(params, callback);
 };
 
-ForumAccess.prototype.requestCallback = function(req) {
-	this.friends = [];
-	this.requestBaseCallback(req);
-	this.Bind(this.data);
+ForumAccess.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.friends = [];
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind(obj.data);
+	}
 };
 
 
@@ -190,10 +194,10 @@ UserList.prototype = new EditableGrid();
 
 UserList.prototype.BaseBind = function(){};
 
-UserList.prototype.requestCallback = function(req) {
-	if (this.obj) {
-		this.obj.requestBaseCallback(req);
-		this.obj.Bind(this.data);
+UserList.prototype.RequestCallback = function(req, obj) {
+	if (obj.obj) {
+		obj.obj.RequestBaseCallback(req, obj);
+		obj.obj.Bind(obj.data);
 	}
 };
 
@@ -202,23 +206,23 @@ UserList.prototype.requestCallback = function(req) {
 
 function AddForumAccess(user_id, target_forum_id, access, obj) {
 	var req = new Requestor(servicesPath + "forum_access.service.php", obj);
-	req.callback = refreshList;
-	req.request(["go", "FORUM_ID", "TARGET_USER_ID", "TARGET_FORUM_ID", "ACCESS"], ["add", obj.Forum.FORUM_ID, user_id, target_forum_id, access]);
+	req.Callback = RefreshList;
+	req.Request(["go", "FORUM_ID", "TARGET_USER_ID", "TARGET_FORUM_ID", "ACCESS"], ["add", obj.Forum.FORUM_ID, user_id, target_forum_id, access]);
 };
 
-function refreshList(sender) {
-	sender.obj.requestCallback(sender.req, sender.obj);
+function RefreshList(sender) {
+	sender.obj.RequestCallback(sender.req, sender.obj);
 };
 
 function GetJournalUsers(input) {
-	input.delayedRequestor.obj.SetTabElementValue("FOUND_USERS", loadingIndicator);
-	var juRequest = new Requestor(servicesPath + "journal_users.service.php", input.delayedRequestor.obj);
-	juRequest.callback = DrawUsers;
-	juRequest.request(["value"], [input.value]);
+	input.DelayedRequestor.obj.SetTabElementValue("FOUND_USERS", LoadingIndicator);
+	var juRequest = new Requestor(servicesPath + "journal_users.service.php", input.DelayedRequestor.obj);
+	juRequest.Callback = DrawUsers;
+	juRequest.Request(["value"], [input.value]);
 };
 
 function DrawUsers(sender) {
-	var el = sender.obj.inputs["FOUND_USERS"];
+	var el = sender.obj.Inputs["FOUND_USERS"];
 	if (el) {
 		el.innerHTML = "";
 		var ul = d.createElement("ul");

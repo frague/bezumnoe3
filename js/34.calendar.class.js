@@ -6,7 +6,7 @@
 function Calendar(holder, date, with_time) {
 	this.Holder = holder;
 	this.WithTime = with_time;
-	this.callback = "";
+	this.Callback = "";
 	this.Date = date ? date : new Date();
 	this.SelectDate();
 };
@@ -281,8 +281,8 @@ Calendar.prototype.Select = function(a) {
 	this.SelectDate();
 	this.Print();
 
-	if (this.callback) {
-		this.callback();
+	if (this.Callback) {
+		this.Callback();
 	}
 };
 
@@ -296,7 +296,7 @@ function DatePicker(input, with_time) {
 	this.WithTime = with_time;
 	this.Input = input;
 	if (!input.type) {
-		this.Input = $(getElement(input))[0];
+		this.Input = $(GetElement(input))[0];
 	}
 	if (this.Input) {
 		this.Input.className = (with_time ? "DateTime" : "Date");
@@ -304,12 +304,12 @@ function DatePicker(input, with_time) {
 
 		this.Holder = d.createElement("div");
 		this.Holder.className = "DatePicker";
-		this.switchVisibility(false);
+		this.SwitchVisibility(false);
 
 		this.Calendar = new Calendar(this.Holder, "", this.WithTime);
 
 		this.Calendar.Picker = this;
-		this.Calendar.callback = function() {this.Picker.Selected()};
+		this.Calendar.Callback = function() {this.Picker.Selected()};
 
 		insertAfter(this.Holder, this.Input);
 		insertAfter(MakeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton", "Выбрать дату"), this.Input);
@@ -322,9 +322,9 @@ DatePicker.prototype.Init = function() {
 	this.Calendar.Print();
 };
 
-DatePicker.prototype.switchVisibility = function() {
+DatePicker.prototype.SwitchVisibility = function() {
 	this.Visible = !this.Visible;
-	displayElement(this.Holder, this.Visible);
+	DisplayElement(this.Holder, this.Visible);
 	if (this.Visible) {
 		this.Init();
 	}
@@ -332,14 +332,14 @@ DatePicker.prototype.switchVisibility = function() {
 
 DatePicker.prototype.Selected = function() {
 	this.Visible = true;
-	this.switchVisibility();
+	this.SwitchVisibility();
 	var date = this.Calendar.Date;
 	this.Input.value = date.ToString(this.WithTime);
 };
 
 function SwitchDatePicker(a) {
 	if (a && a.obj) {
-		a.obj.switchVisibility();
+		a.obj.SwitchVisibility();
 	}
 };
 

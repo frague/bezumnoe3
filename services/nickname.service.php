@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -38,8 +38,8 @@
 							$n->Title = $name;
 						}
 					} else {
-					    $errors .= "<li> Ошибка сохранения &laquo;".$name."&raquo;: ник не принадлежит пользователю";
-					    $n = "";
+						$errors .= "<li> Ошибка сохранения &laquo;".$name."&raquo;: ник не принадлежит пользователю";
+						$n = "";
 					}
 				} else {
 					if ($userNamesCount < $MaxNicknames) {
@@ -47,8 +47,8 @@
 						$n->Title = $name;
 						$n->UserId = $user->Id;
 					} else {
-				    	$errors .= "<li> Ошибка сохранения &laquo;".$name."&raquo;: превышено максимально допустимое число имён";
-				    	$n = "";
+						$errors .= "<li> Ошибка сохранения &laquo;".$name."&raquo;: превышено максимально допустимое число имён";
+						$n = "";
 					}
 				}
 				if ($n && $n->Title) {
@@ -72,7 +72,7 @@
 							}
 						}
 					} else {
-			    		$errors .= "<li> ".$validationError;
+						$errors .= "<li> ".$validationError;
 					}
 				}
 			} else {

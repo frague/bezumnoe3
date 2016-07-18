@@ -10,7 +10,7 @@ function Font(color, size, face, is_bold, is_italic, is_underlined) {
     this.Face = face;
     this.IsBold = is_bold;
     this.IsItalic = is_italic;
-    this.IsUnderlined = is_underlined;
+    this.IsUnderlined = is_underlined; 
 
     this.fields = new Array("FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED");
     this.properties = new Array("Color", "Size", "Face", "IsBold", "IsItalic", "IsUnderlined");

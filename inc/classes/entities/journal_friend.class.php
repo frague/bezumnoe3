@@ -53,7 +53,7 @@ class JournalFriend extends EntityBase {
     }
 
 
-
+    
     function ToJs($title, $login) {
         return "new fjdto(\"".
 JsQuote($this->ForumId)."\",\"".
@@ -75,13 +75,13 @@ JsQuote($this->FriendlyForumId)."\")";
 
     // SQL
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicates
-            $q = $db->Query("SELECT
+            $q = $db->Query("SELECT 
    ".self::FORUM_ID."
-FROM
+FROM 
   ".$this->table."
 WHERE
   ".self::FRIENDLY_FORUM_ID." = ".round($this->FriendlyForumId)." AND
@@ -111,24 +111,24 @@ WHERE
     }
 
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::FORUM_ID.",
     t1.".self::FRIENDLY_FORUM_ID."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function ReadExtendedExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::FORUM_ID.",
     t1.".self::FRIENDLY_FORUM_ID.",
     t2.".Forum::TITLE.",
     t3.".User::LOGIN.",
     t4.".JournalSettings::ALIAS."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
     LEFT JOIN ".Forum::table." AS t2 ON t2.".Forum::FORUM_ID."=t1.".self::FRIENDLY_FORUM_ID."
     LEFT JOIN ".User::table." AS t3 ON t3.".User::USER_ID."=t2.".Forum::LINKED_ID."
     LEFT JOIN ".JournalSettings::table." AS t4 ON t4.".Forum::FORUM_ID."=t1.".self::FRIENDLY_FORUM_ID."
@@ -137,12 +137,12 @@ WHERE
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::FORUM_ID.",
 ".self::FRIENDLY_FORUM_ID."
 )
 VALUES
-(".round($this->ForumId).",
+(".round($this->ForumId).", 
 ".round($this->FriendlyForumId)."
 )";
     }
@@ -183,7 +183,7 @@ FROM
     ".Forum::table." AS t2
     LEFT JOIN ".self::table." AS t1 ON t2.".Forum::FORUM_ID."=t1.".self::FORUM_ID."
     LEFT JOIN ".User::table." AS t3 ON t3.".User::USER_ID."=t2.".Forum::LINKED_ID."
-WHERE
+WHERE 
     (t1.".self::FORUM_ID."=".$forumId.")
 ORDER BY t2.".Forum::FORUM_ID;
     }

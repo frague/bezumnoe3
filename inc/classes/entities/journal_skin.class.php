@@ -111,7 +111,7 @@ class JournalSkin extends EntityBase {
 	}
 
 	// SQL
-	function Save() {
+	function Save($by_query = "") {
 	 global $db;
 		if (!$this->IsConnected()) {
 			return false;

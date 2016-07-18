@@ -1,9 +1,9 @@
 <?php
 
-class ImgResizer
+class ImgResizer 
 {
     var $imageQuality = 75;
-
+    
     var $thumbW  = false;
     var $thumbH  = false;
 
@@ -74,7 +74,7 @@ class ImgResizer
         }
     }
 
-    function LoadImageByType() {
+    function LoadImageByType() {    
         if ($this->srcFile !== false && $this->srcType !== false) {
             switch($this->srcType) {
                 case IMAGETYPE_GIF:

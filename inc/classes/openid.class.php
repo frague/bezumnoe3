@@ -3,12 +3,12 @@
     FREE TO USE
         Under License: GPLv3
     Simple OpenID PHP Class
-
+    
     Some modifications by Eddie Roosenmaallen, eddie@roosenmaallen.com
-
+    
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-This Class was written to make easy for you to integrate OpenID on your website.
+This Class was written to make easy for you to integrate OpenID on your website. 
 This is just a client, which checks for user's identity. This Class Requires CURL Module.
 It should be easy to use some other HTTP Request Method, but remember, often OpenID servers
 are using SSL.
@@ -26,26 +26,26 @@ HOW TO USE THIS CLASS:
     :: FETCH SERVER URL FROM IDENTITY PAGE ::  [Note: It is recomended to cache this (Session, Cookie, Database)]
         $openid->GetOpenIDServer(); // Returns false if server is not found
     :: REDIRECT USER TO OPEN ID SERVER FOR APPROVAL ::
-
+    
     :: (OPTIONAL) SET OPENID SERVER ::
         $openid->SetOpenIDServer($server_url); // If you have cached previously this, you don't have to call GetOpenIDServer and set value this directly
-
+        
     STEP 2)
     Once user gets returned we must validate signature
     :: VALIDATE REQUEST ::
         true|false = $openid->ValidateWithServer();
-
+        
     ERRORS:
         array = $openid->GetError();    // Get latest Error code
-
+    
     FIELDS:
         OpenID allowes you to retreive a profile. To set what fields you'd like to get use (accepts either string or array):
         $openid->SetRequiredFields(array('email','fullname','dob','gender','postcode','country','language','timezone'));
          or
         $openid->SetOptionalFields('postcode');
-
+        
 IMPORTANT TIPS:
-OPENID as is now, is not trust system. It is a great single-sign on method. If you want to
+OPENID as is now, is not trust system. It is a great single-sign on method. If you want to 
 store information about OpenID in your database for later use, make sure you handle url identities
 properly.
   For example:
@@ -71,7 +71,7 @@ class SimpleOpenID{
         'required'   => array(),
         'optional'   => array(),
     );
-
+    
     function SimpleOpenID(){
         if (!function_exists('curl_exec')) {
             die('Error: Class SimpleOpenID requires curl extension to work');
@@ -146,7 +146,7 @@ class SimpleOpenID{
             return false;
         }
     }
-
+    
     function splitResponse($response) {
         $r = array();
         $response = explode("\n", $response);
@@ -159,13 +159,13 @@ class SimpleOpenID{
         }
         return $r;
     }
-
+    
     function OpenID_Standarize($openid_identity = null){
         if ($openid_identity === null)
             $openid_identity = $this->openid_url_identity;
 
         $u = parse_url(strtolower(trim($openid_identity)));
-
+        
         if (!isset($u['path']) || ($u['path'] == '/')) {
             $u['path'] = '';
         }
@@ -178,7 +178,7 @@ class SimpleOpenID{
             return $u['host'] . $u['path'];
         }
     }
-
+    
     function array2url($arr){ // converts associated array to URL Query String
         if (!is_array($arr)){
             return false;
@@ -203,7 +203,7 @@ class SimpleOpenID{
             $res = fread($fp, 2000);
             $info = stream_get_meta_data($fp);
             fclose($fp);
-
+        
             if ($info['timed_out']) {
                $this->ErrorStore('OPENID_SOCKETTIMEOUT');
             } else {
@@ -219,12 +219,12 @@ class SimpleOpenID{
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_HTTPGET, ($method == "GET"));
             curl_setopt($curl, CURLOPT_POST, ($method == "POST"));
-            if ($method == "POST")
+            if ($method == "POST") 
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 //          $response = curl_exec($curl);
             $response = $this->curl_redir_exec($curl);
-
+            
             if (curl_errno($curl) == 0) {
                 $response;
             } else {
@@ -272,25 +272,25 @@ class SimpleOpenID{
             return $data;
         }
     }
-
+    
      function HTML2OpenIDServer($content) {
         $get = array();
-
+        
         // Get details of their OpenID server and (optional) delegate
         preg_match_all('/<link[^>]*rel=[\'"]openid.server[\'"][^>]*href=[\'"]([^\'"]+)[\'"][^>]*\/?>/i', $content, $matches1);
         preg_match_all('/<link[^>]*href=\'"([^\'"]+)[\'"][^>]*rel=[\'"]openid.server[\'"][^>]*\/?>/i', $content, $matches2);
         $servers = array_merge($matches1[1], $matches2[1]);
-
+        
         preg_match_all('/<link[^>]*rel=[\'"]openid.delegate[\'"][^>]*href=[\'"]([^\'"]+)[\'"][^>]*\/?>/i', $content, $matches1);
-
+        
         preg_match_all('/<link[^>]*href=[\'"]([^\'"]+)[\'"][^>]*rel=[\'"]openid.delegate[\'"][^>]*\/?>/i', $content, $matches2);
-
+        
         $delegates = array_merge($matches1[1], $matches2[1]);
-
+        
         $ret = array($servers, $delegates);
         return $ret;
     }
-
+    
     function GetOpenIDServer(){
         $response = $this->CURL_Request($this->openid_url_identity);
 
@@ -309,14 +309,14 @@ class SimpleOpenID{
         $this->SetOpenIDServer($servers[0]);
         return $servers[0];
     }
-
+    
     function GetRedirectURL(){
         $params = array();
         $params['openid.return_to'] = urlencode($this->URLs['approved']);
         $params['openid.mode'] = 'checkid_setup';
         $params['openid.identity'] = urlencode($this->openid_url_identity);
         $params['openid.trust_root'] = urlencode($this->URLs['trust_root']);
-
+        
         if (isset($this->fields['required'])
           && (count($this->fields['required']) > 0)) {
             $params['openid.sreg.required'] = implode(',',$this->fields['required']);
@@ -327,7 +327,7 @@ class SimpleOpenID{
         }
         return $this->URLs['openid_server'] . "?". $this->array2url($params);
     }
-
+    
     function Redirect(){
         $redirect_to = $this->GetRedirectURL();
         if (headers_sent()) { // Use JavaScript to redirect if content has been previously sent (not recommended, but safe)
@@ -338,7 +338,7 @@ class SimpleOpenID{
             header('Location: ' . $redirect_to);
         }
     }
-
+    
     function ValidateWithServer(){
         $params = array(
             'openid.assoc_handle' => urlencode($_GET['openid_assoc_handle']),

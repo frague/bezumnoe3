@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -10,7 +10,7 @@
 	$journal = new Journal();
 	$journal->GetByUserId($user->User->Id);
 	if ($journal->IsEmpty()) {
-		echo AddJsAlert("У пользователя нет журнала!", 1);
+		echo AddJsAlert("РЈ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµС‚ Р¶СѓСЂРЅР°Р»Р°!", 1);
 		exit;
 	}
 
@@ -26,15 +26,15 @@
 
 		if (!$state) {
 			if ($journalFriend->Save()) {
-				echo AddJsAlert("Дружественный журнал добавлен.");
+				echo AddJsAlert("Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅС‹Р№ Р¶СѓСЂРЅР°Р» РґРѕР±Р°РІР»РµРЅ.");
 			} else {
-				echo AddJsAlert("Журнал уже в списке друзей!", 1);
+				echo AddJsAlert("Р–СѓСЂРЅР°Р» СѓР¶Рµ РІ СЃРїРёСЃРєРµ РґСЂСѓР·РµР№!", 1);
 			}
 		} else {
 			if ($journalFriend->Delete()) {
-				echo AddJsAlert("Дружественный журнал удалён.");
+				echo AddJsAlert("Р”СЂСѓР¶РµСЃС‚РІРµРЅРЅС‹Р№ Р¶СѓСЂРЅР°Р» СѓРґР°Р»С‘РЅ.");
 			} else {
-				echo AddJsAlert("Журналa нет в списке друзей!", 1);
+				echo AddJsAlert("Р–СѓСЂРЅР°Р»a РЅРµС‚ РІ СЃРїРёСЃРєРµ РґСЂСѓР·РµР№!", 1);
 			}
 		}
 	}

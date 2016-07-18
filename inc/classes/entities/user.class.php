@@ -120,7 +120,7 @@ class User extends EntityBase {
 
                 //Remove scheduled unbans
                 $task = new ScheduledTask();
-                $task->deleteUserUnbans($this->Id);
+                $task->DeleteUserUnbans($this->Id);
 
                 // Write log
                 LogBanEnd($this->Id, ScheduledTask::SCHEDULER_LOGIN);
@@ -149,7 +149,8 @@ class User extends EntityBase {
 
     function TouchSession() {
         if ($this->Session) {
-            $this->SessionPong = NowDateTime();
+            $this->SessionPong = "SYSDATE()";
+//            $this->SessionPong = NowDateTime();
         }
     }
 
@@ -254,41 +255,6 @@ class User extends EntityBase {
             $db->Query($this->UpdateLoginGuidExpression());
         }
     }
-
-/*
-    Deprecated: Moved to UserComplete
-
-    function GetByPassword($login, $password) {
-        if ($login && $password) {
-            $this->FillByCondition("t1.".self::LOGIN."='".SqlQuote($login)."' AND t1.".self::PASSWORD."='".SqlQuote(Encode($password))."'");
-        } else {
-            $this->Clear();
-        }
-    }
-
-    function SessionIsCorrect($sessionId) {
-        return $sessionId && strlen($sessionId) == $this->sessionKeyLength;
-    }
-
-    function GetBySession($sessionId, $sessionAddress, $sessionCheck = "") {
-        if ($this->SessionIsCorrect($sessionId) && $sessionAddress) {
-            $this->FillByCondition("t1.".self::SESSION."='".SqlQuote($sessionId)."' AND t1.".self::SESSION_ADDRESS."='".SqlQuote($sessionAddress)."'");
-            // If not found, but sessionCheck provided,
-            if ($this->IsEmpty() && $this->SessionIsCorrect($sessionCheck)) {
-                // .. trying to find by two session keys
-                $this->FillByCondition("t1.".self::SESSION."='".SqlQuote($sessionId)."' AND t1.".self::SESSION_CHECK."='".SqlQuote($sessionCheck)."'");
-                // If match found and sessionAddress is not empty
-                if (!$this->IsEmpty() && $sessionAddress) {
-                    // .. updating session address
-                    $this->SessionAddress = $sessionAddress;
-                    $this->GetByCondition("", $this->UpdateSessionAddressExpression());
-                }
-            }
-        } else {
-            $this->Clear();
-        }
-    }
-*/
 
     function GetUserName($id, $expression) {
         if (!$id) {
@@ -438,13 +404,13 @@ VALUES
 ".NullableId($this->RoomId).",
 '".SqlQuote($this->StatusId)."',
 '".SqlQuote($this->Session)."',
-".Nullable(SqlQuote($this->SessionPong)).",
+".Nullable($this->SessionPong).",
 '".SqlQuote($this->SessionCheck)."',
 '".SqlQuote($this->SessionAddress)."',
 '".SqlQuote($this->AwayMessage)."',
-".Nullable(SqlQuote($this->AwayTime)).",
-".Nullable(SqlQuote($this->BannedTill)).",
-".Nullable(SqlQuote($this->BanReason)).",
+".Nullable($this->AwayTime).",
+".Nullable($this->BannedTill).",
+".Nullable($this->BanReason).",
 ".NullableId($this->BannedBy).",
 '".SqlQuote($this->KickMessages)."',
 '".SqlQuote($this->Guid)."'
@@ -657,7 +623,7 @@ WHERE ##CONDITION##";
     }
 
     public static function InfoLink($id, $text) {
-        return "<a href=\"/user/".round($id).".html\" onclick=\"return info(".round($id).")\">".$text."</a>";
+        return "<a href=\"/user/".round($id).".html\" onclick=\"Info(".round($id).");return false;\">".$text."</a>";
     }
 
 

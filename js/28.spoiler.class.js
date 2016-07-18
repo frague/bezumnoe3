@@ -28,7 +28,7 @@ Spoiler.prototype.ToString = function(holder) {
     a.href = voidLink;
     a.className = "Title";
     a.onclick = function() {this.Spoiler.Switch();this.blur();};
-
+            
     this.TitleHolder = d.createElement("h4");
     this.UpdateTitle();
     a.appendChild(this.TitleHolder);
@@ -59,7 +59,7 @@ Spoiler.prototype.Display = function(state) {
 Spoiler.prototype.Switch = function() {
     this.Display(!this.IsOpened);
     if (this.OnSelect) {
-        this.RelatedDiv.innerHTML = loadingIndicator;
+        this.RelatedDiv.innerHTML = LoadingIndicator;
         this.OnSelect(this);
         this.OnSelect = ""; /* TODO: Treat failure */
     }

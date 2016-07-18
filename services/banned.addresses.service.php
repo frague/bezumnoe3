@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -16,7 +16,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("Изменения сохранены.");
+				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
 
 				// Write log
 				LogAddressBan($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList(), $ban->Comment);
@@ -40,7 +40,7 @@
 				LogAddressBanEnd($user_id, $user->User->Login, $ban->Content, $ban->Bans->GetList());
 
 				$ban->Delete();
-				echo JsAlert("Запрет снят.");
+				echo JsAlert("Р—Р°РїСЂРµС‚ СЃРЅСЏС‚.");
 			}
 			break;
 	}

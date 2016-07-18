@@ -15,24 +15,24 @@ function JournalComments(forum) {
 JournalComments.prototype = new Comments();
 
 JournalComments.prototype.Gather = function() {
-	return new ParamsBuilder(this.BaseGather())
-		.add('RECORD_ID', this.jrdto.Id)
-		.build();
+	return MakeParametersPair("RECORD_ID", this.jrdto.Id) + this.BaseGather();
 };
 
 JournalComments.prototype.InitPager = function() {
-	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.JournalComments.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.JournalComments.SwitchPage()}, this.PerPage);
 };
 
-JournalComments.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.Bind(this.data, this.Total);
-	if (this.Forum) {
-		this.SetTabElementValue("FORUM", this.Forum.MakeTitle());
+JournalComments.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind(obj.data, obj.Total);
+	}
+	if (obj.Forum) {
+		obj.SetTabElementValue("FORUM", obj.Forum.MakeTitle());
 	}
 };
 
-JournalComments.prototype.loadTemplate = function(tab, user_id, login) {
+JournalComments.prototype.LoadTemplate = function(tab, user_id, login) {
 	// Important!
 	this.jrdto = tab.PARAMETER;
 	this.TITLE = this.jrdto.Title;
@@ -49,7 +49,7 @@ JournalComments.prototype.TemplateLoaded = function(req) {
 	this.TemplateBaseLoaded(req);
 
 	this.AssignSelfTo("buttonSearch");
-	BindEnterTo(this.inputs["SEARCH"], this.inputs["buttonSearch"]);
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
 };
 
 /* Journal Record Data Transfer Object */
@@ -89,22 +89,21 @@ jcdto.prototype.ToString = function(index, obj) {
 		td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
 		td3.appendChild(MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить"));
 	tr.appendChild(td3);
-
+	
 	return tr;
 };
 
 /* Actions */
 
 function DeleteCommentConfirmed(obj, id) {
-	var s = new ParamsBuilder()
-		.add('go', 'delete')
-		.add('id', id);
-	obj.request(s.build());
+	var params = MakeParametersPair("go", "delete");
+	params += MakeParametersPair("id", id);
+	obj.Request(params);
 };
 
 function ShowMessageComments(a) {
 	var tab_id = "c" + a.jrdto.Id;
-	createUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "Комментарии в журнале", a.jrdto, tab_id);
+	CreateUserTab(a.obj.USER_ID, a.obj.LOGIN, new JournalComments(a.obj.Forum), "Комментарии в журнале", a.jrdto, tab_id);
 };
 
 /* Confirms */

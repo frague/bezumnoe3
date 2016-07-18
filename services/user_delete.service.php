@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -24,14 +24,14 @@
 			}
 		}
 		if ($targetUser->IsEmpty()) {
-			SaveLog("Ïîïûòêà óäàëåíèÿ ïîëüçîâàòåëÿ.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
+			SaveLog("ÐŸÐ¾Ð¿Ñ‹Ñ‚ÐºÐ° ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
 
-			echo "co.AlertType=true;co.Show(\"\", \"Íåò äîñòóïà ê ïðîôèëþ\", \"Ó àäìèíîâ íåò äîñòóïà ê ïðîôèëÿì äðóãèõ àäìèíèñòðàòîðîâ è õðàíèòåëåé ÷àòà.\");";
+			echo "co.AlertType=true;co.Show(\"\", \"ÐÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŽ\", \"Ð£ Ð°Ð´Ð¼Ð¸Ð½Ð¾Ð² Ð½ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑÐ¼ Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð°Ð´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ‚Ð¾Ñ€Ð¾Ð² Ð¸ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÐµÐ»ÐµÐ¹ Ñ‡Ð°Ñ‚Ð°.\");";
 			return;
 		}
 	} else {
-		SaveLog("Ïîïûòêà óäàëåíèÿ ïîëüçîâàòåëÿ íå àäìèíèñòðàòîðîì.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
-		echo "co.AlertType=true;co.Show(\"\", \"Íåò äîñòóïà\", \"Íåäîñòàòî÷íî ïðàâ äëÿ óäàëåíèÿ ïîëüçîâàòåëÿ.\");";
+		SaveLog("ÐŸÐ¾Ð¿Ñ‹Ñ‚ÐºÐ° ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ Ð½Ðµ Ð°Ð´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ‚Ð¾Ñ€Ð¾Ð¼.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
+		echo "co.AlertType=true;co.Show(\"\", \"ÐÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð°\", \"ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ñ€Ð°Ð² Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ.\");";
 		return;
 	}
 
@@ -39,8 +39,8 @@
 
 	
 	$targetUser->Delete();
-	SaveLog("Ïîëüçîâàòåëü óäàë¸í.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
+	SaveLog("ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ ÑƒÐ´Ð°Ð»Ñ‘Ð½.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_ERROR);
 	
-	echo "co.AlertType=true;co.Show(\"\", \"Ïîëüçîâàòåëü óäàë¸í\", \"Âñå äàííûå î ïîëüçîâàòåëå ".$targetUser->User->Login." áûëè óäàëåíû èç ñèñòåìû.\");";
+	echo "co.AlertType=true;co.Show(\"\", \"ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ ÑƒÐ´Ð°Ð»Ñ‘Ð½\", \"Ð’ÑÐµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ðµ ".$targetUser->User->Login." Ð±Ñ‹Ð»Ð¸ ÑƒÐ´Ð°Ð»ÐµÐ½Ñ‹ Ð¸Ð· ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹.\");";
 
 ?>

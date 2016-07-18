@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
     <head>
         <meta charset="utf-8" />
@@ -44,7 +44,7 @@
         }
     }
 
-    require_once $root."references.php";
+    require_once $root."references.php"; 
 
 
 /* Functions */
@@ -58,19 +58,19 @@
 /* Functions */
 
 
-    ?>      <title><? echo $error ? "Ошибка" : $person->User->Login ?> - Пользователи Безумное.Ру</title>
+    ?>      <title><?php echo $error ? "Ошибка" : $person->User->Login ?> - Пользователи Безумное.Ру</title>
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
     </head>
 
     <body>
         <div id="InfoContainer">
             <div id="InfoContent">
-                <?php
+                <?php 
                     if (!$error) {
                 ?>
                 <h1><?php echo $person->User->Login ?></h1>
                 <div id="Info" class="TabContainer">
-                    <div class="Small">В чате с <strong><?php echo PrintableDate($profile->Registered) ?></strong>, последний раз <strong><? echo PrintableDate($profile->LastVisit) ?></strong></div>
+                    <div class="Small">В чате с <strong><?php echo PrintableDate($profile->Registered) ?></strong>, последний раз <strong><?php echo PrintableDate($profile->LastVisit) ?></strong></div>
         <?php
 
                 echo ProfilePhoto($profile, $person->User->Login);
@@ -126,7 +126,7 @@
             }
 
         ?>
-
+        
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <?php
-
+    
     $root = "../";
     require_once $root."server_references.php";
     require_once $root."inc/helpers/like_buttons.helper.php";
@@ -46,7 +46,7 @@
     if ($someoneIsLogged) {
         $access = $journal->GetAccess($user->User->Id);
     }
-
+    
     if ($access == Journal::NO_ACCESS) {
         ErrorPage("У вас нет доступа к журналу.", "Владелец журнала ограничил к нему доступ.");
         die;
@@ -107,14 +107,14 @@
             margin-left: -2px;
         }
     </style>
-
+    
     <h3>Вернуться</h3>
-    <ul class="back_links random">
+    <ul class="back_links random"> 
         <li> к сообщению <?php echo $record->ToLink(100, $alias) ?>
         <li> к журналу <?php echo $journal->GetLink($alias, 0, false) ?>
     </ul>
 
-<?
+<?php
     if (!$record->IsCommentable) {
         $p->PrintFooter();
         die();
@@ -126,10 +126,10 @@
 
     $comment = new JournalComment();
     $q = $comment->GetByIndex(
-        $record->ForumId,
+        $record->ForumId, 
         $access,
-        $record->Index."_",
-        $from * $messagesPerPage,
+        $record->Index."_", 
+        $from * $messagesPerPage, 
         $messagesPerPage);
 
     echo "<a name='c'></a>
@@ -167,7 +167,7 @@
             echo $record->ToExtendedString($level, $l["avatar"], ($l["lastMessageDate"] ? $l["alias"] : ""), $user, $yesterday);
             $level = $record->Level;
         }
-
+    
         for ($i = 0; $i < $level + 1; $i++) {
             echo "</ul>";
         }

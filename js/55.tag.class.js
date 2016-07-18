@@ -22,7 +22,7 @@ Tags.prototype.Bind = function(data, found) {
 		var s = "";
 		this.SetTabElementValue("TagsContainer", "");
 		this.Tab.AddedTags.Clear();
-		var holder = this.inputs["TagsContainer"];
+		var holder = this.Inputs["TagsContainer"];
 
 		for (var i = 0,l = data.length; i < l; i++) {
 			data[i].obj = this;
@@ -34,7 +34,7 @@ Tags.prototype.Bind = function(data, found) {
 
 	if (found) {
 		var s = "";
-		var holder = this.inputs["FoundTags"];
+		var holder = this.Inputs["FoundTags"];
 		holder.innerHTML = "";
 		for (var i = 0,l = found.length; i < l; i++) {
 			found[i].obj = this;
@@ -43,10 +43,12 @@ Tags.prototype.Bind = function(data, found) {
 	}
 };
 
-Tags.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.FillFrom(this.data);
-	this.Bind(this.data, this.found);
+Tags.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.FillFrom(obj.data);
+		obj.Bind(obj.data, obj.found);
+	}
 };
 
 Tags.prototype.TemplateLoaded = function(req) {
@@ -61,22 +63,24 @@ Tags.prototype.TemplateLoaded = function(req) {
 
 	// Validation
 	this.Tab.Validators = new ValidatorsCollection();
-	this.Tab.Validators.Add(new Validator(this.inputs["SEARCH_TAG"], new MatchPattern(tagPattern), "Тег содержит запрешённые символы&nbsp;(разрешено a-z а-я 0-9 -_)", Random(10000)));
-	this.Tab.Validators.Init(this.inputs["Errors"]);
+	this.Tab.Validators.Add(new Validator(this.Inputs["SEARCH_TAG"], new MatchPattern(tagPattern), "Тег содержит запрешённые символы&nbsp;(разрешено a-z а-я 0-9 -_)", Random(10000)));
+	this.Tab.Validators.Init(this.Inputs["Errors"]);
 
-	var req = new delayedRequestor(this, this.inputs["SEARCH_TAG"]);
-	req.Submitter = this.inputs["AddTag"];
+	var req = new DelayedRequestor(this, this.Inputs["SEARCH_TAG"]);
+	req.Submitter = this.Inputs["AddTag"];
 };
 
-Tags.prototype.request = function(params, callback) {
-	var s = new ParamsBuilder(params)
-		.add('RECORD_ID', this.RECORD_ID);
-	this.BaseRequest(s.build(), callback);
+Tags.prototype.Request = function(params, callback) {
+	if (!params) {
+		params = "";
+	}
+	params += MakeParametersPair("RECORD_ID", this.RECORD_ID);
+	this.BaseRequest(params, callback);
 };
 
 Tags.prototype.AddNewTag = function(input) {
 	if (input && input.obj) {
-		var value = input.obj.inputs["SEARCH_TAG"].value;
+		var value = input.obj.Inputs["SEARCH_TAG"].value;
 		var tag = new tagdto(value, value);
 		tag.obj = this;
 		this.AT(tag);
@@ -85,12 +89,12 @@ Tags.prototype.AddNewTag = function(input) {
 
 Tags.prototype.AT = function(tag) {
 	if (this.Tab.AddedTags.Count() >= maxTags) {
-		this.inputs["Errors"].innerHTML = "<li> Можно добавить не более " + maxTags + " тегов";
+		this.Inputs["Errors"].innerHTML = "<li> Можно добавить не более " + maxTags + " тегов";
 		return false;
 	}
 	this.Tab.AddedTags.Add(tag);
 	this.ShowTags();
-	this.inputs["SEARCH_TAG"].value = "";
+	this.Inputs["SEARCH_TAG"].value = "";
 	return true;
 };
 
@@ -101,7 +105,7 @@ Tags.prototype.DT = function(id) {
 
 Tags.prototype.ShowTags = function() {
 	this.SetTabElementValue("TagsContainer", this.Tab.AddedTags.Count() > 0 ? "" : "не указаны");
-	this.Tab.AddedTags.ToString(this.inputs["TagsContainer"]);
+	this.Tab.AddedTags.ToString(this.Inputs["TagsContainer"]);
 };
 
 

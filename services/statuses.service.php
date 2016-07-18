@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -17,7 +17,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("Изменения сохранены.");
+				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
 			}
 			break;
 		case "delete":
@@ -34,7 +34,7 @@
 					$q = $db->Query("UPDATE ".User::table." SET ".User::STATUS_ID."=".$altStatus->Id." WHERE ".User::STATUS_ID."=".$status->Id);
 
 					$status->Delete();
-					echo JsAlert("Статус удалён.");
+					echo JsAlert("РЎС‚Р°С‚СѓСЃ СѓРґР°Р»С‘РЅ.");
 				}
 			}
 			break;

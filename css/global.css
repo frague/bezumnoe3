@@ -1,4 +1,4 @@
-body {
+﻿body {
     padding:0;
     margin:0;
 }
@@ -8,7 +8,7 @@ body, td, input, textarea, select, password {
     font-size:10pt;
 }
 
-input[type="text"],
+input[type="text"], 
 input[type="password"] {
     padding: 4px;
 }
@@ -81,6 +81,112 @@ span.imageLink {
     width:100%;
 }
 
+/* Tabs */
+
+ul.Tabs {
+    padding:0;
+    margin:0 0 0 4px;
+    border:0;
+}
+
+.Tabs li {
+    float:left;
+    background-color:black;
+    border:solid 1px #303030;
+    border-top:none;
+    padding: 4px 6px 4px 6px;
+    margin:0 2px 0 0;
+    position:relative;
+    list-style:none;
+    font-size:8pt;
+
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    
+    border-top-right-radius:0;
+    -moz-border-radius-topright:0;
+    -webkit-border-top-right-radius:0;
+
+    border-top-left-radius:0;
+    -moz-border-radius-topleft:0;
+    -webkit-border-top-left-radius:0;
+}
+
+.Tabs li.Selected {
+    border:solid 1px #404040;
+    border-top:none;
+    background-color:#111111;
+    padding: 5px 6px 5px 6px;
+    top:-1px;
+    /*font-weight:bold;*/
+}
+
+.Tabs li a, .Tabs li span {
+    color:#A0A0A0;
+    text-decoration:none;
+    margin:0;
+    padding:0;
+}
+
+.Tabs li.Selected span {
+    color:white;
+}
+
+.Tabs li.HasUnread {
+    background-color: #5C0000;
+    background-image:url(/img/bg_tab_flashing.gif);
+}
+
+.TabTopic {
+    text-align:center;
+    background-color:#C3D83F;
+    color:black;
+    margin:0;
+    padding:0;
+    border:solid 1px #111111;
+
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+}
+
+.TabTopic div {
+    font-size:10pt;
+    font-weight:normal;
+    padding: 4px;
+    margin:0;
+}
+
+.TabTopic a {
+    color:black;
+}
+
+.TabTopic a.Link {
+    color:brown;
+}
+
+.TabTopic.Alert {
+    background-color:#FF602B;
+}
+
+.TabTopic em {
+    color: #D63400;
+    padding-right:4px;
+    font-weight:bold;
+    font-style:normal;
+}
+
+
+
+.Tabs li a.CloseSign, .CloseSign {
+    font-family:arial;
+    position:relative;
+    top:-4px;
+    color:red;
+    text-decoration:none;
+    margin-left:2px;
+}
 
 div.ConfirmButtons {
     text-align:center;
@@ -130,6 +236,7 @@ ul.Links li, ul#UsersContainer li, ul.NoDots li {
 .LoadingIndicator {
     height:100px;
     background:url(/img/clock.gif) no-repeat center center;
+/*  background:url(/img/pbar.gif) no-repeat center center;*/
 }
 
 /* Pager styles */
@@ -422,28 +529,28 @@ ul.random > li {
     list-style-image: url(/img/li/1.gif);
 }
 
-ul.random > li:nth-child(1),
-ul.random > li:nth-child(4),
-ul.random > li:nth-child(8),
-ul.random > li:nth-child(13),
+ul.random > li:nth-child(1), 
+ul.random > li:nth-child(4), 
+ul.random > li:nth-child(8), 
+ul.random > li:nth-child(13), 
 ul.random > li:nth-child(17),
 ul.random > li:nth-child(24) {
     list-style-image: url(/img/li/2.gif);
 }
 
-ul.random > li:nth-child(2),
-ul.random > li:nth-child(6),
-ul.random > li:nth-child(10),
-ul.random > li:nth-child(14),
+ul.random > li:nth-child(2), 
+ul.random > li:nth-child(6), 
+ul.random > li:nth-child(10), 
+ul.random > li:nth-child(14), 
 ul.random > li:nth-child(19),
 ul.random > li:nth-child(21) {
     list-style-image: url(/img/li/3.gif);
 }
 
-ul.random > li:nth-child(3),
-ul.random > li:nth-child(5),
-ul.random > li:nth-child(11),
-ul.random > li:nth-child(16),
+ul.random > li:nth-child(3), 
+ul.random > li:nth-child(5), 
+ul.random > li:nth-child(11), 
+ul.random > li:nth-child(16), 
 ul.random > li:nth-child(20),
 ul.random > li:nth-child(22) {
     list-style-image: url(/img/li/4.gif);

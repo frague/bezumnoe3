@@ -37,14 +37,14 @@ class Calendar {
 
     function __tostring() {
         $result = "";
-
+        
         $result .= "<table class='Calendar'>\n";
         if ($this->ShowMonthName) {
             $result .= "<tr class='Header'><th colspan=7>".$this->Months[round($this->Month)].", ".$this->Year."</th></tr>\n";
         }
         if ($this->ShowDayNames) {
             $perc = sprintf("%.02f", 100 / 7);
-
+        
             $result .= "<tr class='DayNames'>";
             for ($i = 1; $i <= 7; $i++) {
                 $result.="<td width='".$perc."%'".($i==6 || $i==7 ? " class='Weekend'" : "").">".$this->DayNames[$i]."</td>";
@@ -76,7 +76,7 @@ class Calendar {
         if ($this->PrevMonth || $this->NextMonth) {
             $result .= "<tr class='Navigation'><td colspan=7>".$this->PrevMonth." | ".$this->NextMonth."</td></tr>";
         }
-
+        
         $result .= "</table>";
         return $result;
     }
@@ -84,7 +84,7 @@ class Calendar {
     function SetHeader($hdr) {
         $this->Header = $hdr;
     }
-
+    
     function SetDay($day, $value) {
         $this->Days[$day] = $value;
     }

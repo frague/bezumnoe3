@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -22,13 +22,13 @@
 	}
 
 	if ($forum->IsEmpty()) {
-		echo JsAlert("Æóðíàë íå íàéäåí.", 1);
+		echo JsAlert("Ð–ÑƒÑ€Ð½Ð°Ð» Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½.", 1);
 		die;
 	}
 
 	$access = $forum->GetAccess($user->User->Id);
 	if ($access != Forum::FULL_ACCESS && $access != Forum::READ_ADD_ACCESS && $access != Forum::FRIENDLY_ACCESS) {
-		echo JsAlert("Ó âàñ íåò äîñòóïà ê óêàçàííîìó æóðíàëó!", 1);
+		echo JsAlert("Ð£ Ð²Ð°Ñ Ð½ÐµÑ‚ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð° Ðº ÑƒÐºÐ°Ð·Ð°Ð½Ð½Ð¾Ð¼Ñƒ Ð¶ÑƒÑ€Ð½Ð°Ð»Ñƒ!", 1);
 		die;
 	}
 
@@ -69,6 +69,20 @@ JsQuote($q->Get(User::LOGIN))."\")";
 	}
 	$result .= "this.Total=".$forum->TotalCount.";";
 	$result .= "this.FORUM_ID=".$forum->Id.";";
+
+	$alias = "";
+	if ($forum->IsJournal()) {
+		$settings = new JournalSettings();
+		$settings->GetByForumId($forum->Id);
+		if (!$settings->IsEmpty()) {
+			$alias = $settings->Alias;
+		}
+	}
+	$result .= "this.ALIAS=\"".$alias."\";";
+
+	if ($forum->IsGallery()) {
+		$result .= "this.GALLERY=\"".JsQuote($forum->Description)."\";";
+	}
 
 	echo $result;
 

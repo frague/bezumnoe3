@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -18,7 +18,7 @@
 			if ($error) {
 				echo JsAlert($error, 1);
 			} else {
-				echo JsAlert("Изменения сохранены.");
+				echo JsAlert("РР·РјРµРЅРµРЅРёСЏ СЃРѕС…СЂР°РЅРµРЅС‹.");
 			}
 			break;
 		case "delete":
@@ -31,9 +31,9 @@
 						$u = new User();
 						$u->GetByCondition(User::ROOM_ID."=".$id, $u->CloseSessionExpression());
 						$room->Delete();
-						echo JsAlert("Комната удалена.");
+						echo JsAlert("РљРѕРјРЅР°С‚Р° СѓРґР°Р»РµРЅР°.");
 					} else {
-						echo JsAlert("Комната уже удалена.");
+						echo JsAlert("РљРѕРјРЅР°С‚Р° СѓР¶Рµ СѓРґР°Р»РµРЅР°.");
 					}
 				}
 			}

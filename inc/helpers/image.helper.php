@@ -77,7 +77,7 @@
 
         function Scale($scale) {
             $width = $this->GetWidth() * $scale/100;
-            $height = $this->GetHeight() * $scale/100;
+            $height = $this->GetHeight() * $scale/100; 
             $this->Resize($width, $height);
         }
 

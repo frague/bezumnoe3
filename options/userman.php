@@ -1,4 +1,4 @@
-<?
+<?php
     require "menu_base.php";
 
     if ($user->IsEmpty()) {
@@ -23,12 +23,12 @@
 <input type="checkbox" name="FILTER_EXPIRED" id="FILTER_EXPIRED" /> <label for="FILTER_EXPIRED">отсутствующих более года</label><br />
 <input type="checkbox" name="FILTER_TODAY" id="FILTER_TODAY" /> <label for="FILTER_TODAY">заходивших сегодня</label><br />
 <input type="checkbox" name="FILTER_YESTERDAY" id="FILTER_YESTERDAY" /> <label for="FILTER_YESTERDAY">заходивших вчера</label><br />
-<input type="checkbox" name="FILTER_REGDATE" id="FILTER_REGDATE" /> <label for="FILTER_REGDATE">по дате регистрации</label>
+<input type="checkbox" name="FILTER_REGDATE" id="FILTER_REGDATE" /> <label for="FILTER_REGDATE">по дате регистрации</label> 
 <input type="text" name="REG_DATE" id="REG_DATE" />
 
 <div id="ExtendedCriteria">
 </div>
-
+        
         </td><td>
 <h4>Результаты поиска:</h4>
 

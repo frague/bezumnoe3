@@ -21,7 +21,7 @@ class GalleryComment extends JournalComment {
 "\",\"".JsQuote($this->Date).
 "\",".round($this->Type).",".round($this->IsDeleted).")";
     }
-
+    
 
 }
 

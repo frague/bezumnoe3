@@ -6,7 +6,7 @@
     $message = new JournalRecord();
 
     header("Content-Type: text/xml");
-
+    
     $showMessages = 30;
 
     $rss_channel = new rssGenerator_channel();

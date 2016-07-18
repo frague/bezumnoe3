@@ -3,11 +3,13 @@
     $root = "./";
     require_once $root."server_references.php";
 
-    $user = GetAuthorizedUser(true, false);
+    $user = GetAuthorizedUser(true);
     SetUserSessionCookie($user->User);
 
     require $root."inc/ui_parts/templates.php";
     require $root."inc/ui_parts/news.php";
+
+    #require_once $root."references.php";
 
 ?><!DOCTYPE html>
 <html lang="ru">
@@ -34,13 +36,18 @@
     <meta name="Address" content="Saratov, Russia">
     <meta name="home_url" content="http://bezumnoe.ru/">
     <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="/css/vendor-8e12157da5.css">
-    <link rel="stylesheet" href="/css/styles-055a3aad16.css">
-    <!-- endinject -->
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/template_layout.css" />
+    <link rel="stylesheet" href="/css/default3.css" />
+    <link rel="stylesheet" href="/css/lettering.css" />
+<!--[if IE]>    <link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+    <script src="/js1/jquery/jquery.js"></script>
+    <script src="/js1/jquery/jquery-ui.js"></script>
+    <script src="/js1/jquery/jquery.lettering-0.6.1.min.js"></script>
+    <script src="/js1/common.js"></script>
 </head>
 
 <body>
@@ -73,9 +80,9 @@
                     <div class="Column Center Left">
                         <div class="Divider Vertical main_links">
                             <div class="welcome">
-<p>Добро пожаловать в старейший саратовский чат
+<p>Добро пожаловать в старейший саратовский чат 
 <h1>Безумное ЧАепиТие у Мартовского Зайца</h1>
-<p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время.
+<p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время. 
 <p>Если вы у нас впервые, ознакомьтесь с <a href="/rules/" class="Link">правилами</a> и <a href="/register" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
                             </div>
 
@@ -103,9 +110,9 @@
                                 <p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
                             </div>
                             <h5>Последний комментарий</h5>
-                            <?php
+                            <?php 
                                 $shownComments = 1;
-                                include $root."inc/ui_parts/gallery.comments.php";
+                                include $root."inc/ui_parts/gallery.comments.php"; 
                             ?>
 
                             <div class="blogs">
@@ -126,7 +133,7 @@
                         <form method="POST" class="auth_form">
                             <input type="hidden" name="AUTH" id="AUTH" value="1" />
                             <label for="<?php echo LOGIN_KEY ?>">Логин</label>
-                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo  echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
+                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" value="<?php echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
                             <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
                             <input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password" placeholder="Пароль" />
                             <input src="/img/t/auth.gif" width="90" height="30" alt="Авторизоваться в чате" type="image" />
@@ -173,10 +180,6 @@
 
                 <div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
-                <?php include $root."inc/ui_parts/rle_banner.php"; ?>
-
-                <div class="Divider Horizontal Alternative"><span></span></div>
-
                 <div class="footer">
                     <p>Первая версия сайта была запущена 19 октября 1999 года
                     <p>&copy; Дизайн и разработка сайта - <a href="mailto:me@bezumnoe.ru">Николай Богданов</a>
@@ -192,9 +195,5 @@
 
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-    <!-- inject:js -->
-    <script src="/scripts/vendor-1ce5636458.js"></script>
-    <script src="/scripts/custom-b315ec8f7f.js"></script>
-    <!-- endinject -->
 </body>
 </html>

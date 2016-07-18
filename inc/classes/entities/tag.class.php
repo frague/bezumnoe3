@@ -85,11 +85,11 @@ class Tag extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
-    t1.".self::TAG_ID.",
+        return "SELECT 
+    t1.".self::TAG_ID.", 
     t1.".self::TITLE."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##
 ORDER BY
@@ -97,11 +97,11 @@ ORDER BY
     }
 
     function ReadLinkedExpression() {
-        return "SELECT
-    t1.".self::TAG_ID.",
+        return "SELECT 
+    t1.".self::TAG_ID.", 
     t1.".self::TITLE."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
     LEFT JOIN ".RecordTag::table." t2 ON t2.".RecordTag::TAG_ID."=t1.".self::TAG_ID."
 WHERE
     ##CONDITION##
@@ -110,7 +110,7 @@ ORDER BY
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::TITLE.")
 VALUES
 ('".SqlQuote($this->Title)."')
@@ -118,9 +118,9 @@ ON DUPLICATE KEY UPDATE ".self::TAG_ID."=".self::TAG_ID;
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
+        $result = "UPDATE ".$this->table." SET 
 ".self::TITLE."='".SqlQuote($this->Title)."'
-WHERE
+WHERE 
     ".self::TAG_ID."=".SqlQuote($this->Id);
         return $result;
     }
@@ -130,7 +130,7 @@ WHERE
     }
 
     function CloudExpression() {
-        return "SELECT
+        return "SELECT 
   COUNT(1) AS ".self::WEIGHT.",
   t1.".self::TITLE."
 FROM ".$this->table." AS t1

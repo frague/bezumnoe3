@@ -111,7 +111,7 @@ JsQuote($this->Css)."\"".($add ? ", \"".JsQuote($add)."\"" : "")."]";
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::TEMPLATE_ID.",
     t1.".self::FORUM_ID.",
     t1.".self::TITLE.",
@@ -119,26 +119,26 @@ JsQuote($this->Css)."\"".($add ? ", \"".JsQuote($add)."\"" : "")."]";
     t1.".self::MESSAGE.",
     t1.".self::CSS.",
     t1.".self::UPDATED."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::FORUM_ID.",
-".self::TITLE.",
-".self::BODY.",
-".self::MESSAGE.",
+        return "INSERT INTO ".$this->table." 
+(".self::FORUM_ID.", 
+".self::TITLE.", 
+".self::BODY.", 
+".self::MESSAGE.", 
 ".self::CSS.",
 ".self::UPDATED."
 )
 VALUES
-(".NullableId($this->ForumId).",
-'".SqlQuote($this->Title)."',
-'".SqlQuote($this->Body)."',
-'".SqlQuote($this->Message)."',
+(".NullableId($this->ForumId).", 
+'".SqlQuote($this->Title)."', 
+'".SqlQuote($this->Body)."', 
+'".SqlQuote($this->Message)."', 
 '".SqlQuote($this->Css)."',
 ".Nullable(SqlQuote($this->Updated))."
 )";
@@ -147,14 +147,14 @@ VALUES
     function UpdateExpression() {
         $this->Updated = NowDateTime();
 
-        $result = "UPDATE ".$this->table." SET
-".self::FORUM_ID."=".NullableId($this->ForumId).",
-".self::TITLE."='".SqlQuote($this->Title)."',
-".self::BODY."='".SqlQuote($this->Body)."',
-".self::MESSAGE."='".SqlQuote($this->Message)."',
+        $result = "UPDATE ".$this->table." SET 
+".self::FORUM_ID."=".NullableId($this->ForumId).", 
+".self::TITLE."='".SqlQuote($this->Title)."', 
+".self::BODY."='".SqlQuote($this->Body)."', 
+".self::MESSAGE."='".SqlQuote($this->Message)."', 
 ".self::CSS."='".SqlQuote($this->Css)."',
 ".self::UPDATED."=".Nullable(SqlQuote($this->Updated))."
-WHERE
+WHERE 
     ".self::TEMPLATE_ID."=".SqlQuote($this->Id);
 
         return $result;

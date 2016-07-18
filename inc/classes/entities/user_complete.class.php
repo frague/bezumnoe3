@@ -54,21 +54,21 @@ class UserComplete extends EntityBase {
         return $this->Status->IsAdmin();
     }
 
-    function isSuperAdmin() {
-        return $this->Status->isSuperAdmin();
+    function IsSuperAdmin() {
+        return $this->Status->IsSuperAdmin();
     }
 
     function CheckSum($extended = false) {
         $cs = 0;
         $cs += $this->User->CheckSum($extended);
+        $cs += $this->Settings->CheckSum($extended);
         $cs += $this->Nickname->CheckSum($extended);
         $cs += $this->Status->CheckSum($extended);
-        $cs += $this->Settings->CheckSum($extended);
 
 //		$cs += CheckSum($this->IIgnore);
 //		$cs += CheckSum($this->IgnoresMe);
 
-//		DebugLine("User CS: " + $cs);
+        DebugLine("User CS: " + $cs);
         return $cs;
     }
 
@@ -164,6 +164,28 @@ $this->Settings->ToJs().",\"".
 JsQuote($this->Status->Rights)."\",\"".
 JsQuote($this->Status->Title)."\",\"".
 JsQuote($this->Status->Color)."\",".self::IsIgnoredDefault.",".self::IgnoresYouDefault.")";
+    }
+
+    function ToJSON($status) {
+      global $AdminRights;
+
+        return array(
+            "id" => $this->User->Id,
+            "login" => $this->User->Login,
+            "room_id" => $this->User->RoomId,
+            "room_is_permitted" => Boolean($this->User->RoomIsPermitted),
+            "address" => $status->Rights > $AdminRights ? $this->User->SessionAddress : "",
+            "away" => $this->User->IsAway() ? " ".$this->User->AwayMessage : "",
+            "ban_reason" => $this->User->BanReason,
+            "banned_by" => $this->User->BannedBy,
+            "nickname" => $this->Nickname->Title,
+            "settings" => $this->Settings->ToJSON(),
+            "rights" => $this->Status->Rights,
+            "status_title" => $this->Status->Title,
+            "status_color" => $this->Status->Color,
+            "is_ignored" => Boolean(self::IsIgnoredDefault),
+            "ignores_you" => Boolean(self::IgnoresYouDefault)
+         );
     }
 
     function DisplayedName() {

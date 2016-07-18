@@ -2,7 +2,7 @@
 
     function ShowNews($ownerId, $amount = 5) {
       global $db;
-
+    
         $ownerId = round($ownerId);
         $record = new NewsRecord();
 

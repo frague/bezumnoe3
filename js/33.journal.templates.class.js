@@ -14,31 +14,35 @@ function JournalTemplates() {
 
 JournalTemplates.prototype = new OptionsBase();
 
-JournalTemplates.prototype.request = function(params, callback) {
-    var s = new ParamsBuilder(params);
-    s.add('FORUM_ID', this.Forum.FORUM_ID);
-    this.BaseRequest(s.build, callback);
+JournalTemplates.prototype.Request = function(params, callback) {
+    if (!params) {
+        params = "";
+    }
+    params += MakeParametersPair("FORUM_ID", this.Forum.FORUM_ID);
+    this.BaseRequest(params, callback);
 };
 
-JournalTemplates.prototype.requestCallback = function(req) {
-    this.skinTemplateId = '';
-    this.ownMarkupAllowed = '';
-    this.defaultTemplateId = '';
-    this.requestBaseCallback(req);
+JournalTemplates.prototype.RequestCallback = function(req, obj) {
+    if (obj) {
+        obj.skinTemplateId = "";
+        obj.ownMarkupAllowed = "";
+        obj.defaultTemplateId = "";
+        obj.RequestBaseCallback(req, obj);
 
-    if (this.data) {
-        this.FillFrom(this.data);
-        this.Bind();
-    }
-    if (!this.ownMarkupAllowed) {
-        this.DisplayTabElement("label__1", false);
-        bId = this.skinTemplateId > 0 ? this.skinTemplateId : this.defaultTemplateId;
-    } else {
-        bId = this.skinTemplateId;
-    }
-    button = SetRadioValue(this.inputs["SKIN_TEMPLATE_ID"], bId);
-    if (button) {
-        button.click();
+        if (obj.data) {
+            obj.FillFrom(obj.data);
+            obj.Bind();
+        }
+        if (!obj.ownMarkupAllowed) {
+            obj.DisplayTabElement("label__1", false);
+            bId = obj.skinTemplateId > 0 ? obj.skinTemplateId : obj.defaultTemplateId;
+        } else {
+            bId = obj.skinTemplateId;
+        }
+        button = SetRadioValue(obj.Inputs["SKIN_TEMPLATE_ID"], bId);
+        if (button) {
+            button.click();
+        }
     }
 };
 

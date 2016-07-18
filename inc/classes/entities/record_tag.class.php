@@ -17,7 +17,7 @@ class RecordTag extends EntityBase {
     function RecordTag($recordId = -1, $tagId = -1) {
         $this->table = self::table;
         parent::__construct(-1, "");
-
+        
         $this->RecordId = $recordId;
         $this->TagId = $tagId;
     }
@@ -80,7 +80,7 @@ class RecordTag extends EntityBase {
     }
 
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicate
@@ -105,17 +105,17 @@ class RecordTag extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
-    t1.".self::TAG_ID.",
+        return "SELECT 
+    t1.".self::TAG_ID.", 
     t1.".self::RECORD_ID."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::TAG_ID.",
 ".self::RECORD_ID.")
 VALUES
@@ -124,7 +124,7 @@ VALUES
     }
 
     function CreateLinkedExpression($tagTitle) {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::TAG_ID.",
 ".self::RECORD_ID.")
 VALUES
@@ -148,7 +148,7 @@ VALUES
         return "DELETE ".$this->table.".* FROM ".$this->table."
 LEFT JOIN ".ForumRecordBase::table." ON ".$this->table.".".self::RECORD_ID."=".ForumRecordBase::table.".".ForumRecordBase::RECORD_ID."
 LEFT JOIN ".Tag::table." ON ".$this->table.".".self::TAG_ID."=".Tag::table.".".Tag::TAG_ID."
-WHERE
+WHERE 
     ".ForumRecordBase::table.".".ForumRecordBase::RECORD_ID." IS NULL OR
     ".Tag::table.".".Tag::TAG_ID." IS NULL";
     }

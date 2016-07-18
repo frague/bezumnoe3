@@ -18,28 +18,32 @@ BannedAddresses.prototype = new Grid();
 
 BannedAddresses.prototype.BaseBind = function() {};
 
-BannedAddresses.prototype.requestCallback = function(req) {
-	if (BannedAddrsList) BannedAddrsList.Tab.Alerts.Clear();
-
-	this.banData = [];
-	this.requestBaseCallback(req);
-
-	if (BannedAddrsList) {
-		// Adding entry from bans tab
-		BannedAddrsList.Bind(this.data);
-		if (this.banData.length) {
-			BannedAddrsList.FillFrom(this.banData);
-			BannedAddrsList.BindFields(BannedAddrsList.fields);
-			BannedAddrsList.SetFormName("Редактировать запрет	" + BannedAddrsList["CONTENT"] + ":");
+BannedAddresses.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		if (BannedAddrsList) {
+			BannedAddrsList.Tab.Alerts.Clear();
 		}
-	} else {
-		// Adding entry from user profile
-		this.Bind(this.data);
-	};
-	if (BannedAddrsList && !BannedAddrsList.Tab.Alerts.HasErrors && !BannedAddrsList.Tab.Alerts.IsEmpty) {
-		BannedAddrsList.Reset();
-		BannedAddrsList.SetFormName("");
-	};
+
+		obj.banData = [];
+		obj.RequestBaseCallback(req, obj);
+
+		if (BannedAddrsList) {
+			// Adding entry from bans tab
+			BannedAddrsList.Bind(obj.data);
+			if (obj.banData.length) {
+				BannedAddrsList.FillFrom(obj.banData);
+				BannedAddrsList.BindFields(BannedAddrsList.fields);
+				BannedAddrsList.SetFormName("Редактировать запрет	" + BannedAddrsList["CONTENT"] + ":");
+			}
+		} else {
+			// Adding entry from user profile
+			obj.Bind(obj.data);
+		}
+		if (BannedAddrsList && !BannedAddrsList.Tab.Alerts.HasErrors && !BannedAddrsList.Tab.Alerts.IsEmpty) {
+			BannedAddrsList.Reset();
+			BannedAddrsList.SetFormName("");
+		}
+	}
 };
 
 BannedAddresses.prototype.SetFormName = function(name) {
@@ -55,12 +59,12 @@ BannedAddresses.prototype.TemplateLoaded = function(req) {
 
 	this.GroupSelfAssign(["RefreshBannedAddresses", "ResetBannedAddresses"]);
 
-	new DatePicker(this.inputs["TILL"]);
+	new DatePicker(this.Inputs["TILL"]);
 
 	/* Submit button */
 	this.Tab.AddSubmitButton("SaveObject(this)", "", this);
-	BindEnterTo(this.inputs["CONTENT"], this.Tab.SubmitButton);
-	BindEnterTo(this.inputs["TILL"], this.Tab.SubmitButton);
+	BindEnterTo(this.Inputs["CONTENT"], this.Tab.SubmitButton);
+	BindEnterTo(this.Inputs["TILL"], this.Tab.SubmitButton);
 };
 
 /* Banned Address Data Transfer Object */
@@ -100,7 +104,7 @@ badto.prototype.ToString = function(index, obj) {
 			comma = true;
 		}
 	}
-
+		
 	td2.appendChild(MakeDiv("Запрет:	<b>" + result + "</b>"));
 	tr.appendChild(td2);
 
@@ -109,17 +113,16 @@ badto.prototype.ToString = function(index, obj) {
 	td3.appendChild(MakeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
 	td3.appendChild(MakeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));
 	tr.appendChild(td3);
-
+	
 	return tr;
 };
 
 /* Client events methods */
 
 function SendItemRequest(a, id, go) {
-	var s = new ParamsBuilder()
-		.add('go', go)
-		.add('id', id);
-	a.obj.request(s.build());
+	var params = MakeParametersPair("go", go);
+	params += MakeParametersPair("id", id);
+	a.obj.Request(params);
 };
 
 function DeleteBan(a, id) {

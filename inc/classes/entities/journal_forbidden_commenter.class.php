@@ -46,7 +46,7 @@ class JournalForbiddenCommenter extends EntityBase {
 
 
 	
-	function Save() {
+	function Save($by_query = "") {
 	 global $db;
 		if ($this->IsConnected() && $this->IsFull() && $this->UserId != $this->CommenterId) {
 			// Check duplicates

@@ -1,4 +1,4 @@
-<?
+﻿<?php
 
     $root = "./";
     require_once $root."server_references.php";
@@ -40,18 +40,23 @@
     $user->User->TouchSession();
     SetUserSessionCookie($user->User);
 
+    require_once $root."references.php";
+
 ?><!DOCTYPE html>
 <html lang="ru">
     <head>
         <meta charset="utf-8" />
         <title>Безумное ЧАепиТие у Мартовского Зайца</title>
+        <link rel="stylesheet" href="/css/global.css">
         <link rel="stylesheet" href="/css/chat_layout.css">
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+        <script src="/js1/jquery/jquery.js"></script>
+        <script src="/js1/jquery/jquery-ui.js"></script>
     </head>
 
-    <body>
+    <body onload="OnLoad()">
         <div id="AlertContainer">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
                 <tr><td align="center" valign="middle">
@@ -69,11 +74,11 @@
         </div>
 
         <div id="MessageForm">
-            <form name="messageForm">
+            <form onsubmit="Send();return false;">
             <table>
                 <tr>
                     <td></td>
-                    <td id="CurrentName" colspan="2"><? echo $user->DisplayedName() ?></td></tr>
+                    <td id="CurrentName" colspan="2"><?php echo $user->DisplayedName() ?></td></tr>
                 <tr>
                     <td></td>
                     <td id="RecepientsContainer" colspan="2"></td></tr>
@@ -82,7 +87,7 @@
                     <td width="100%">
                         <div id="Smiles"><input id="Message" style="width:100%;" autocomplete="off"></div>
                     </td><td>
-                        <input type="image" alt="Отправить сообщение" src="/img/send_button.gif">
+                        <input type="image" alt="Отправить сообщение" src="/img/send_button.gif" onclick="Send();return false;">
                     </td></tr>
                 <tr>
                     <td></td>
@@ -108,14 +113,25 @@
             <div id="MenuContainer"></div>
         </div>
 
-        <script src="/scripts/scripts.js"></script>
+        <script src="/js1/chat_layout.js"></script>
+        <script src="/js1/prototype.js"></script>
+        <script src="/js1/smiles.js"></script>
         <script src="/js1/smiles.php"></script>
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';
             Session = '<?php echo $user->User->Session ?>';
             SessionCheck = '<?php echo $user->User->SessionCheck ?>';
             SessionKey = '<?php echo SESSION_KEY ?>';
-            initLayout(pages.inside);
+
+            /* Tabs */
+            var tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
+            var MainTab = new Tab(1, "Чат", 1);
+            tabs.Add(MainTab);
+            CurrentTab = MainTab;
+
+            tabs.Print();
+
+            HistoryGo(0);
         </script>
     </body>
 </html>

@@ -24,7 +24,7 @@ class JournalRecord extends ForumRecordBase {
 
     function ToHref($alias = "") {
         return "http://www.bezumnoe.ru".JournalSettings::MakeHref($alias, $this->Id);
-    }
+    } 
 
     function GetImageUrl() {
         if ($this->IsEmpty()) {
@@ -41,7 +41,7 @@ class JournalRecord extends ForumRecordBase {
         }
         return "";
     }
-
+    
 
     // ----- Single Journal -----
     // Gets journal records by condition
@@ -52,21 +52,21 @@ class JournalRecord extends ForumRecordBase {
         return $this->GetByCondition(
             $condition." LIMIT ".($from ? $from."," : "").$limit,
             $this->JournalPostsExpression($access)
-        );
+        ); 
     }
-
+    
     // Gets journal topics by condition
     function GetJournalTopics($access, $from = 0, $limit, $forumId = 0, $condition = "") {
         $forumId = round($forumId);
 
         return $this->GetJournalRecords(
-            $access,
+            $access, 
             $from,
             $limit,
             ($condition ? $condition." AND " : "").
             ($forumId > 0 ? "t1.".self::FORUM_ID."=".$forumId." AND " : "")."LENGTH(t1.".self::INDEX.")=4
             ORDER BY t1.".self::DATE." DESC"
-        );
+        ); 
     }
 
     // Gets journal topics by condition
@@ -82,7 +82,7 @@ class JournalRecord extends ForumRecordBase {
             ORDER BY t1.".self::DATE." DESC
             LIMIT ".($from ? $from."," : "").$limit,
             $this->JournalPostsByTagExpression($access)
-        );
+        ); 
     }
 
     // ----- Multiple Journals -----
@@ -97,20 +97,20 @@ class JournalRecord extends ForumRecordBase {
             $condition.
             " LIMIT ".($from ? $from."," : "").$limit,
             $this->MixedJournalsPostsExpression()
-        );
+        ); 
     }
-
+    
     // Gets journal topics by condition
     function GetMixedJournalsTopics($userId, $from = 0, $limit, $condition = "", $order_by_date = True) {
         $forumId = round($forumId);
         return $this->GetMixedJournalsRecords(
-            $userId,
+            $userId, 
             $from,
             $limit,
             ($condition ? $condition." AND " : "").
             "LENGTH(t1.".self::INDEX.")=4
             ORDER BY ".($order_by_date ? "t1.".self::DATE." DESC" : "t1.".self::RECORD_ID." DESC")
-        );
+        ); 
     }
 
     // Gets topics from different journals by array of ids
@@ -138,7 +138,7 @@ class JournalRecord extends ForumRecordBase {
         return str_replace(
         "WHERE",
         "   LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
-WHERE
+WHERE 
     t5.".Journal::TYPE."='".$this->RecordType."' AND ",
         $this->ReadThreadExpression($access));
     }
@@ -150,7 +150,7 @@ WHERE
         "   LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
     JOIN ".RecordTag::table." AS t6 ON t6.".RecordTag::RECORD_ID."=t1.".self::RECORD_ID."
     JOIN ".Tag::table." AS t7 ON t7.".Tag::TAG_ID."=t6.".RecordTag::TAG_ID."
-WHERE
+WHERE 
     t5.".Journal::TYPE."='".$this->RecordType."' AND ",
         $this->ReadThreadExpression($access));
 
@@ -167,20 +167,21 @@ WHERE
         $userId = round($userId);
 
         $result = str_replace(
-        "WHERE",
-        "
-    LEFT JOIN ".ForumUser::table." AS t4 ON t4.".ForumUser::USER_ID."=".$userId." AND t4.".ForumUser::FORUM_ID."=t1.".JournalRecord::RECORD_ID."
-    LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
-    LEFT JOIN ".JournalSettings::table." AS t6 ON t6.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
-WHERE
-    t5.".Journal::TYPE."='".$this->RecordType."' AND ",
-        $this->ReadExpression());
+            "WHERE",
+            "
+        LEFT JOIN ".ForumUser::table." AS t4 ON t4.".ForumUser::USER_ID."=".$userId." AND t4.".ForumUser::FORUM_ID."=t1.".JournalRecord::RECORD_ID."
+        LEFT JOIN ".Journal::table." AS t5 ON t5.".Journal::FORUM_ID."=t1.".self::FORUM_ID."
+        LEFT JOIN ".JournalSettings::table." AS t6 ON t6.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
+    WHERE 
+        t5.".Journal::TYPE."='".$this->RecordType."' AND ",
+            $this->ReadExpression()
+        );
         $result = str_replace(
             "FROM",
             ",
     t5.".Journal::DESCRIPTION.",
     t6.".JournalSettings::ALIAS."
-FROM",
+FROM", 
             $result
         );
         return $result;
@@ -195,7 +196,7 @@ FROM",
         "
     JOIN ".JournalFriend::table." AS t4 ON t4.".JournalFriend::FORUM_ID."=".$forumId." AND t4.".JournalFriend::FRIENDLY_FORUM_ID."=t1.".JournalRecord::FORUM_ID."
     LEFT JOIN ".JournalSettings::table." AS t5 ON t5.".JournalSettings::FORUM_ID."=t1.".self::FORUM_ID."
-WHERE
+WHERE 
     LENGTH(t1.".self::INDEX.")=4 AND
     t1.".self::TYPE."='".self::TYPE_PUBLIC."'
     ORDER BY t1.".self::DATE." DESC",
@@ -205,7 +206,7 @@ WHERE
             "FROM",
             ",
     t5.".JournalSettings::ALIAS."
-FROM",
+FROM", 
             $result
         );
         return $result;

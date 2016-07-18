@@ -18,9 +18,11 @@ function Journal() {
 
 Journal.prototype = new OptionsBase();
 
-Journal.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.Bind();
+Journal.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind();
+	}
 };
 
 Journal.prototype.TemplateLoaded = function(req) {
@@ -42,13 +44,13 @@ Journal.prototype.TemplateLoaded = function(req) {
 		this.DisplayTabElement("linkNewPost", 0);
 	}
 
-	var spoilers = this.inputs["Spoilers"];
+	var spoilers = this.Inputs["Spoilers"];
 	if (spoilers) {
 		// TODO: Check type here
-		MessagesSpoiler = new Spoiler(1, "Сообщения", 0, 0, function(tab) {new JournalMessages().loadTemplate(tab, me.Id, me.Login)});
-		TemplatesSpoiler = new Spoiler(2, "Шаблоны отображения", 0, 0, function(tab) {new JournalTemplates().loadTemplate(tab, me.Id)});
-		SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {new JournalSettings().loadTemplate(tab, me.Id)});
-		AccessSpoiler = new Spoiler(4, "Доступ / друзья", 0, 0, function(tab) {new ForumAccess().loadTemplate(tab, me.Id)});
+		MessagesSpoiler = new Spoiler(1, "Сообщения", 0, 0, function(tab) {new JournalMessages().LoadTemplate(tab, me.Id, me.Login)});
+		TemplatesSpoiler = new Spoiler(2, "Шаблоны отображения", 0, 0, function(tab) {new JournalTemplates().LoadTemplate(tab, me.Id)});
+		SettingsSpoiler = new Spoiler(3, "Настройки", 0, 0, function(tab) {new JournalSettings().LoadTemplate(tab, me.Id)});
+		AccessSpoiler = new Spoiler(4, "Доступ / друзья", 0, 0, function(tab) {new ForumAccess().LoadTemplate(tab, me.Id)});
 
 		s = [MessagesSpoiler, TemplatesSpoiler, SettingsSpoiler, AccessSpoiler];
 		accessRow = accessMatrix[this.Forum.ACCESS][this.Forum.TYPE];
@@ -84,7 +86,7 @@ function InitMCE() {
 		content_css: "css/content.css",
 		menubar: "insert format",
 		toolbar: "insertfile undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code preview"
-	});
+	}); 
 };
 
 /*

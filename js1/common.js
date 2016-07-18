@@ -3,13 +3,8 @@ function Feedback() {
 };
 
 var infoPopUp;
-function info(id) {
-    infoPopUp = open(
-        "/user/" + id + ".html",
-        "info",
-        "width=550,height=600,toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=1"
-    );
-    return false;
+function Info(id) {
+    infoPopUp = open("/user/" + id + ".html", "info", "width=550,height=600,toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=1");
 }
 
 /* Letterizing */

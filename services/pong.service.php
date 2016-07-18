@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 //	JsPoint("Auth user");
@@ -9,7 +9,7 @@
 
 	if (!$user || $user->IsEmpty()) {
 		if ($sessionCheck) {
-//			echo "/* 1 */";
+			echo "DebugLine('No authorized user for session');";
 			echo "Quit();";
 			exit;
 		} else {
@@ -17,7 +17,7 @@
 			exit;
 		}
 	} else if (IdIsNull($user->User->RoomId)) {
-//		echo "/* 2 */";
+		echo "DebugLine('No room found for user');";
 		echo "Quit();";
 		exit;
 	}
@@ -86,7 +86,7 @@
 		$newRoom->Retrieve();
 		if (!$newRoom->IsEmpty() && !$newRoom->IsDeleted) {
 			$prefix = "ClearMessages();";
-			$message = new SystemMessage(Clickable($displayedName)." переходит в комнату &laquo;".$newRoom->Title."&raquo;", $user->User->RoomId);
+			$message = new SystemMessage(Clickable($displayedName)." РїРµСЂРµС…РѕРґРёС‚ РІ РєРѕРјРЅР°С‚Сѓ &laquo;".$newRoom->Title."&raquo;", $user->User->RoomId);
 			$message->Save();
 			if (!$newRoom->BeenVisited) {
 				$newRoom->BeenVisited = 1;
@@ -99,11 +99,11 @@
 			$room = $newRoom;
 
 			$lastId = "";
-			$message = new SystemMessage("В комнату переходит ".Clickable($displayedName), $newRoom->Id);
+			$message = new SystemMessage("Р’ РєРѕРјРЅР°С‚Сѓ РїРµСЂРµС…РѕРґРёС‚ ".Clickable($displayedName), $newRoom->Id);
 			$message->Save();
 		 }
 	}
-	
+
 //	JsPoint("Moving to room");
 
 	/* Checking room access */
@@ -178,10 +178,10 @@
 
 	// Getting users data (only USER_IDs & CHECK_SUMs)
 	$q = $user1->GetByCondition(
-		"t1.".User::ROOM_ID." IS NOT NULL", 
+		"t1.".User::ROOM_ID." IS NOT NULL",
 		$user->ReadChecksumsWithIgnoreDataExpression($user->User->Id)
 	);
-	
+
 	// Creating the list of users to be requested
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
@@ -191,6 +191,7 @@
 
 		$user_key = "u_".$id1;
 		if ($_POST[$user_key] != $user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])) {
+//			print "/* ".$_POST[$user_key]." != ".$user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])." */";
 			$ChangedUsers[] = $id1;
 		}
 		$_POST[$user_key] = "-";
@@ -204,7 +205,7 @@
 		$s .= "/* add */";
 		// Requesting only found users
 		$q = $user1->GetByCondition(
-			"t1.".User::USER_ID."=".implode(" OR t1.".User::USER_ID."=", $ChangedUsers), 
+			"t1.".User::USER_ID."=".implode(" OR t1.".User::USER_ID."=", $ChangedUsers),
 			$user->ReadWithIgnoreDataExpression($user->User->Id)
 		);
 
@@ -267,7 +268,7 @@
 		$s .= "Wakeup(".$id.",'".JsQuote($name)."'".($flag ? ",1" : "").");";
 		$flag = false;
 	}
-	
+
 //	JsPoint("Wakeups");
 
 	/*--------------- /Wakeups ---------------*/
@@ -275,16 +276,16 @@
 	/*--------------- Messages ---------------*/
 
 	if ($showMessages) {
-	
+
 		/* Retrieving messages */
-		$messages = "";
+		$messages = array();
 		$message = new Message();
 		$basicCondition = "(
-	(t1.".Message::ROOM_ID."=".SqlQuote($user->User->RoomId)." AND 
+	(t1.".Message::ROOM_ID."=".SqlQuote($user->User->RoomId)." AND
 		((t1.".Message::TO_USER_ID." IS NULL OR  t1.".Message::TO_USER_ID."=".$user->User->Id.") OR
 		(t1.".Message::USER_ID."=t1.".Message::TO_USER_ID."))
-	) OR 
-	(t1.".Message::ROOM_ID."=-1 AND 
+	) OR
+	(t1.".Message::ROOM_ID."=-1 AND
 		(t1.".Message::USER_ID."=".$user->User->Id." OR t1.".Message::TO_USER_ID."=".$user->User->Id." OR t1.".Message::USER_ID." IS NULL)
 	)
 ) ";
@@ -293,15 +294,16 @@
 ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 20";
 		} else {
 			$condition = "
-	AND t1.".Message::MESSAGE_ID.">".SqlQuote($lastId)." 
+	AND t1.".Message::MESSAGE_ID.">".SqlQuote($lastId)."
 ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 		}
 
 		$q = $message->GetByCondition(
-			$basicCondition.$condition, 
+			$basicCondition.$condition,
 			$message->ReadWithIgnoresExpression($user->User->Id)
 		);
 
+		$lastDate = "";
 		if ($q !== false) {
 			for ($i = 0; $i < $q->NumRows(); $i++) {
 				$q->NextResult();
@@ -319,7 +321,12 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 				}
 				$text = $message->ToPrint($displayedName, $user->User->Id);
 				$text = OuterLinks(MakeLinks($text, true));
-				$messages = "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".JsQuote($toUser)."');".$messages;
+
+				$messageDate = date("Y, n-1, j", strtotime($message->Date));
+				if ($lastDate && $messageDate != $lastDate) array_unshift($messages, "AM('<p class=\"NewDay\"><span>' + (new Date(".$messageDate.")).ToPrintableString() + '</span></p>', 0, 0, '')");
+				$lastDate = $messageDate;
+
+				array_unshift($messages, "AM('".JsQuote($text)."','".$message->Id."','".$message->UserId."','".JsQuote($message->UserName)."','".$toUserId."','".JsQuote($toUser)."')");
 			}
 			$q->Release();
 		}
@@ -331,7 +338,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	/*--------------- /Messages ---------------*/
 
 	/* Final output */
-	$s = $prefix.$s.$messages;
+	$s = $prefix.$s.join(";", $messages);
 	if ($s) {
 		echo $s;
 	}
@@ -343,7 +350,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	destroy($wakeup);
 	destroy($message);
 	destroy($ignore);
-	destroy($message);
+	destroy($messages);
 
 //	echo "/* Mem: ".number_format(memory_get_usage())." */";
 ?>

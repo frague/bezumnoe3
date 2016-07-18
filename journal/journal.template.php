@@ -38,7 +38,7 @@
                 }
             }
         }
-
+    
         if (!$template) {
             DieWith404();
         }

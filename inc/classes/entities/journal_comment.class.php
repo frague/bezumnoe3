@@ -21,27 +21,27 @@ class JournalComment extends JournalRecord {
 "\",\"".JsQuote(PrintableDate($this->Date)).
 "\",".round($this->Type).",".round($this->IsDeleted).")";
     }
-
+    
     // Gets comments for single journal
     function GetJournalComments($access, $from = 0, $limit = 20) {
         return $this->GetJournalRecords(
-            $access,
+            $access, 
             $from,
-            $limit,
+            $limit, 
             "LENGTH(t1.".self::INDEX.") <> 4
             ORDER BY t1.".self::DATE." DESC"
-        );
+        ); 
     }
-
+    
     // Gets comments from multiple journals with access logic
     function GetMixedJournalsComments($userId, $from = 0, $limit = 20) {
         return $this->GetMixedJournalsRecords(
-            $userId,
+            $userId, 
             $from,
-            $limit,
+            $limit, 
             "LENGTH(t1.".self::INDEX.") <> 4
             ORDER BY t1.".self::DATE." DESC"
-        );
+        ); 
     }
 
     /* Static Methods */

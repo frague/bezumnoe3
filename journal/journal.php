@@ -23,7 +23,6 @@
         // ... by record
         $record->GetById($record_id);
         if ($record->IsEmpty()) {
-            error_log("1: ".$record_id, 1);
             DieWith404();
         }
         $forumId = $record->ForumId;
@@ -37,13 +36,11 @@
 
     // Record belongs to another person's journal
     if ($alias && $settings->Alias != $alias) {
-        error_log("2: ".$settings->Alias." - ".$alias, 1);
         DieWith404();
     }
 
     // Setting for journal not found
     if ($settings->IsEmpty()) {
-        error_log("3: ", 1);
         DieWith404();
     }
 
@@ -51,7 +48,6 @@
     $journal = new Journal($settings->ForumId);
     $journal->Retrieve();
     if (!$journal->IsFull()) {
-        error_log("4", 1);
         DieWith404();
     }
     $forumId = $journal->Id;
@@ -154,7 +150,9 @@
             $q->NextResult();
 
             $record->FillFromResult($q);
-            DisplayRecord($record);
+            if (!DisplayRecord($record)) {
+                break;
+            }
             if (!$month && !$altMonth) {
                 $altMonth = date("n", strtotime($record->Date));
             }
@@ -256,7 +254,7 @@
         $q = $tag->GetCloud($forumId);
         $cloud = "";
         $tags = array();
-        $maxWeigth = 0;
+        $maxWeight = 0;
         for ($i = 0; $i < $q->NumRows(); $i++) {
             $q->NextResult();
             $t = new Tag();

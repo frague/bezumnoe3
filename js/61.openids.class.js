@@ -18,9 +18,11 @@ OpenIds.prototype = new EditableGrid();
 
 OpenIds.prototype.BaseBind = function() {};
 
-OpenIds.prototype.requestCallback = function(req) {
-    this.requestBaseCallback(req);
-    this.Bind(this.data);
+OpenIds.prototype.RequestCallback = function(req, obj) {
+    if (obj) {
+        obj.RequestBaseCallback(req, obj);
+        obj.Bind(obj.data);
+    }
 };
 
 OpenIds.prototype.TemplateLoaded = function(req) {

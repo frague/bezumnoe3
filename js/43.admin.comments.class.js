@@ -17,12 +17,14 @@ AdminComments.prototype = new PagedGrid();
 AdminComments.prototype.BaseBind = function() {};
 
 AdminComments.prototype.InitPager = function() {
-	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.AdminComments.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.AdminComments.SwitchPage()}, this.PerPage);
 };
 
-AdminComments.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.Bind(this.data, this.Total);
+AdminComments.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind(obj.data, obj.Total);
+	}
 };
 
 // Template loading
@@ -34,16 +36,16 @@ AdminComments.prototype.TemplateLoaded = function(req) {
 	this.AssignTabTo("AddComment");
 	this.GroupSelfAssign(["RefreshAdminComments", "ResetFilter"]);
 
-	new DatePicker(this.inputs["DATE"]);
+	new DatePicker(this.Inputs["DATE"]);
 
-	BindEnterTo(this.inputs["ADMIN_COMMENT"], this.inputs["AddComment"]);
-	BindEnterTo(this.inputs["DATE"], this.inputs["RefreshAdminComments"]);
-	BindEnterTo(this.inputs["SEARCH"], this.inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["ADMIN_COMMENT"], this.Inputs["AddComment"]);
+	BindEnterTo(this.Inputs["DATE"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["RefreshAdminComments"]);
 
 	// System log checkboxes
-	BindEnterTo(this.inputs["SEVERITY_NORMAL"], this.inputs["RefreshAdminComments"]);
-	BindEnterTo(this.inputs["SEVERITY_WARNING"], this.inputs["RefreshAdminComments"]);
-	BindEnterTo(this.inputs["SEVERITY_ERROR"], this.inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEVERITY_NORMAL"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEVERITY_WARNING"], this.Inputs["RefreshAdminComments"]);
+	BindEnterTo(this.Inputs["SEVERITY_ERROR"], this.Inputs["RefreshAdminComments"]);
 
 	if (this.Init) {
 		this.Init();
@@ -80,7 +82,7 @@ acdto.prototype.ToString = function(index, obj, holder) {
 
 	var tr = MakeGridRow(index);
 	if (this.Severity) {
-		tr.className += " " + severityCss[this.Severity - 1];
+		tr.className += " " + SeverityCss[this.Severity - 1];
 	}
 
 	var td1 = d.createElement("td");
@@ -91,7 +93,7 @@ acdto.prototype.ToString = function(index, obj, holder) {
 	var td2 = d.createElement("td");
 	td2.innerHTML = (this.User ? "Пользователь	<b>" + this.User + "</b>:<br>" : "") + this.Content;
 	tr.appendChild(td2);
-
+	
 	return tr;
 };
 
@@ -104,7 +106,9 @@ function AddComment(img) {
 	}
 };
 
-function AdminCommentSaved(req) {
-	this.SetTabElementValue("ADMIN_COMMENT", "");
-	this.requestCallback(req);
+function AdminCommentSaved(req, obj) {
+	if (obj) {
+		obj.SetTabElementValue("ADMIN_COMMENT", "");
+		obj.RequestCallback(req, obj);
+	}
 };

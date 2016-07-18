@@ -1,4 +1,4 @@
-<?
+<?php
     require "menu_base.php";
 
     if ($user->IsEmpty()) {

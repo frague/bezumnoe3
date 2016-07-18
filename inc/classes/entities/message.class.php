@@ -151,6 +151,22 @@ class Message extends EntityBase {
         return "<p #style#>".$privateLink.$linkName.": ".$text."</p>";
     }
 
+    function ToJSON() {
+        if ($this->IsEmpty()) {
+            return "";
+        }
+        return array(
+            "id" => $this->Id,
+            "room_id" => $this->RoomId,
+            "user_id" => $this->UserId,
+            "user_name" => $this->UserName,
+            "to_user_id" => $this->ToUserId,
+            "to_user_name" => $this->ToUserName,
+            "text" => $this->Text,
+            "moment" => $moment
+        );
+    }
+
     // SQL
     function ReadExpression() {
         return "SELECT

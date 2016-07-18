@@ -1,15 +1,15 @@
-<?
+<?php
     header("Content-type: text/html");
 
     $root = "../";
     require_once $root."server_references.php";
 
     function AddJsAlert($message, $isError = 0) {
-        return JsAlert($message, $isError);
+        return "tabObject.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
     }
 
     function JsAlert($message, $isError = 0) {
-        return "this.Tab.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
+        return "obj.Tab.Alerts.Add(\"".JsQuote($message)."\", ".$isError.");";
     }
 
     function AddTypeCondition($name, $key, $value, $tail, $condition="OR") {
@@ -18,6 +18,8 @@
         }
         return $tail;
     }
+
+
 
     $go = $_POST["go"];
     $user_id = round($_POST["USER_ID"]);

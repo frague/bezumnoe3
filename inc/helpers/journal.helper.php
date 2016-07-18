@@ -35,12 +35,19 @@
     }
 
     $tagsStack = array();
-    function TagStack($tag, $order, $finish) {
+    function TagStack($matches) {
       global $tagsStack;
+
+        $order = $matches[1];
+        $tag = $matches[2];
+        $finish = $matches[3];
 
         $tag = strtolower($tag);
         
-        if (!eregi("^(li|p|link|img|area)$", $tag)) {
+        if (!preg_match("/^(li|p|link|img|area)$/i", $tag)) {
+            if (!array_key_exists($tag, $tagsStack)) {
+                $tagsStack[$tag] = 0;
+            }
             if ($order != "/") {
                 $tagsStack[$tag]++;
             } else {
@@ -54,8 +61,7 @@
 
     // Collect opened tags in stack
     function CloseTags($text) {
-        $text = preg_replace("/<(\/?)([a-z0-9]+)(>| )/ie", "TagStack('\\2','\\1','\\3')", $text);
-        return $text;
+        return preg_replace_callback("/<(\/?)([a-z0-9]+)(>| )/i", "TagStack", $text);
     }
 
     // Closes all opened tags, collected in stack 
@@ -220,10 +226,9 @@
 
         $position = strpos($bodyText, $messageChunk);
         if ($position === 0) {
-            return;
-        } else {
-            $bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
+            return false;
         }
+        $bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
     }
     
     // Makes journal link

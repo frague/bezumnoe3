@@ -1,256 +1,58 @@
-function Chat(tabs) {
-    var Topic = $("#TopicContainer")[0];
-    var Status = $("#Status")[0];
-    var PongImg = $("#pong")[0];
-    var pongImage = new Image();
-    pongImage.src = imagesPath + 'pong.gif';
+var UsersDiv = $("#UsersContainer")[0];
+var Topic = $("#TopicContainer")[0];
+var Messages = $("#MessagesContainer")[0];
+var Status = $("#Status")[0];
+var Recepients = $("#RecepientsContainer")[0];
+var PongImg = $("#pong")[0];
+var pongImage = new Image(); pongImage.src = imagesPath + 'pong.gif';
 
+var textField = $("#Message")[0];
+var historyContainer = $("#History")[0];
 
-    var topicMessage = '';
-    var lastMessageId = -1;
-    var showRooms = 0;
-    var newRoomId = 0;
-    var pingTimer;
+var topicMessage = '';
+var lastMessageId = -1;
+var showRooms = 0;
+var newRoomId = 0;
+var pingTimer;
 
-    /* Pong: Messages, Rooms, Users, Topic */
-
-    this.pong = function(responseText) {
-        busy = 0;
-        requestSent = 0;
-        clearTimeout(tiomeoutTimer);
-        PongImg.src = pongImage.src;
-
-        wakeups.Clear();
-
-        try {
-            eval(responseText);
-            if (showRooms) {
-                showRooms = 0;
-                PrintRooms();
-            }
-        } catch (e) {
-            DebugLine(e.description);
-            DebugLine(responseText);
-        }
-
-        PrintWakeups();
-
-        if (me && me.Settings.Frameset != configIndex) {
-            configIndex = me.Settings.Frameset;
-            _.result(window, 'onResize');
-        }
-
-        var currentName = $('#CurrentName');
-        if (currentName) {
-            var oldName = currentName.text();
-            if ((me.Nickname && oldName != me.Nickname) || (!me.Nickname && currentName.innerHTML != me.Nickname)) {
-                currentName.text(me.Nickname ? me.Nickname : me.Login);
-            }
-        }
-    };
-
-    var tiomeoutTimer;
-    function PingTimeout() {
-        busy = 0;
-    };
-
-    var busy = 0;
-    var requestSent = 0;
-    this.ping = function(doCheck) {
-        CompareSessions();
-        if (!busy) {
-            var s = new ParamsBuilder();
-            if (doCheck) s.add('SESSION_CHECK', SessionCheck);
-
-            /* Rooms */
-            _.each(
-                rooms.Base,
-                function(room, id) {
-                    s.add('r' + id, room.CheckSum());
-                }
-            );
-
-            /* Users */
-            _.each(
-                users.Base,
-                function(user, id) {
-                    s.add('u' + id, user.CheckSum());
-                }
-            );
-
-            /* Messages */
-            s.add('last_id', lastMessageId);
-
-            /* Move to room */
-            if (newRoomId) {
-                s.add('room_id', newRoomId);
-                newRoomId = 0;
-            };
-
-            $.post(servicesPath + 'pong.service.php', s.build())
-                .done(this.pong.bind(this));
-
-            requestSent = 1;
-            tiomeoutTimer = setTimeout(PingTimeout, 20000);
-            busy = 1;
-        }
-        pingTimer = setTimeout(this.ping.bind(this), 10000);
-    };
-
-    this.forcePing = function(doCheck) {
-        if (!requestSent) {
-            busy = 0;
-            clearTimeout(pingTimer);
-            this.ping(doCheck);
-        }
-    };
-
-    function CompareSessions() {
-        cookieSession = getCookie(SessionKey);
-        if (cookieSession != Session) {
-            Quit();
-        }
-    };
-
-    this.send = function() {
-        var recepients = tabs.current.recepients.Gather(),
-            textField = $('#Message');
-        if (!recepients && !textField.val()) {
-            return;
-        }
-        var s = new ParamsBuilder();
-        s.add('message', textField.val());
-        s.add('type', messageType);
-        s.add('recepients', recepients);
-
-        $.post(servicesPath + 'message.service.php', s.build())
-            .done(this.received.bind(this));
-
-        if (!tabs.current.IsPrivate) {
-            tabs.current.recepients.Clear();
-            messageType = '';
-            ShowRecepients();
-        }
-        ArrayInsertFirst(MessagesHistory, textField.val(), historySize);
-        HistoryGo(-1);
-
-        textField.val('');
-        return false;
-    };
-    $('form[name=messageForm]').on('submit', this.send.bind(this));
-
-    this.received = function(req) {
-        try {
-            if (req.responseText) {
-                eval(req.responseText);
-            }
-        } catch (e) {
-        }
-        this.forcePing();
-    };
-
-
-    /* Alerts & Confirmations */
-
-    function StopPings() {
-        clearTimeout(pingTimer);
-        clearTimeout(tiomeoutTimer);
-    };
-
-    function Quit() {
-        StopPings();
-        co.AlertType = true;
-        co.Show("./", "Сессия завершена", "Ваша сессия в чате завершена. Повторите авторизацию для повторного входа в чат.", "", true);
-    };
-
-    function Kicked(reason) {
-        StopPings();
-        co.AlertType = true;
-        co.Show("./", "Вас выгнали из чата", "Формулировка:<ul class='Kicked'>" + reason + "</ul>");
-    };
-
-    function Banned(reason, admin, admin_id, till) {
-        StopPings();
-        co.AlertType = true;
-        var s = Format("Администратор #info# забанил вас " + (till ? "до " + till : ""), admin_id, admin);
-        s += (reason ? " по причине <h4>&laquo;" + reason + "&raquo;</h4>" : "");
-        s += "Пожалуйста, ознакомьтесь с <a href=/rules.php>правилами</a> чата.<br>До свидания.";
-        co.Show("/rules.php", "Пользователь забанен", s);
-    };
-
-    function Forbidden(reason) {
-        StopPings();
-        co.AlertType = true;
-        co.Show(".", "Доступ в чат закрыт", "Администратор закрыл для вас доступ в чат" + ($reason ? "<br>с формулировкой &laquo;" + reason + "&raquo;" : ""));
-    };
-
-    function ChangeName() {
-        co.Show(SaveNicknameChanges, "Смена имени в чате", "Выберите имя:", new ChangeNickname(), true);
-    };
-
-    function MessageForbiddenAlert() {
-        co.AlertType = true;
-        co.Show("", "Публикация сообщения невозможна!", "Публикация сообщений невозможна в приватных комнатах, если у вас нет туда допуска.");
-    };
-
-    this.initMenu = function(div) {
-        var menu = new MenuItemsCollection(true),
-            mainItem = new MenuItem(1, 'Команды');
-
-        mainItem.SubItems.Items.Add(new MenuItem(3, 'Отойти (Away)', _.partial(MI, 'away')));
-        mainItem.SubItems.Items.Add(new MenuItem(4, 'Сменить статус', _.partial(MI, 'status')));
-
-        mainItem.SubItems.Items.Add(new MenuItem(5, 'Сменить никнейм', ChangeName));
-        if (me && me.Rights >= topicRights) {
-            var t = new MenuItem(6, 'Сменить тему', _.partial(MI, 'topic'));
-            if (me.Rights >= adminRights) {
-                t.SubItems.Items.Add(new MenuItem(1, 'С блокировкой', _.partial(MI, 'locktopic')));
-                t.SubItems.Items.Add(new MenuItem(2, 'Разблокировать', _.partial(MI, 'unlocktopic')));
-            }
-            mainItem.SubItems.Items.Add(t);
-        }
-        mainItem.SubItems.Items.Add(new MenuItem(7, '<b>Меню</b>', ShowOptions));
-        mainItem.SubItems.Items.Add(new MenuItem(8, 'Выход из чата', _.partial(MI, 'quit')));
-
-        menu.Items.Add(mainItem);
-        menu.Create(div);
-    };
-
-    this.ping();
-}
+var MessagesHistory = [];
+var historySize = 100;
+var historyPointer = -1;
 
 /* Messages */
 
-function addLine(container, line) {
+function AddContainerLine(container, line) {
     container.innerHTML = line + "\n" + container.innerHTML;
 };
 
 function AM(text, message_id, author_id, author_name, to_user_id, to_user) {
     message_id = 1 * message_id;
-    var tab = tabs.main;
-    var renewTabs = false;
+    var tab = MainTab;
+    var renew_tabs = 0;
     if (to_user_id > 0) {
         tab = tabs.tabsCollection.Get(to_user_id);
         if (!tab) {
             tab = new Tab(to_user_id, to_user, 0, 1);
             tabs.Add(tab);
-            renewTabs = true;
+            renew_tabs = 1;
         }
     }
 
     if (tab && (!message_id || (message_id && tab.lastMessageId < message_id))) {
         text = Format(text, author_id, author_name);
-        addLine(tab.RelatedDiv, text);
+        AddContainerLine(tab.RelatedDiv, text);
         if (message_id) {
             lastMessageId = message_id;
             tab.lastMessageId = message_id;
         }
-        if (tab.Id != tabs.current.Id) {
+        if (tab.Id != CurrentTab.Id) {
             tab.UnreadMessages++;
-            renewTabs = true;
+            renew_tabs = 1;
         }
     }
-    if (renewTabs) tabs.Print();
+    if (renew_tabs) {
+        tabs.Print();
+    }
 };
 
 function ClearMessages() {
@@ -263,24 +65,24 @@ function ClearMessages() {
 
 var newRoomTab;
 function PrintRooms() {
-    $('#UsersContainer').html(rooms.ToString());
+    UsersDiv.innerHTML = rooms.ToString();
 
     var container = $("#NewRoom")[0];
     if (!newRoomTab && me && me.Rights >= 11) { // Allowed to create rooms
         MakeNewRoomSpoiler(container);
     }
-    displayElement(container, rooms.Count() < 10);
+    DisplayElement(container, rooms.Count() < 10);
     UpdateTopic();
 };
 
 function MoveToRoom(id) {
     MainTab.Clear();
     newRoomId = id;
-    this.forcePing();
+    ForcePing();
 };
 
 function MakeNewRoomSpoiler(container) {
-    newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().loadTemplate(tab, me.Id)});
+    newRoomTab = new Spoiler(100, "Создать комнату", 0, "", function(tab){new RoomLightweight().LoadTemplate(tab, me.Id)});
     newRoomTab.ToString(container);
 };
 
@@ -322,55 +124,48 @@ function SetTopic(text, author_id, author_name, lock) {
 
 /* Recepients */
 
-var messageType = '';
+var messageType = "";
 function ShowRecepients() {
-    if (tabs.current) {
-        var rec = tabs.current.recepients.ToString(),
-            recepients = $('#RecepientsContainer');
-
-        recepients.html(rec);
-        if (rec) {
-            var prefix;
-            if (tabs.current.Id == tabs.main.Id) {
-                try {
-                    prefix = {
-                        'wakeup': 'Wakeup для ',
-                        'kick': 'Выгнать ',
-                        'ban': 'Забанить ',
-                        'me': 'О себе в третьем лице',
-                        'status': 'Установить статус',
-                        'topic': 'Установить тему',
-                        'locktopic': 'Установить и заблокировать тему',
-                        'unlocktopic': 'Установить и разблокировать тему',
-                        'away': 'Отойти',
-                        'quit': 'Выйти из чата'
-                        }[messageType];
-                } catch (e) {
-                    prefix = 'Для ';
-                }
+    if (CurrentTab) {
+        Recepients.innerHTML = CurrentTab.recepients.ToString();
+        if (Recepients.innerHTML) {
+            var prefix = "Для ";
+            if (CurrentTab.Id == MainTab.Id) {
+                prefix = {
+                    "wakeup": "Wakeup для ",
+                    "kick": "Выгнать ",
+                    "ban": "Забанить ",
+                    "me": "О себе в третьем лице",
+                    "status": "Установить статус",
+                    "topic": "Установить тему",
+                    "locktopic": "Установить и заблокировать тему",
+                    "unlocktopic": "Установить и разблокировать тему",
+                    "away": "Отойти",
+                    "quit": "Выйти из чата"
+                }[messageType];
             }
-            recepients.html(prefix + rec);
+            Recepients.innerHTML = prefix + Recepients.innerHTML;
         } else {
-            messageType = '';
+            messageType = "";
         }
     }
-    $('#Message').focus();
+    textField.focus();
 };
 
 // Add recepient
 function AR(id, name, type) {
     if (id == me.Id) {
         return;
-    };
-    if (tabs.main) {
+    }
+    if (MainTab) {
         if (type != messageType) {
             messageType = type;
-            tabs.main.recepients.Clear();
+            MainTab.recepients.Clear();
         }
         if (id && name) {
-            tabs.main.recepients.Add(new Recepient(id, name));
-            if (tabs.current.Id != tabs.main.Id) {
-                tabs.main.switchTo();
+            MainTab.recepients.Add(new Recepient(id, name));
+            if (CurrentTab.Id != MainTab.Id) {
+                SwitchToTab(MainTab.Id);
             }
         }
         ShowRecepients();
@@ -379,27 +174,29 @@ function AR(id, name, type) {
 
 // Delete recepient
 function DR(id) {
-    if (tabs.main) {
-        tabs.main.recepients.Delete(id);
+    if (MainTab) {
+        MainTab.recepients.Delete(id);
         ShowRecepients();
     }
 };
 
 // Menu item
-function MI(type) {
-    AR(-1, ' ', type);
+function MI(type, id, name) {
+    if (!id) {
+        id = -1;
+        name = " ";
+    }
+    AR(id, name, type);
 };
 
 function IG(id, state) {
-    var s = new ParamsBuilder();
-    s.add('user_id', id);
-    s.add('state', state);
-    $.post(servicesPath + 'ignore.service.php', s.build())
-        .done(Ignored);
+    var s = MakeParametersPair("user_id", id);
+    s += MakeParametersPair("state", state);
+    sendRequest(servicesPath + "ignore.service.php", Ignored, s);
 };
 
-function Ignored(data) {
-    var id = data.responseText;
+function Ignored(req) {
+    var id = req.responseText;
     if (id) {
         var u = users.Get(Math.abs(id));
         if (u) {
@@ -411,31 +208,154 @@ function Ignored(data) {
 
 // Grant room access
 function AG(id, state) {
-    var s = ParamsBuilder();
-    s.add('user_id', id);
-    s.add('state', state);
-    $.post(servicesPath + 'room_user.service.php', s.build());
+    var s = MakeParametersPair("user_id", id);
+    s += MakeParametersPair("state", state);
+    sendRequest(servicesPath + "room_user.service.php", "", s);
 };
 
-var MessagesHistory = [];
-var historySize = 100;
-var historyPointer = -1;
+/* Pong: Messages, Rooms, Users, Topic */
+
+function ForcePing(do_check) {
+    if (!requestSent) {
+        busy = 0;
+        clearTimeout(pingTimer);
+        Ping(do_check);
+    }
+};
+
+function Pong(responseText) {
+    busy = 0;
+    requestSent = 0;
+    clearTimeout(tiomeoutTimer);
+    PongImg.src = pongImage.src;
+
+    wakeups.Clear();
+
+    try {
+        eval(responseText);
+        if (showRooms) {
+            showRooms = 0;
+            PrintRooms();
+        }
+    } catch (e) {
+        DebugLine(e.description);
+        DebugLine(responseText);
+    }
+
+    PrintWakeups();
+
+    if (me && me.Settings.Frameset != configIndex) {
+        configIndex = me.Settings.Frameset;
+        AdjustDivs();
+    }
+
+    if (!menuInitilized && me.Login) {
+        InitMenu($("#MenuContainer")[0]);
+    }
+
+    var currentName = $("#CurrentName")[0];
+    if (currentName) {
+        var oldName = currentName.innerHTML;
+        if ((me.Nickname && oldName != me.Nickname) || (!me.Nickname && currentName.innerHTML != me.Nickname)) {
+            currentName.innerHTML = me.Nickname ? me.Nickname : me.Login;
+        }
+    }
+};
+
+var tiomeoutTimer;
+function PingTimeout() {
+    busy = 0;
+//  AddContainerLine(Status, "Ping time out. Re-requesting.")
+};
+
+var busy = 0;
+var requestSent = 0;
+function Ping(do_check) {
+    CompareSessions();
+    if (!busy) {
+        var s = '';
+        if (do_check) {
+            s += MakeParametersPair("SESSION_CHECK", SessionCheck);
+        }
+
+        /* Rooms */
+        for (var id in rooms.Base) {
+            s += MakeParametersPair("r" + id, rooms.Base[id].CheckSum());
+        }
+        /* Users */
+        for (var uid in users.Base) {
+            s += MakeParametersPair("u" + uid, users.Base[uid].CheckSum());
+        }
+
+        /* Messages */
+        s += MakeParametersPair("last_id", lastMessageId);
+
+        /* Move to room */
+        if (newRoomId) {
+            s += MakeParametersPair("room_id", newRoomId);
+            newRoomId = 0;
+        }
+
+        sendRequest(servicesPath + "pong.service.php", Pong, s);
+        requestSent = 1;
+        tiomeoutTimer = setTimeout("PingTimeout()", 20000);
+        busy = 1;
+    }
+    pingTimer = setTimeout("Ping()", 10000);
+};
+
+function CompareSessions() {
+    cookieSession = getCookie(SessionKey);
+    if (cookieSession != Session) {
+        Quit();
+    }
+};
+
+function Send(button) {
+    var recepients = CurrentTab.recepients.Gather();
+    if (!recepients && !textField.value) {
+        return;
+    }
+    var s = MakeParametersPair("message", textField.value);
+    s += MakeParametersPair("type", messageType);
+    s += MakeParametersPair("recepients", recepients);
+
+    sendRequest(servicesPath + "message.service.php", Received, s);
+    if (!CurrentTab.IsPrivate) {
+        CurrentTab.recepients.Clear();
+        messageType = "";
+        ShowRecepients();
+    }
+    ArrayInsertFirst(MessagesHistory, textField.value, historySize);
+    HistoryGo(-1);
+
+    textField.value = "";
+};
+
 function HistoryGo(i) {
     if (i >= -1 && i < MessagesHistory.length) {
         historyPointer = i;
-        $('#History').text('История сообщений (' + (historyPointer + 1) + '/' + MessagesHistory.length + ')');
-        $('#Message').val(i >= 0 ? MessagesHistory[historyPointer] : '');
+        historyContainer.innerHTML = "История сообщений (" + (historyPointer + 1) + "/" + MessagesHistory.length + ")";
+        var value = i >= 0 ? MessagesHistory[historyPointer] : "";
+        textField.value = value;
     }
 };
-HistoryGo(0);
+
+function Received(req) {
+    try {
+        if (req.responseText) {
+            eval(req.responseText);
+        }
+    } catch (e) {
+    }
+    ForcePing();
+};
 
 var eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL\\:ZXCVBNM<>/&?@`~";
 var rus = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ.?,\"ёЁ";
 
 function Translit() {
-    var textField = $('#Message'),
-        val = textField.val(),
-        out = '';
+    var val = textField.value, out = "";
 
     for (i = 0, l = val.length; i < l; i++) {
         s = val.charAt(i);
@@ -450,6 +370,49 @@ function Translit() {
         }
         out += s;
     }
-    textField.val(out);
+    textField.value = out;
 };
 
+
+/* Alerts & Confirmations */
+
+function StopPings() {
+    clearTimeout(pingTimer);
+    clearTimeout(tiomeoutTimer);
+};
+
+function Quit() {
+    StopPings();
+    co.AlertType = true;
+    co.Show("./", "Сессия завершена", "Ваша сессия в чате завершена. Повторите авторизацию для повторного входа в чат.", "", true);
+};
+
+function Kicked(reason) {
+    StopPings();
+    co.AlertType = true;
+    co.Show("./", "Вас выгнали из чата", "Формулировка:<ul class='Kicked'>" + reason + "</ul>");
+};
+
+function Banned(reason, admin, admin_id, till) {
+    StopPings();
+    co.AlertType = true;
+    var s = Format("Администратор #info# забанил вас " + (till ? "до " + till : ""), admin_id, admin);
+    s += (reason ? " по причине <h4>&laquo;" + reason + "&raquo;</h4>" : "");
+    s += "Пожалуйста, ознакомьтесь с <a href=/rules.php>правилами</a> чата.<br>До свидания.";
+    co.Show("/rules.php", "Пользователь забанен", s);
+};
+
+function Forbidden(reason) {
+    StopPings();
+    co.AlertType = true;
+    co.Show(".", "Доступ в чат закрыт", "Администратор закрыл для вас доступ в чат" + ($reason ? "<br>с формулировкой &laquo;" + reason + "&raquo;" : ""));
+};
+
+function ChangeName() {
+    co.Show(SaveNicknameChanges, "Смена имени в чате", "Выберите имя:", new ChangeNickname(), true);
+};
+
+function MessageForbiddenAlert() {
+    co.AlertType = true;
+    co.Show("", "Публикация сообщения невозможна!", "Публикация сообщений невозможна в приватных комнатах, если у вас нет туда допуска.");
+};

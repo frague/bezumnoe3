@@ -66,7 +66,7 @@ class News extends EntityBase {
     }
 
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if (!$this->IsConnected()) {
             return false;
@@ -91,36 +91,36 @@ class News extends EntityBase {
         }
         return mysql_error();
     }
-
+    
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::OWNER_ID.",
-    t1.".self::TITLE.",
+    t1.".self::TITLE.", 
     t1.".self::DESCRIPTION."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::OWNER_ID.",
-".self::TITLE.",
+        return "INSERT INTO ".$this->table." 
+(".self::OWNER_ID.", 
+".self::TITLE.", 
 ".self::DESCRIPTION."
 )
 VALUES
-('".round($this->Id)."',
-'".SqlQuote($this->Title)."',
+('".round($this->Id)."', 
+'".SqlQuote($this->Title)."', 
 '".SqlQuote($this->Description)."'
 )";
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::OWNER_ID."='".round($this->Id)."',
-".self::TITLE."='".SqlQuote($this->Title)."',
+        $result = "UPDATE ".$this->table." SET 
+".self::OWNER_ID."='".round($this->Id)."', 
+".self::TITLE."='".SqlQuote($this->Title)."', 
 ".self::DESCRIPTION."='".SqlQuote($this->Description)."'
 WHERE
     ".self::OWNER_ID."=".round($this->Id);
