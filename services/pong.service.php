@@ -140,8 +140,8 @@
 	/* Removed rooms */
 
 	foreach ($_POST as $k  => $v) {
-		if (ereg("^r_", $k) && $v) {
-			$s .= "rooms.Delete('".ereg_replace("^r_", "", $k)."');";
+		if (preg_match("/^r_/", $k) && $v) {
+			$s .= "rooms.Delete('".mb_ereg_replace("^r_", "", $k)."');";
 		}
 	}
 
@@ -246,8 +246,8 @@
 	/* Quited users */
 
 	foreach ($_POST as $k  => $v) {
-		if (ereg("^u_", $k) && $v != "-") {
-			$s .= "users.Delete('".ereg_replace("^u_", "", $k)."');";
+		if (preg_match("/^u_/", $k) && $v != "-") {
+			$s .= "users.Delete('".mb_ereg_replace("^u_", "", $k)."');";
 		}
 	}
 

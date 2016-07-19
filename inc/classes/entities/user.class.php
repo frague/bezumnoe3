@@ -211,7 +211,7 @@ class User extends EntityBase {
     function FillPasswordFromHash($hash) {
         $password = UTF8toWin1251($hash[self::PASSWORD]);
         $confirmPassword = UTF8toWin1251($hash[self::PASSWORD_CONFIRM]);
-        if (!$confirmPassword || ereg("^[\*]+$", $password)) {
+        if (!$confirmPassword || preg_match("/^[\*]+$/", $password)) {
             return -1;
         }
 

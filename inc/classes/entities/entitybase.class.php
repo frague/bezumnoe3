@@ -162,7 +162,7 @@ abstract class EntityBase {
                 $this->Id = $q->GetLastId();
             }
         }
-        return mysql_error();
+        return mysqli_error($db->DB);
     }
 
     function Delete() {

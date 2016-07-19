@@ -10,12 +10,17 @@ class Basic {
 		"errors"=>"font-size:8pt; color:red"
 	);
 
-
 	function InsertStyle($name) {
-		$style=$this->Styles[$name];
+		$style = $this->Styles[$name];
 		if (!$style) return;
 
-		if (!ereg("^style=",$style) && !ereg("id=",$style) && !ereg("class=",$style)) return "style='".$style."'"; else return $style;
+		if (!preg_match("/^style=/", $style) && 
+			!preg_match("/id=/", $style) && 
+			!preg_match("/class=/", $style)
+		) 
+			return "style='".$style."'"; 
+		else 
+			return $style;
 	}
 
 	function SetStyle($element,$style) {

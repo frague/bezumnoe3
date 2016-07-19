@@ -27,7 +27,7 @@
 		for ($i = 1; $i <= $MaxNicknames; $i++) {
 
 			$id = $_POST["id".$i];
-			$name = ereg_replace(" +", " ", trim($_POST["name".$i]));
+			$name = mb_ereg_replace(" +", " ", trim($_POST["name".$i]));
 
 			if ($name) {
 				$n = "";
