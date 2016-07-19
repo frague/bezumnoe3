@@ -63,7 +63,7 @@ class Gallery extends ForumBase {
         return "/gallery".$this->Id."/";
     }
 
-    function GetLink($alias = "", $recordId = 0) {
+    function GetLink($alias = "", $recordId = 0, $setTarget = true) {
         $recordId = round($recordId);
         return $this->IsEmpty() ? "" : "<a href=\"".$this->BasePath().($recordId ? $recordId : "")."\" target=\"gallery\">".$this->Title."</a>";
     }

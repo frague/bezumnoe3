@@ -3,9 +3,11 @@
 //  echo $ServerPathToPhotos;
 
 
-    $userId = $someoneIsLogged ? $user->User->Id : -1;
+    $userId = $GLOBALS["someoneIsLogged"] ? $user->User->Id : -1;
+    $shownComments = isset($GLOBALS["shownComments"]) ? $GLOBALS["shownComments"] : 5;
+
     $comment = new GalleryComment();
-    $q = $comment->GetMixedJournalsComments($userId, 0, $shownComments ? $shownComments : 5);
+    $q = $comment->GetMixedJournalsComments($userId, 0, $shownComments);
 
     $lastIndex = "";
     $condition = "";
@@ -19,7 +21,7 @@
 
         $r = substr($comment->Index, 0, 4)."_".$comment->ForumId;
 
-        if (!$sorted[$r]) {
+        if (!isset($sorted[$r])) {
             $sorted[$r] = array();
         }
         array_push($sorted[$r], $comment);

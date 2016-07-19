@@ -4,7 +4,7 @@ class GalleryComment extends JournalComment {
 
     var $RecordType = Forum::TYPE_GALLERY;
 
-    function ToLink($trimBy = 0, $recordId = 0) {
+    function ToLink($trimBy = 0, $recordId = 0, $alias = "") {
         $content = $trimBy ? TrimBy($this->Content, $trimBy) : $this->Content;
         return GalleryPhoto::MakeLink($this->ForumId, $recordId ? $recordId : $this->Id, $this->Id).$content."</a>";
     }
@@ -21,8 +21,6 @@ class GalleryComment extends JournalComment {
 "\",\"".JsQuote($this->Date).
 "\",".round($this->Type).",".round($this->IsDeleted).")";
     }
-    
-
 }
 
 ?>

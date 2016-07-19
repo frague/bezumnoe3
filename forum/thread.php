@@ -21,6 +21,12 @@
         DieWith404();
     }
 
+    $forumAccess = 0;
+    $user = GetAuthorizedUser(true);
+    if ($user && !$user->IsEmpty()) {
+        $forumAccess = $forum->GetAccess($user->Id);
+    }
+    
     $meta_description = MetaContent($record->Title." - ".$record->Content);
 
     $p = new Page($record->Title, $meta_description, "Форумы");
@@ -30,7 +36,7 @@
     require_once $root."references.php";
 
     $access = 1 - $forum->IsProtected;
-    if ($someoneIsLogged) {
+    if ($GLOBALS["someoneIsLogged"]) {
         $access = $forum->GetAccess($user->User->Id);
     }
 
@@ -49,7 +55,7 @@
         $messagesPerPage);
 
 //  $result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
-    $result.= "<ul class='thread'>";
+    $result = "<ul class='thread'>";
     for ($i = 0; $i < $q->NumRows(); $i++) {
         $q->NextResult();
 

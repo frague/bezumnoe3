@@ -13,7 +13,7 @@
         var $scripts = array();
         var $buttons = array();
 
-        function Page($title, $meta = "", $header_title = "", $no_jquery = false) {
+        function Page($title, $meta = "", $header_title = "", $no_jquery = false, $css = "", $scripts = "", $rss = "") {
             $this->no_jquery = $no_jquery;
             $this->title = $title;
             $this->header_title = $header_title;

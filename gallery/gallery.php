@@ -7,9 +7,8 @@
     $cols = 3;
     $row = 3;
     $perPage = $cols * $row;
-    $show_from = round(LookInRequest("from"));
     $galleryId = round(LookInRequest(Gallery::ID_PARAM));
-    $from = round($_GET["from"]);
+    $from = round(LookInRequest("from"));
     $lastModified = "";
 
     if (!$galleryId) {
@@ -21,7 +20,7 @@
 
 
     $access = 1 - $gallery->IsProtected;
-    if ($someoneIsLogged) {
+    if ($GLOBALS["someoneIsLogged"]) {
         $access = $gallery->GetAccess($user->User->Id);
     }
 
@@ -33,12 +32,13 @@
     $meta_description = "Фотогалерея '".MetaContent($gallery->Title)."'";
 
     $photo = new GalleryPhoto();
-    $q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
+
+    $q = $photo->GetForumThreads($gallery->Id, $access, $from * $perPage, $perPage);
 
     $c = 0;
     $amount = $q->NumRows();
 
-    $result.= "<table class='preview'>";
+    $result = "<table class='preview'>";
     while ($c < $amount) {
         $result.= "<tr>";
         for ($i = 0; $i < $row; $i++) {
@@ -46,7 +46,7 @@
             if (($c < $amount)) {
                 $q->NextResult();
                 $photo->FillFromResult($q);
-                $result.= $photo->ToPrint($gallery->Description);
+                $result.= $photo->ToPicturePrint($gallery->Description);
                 $c++;
 
                 if ($photo->UpdateDate > $lastModified) {

@@ -7,6 +7,13 @@
     define("REFERER_KEY", "referer");
     define("SESSION_KEY", "sdjfhk_session");
     define("LOGIN_GUID_KEY", "f");
+    
+    function getServerKey($key) {
+        if (isset($_SERVER[$key])) {
+            return $_SERVER[$key];
+        }
+        return "";
+    }
 
     function LookInRequest($keyName) {
         if (isset($_POST[$keyName])) {

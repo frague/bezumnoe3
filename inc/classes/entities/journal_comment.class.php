@@ -4,7 +4,7 @@ class JournalComment extends JournalRecord {
 
     var $RecordType = Forum::TYPE_JOURNAL;
 
-    function ToLink($trimBy = 0, $recordId, $alias) {
+    function ToLink($trimBy = 0, $recordId = 0, $alias = "") {
         $content = $trimBy ? TrimBy($this->Content, $trimBy) : $this->Content;
         return self::MakeLink($recordId, $alias, $this->Id, $content, $this->Type == self::TYPE_PROTECTED);
     }

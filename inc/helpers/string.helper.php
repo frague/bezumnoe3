@@ -290,7 +290,7 @@
     /* --------------------- Making quotes ------------------- */
 
     function UpdateQuotation($fromLevel, $toLevel) {
-        $resul = "";
+        $result = "";
         for ($i = 0; $i < abs($fromLevel - $toLevel); $i++) {
             $result .= ($fromLevel > $toLevel) ? "</cite>" : "<cite>";
         }

@@ -26,7 +26,7 @@
     require_once $root."references.php";
 
     $access = 1 - $forum->IsProtected;
-    if ($someoneIsLogged) {
+    if ($GLOBALS["someoneIsLogged"]) {
         $access = $forum->GetAccess($user->User->Id);
     }
 
@@ -37,7 +37,7 @@
     }
     
     $p->PrintHeader();
-    $result.= $forum->ToPrint("forum.php");
+    $result = $forum->ToPrint("forum.php");
     $threadsPerPage = 20;
 
     $record = new ForumRecord();

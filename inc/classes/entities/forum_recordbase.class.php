@@ -242,13 +242,9 @@ Boolean($this->IsCommentable).",".
 round($this->ForumId)."];";
     }
 
-    function ToJs($mark = "") {
+    function ToJs() {
         $title = strip_tags($this->Title);
         $content = mb_substr(strip_tags($this->Content), 0, 100);
-/*      if ($mark) {
-            $title = HightlightWords($title, $mark);
-            $content = HightlightWords($content, $mark);
-        }*/
         return "new jrdto(\"".
 JsQuote($this->Id)."\",\"".
 JsQuote($title)."\",\"".

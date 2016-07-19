@@ -6,7 +6,7 @@ class JournalRecord extends ForumRecordBase {
 
     function ToPrint($login = "") {
         $result = "<h2>".$this->Title."</h2>";
-        $result .= Smartnl2br(ereg_replace("##[a-zA-Z]+(=(([^#]|#[^#])+)){0,1}##", "\\2", $this->Content));
+        $result .= Smartnl2br(preg_replace("/##[a-zA-Z]+(=(([^#]|#[^#])+)){0,1}##/", "\\2", $this->Content));
         if ($login) {
             $result .= "<author>".$login."</author>";
         }
@@ -26,7 +26,7 @@ class JournalRecord extends ForumRecordBase {
         return "http://www.bezumnoe.ru".JournalSettings::MakeHref($alias, $this->Id);
     } 
 
-    function GetImageUrl() {
+    function GetImageUrl($filePath, $isThumb = true) {
         if ($this->IsEmpty()) {
             return "";
         }
@@ -96,13 +96,12 @@ class JournalRecord extends ForumRecordBase {
             $this->AccessExpression($userId, "t5", "t4")." AND ".
             $condition.
             " LIMIT ".($from ? $from."," : "").$limit,
-            $this->MixedJournalsPostsExpression()
+            $this->MixedJournalsPostsExpression($userId)
         ); 
     }
     
     // Gets journal topics by condition
     function GetMixedJournalsTopics($userId, $from = 0, $limit, $condition = "", $order_by_date = True) {
-        $forumId = round($forumId);
         return $this->GetMixedJournalsRecords(
             $userId, 
             $from,
@@ -163,7 +162,7 @@ WHERE
     }
 
     // Journal posts from different journals with access expression
-    function MixedJournalsPostsExpression() {
+    function MixedJournalsPostsExpression($userId) {
         $userId = round($userId);
 
         $result = str_replace(

@@ -3,7 +3,7 @@
     $yesterday = DateFromTime(time() - 60*60*24);   // Yesterday
 
     $gallery = new Gallery();
-    if ($someoneIsLogged) {
+    if ($GLOBALS["someoneIsLogged"]) {
         $q = $gallery->GetByConditionWithUserAccess("1=1", $user->User->Id);
     } else {
         $q = $gallery->GetByCondition("1=1");

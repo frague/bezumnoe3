@@ -35,6 +35,13 @@
     
     require_once $root."references.php";
 
+    $login = "";
+    $email = "";
+    $full_name = "";
+    $gender = "";
+    $location = "";
+
+
     $operations = array("+", "-", "*");
 
     $errors = array();

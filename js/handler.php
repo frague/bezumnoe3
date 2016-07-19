@@ -12,7 +12,7 @@
 
     $isAdmin = false;
     $isSuperAdmin = false;
-    $version = $_GET["ver"];
+    $version = isset($_GET["ver"]) ? $_GET["ver"] : "";
     if ($version) {
         
         require_once "../server_references.php";

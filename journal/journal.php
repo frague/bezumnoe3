@@ -54,7 +54,7 @@
 
     // Checking if journal is protected and logged user has access to it
     $access = 1 - $journal->IsProtected;
-    if ($someoneIsLogged) {
+    if ($GLOBALS["someoneIsLogged"]) {
         $access = $journal->GetAccess($user->User->Id);
     }
 
