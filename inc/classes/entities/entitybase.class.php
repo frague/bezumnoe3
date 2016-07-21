@@ -33,7 +33,7 @@ abstract class EntityBase {
     // SQL methods
     function IsConnected() {
      global $db;
-        return mysqli_ping($db->DB);
+        return mysqli_ping($db->link);
     }
 
     function Retrieve() {
@@ -162,7 +162,7 @@ abstract class EntityBase {
                 $this->Id = $q->GetLastId();
             }
         }
-        return mysqli_error($db->DB);
+        return mysqli_error($db->link);
     }
 
     function Delete() {

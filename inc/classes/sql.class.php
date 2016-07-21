@@ -4,73 +4,68 @@ class Query {
 
     var $Q;
 
-    var $Queried = false;
+    var $hasQueryResult = FALSE;
     var $Record;
     var $RecordIndex = 0;
 
-    var $Debugging = false;         // Debugging mode
+    var $Debugging = FALSE;         // Debugging mode
 
-    var $DB_stored = 0;
+    var $link = 0;
     
-    function Query($query, $DB = 0) {
-        if (!$DB && !$this->DB_stored) {
+    function Query($query, $link = 0) {
+        if (!$link && !$this->link) {
             error("Нет соединения с MySQL сервером!");
-            return false;
+            return;
         } else {
-            if ($DB) {
-                $this->DB_stored = $DB;
+            if ($link) {
+                $this->link = $link;
             }
         }
         
-        if (!$DB) {
-            $DB = $this->DB_stored;
-        }
-
-        $this->Q=@mysqli_query($DB, $query);
+        $this->queryResult = mysqli_query($this->link, $query);
 
         if ($this->Debugging) {
             error("Query: <strong>".$query."</strong>");
         }
 
-        if ($this->Q) {
-            $this->Queried = true;
+        if ($this->queryResult !== FALSE) {
+            $this->hasQueryResult = TRUE;
         } else if ($this->Debugging) {
-            error("Ошибка в запросе: <strong>".$query."</strong>: <span class='Red'>".mysql_error()."</span>!");
+            error("Ошибка в запросе: <strong>".$query."</strong>: <span class='Red'>".mysqli_errno($this->link)."</span>!");
         }
     }
 
     function NumRows() {
-        if (!$this->Queried) {
+        if (!$this->hasQueryResult) {
             error("Не определены результаты запроса1!");
-            return false;
+            return 0;
         }
-        return @mysqli_num_rows($this->Q);
+        return mysqli_num_rows($this->queryResult);
     }
 
     function Seek($row = 0) {
-        if (!$this->Queried) {
+        if (!$this->hasQueryResult) {
             error("Не определены результаты запроса2!");
-            return false;
+            return;
         }
         
-        mysqli_data_seek($this->Q, $row);
+        mysqli_data_seek($this->queryResult, $row);
         $this->RecordIndex = $row;
     }
 
     function NextResult() {
-        if (!$this->Queried) {
+        if (!$this->hasQueryResult) {
             error("Не определены результаты запроса3!");
-            return false;
+            return;
         }
         
-        $this->Record = @mysqli_fetch_array($this->Q);
+        $this->Record = mysqli_fetch_array($this->queryResult);
         $this->RecordIndex++;
         if ($this->RecordIndex - 1 >= $this->NumRows() || !$this->NumRows()) {
             $this->Seek(0);
-            return false;
-        } else {
-            return true;
+            return FALSE;
         }
+        return TRUE;
     }
 
     function Get($name) {
@@ -89,70 +84,47 @@ class Query {
     }
 
     function GetLastId() {
-        return @mysqli_insert_id($this->DB_stored);
+        return mysqli_insert_id($this->link);
     }
 
     function AffectedRows() {
-        return @mysqli_affected_rows($this->DB_stored);
+        return mysqli_affected_rows($this->link);
     }
 
     function Release() {
-        if (!$this->Queried) {
+        if (!$this->hasQueryResult) {
             error("Не определены результаты запроса!");
-            return false;
+            return FALSE;
         }
-        // return @mysqli_free_result($this->Q);
+        return mysqli_free_result($this->queryResult);
     }
 }
 
-
-
-
 class SQL {
-    var $DB;
-    
-    var $DB_name;
-    var $Host;
-    var $User;
-    var $UserPassword;
+    var $link;
+    var $Connected = FALSE;
 
-    var $Connected=0;
-
-    var $Errors=array();
-    var $ErrorsIndex=0;
-
-
-    function SQL($db_name,$host="",$user,$pass) {
-        $this->DB_name=$db_name;
-        $this->Host=$host;
-        $this->User=$user;
-        $this->UserPassword=$pass;
-
-        $this->DB = @mysqli_connect($this->Host, $this->User, $this->UserPassword);
-        if (!$this->DB) {
+    function SQL($dbName, $host, $user, $password) {
+        $this->link = mysqli_connect($host, $user, $password);
+        if (!$this->link) {
             error("Ошибка подключения к MySQL серверу!");
         }
 
-        @mysqli_query($this->DB, "set names utf8");
-        @mysqli_set_charset($this->DB, "utf8");
+        mysqli_query($this->link, "set SESSION sql_mode='TRADITIONAL'");
+        mysqli_query($this->link, "set names utf8");
+        mysqli_set_charset($this->link, "utf8");
 
-
-        if (@mysqli_select_db($this->DB, $this->DB_name)) {
-            $this->Connected=1;
+        if (mysqli_select_db($this->link, $dbName)) {
+            $this->Connected = TRUE;
         } else {
             error("Невозможно выбрать базу данных <b>$db_name</b>!");
         }
     }
 
-
     function Query($query) {
-        if (!$query) return 0;
-//      if (!$this->Connected) return 0;
-
-        $a = new Query($query, $this->DB);
-        return $a;
+        if (!$query || !$this->Connected) return 0;
+        return new Query($query, $this->link);
     }
 }
-
 
 ?>

@@ -85,19 +85,11 @@ class UserComplete extends EntityBase {
 
     function GetByPassword($login, $password) {
         if ($login && $password) {
-            $this->FillByCondition("t1.".User::LOGIN."='".SqlQuote($login)."' AND t1.".User::PASSWORD."='".SqlQuote(Encode($password))."' AND t1.".User::GUID." NOT LIKE '\\_%'", $this->db);
+            $this->FillByCondition("t1.".User::LOGIN."='".SqlQuote($login)."' AND t1.".User::PASSWORD."='".SqlQuote(Encode($password))."' AND t1.".User::GUID." NOT LIKE '\\_%'");
         } else {
             $this->Clear();
         }
     }
-
-/*	function GetBySession($sessionId, $sessionAddress) {
-        if ($sessionId && strlen($sessionId) == $this->User->sessionKeyLength && $sessionAddress) {
-            $this->FillByCondition("t1.".User::SESSION."='".SqlQuote($sessionId)."' AND t1.".User::SESSION_ADDRESS."='".SqlQuote($sessionAddress)."'", $this->db);
-        } else {
-            $this->Clear();
-        }
-    }*/
 
     function SessionIsCorrect($sessionId) {
         return $sessionId && strlen($sessionId) == $this->User->sessionKeyLength;

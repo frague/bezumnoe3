@@ -7,8 +7,8 @@
 		exit;
 	}
 
-	$targetUserId = round($_POST["TARGET_USER_ID"]);
-	$targetForumId = round($_POST["TARGET_FORUM_ID"]);
+	$targetUserId = round(LookInRequest("TARGET_USER_ID"));
+	$targetForumId = round(LookInRequest("TARGET_FORUM_ID"));
 
 	if ($forum_id) {
 		$forum = new ForumBase($forum_id);

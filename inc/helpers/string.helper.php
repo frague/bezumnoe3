@@ -79,7 +79,7 @@
     function SqlQuote($source) {
         global $db;
 
-        return mysqli_real_escape_string($db->DB, $source);
+        return mysqli_real_escape_string($db->link, $source);
     }
 
     function SqlFnQuote($source) {
@@ -383,20 +383,19 @@
 //      return preg_replace("/([^\>]|[^p]\>|[^\/]p\>|[^\<]\/p\>)(\n|\r)/", "$1<br />$2", $text);
     }
 
-    function MakeSearchCriteria($dateKey, $dateParameter, $keywordsKey, $keywordsTemplate) {
+    function MakeSearchCriteria($date, $dateParameter, $needle, $keywordsTemplate) {
         $condition = "";
 
         // Dates condition
-        $d = $_POST[$dateKey];
-        if ($d) {
-            $t = ParseDate($d);
+        if ($date) {
+            $t = ParseDate($date);
             if ($t !== false) {
                 $condition = "t1.".$dateParameter." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
             }
         }
 
         // Search keywords
-        $keywords = trim(substr(UTF8toWin1251($_POST[$keywordsKey]), 0, 1024));
+        $keywords = trim(substr($needle, 0, 1024));
         $search = MakeKeywordSearch($keywords, $keywordsTemplate);
         if ($search) {
             $condition .= ($condition ? " AND " : "").$search;

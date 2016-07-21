@@ -11,8 +11,8 @@
 		exit;
 	}
 	
-	$tabId = $_POST["tab_id"];
-	$photo = $_FILES["PHOTO1"];
+	$tabId = LookInRequest("tab_id");
+	$photo = getValue($_FILES, "PHOTO1");
 
 	$ownProfile = ($user_id == $user->User->Id);
 
@@ -213,7 +213,10 @@
 				break;
 		}
 		$response .= "obj.FillFrom(".$profile->ToJs($targetUser, $user->IsAdmin()).");";
-		if (($user->IsAdmin() && $user->Status->Rights > $targetUser->Rights) || $user->Status->Rights > 75) {
+		if (
+			($user->IsAdmin() && $user->Status->Rights > $targetStatus->Rights) || 
+			$user->Status->Rights > 75
+		) {
 			// Sending Admin data
 			$response .= "obj.FillFrom(".$targetUser->ToJs().",".$targetUser->ToJsAdminFields().");";
 		}

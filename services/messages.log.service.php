@@ -12,7 +12,9 @@
 
 	// --- Filtering ---
 	$condition = "";
-	$roomsCondition = MakeSearchCriteria("DATE", Message::DATE, "SEARCH", $message->SearchTemplate);
+	$roomsCondition = MakeSearchCriteria(
+		LookInRequest("DATE"), Message::DATE, LookInRequest("SEARCH"), $message->SearchTemplate
+	);
 
 	// Filter by room
 	$room_id = round($_POST["ROOM_ID"]);
