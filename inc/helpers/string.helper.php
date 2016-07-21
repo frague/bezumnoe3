@@ -35,9 +35,7 @@
                 }
             }
             $s += $s1;
-//            DebugLine($char." = ".$s1." -> ".$s);
         }
-//        DebugLine($source." = ".$s);
         return $s;
     }
 
@@ -413,6 +411,13 @@
     function MakeListItem($className = "") {
         $i = round(rand(0,4));
         return "<li".($i ? " class=\"l".$i.($className ? " ".$className : "")."\"" : ($className ? " class=\"".$className."\"" : "")).">";
+    }
+
+    function getValue($haystack, $key, $default = "") {
+        if (is_array($haystack) && isset($haystack[$key])) {
+            return $haystack[$key];
+        }
+        return $default;
     }
 
 ?>

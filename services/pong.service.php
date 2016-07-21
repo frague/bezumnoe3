@@ -80,7 +80,7 @@
 
 	/* Moving to room */
 
-	$roomId = round($_POST["room_id"]);
+	$roomId = round(LookInRequest("room_id"));
 	if ($roomId) {
 		$newRoom = new Room($roomId);
 		$newRoom->Retrieve();
@@ -125,7 +125,8 @@
 		$q->NextResult();
 //		$room = new Room();
 		$room->FillFromResult($q);
-		if ($_POST["r_".$room->Id] != $room->CheckSum()) {
+		$roomChecksum = LookInRequest("r_".$room->Id);
+		if ($roomChecksum != $room->CheckSum()) {
 			$s .= "rooms.Add(".$room->ToJs().");";
 		}
 		if ($room->Id==$user->User->RoomId) {
@@ -156,7 +157,7 @@
 	$ignore = new Ignore();
 	$q = $ignore->GetForOnlineUsers($user->User->Id);
 	$iIgnore = array();
-	$ignoreMe = array();
+	$ignoresMe = array();
 
 	// Getting ignore information (who from online users ignores who)
 	for ($i = 0; $i < $q->NumRows(); $i++) {
@@ -173,11 +174,11 @@
 //	JsPoint("Ignores");
 
 
-	$user1 = new UserComplete();
+	$onlineUser = new UserComplete();
 	$ChangedUsers = array();
 
 	// Getting users data (only USER_IDs & CHECK_SUMs)
-	$q = $user1->GetByCondition(
+	$q = $onlineUser->GetByCondition(
 		"t1.".User::ROOM_ID." IS NOT NULL",
 		$user->ReadChecksumsWithIgnoreDataExpression($user->User->Id)
 	);
@@ -185,13 +186,16 @@
 	// Creating the list of users to be requested
 	for ($i = 0; $i < $q->NumRows(); $i++) {
 		$q->NextResult();
-		$user1->User->FillFromResult($q);
+		$onlineUser->User->FillFromResult($q);
 
-		$id1 = $user1->User->Id;
+		$id1 = $onlineUser->User->Id;
 
 		$user_key = "u_".$id1;
-		if ($_POST[$user_key] != $user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])) {
-//			print "/* ".$_POST[$user_key]." != ".$user1->User->CheckSum.round($iIgnore[$id1]).round($ignoresMe[$id1])." */";
+		$userChecksum = LookInRequest($user_key);
+		if ($userChecksum != $onlineUser->User->CheckSum
+			.getValue($iIgnore, $id1, 0)
+			.getValue($ignoresMe, $id1, 0)
+		) {
 			$ChangedUsers[] = $id1;
 		}
 		$_POST[$user_key] = "-";
@@ -204,7 +208,7 @@
 	if (sizeof($ChangedUsers) > 0) {
 		$s .= "/* add */";
 		// Requesting only found users
-		$q = $user1->GetByCondition(
+		$q = $onlineUser->GetByCondition(
 			"t1.".User::USER_ID."=".implode(" OR t1.".User::USER_ID."=", $ChangedUsers),
 			$user->ReadWithIgnoreDataExpression($user->User->Id)
 		);
@@ -212,14 +216,14 @@
 		// Create js users representations
 		for ($i = 0; $i < $q->NumRows(); $i++) {
 			$q->NextResult();
-			$user1->FillFromResult($q);
+			$onlineUser->FillFromResult($q);
 
-			$id1 = $user1->User->Id;
-			$ii = round($iIgnore[$id1]);
-			$im = round($ignoresMe[$id1]);
+			$id1 = $onlineUser->User->Id;
+			$ii = getValue($iIgnore, $id1, 0);
+			$im = getValue($ignoresMe, $id1, 0);
 
 			$user_key = "u_".$id1;
-			$jsUser = $user1->ToJs($user->Status);
+			$jsUser = $onlineUser->ToJs($user->Status);
 			if ($id1 == $user->User->Id) {
 				$s .= "me=".$jsUser.";";
 				$jsUser = "me";
@@ -346,7 +350,7 @@ ORDER BY t1.".Message::MESSAGE_ID." DESC LIMIT 10";
 	// Destructing objects
 	destroy($user);
 	destroy($room);
-	destroy($user1);
+	destroy($onlineUser);
 	destroy($wakeup);
 	destroy($message);
 	destroy($ignore);

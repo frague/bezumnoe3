@@ -292,7 +292,7 @@ Boolean($this->FontIsUnderlined).")";
     // SQL
     function ReadExpression() {
         return "SELECT
-    t1.".SETTINGS_ID.",
+    t1.".self::SETTINGS_ID.",
     t1.".self::USER_ID.",
     t1.".self::ENTER_MESSAGE.",
     t1.".self::QUIT_MESSAGE.",
