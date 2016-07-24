@@ -27,11 +27,11 @@
         DieWith404();
     }
     $forumId = $journal->Id;
-
+    
 
 
     header("Content-Type: text/xml");
-
+    
     $showMessages = 30;
 
 
@@ -49,7 +49,7 @@
 
 
 //  function FormatMessageBody($message, $userUrlName, $isSingleMessage) {
-
+    
     for ($i = 0; $i < $q->NumRows(); $i++) {
         $q->NextResult();
 

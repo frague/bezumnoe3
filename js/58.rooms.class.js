@@ -16,12 +16,14 @@ Rooms.prototype = new EditableGrid();
 
 Rooms.prototype.BaseBind = function() {};
 
-Rooms.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.Bind(this.data);
+Rooms.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind(obj.data);
+	}
 };
 
-Rooms.prototype.request = function(params, callback) {
+Rooms.prototype.Request = function(params, callback) {
 	if (!params) {
 		params = this.Gather();
 	}
@@ -35,9 +37,9 @@ Rooms.prototype.TemplateLoaded = function(req) {
 	this.GroupSelfAssign(["AddRoom", "RefreshRooms"]);
 
 	// System log checkboxes
-	BindEnterTo(this.inputs["locked"], this.inputs["RefreshRooms"]);
-	BindEnterTo(this.inputs["by_invitation"], this.inputs["RefreshRooms"]);
-	BindEnterTo(this.inputs["deleted"], this.inputs["RefreshRooms"]);
+	BindEnterTo(this.Inputs["locked"], this.Inputs["RefreshRooms"]);
+	BindEnterTo(this.Inputs["by_invitation"], this.Inputs["RefreshRooms"]);
+	BindEnterTo(this.Inputs["deleted"], this.Inputs["RefreshRooms"]);
 };
 
 /* Room Data Transfer Object editable methods */

@@ -41,14 +41,14 @@ class Calendar extends Basic {
 
     function CalendarPrint($do_print = 1) {
         $this->Out = "";
-
+        
         $this->Out .= "<table class='Calendar'>\n";
         if ($this->ShowMonthName) {
             $this->Out .= "<tr class='Header'><th colspan=7>".$this->Months[round($this->Month)].", ".$this->Year."</th></tr>\n";
         }
         if ($this->ShowDayNames) {
             $perc = sprintf("%.02f", 100 / 7);
-
+        
             $this->Out .= "<tr class='DayNames'>";
             for ($i = 1; $i <= 7; $i++) {
                 $this->Out.="<td width='".$perc."%'".($i==6 || $i==7 ? " class='Weekend'" : "").">".$this->DayNames[$i]."</td>";
@@ -80,7 +80,7 @@ class Calendar extends Basic {
         if ($this->PrevMonth || $this->NextMonth) {
             $this->Out .= "<tr class='Navigation'><td colspan=7>".$this->PrevMonth." | ".$this->NextMonth."</td></tr>";
         }
-
+        
         $this->Out .= "</table>";
         if ($do_print) {
             echo $this->Out;
@@ -90,7 +90,7 @@ class Calendar extends Basic {
     function SetHeader($hdr) {
         $this->Header = $hdr;
     }
-
+    
     function SetDay($day, $value) {
         $this->Days[$day] = $value;
     }

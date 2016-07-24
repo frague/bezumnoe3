@@ -36,7 +36,7 @@ class Gallery extends ForumBase {
         $result .= "</div>";
         return $result;
     }
-
+    
     function ToLink($lastVisitDate = "") {
         $result = "<a href='".$this->BasePath()."'".($this->IsProtected ? " class='Hidden'" : "").">";
         $result .= $this->Title."</a>";
@@ -54,7 +54,7 @@ class Gallery extends ForumBase {
         }
         return $result;
     }
-
+    
     function DoPrint($makeLink = false, $lastVisitDate = "") {
         echo $this->ToPrint($makeLink, $lastVisitDate);
     }
@@ -63,9 +63,9 @@ class Gallery extends ForumBase {
         return "/gallery".$this->Id."/";
     }
 
-    function GetLink($alias = "", $recordId = 0) {
+    function GetLink($alias = "", $recordId = 0, $setTarget = true) {
         $recordId = round($recordId);
         return $this->IsEmpty() ? "" : "<a href=\"".$this->BasePath().($recordId ? $recordId : "")."\" target=\"gallery\">".$this->Title."</a>";
     }
-}
+}   
 ?>

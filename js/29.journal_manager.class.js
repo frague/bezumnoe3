@@ -12,17 +12,19 @@ function JournalsManager() {
 
 JournalsManager.prototype = new OptionsBase();
 
-JournalsManager.prototype.request = function(params, callback) {
+JournalsManager.prototype.Request = function(params, callback) {
 	this.BaseRequest(this.Gather(), callback);
 };
 
-JournalsManager.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.Bind();
+JournalsManager.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind();
+	}
 };
 
 JournalsManager.prototype.Bind = function() {
-	var container = this.inputs["ForumsContainer"];
+	var container = this.Inputs["ForumsContainer"];
 	if (container) {
 		container.innerHTML = "";
 		if (this.data && this.data.length) {
@@ -56,7 +58,7 @@ jjdto.prototype = new DTO();
 
 jjdto.prototype.ToShowView = function(index, container) {
 	var t = this.MakeTitle();
-	s = new Spoiler("_j" + (i + 1), t, 0, 0, function(tab) {new Journal().loadTemplate(tab, me.Id, me.Login)});
+	s = new Spoiler("_j" + (i + 1), t, 0, 0, function(tab) {new Journal().LoadTemplate(tab, me.Id, me.Login)});
 	s.Forum = this;
 	s.ToString(container);
 	if (!index) {

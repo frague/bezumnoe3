@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	function FillForumData($journal) {
@@ -36,7 +36,7 @@
 	    if (!$alias) {
 			$error = "При создании журнала необходимо указать алиас!<br>";
 	    }
-	    if (!eregi("^[a-z0-9_.]+$", $alias)) {
+	    if (!preg_match("/^[a-z0-9_.]+$/i", $alias)) {
 			$error .= "Алиас должен состоять из символов латинского алфавита, цифр и знаков '.' и '_'!<br>";
 	    }
 

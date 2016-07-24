@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -9,7 +9,9 @@
 
 	$wakeup = new Wakeup();
 
-	$condition = MakeSearchCriteria("DATE", Wakeup::DATE, "SEARCH", $wakeup->SearchTemplate);
+	$condition = MakeSearchCriteria(
+		LookInRequest("DATE"), Wakeup::DATE, LookInRequest("SEARCH"), $wakeup->SearchTemplate
+	);
 	
 	/* Incoming/Outgoing filter */
 

@@ -1,9 +1,8 @@
 <?php
 
-    define(allowedTags, "<strike><pre><br><object><param><a><b><em><u><body><blockquote><center><div><font><h1><h2><h3><h4><h5><h6><head><html><hr><i><img><li><meta><ol><p><span><strong><style><table><tr><td><th><colgroup><col><ul><sub><sup>");
+    define("allowedTags", "<strike><pre><br><object><param><a><b><em><u><body><blockquote><center><div><font><h1><h2><h3><h4><h5><h6><head><html><hr><i><img><li><meta><ol><p><span><strong><style><table><tr><td><th><colgroup><col><ul><sub><sup>");
 
     $chars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-    $ascii = array();
 
     $counting = array();
     $counting["пользователь"]       = "пользователя|пользователей";
@@ -20,19 +19,15 @@
     $counting["запись"]             = "записи|записей";
     $counting["сообщение"]          = "сообщения|сообщений";
 
-    for ($i = 0; $i < strlen($chars); $i++) {
-        $char = substr($chars, $i, 1);
-        $ascii[$char] = $i + 1;
-    }
-
     function CheckSum($source) {
-     global $ascii, $debug;
+     global $chars, $debug;
 
         $s = 0;
-        for ($i = 0; $i < strlen($source); $i++) {
-            $char = substr($source, $i, 1);
-            if ($ascii[$char]) {
-                $s1 = $ascii[$char];
+        for ($i = 0; $i < mb_strlen($source); $i++) {
+            $char = mb_substr($source, $i, 1);
+            $pos = mb_strpos($chars, $char);
+            if ($pos) {
+                $s1 = $pos + 1;
             } else {
                 $s1 = ord($char);
                 if ($s1 > 127) {
@@ -40,9 +35,7 @@
                 }
             }
             $s += $s1;
-            //DebugLine($char." = ".$s1." -> ".$s);
         }
-        DebugLine($source." = ".$s);
         return $s;
     }
 
@@ -59,7 +52,9 @@
     }
 
     function Nullable($value) {
-        return $value ? "'".SqlQuote($value)."'" : "NULL";
+        return $value ? (
+            substr($value, -1) == ")" ? SqlQuote($value) : "'".SqlQuote($value)."'"
+            ) : "NULL";
     }
 
     function NullableId($value) {
@@ -82,8 +77,9 @@
     }
 
     function SqlQuote($source) {
-        global $connection;
-        return mysqli_real_escape_string($connection, $source);
+        global $db;
+
+        return mysqli_real_escape_string($db->link, $source);
     }
 
     function SqlFnQuote($source) {
@@ -194,14 +190,14 @@
         $atPosition = strpos($a, "@");
         if ($atPosition) {
             $a = "<a class=Link href='javascript:void(0)' onclick='window.location=\"mailto:".substr($a, 0, $atPosition)."\"+\"@\"+\"".substr($a, $atPosition + 1, strlen($a))."\"'>".str_replace("@", "&#64;", $a)."</a>";
-        } else if (ereg("^((ftp|http|shttp|https)://|www\.)", $a)) {
+        } else if (preg_match("/^((ftp|http|shttp|https)://|www\.)/i", $a)) {
             $ext = "";
-            if (ereg(".([^.]+)$", $a, $m)) {
+            if (preg_match("/.([^.]+)$/", $a, $m)) {
                 $ext = $m[1];
             }
 
             $a1 = $a;
-            if (ereg("^www\.", $a)) {
+            if (preg_match("/^www\./", $a)) {
                 $a1 = "http://".$a;
             }
 
@@ -220,19 +216,33 @@
     }
 
     function MakeUrls($source) {
-        return preg_replace("/(=?\'?\"?)([a-z0-9_\.()~\-]+@[a-z0-9\-]+(\.[a-z0-9~\-_\!]+)+)/ie","MakeLink('\\2','\\1')", $source);
+        return preg_replace_callback(
+            "/(=?\'?\"?)([a-z0-9_\.()~\-]+@[a-z0-9\-]+(\.[a-z0-9~\-_\!]+)+)/i",
+            function ($matches) {
+                return MakeLink($matches[2], $matches[1]);
+            }, 
+            $source
+        );
     }
 
     function MakeLinks($a, $imagesMode = false) {
         $a = MakeUrls($a);
-        $a = preg_replace("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;,]+)+)/ie","MakeLink('\\3','\\1',\$imagesMode)", $a);
-        return $a;
+        return preg_replace_callback("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;,]+)+)/i",
+            function ($matches) {
+                global $imagesMode;
+                return MakeLink($matches[3], $matches[1], $imagesMode);
+            }, 
+            $a
+        );
     }
 
-    function OuterLink($url, $proto, $btw) {
+    function OuterLink($matches) {
+        $url = $matches[3];
+        $proto = $matches[1];
+        $btw = $matches[0];
         $allowedHosts = array("bezumnoe.ru", "www.bezumnoe.ru");
         for ($i = 0; $i < sizeof($allowedHosts); $i++) {
-            if (eregi(str_replace(".", "\.", $allowedHosts[$i]), $url)) {
+            if (preg_match("/".str_replace(".", "\.", $allowedHosts[$i])."/i", $url)) {
                 return "<a ".$btw." href='".$proto."://".$url."'";
             }
         }
@@ -242,8 +252,8 @@
     }
 
     function OuterLinks($a) {
-        $linkExp = "/<a ([^>]*)href=[\'\"]{0,1}((http|shttp|ftp|https)):\/\/([^\ \'\">]+)[\'\"]?/ie";
-        $a = preg_replace($linkExp, "OuterLink(\"$4\",\"$2\", \"$1\")", $a);
+        $linkExp = "/<a ([^>]*)href=[\'\"]{0,1}((http|shttp|ftp|https)):\/\/([^\ \'\">]+)[\'\"]?/i";
+        $a = preg_replace($linkExp, "OuterLink", $a);
         return $a;
     }
 
@@ -278,7 +288,7 @@
     /* --------------------- Making quotes ------------------- */
 
     function UpdateQuotation($fromLevel, $toLevel) {
-        $resul = "";
+        $result = "";
         for ($i = 0; $i < abs($fromLevel - $toLevel); $i++) {
             $result .= ($fromLevel > $toLevel) ? "</cite>" : "<cite>";
         }
@@ -327,7 +337,7 @@
         $variants = $counting[$word];
         $result = $word;
         if ($variants) {
-            list($two, $many) = explode("\|", $variants);
+            list($two, $many) = explode("|", $variants);
             $lastDigit = round(substr($amount, -1));
             $last2Digits = round(substr($amount, -2));
 
@@ -373,20 +383,19 @@
 //      return preg_replace("/([^\>]|[^p]\>|[^\/]p\>|[^\<]\/p\>)(\n|\r)/", "$1<br />$2", $text);
     }
 
-    function MakeSearchCriteria($dateKey, $dateParameter, $keywordsKey, $keywordsTemplate) {
+    function MakeSearchCriteria($date, $dateParameter, $needle, $keywordsTemplate) {
         $condition = "";
 
         // Dates condition
-        $d = $_POST[$dateKey];
-        if ($d) {
-            $t = ParseDate($d);
+        if ($date) {
+            $t = ParseDate($date);
             if ($t !== false) {
                 $condition = "t1.".$dateParameter." LIKE '".DateFromTime($t, "Y-m-d")."%' ";
             }
         }
 
         // Search keywords
-        $keywords = trim(substr(UTF8toWin1251($_POST[$keywordsKey]), 0, 1024));
+        $keywords = trim(substr($needle, 0, 1024));
         $search = MakeKeywordSearch($keywords, $keywordsTemplate);
         if ($search) {
             $condition .= ($condition ? " AND " : "").$search;
@@ -401,6 +410,13 @@
     function MakeListItem($className = "") {
         $i = round(rand(0,4));
         return "<li".($i ? " class=\"l".$i.($className ? " ".$className : "")."\"" : ($className ? " class=\"".$className."\"" : "")).">";
+    }
+
+    function getValue($haystack, $key, $default = "") {
+        if (is_array($haystack) && isset($haystack[$key])) {
+            return $haystack[$key];
+        }
+        return $default;
     }
 
 ?>

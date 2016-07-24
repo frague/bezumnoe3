@@ -65,14 +65,14 @@ class Rating extends EntityBase {
 
     // SQL
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
 
         if ($this->IsConnected() && $this->Ip) {
             // Check duplicates
-            $q = $db->Query("SELECT
+            $q = $db->Query("SELECT 
    ".self::IDS."
-FROM
+FROM 
   ".$this->table."
 WHERE
   ".self::IDS." = ".SqlQuote($this->Ids)." AND
@@ -90,28 +90,28 @@ WHERE
 
 
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::IDS.",
     t1.".self::TYPE.",
     t1.".self::RATING.",
     t1.".self::DATE.",
     t1.".self::IP."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::IDS.",
-".self::TYPE.",
-".self::RATING.",
+        return "INSERT INTO ".$this->table." 
+(".self::IDS.", 
+".self::TYPE.", 
+".self::RATING.", 
 ".self::DATE.",
 ".self::IP."
 )
 VALUES
-(".round($this->Ids).",
+(".round($this->Ids).", 
 '".SqlQuote($this->Type)."',
 ".round($this->Rating).",
 '".SqlQuote($this->Date)."',
@@ -129,10 +129,10 @@ VALUES
 
     // Sums all daily user's ratings
     public static function UpdateUsersRatingsExpression($dat) {
-        return "UPDATE ".Profile::table." t1 JOIN (SELECT IDS, SUM(t3.".Rating::RATING.") AS RATING_SUM
+        return "UPDATE ".Profile::table." t1 JOIN (SELECT IDS, SUM(t3.".Rating::RATING.") AS RATING_SUM 
 FROM ".Rating::table." t3
-WHERE
-    t3.".Rating::DATE."<'".$dat."' AND
+WHERE 
+    t3.".Rating::DATE."<'".$dat."' AND 
     t3.".Rating::TYPE."='".Rating::TYPE_PROFILE."'
 GROUP BY t3.".Rating::IDS.") t2 ON t1.".Profile::USER_ID."=t2.".Rating::IDS."
 SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.RATING_SUM";
@@ -141,10 +141,10 @@ SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.RATING_SUM";
     // Sums all daily user's ratings
     public static function UpdateForumsRatingsExpression($dat) {
         return "UPDATE ".Journal::table." t1 JOIN (
-    SELECT IDS, SUM(t3.".Rating::RATING.") AS RATING_SUM
+    SELECT IDS, SUM(t3.".Rating::RATING.") AS RATING_SUM 
     FROM ".Rating::table." t3
-    WHERE
-        t3.".Rating::DATE."<'".$dat."' AND
+    WHERE 
+        t3.".Rating::DATE."<'".$dat."' AND 
         t3.".Rating::TYPE."='".Rating::TYPE_JOURNAL."'
     GROUP BY t3.".Rating::IDS.") t2 ON t1.".Journal::FORUM_ID."=t2.".Rating::IDS."
 SET t1.".Journal::RATING." = t1.".Journal::RATING." + t2.RATING_SUM";
@@ -160,8 +160,8 @@ WHERE ".Profile::RATING."=".Profile::LAST_RATING;
     // Calcultes all user's phrazes and add 0.1 rating points for each
     public static function CountTodayMessagesExpression($dat) {
         return "UPDATE ".Profile::table." t1 JOIN (
-    SELECT ".Message::USER_ID.", ROUND(COUNT(1)/10) AS SAID
-    FROM ".Message::table."
+    SELECT ".Message::USER_ID.", ROUND(COUNT(1)/10) AS SAID 
+    FROM ".Message::table." 
     WHERE ".Message::DATE." LIKE '".$dat."%'
     GROUP BY ".Message::USER_ID.") t2 ON t1.".Profile::USER_ID." = t2.".Message::USER_ID."
 SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.SAID";
@@ -172,7 +172,7 @@ SET t1.".Profile::RATING." = t1.".Profile::RATING." + t2.SAID";
       global $db;
 
         $d = NowDate();
-
+        
         $db->Query(Profile::PushRatingsExpression());
 
         $db->Query(Forum::PushRatingsExpression());

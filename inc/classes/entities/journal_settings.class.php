@@ -181,6 +181,7 @@ WHERE",
     /* Static Methods */
 
     function MakeHref($alias, $recordId = 0) {
+        $tail = "";
         $recordId = round($recordId);
         if ($recordId > 0) {
             $tail = "/post".$recordId;
@@ -189,7 +190,7 @@ WHERE",
     }
 
     function MakeLink($alias, $text, $record = "", $target = "") {
-        if (!$alias && !$record) {
+        if (!$alias || !$record) {
             return $text;
         }
 

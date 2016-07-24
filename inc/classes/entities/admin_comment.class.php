@@ -65,7 +65,7 @@ class AdminComment extends EntityBase {
         $condition = ($userId ? $condition." AND t1.".self::USER_ID."=".$userId : $condition);
 
         $q = $this->GetByCondition(
-            $condition,
+            $condition, 
             "SELECT COUNT(1) AS RECORDS FROM ".self::table." t1 WHERE ##CONDITION##");
         $q->NextResult();
         return $q->Get("RECORDS");
@@ -97,30 +97,30 @@ class AdminComment extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::ADMIN_COMMENT_ID.",
     t1.".self::USER_ID.",
-    t1.".self::DATE.",
+    t1.".self::DATE.", 
     t1.".self::CONTENT.",
     t1.".self::ADMIN_LOGIN.",
     t1.".self::SEVERITY."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::USER_ID.",
-".self::DATE.",
+        return "INSERT INTO ".$this->table." 
+(".self::USER_ID.", 
+".self::DATE.", 
 ".self::CONTENT.",
 ".self::ADMIN_LOGIN.",
 ".self::SEVERITY."
 )
 VALUES
-(".NullableId($this->UserId).",
-'".SqlQuote($this->Date)."',
+(".NullableId($this->UserId).", 
+'".SqlQuote($this->Date)."', 
 '".SqlQuote($this->Content)."',
 '".SqlQuote($this->AdminLogin)."',
 '".round($this->Severity)."'
@@ -128,10 +128,10 @@ VALUES
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::USER_ID."=".NullableId($this->UserId).",
-".self::DATE."='".SqlQuote($this->Date)."',
-".self::CONTENT."='".SqlQuote($this->Content)."',
+        $result = "UPDATE ".$this->table." SET 
+".self::USER_ID."=".NullableId($this->UserId).", 
+".self::DATE."='".SqlQuote($this->Date)."', 
+".self::CONTENT."='".SqlQuote($this->Content)."', 
 ".self::ADMIN_LOGIN."='".SqlQuote($this->AdminLogin)."',
 ".self::SEVERITY."='".round($this->Severity)."'
 WHERE
@@ -144,14 +144,14 @@ WHERE
     }
 
     function ReadWithNameExpression() {
-        return "SELECT
-    t1.".self::DATE.",
+        return "SELECT 
+    t1.".self::DATE.", 
     t1.".self::CONTENT.",
     t1.".self::ADMIN_LOGIN.",
     t1.".self::SEVERITY.",
     t2.".User::LOGIN."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
     LEFT JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
 WHERE
     ##CONDITION##";

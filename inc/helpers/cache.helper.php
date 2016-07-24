@@ -4,7 +4,7 @@
 
         header("ETag: ".$etag);
 
-        if (trim($_SERVER["HTTP_IF_NONE_MATCH"]) == $etag) {
+        if (trim(getServerKey("HTTP_IF_NONE_MATCH")) == $etag) {
             header("HTTP/1.1 304 Not Modified");
             die;
         }
@@ -16,7 +16,7 @@
 
         header("Last-Modified: $lm");
 
-        if (@strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]) == $last_modified) {
+        if (@strtotime(getServerKey("HTTP_IF_MODIFIED_SINCE")) == $last_modified) {
             header("HTTP/1.1 304 Not Modified");
             die;
         }

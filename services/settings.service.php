@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -7,7 +7,7 @@
 		exit();	// TODO: Implement client functionality
 	}
 	
-	$tabId = $_POST["tab_id"];
+	$tabId = LookInRequest("tab_id");
 	
 	if ($user_id == $user->User->Id || $user->IsAdmin()) {
 		if ($user_id == $user->User->Id) {

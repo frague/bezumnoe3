@@ -1,5 +1,5 @@
 <?php
-
+    
     $root = "../";
     require_once $root."server_references.php";
     require_once $root."references.php";
@@ -26,7 +26,7 @@
 
     $settings->OwnMarkupAllowed = 1 - $settings->OwnMarkupAllowed;
     $settings->Save();
-
+    
     echo "Own markup for journal \"".$j->Title."\" <b>".($settings->OwnMarkupAllowed ? "Allowed" : "Disabled")."</b>";
 
 ?>

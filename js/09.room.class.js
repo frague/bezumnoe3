@@ -38,7 +38,7 @@ Room.prototype.ToString = function() {
     } else {
         s += "<a " + voidHref + " onclick=\"ChangeRoom('" + this.Id + "')\" class='" + this.MakeCSS() + "' title='" + this.Title + "'>" + title + "</a>";
     }
-
+    
     var inside = 0;
     var t = '<ul class=\"Users\">';
     var requestors = "";
@@ -69,7 +69,7 @@ Room.prototype.Gather = function(sel) {
     opt.value = this.Id;
     opt.text = this.Title;
 
-
+    
     try {
         sel.add(opt, null); // standards compliant; doesn't work in IE
     } catch (ex) {
@@ -125,19 +125,19 @@ function RoomLightweight() {
 
 RoomLightweight.prototype = new OptionsBase();
 
-RoomLightweight.prototype.requestCallback = function(responseText) {
+RoomLightweight.prototype.RequestCallback = function(responseText, obj) {
     if (responseText) {
-        this.SetRoomStatus(responseText);
+        obj.SetRoomStatus(responseText);
     } else {
-        this.SetRoomStatus("");
-        this.Clear();
-        this.Bind();
-        this.Tab.Display(false);
+        obj.SetRoomStatus("");
+        obj.Clear();
+        obj.Bind();
+        obj.Tab.Display(false);
         PrintRooms();
     }
 };
 
-RoomLightweight.prototype.request = function(params, callback) {};
+RoomLightweight.prototype.Request = function(params, callback) {};
 
 RoomLightweight.prototype.Save = function(callback) {
     var params = this.Gather();
@@ -150,7 +150,7 @@ RoomLightweight.prototype.Save = function(callback) {
 
 RoomLightweight.prototype.SetRoomStatus = function(text) {
     this.FindRelatedControls();
-    var st = this.inputs["RoomStatus"];
+    var st = this.Inputs["RoomStatus"];
     if (st) {
         st.innerHTML = text;
     }
@@ -159,10 +159,10 @@ RoomLightweight.prototype.SetRoomStatus = function(text) {
 RoomLightweight.prototype.TemplateLoaded = function(req) {
     this.TemplateBaseLoaded(req);
 
-    displayElement("AdminOnly", me && me.Rights >= adminRights);
+    DisplayElement("AdminOnly", me && me.Rights >= adminRights);
 
     this.AssignTabTo("linkAdd");
-    BindEnterTo(this.inputs["NEW_ROOM"], this.inputs["linkAdd"]);
+    BindEnterTo(this.Inputs["NEW_ROOM"], this.Inputs["linkAdd"]);
 };
 
 /* Room lightweight link actions */

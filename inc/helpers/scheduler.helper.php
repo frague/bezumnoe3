@@ -33,7 +33,7 @@
     }
 
     function UnconditionalTasks() {
-
+    
     }
 
     function TriggerBotsByMessage($message) {
@@ -50,7 +50,7 @@
             if ($st->IsEmpty() || ($st->Parameter2 && $st->Parameter2 != $message->RoomId)) {
                 continue;
             }
-
+            
             $action = $st->GetAction();
 
             if ($action) {

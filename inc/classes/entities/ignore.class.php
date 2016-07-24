@@ -45,9 +45,9 @@ class Ignore extends EntityBase {
      global $db;
         if ($this->IsConnected() && $this->IsFull() && $this->UserId != $this->IgnorantId) {
             // Check duplicates
-            $q = $db->Query("SELECT
+            $q = $db->Query("SELECT 
    ".self::IGNORE_ID."
-FROM
+FROM 
   ".$this->table."
 WHERE
   ".self::USER_ID." = '".SqlQuote($this->UserId)."' AND
@@ -89,12 +89,12 @@ WHERE
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::IGNORE_ID.",
     t1.".self::USER_ID.",
     t1.".self::IGNORANT_ID."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
@@ -102,19 +102,19 @@ WHERE
     function ReadForOnlineUsersExpression($user_id) {
         $user_id = round($user_id);
         return str_replace("WHERE", "
-JOIN ".User::table." AS t2 ON
-    (t2.".User::USER_ID."=t1.".self::USER_ID." AND t1.".self::IGNORANT_ID."=".$user_id.") OR
-    (t2.".User::USER_ID."=t1.".self::IGNORANT_ID." AND t1.".self::USER_ID."=".$user_id.")
+JOIN ".User::table." AS t2 ON 
+    (t2.".User::USER_ID."=t1.".self::USER_ID." AND t1.".self::IGNORANT_ID."=".$user_id.") OR 
+    (t2.".User::USER_ID."=t1.".self::IGNORANT_ID." AND t1.".self::USER_ID."=".$user_id.") 
 WHERE", $this->ReadExpression());
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::USER_ID.",
+        return "INSERT INTO ".$this->table." 
+(".self::USER_ID.", 
 ".self::IGNORANT_ID."
 )
 VALUES
-('".SqlQuote($this->UserId)."',
+('".SqlQuote($this->UserId)."', 
 '".SqlQuote($this->IgnorantId)."'
 )";
     }

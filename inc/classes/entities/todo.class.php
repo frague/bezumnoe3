@@ -63,40 +63,40 @@ class TODO extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::ID.",
     t1.".self::TITLE.",
     t1.".self::PRIORITY.",
     t1.".self::IS_PLANNED.",
     t1.".self::FINISH_DATE."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::TITLE.",
-".self::PRIORITY.",
-".self::IS_PLANNED.",
+        return "INSERT INTO ".$this->table." 
+(".self::TITLE.", 
+".self::PRIORITY.", 
+".self::IS_PLANNED.", 
 ".self::FINISH_DATE."
 )
 VALUES
-('".SqlQuote($this->Title)."',
-".round($this->Priority).",
-".Boolean($this->IsPlanned).",
+('".SqlQuote($this->Title)."', 
+".round($this->Priority).", 
+".Boolean($this->IsPlanned).", 
 ".Nullable($this->FinishDate)."
 )";
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::TITLE."='".SqlQuote($this->Title)."',
-".self::PRIORITY."='".SqlQuote($this->Priority)."',
-".self::IS_PLANNED."='".SqlQuote($this->IsPlanned)."',
+        $result = "UPDATE ".$this->table." SET 
+".self::TITLE."='".SqlQuote($this->Title)."', 
+".self::PRIORITY."='".SqlQuote($this->Priority)."', 
+".self::IS_PLANNED."='".SqlQuote($this->IsPlanned)."', 
 ".self::FINISH_DATE."='".round($this->FinishDate)."'
-WHERE
+WHERE 
     ".self::ROOM_ID."=".SqlQuote($this->Id);
         return $result;
     }

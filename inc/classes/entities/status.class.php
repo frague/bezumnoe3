@@ -42,7 +42,7 @@ class Status extends EntityBase {
 		return $this->Rights >= $AdminRights;
 	}
 
-	function isSuperAdmin() {
+	function IsSuperAdmin() {
 	  global $AdminRights;
 
 		return $this->Rights > $AdminRights;

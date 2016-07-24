@@ -1,5 +1,5 @@
 <?php
-
+    
     $root = "../";
     require_once $root."server_references.php";
     require_once "forum.template.php";
@@ -15,7 +15,7 @@
     $yesterday = DateFromTime(time() - 60*60*24);   // Yesterday
 
     $forum = new Forum();
-    if ($someoneIsLogged) {
+    if ($GLOBALS["someoneIsLogged"]) {
         $q = $forum->GetByConditionWithUserAccess("1=1", $user->User->Id);
     } else {
         $q = $forum->GetByCondition("1=1");
@@ -29,7 +29,7 @@
         $forum->FillFromResult($q);
 
         $access = 1 - $forum->IsProtected;
-        if ($someoneIsLogged) {
+        if ($GLOBALS["someoneIsLogged"]) {
             $forumUser->FillFromResult($q);
             $access = $forum->LoggedUsersAccess($forumUser, $user->User->Id);
         }

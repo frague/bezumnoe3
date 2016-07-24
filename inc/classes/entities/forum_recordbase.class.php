@@ -23,7 +23,7 @@ class ForumRecordBase extends EntityBase {
     const THREAD_ORDER  = "THREAD_ORDER";
     const DEPTH         = "DEPTH";
     const VISIBLE_TO    = "VISIBLE_TO";
-
+    
     const UPDATE_DATE   = "UPDATE_DATE";
     const ANSWERS_COUNT = "ANSWERS_COUNT";
     const DELETED_COUNT = "DELETED_COUNT";
@@ -96,7 +96,7 @@ class ForumRecordBase extends EntityBase {
         $this->ThreadOrder  = 0;
         $this->Depth        = 0;
         $this->VisibleTo    = -1;
-
+        
         $this->UpdateDate   = NowDateTime();
         $this->AnswersCount = 0;
         $this->DeletedCount = 0;
@@ -106,7 +106,7 @@ class ForumRecordBase extends EntityBase {
     }
 
     /* Conditional properties */
-
+    
     function IsPublic() {
         return $this->Type == self::TYPE_PUBLIC;
     }
@@ -114,7 +114,7 @@ class ForumRecordBase extends EntityBase {
     function IsProtected() {
         return $this->Type == self::TYPE_PROTECTED;
     }
-
+    
     function IsPrivate() {
         return $this->Type == self::TYPE_PRIVATE;
     }
@@ -126,7 +126,7 @@ class ForumRecordBase extends EntityBase {
     function GetTopicIndex() {
         return substr($this->Index, 0, self::FIRST_INDEX_LENGTH);
     }
-
+    
     function VisibleTo($user, $isFriend = 0) {
         if ($this->Type == self::TYPE_PUBLIC ||
             ($user && !$user->IsEmpty() && (
@@ -162,7 +162,7 @@ class ForumRecordBase extends EntityBase {
         $this->ThreadOrder = $result->Get(self::THREAD_ORDER);
         $this->Depth = $result->Get(self::DEPTH);
         $this->VisibleTo = $result->Get(self::VISIBLE_TO);
-
+        
         $this->UpdateDate = $result->Get(self::UPDATE_DATE);
         $this->AnswersCount = $result->Get(self::ANSWERS_COUNT);
         $this->DeletedCount = $result->Get(self::DELETED_COUNT);
@@ -182,7 +182,7 @@ class ForumRecordBase extends EntityBase {
         $this->Content = UTF8toWin1251($hash[self::CONTENT]);
         $this->IsCommentable = Boolean($hash[self::IS_COMMENTABLE]);
     }
-
+    
     function ToExtendedString($prevLevel, $avatar = "", $alias = "", $user = "", $lastVisit = "", $skipLi = 0) {
       global $PathToAvatars, $ServerPathToAvatars, $root;
 
@@ -242,13 +242,9 @@ Boolean($this->IsCommentable).",".
 round($this->ForumId)."];";
     }
 
-    function ToJs($mark = "") {
+    function ToJs() {
         $title = strip_tags($this->Title);
-        $content = substr(strip_tags($this->Content), 0, 100);
-/*      if ($mark) {
-            $title = HightlightWords($title, $mark);
-            $content = HightlightWords($content, $mark);
-        }*/
+        $content = mb_substr(strip_tags($this->Content), 0, 100);
         return "new jrdto(\"".
 JsQuote($this->Id)."\",\"".
 JsQuote($title)."\",\"".
@@ -261,7 +257,7 @@ round($this->Type).")";
     // Gets forum's top-level threads
     function GetForumThreads($forumId, $access, $from = 0, $amount = 0, $search = "", $sortByDate = false) {
         return $this->GetByCondition(($search ? $search." AND " : "")."
-            t1.".self::FORUM_ID."=".round($forumId)." AND
+            t1.".self::FORUM_ID."=".round($forumId)." AND 
             LENGTH(t1.".self::INDEX.") = ".self::FIRST_INDEX_LENGTH."
             ORDER BY ".($sortByDate ? self::DATE : self::UPDATE_DATE)." DESC".
             ($amount ? " LIMIT ".($from ? $from."," : "").$amount : ""),
@@ -285,7 +281,7 @@ round($this->Type).")";
         $q->NextResult();
         return $q->Get(self::THREADS_COUNT);
     }
-
+    
     // Gets forum thread by index (first 4 digits)
     function GetByIndex($forumId, $access, $index, $from, $amount) {
         $index = preg_replace("[^0-9_]", "", $index);
@@ -294,7 +290,7 @@ round($this->Type).")";
         }
 
         return $this->GetByCondition("
-            t1.".self::FORUM_ID."=".round($forumId)." AND
+            t1.".self::FORUM_ID."=".round($forumId)." AND 
             t1.".self::INDEX." LIKE '".$index."%'
             ORDER BY ".$this->ThreadOrderExpression()."
             LIMIT ".($from ? $from."," : "").$amount,
@@ -304,8 +300,8 @@ round($this->Type).")";
     function GetReplyRecord($replyId, $forumId) {
         $this->FillByCondition(
             self::FORUM_ID."=".round($forumId)."
-        ORDER BY
-            (".self::RECORD_ID." = ".round($replyId).") DESC,
+        ORDER BY 
+            (".self::RECORD_ID." = ".round($replyId).") DESC, 
             SUBSTR(".self::INDEX.", 1, ".self::FIRST_INDEX_LENGTH.") DESC
         LIMIT 1");
     }
@@ -316,7 +312,7 @@ round($this->Type).")";
             LENGTH(".self::INDEX.")=".(3 + strlen($index))." AND
             ".self::FORUM_ID."=".round($forumId)."
         ORDER BY ".self::INDEX." DESC
-        LIMIT 1",
+        LIMIT 1", 
             $this->GetSubIndexExpression());
 
         if ($q->NumRows()) {
@@ -340,8 +336,8 @@ round($this->Type).")";
         $userId = round($userId);
         return $this->GetByCondition(
             "t1.".self::THREAD_ID."=".round($threadId)." AND (t1.".self::TYPE."='".self::TYPE_PUBLIC."'".
-            ($userId ?
-                " OR t1.".self::USER_ID."=".$userId." OR t1.".self::VISIBLE_TO."=".$userId.")" :
+            ($userId ? 
+                " OR t1.".self::USER_ID."=".$userId." OR t1.".self::VISIBLE_TO."=".$userId.")" : 
                 ")").
             " ORDER BY t1.".self::THREAD_ORDER." ASC",
             $this->ReadThreadNewExpression()
@@ -362,10 +358,10 @@ round($this->Type).")";
         }
         $db->Query($this->SetChildTypeExpression());
     }
-
+    
     function UpdateAnswersCount() {
       global $db;
-
+        
         if (!$this->IsConnected()) {
             return 0;
         }
@@ -388,9 +384,9 @@ round($this->Type).")";
                 ".self::FORUM_ID."=".round($this->ForumId),
                 $this->UpdateThreadDateExpression()
             );
-        }
+        }   
     }
-
+    
     function DeleteByRecordIndex($index) {
         return $this->GetByCondition(
             self::INDEX." LIKE '".round($index)."_%",
@@ -421,7 +417,7 @@ round($this->Type).")";
         $s.= "<li>".self::THREAD_ORDER." = ".$this->ThreadOrder."</li>\n";
         $s.= "<li>".self::DEPTH." = ".$this->Depth."</li>\n";
         $s.= "<li>".self::VISIBLE_TO." = ".$this->VisibleTo."</li>\n";
-
+        
         $s.= "<li>".self::UPDATE_DATE." = ".$this->UpdateDate."</li>\n";
         $s.= "<li>".self::ANSWERS_COUNT." = ".$this->AnswersCount."</li>\n";
         $s.= "<li>".self::DELETED_COUNT." = ".$this->DeletedCount."</li>\n";
@@ -435,7 +431,7 @@ round($this->Type).")";
 
 
     /* Saving methods */
-
+    
     function DoSave() {
       global $db;
 
@@ -445,23 +441,23 @@ round($this->Type).")";
 
         $q = $db->Query("SET @ID = LAST_INSERT_ID(), @ORD = ".round($this->ThreadOrder));
 
-        $q->Query("UPDATE ".$this->table."
-    SET ".self::THREAD_ORDER." = (@ORD:=@ORD+1)
-WHERE
-    ".self::FORUM_ID."=".round($this->ForumId)." AND
-    ".self::THREAD_ID."=".round($this->ThreadId)." AND
-    ".self::THREAD_ORDER.">=".round($this->ThreadOrder)." AND
+        $q->Query("UPDATE ".$this->table." 
+    SET ".self::THREAD_ORDER." = (@ORD:=@ORD+1) 
+WHERE 
+    ".self::FORUM_ID."=".round($this->ForumId)." AND 
+    ".self::THREAD_ID."=".round($this->ThreadId)." AND 
+    ".self::THREAD_ORDER.">=".round($this->ThreadOrder)." AND 
     ".self::RECORD_ID."<>@ID
 ORDER BY ".self::THREAD_ORDER);
 
 /*
 SET @ORD = ".round($this->ThreadId).";
 
-UPDATE ".$this->table."
-    SET ".self::THREAD_ORDER." = (@ORD:=@ORD+1)
-WHERE
-    ".self::FORUM_ID."=".round($this->ForumId)." AND
-    ".self::THREAD_ID."=".round($this->ThreadId)." AND
+UPDATE ".$this->table." 
+    SET ".self::THREAD_ORDER." = (@ORD:=@ORD+1) 
+WHERE 
+    ".self::FORUM_ID."=".round($this->ForumId)." AND 
+    ".self::THREAD_ID."=".round($this->ThreadId)." AND 
     ".self::RECORD_ID."<>LAST_INSERT_ID()
 ORDER BY ".self::THREAD_ORDER.";
 ";
@@ -500,7 +496,7 @@ ORDER BY ".self::THREAD_ORDER.";
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::RECORD_ID.",
     t1.".self::FORUM_ID.",
     t1.".self::INDEX.",
@@ -522,8 +518,8 @@ ORDER BY ".self::THREAD_ORDER.";
     t1.".self::THREAD_ORDER.",
     t1.".self::DEPTH.",
     t1.".self::VISIBLE_TO."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
@@ -543,7 +539,7 @@ WHERE", $s);
         return $s;
     }
 
-
+    
     // Transforms read expression into read thread one
     function ReadThreadExpression($access = Forum::NO_ACCESS) {
         $s = str_replace("FROM", ",
@@ -593,7 +589,7 @@ WHERE
             // Forum moderator
             $result .= "(".$forumUserTable.".".ForumUser::ACCESS."=".Forum::FULL_ACCESS.") OR ";
             // Forum owner
-            $result .= "(".$forumTable.".".Forum::LINKED_ID."='".$userId."'))";
+            $result .= "(".$forumTable.".".Forum::LINKED_ID."='".$userId."'))"; 
             $result .= $seeDeleted ? ")" : " AND ".$hideDeleted.")";
         } else {
             // Anonymous access
@@ -607,7 +603,7 @@ WHERE
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::FORUM_ID.",
 ".self::INDEX.",
 ".self::TYPE.",
@@ -629,7 +625,7 @@ WHERE
 ".self::VISIBLE_TO."
 )
 VALUES
-(".round($this->ForumId).",
+(".round($this->ForumId).", 
 '".SqlQuote($this->Index)."',
 '".round($this->Type)."',
 '".SqlQuote($this->Author)."',
@@ -650,27 +646,27 @@ VALUES
 ".NullableId($this->VisibleTo)."
 );";
     }
-
+    
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::FORUM_ID."=".round($this->ForumId).",
-".self::INDEX."='".SqlQuote($this->Index)."',
-".self::TYPE."='".round($this->Type)."',
-".self::AUTHOR."='".SqlQuote($this->Author)."',
-".self::TITLE."='".SqlQuote($this->Title)."',
-".self::CONTENT."='".SqlQuote($this->Content)."',
-".self::DATE."='".SqlQuote($this->Date)."',
-".self::ADDRESS."='".SqlQuote($this->Address)."',
-".self::CLICKS."=".round($this->Clicks).",
-".self::GUID."='".SqlQuote($this->Guid)."',
-".self::IS_COMMENTABLE."=".Boolean($this->IsCommentable).",
-".self::IS_DELETED."=".Boolean($this->IsDeleted).",
+        $result = "UPDATE ".$this->table." SET 
+".self::FORUM_ID."=".round($this->ForumId).", 
+".self::INDEX."='".SqlQuote($this->Index)."', 
+".self::TYPE."='".round($this->Type)."', 
+".self::AUTHOR."='".SqlQuote($this->Author)."', 
+".self::TITLE."='".SqlQuote($this->Title)."', 
+".self::CONTENT."='".SqlQuote($this->Content)."', 
+".self::DATE."='".SqlQuote($this->Date)."', 
+".self::ADDRESS."='".SqlQuote($this->Address)."', 
+".self::CLICKS."=".round($this->Clicks).", 
+".self::GUID."='".SqlQuote($this->Guid)."', 
+".self::IS_COMMENTABLE."=".Boolean($this->IsCommentable).", 
+".self::IS_DELETED."=".Boolean($this->IsDeleted).", 
 ".self::UPDATE_DATE."='".SqlQuote($this->UpdateDate)."',
 ".self::THREAD_ID."=".round($this->ThreadId).",
 ".self::THREAD_ORDER."=".round($this->ThreadOrder).",
 ".self::DEPTH."=".round($this->Depth).",
 ".self::VISIBLE_TO."=".NullableId($this->VisibleTo)."
-WHERE
+WHERE 
     ".self::RECORD_ID."=".SqlQuote($this->Id);
         return $result;
 //".self::USER_ID."=".NullableId($this->UserId).", // To avoid inconsistency between message's author and updater
@@ -680,11 +676,11 @@ WHERE
     function UpdateAnswersCountExpression($answers, $deleted = 0) {
         $index = $this->GetTopicIndex();
 
-        $result = "UPDATE ".$this->table." SET
+        $result = "UPDATE ".$this->table." SET 
     ".self::ANSWERS_COUNT."=".round($answers).",
     ".self::DELETED_COUNT."=".round($deleted)."
-WHERE
-    ".self::INDEX."='".SqlQuote($index)."' AND
+WHERE 
+    ".self::INDEX."='".SqlQuote($index)."' AND 
     ".self::FORUM_ID."=".round($this->ForumId);
         return $result;
     }
@@ -694,12 +690,12 @@ WHERE
     }
 
     function DeleteThreadExpression() {
-        return "DELETE FROM ".$this->table."
+        return "DELETE FROM ".$this->table." 
 WHERE ##CONDITION##";
     }
 
     function HideThreadExpression($hidden) {
-        return "UPDATE ".$this->table."
+        return "UPDATE ".$this->table." 
 SET ".self::IS_DELETED."=".Boolean($hidden)."
 WHERE ##CONDITION##";
     }
@@ -707,11 +703,11 @@ WHERE ##CONDITION##";
     function CountAnswersExpression() {
         $index = $this->GetTopicIndex();
 
-        return "SELECT
+        return "SELECT 
     COUNT(1) AS TOTAL, SUM(IS_DELETED) AS DELETED
-FROM
-    ".$this->table."
-WHERE
+FROM 
+    ".$this->table." 
+WHERE 
     ".self::INDEX." LIKE '".SqlQuote($index)."%' AND
     ".self::FORUM_ID."=".round($this->ForumId)."
 GROUP BY NULL";
@@ -721,7 +717,7 @@ GROUP BY NULL";
     function CountForumThreadsExpression($forumId, $access = Forum::NO_ACCESS) {
         $result = $this->ReadThreadExpression($access);
         $result = substr($result, strpos($result, "FROM"));
-        $result = "SELECT
+        $result = "SELECT 
     COUNT(".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
     LENGTH(t1.".self::INDEX.")=".self::FIRST_INDEX_LENGTH." AND
     t1.".self::FORUM_ID."=".round($forumId);
@@ -731,16 +727,16 @@ GROUP BY NULL";
     function CountForumThreadsByTagExpression($forumId, $access = Forum::NO_ACCESS) {
         $result = $this->ReadThreadExpression($access);
         $result = substr($result, strpos($result, "FROM"));
-        $result = "SELECT
+        $result = "SELECT 
     COUNT(t1.".self::RECORD_ID.") AS ".self::THREADS_COUNT." ".$result." AND
     LENGTH(t1.".self::INDEX.")=".self::FIRST_INDEX_LENGTH." AND
     t1.".self::FORUM_ID."=".round($forumId);
         $result = str_replace(
-            "WHERE",
+            "WHERE", 
             "
     JOIN ".RecordTag::table." AS t4 ON t4.".RecordTag::RECORD_ID."=t1.".self::RECORD_ID."
     JOIN ".Tag::table." AS t5 ON t5.".Tag::TAG_ID."=t4.".RecordTag::TAG_ID."
-WHERE",
+WHERE", 
             $result);
         return $result;
     }
@@ -778,7 +774,7 @@ WHERE
         $isProtected = self::TYPE." = ".self::TYPE_PUBLIC;
 
         if ($user && !$user->IsEmpty()) {
-            if ($user->isSuperAdmin()) {
+            if ($user->IsSuperAdmin()) {
                 $isDeleted = "";
                 $isProtected = "";
             } elseif ($user->IsAdmin()) {
@@ -792,10 +788,10 @@ WHERE
     }
 
     function MonthDaysExpression($forumId, $month, $year) {
-        return "SELECT DISTINCT
+        return "SELECT DISTINCT 
         DAY(t1.".self::DATE.") AS DAY
     FROM ".$this->table." AS t1
-    WHERE
+    WHERE 
         t1.".self::FORUM_ID."=".$forumId." AND
         LENGTH(t1.".self::INDEX.")=".self::FIRST_INDEX_LENGTH." AND
         t1.".self::DATE." > '".sprintf("%04d-%02d-%02d", $year, $month, 1)."' AND
@@ -803,7 +799,7 @@ WHERE
     }
 
     function MigrateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::RECORD_ID.",
 ".self::FORUM_ID.",
 ".self::INDEX.",
@@ -821,8 +817,8 @@ WHERE
 ".self::UPDATE_DATE."
 )
 VALUES
-(".round($this->Id).",
-".round($this->ForumId).",
+(".round($this->Id).", 
+".round($this->ForumId).", 
 '".SqlQuote($this->Index)."',
 ".round($this->Type).",
 '".SqlQuote($this->Author)."',
@@ -840,10 +836,10 @@ VALUES
     }
 
     function SetChildTypeExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::TYPE."='".round($this->Type)."'
-WHERE
-".self::FORUM_ID."=".round($this->ForumId)." AND
+        $result = "UPDATE ".$this->table." SET 
+".self::TYPE."='".round($this->Type)."' 
+WHERE 
+".self::FORUM_ID."=".round($this->ForumId)." AND 
 ".self::INDEX." LIKE '".SqlQuote($this->Index)."%'";
         return $result;
     }
@@ -863,7 +859,7 @@ WHERE
 
     public static function GetDeletedCondition($user) {
         $deletedCondition = "t1.".self::IS_DELETED."=0";
-        if ($user && $user->isSuperAdmin()) {
+        if ($user && $user->IsSuperAdmin()) {
             $deletedCondition = "1";
         }
         return $deletedCondition;

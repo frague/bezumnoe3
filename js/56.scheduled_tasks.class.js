@@ -17,12 +17,14 @@ ScheduledTasks.prototype = new EditablePagedGrid();
 ScheduledTasks.prototype.BaseBind = function() {};
 
 ScheduledTasks.prototype.InitPager = function() {
-    this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.ScheduledTasks.SwitchPage()}, this.PerPage);
+    this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.ScheduledTasks.SwitchPage()}, this.PerPage);
 };
 
-ScheduledTasks.prototype.requestCallback = function(req) {
-    this.requestBaseCallback(req);
-    this.Bind(this.data, this.Total);
+ScheduledTasks.prototype.RequestCallback = function(req, obj) {
+    if (obj) {
+        obj.RequestBaseCallback(req, obj);
+        obj.Bind(obj.data, obj.Total);
+    }
 };
 
 ScheduledTasks.prototype.TemplateLoaded = function(req) {
@@ -30,11 +32,11 @@ ScheduledTasks.prototype.TemplateLoaded = function(req) {
     this.GroupSelfAssign(["RefreshScheduledTasks"]);
 
     // System log checkboxes
-    BindEnterTo(this.inputs["status"], this.inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.inputs["unban"], this.inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.inputs["expired_sessions"], this.inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.inputs["ratings"], this.inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.inputs["inactivated"], this.inputs["RefreshScheduledTasks"]);
+    BindEnterTo(this.Inputs["status"], this.Inputs["RefreshScheduledTasks"]);
+    BindEnterTo(this.Inputs["unban"], this.Inputs["RefreshScheduledTasks"]);
+    BindEnterTo(this.Inputs["expired_sessions"], this.Inputs["RefreshScheduledTasks"]);
+    BindEnterTo(this.Inputs["ratings"], this.Inputs["RefreshScheduledTasks"]);
+    BindEnterTo(this.Inputs["inactivated"], this.Inputs["RefreshScheduledTasks"]);
 };
 
 /* Status Data Transfer Object */

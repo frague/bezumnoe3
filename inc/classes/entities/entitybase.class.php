@@ -25,7 +25,7 @@ abstract class EntityBase {
     function IsEmpty() {
         return ($this->Id <= 0 || $this->Id == "");
     }
-
+    
     function CheckSum($extended = false) {
         return 0;
     }
@@ -33,7 +33,7 @@ abstract class EntityBase {
     // SQL methods
     function IsConnected() {
      global $db;
-        return $db != 0;
+        return mysqli_ping($db->link);
     }
 
     function Retrieve() {
@@ -113,7 +113,7 @@ abstract class EntityBase {
             $condition = "1=1";
         }
         $q = $this->GetByCondition(
-            $condition,
+            $condition, 
             "SELECT COUNT(1) AS RECORDS ".substr($this->ReadExpression(), strpos($this->ReadExpression(), "FROM")));
         $q->NextResult();
         return $q->Get("RECORDS");
@@ -162,7 +162,7 @@ abstract class EntityBase {
                 $this->Id = $q->GetLastId();
             }
         }
-        return mysql_error();
+        return mysqli_error($db->link);
     }
 
     function Delete() {
@@ -172,7 +172,7 @@ abstract class EntityBase {
         }
         return $result;
     }
-
+    
     function DeleteById($id) {
      global $db;
         if (!$this->IsConnected()) {

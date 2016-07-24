@@ -11,14 +11,14 @@ function Alerts(container) {
 };
 
 Alerts.prototype.Add = function(message, isError) {
-    displayElement(this.Holder, true);
+    DisplayElement(this.Holder, true);
     this.Container.innerHTML += "<p class='" + (isError ? "Error" : "") + "'>" + message + "</p>";
     this.HasErrors = this.HasErrors || isError;
     this.IsEmpty = 0;
 };
 
 Alerts.prototype.Clear = function() {
-    displayElement(this.Holder, false);
+    DisplayElement(this.Holder, false);
     this.Container.innerHTML = "";
     this.HasErrors = 0;
     this.IsEmpty = 1;

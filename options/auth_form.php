@@ -2,7 +2,7 @@
 $(function() {
         // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
         $( "#dialog:ui-dialog" ).dialog( "destroy" );
-
+        
         function checkLength( o, n, min, max ) {
             if ( o.val().length > max || o.val().length < min ) {
                 o.addClass( "ui-state-error" );
@@ -23,7 +23,7 @@ $(function() {
                 return true;
             }
         }
-
+        
         $( "#auth_form" ).dialog({
             autoOpen: false,
             height: 300,
@@ -45,10 +45,10 @@ $(function() {
 
                     if ( bValid ) {
                         $( "#users tbody" ).append( "<tr>" +
-                            "<td>" + name.val() + "</td>" +
-                            "<td>" + email.val() + "</td>" +
+                            "<td>" + name.val() + "</td>" + 
+                            "<td>" + email.val() + "</td>" + 
                             "<td>" + password.val() + "</td>" +
-                        "</tr>" );
+                        "</tr>" ); 
                         $( this ).dialog( "close" );
                     }*/
                     $( this ).dialog( "close" );

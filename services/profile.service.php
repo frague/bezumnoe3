@@ -1,4 +1,4 @@
-<?
+<?php
 
 	$response = "";
 	$postResponse = "";
@@ -10,9 +10,9 @@
 	if (!$user || $user->IsEmpty() || !$user_id) {
 		exit;
 	}
-
-	$tabId = $_POST["tab_id"];
-	$photo = $_FILES["PHOTO1"];
+	
+	$tabId = LookInRequest("tab_id");
+	$photo = getValue($_FILES, "PHOTO1");
 
 	$ownProfile = ($user_id == $user->User->Id);
 
@@ -54,8 +54,8 @@
 
 				/* Upload new image */
 				if ($photo) {
-					$response = "";
-					$postResponse = "this.Bind();";
+					$response = "var tabObject = top.tabs.tabsCollection.Get('".$tabId."');obj = tabObject.Profile;";
+					$postResponse = "obj.Bind();";
 
 					$name = $isAvatar ? $profile->Avatar : $profile->Photo;
 					if (!$name || $name == "nophoto.gif") {
@@ -91,13 +91,13 @@
 							$response .= AddJsAlert("Фотография обновлена.");
 							SaveLog("Новое фото.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 						}
-
+							
 						// Image resizing
 						$image = new SimpleImage();
 						$image->Load($pathToImage);
-
+							
 //						$response .= AddJsAlert("Width=".."Height=");
-
+						
 						$hasChanged = false;
 						if ($image->GetWidth() > $maxWidth) {
 							$image->ResizeToWidth($maxWidth);
@@ -130,7 +130,7 @@
 						$response .= JsAlert($pass_result, 1);
 					}
 				}
-
+					
 				/* Admin's functionality (Ban & Status) */
 				if (!$ownProfile && $user->IsAdmin()) {
 					$targetStatus = new Status($targetUser->StatusId);
@@ -186,8 +186,8 @@
 				$oldProfile = $profile->GetFieldset();
 				$profile->FillFromHash($_POST);
 				$profile->Save();
-
-				// Write to log
+					
+				// Write to log 
 				LogProfileChanges($targetUser->Id, $profile, $oldProfile, $user->User->Login);
 
 				$response .= JsAlert("Профиль успешно сохранён.");
@@ -212,10 +212,13 @@
 				}
 				break;
 		}
-		$response .= "this.FillFrom(".$profile->ToJs($targetUser, $user->IsAdmin()).");";
-		if (($user->IsAdmin() && $user->Status->Rights > $targetUser->Rights) || $user->Status->Rights > 75) {
+		$response .= "obj.FillFrom(".$profile->ToJs($targetUser, $user->IsAdmin()).");";
+		if (
+			($user->IsAdmin() && $user->Status->Rights > $targetStatus->Rights) || 
+			$user->Status->Rights > 75
+		) {
 			// Sending Admin data
-			$response .= "this.FillFrom(".$targetUser->ToJs().",".$targetUser->ToJsAdminFields().");";
+			$response .= "obj.FillFrom(".$targetUser->ToJs().",".$targetUser->ToJsAdminFields().");";
 		}
 	}
 

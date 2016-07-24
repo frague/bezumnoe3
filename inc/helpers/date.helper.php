@@ -113,8 +113,8 @@
     }
 
     function DatesDiff($d) {
-        $current_time = mktime();
-        $target_time = strtotime(date($d));
+        $current_time = mktime(); 
+        $target_time = strtotime(date($d)); 
         $timediff = round(($current_time - $target_time) / (60 * 60 * 24));
 
         return $timediff; // Diff in days

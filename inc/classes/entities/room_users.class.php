@@ -41,13 +41,13 @@ class RoomUser extends EntityBase {
         return $this->GetByCondition("t2.".User::ROOM_ID."<>-1", $this->ReadForOnlineUsersExpression($user_id));
     }
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicates
-            $q = $db->Query("SELECT
+            $q = $db->Query("SELECT 
    ".self::USER_ID."
-FROM
+FROM 
   ".$this->table."
 WHERE
   ".self::USER_ID." = '".SqlQuote($this->UserId)."' AND
@@ -89,22 +89,22 @@ WHERE
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::USER_ID.",
     t1.".self::ROOM_ID."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::USER_ID.",
+        return "INSERT INTO ".$this->table." 
+(".self::USER_ID.", 
 ".self::ROOM_ID."
 )
 VALUES
-('".SqlQuote($this->UserId)."',
+('".SqlQuote($this->UserId)."', 
 '".SqlQuote($this->RoomId)."'
 )";
     }

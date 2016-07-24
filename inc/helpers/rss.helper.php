@@ -21,7 +21,7 @@ class rssGenerator_rss {
     var $encoding = '';
 
     function createFeed($channel) {
-        $rss = '<?xml version="1.0"';
+        $rss = '<?phpxml version="1.0"';
         if (!empty($this->encoding)) {
             $rss .= ' encoding="' . $this->encoding . '"';
         }

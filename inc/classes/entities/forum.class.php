@@ -19,9 +19,9 @@ class Forum extends ForumBase {
 
         $result.= $this->Description;
         $result.= "<div>";
-
+        
         #$result.= "В форуме ".Countable("тема", $this->TotalCount, "нет").". ";
-
+        
         if ($lastVisitDate) {
             $unread = $this->GetUnreadCount($lastVisitDate);
             if ($unread > 0) {

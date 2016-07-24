@@ -1,4 +1,4 @@
-<?
+<?php
 
     $root = "./";
     require_once $root."server_references.php";
@@ -40,19 +40,17 @@
     $user->User->TouchSession();
     SetUserSessionCookie($user->User);
 
+
 ?><!DOCTYPE html>
 <html lang="ru">
     <head>
         <meta charset="utf-8" />
         <title>Безумное ЧАепиТие у Мартовского Зайца</title>
-        <!-- <link rel="stylesheet" href="/css/chat_layout.css"> -->
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-        <!-- inject:css -->
-        <link rel="stylesheet" href="/css/vendor-4083f5d376.css">
-        <link rel="stylesheet" href="/css/styles-055a3aad16.css">
-        <!-- endinject -->
+<!-- inject:css -->
+<!-- endinject -->
     </head>
 
     <body>
@@ -77,7 +75,7 @@
             <table>
                 <tr>
                     <td></td>
-                    <td id="CurrentName" colspan="2"><? echo $user->DisplayedName() ?></td></tr>
+                    <td id="CurrentName" colspan="2"><?php echo $user->DisplayedName() ?></td></tr>
                 <tr>
                     <td></td>
                     <td id="RecepientsContainer" colspan="2"></td></tr>
@@ -112,12 +110,14 @@
             <div id="MenuContainer"></div>
         </div>
 
-        <!-- <script src="/scripts/scripts.js"></script> -->
+<!-- inject:js -->
+<!-- endinject -->
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';
             Session = '<?php echo $user->User->Session ?>';
             SessionCheck = '<?php echo $user->User->SessionCheck ?>';
             SessionKey = '<?php echo SESSION_KEY ?>';
+
             initLayout(pages.inside);
         </script>
         <!-- inject:js -->

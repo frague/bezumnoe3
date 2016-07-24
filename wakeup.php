@@ -6,7 +6,8 @@
         <link rel="stylesheet" href="/css/wakeup.css" />
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-        <script src="/js/scripts.js"></script>
+        <script src="/js1/jquery/jquery.js"></script>
+        <script src="/js1/jquery/jquery-ui.js"></script>
         <?php
 
     $root = "./";
@@ -24,13 +25,16 @@
         }
     }
 
-    ?>      <title><? echo ($wakeup->IsEmpty() ? "Wakeup Error!" : "Сообщение от ".$wakeup->FromUserName) ?></title>
+    require_once $root."references.php"; 
+    
+
+    ?>      <title><?php echo ($wakeup->IsEmpty() ? "Wakeup Error!" : "Сообщение от ".$wakeup->FromUserName) ?></title>
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
     </head>
 
     <body>
-            <?php
-
+            <?php 
+            
             if ($user->IsEmpty()) {
                 ?>
             <div class="Error">Пользователь не авторизован!</div>
@@ -42,16 +46,16 @@
                 <?php
                 } else {
                 ?>
-            <h1>Сообщение от <? echo $wakeup->FromUserName; ?></h1>
+            <h1>Сообщение от <?php echo $wakeup->FromUserName; ?></h1>
             <div id='WakeupContainer'>
-                <strong><? echo OuterLinks(MakeLinks($wakeup->Message, true)); ?></strong><br><br>
+                <strong><?php echo OuterLinks(MakeLinks($wakeup->Message, true)); ?></strong><br><br>
                 <a href="javascript:void(0)" onclick="ReplyForm()" class="Reply">Ответить</a>
-                <p><a><? echo $wakeup->FromUserName; ?></a>
-                    <span><? echo PrintableDate($wakeup->Date); ?></span>
+                <p><a><?php echo $wakeup->FromUserName; ?></a>
+                    <span><?php echo PrintableDate($wakeup->Date); ?></span>
                     </p>
             </div>
             <div id='WakeupReply' style='display:none'>
-                <form target="#" onsubmit="SendWakeup(<? echo $wakeup->Id; ?>);return false;">
+                <form target="#" onsubmit="Send(<?php echo $wakeup->Id; ?>);return false;">
                     <div class="RoundedCorners" id="status"></div>
                     <table>
                         <tr>
@@ -62,12 +66,12 @@
                     </table>
                 </form>
             </div>
-            <script>initLayout(pages.wakeup)</script>
+            <script language="javascript" src="/js1/wakeup.js"></script>
                 <?php
                 }
             }
-
+            
              ?>
-
+        
     </body>
 </html>

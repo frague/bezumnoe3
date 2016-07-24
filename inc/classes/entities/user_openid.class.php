@@ -72,19 +72,19 @@ class UserOpenId extends EntityBase {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
-    t1.".self::USER_OPENID_ID.",
-    t1.".self::USER_ID.",
+        return "SELECT 
+    t1.".self::USER_OPENID_ID.", 
+    t1.".self::USER_ID.", 
     t1.".self::OPENID_PROVIDER_ID.",
     t1.".self::LOGIN."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
+        return "INSERT INTO ".$this->table." 
 (".self::USER_ID.",
 ".self::OPENID_PROVIDER_ID.",
 ".self::LOGIN.")
@@ -107,7 +107,7 @@ WHERE
         return $this->BaseDeleteExpression();
     }
 
-    function deleteUserOpenIdsExpression() {
+    function DeleteUserOpenIdsExpression() {
         return "DELETE FROM ".$this->table." WHERE ".self::USER_ID."=".round($this->UserId);
     }
 }

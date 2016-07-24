@@ -1,6 +1,6 @@
 <?php
 
-    if (!$root) {
+    if (!isset($GLOBALS['root'])) {
         $root = "../";
     }
 

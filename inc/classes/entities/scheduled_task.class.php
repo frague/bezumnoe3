@@ -136,7 +136,7 @@ class ScheduledTask extends EntityBase {
     }
 
     // Delete given user's unban tasks
-    function deleteUserUnbans($userId) {
+    function DeleteUserUnbans($userId) {
         $this->GetByCondition(
             self::TYPE."='".self::TYPE_UNBAN."' AND ".self::PARAMETER1."=".round($userId),
             $this->ConditionalDeleteExpression()
@@ -438,7 +438,7 @@ class ExpiredSessionsAction extends BaseAction {
 
         if (sizeof($u) > 0) {
             while (list($roomId,$users) = each($u)) {
-                $message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат. ", $roomId);
+                $message = new QuitMessage($users.(preg_match("/, /", $users) ? " покидают" : " покидает")." чат. ", $roomId);
                 $message->Save();
             }
         }

@@ -7,27 +7,27 @@
 function Confirm() {
 	var Cover;
 	var Holder;
-	var callbackObject;
-
+	var CallbackObject;
+	
 	var AlertType = false;
 };
 
 Confirm.prototype.Init = function(coverId, holderId) {
-	this.Cover = $(getElement(coverId))[0];
-	this.Holder = $(getElement(holderId))[0];
+	this.Cover = $(GetElement(coverId))[0];
+	this.Holder = $(GetElement(holderId))[0];
 
 	this.Holder.className = "ConfirmContainer";
 };
-
+	
 Confirm.prototype.Display = function(state) {
-	displayElement(this.Holder, state);
-	displayElement(this.Cover, state);
+	DisplayElement(this.Holder, state);
+	DisplayElement(this.Cover, state);
 };
 
 Confirm.prototype.SetBodyOverflow = function(state) {
 	return;
-//	var b = d.documentElement ? d.documentElement : d.body;
-//	b.style.overflow = state ? "auto" : "hidden";
+	var b = d.documentElement ? d.documentElement : d.body;
+	b.style.overflow = state ? "auto" : "hidden";
 };
 
 Confirm.prototype.Show = function(callback, title, message, customContent, keep_opened) {
@@ -38,12 +38,12 @@ Confirm.prototype.Show = function(callback, title, message, customContent, keep_
 	}
 
 	this.SetBodyOverflow(0);
-
+		
 	title = title ? title : 'Confirmation';
-
-	this.callbackObject = callback;
+	
+	this.CallbackObject = callback;
 	this.KeepOpened = keep_opened;
-
+		
 	var h1 = d.createElement("h1");
 	h1.innerHTML = title;
 	this.Holder.appendChild(h1);
@@ -51,11 +51,11 @@ Confirm.prototype.Show = function(callback, title, message, customContent, keep_
 	var m = d.createElement("div");
 	m.innerHTML = message;
 	this.Holder.appendChild(m);
-
+	
 	if (customContent && customContent.CreateControls) {
 		customContent.CreateControls(this.Holder);
-		if (customContent.requestData) {
-			customContent.requestData();
+		if (customContent.RequestData) {
+			customContent.RequestData();
 		}
 	}
 
@@ -73,10 +73,10 @@ Confirm.prototype.Show = function(callback, title, message, customContent, keep_
 
 	this.Display(true);
 	window.ConfirmObject = this;
-
+		
 	return false;
 };
-
+	
 Confirm.prototype.Hide = function() {
 	if (!this.Holder) {
 		return;
@@ -85,13 +85,13 @@ Confirm.prototype.Hide = function() {
 	this.Holder.innerHTML = "";
 	this.SetBodyOverflow(1);
 };
-
+	
 Confirm.prototype.Cancel = function() {
 	if (!this.Holder) {
 		return;
 	}
 	this.Hide();
-	this.callbackObject = null;
+	this.CallbackObject = null;
 };
 
 Confirm.prototype.Ok = function() {
@@ -101,14 +101,14 @@ Confirm.prototype.Ok = function() {
 	if (!this.KeepOpened) {
 		this.Hide();
 	}
-	if (this.callbackObject) {
-		if (typeof(this.callbackObject) == 'function') {
-			this.callbackObject();
+	if (this.CallbackObject) {
+		if (typeof(this.CallbackObject) == 'function') {
+			this.CallbackObject();
 		} else {
-			if (this.callbackObject.click) {
-				this.callbackObject.click();
+			if (this.CallbackObject.click) {
+				this.CallbackObject.click();
 			} else {
-				location.href = this.callbackObject;
+				location.href = this.CallbackObject;
 			}
 		}
 	}

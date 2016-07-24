@@ -29,38 +29,38 @@
                 'site'          =>  $this->siteid,
                 );
 
-                $this->PostToHost($this->server,$this->path,$this->URLEncodeArray($liveinternet_post_data));
+                $this->PostToHost($this->server,$this->path,$this->URLEncodeArray($liveinternet_post_data)); 
 
 
-            }
-
+            } 
+            
 
         }
-        function URLEncodeArray($QueryVars) {
-            unset($QueryBits);
-            while (list($var, $value) = each($QueryVars)) {
-                $QueryBits[] = urlencode($var).'='.urlencode($value);
-            }
-            return( implode('&', $QueryBits) );
-        }
+        function URLEncodeArray($QueryVars) { 
+            unset($QueryBits); 
+            while (list($var, $value) = each($QueryVars)) { 
+                $QueryBits[] = urlencode($var).'='.urlencode($value); 
+            } 
+            return( implode('&', $QueryBits) ); 
+        } 
 
-        function PostToHost($host, $path, $data_to_send, $port=80, $proto="1.0") {
-            $rval           = -1;
-            $data_len       = strlen($data_to_send);
-            $fp             = fsockopen($host, $port);
-
-            if ($fp) {
-                fputs($fp, "POST $path HTTP/$proto\r\n");
-                fputs($fp, "Host: $host\r\n");
-                fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-                fputs($fp, "Content-length: ".$data_len."\r\n");
-                fputs($fp, "Connection: close\r\n\r\n");
-                fputs($fp, $data_to_send);
-                while(!feof($fp)) { $rval .= fgets($fp, 128); }
-                fclose($fp);
-            }
-        return($rval);
-        }
+        function PostToHost($host, $path, $data_to_send, $port=80, $proto="1.0") { 
+            $rval           = -1; 
+            $data_len       = strlen($data_to_send); 
+            $fp             = fsockopen($host, $port); 
+    
+            if ($fp) { 
+                fputs($fp, "POST $path HTTP/$proto\r\n"); 
+                fputs($fp, "Host: $host\r\n"); 
+                fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n"); 
+                fputs($fp, "Content-length: ".$data_len."\r\n"); 
+                fputs($fp, "Connection: close\r\n\r\n"); 
+                fputs($fp, $data_to_send); 
+                while(!feof($fp)) { $rval .= fgets($fp, 128); } 
+                fclose($fp); 
+            } 
+        return($rval); 
+        } 
      }
     new LiveinternetSeTracker("bezumnoe.ru");
 ?>

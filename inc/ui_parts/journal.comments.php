@@ -2,7 +2,7 @@
 
     echo "<h2>Комментарии в журналах</h2>";
 
-    $userId = $someoneIsLogged ? $user->User->Id : -1;
+    $userId = $GLOBALS["someoneIsLogged"] ? $user->User->Id : -1;
     $comment = new JournalComment();
     $q = $comment->GetMixedJournalsComments($userId, 0, 50);
 
@@ -18,7 +18,7 @@
 
         $r = substr($comment->Index, 0, 4)."_".$comment->ForumId;
 
-        if (!$sorted[$r]) {
+        if (!isset($sorted[$r])) {
             $sorted[$r] = array();
         }
         array_push($sorted[$r], $comment);

@@ -1,9 +1,9 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
-	if (!$user || $user->IsEmpty() || !$user->isSuperAdmin()) {
+	if (!$user || $user->IsEmpty() || !$user->IsSuperAdmin()) {
 		exit();	// TODO: Implement client functionality
 	}
 
@@ -12,7 +12,9 @@
 
 	// --- Filtering ---
 	$condition = "";
-	$roomsCondition = MakeSearchCriteria("DATE", Message::DATE, "SEARCH", $message->SearchTemplate);
+	$roomsCondition = MakeSearchCriteria(
+		LookInRequest("DATE"), Message::DATE, LookInRequest("SEARCH"), $message->SearchTemplate
+	);
 
 	// Filter by room
 	$room_id = round($_POST["ROOM_ID"]);

@@ -1,5 +1,5 @@
 <?php
-
+    
     require "../inc/ui_parts/templates.php";
     require "../inc/base_template.php";
 

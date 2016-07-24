@@ -1,5 +1,5 @@
 <?php
-
+    
     $root = "../";
     require_once $root."server_references.php";
     require_once "journal.template.php";
@@ -33,7 +33,7 @@
         DieWith404();
     }
     $forumId = $journal->Id;
-
+    
     // Checking if journal is protected and logged user has access to it
     $access = 1 - $journal->IsProtected;
 
@@ -46,7 +46,7 @@
 
 
     header("Content-Type: text/xml");
-
+    
     $showMessages = 30;
 
     $rss_channel = new rssGenerator_channel();

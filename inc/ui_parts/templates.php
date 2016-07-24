@@ -13,7 +13,7 @@
         var $scripts = array();
         var $buttons = array();
 
-        function Page($title, $meta = "", $header_title = "", $no_jquery = false) {
+        function Page($title, $meta = "", $header_title = "", $no_jquery = false, $css = "", $scripts = "", $rss = "") {
             $this->no_jquery = $no_jquery;
             $this->title = $title;
             $this->header_title = $header_title;
@@ -21,7 +21,7 @@
             
             $this->AddCss($css);
 
-            $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
+            $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "modernizr.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
             $this->AddJs("reply_common.js");
             $this->AddJs($scripts);
 
@@ -80,7 +80,7 @@
 <?php 
             $this->PrintArray($this->css, "     ");
             $this->PrintArray($this->scripts, "     "); 
-            // include "google_analythics.php";
+            include "google_analythics.php";
 
             if (sizeof($this->buttons)) {
                 require_once $root."inc/helpers/like_buttons.helper.php";
@@ -122,20 +122,18 @@
                 <script src="/js1/template_layout.js"></script>
             <footer>
                 <div style="clear: both;" class="Divider Horizontal"><span></span></div>
-                <?php include $root."inc/ui_parts/rle_banner.php"; ?>
-                <div style="clear: both;" class="Divider Horizontal Alternative"><span></span></div>
 <?php
 
         include "footer.php";
         include $root."/inc/li_spider_check.inc.php";
-        #include $root."/inc/ui_parts/yandex_metrics.php";
+        include $root."/inc/ui_parts/yandex_metrics.php";
 
 ?>
             </footer>
         </div>
 <?php
 
-    // include $root."inc/ui_parts/li.php";
+    include $root."inc/ui_parts/li.php";
 
 ?>
     </body>

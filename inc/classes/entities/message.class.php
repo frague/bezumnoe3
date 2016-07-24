@@ -111,7 +111,14 @@ class Message extends EntityBase {
         $text = $this->Text;
         if ($highlight) {
             $text = str_replace($highlight, "<strong>".$highlight."</strong>", $text);
-            $text = preg_replace("/(href=\")([^\"]+)(\")/ie", "\"$1\".strip_tags(\"$2\").\"$3\"", $text);
+            $text = preg_replace_callback(
+                "/(href=\")([^\"]+)(\")/i", 
+                function ($matches) {
+                    list($href, $url, $closingQuote) = $matches;
+                    return "\"$href\".strip_tags(\"$url\").\"$closingQuote\"";
+                }, 
+                $text
+            );
         }
 
         $text = str_replace("\\\\", "<br>", $text);
@@ -149,6 +156,22 @@ class Message extends EntityBase {
         }
 
         return "<p #style#>".$privateLink.$linkName.": ".$text."</p>";
+    }
+
+    function ToJSON() {
+        if ($this->IsEmpty()) {
+            return "";
+        }
+        return array(
+            "id" => $this->Id,
+            "room_id" => $this->RoomId,
+            "user_id" => $this->UserId,
+            "user_name" => $this->UserName,
+            "to_user_id" => $this->ToUserId,
+            "to_user_name" => $this->ToUserName,
+            "text" => $this->Text,
+            "moment" => $moment
+        );
     }
 
     // SQL

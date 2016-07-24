@@ -1,4 +1,4 @@
-h2 > span {
+﻿h2 > span {
     font-family: arial, tahoma;
     font-weight: 100;
     font-size: 60%;
@@ -41,14 +41,14 @@ table.columns td:first-child {
     padding: 0 40px 0 0;
 }
 
-ul.forums,
-ul.threads,
+ul.forums, 
+ul.threads, 
 ul.thread {
     padding: 0;
     margin: 20px 0;
 }
 
-ul.forums li,
+ul.forums li, 
 ul.thread li {
     list-style: none;
 }
@@ -136,8 +136,8 @@ ul.threads li span {
     color: #555;
 }
 
-.Hidden table,
-.Hidden div.content,
+.Hidden table, 
+.Hidden div.content, 
 li.Hidden {
     text-decoration:line-through;
 }
@@ -276,7 +276,7 @@ ul.back_links li a {
     padding-bottom: 20px;
 }
 
-.preview td img,
+.preview td img, 
 #photo img {
     max-width: 600px;
     border: solid 6px #D0D0D0;
@@ -319,9 +319,9 @@ div#ReplyForm {
     margin-top: 10px;
 }
 
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
+input[type="button"], 
+input[type="submit"], 
+input[type="reset"], 
 button {
     border: solid 1px #808080;
     background-color: #E0E0E0;

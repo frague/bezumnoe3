@@ -1,4 +1,4 @@
-<?
+<?php
 
     function get_sequence() {
         $result = "";
@@ -7,7 +7,7 @@
         }
         return $result;
     }
-
+    
     function encrypt($num) {
         $result = get_sequence();
         foreach (str_split($num) as $c) {
@@ -24,16 +24,23 @@
         }
         return $result;
     }
-
+    
     $root = "../";
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";
-
+    
     $p = new Page("Регистрация в чате", "", "", true);
     $p->AddCss("register.css");
     $p->PrintHeader();
-
+    
     require_once $root."references.php";
+
+    $login = "";
+    $email = "";
+    $full_name = "";
+    $gender = "";
+    $location = "";
+
 
     $operations = array("+", "-", "*");
 
@@ -249,9 +256,9 @@
         <tr>
             <th>Пол</th>
             <td>
-                <input type="radio" name="GENDER" id="GENDER_MALE" value="m" <?php echo ($gender == "m" ? "checked" : ""); ?>> <label for="GENDER_MALE">мужской</label>
-                <input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">женский</label>
-                <input type="radio" name="GENDER" id="GENDER_UNKNOWN" value="" <?php echo ($gender ? "" : "checked"); ?>> <label for="GENDER_UNKNOWN">другое</label>
+                <input type="radio" name="GENDER" id="GENDER_MALE" value="m" <?php echo ($gender == "m" ? "checked" : ""); ?>> <label for="GENDER_MALE">мужской</label> 
+                <input type="radio" name="GENDER" id="GENDER_FEMALE" value="f"<?php echo ($gender == "f" ? "checked" : ""); ?>> <label for="GENDER_FEMALE">женский</label> 
+                <input type="radio" name="GENDER" id="GENDER_UNKNOWN" value="" <?php echo ($gender ? "" : "checked"); ?>> <label for="GENDER_UNKNOWN">другое</label> 
                 <input name="HUMAN" id="HUMAN" style="visibility:hidden" value="">
                 <input type="hidden" name="SESSION" id="SESSION" value="<?php echo $equation_result ?>" />
             </td>
@@ -265,7 +272,7 @@
         <tr>
             <th>
                 <br />
-                <p><?php echo $equation ?> =
+                <p><?php echo $equation ?> = 
             </th>
             <td>
                 Я не бот и вообще против авторегистрации. Готов доказать, решив простое уравнение:
@@ -304,7 +311,7 @@
 
     PageValidators.Init("Summary", "Выявлены ошибки:");
 <?php
-
+        
     if (sizeof($errors)) {
         echo "PageValidators.ShowSummary([\"".join("\", \"", $errors)."\"]);";
     }

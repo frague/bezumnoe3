@@ -2,4 +2,4 @@
     require_once "server_references.php";
 
 ?>
-<script src="/js/<? include $root."js/handler.php" ?>.javascript"></script>
+<script src="/js/<?php include $root."js/handler.php" ?>.javascript"></script>

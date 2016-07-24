@@ -1,4 +1,4 @@
-<?
+<?php
 
 	$root = "../";
 	require_once $root."server_references.php";
@@ -45,12 +45,12 @@
 	$message = str_replace("<", "&lt;", $_POST["message"]);
 	$message = str_replace(">", "&gt;", $message);
 	$message = substr($message, 0, 1024);
-	$recepients = ereg_replace("[^0-9,\-]", "", $_POST["recepients"]);
+	$recepients = mb_ereg_replace("[^0-9,\-]", "", $_POST["recepients"]);
 	if ($recepients == "-1") {
 		$recepients = "";
 	}
-	$recs = split(",", substr($recepients, 0, 1024));
-	$type = ereg_replace("[^a-z]", "", substr(strtolower($_POST["type"]), 0, 50));
+	$recs = explode(",", substr($recepients, 0, 1024));
+	$type = mb_ereg_replace("[^a-z]", "", substr(strtolower($_POST["type"]), 0, 50));
 
 	if ($message || $type == "away" || $type == "quit" || $type == "kick" || $type == "ban" || strpos($type, "topic") !== 0) {
 		$message = UTF8toWin1251($message);

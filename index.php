@@ -3,11 +3,12 @@
     $root = "./";
     require_once $root."server_references.php";
 
-    $user = GetAuthorizedUser(true, false);
+    $user = GetAuthorizedUser(true);
     SetUserSessionCookie($user->User);
 
     require $root."inc/ui_parts/templates.php";
     require $root."inc/ui_parts/news.php";
+
 
 ?><!DOCTYPE html>
 <html lang="ru">
@@ -41,6 +42,8 @@
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+ <!-- inject:css -->
+<!-- endinject -->    
 </head>
 
 <body>
@@ -73,9 +76,9 @@
                     <div class="Column Center Left">
                         <div class="Divider Vertical main_links">
                             <div class="welcome">
-<p>Добро пожаловать в старейший саратовский чат
+<p>Добро пожаловать в старейший саратовский чат 
 <h1>Безумное ЧАепиТие у Мартовского Зайца</h1>
-<p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время.
+<p>Здесь вы сможете встретить интересных людей, пообщаться на интересующие вас темы и просто приятно провести время. 
 <p>Если вы у нас впервые, ознакомьтесь с <a href="/rules/" class="Link">правилами</a> и <a href="/register" class="Link">зарегистрируйтесь</a>. Если вы уже бывали здесь раньше - просто введите свой логин и пароль и входите!
                             </div>
 
@@ -103,9 +106,9 @@
                                 <p>Мы общаемся не только в интернете! В чате существуют свои традиции, праздники, которые мы отмечаем вместе, или же просто встречаемся без повода. <a href="/gallery/" class="Link">Посмотрите</a> фотографии с мест событий!
                             </div>
                             <h5>Последний комментарий</h5>
-                            <?php
-                                $shownComments = 1;
-                                include $root."inc/ui_parts/gallery.comments.php";
+                            <?php 
+                                $GLOBALS["shownComments"] = 1;
+                                include $root."inc/ui_parts/gallery.comments.php"; 
                             ?>
 
                             <div class="blogs">
@@ -126,7 +129,7 @@
                         <form method="POST" class="auth_form">
                             <input type="hidden" name="AUTH" id="AUTH" value="1" />
                             <label for="<?php echo LOGIN_KEY ?>">Логин</label>
-                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo  echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
+                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" value="<?php echo LookInRequest(LOGIN_KEY) ?>" type="text" placeholder="Логин" />
                             <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
                             <input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password" placeholder="Пароль" />
                             <input src="/img/t/auth.gif" width="90" height="30" alt="Авторизоваться в чате" type="image" />
@@ -141,7 +144,7 @@
             <b>".$user->User->Login."</b><br>
             и можете <a href='/inside.php'>войти</a> в чат.</div>";
     } else {
-        if ($_POST[LOGIN_KEY]) {
+        if (isset($_POST[LOGIN_KEY])) {
             echo "<div class='Error'>Ошибка авторизации!</div>";
         }
     }
@@ -173,10 +176,6 @@
 
                 <div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
-                <?php include $root."inc/ui_parts/rle_banner.php"; ?>
-
-                <div class="Divider Horizontal Alternative"><span></span></div>
-
                 <div class="footer">
                     <p>Первая версия сайта была запущена 19 октября 1999 года
                     <p>&copy; Дизайн и разработка сайта - <a href="mailto:me@bezumnoe.ru">Николай Богданов</a>
@@ -184,7 +183,8 @@
             </div>
         </div>
     </div>
-
+<!-- inject:js -->
+<!-- endinject -->
 <?php
 
     include $root."/inc/li_spider_check.inc.php";
@@ -193,8 +193,6 @@
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:js -->
-    <script src="/scripts/vendor-7781eaa20a.js"></script>
-    <script src="/scripts/custom-2c53f49aa2.js"></script>
     <!-- endinject -->
 </body>
 </html>

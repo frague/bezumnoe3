@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);
@@ -52,7 +52,10 @@ JsQuote($q->Get(User::LOGIN))."\")";
 
 	// Search conditions
 	$record = new ForumRecordBase();
-	$condition = MakeSearchCriteria("DATE", ForumRecordBase::DATE, "SEARCH", $record->SearchTemplate);
+	$search = LookInRequest("SEARCH");
+	$condition = MakeSearchCriteria(
+		LookInRequest("DATE"), ForumRecordBase::DATE, $search, $record->SearchTemplate
+	);
 
 	$q = $record->GetForumThreads($forum->Id, $access, $from, $amount, $condition, true);
 	$result = "this.data=[";

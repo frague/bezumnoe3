@@ -4,15 +4,15 @@ class GalleryPhoto extends JournalRecord {
 
     var $RecordType = Forum::TYPE_GALLERY;
 
-    function ToLink() {
+    function ToLink($trimBy = 0, $alias = "") {
         return self::MakeLink($this->ForumId, $this->Id);
     }
 
-    function GetImageUrl($galleryFile, $isThumb = true) {
+    function GetImageUrl($filePath, $isThumb = true) {
       global $SiteHost, $PathToGalleries;
-        return "http://".$SiteHost.$PathToGalleries.$galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
+        return "http://".$SiteHost.$PathToGalleries.$filePath.($isThumb ? "/thumbs/" : "/").$this->Content;
     }
-
+    
     function ToPreview($galleryFile, $isThumb = true) {
       global $root, $PathToGalleries, $ServerPathToGalleries;
 
@@ -35,11 +35,10 @@ class GalleryPhoto extends JournalRecord {
         return $result;
     }
 
-    function ToPrint($galleryFile, $isThumb = true) {
+    function ToPicturePrint($filePath, $isThumb = true) {
       global $root, $PathToGalleries, $ServerPathToGalleries;
 
-//      $result = $this->ToGalleryPreview($galleryFile, $isThumb);
-        $result = $this->ToPreview($galleryFile, $isThumb);
+        $result = $this->ToPreview($filePath, $isThumb);
 
         if ($this->Title) {
             $result .= "<p>".nl2br($this->Title)."</p>";
@@ -112,14 +111,14 @@ Boolean($this->IsCommentable).");";
         return $this->GetByCondition(
             $condition." LIMIT ".($from ? $from."," : "").$limit,
             $this->GalleryPhotosExpression($access)
-        );
+        ); 
     }
-
+    
     function GalleryPhotosExpression($access) {
         return str_replace(
         "WHERE",
         "LEFT JOIN ".Gallery::table." AS t5 ON t5.".Gallery::FORUM_ID."=t1.".self::FORUM_ID."
-WHERE
+WHERE 
     t5.".Journal::TYPE."='".Journal::TYPE_GALLERY."' AND ",
         $this->ReadThreadExpression($access));
     }
@@ -137,7 +136,7 @@ WHERE
     public static function MakeLink($forumId, $recordId, $commentId = "") {
         return "<a href='/gallery".$forumId."/".$recordId."/".(!$commentId || $recordId == $commentId ? "" : "#c".$commentId)."'>";
     }
-
+    
 }
 
 ?>

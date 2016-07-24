@@ -1,5 +1,5 @@
 <?php
-
+    
     $root = "../";
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";
@@ -12,7 +12,7 @@
 
     $t = new TreeNode();
     $result = "";
-
+    
     $q = $t->GetTreeUsers();
     for ($i = 0; $i < $q->NumRows(); $i++) {
         $q->NextResult();

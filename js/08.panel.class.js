@@ -15,7 +15,7 @@ function Panel() {
 
 Panel.prototype.Init = function(id, size) {
     this.Id = id;
-    this.Holder = $(getElement(id))[0];
+    this.Holder = $(GetElement(id))[0];
     this.Position = size;
     this.CurrentSize = size;
 
@@ -46,7 +46,9 @@ Panel.prototype.CreateLink = function () {
 
 Panel.prototype.LinkSwitcher = function () {
     this.SwitchLink.className = this.BaseLinkClass + " " + (this.IsOpened ? "Opened" : "Closed");
-    _.result(window, 'onResize');
+    if (AdjustDivs) {
+        AdjustDivs();
+    }
 };
 
 Panel.prototype.ResizeBy = function (to) {

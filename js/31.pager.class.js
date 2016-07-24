@@ -5,7 +5,7 @@
 
 function Pager(holder, callback, per_page, total, current) {
     this.Holder = holder;
-    this.callback = callback;
+    this.Callback = callback;
     this.PerPage = per_page ? per_page : 20;
     this.Total = total;
     this.Current = current ? current : 0;
@@ -67,7 +67,7 @@ Pager.prototype.Print = function() {
     for (var i = from; i < till; i++) {
         this.AddLink(i);
     }
-
+            
     if (till < pages) {
         this.AddLink(pages - 1, "..");
     }
@@ -76,8 +76,8 @@ Pager.prototype.Print = function() {
 Pager.prototype.SwitchToPage = function(num) {
     this.Current = num;
     this.Print();
-    if (this.callback) {
-        this.callback(this.Current);
+    if (this.Callback) {
+        this.Callback(this.Current);
     }
 };
 

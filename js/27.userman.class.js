@@ -17,14 +17,18 @@ Userman.prototype = new Grid();
 
 Userman.prototype.BaseBind = function() {};
 
-Userman.prototype.requestCallback = function(req) {
-	this.more = 0;
-	this.requestBaseCallback(req);
-	this.Bind(this.data);
-	if (this.more) {
-		this.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
-	} else {
-		if (_.isEmpty(this.data) && userSearched) this.Tab.Alerts.Add("Пользователи не найдены.");
+Userman.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.more = 0;
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind(obj.data);
+		if (obj.more) {
+			obj.Tab.Alerts.Add("Более	20	результатов	-	уточните критерий поиска.", 1);
+		} else {
+			if ((!obj.data || !obj.data.length) && userSearched) {
+				obj.Tab.Alerts.Add("Пользователи не найдены.");
+			}
+		}
 	}
 };
 
@@ -33,15 +37,15 @@ Userman.prototype.TemplateLoaded = function(req) {
 
 	var assignee = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY", "FILTER_REGDATE", "REG_DATE"];
 	for (var i = 0, l = assignee.length; i <l; i++) {
-		var el = this.inputs[assignee[i]];
+		var el = this.Inputs[assignee[i]];
 		if (el) {
-			var a = new delayedRequestor(this, el);
+			var a = new DelayedRequestor(this, el);
 			a.GetParams = GatherUsersParameters;
 		}
 	}
 
-	BindRooms(this.inputs["BY_ROOM"]);
-    new DatePicker(this.inputs["REG_DATE"]);
+	BindRooms(this.Inputs["BY_ROOM"]);
+    new DatePicker(this.Inputs["REG_DATE"]);
 };
 
 
@@ -78,7 +82,7 @@ udto.prototype.ToString = function(index, obj) {
 };
 
 udto.prototype.ToLiString = function(index, obj, callbackObj) {
-	this.callbackObj = callbackObj;
+	this.CallbackObj = callbackObj;
 
 	var li = d.createElement("li");
 
@@ -87,14 +91,14 @@ udto.prototype.ToLiString = function(index, obj, callbackObj) {
 	a.href = voidLink;
 	a.onclick = function() {this.Obj.Select()};
 	a.innerHTML = this.MakeTitle();
-
+	
 	li.appendChild(a);
 	return li;
 };
 
 udto.prototype.Select = function() {
-	if (this.callbackObj) {
-		this.callbackObj.Select(this);
+	if (this.CallbackObj) {
+		this.CallbackObj.Select(this);
 	};
 };
 
@@ -104,13 +108,13 @@ function umDisplayName(userDTO, name, td, obj) {
 	var a = d.createElement("a");
 	a.innerHTML = name;
 	a.href = voidLink;
-	a.onclick = function(){showUserMenu(this, userDTO.Id, userDTO.Login, td, obj)};
+	a.onclick = function(){ShowUserMenu(this, userDTO.Id, userDTO.Login, td, obj)};
 	a.className = "Closed";
 	return a;
 };
 
 var userMenu;
-function showUserMenu(a, id, login, container, obj) {
+function ShowUserMenu(a, id, login, container, obj) {
 	a.blur();
 	if (HideUserMenu(id)) {
 		return;
@@ -122,7 +126,7 @@ function showUserMenu(a, id, login, container, obj) {
 	userMenu.Id = id;
 	userMenu.onclick = HideUserMenu;
 	userMenu.Link = a;
-
+	
 	var tr = d.createElement("tr");
 	if (me.IsAdmin()) {
 		umExtraButtons(tr, id, login, obj);
@@ -144,7 +148,7 @@ function HideUserMenu(id) {
 	return false;
 };
 
-function makeSection(title, className) {
+function MakeSection(title, className) {
 	var td = d.createElement("td");
 	var h3 = d.createElement("h4");
 	if (className) {
@@ -155,14 +159,14 @@ function makeSection(title, className) {
 	return td;
 };
 
-function makeUserMenuLink(el) {
+function MakeUserMenuLink(el) {
 	var li = d.createElement("li");
 	li.appendChild(el);
 	return li;
 };
 
 function GatherUsersParameters() {
-	var s = new ParamsBuilder(this.obj.Gather());
-	s.add('type', this.Input.name);
-	return s.build();
+	var result = this.obj.Gather();
+	result += MakeParametersPair("type", this.Input.name);
+	return result;
 };

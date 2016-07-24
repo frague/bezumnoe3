@@ -20,7 +20,7 @@ abstract class DictionaryItem extends EntityBase {
         if (!$this->IsConnected()) {
             return false;
         }
-        $q = $db->Query("DELETE FROM ".$this->table." WHERE ".$this->IdentityName." IN
+        $q = $db->Query("DELETE FROM ".$this->table." WHERE ".$this->IdentityName." IN 
     (SELECT ".$this->IdentityName." FROM ".$this->table." ORDER BY ".$this->FrequencyFieldName." ASC LIMIT ".round($this->Size).", 1000)
         ");
 
@@ -37,7 +37,7 @@ abstract class DictionaryItem extends EntityBase {
         $this->FillByCondition("1=1 ORDER BY ".self::RANDOM_INDEX." ASC, ".$this->FrequencyFieldName." ASC LIMIT ".mt_rand(0, 10).", 1");
         // Touch filled item
         if (!$this->IsEmpty()) {
-            $db->Query("UPDATE ".$this->table."
+            $db->Query("UPDATE ".$this->table." 
                 SET ".$this->FrequencyFieldName."=".$this->FrequencyFieldName."+1,
                 ".self::RANDOM_INDEX."=".mt_rand(0, $this->Size)."
                 WHERE ".$this->IdentityName."=".$this->Id);
@@ -50,7 +50,7 @@ abstract class DictionaryItem extends EntityBase {
 // Dictionary items
 class YtkaDictionaryItem extends DictionaryItem {
     const table = "ytka_vocab";
-
+    
     const ITEM_ID = "ITEM_ID";
     const USER_ID = "USER_ID";
     const CONTENT = "CONTENT";
@@ -82,14 +82,14 @@ class YtkaDictionaryItem extends DictionaryItem {
 
     // SQL
     function ReadExpression() {
-        return "SELECT
-    t1.".self::ITEM_ID.",
-    t1.".self::USER_ID.",
-    t1.".self::CONTENT.",
-    t1.".self::USED_TIMES.",
+        return "SELECT 
+    t1.".self::ITEM_ID.", 
+    t1.".self::USER_ID.", 
+    t1.".self::CONTENT.", 
+    t1.".self::USED_TIMES.", 
     t1.".self::RANDOM_INDEX."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
@@ -109,11 +109,11 @@ WHERE
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
+        $result = "UPDATE ".$this->table." SET 
 ".self::USER_ID."=".round($this->UserId).",
 ".self::CONTENT."='".SqlQuote($this->Content)."',
 ".self::USED_TIMES."=".SqlQuote($this->UsedTimes)."
-WHERE
+WHERE 
     ".self::ITEM_ID."=".round($this->Id);
         return $result;
     }

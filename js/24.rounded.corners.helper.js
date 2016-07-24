@@ -1,11 +1,11 @@
 //3.1
-/*
+/* 
     Rounded div corners based on CSS3
 */
 
 function RoundCorners(el, color, css) {
     if (!el.tagName) {
-        el = $(getElement(id))[0];
+        el = $(GetElement(id))[0];
     }
     if (!el) {
         return;

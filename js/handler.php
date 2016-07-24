@@ -5,24 +5,24 @@
         $v .= str_replace(".", "", $ver);
         return;
     }
-
+    
     /*-----------------------------------------------------------------*/
 
     session_cache_limiter("private_no_expire");
 
     $isAdmin = false;
     $isSuperAdmin = false;
-    $version = $_GET["ver"];
+    $version = isset($_GET["ver"]) ? $_GET["ver"] : "";
     if ($version) {
-
+        
         require_once "../server_references.php";
 
-        $user = GetAuthorizedUser($dbMain, true);
+        $user = GetAuthorizedUser(true, true);
 
         if ($user->IsAdmin()) {
             $isAdmin = true;
         }
-        if ($user->isSuperAdmin()) {
+        if ($user->IsSuperAdmin()) {
             $isSuperAdmin = true;
         }
 
@@ -40,18 +40,18 @@
     } else {
         $local_root = $root."js/";
     }
-
+    
     $files = scandir($local_root);  // Sort files
 
     for ($i = 0; $i < sizeof($files); $i++) {
         $file = $files[$i];
-        if (eregi("^00\.super", $file) && !$isSuperAdmin) {
+        if (preg_match("/^00\.super/", $file) && !$isSuperAdmin) {
             continue;
         }
-        if (eregi("^00\.admin", $file) && !$isAdmin) {
+        if (preg_match("/^00\.admin/", $file) && !$isAdmin) {
             continue;
         }
-        if (eregi("^[0-9]+\..+\.js$", $file)) {
+        if (preg_match("/^[0-9]+\..+\.js$/", $file)) {
             if ($version) {
                 // Passing javascripts content
                 $s = file_get_contents($local_root.$file);
@@ -64,23 +64,23 @@
                 if (!$debug) {
                     /* Math operations */
                     $s = preg_replace("/ *([!&*+-=]) */", "$1", $s);
-
+    
                     /* js treatment */
-                    $s = ereg_replace(" +", " ", $s);
+                    $s = preg_replace(" +", " ", $s);
 
                     // Comments
-                    $s = ereg_replace("/\*([^*]|\*[^/])*\*/", "", $s);
-                    $s = ereg_replace("//[^\n\r]*", "", $s);
-
-                    $s = ereg_replace(" +\(", "(", $s);
-                    $s = ereg_replace("\{ +", "{", $s);
-                    $s = ereg_replace("\} +", "}", $s);
-                    $s = ereg_replace("; +", ";", $s);
-                    $s = ereg_replace("\) +\{", "){", $s);
+                    $s = preg_replace("/\*([^*]|\*[^/])*\*/", "", $s);
+                    $s = preg_replace("#//[^\n\r]*#", "", $s);
+    
+                    $s = preg_replace("/ +\(/", "(", $s);
+                    $s = preg_replace("/\{ +/", "{", $s);
+                    $s = preg_replace("/\} +/", "}", $s);
+                    $s = preg_replace("/; +/", ";", $s);
+                    $s = preg_replace("/\) +\{/", "){", $s);
 
                     // New lines & empty spaces
-                    $s = ereg_replace("[\n\r]", "", $s);
-                    $s = ereg_replace("\t", " ", $s);
+                    $s = preg_replace("/[\n\r]/", "", $s);
+                    $s = preg_replace("/\t/", " ", $s);
 
                     // Operators
                     $s = str_replace("else {", "else{", $s);

@@ -17,12 +17,14 @@ function Wakeups() {
 Wakeups.prototype = new PagedGrid();
 
 Wakeups.prototype.InitPager = function() {
-	this.Pager = new Pager(this.inputs[this.PagerId], function(){this.Tab.Wakeups.SwitchPage()}, this.PerPage);
+	this.Pager = new Pager(this.Inputs[this.PagerId], function(){this.Tab.Wakeups.SwitchPage()}, this.PerPage);
 };
 
-Wakeups.prototype.requestCallback = function(req) {
-	this.requestBaseCallback(req);
-	this.Bind(this.data, this.Total);
+Wakeups.prototype.RequestCallback = function(req, obj) {
+	if (obj) {
+		obj.RequestBaseCallback(req, obj);
+		obj.Bind(obj.data, obj.Total);
+	}
 };
 
 Wakeups.prototype.TemplateLoaded = function(req) {
@@ -30,10 +32,10 @@ Wakeups.prototype.TemplateLoaded = function(req) {
 
 	this.GroupSelfAssign(["buttonSearch", "ResetFilter", "linkRefresh"]);
 
-	BindEnterTo(this.inputs["SEARCH"], this.inputs["buttonSearch"]);
-	BindEnterTo(this.inputs["IS_INCOMING"], this.inputs["buttonSearch"]);
-	BindEnterTo(this.inputs["IS_OUTGOING"], this.inputs["buttonSearch"]);
-	new DatePicker(this.inputs["DATE"]);
+	BindEnterTo(this.Inputs["SEARCH"], this.Inputs["buttonSearch"]);
+	BindEnterTo(this.Inputs["IS_INCOMING"], this.Inputs["buttonSearch"]);
+	BindEnterTo(this.Inputs["IS_OUTGOING"], this.Inputs["buttonSearch"]);
+	new DatePicker(this.Inputs["DATE"]);
 };
 
 Wakeups.prototype.CustomReset = function() {

@@ -138,7 +138,7 @@ function ForumReply(a, id, forum_id) {
         $("#auth_form").dialog("open");
         return false;
     }
-
+    
     if (!replyFormElement) {
         FindReplyElements();
     }
@@ -154,7 +154,7 @@ function ForumReply(a, id, forum_id) {
             // Treat protected replies
             LockProtection(a.parentNode.previousSibling);
             replyErrorElement.hide();
-
+            
             insertAfter(replyFormElement, a.parentNode.parentNode);
             isVisible = 1;
             if (replyTitleElement) {
@@ -171,10 +171,10 @@ function LockProtection(el) {
     }
     var state = (el.className && el.className.indexOf("Protected") >= 0);
     replyIsProtected.attr('checked', state);
-    if (state)
-        replyIsProtected.attr('disabled', 'disabled');
-    else
-        replyIsProtected.removeAttr('disabled');
+    if (state) 
+        replyIsProtected.attr('disabled', 'disabled'); 
+    else 
+        replyIsProtected.removeAttr('disabled'); 
 };
 
 // Clears reply form
@@ -198,19 +198,18 @@ function AddMessage(lnk) {
     // Tries to submit the form
     if (replyTitleElement) {
         lnk.disabled = true;
-        var s = new ParamsBuilder()
-            .add('RECORD_ID', replyMessageId)
-            .add('FORUM_ID', forumId)
-            .add('TITLE', replyTitleElement.val())
-            .add('CONTENT', replyContentElement.val())
-            .add('IS_PROTECTED', replyIsProtected.is('checked') ? 1 : 0);
+        params = MakeParametersPair("RECORD_ID", replyMessageId);
+        params+= MakeParametersPair("FORUM_ID", forumId);
+        params+= MakeParametersPair("TITLE", replyTitleElement.val());
+        params+= MakeParametersPair("CONTENT", replyContentElement.val());
+        params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.is('checked') ? 1 : 0);
 
-        sendRequest(servicesPath + "forum.service.php", ForumMessageAddcallback, s.build(), lastLink);
+        sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
     }
 };
 
 // New message adding callback
-function ForumMessageAddcallback(reesponseText, el) {
+function ForumMessageAddCallback(reesponseText, el) {
     var newId = "", newRecord = "", error = "", logged_user = "";
     eval(reesponseText);
 
@@ -240,16 +239,15 @@ function ForumMessageAddcallback(reesponseText, el) {
 
 // Message deletion
 function ForumDelete(a, id, forum_id) {
-    var s = new ParamsBuilder()
-        .add('RECORD_ID', id)
-        .add('FORUM_ID', forum_id)
-        .add('go', 'delete');
+    params = MakeParametersPair("RECORD_ID", id);
+    params+= MakeParametersPair("FORUM_ID", forum_id);
+    params+= MakeParametersPair("go", "delete");
 
-    sendRequest(servicesPath + "forum.service.php", ForumMessageDelcallback, s.build(), a);
+    sendRequest(servicesPath + "forum.service.php", ForumMessageDelCallback, params, a);
 }
 
 // Deletion callback
-function ForumMessageDelcallback(responseText, a) {
+function ForumMessageDelCallback(responseText, a) {
     var error = "", className = "";
     eval(responseText);
     if (!error) {

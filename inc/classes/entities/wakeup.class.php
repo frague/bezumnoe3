@@ -46,7 +46,7 @@ class Wakeup extends EntityBase {
     function IsIncoming($userId) {
         return $this->ToUserId == $userId;
     }
-
+    
     function FillFromResult($result) {
         $this->Id = $result->Get(self::WAKEUP_ID);
         $this->FromUserId = $result->Get(self::FROM_USER_ID);
@@ -58,7 +58,7 @@ class Wakeup extends EntityBase {
         $this->IsRead = $result->Get(self::IS_READ);
     }
 
-
+    
     /* Search */
     function CountForUser($userId, $search) {
         $q = $this->GetByCondition();
@@ -76,7 +76,7 @@ class Wakeup extends EntityBase {
             $this->ReadUserWakeupsExpression($userId).
             ($condition ? " AND ".$condition : "").
             " ORDER BY ".$this->Order." LIMIT ".($from ? $from."," : "").$limit
-        );
+        ); 
     }
     /* ------ */
 
@@ -95,7 +95,7 @@ class Wakeup extends EntityBase {
             $q = $db->Query("SELECT
     t1.".self::WAKEUP_ID.",
     COALESCE(t3.".Nickname::TITLE.",t2.".User::LOGIN.") AS ".self::FROM_USER_NAME."
-FROM ".$this->table." AS t1
+FROM ".$this->table." AS t1 
     LEFT JOIN ".User::table." t2 ON t2.".User::USER_ID."=t1.".self::FROM_USER_ID."
     LEFT JOIN ".Nickname::table." t3 ON t3.".Nickname::USER_ID."=t1.".self::FROM_USER_ID." AND t3.".Nickname::IS_SELECTED."=1
 WHERE t1.".self::TO_USER_ID."=".$user->Id." AND t1.".self::IS_READ."<>1 ORDER BY ".self::WAKEUP_ID." ASC");
@@ -143,7 +143,7 @@ Boolean($this->IsRead).")";
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::WAKEUP_ID.",
     t1.".self::FROM_USER_ID.",
     t1.".self::TO_USER_ID.",
@@ -152,8 +152,8 @@ Boolean($this->IsRead).")";
     t1.".self::IS_READ.",
     COALESCE(t4.".Nickname::TITLE.",t2.".User::LOGIN.") AS ".self::FROM_USER_NAME.",
     COALESCE(t5.".Nickname::TITLE.",t3.".User::LOGIN.") AS ".self::TO_USER_NAME."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 LEFT JOIN ".User::table." AS t2
     ON t2.".User::USER_ID."=t1.".self::FROM_USER_ID."
 LEFT JOIN ".User::table." AS t3
@@ -168,34 +168,34 @@ WHERE
 
     function ReadUserWakeupsExpression($user_id) {
         return  "
-(t1.".self::FROM_USER_ID."=".$user_id." OR
+(t1.".self::FROM_USER_ID."=".$user_id." OR 
 t1.".self::TO_USER_ID."=".$user_id.")";
     }
 
     function CreateExpression() {
         return "INSERT INTO ".$this->table." (
-    ".self::FROM_USER_ID.",
-    ".self::TO_USER_ID.",
-    ".self::DATE.",
-    ".self::MESSAGE.",
-    ".self::IS_READ."
+    ".self::FROM_USER_ID.", 
+    ".self::TO_USER_ID.", 
+    ".self::DATE.", 
+    ".self::MESSAGE.", 
+    ".self::IS_READ." 
 ) VALUES (
-    '".SqlQuote($this->FromUserId)."',
-    '".SqlQuote($this->ToUserId)."',
+    '".SqlQuote($this->FromUserId)."', 
+    '".SqlQuote($this->ToUserId)."', 
     '".NowDateTime()."',
-    '".SqlQuote($this->Message)."',
+    '".SqlQuote($this->Message)."', 
     '".Boolean($this->IsRead)."'
 )";
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
-".self::FROM_USER_ID."=".SqlQuote($this->FromUserId).",
-".self::TO_USER_ID."=".SqlQuote($this->ToUserId).",
-".self::DATE."='".SqlQuote($this->Date)."',
-".self::MESSAGE."='".SqlQuote($this->Message)."',
+        $result = "UPDATE ".$this->table." SET 
+".self::FROM_USER_ID."=".SqlQuote($this->FromUserId).", 
+".self::TO_USER_ID."=".SqlQuote($this->ToUserId).", 
+".self::DATE."='".SqlQuote($this->Date)."', 
+".self::MESSAGE."='".SqlQuote($this->Message)."', 
 ".self::IS_READ."='".SqlQuote($this->IsRead)."'
-WHERE
+WHERE 
     ".self::WAKEUP_ID."=".SqlQuote($this->Id);
         return $result;
     }
@@ -210,8 +210,8 @@ WHERE
 
     function SearchCountExpression() {
         return "SELECT COUNT(1)
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 LEFT JOIN ".User::table." AS t2
     ON t2.".User::USER_ID."=t1.".self::FROM_USER_ID."
 LEFT JOIN ".User::table." AS t3

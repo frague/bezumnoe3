@@ -3,7 +3,7 @@
 
     function GetHeadIncludes() {
         $result = "";
-        foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
+        foreach (array("VkLikeButton", "TwitterLikeButton", "GooglePlusButton", "FacebookLikeButton") as $b) {
             $button = new $b();
             $result .= $button->getHeadContent()."\n";
         }
@@ -22,16 +22,16 @@
 //      $result = $record->Title."\\n".$result;
         return $result;
     }
-
+    
     function FillButtonObjects($title = "", $description = "", $url = "", $image = "", $site_name = "", $tags = "") {
         $result = array();
-        foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
+        foreach (array("VkLikeButton", "TwitterLikeButton", "GooglePlusButton", "FacebookLikeButton") as $b) {
             array_push($result, new $b($title, $description, $url, $image, $site_name, $tags));
 
         }
         return $result;
     }
-
+    
     function GetMetadata($buttons = array()) {
         $result = "";
         foreach ($buttons as $b) {

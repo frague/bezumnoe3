@@ -1,4 +1,4 @@
-<?
+<?php
     require "menu_base.php";
 
 ?>
@@ -7,7 +7,7 @@
         <td colspan="2">
 <h4>Название:</h4>
 <input id="TITLE" name="TITLE" class="Wide" /><br />
-
+        
 <div id="gallery">
     <h4>Краткое описание:</h4>
     <textarea id="DESCRIPTION" name="DESCRIPTION" rows="5" class="Wide"></textarea>

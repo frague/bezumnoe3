@@ -25,7 +25,7 @@ class ForumUser extends EntityBase {
         $this->UserId = -1;
         $this->ForumId = -1;
         $this->Access = 0;
-
+        
         $this->Login = "";
     }
 
@@ -45,7 +45,7 @@ class ForumUser extends EntityBase {
 
         $this->Login = $result->Get(User::LOGIN);
     }
-
+    
     function FillByForumId($forumId) {
         return $this->FillByCondition("t1.".self::FORUM_ID."=".round($forumId));
     }
@@ -79,9 +79,9 @@ JsQuote($this->Access).")";
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicates
             $user_id = round($this->UserId);
-            $q = $db->Query("SELECT
+            $q = $db->Query("SELECT 
    COALESCE(t2.".self::USER_ID.", CASE WHEN t1.".Forum::LINKED_ID."=".$user_id." THEN ".$user_id." ELSE NULL END) AS ".self::USER_ID."
-FROM
+FROM 
   ".Forum::table." t1
   LEFT JOIN ".$this->table." t2 ON t2.".self::FORUM_ID."=t1.".Forum::FORUM_ID." AND t2.".self::USER_ID."=".$user_id."
 WHERE
@@ -129,13 +129,13 @@ WHERE
 
     // SQL
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::USER_ID.",
     t1.".self::FORUM_ID.",
     t1.".self::ACCESS.",
     t2.".User::LOGIN."
 FROM
-    ".$this->table." AS t1
+    ".$this->table." AS t1 
     LEFT JOIN ".User::table." AS t2 ON t2.".User::USER_ID."=t1.".self::USER_ID."
 WHERE
     ##CONDITION##
@@ -143,13 +143,13 @@ ORDER BY t1.".self::ACCESS." DESC, t2.".User::LOGIN;
     }
 
     function CreateExpression() {
-        return "INSERT INTO ".$this->table."
-(".self::USER_ID.",
+        return "INSERT INTO ".$this->table." 
+(".self::USER_ID.", 
 ".self::FORUM_ID.",
 ".self::ACCESS."
 )
 VALUES
-(".round($this->UserId).",
+(".round($this->UserId).", 
 ".round($this->ForumId).",
 ".round($this->Access)."
 )";
@@ -157,7 +157,7 @@ VALUES
 
     function UpdateExpression() {
         return "UPDATE ".$this->table." SET
-    ".self::USER_ID."=".round($this->UserId).",
+    ".self::USER_ID."=".round($this->UserId).", 
     ".self::FORUM_ID."=".round($this->ForumId).",
     ".self::ACCESS."=".round($this->Access)."
 WHERE ##CONDITION##";
@@ -184,16 +184,16 @@ WHERE
     t2.".Forum::FORUM_ID.",
     t2.".Forum::TITLE.",
     t2.".Forum::TYPE.",
-    CASE  WHEN t2.".Forum::LINKED_ID."=".$user_id." THEN ".Forum::FULL_ACCESS."
+    CASE  WHEN t2.".Forum::LINKED_ID."=".$user_id." THEN ".Forum::FULL_ACCESS." 
     ELSE t1.".self::ACCESS." END AS ".self::ACCESS.",
     t3.".User::LOGIN."
 FROM
     ".Forum::table." AS t2
     LEFT JOIN ".self::table." AS t1 ON t2.".Forum::FORUM_ID."=t1.".self::FORUM_ID."
     LEFT JOIN ".User::table." AS t3 ON t3.".User::USER_ID."=t2.".Forum::LINKED_ID."
-WHERE
-    ((t2.".Forum::LINKED_ID."=".$userId.") OR
-    (t1.".self::USER_ID."=".$userId." AND (t1.".self::ACCESS."=".Forum::FULL_ACCESS." OR
+WHERE 
+    ((t2.".Forum::LINKED_ID."=".$userId.") OR 
+    (t1.".self::USER_ID."=".$userId." AND (t1.".self::ACCESS."=".Forum::FULL_ACCESS." OR 
     t1.".self::ACCESS."=".Forum::READ_ADD_ACCESS."))) AND (##CONDITION##)
 ORDER BY t2.".Forum::TYPE.", t2.".Forum::FORUM_ID;
     }

@@ -26,8 +26,8 @@ class Registry extends EntityBase implements ArrayAccess {
     }
     public function offsetGet($offset) {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
-    }
-
+    }   
+    
     function Clear() {
         $this->container = array();
     }
@@ -93,29 +93,29 @@ class Registry extends EntityBase implements ArrayAccess {
 
 
     function ReadExpression() {
-        return "SELECT
+        return "SELECT 
     t1.".self::KEY.",
     t1.".self::VALUE."
-FROM
-    ".$this->table." AS t1
+FROM 
+    ".$this->table." AS t1 
 WHERE
     ##CONDITION##";
     }
 
     function CreateExpression() {
         return "INSERT INTO ".$this->table." (
-    ".self::KEY.",
+    ".self::KEY.", 
     ".self::VALUE."
 ) VALUES (
-    '".SqlQuote($this->Key)."',
+    '".SqlQuote($this->Key)."', 
     '".SqlQuote($this->Value)."'
 )";
     }
 
     function UpdateExpression() {
-        $result = "UPDATE ".$this->table." SET
+        $result = "UPDATE ".$this->table." SET 
 ".self::VALUE."='".SqlQuote($this->Value)."'
-WHERE
+WHERE 
     ".self::KEY."='".SqlQuote($this->Key)."'";
         return $result;
     }

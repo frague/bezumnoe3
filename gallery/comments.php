@@ -8,7 +8,7 @@
     $messagesPerPage = 20;
 
     $record_id = round(LookInRequest(GalleryPhoto::ID_PARAM));
-    $from = round($_GET["from"]);
+    $from = round(LookInRequest("from"));
 
     if ($record_id <= 0) {
         DieWith404();
@@ -55,14 +55,20 @@
 
         $answers = $record->AnswersCount - $record->DeletedCount;
 
+        $access = 1 - $gallery->IsProtected;
+        if ($GLOBALS["someoneIsLogged"]) {
+            $access = $gallery->GetAccess($user->User->Id);
+        }
+
         $comment = new GalleryComment();
         $q = $comment->GetByIndex(
             $record->ForumId,
-            $user,
+            $access,
             $record->Index."_",
             $from * $messagesPerPage,
             $messagesPerPage,
-            1);
+            1
+        );
 
 
         echo "<div class='NewThread'><div>";

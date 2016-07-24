@@ -47,7 +47,7 @@ function setImage($imgURI, $imgAlt, $imgWidth=88, $imgHeight=31) {
 }
 
 function addItem($uri, $title, $meta=array()) {
-    $item=array("uri" => $uri, "link" => $uri,
+    $item=array("uri" => $uri, "link" => $uri, 
         "title" => $this->deTag($title));
     foreach ($meta as $key => $value) {
         if ($key == "description" || $key == "dc:description") {
@@ -77,7 +77,7 @@ function deTag($in) {
 
 function preamble() {
     header("Content-type: text/xml");
-    print '<?xml version="1.0" encoding="utf-8"?'.'>
+    print '<?phpxml version="1.0" encoding="utf-8"?'.'>
 <rss version="2.0">
 <rdf:RDF 
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -120,7 +120,7 @@ function image() {
     print "     <url>" . htmlspecialchars($this->image["uri"]) . "</url>\n";
     print "     <link>" . htmlspecialchars($this->website) . "</link>\n";
     if ($this->chaninfo["description"]) 
-     print "     <dc:description>" . htmlspecialchars($this->chaninfo["description"]) .
+     print "     <dc:description>" . htmlspecialchars($this->chaninfo["description"]) . 
         "</dc:description>\n";
     print "  </image>\n\n";
     }

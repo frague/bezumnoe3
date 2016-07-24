@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -32,7 +32,9 @@
 	}
 
 
-	$condition = MakeSearchCriteria("DATE", AdminComment::DATE, "SEARCH", $comment->SearchTemplate);
+	$condition = MakeSearchCriteria(
+		LookInRequest("DATE"), AdminComment::DATE, LookInRequest("SEARCH"), $comment->SearchTemplate
+	);
 
 	/* Filter events by type */
 

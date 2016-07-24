@@ -1,4 +1,4 @@
-<?
+<?php
 
 	require_once "base.service.php";
 
@@ -28,7 +28,9 @@
 	}
 
 
-	$condition = MakeSearchCriteria("SEARCH_DATE", NewsRecord::DATE, "SEARCH", $record->SearchTemplate);
+	$condition = MakeSearchCriteria(
+		LookInReqest("SEARCH_DATE"), NewsRecord::DATE, LookInReqest("SEARCH"), $record->SearchTemplate
+	);
 
 	echo "this.data=[";
 	if ($user_id && $user_id < 0) {
