@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
     $root = "./";
     require_once $root."server_references.php";
@@ -47,16 +47,17 @@
     <head>
         <meta charset="utf-8" />
         <title>Безумное ЧАепиТие у Мартовского Зайца</title>
-        <link rel="stylesheet" href="/css/global.css">
-        <link rel="stylesheet" href="/css/chat_layout.css">
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-        <script src="/js1/jquery/jquery.js"></script>
-        <script src="/js1/jquery/jquery-ui.js"></script>
+<!-- inject:css -->
+<link rel="stylesheet" href="/css/vendor-4083f5d376.css">
+<link rel="stylesheet" href="/css/styles-055a3aad16.css">
+<link rel="stylesheet" href="/css/styles-818091c75a.css">
+<!-- endinject -->
     </head>
 
-    <body onload="OnLoad()">
+    <body onload="OnLoad()" id="inside">
         <div id="AlertContainer">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
                 <tr><td align="center" valign="middle">
@@ -113,10 +114,15 @@
             <div id="MenuContainer"></div>
         </div>
 
-        <script src="/js1/chat_layout.js"></script>
+<!--         <script src="/js1/chat_layout.js"></script>
         <script src="/js1/prototype.js"></script>
         <script src="/js1/smiles.js"></script>
         <script src="/js1/smiles.php"></script>
+ -->
+<!-- inject:js -->
+<script src="/scripts/vendor-f2a2d54a62.js"></script>
+<script src="/scripts/custom-067ae920d4.js"></script>
+<!-- endinject -->
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';
             Session = '<?php echo $user->User->Session ?>';

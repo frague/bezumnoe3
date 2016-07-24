@@ -36,18 +36,24 @@
     <meta name="Address" content="Saratov, Russia">
     <meta name="home_url" content="http://bezumnoe.ru/">
     <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-    <link rel="stylesheet" href="/css/global.css" />
+<!--     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/template_layout.css" />
     <link rel="stylesheet" href="/css/default3.css" />
     <link rel="stylesheet" href="/css/lettering.css" />
-<!--[if IE]>    <link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
+ --><!--[if IE]>    <link rel="stylesheet" type="text/css" href="/css/ie.css" /><![endif]-->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
-    <script src="/js1/jquery/jquery.js"></script>
+<!--     <script src="/js1/jquery/jquery.js"></script>
     <script src="/js1/jquery/jquery-ui.js"></script>
     <script src="/js1/jquery/jquery.lettering-0.6.1.min.js"></script>
     <script src="/js1/common.js"></script>
+ -->
+ <!-- inject:css -->
+<link rel="stylesheet" href="/css/vendor-4083f5d376.css">
+<link rel="stylesheet" href="/css/styles-055a3aad16.css">
+<link rel="stylesheet" href="/css/styles-818091c75a.css">
+<!-- endinject -->    
 </head>
 
 <body>
@@ -187,7 +193,10 @@
             </div>
         </div>
     </div>
-
+<!-- inject:js -->
+<script src="/scripts/vendor-f2a2d54a62.js"></script>
+<script src="/scripts/custom-067ae920d4.js"></script>
+<!-- endinject -->
 <?php
 
     include $root."/inc/li_spider_check.inc.php";
