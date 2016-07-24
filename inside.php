@@ -45,10 +45,14 @@
     <head>
         <meta charset="utf-8" />
         <title>Безумное ЧАепиТие у Мартовского Зайца</title>
-        <link rel="stylesheet" href="/css/chat_layout.css">
+        <!-- <link rel="stylesheet" href="/css/chat_layout.css"> -->
         <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+        <!-- inject:css -->
+        <link rel="stylesheet" href="/css/vendor-4083f5d376.css">
+        <link rel="stylesheet" href="/css/styles-055a3aad16.css">
+        <!-- endinject -->
     </head>
 
     <body>
@@ -108,8 +112,7 @@
             <div id="MenuContainer"></div>
         </div>
 
-        <script src="/scripts/scripts.js"></script>
-        <script src="/js1/smiles.php"></script>
+        <!-- <script src="/scripts/scripts.js"></script> -->
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';
             Session = '<?php echo $user->User->Session ?>';
@@ -117,5 +120,10 @@
             SessionKey = '<?php echo SESSION_KEY ?>';
             initLayout(pages.inside);
         </script>
+        <!-- inject:js -->
+        <script src="/scripts/vendor-7781eaa20a.js"></script>
+        <script src="/scripts/custom-2c53f49aa2.js"></script>
+        <!-- endinject -->
+        <script src="/js1/smiles.php"></script>
     </body>
 </html>

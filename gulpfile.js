@@ -49,7 +49,7 @@ gulp.task('scripts:vendor', function () {
             'node_modules/lodash/lodash.min.js',
             'node_modules/tinymce/tinymce.min.js'
         ])
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(concat('vendor.js'))
         .pipe(rev())
         .pipe(gulp.dest('scripts'));

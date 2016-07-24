@@ -55,12 +55,9 @@ var layoutConfigs = [
 	}
 ];
 
-var textForm = $("#Message")[0];
 function _s(text, erase) {
-	if (textForm) {
-		textForm.value = (erase ? "" : textForm.value) + text;
-		textForm.focus();
-	}
+	var textForm = $("#Message");
+	textForm.val((erase ? '' : textForm.val()) + text).focus();
 };
 
 function _(text, erase) {

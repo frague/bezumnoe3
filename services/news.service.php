@@ -14,7 +14,7 @@
 		case "save":
 			$news->FillFromHash($_POST);
 			$news->Save();
-			echo JsAlert("Èçìåíåíèÿ ñîõðàíåíû.");
+			echo JsAlert("Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹.");
 			break;
 		case "delete":
 			if ($id) {
@@ -23,10 +23,10 @@
 				if (!$news->IsEmpty()) {
 					if (!$news->Id < 0) {
 						// Need to remove records also
-						echo JsAlert("Íîâîñòíîé ðàçäåë è âñå ñîîáùåíèÿ óäàë¸íû.");
+						echo JsAlert("ÐÐ¾Ð²Ð¾ÑÑ‚Ð½Ð¾Ð¹ Ñ€Ð°Ð·Ð´ÐµÐ» Ð¸ Ð²ÑÐµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ ÑƒÐ´Ð°Ð»Ñ‘Ð½Ñ‹.");
 						// TODO: Implement records deletion
 					} else {
-						echo JsAlert("Íîâîñòíîé ðàçäåë óäàë¸í.");
+						echo JsAlert("ÐÐ¾Ð²Ð¾ÑÑ‚Ð½Ð¾Ð¹ Ñ€Ð°Ð·Ð´ÐµÐ» ÑƒÐ´Ð°Ð»Ñ‘Ð½.");
 					}
 					$news->Delete();
 				}

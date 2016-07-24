@@ -35,7 +35,7 @@
     <meta name="home_url" content="http://bezumnoe.ru/">
     <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/css/vendor-8e12157da5.css">
+    <link rel="stylesheet" href="/css/vendor-4083f5d376.css">
     <link rel="stylesheet" href="/css/styles-055a3aad16.css">
     <!-- endinject -->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
@@ -193,8 +193,8 @@
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:js -->
-    <script src="/scripts/vendor-1ce5636458.js"></script>
-    <script src="/scripts/custom-b315ec8f7f.js"></script>
+    <script src="/scripts/vendor-7781eaa20a.js"></script>
+    <script src="/scripts/custom-2c53f49aa2.js"></script>
     <!-- endinject -->
 </body>
 </html>
