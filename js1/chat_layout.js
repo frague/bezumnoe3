@@ -55,18 +55,18 @@ var layoutConfigs = [
 	}
 ];
 
-function _s(text, erase) {
+function addMessageText(text, erase) {
 	var textForm = $("#Message");
 	textForm.val((erase ? '' : textForm.val()) + text).focus();
 };
 
-function _(text, erase) {
-	_s(text + ", ", erase);
+function insertName(text, erase) {
+	addMessageText(text + ", ", erase);
 };
 
 function __(el) {
 	if (el.hasChildNodes && el.childNodes[0].hasChildNodes && el.childNodes[0].childNodes[0]) {
 		el = el.childNodes[0];
 	}
-	_(el.innerText || el.textContent);
+	insertName(el.innerText || el.textContent);
 };

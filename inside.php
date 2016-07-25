@@ -50,10 +50,12 @@
         <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
 <!-- inject:css -->
+<link rel="stylesheet" href="/css/vendor-4083f5d376.css">
+<link rel="stylesheet" href="/css/custom-818091c75a.css">
 <!-- endinject -->
     </head>
 
-    <body>
+    <body id="inside">
         <div id="AlertContainer">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
                 <tr><td align="center" valign="middle">
@@ -110,8 +112,10 @@
             <div id="MenuContainer"></div>
         </div>
 
-<!-- inject:js -->
-<!-- endinject -->
+        <!-- inject:js -->
+        <script src="/scripts/vendor-7781eaa20a.js"></script>
+        <script src="/scripts/custom-bfc3bbb0e5.js"></script>
+        <!-- endinject -->
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';
             Session = '<?php echo $user->User->Session ?>';
@@ -120,10 +124,6 @@
 
             initLayout(pages.inside);
         </script>
-        <!-- inject:js -->
-        <script src="/scripts/vendor-7781eaa20a.js"></script>
-        <script src="/scripts/custom-2c53f49aa2.js"></script>
-        <!-- endinject -->
         <script src="/js1/smiles.php"></script>
     </body>
 </html>

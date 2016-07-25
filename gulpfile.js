@@ -14,7 +14,7 @@ function callback(error) {
 gulp.task('styles:sass', function () {
     return gulp.src('sass/*.sass')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-        .pipe(concat('styles.css'))
+        .pipe(concat('custom.css'))
         .pipe(rev())
         .pipe(gulp.dest('css'));
 });
@@ -67,7 +67,7 @@ gulp.task('scripts', function (callback) {
 });
 
 gulp.task('cleanup', function () {
-    return del(['scripts/**/*', 'css/styles-*.css']);
+    return del(['scripts/**/*.js', 'css/custom-*.css', 'css/vendor-*.css']);
 });
 
 gulp.task('inject', function () {
@@ -76,7 +76,7 @@ gulp.task('inject', function () {
     ])
         .pipe(inject(gulp.src([
             'css/vendor-*.css',
-            'css/styles-*.css',
+            'css/custom-*.css',
             'scripts/vendor-*.js',
             'scripts/custom-*.js'
         ])))

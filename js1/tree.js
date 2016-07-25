@@ -98,6 +98,10 @@ function AppendSubArray(arr, key, value) {
 users = [];
 generations = [];
 maxGeneration = 0;
+if (!window['u']) {
+    u = [];
+    r = [];
+};
 
 for (i in u) {
     user1 = new user(u[i]);
@@ -256,14 +260,14 @@ function DrawTree(u) {
                 if (rel1.Type == "b" || rel1.Type == "s") {
                     hasBrothers = true;
                 }
-            
+
                 if (!RelationExists(rel1)) {
                     if (user1 && user2) {
                         if (rel1.Type == "b" || rel1.Type == "s") {
                             hl(user1.x - left, user1.y + half, left, color);
                             hl(user2.x - left, user2.y + half, left, color);
                             vl(user1.x - left, user1.y + half, user2.y - user1.y, color);
-            
+
                             flagLeft = true;
                             linked[linked.length] = user2.Id;
 
@@ -273,7 +277,7 @@ function DrawTree(u) {
                             hl(user1.x, user1.y + half, right + thick, newColor);
                             hl(user2.x, user2.y + half, right + thick, newColor);
                             vl(user1.x + right, user1.y + half, user2.y - user1.y, newColor);
-                    
+
                             linked[linked.length] = user2.Id;
                             flagRight = true;
 

@@ -288,6 +288,7 @@ OptionsBase.prototype.UpdateToPrintableDate = function(field) {
 
 var optionsWindow;
 function ShowOptions() {
+    console.log(tabs);
     var tab = tabs.tabsCollection.Get('Меню');
     if (!tab) {
         var menuTab = new Tab('menu', 'Меню');

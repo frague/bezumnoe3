@@ -21,7 +21,7 @@
             
             $this->AddCss($css);
 
-            $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "modernizr.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
+            $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "modernizr.js", "common.js"));
             $this->AddJs("reply_common.js");
             $this->AddJs($scripts);
 

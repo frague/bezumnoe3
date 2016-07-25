@@ -11,7 +11,7 @@ function Info(id) {
 letterize = ['.Register h4', '.Forum h4', '.Gallery h4', '.Blogs h4', 'h1'];
 
 $(document).ready(function() {
-    $(letterize.join(',')).lettering();
+    // $(letterize.join(',')).lettering();
 
     $("#auth_form").dialog({
         title: 'Авторизация в чате',

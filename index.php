@@ -37,13 +37,11 @@
     <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/vendor-4083f5d376.css">
-    <link rel="stylesheet" href="/css/styles-055a3aad16.css">
+    <link rel="stylesheet" href="/css/custom-818091c75a.css">
     <!-- endinject -->
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
- <!-- inject:css -->
-<!-- endinject -->    
 </head>
 
 <body>
@@ -183,8 +181,10 @@
             </div>
         </div>
     </div>
-<!-- inject:js -->
-<!-- endinject -->
+    <!-- inject:js -->
+    <script src="/scripts/vendor-7781eaa20a.js"></script>
+    <script src="/scripts/custom-bfc3bbb0e5.js"></script>
+    <!-- endinject -->
 <?php
 
     include $root."/inc/li_spider_check.inc.php";
@@ -192,7 +192,5 @@
 
 ?>
 <!-- Саратовский молодёжный чат общение среди студентов молодёжи, популярный блог-сервис, блоги, знакомства в Саратове чаты Саратова Саратовский чат лучший чат Саратова быстрый чат прикольный чат початиться поболтать Волга Волжский самый известный чат поволжья -->
-    <!-- inject:js -->
-    <!-- endinject -->
 </body>
 </html>
