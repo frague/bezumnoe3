@@ -68,7 +68,6 @@ class UserComplete extends EntityBase {
 //		$cs += CheckSum($this->IIgnore);
 //		$cs += CheckSum($this->IgnoresMe);
 
-        DebugLine("User CS: " + $cs);
         return $cs;
     }
 

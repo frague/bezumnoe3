@@ -9,7 +9,6 @@
 
 	if (!$user || $user->IsEmpty()) {
 		if ($sessionCheck) {
-			echo "DebugLine('No authorized user for session');";
 			echo "Quit();";
 			exit;
 		} else {
@@ -17,7 +16,6 @@
 			exit;
 		}
 	} else if (IdIsNull($user->User->RoomId)) {
-		echo "DebugLine('No room found for user');";
 		echo "Quit();";
 		exit;
 	}

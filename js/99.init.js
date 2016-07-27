@@ -1,6 +1,6 @@
 //2.0
 /* 
-	Chat properties initialization 
+  Chat properties initialization 
 */
 
 var users = new Collection();
@@ -12,46 +12,43 @@ var co = new Confirm();
 // values received from server 
 
 var CurrentRoomId = 1;
-var me = "";
+var me = '';
 
 // OnLoad actions
-
 var menuInitilized = 0;
+
 function InitMenu(div) {
-	var menu = new MenuItemsCollection(true);
-	var main = new MenuItem(1, "Команды");
+  var menu = new MenuItemsCollection(true);
+  var main = new MenuItem('Команды');
 
-/*	main.SubItems.Items.Add(new MenuItem(1, "/me сообщение", "MI('me')"));
-		var w = new MenuItem(2, "Вейкап");
-		w.SubItems.Items.Add(new MenuItem(1, "Поиск...", "", 1));
-		main.SubItems.Items.Add(w);*/
-	main.SubItems.Items.Add(new MenuItem(3, "Отойти&nbsp;(Away)", "MI('away')"));
-	main.SubItems.Items.Add(new MenuItem(4, "Сменить статус", "MI('status')"));
+  main.children.Add(new MenuItem('Отойти&nbsp;(Away)', 'MI(\'away\')'));
+  main.children.Add(new MenuItem('Сменить статус', 'MI(\'status\')'));
+  main.children.Add(new MenuItem('Сменить никнейм', ChangeName));
 
-	main.SubItems.Items.Add(new MenuItem(5, "Сменить никнейм", "ChangeName()"));
-	if (me.Rights >= topicRights) {
-		var t = new MenuItem(6, "Сменить тему", "MI('topic')");
-		if (me.Rights >= adminRights) {
-			t.SubItems.Items.Add(new MenuItem(1, "С блокировкой", "MI('locktopic')"));
-			t.SubItems.Items.Add(new MenuItem(2, "Разблокировать", "MI('unlocktopic')"));
-		}
-		main.SubItems.Items.Add(t);
-	}
-	main.SubItems.Items.Add(new MenuItem(7, "<b>Меню</b>", "ShowOptions()"));
-	main.SubItems.Items.Add(new MenuItem(8, "Выход из чата", "MI('quit')"));
+  if (me.Rights >= topicRights) {
+    var topic = new MenuItem('Сменить тему', 'MI(\'topic\')');
+    if (me.Rights >= adminRights) {
+      topic.children.Add(new MenuItem('С блокировкой', 'MI(\'locktopic\')'));
+      topic.children.Add(new MenuItem('Разблокировать', 'MI(\'unlocktopic\')'));
+    }
+    main.children.Add(topic);
+  }
 
-	menu.Items.Add(main);
-	menu.Create(div);
-	menuInitilized = 1;
+  main.children.Add(new MenuItem('<b>Меню</b>', ShowOptions));
+  main.children.Add(new MenuItem('Выход из чата', 'MI(\'quit\')'));
+
+  menu.Add(main);
+  menu.Create(div);
+  menuInitilized = 1;
 };
 
 function OnLoad() {
-	DisplayElement(alerts.element, false);
-	co.Init("AlertContainer", "AlertBlock");
-	if (window.Pong) {
-		Ping();
-	}
-	if (window.OpenReplyForm) {
-		OpenReplyForm();
-	}
+  displayElement(alerts.element, false);
+  co.Init('AlertContainer', 'AlertBlock');
+  if (window.Pong) {
+    Ping();
+  }
+  if (window.OpenReplyForm) {
+    OpenReplyForm();
+  }
 };

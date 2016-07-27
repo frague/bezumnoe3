@@ -1,29 +1,31 @@
 //2.0
 
 function sendRequest(url, callback, postData, obj) {
-    $.ajax({
-        url: url,
-        data: postData,
-        type: postData ? "POST" : "GET"
-    })
-    .done(function(data) {
-        if (callback) {
-            // Callback passed as parameter
-            callback(data, obj);
-        } else if (obj && obj.TemplateLoaded) {
-            // Template render callback
-            obj.TemplateLoaded(data);
-        }
-    });
-    return;
+  $.ajax({
+    url: url,
+    data: postData,
+    type: postData ? "POST" : "GET"
+  })
+  .then(
+    function(data) {
+      if (callback) {
+        // Callback passed as parameter
+        return callback(data, obj);
+      }
+      if (obj && obj.TemplateLoaded) {
+        // Template render callback
+        return obj.TemplateLoaded(data);
+      }
+    }
+  );
 };
 
 function handleRequest(responseText) {
-    try {
-        eval(responseText);
-        return;
-    } catch(e) {
-        return;
-    }
+  try {
+    console.log('Evaluation!', responseText);
     eval(responseText);
+    return;
+  } catch(e) {
+    return;
+  }
 };
