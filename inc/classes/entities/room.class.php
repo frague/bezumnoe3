@@ -58,7 +58,6 @@ class Room extends EntityBase {
         $cs+= CheckSum($this->TopicAuthorId);
         $cs+= CheckSum($this->IsLocked);
         $cs+= CheckSum($this->IsInvitationRequired);
-        DebugLine("Room: ".$this->Id." sum: ".$cs);
         return $cs;
 
 /*

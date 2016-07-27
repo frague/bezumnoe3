@@ -20,13 +20,13 @@ function ColorPicker(input) {
 		this.Input.type = "color";
 
 		this.Table = d.createElement("table");
-		DisplayElement(this.Table, false);
+		displayElement(this.Table, false);
 		var t = d.createElement("tbody");
 		this.Table.appendChild(t);
 		this.Table.className = "ColorPicker";
 		this.Table.obj = this;
 		this.Table.onclick = function() {this.obj.ColorSelected()};
-		//this.Table.onmouseout = function() {this.obj.SwitchVisibility()};
+		//this.Table.onmouseout = function() {this.obj.switchVisibility()};
 
 		for (var i = 0, l = bw.length; i < l; i++) {
 			this.MakeRow(i);
@@ -62,14 +62,14 @@ ColorPicker.prototype.MakeRow = function(index) {
 	}
 };
 
-ColorPicker.prototype.SwitchVisibility = function() {
+ColorPicker.prototype.switchVisibility = function() {
 	this.Visible = !this.Visible;
-	DisplayElement(this.Table, this.Visible);
+	displayElement(this.Table, this.Visible);
 };
 
 ColorPicker.prototype.ColorSelected = function() {
 	this.Input.value = this.Table.SelectedColor;
-	this.SwitchVisibility();
+	this.switchVisibility();
 	if (top.UpdateFontView) {
 		UpdateFontView();
 	}
@@ -77,7 +77,7 @@ ColorPicker.prototype.ColorSelected = function() {
 
 function SwitchPicker(a) {
 	if (a && a.obj) {
-		a.obj.SwitchVisibility();
+		a.obj.switchVisibility();
 	}
 };
 

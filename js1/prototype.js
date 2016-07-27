@@ -236,8 +236,6 @@ function Chat(tabs) {
                 PrintRooms();
             }
         } catch (e) {
-            DebugLine(e.description);
-            DebugLine(responseText);
         }
 
         PrintWakeups();

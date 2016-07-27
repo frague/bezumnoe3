@@ -68,7 +68,7 @@ Grid.prototype.ClearRecords = function(show_indicator) {
 
         var td = d.createElement("td");
         td.colSpan = this.Columns;
-        td.innerHTML = LoadingIndicator;
+        td.innerHTML = loadingIndicator;
 
         tr.appendChild(td);
         this.Tbody.appendChild(td);

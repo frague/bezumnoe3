@@ -14,7 +14,7 @@ AuthForm.prototype.CreateControls = function(container) {
     this.Holder = d.createElement("div");
     this.Holder.className = "AuthForm";
 
-    this.Holder.innerHTML = LoadingIndicator;
+    this.Holder.innerHTML = loadingIndicator;
 
     container.appendChild(this.Holder);
 };

@@ -71,7 +71,6 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         // Check forbidden ip/host
         $addrBan = new BannedAddress();
         if (AddressIsBanned(new Bans(1,0,0))) {
-            DebugLine("Address is banned!");
             $user->User->ClearSession();
             $user->User->Save();
             $user->Clear();
@@ -94,7 +93,6 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
       global $db;
 
         if (!$db) {
-            DebugLine("No DB connection available!");
             return new UserComplete();
         }
         
@@ -141,8 +139,6 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
                 # Session ID exists
                 if ($session && !$login && !$password) {
                     $user->GetBySession($session, GetRequestAddress(), $sessionCheck);
-                } else {
-                    DebugLine("No session ID found!");
                 }
                 break;
         }

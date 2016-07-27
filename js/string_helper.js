@@ -29,11 +29,9 @@ function CheckSum(source) {
                     }
                 }
                 sum += code;
-                //DebugLine(source.charAt(i) + " = " + code + " -> " + sum);
             }
         }
     }
-    //DebugLine(source + " = " + sum + "<hr>");
     return sum;
 };
 

@@ -257,16 +257,6 @@
         return $a;
     }
 
-    /* -------------------- Making Links -------------------- */
-
-    function DebugLine($text) {
-      global $debug;
-
-        if ($debug) {
-            echo("DebugLine(\"Server: ".JsQuote($text)."\");");
-        }
-    }
-
     /* -------------------- Search Helper ------------------- */
 
     function ValidateSearchRequest($request) {
