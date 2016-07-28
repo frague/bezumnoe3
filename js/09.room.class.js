@@ -3,6 +3,7 @@
     Represents room entity on client-side.
 */
 
+var CurrentRoom = null;
 function Room(id, title, topic, topic_lock, topic_author_id, topic_author_name, is_locked, is_by_invitation, owner_id) {
     // Properties
 
@@ -94,24 +95,6 @@ Room.prototype.CheckSum = function() {
     cs+= CheckSum(this.IsInvitationRequired);
     //DebugLine("Room: " + this.Id + " sum: "+cs);
     return cs;
-};
-
-var CurrentRoom;
-function ChangeRoom(id) {
-    if (rooms && rooms.Get) {
-        var room = rooms.Get(id);
-        if (room && room.Enter) {
-            room.Enter();
-            if (MoveToRoom) {
-                MoveToRoom(id);
-            }
-            if (PrintRooms) {
-                PrintRooms();
-            }
-        } else {
-            return false;
-        }
-    }
 };
 
 /* Room DTO class */

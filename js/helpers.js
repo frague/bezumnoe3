@@ -258,21 +258,6 @@ function CancelBubbling(e) {
     }
 };
 
-// Create Pop & Push methods For Array if not supported
-
-function ArrayInsertFirst(a, p, len) {
-    if (!a) {
-        return false;
-    }
-    for (var i = a.length - 1; i >= 0; i--) {
-        a[i + 1] = a[i];
-    }
-    a[0] = p;
-    if (a.length > len) {
-        a.length = len;
-    }
-};
-
 // DOM Helper methods
 
 function AddSelectOption(select, name, value, selected) {

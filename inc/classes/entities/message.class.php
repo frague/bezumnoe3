@@ -160,8 +160,9 @@ class Message extends EntityBase {
 
     function ToJSON() {
         if ($this->IsEmpty()) {
-            return "";
+            return;
         }
+        $moment = "date".date("(Y, m, d, H, i)", strtotime($this->Date));
         return array(
             "id" => $this->Id,
             "room_id" => $this->RoomId,

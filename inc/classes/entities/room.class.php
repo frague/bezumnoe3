@@ -159,15 +159,15 @@ $this->GetEmptyExpression());
     function ToJSON() {
         $topic = JsQuote(str_replace("\\\\", "<br>", $this->Topic));
         return array(
-            "id" => $this->Id,
-            "title" => $this->Title,
-            "topic" => $this->Topic,
-            "topic_lock" => $this->TopicLock,
-            "topic_author_id" => $this->TopicAuthorId,
-            "topic_author_name" => $this->TopicAuthorName,
-            "is_locked" => Boolean($this->IsLocked),
-            "is_invitation_required" => Boolean($this->IsInvitationRequired),
-            "owner_id" => round($this->OwnerId)
+            $this->Id,
+            $this->Title,
+            $this->Topic,
+            $this->TopicLock,
+            $this->TopicAuthorId,
+            $this->TopicAuthorName,
+            Boolean($this->IsLocked),
+            Boolean($this->IsInvitationRequired),
+            round($this->OwnerId)
         );
     }
 

@@ -114,7 +114,7 @@
 
         <!-- inject:js -->
         <script src="/scripts/vendor-7781eaa20a.js"></script>
-        <script src="/scripts/custom-cb3d4b5c07.js"></script>
+        <script src="/scripts/custom-6263c827a5.js"></script>
         <!-- endinject -->
         <script>
             CurrentRoomId = '<?php echo $user->User->RoomId ?>';

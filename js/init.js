@@ -3,10 +3,6 @@
   Chat properties initialization 
 */
 
-var users = new Collection();
-var rooms = new Collection();
-var recepients = new Collection();
-var co = new Confirm();
 
 // Below values to be updated with 
 // values received from server 
