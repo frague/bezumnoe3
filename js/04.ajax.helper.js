@@ -7,7 +7,7 @@ function sendRequest(url, callback, postData, obj) {
     type: postData ? "POST" : "GET"
   })
   .then(
-    function(data) {
+    (data) => {
       if (callback) {
         // Callback passed as parameter
         return callback(data, obj);

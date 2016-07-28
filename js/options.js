@@ -229,7 +229,7 @@ OptionsBase.prototype.BaseRequest = function(params, callback) {
   var s = new ParamsBuilder(params);
   s.add('USER_ID', this.USER_ID);
   $.post(this.ServicePath, s.build())
-    .done((callback || this.requestCallback).bind(this));
+    .then(callback || this.requestCallback);
 };
 
 OptionsBase.prototype.request = function(params, callback) {    /* Method to override */

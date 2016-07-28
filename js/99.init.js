@@ -23,7 +23,7 @@ function InitMenu(div) {
 
   main.children.Add(new MenuItem('Отойти&nbsp;(Away)', 'MI(\'away\')'));
   main.children.Add(new MenuItem('Сменить статус', 'MI(\'status\')'));
-  main.children.Add(new MenuItem('Сменить никнейм', ChangeName));
+  main.children.Add(new MenuItem('Сменить никнейм', window.chat.ChangeName));
 
   if (me.Rights >= topicRights) {
     var topic = new MenuItem('Сменить тему', 'MI(\'topic\')');
