@@ -73,7 +73,7 @@ gulp.task('scripts', function (callback) {
 });
 
 gulp.task('cleanup', function () {
-  return del(['scripts/**/*.js', 'css/custom-*.css', 'css/vendor-*.css']);
+  return del(['scripts/**/*.js', 'scripts/**/*.js.map', 'css/custom-*.css', 'css/vendor-*.css']);
 });
 
 gulp.task('inject', function () {
