@@ -8,6 +8,7 @@ var sass = require('gulp-sass');
 var rev = require('gulp-rev');
 var del = require('del');
 var inject = require('gulp-inject');
+var gutil = require('gulp-util');
 
 function callback(error) {
   if (error) console.error('Error:', error);
@@ -17,7 +18,7 @@ gulp.task('styles:sass', function () {
   return gulp.src('sass/*.sass')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(concat('custom.css'))
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(gulp.dest('css'));
 });
 
@@ -27,7 +28,7 @@ gulp.task('styles:vendor', function () {
       'node_modules/font-awesome/css/font-awesome.min.css'
     ])
     .pipe(concat('vendor.css'))
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(gulp.dest('css'));
 });
 
@@ -52,7 +53,7 @@ gulp.task('scripts:vendor', function () {
       'node_modules/tinymce/tinymce.min.js'
     ])
     .pipe(concat('vendor.js'))
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(gulp.dest('scripts'));
 });
 
@@ -61,9 +62,12 @@ gulp.task('scripts:custom',  function () {
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['es2015']
+    }).on('error', function(error) {
+      gutil.log(error.stack);
+      this.end();
     }))
     .pipe(concat('custom.js'))
-    .pipe(rev())
+    // .pipe(rev())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('scripts'));
 });
@@ -73,7 +77,7 @@ gulp.task('scripts', function (callback) {
 });
 
 gulp.task('cleanup', function () {
-  return del(['scripts/**/*.js', 'scripts/**/*.js.map', 'css/custom-*.css', 'css/vendor-*.css']);
+  return del(['scripts/**/*.js', 'scripts/**/*.js.map', 'css/custom*.css', 'css/vendor*.css']);
 });
 
 gulp.task('inject', function () {
@@ -81,12 +85,16 @@ gulp.task('inject', function () {
     '**/*.php'
   ])
     .pipe(inject(gulp.src([
-      'css/vendor-*.css',
-      'css/custom-*.css',
-      'scripts/vendor-*.js',
-      'scripts/custom-*.js'
+      'css/vendor*.css',
+      'css/custom*.css',
+      'scripts/vendor*.js',
+      'scripts/custom*.js'
     ])))
     .pipe(gulp.dest('.'));;
+});
+
+gulp.task('watch:scripts', function () {
+  gulp.watch(['js/*', 'js1/*'], ['scripts:custom']);
 });
 
 gulp.task('build', runSequence('cleanup', ['scripts', 'styles'], 'inject'));

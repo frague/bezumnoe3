@@ -1,25 +1,3 @@
-function GetSmilesContainer() {
-  return $("#Smiles")[0] || {};
-};
-
-function SwitchSmiles() {
-  var c = GetSmilesContainer();
-  c.className = c.className == "On" ? "" : "On";
-  AdjustDivs();
-};
-
-function InitSmiles(arr) {
-  var c = GetSmilesContainer();
-  var div = d.createElement("div");
-  var sc = new Collection();
-  for (var i = 0, l = arr.length; i < l; i++) {
-    var s = new Smile(arr[i]);
-    sc.Add(s);
-  }
-  sc.ToString(div);
-  c.appendChild(div);
-};
-
 // Smile class
 
 class Smile {
@@ -41,3 +19,25 @@ class Smile {
     holder.appendChild(document.createTextNode(" "));
   }
 }
+
+function GetSmilesContainer() {
+  return $("#Smiles")[0] || {};
+};
+
+function SwitchSmiles() {
+  var c = GetSmilesContainer();
+  c.className = c.className == "On" ? "" : "On";
+  AdjustDivs();
+};
+
+function InitSmiles(arr) {
+  var c = GetSmilesContainer();
+  var div = document.createElement("div");
+  var sc = new Collection();
+  for (var i = 0, l = arr.length; i < l; i++) {
+    var s = new Smile(arr[i]);
+    sc.Add(s);
+  }
+  sc.ToString(div);
+  c.appendChild(div);
+};

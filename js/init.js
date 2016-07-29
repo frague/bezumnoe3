@@ -7,12 +7,6 @@
 // Below values to be updated with 
 // values received from server 
 
-var CurrentRoomId = 1;
-var me = '';
-
-// OnLoad actions
-var menuInitilized = 0;
-
 function InitMenu(div) {
   var menu = new MenuItemsCollection(true);
   var main = new MenuItem('Команды');
@@ -35,16 +29,16 @@ function InitMenu(div) {
 
   menu.Add(main);
   menu.Create(div);
-  menuInitilized = 1;
+  return menu;
 };
 
-function OnLoad() {
-  displayElement(alerts.element, false);
-  co.Init('AlertContainer', 'AlertBlock');
-  if (window.Pong) {
-    Ping();
-  }
-  if (window.OpenReplyForm) {
-    OpenReplyForm();
-  }
-};
+// function OnLoad() {
+//   displayElement(alerts.element, false);
+//   co.Init('AlertContainer', 'AlertBlock');
+//   if (window.Pong) {
+//     Ping();
+//   }
+//   if (window.OpenReplyForm) {
+//     OpenReplyForm();
+//   }
+// };

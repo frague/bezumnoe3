@@ -26,3 +26,20 @@ var loadingIndicator = "<div class='LoadingIndicator'></div>";
 var severityCss = ["Warning", "Error"];
 
 var replaceTagsExpr = new RegExp("\<[\/a-z][^\>]*\>", "gim");
+
+var forumAccess = {
+	NO_ACCESS: 0,
+	READ_ONLY_ACCESS: 1,
+	FRIENDLY_ACCESS: 2,
+	READ_ADD_ACCESS: 3,
+	FULL_ACCESS: 4
+};
+
+var forumAccessName = [
+	"доступ закрыт", 
+	"только чтение", 
+	"дружественный доступ", 
+	"чтение/запись", 
+	"полный доступ"
+];
+

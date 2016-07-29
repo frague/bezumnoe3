@@ -3,6 +3,8 @@ class Chat {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
+    this.me = null;
+
     this.PongImg = $("#pong")[0];
     this.pongImage = new Image();
     this.pongImage.src = imagesPath + 'pong.gif';
@@ -23,6 +25,7 @@ class Chat {
     this.busy = false;
     this.requestSent = false;
 
+    this.newRoomTab;
     this.messageType = '';
 
     this.eng = "qwertyuiop[]asdfghjkl;'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL\\:ZXCVBNM<>/&?@`~";
@@ -87,8 +90,8 @@ class Chat {
   PrintRooms() {
     $('#UsersContainer').html(this.rooms.ToString());
 
-    var cococontainerntainercontainerntainer = $("#NewRoom")[0];
-    if (!newRoomTab && me && me.Rights >= 11) { // Allowed to create rooms
+    var container = $("#NewRoom")[0];
+    if (!this.newRoomTab && this.me && this.me.Rights >= 11) { // Allowed to create rooms
       this.MakeNewRoomSpoiler(container);
     }
     displayElement(container, this.rooms.Count() < 10);
@@ -102,15 +105,15 @@ class Chat {
   };
 
   MakeNewRoomSpoiler(container) {
-    var newRoomTab = new Spoiler(
-      100, "Создать комнату", 0, "", (tab) => new RoomLightweight().loadTemplate(tab, me.Id)
+    this.newRoomTab = new Spoiler(
+      100, 'Создать комнату', 0, '', (tab) => new RoomLightweight().loadTemplate(tab, this.me.Id)
     );
-    newRoomTab.ToString(container);
+    this.newRoomTab.ToString(container);
   };
 
   UpdateTopic() {
-    if (CurrentRoom) {
-      if (me && me.HasAccessTo(CurrentRoom)) {
+    if (this.CurrentRoom) {
+      if (this.me && this.me.HasAccessTo(CurrentRoom)) {
         this.SetTopic(CurrentRoom.Topic, CurrentRoom.TopicAuthorId, CurrentRoom.TopicAuthorName, CurrentRoom.TopicLock);
       } else {
         this.SetTopic("Доступ в комнату ограничен. Ожидайте допуска.");
@@ -177,7 +180,7 @@ class Chat {
 
   // Add recepient
   AR(id, name, type) {
-    if (id == me.Id) {
+    if (id == this.me.Id) {
       return;
     }
     if (tabs.main) {
@@ -245,8 +248,24 @@ class Chat {
 
     wakeups.Clear();
 
-    _.get(responseText, 'rooms', {}).forEach(
-      (roomData) => this.rooms.Add(new Room(...roomData))
+    _.each(
+      _.get(responseText, 'users', []), 
+      (userData) => {
+        let user = new User(...userData);
+        console.log(user);
+        this.users.Add(user);
+      }
+    );
+
+    _.each(
+      _.get(responseText, 'rooms', []),
+      (roomData) => {
+        let room = new Room(...roomData);
+        if (room.Id === this.options.currentRoomId) {
+          room.Enter();
+        }
+        this.rooms.Add(room);
+      }
     );
 
     this.PrintRooms();
@@ -262,22 +281,20 @@ class Chat {
 
     PrintWakeups();
 
-    if (me && me.Settings.Frameset != configIndex) {
-      configIndex = me.Settings.Frameset;
+    if (this.me && this.me.Settings.Frameset != configIndex) {
+      configIndex = this.me.Settings.Frameset;
       _.result(window, 'onResize');
-    } else {
-      me = {};
     }
 
-    if (!menuInitilized && me.Login) {
-      InitMenu($("#MenuContainer")[0]);
+    if (!this.menu && this.me) {
+      this.menu = InitMenu($("#MenuContainer")[0]);
     }
 
     var currentName = $("#CurrentName")[0];
-    if (currentName) {
+    if (this.me && currentName) {
       var oldName = currentName.innerHTML;
-      if ((me.Nickname && oldName != me.Nickname) || (!me.Nickname && currentName.innerHTML != me.Nickname)) {
-        currentName.innerHTML = me.Nickname ? me.Nickname : me.Login;
+      if ((this.me.Nickname && oldName != this.me.Nickname) || (!this.me.Nickname && currentName.innerHTML != this.me.Nickname)) {
+        currentName.innerHTML = this.me.Nickname ? this.me.Nickname : this.me.Login;
       }
     }
   };
@@ -290,7 +307,7 @@ class Chat {
     this.CompareSessions();
     if (!this.busy) {
       var s = new ParamsBuilder();
-      if (doCheck) s.add('SESSION_CHECK', SessionCheck);
+      if (doCheck) s.add('SESSION_CHECK', this.options.sessionCheck);
 
       /* Rooms */
       _.each(
@@ -318,7 +335,7 @@ class Chat {
       };
 
       $.post(servicesPath + 'pong.service.php', s.build())
-        .done(this.pong.bind(this));
+        .then((response) => this.pong(response));
 
       this.requestSent = true;
       this.tiomeoutTimer = setTimeout(() => this.PingTimeout, 20000);
@@ -336,7 +353,7 @@ class Chat {
   };
 
   CompareSessions() {
-    if (getCookie(SessionKey) != Session) {
+    if (getCookie(this.options.sessionKey) != this.options.session) {
       this.Quit();
     }
   };
