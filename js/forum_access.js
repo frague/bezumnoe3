@@ -96,7 +96,7 @@ class fadto extends EditableDTO {
     tr.className = (index % 2 ? "Dark" : "");
 
     var a = forumAccessName[this.ACCESS];
-    var td1 = d.createElement("td");
+    var td1 = document.createElement("td");
       td1.innerHTML = this.LOGIN + (a ? "&nbsp;(" + a + ")" : "");
       if (this.ACCESS == forumAccess.FULL_ACCESS) {
         td1.className = "Bold";
@@ -120,7 +120,7 @@ class judto extends DTO {
 
   ToString(index, obj, prev_id, holder, className) {
     if (prev_id != this.USER_ID) {
-      var li = d.createElement("li");
+      var li = document.createElement("li");
       li.className = className;
       li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Дать полный доступ"));
       li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Дать доступ на чтение/запись"));
@@ -130,7 +130,7 @@ class judto extends DTO {
       holder.appendChild(li);
     }
     if (this.JOURNAL_ID) {
-      li = d.createElement("li");
+      li = document.createElement("li");
       li.className = className + " Journal";
       li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + forumAccess.FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
       li.appendChild(MakeDiv("Журнал &laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")", "span"));
@@ -153,7 +153,7 @@ class fjdto extends DTO {
     var tr = MakeGridRow(index);
     tr.className = (index % 2 ? "Dark" : "");
 
-    var td1 = d.createElement("td");
+    var td1 = document.createElement("td");
       td1.innerHTML = "&laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")";
     tr.appendChild(td1);
     tr.appendChild(this.MakeButtonsCell(1));
@@ -218,7 +218,7 @@ function DrawUsers(sender) {
   var el = sender.obj.Inputs["FOUND_USERS"];
   if (el) {
     el.innerHTML = "";
-    var ul = d.createElement("ul");
+    var ul = document.createElement("ul");
     var prev_id = 0;
     var className = "";
     for (var i = 0, l = sender.data.length; i < l; i++) {

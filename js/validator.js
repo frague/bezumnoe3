@@ -75,7 +75,7 @@ Validator.prototype.Init = function() {
         this.Control.onchange = ValueHasChanged;
     }
 
-    this.ErrorContainer = d.createElement("div");
+    this.ErrorContainer = document.createElement("div");
     if (!this.ShowInSummary) {
         this.Display(false);
         this.ErrorContainer.innerHTML = this.Message;

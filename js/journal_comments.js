@@ -82,21 +82,21 @@ class jcdto extends DTO {
       tr.className += " Deleted";
     }
 
-    var td1 = d.createElement("td");
-    var h2 = d.createElement("h2");
+    var td1 = document.createElement("td");
+    var h2 = document.createElement("h2");
     h2.innerHTML = "&laquo;" + this.Title + "&raquo;";
     td1.appendChild(h2);
 
-    var span = d.createElement("span");
+    var span = document.createElement("span");
     span.innerHTML = this.Content;
     td1.appendChild(span);
 
-    var div = d.createElement("div");
+    var div = document.createElement("div");
     div.innerHTML = (this.UserId ? "<b>" : "") + this.Name + (this.UserId ? "</b>" : "") + ", " + this.Date;
     td1.appendChild(div);
     tr.appendChild(td1);
 
-    var td3 = d.createElement("td");
+    var td3 = document.createElement("td");
     td3.className = "Centered";
       td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
       td3.appendChild(

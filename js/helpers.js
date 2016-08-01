@@ -63,13 +63,13 @@ function createElement(tag, name) {
   var result;
   if (d.all) {
     try {
-      result = d.createElement("<" + tag + (name ? " name=\"" + name + "\" id=\"" + name + "\"" : "") + ">");
+      result = document.createElement("<" + tag + (name ? " name=\"" + name + "\" id=\"" + name + "\"" : "") + ">");
     }
     catch(e) {
     }
   }
   if (!result) {
-    result = d.createElement(tag);
+    result = document.createElement(tag);
     if (name) {
       result.name = name;
       result.id = name;
@@ -84,13 +84,13 @@ function CreateBitInput(name, checked, is_radio) {
 
   if (d.all) {
     try {
-      result = d.createElement("<input type=\"" + type + "\" name=\"" + name + "\"" + (is_radio ? "" : " id=\"" + name + "\"") + (checked ? " checked" : "") + ">");
+      result = document.createElement("<input type=\"" + type + "\" name=\"" + name + "\"" + (is_radio ? "" : " id=\"" + name + "\"") + (checked ? " checked" : "") + ">");
     }
     catch(e) {
     }
   }
   if (!result) {
-    result = d.createElement("input");
+    result = document.createElement("input");
     result.type = type;
     result.name = name;
     if (!is_radio) {
@@ -158,7 +158,7 @@ function MakeButton(target, src, obj, css, alt) {
 };
 
 function MakeDiv(text, tag) {
-  var div = d.createElement(tag ? tag : "div");
+  var div = document.createElement(tag ? tag : "div");
   div.innerHTML = text;
   return div;
 };
@@ -260,7 +260,7 @@ function CancelBubbling(e) {
 // DOM Helper methods
 
 function AddSelectOption(select, name, value, selected) {
-  var opt = d.createElement("option");
+  var opt = document.createElement("option");
   opt.value = value;
   opt.text = name;
   opt.selected = selected ? true : false;

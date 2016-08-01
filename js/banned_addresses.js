@@ -84,14 +84,14 @@ class badto extends DTO {
   ToString(index, obj) {
     var tr = MakeGridRow(index);
 
-    var td1 = d.createElement("td");
-    var h2 = d.createElement("h2");
+    var td1 = document.createElement("td");
+    var h2 = document.createElement("h2");
     h2.innerHTML = this.Content;
     td1.appendChild(h2);
     td1.appendChild(d.createTextNode("(" + this.Type + ")"));
     tr.appendChild(td1);
 
-    var td2 = d.createElement("td");
+    var td2 = document.createElement("td");
     td2.appendChild(MakeDiv((this.Comment ? "&laquo;" + this.Comment + "&raquo;" + (this.Admin ? ", " : "") : "") + (this.Admin ? this.Admin : ""), "h2"));
     td2.appendChild(MakeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " по " + this.Till.ToPrintableString() : "")));
 
@@ -107,7 +107,7 @@ class badto extends DTO {
     td2.appendChild(MakeDiv("Запрет:  <b>" + result + "</b>"));
     tr.appendChild(td2);
 
-    var td3 = d.createElement("td");
+    var td3 = document.createElement("td");
     td3.className = "Centered";
     td3.appendChild(MakeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
     td3.appendChild(MakeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));

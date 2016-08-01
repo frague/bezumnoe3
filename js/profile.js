@@ -60,7 +60,7 @@ Profile.prototype.BindImage = function(img) {
 
 Profile.prototype.CheckPhoto = function(img) {
 	if (!img.HasImage()) {
-		img.ImageObject = d.createElement("img");
+		img.ImageObject = document.createElement("img");
 		img.ImageObject.Profile = this;
 		img.ImageObject.Img = img;
 		img.ImageObject.onload = function(){ImageLoaded(this)};

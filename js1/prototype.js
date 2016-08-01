@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 class Chat {
   constructor(tabs) {
     // var Topic = $("#TopicContainer")[0];

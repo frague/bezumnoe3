@@ -65,12 +65,12 @@ class udto extends DTO {
   ToString(index, obj) {
     var tr = MakeGridRow(index);
 
-    var td1 = d.createElement("td");
+    var td1 = document.createElement("td");
     var name = this.MakeTitle();
     td1.appendChild(umDisplayName(this, name, td1, obj));
     tr.appendChild(td1);
     if (me.IsAdmin()) {
-      td2 = d.createElement("td");
+      td2 = document.createElement("td");
       cb = CreateBitInput("usr" + this.Id, 0);
       td2.appendChild(cb);
       tr.appendChild(td2);
@@ -83,9 +83,9 @@ class udto extends DTO {
   ToLiString(index, obj, callbackObj) {
     this.CallbackObj = callbackObj;
 
-    var li = d.createElement("li");
+    var li = document.createElement("li");
 
-    var a = d.createElement("a");
+    var a = document.createElement("a");
     a.Obj = this;
     a.href = voidLink;
     a.onclick = function() {this.Obj.Select()};
@@ -105,7 +105,7 @@ class udto extends DTO {
 /* Helper methods */
 
 function umDisplayName(userDTO, name, td, obj) {
-  var a = d.createElement("a");
+  var a = document.createElement("a");
   a.innerHTML = name;
   a.href = voidLink;
   a.onclick = function(){ShowUserMenu(this, userDTO.Id, userDTO.Login, td, obj)};
@@ -120,14 +120,14 @@ function ShowUserMenu(a, id, login, container, obj) {
     return;
   };
 
-  userMenu = d.createElement("table");
+  userMenu = document.createElement("table");
   userMenu.className = "UserMenu";
   userMenu.Container = container;
   userMenu.Id = id;
   userMenu.onclick = HideUserMenu;
   userMenu.Link = a;
   
-  var tr = d.createElement("tr");
+  var tr = document.createElement("tr");
   if (me.IsAdmin()) {
     umExtraButtons(tr, id, login, obj);
   };
@@ -149,8 +149,8 @@ function HideUserMenu(id) {
 };
 
 function MakeSection(title, className) {
-  var td = d.createElement("td");
-  var h3 = d.createElement("h4");
+  var td = document.createElement("td");
+  var h3 = document.createElement("h4");
   if (className) {
     h3.className = className;
   }
@@ -160,7 +160,7 @@ function MakeSection(title, className) {
 };
 
 function MakeUserMenuLink(el) {
-  var li = d.createElement("li");
+  var li = document.createElement("li");
   li.appendChild(el);
   return li;
 };

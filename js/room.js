@@ -57,7 +57,7 @@ class Room {
 
   Gather(sel) {
 
-    var opt = d.createElement("option");
+    var opt = document.createElement("option");
     opt.value = this.Id;
     opt.text = this.Title;
 

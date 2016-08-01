@@ -41,12 +41,12 @@ class sdto extends EditableDTO {
     var tr = MakeGridRow(index);
 
     // Rights
-    var td1 = d.createElement("td");
+    var td1 = document.createElement("td");
       td1.className = "Centered";
       td1.innerHTML = this.Rights;
     tr.appendChild(td1);
 
-    var td2 = d.createElement("td");
+    var td2 = document.createElement("td");
         td2.colSpan = 2;
         var div = MakeDiv("&nbsp;");
         div.className = "StatusColor";
@@ -62,25 +62,25 @@ class sdto extends EditableDTO {
     var tr = MakeGridRow(index);
 
     // Rights
-    var td1 = d.createElement("td");
-      this.RightsInput = d.createElement("input");
+    var td1 = document.createElement("td");
+      this.RightsInput = document.createElement("input");
       this.RightsInput.value = this.Rights;
       this.RightsInput.style.width = "30px";
       td1.appendChild(this.RightsInput);
     tr.appendChild(td1);
 
-    var td2 = d.createElement("td");
+    var td2 = document.createElement("td");
       td2.style.width = "50px";
       td2.className = "Nowrap";
-      this.ColorInput = d.createElement("input");
+      this.ColorInput = document.createElement("input");
       this.ColorInput.value = this.Color;
       td2.appendChild(this.ColorInput);
       new ColorPicker(this.ColorInput);
     tr.appendChild(td2);
 
-    var td22 = d.createElement("td");
+    var td22 = document.createElement("td");
       td22.style.width = "100%";
-      this.TitleInput = d.createElement("input");
+      this.TitleInput = document.createElement("input");
       this.TitleInput.value = this.Title;
       this.TitleInput.className = "Wide";
       td22.appendChild(this.TitleInput);

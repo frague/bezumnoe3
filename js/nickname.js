@@ -27,7 +27,7 @@ Nickname.prototype.HasChanged = function() {
 };
 
 Nickname.prototype.CreateButton = function(src, action) {
-	var button = d.createElement('input');
+	var button = document.createElement('input');
 	button.type = 'image';
 	button.RelatedItem = this;
 	eval('button.onclick = function(){' + action + '}');
@@ -49,7 +49,7 @@ Nickname.prototype.CreateViewControls = function() {
 		}
 		}
 	} else {
-		this.Input = d.createElement('input');
+		this.Input = document.createElement('input');
 		this.Input.className = 'NewNick';
 		this.Input.value = this.Name;
 		this.Input.setAttribute('maxlength', name_length);
@@ -63,7 +63,7 @@ Nickname.prototype.CreateViewControls = function() {
 
 Nickname.prototype.ToString = function(holder) {
 	if (!this.Li) {
-		this.Li = d.createElement('li');
+		this.Li = document.createElement('li');
 	} else {
 		this.Li.innerHTML = '';
 	}
@@ -72,7 +72,7 @@ Nickname.prototype.ToString = function(holder) {
 	eval('this.Radio.onclick = function(){Select(this)}');
 
 	this.Li.appendChild(this.Radio);
-	this.Div = d.createElement('span');
+	this.Div = document.createElement('span');
 
 	this.CreateViewControls();
 
@@ -94,14 +94,14 @@ function ChangeNickname() {
 };
 
 ChangeNickname.prototype.CreateControls = function(container) {
-	this.Holder = d.createElement('ul');
+	this.Holder = document.createElement('ul');
 	this.Holder.className = 'NamesList';
 
 	this.Holder.innerHTML = loadingIndicator;
 
 	container.appendChild(this.Holder);
 
-	this.Status = d.createElement('div');
+	this.Status = document.createElement('div');
 	this.Status.className = 'Status';
 	container.appendChild(this.Status);
 	nicknames1 = this;

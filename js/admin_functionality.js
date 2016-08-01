@@ -14,7 +14,7 @@ function createAdminTab() {
 
 function umExtraButtons(tr, id, login, obj) {
     var td1 = makeSection("Опции администратора:");
-    var ul1 = d.createElement("ul");
+    var ul1 = document.createElement("ul");
 
     ul1.appendChild(makeUserMenuLink(makeButtonLink("showUser(" + id + ",'" + login + "')", "Профиль", obj, "")));
     if (me.isSuperAdmin()) {
@@ -24,7 +24,7 @@ function umExtraButtons(tr, id, login, obj) {
     tr.appendChild(td1);
 
     var td2 = makeSection("Операции:", "Red");
-    var ul2 = d.createElement("ul");
+    var ul2 = document.createElement("ul");
     ul2.appendChild(makeUserMenuLink(makeButtonLink("deleteUser(" + id + ",'" + login + "', this)", "Удалить", obj, "Red")));
     td2.appendChild(ul2);
     tr.appendChild(td2);

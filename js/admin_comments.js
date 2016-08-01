@@ -88,12 +88,12 @@ class acdto extends DTO {
       tr.className += " " + SeverityCss[this.Severity - 1];
     }
 
-    var td1 = d.createElement("td");
+    var td1 = document.createElement("td");
     td1.className = "Centered";
     td1.innerHTML = date.Time() + "<br><b>" + this.Login + "</b>";
     tr.appendChild(td1);
 
-    var td2 = d.createElement("td");
+    var td2 = document.createElement("td");
     td2.innerHTML = (this.User ? "Пользователь  <b>" + this.User + "</b>:<br>" : "") + this.Content;
     tr.appendChild(td2);
     

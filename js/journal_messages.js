@@ -62,8 +62,8 @@ class jrdto extends DTO {
   ToString(index, obj) {
     var tr = MakeGridRow(index);
 
-    var td1 = d.createElement("td");
-    var h2 = d.createElement("h2");
+    var td1 = document.createElement("td");
+    var h2 = document.createElement("h2");
     if (this.Type) {
       h2.className = (this.Type == "1" ? "Friends" : "Private");
     }
@@ -72,11 +72,11 @@ class jrdto extends DTO {
     td1.innerHTML += this.Content;
     tr.appendChild(td1);
 
-    var td2 = d.createElement("td");
+    var td2 = document.createElement("td");
     td2.className = "Centered";
       var comments = Math.round(this.Comments);
       if (comments) {
-        var a = d.createElement("a");
+        var a = document.createElement("a");
         a.innerHTML = comments;
         a.jrdto = this;
         a.obj = obj;
@@ -88,7 +88,7 @@ class jrdto extends DTO {
       }
     tr.appendChild(td2);
 
-    var td3 = d.createElement("td");
+    var td3 = document.createElement("td");
     td3.className = "Centered";
       td3.appendChild(
         MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править")
