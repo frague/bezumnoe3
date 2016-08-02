@@ -1,8 +1,15 @@
+import $ from 'jquery';
+import _ from 'lodash';
+import {Confirm} from './confirm';
+import {FlexFrame} from './flex_frame';
+import {Tabs, Tab} from './tabs';
+import {Chat} from './chat';
+
 var frames;
 var configIndex = 0;
 var co = new Confirm();
 var MainTab;
-var pages = {
+export var pages = {
   inside: {
     containers: [
       ['#Users', 0, 100],
@@ -14,7 +21,7 @@ var pages = {
     ],
     onResize: function() {
       this.frames[5].Replace(-1, -1, this.winSize.width, this.winSize.height);
-      layoutConfigs[configIndex].call(this);
+      // layoutConfigs[configIndex].call(this);
       $('body').removeClass().addClass('Layout' + configIndex);
     },
     onLoad: function() {
@@ -115,12 +122,12 @@ var pages = {
   }
 };
 
-function initLayout(layout, container, options = {}) {
+export function initLayout(layout, container, options = {}) {
   var context = {
-    winSize: new MyFrame(container || window),
+    winSize: new FlexFrame(container || window),
     frames: layout.containers.map(function(params) {
       params = _.flatten([params, null, null]);
-      return new MyFrame($(params[0])[0], params[1], params[2]);
+      return new FlexFrame($(params[0])[0], params[1], params[2]);
     })
   };
   var onResize = function() {

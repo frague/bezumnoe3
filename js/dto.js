@@ -1,3 +1,5 @@
+import {utils} from './utils';
+
 /*
   Data Transfer Objects
 */
@@ -86,17 +88,17 @@ class EditableDTO extends DTO {
     }
   }
 
-  MakeButtonsCell(hideEdit) {
+  utils.makeButtonsCell(hideEdit) {
     var td = document.createElement("td");
     td.className = "Middle Centered";
     if (this.EditView) {
-      td.appendChild(MakeButton("this.obj.Save()", "icons/done.gif", this, "", "Сохранить"));
-      td.appendChild(MakeButton("this.obj.CancelEditing()", "icons/cancel.gif", this, "", "Отмена"));
+      td.appendChild(utils.makeButton("this.obj.Save()", "icons/done.gif", this, "", "Сохранить"));
+      td.appendChild(utils.makeButton("this.obj.CancelEditing()", "icons/cancel.gif", this, "", "Отмена"));
     } else {
       if (!hideEdit) {
-        td.appendChild(MakeButton("this.obj.Edit()", "icons/edit.gif", this, "", "Править"));
+        td.appendChild(utils.makeButton("this.obj.Edit()", "icons/edit.gif", this, "", "Править"));
       }
-      td.appendChild(MakeButton("this.obj.Delete()", "delete_icon.gif", this, "", "Удалить"));
+      td.appendChild(utils.makeButton("this.obj.Delete()", "delete_icon.gif", this, "", "Удалить"));
     }
     return td;
   }

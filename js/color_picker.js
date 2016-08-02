@@ -1,3 +1,5 @@
+import {utils} from './utils';
+
 /*
   Allows color selection with mouse click
 */
@@ -20,7 +22,7 @@ class ColorPicker {
       this.Input.type = "color";
 
       this.Table = document.createElement("table");
-      displayElement(this.Table, false);
+      utils.displayElement(this.Table, false);
       var t = document.createElement("tbody");
       this.Table.appendChild(t);
       this.Table.className = "ColorPicker";
@@ -33,7 +35,7 @@ class ColorPicker {
       }
       insertAfter(this.Table, this.Input);
       insertAfter(
-        MakeButton("SwitchPicker(this)", "icons/palette.gif", this, "PickerButton", "Выбрать цвет"),
+        utils.makeButton("SwitchPicker(this)", "icons/palette.gif", this, "PickerButton", "Выбрать цвет"),
         this.Input
       );
     }
@@ -67,7 +69,7 @@ class ColorPicker {
 
   switchVisibility() {
     this.Visible = !this.Visible;
-    displayElement(this.Table, this.Visible);
+    utils.displayElement(this.Table, this.Visible);
   }
 
   ColorSelected() {

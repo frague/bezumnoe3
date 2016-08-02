@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Journal messages grid. Edit & delete buttons.
 */
@@ -9,7 +12,7 @@ class JournalMessages extends PagedGrid {
   constructor() {
     super();
     this.fields = ["DATE", "SEARCH", "LOGIN", "FORUM_ID"];
-    this.ServicePath = servicesPath + "journal.messages.service.php";
+    this.ServicePath = settings.servicesPath + "journal.messages.service.php";
     this.Template = "journal_messages";
     this.ClassName = "JournalMessages";
 
@@ -80,7 +83,7 @@ class jrdto extends DTO {
         a.innerHTML = comments;
         a.jrdto = this;
         a.obj = obj;
-        a.href = voidLink;
+        a.href = settings.voidLink;
         a.onclick = function() {ShowMessageComments(this)};
         td2.appendChild(a);
       } else {
@@ -91,10 +94,10 @@ class jrdto extends DTO {
     var td3 = document.createElement("td");
     td3.className = "Centered";
       td3.appendChild(
-        MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править")
+        utils.makeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править")
       );
       td3.appendChild(
-        MakeButton("DeleteRecord(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить")
+        utils.makeButton("DeleteRecord(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить")
       );
     tr.appendChild(td3);
     
@@ -115,7 +118,7 @@ function DeleteRecordConfirmed(obj, id) {
   var params = MakeParametersPair("go", "delete");
   params += MakeParametersPair("USER_ID", obj.USER_ID);
   params += MakeParametersPair("RECORD_ID", id);
-  sendRequest(servicesPath + "journal.post.service.php", DeleteCallback, params, obj);
+  sendRequest settings.servicesPath + "journal.post.service.php", DeleteCallback, params, obj);
 };
 
 function DeleteCallback(req, obj) {

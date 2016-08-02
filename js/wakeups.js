@@ -1,3 +1,5 @@
+import {settings} from './settings';
+
 /*
   Wakeup messages grid. Edit & delete buttons.
 */
@@ -6,7 +8,7 @@ class Wakeups extends PagedGrid {
   constructor() {
     super();
     this.fields = ["SEARCH", "DATE", "IS_INCOMING", "IS_OUTGOING"];
-    this.ServicePath = servicesPath + "wakeups.service.php";
+    this.ServicePath = settings.servicesPath + "wakeups.service.php";
     this.Template = "wakeups";
     this.ClassName = "Wakeups";
     this.Columns = 3;

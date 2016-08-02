@@ -1,3 +1,7 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
+
 /*
 	Journal templates: Global markup, single message & stylesheets.
 */
@@ -6,7 +10,7 @@ class JournalTemplates extends OptionsBase {
 	constructor() {
 		super();        
 		this.fields = new Array("TITLE", "BODY", "MESSAGE", "CSS", "SKIN_TEMPLATE_ID");
-		this.ServicePath = servicesPath + "journal.templates.service.php";
+		this.ServicePath = settings.servicesPath + "journal.templates.service.php";
 		this.Template = "journal_templates";
 		this.ClassName = "JournalTemplates";
 
@@ -38,7 +42,7 @@ class JournalTemplates extends OptionsBase {
 			} else {
 				bId = obj.skinTemplateId;
 			}
-			button = SetRadioValue(obj.Inputs["SKIN_TEMPLATE_ID"], bId);
+			button = utils.setRadioValue(obj.Inputs["SKIN_TEMPLATE_ID"], bId);
 			if (button) {
 				button.click();
 			}

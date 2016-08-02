@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Rooms management
 */
@@ -6,7 +9,7 @@ class Rooms extends EditableGrid {
   constructor() {
     super();
     this.fields = ["ROOM_ID", "TITLE", "IS_DELETED", "IS_LOCKED", "IS_INVITATION_REQUIRED", "locked", "by_invitation", "deleted"];
-    this.ServicePath = servicesPath + "rooms.service.php";
+    this.ServicePath = settings.servicesPath + "rooms.service.php";
     this.Template = "rooms";
     this.ClassName = "Rooms";
     this.GridId = "RoomsGrid";
@@ -58,7 +61,7 @@ rdto.ToShowView = (index, obj) => {
   }
   td2.innerHTML = this.Title;
   tr.appendChild(td2);
-  tr.appendChild(this.MakeButtonsCell());
+  tr.appendChild(this.utils.makeButtonsCell());
   return tr;
 };
 
@@ -71,21 +74,21 @@ rdto.ToEditView = (index, obj) => {
   this.TitleInput.value = this.Title;
   td2.appendChild(this.TitleInput);
 
-  this.IsLockedInput = CreateCheckBox("IsLocked", this.IsLocked);
+  this.IsLockedInput = createCheckBox("IsLocked", this.IsLocked);
   td2.appendChild(this.IsLockedInput);
-  td2.appendChild(CreateLabel(this.IsLockedInput, "заблокированная"));
+  td2.appendChild(createLabel(this.IsLockedInput, "заблокированная"));
 
-  this.IsInvitationRequiredInput = CreateCheckBox("IsInvitationRequired", this.IsInvitationRequired);
+  this.IsInvitationRequiredInput = createCheckBox("IsInvitationRequired", this.IsInvitationRequired);
   td2.appendChild(this.IsInvitationRequiredInput);
-  td2.appendChild(CreateLabel(this.IsInvitationRequiredInput, "по приглашению"));
+  td2.appendChild(createLabel(this.IsInvitationRequiredInput, "по приглашению"));
 
-  this.IsDeletedInput = CreateCheckBox("IsDeleted", this.IsDeleted);
+  this.IsDeletedInput = createCheckBox("IsDeleted", this.IsDeleted);
   td2.appendChild(this.IsDeletedInput);
-  td2.appendChild(CreateLabel(this.IsDeletedInput, "удалённая"));
+  td2.appendChild(createLabel(this.IsDeletedInput, "удалённая"));
 
   tr.appendChild(td2);
 
-  tr.appendChild(this.MakeButtonsCell());
+  tr.appendChild(this.utils.makeButtonsCell());
   return tr;
 };
 

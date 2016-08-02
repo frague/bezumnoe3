@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Journal comments grid. Edit & delete buttons.
 */
@@ -5,7 +8,7 @@
 class JournalComments extends Comments {
   constructor(forum) {
     super();
-    this.ServicePath = servicesPath + "journal.comments.service.php";
+    this.ServicePath = settings.servicesPath + "journal.comments.service.php";
     this.Template = "journal_comments";
     this.ClassName = "JournalComments";
     this.Columns = 3;
@@ -98,9 +101,9 @@ class jcdto extends DTO {
 
     var td3 = document.createElement("td");
     td3.className = "Centered";
-      td3.appendChild(MakeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
+      td3.appendChild(utils.makeButton("EditRecord(this,"+this.Id+")", "icons/edit.gif", obj, "", "Править"));
       td3.appendChild(
-        MakeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить")
+        utils.makeButton("DeleteComment(this,"+this.Id+")", "delete_icon.gif", obj, "", "Удалить")
       );
     tr.appendChild(td3);
     

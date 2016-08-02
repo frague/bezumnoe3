@@ -1,3 +1,5 @@
+import {utils} from './utils';
+
 /*
   Date picker fuctionality.
 */
@@ -28,7 +30,7 @@ class Calendar {
       result = select;
     } else {
       var a = document.createElement("a");
-      a.href = voidLink;
+      a.href = settings.voidLink;
       a.Calendar = this;
       result = a;
     }
@@ -314,7 +316,7 @@ class DatePicker {
 
       insertAfter(this.Holder, this.Input);
       insertAfter(
-        MakeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton", "Выбрать дату"),
+        utils.makeButton("SwitchDatePicker(this)", "icons/calendar.gif", this, "PickerButton", "Выбрать дату"),
         this.Input
       );
     }
@@ -328,7 +330,7 @@ class DatePicker {
 
   switchVisibility() {
     this.Visible = !this.Visible;
-    displayElement(this.Holder, this.Visible);
+    utils.displayElement(this.Holder, this.Visible);
     if (this.Visible) {
       this.Init();
     }

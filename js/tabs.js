@@ -1,3 +1,7 @@
+import _ from 'lodash';
+import {utils} from './utils';
+import {Collection} from './collection';
+
 /*
   Tab class. Entity of Tabs one.
 */
@@ -20,7 +24,7 @@ class TabBase {
   AddSubmitButton(method, holder, obj) {
     var m1 = document.createElement("div");
     m1.className = "ConfirmButtons";
-    this.SubmitButton = MakeButton(method, "ok_button.gif", obj || this, "", "Сохранить изменения");
+    this.SubmitButton = utils.makeButton(method, "ok_button.gif", obj || this, "", "Сохранить изменения");
     m1.appendChild(this.SubmitButton);
     this[holder || "RelatedDiv"].appendChild(m1);
   }
@@ -38,8 +42,7 @@ class TabBase {
   }
 }
 
-
-class Tab extends TabBase {
+export class Tab extends TabBase {
   constructor(id, title, is_locked, is_private, on_select) {
     super();
     this.Id = id;
@@ -87,8 +90,8 @@ class Tab extends TabBase {
   }
 
   DisplayDiv(state) {
-    displayElement(this.RelatedDiv, state);
-    displayElement(this.TopicDiv, state);
+    utils.displayElement(this.RelatedDiv, state);
+    utils.displayElement(this.TopicDiv, state);
   }
 
   Clear() {
@@ -110,7 +113,7 @@ class Tab extends TabBase {
   Tabs collection class.
 */
 
-class Tabs {
+export class Tabs {
   constructor(tabsContainer, contentContainer) {
     this.TabsContainer = tabsContainer;
     this.ContentContainer = contentContainer;

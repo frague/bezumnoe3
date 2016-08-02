@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Display messages log with filter by date, room & keywords
 */
@@ -6,7 +9,7 @@ class MessagesLog extends PagedGrid {
   constructor() {
     super();
     this.fields = ["DATE", "SEARCH", "ROOM_ID"];
-    this.ServicePath = servicesPath + "messages.log.service.php";
+    this.ServicePath = settings.servicesPath + "messages.log.service.php";
     this.ClassName = "MessagesLog";
     this.Template = "messages_log";
     this.GridId = "MessagesLogGrid";
@@ -40,7 +43,7 @@ class MessagesLog extends PagedGrid {
         if (!this.ROOM_ID) {
           this.ROOM_ID = rooms[i].Id;
         }
-        AddSelectOption(select, rooms[i].Title, rooms[i].Id, this.ROOM_ID == rooms[i].Id);
+        utils.addSelectOption(select, rooms[i].Title, rooms[i].Id, this.ROOM_ID == rooms[i].Id);
       }
     }
   }

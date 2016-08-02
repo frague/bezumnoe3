@@ -1,4 +1,6 @@
-//3.2
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Represents room entity on client-side.
 */
@@ -94,7 +96,7 @@ class RoomLightweight extends OptionsBase {
     super();
 
     this.fields = new Array("NEW_ROOM", "IS_PRIVATE", "IS_LOCKED");
-    this.ServicePath = servicesPath + "room.service.php";
+    this.ServicePath = settings.servicesPath + "room.service.php";
     this.Template = "add_room";
     this.ClassName = "AddRoom";
   }
@@ -133,7 +135,7 @@ class RoomLightweight extends OptionsBase {
   TemplateLoaded(req) {
     this.TemplateBaseLoaded(req);
 
-    displayElement("AdminOnly", me && me.Rights >= adminRights);
+    utils.displayElement("AdminOnly", me && me.Rights >= adminRights);
 
     this.AssignTabTo("linkAdd");
     BindEnterTo(this.inputs["NEW_ROOM"], this.inputs["linkAdd"]);

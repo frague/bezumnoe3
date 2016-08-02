@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   List of forbidden addresses
 */
@@ -8,7 +11,7 @@ class BannedAddresses extends Grid {
     super();
     this.fields = ["BAN_ID", "BAN_CHAT", "BAN_FORUM", "BAN_JOURNAL", "TYPE", "CONTENT", "COMMENT", "TILL"];
     this.defaultValues = ["", "1", "1", "1", "ip", "", "", ""];
-    this.ServicePath = servicesPath + "banned.addresses.service.php";
+    this.ServicePath = settings.servicesPath + "banned.addresses.service.php";
     this.Template = "banned_addresses";
     this.GridId = "BannedAddresses";
     this.ClassName = this.GridId;
@@ -92,8 +95,8 @@ class badto extends DTO {
     tr.appendChild(td1);
 
     var td2 = document.createElement("td");
-    td2.appendChild(MakeDiv((this.Comment ? "&laquo;" + this.Comment + "&raquo;" + (this.Admin ? ", " : "") : "") + (this.Admin ? this.Admin : ""), "h2"));
-    td2.appendChild(MakeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " по " + this.Till.ToPrintableString() : "")));
+    td2.appendChild(utils.makeDiv((this.Comment ? "&laquo;" + this.Comment + "&raquo;" + (this.Admin ? ", " : "") : "") + (this.Admin ? this.Admin : ""), "h2"));
+    td2.appendChild(utils.makeDiv("c " + this.Date.ToPrintableString() + (!this.Till.IsEmpty ? " по " + this.Till.ToPrintableString() : "")));
 
     result = "";
     var comma = false;
@@ -104,13 +107,13 @@ class badto extends DTO {
       }
     }
       
-    td2.appendChild(MakeDiv("Запрет:  <b>" + result + "</b>"));
+    td2.appendChild(utils.makeDiv("Запрет:  <b>" + result + "</b>"));
     tr.appendChild(td2);
 
     var td3 = document.createElement("td");
     td3.className = "Centered";
-    td3.appendChild(MakeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
-    td3.appendChild(MakeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));
+    td3.appendChild(utils.makeButton("EditBan(this," + this.Id + ")", "icons/edit.gif", obj));
+    td3.appendChild(utils.makeButton("DeleteBan(this," + this.Id + ")", "delete_icon.gif", obj));
     tr.appendChild(td3);
     
     return tr;

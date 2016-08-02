@@ -3,43 +3,44 @@
     Contains all global script settings, constants, variables and common methods
 */
 
-var debug = 0;
+export var settings = {
+  SESSION_KEY: "sdjfhk_session",
 
-var d = document;
-var w = window;
-var voidLink = "javascript:void(0);";
-var voidHref = "href=\"" + voidLink + "\"";
+  debug: 0,
 
-var imagesPath = "/img/";
-var servicesPath = "/services/";
-var userPhotosPath = "/img/photos/";
-var avatarsPath = "/img/avatars/";
-var skinsPreviewPath = "/img/journals/";
-var openIdPath = "/img/openid/";
+  voidLink: 'javascript:void(0);',
+  voidHref: 'href=\'javascript:void(0)\'',
 
-var adminRights = 75;
-var keeperRights = 20;
-var topicRights = 10;
+  imagesPath: '/img/',
+  servicesPath: '/services/',
+  userPhotosPath: '/img/photos/',
+  avatarsPath: '/img/avatars/',
+  skinsPreviewPath: '/img/journals/',
+  openIdPath: '/img/openid/',
 
-var loadingIndicator = "<div class='LoadingIndicator'></div>";
+  adminRights: 75,
+  keeperRights: 20,
+  topicRights: 10,
 
-var severityCss = ["Warning", "Error"];
+  loadingIndicator: '<div class=\'LoadingIndicator\'></div>',
 
-var replaceTagsExpr = new RegExp("\<[\/a-z][^\>]*\>", "gim");
+  severityCss: ['Warning', 'Error'],
 
-var forumAccess = {
-	NO_ACCESS: 0,
-	READ_ONLY_ACCESS: 1,
-	FRIENDLY_ACCESS: 2,
-	READ_ADD_ACCESS: 3,
-	FULL_ACCESS: 4
+  replaceTagsExpr: new RegExp('\<[\/a-z][^\>]*\>', 'gim'),
+
+  forumAccess: {
+    NO_ACCESS: 0,
+    READ_ONLY_ACCESS: 1,
+    FRIENDLY_ACCESS: 2,
+    READ_ADD_ACCESS: 3,
+    FULL_ACCESS: 4
+  },
+
+  forumAccessName: [
+    'доступ закрыт', 
+    'только чтение', 
+    'дружественный доступ', 
+    'чтение/запись', 
+    'полный доступ'
+  ]
 };
-
-var forumAccessName = [
-	"доступ закрыт", 
-	"только чтение", 
-	"дружественный доступ", 
-	"чтение/запись", 
-	"полный доступ"
-];
-

@@ -1,3 +1,4 @@
+import {utils} from './utils';
 /*
     Displays messages on given container.
 */
@@ -11,14 +12,14 @@ class Alerts {
   }
 
   Add(message, isError) {
-    displayElement(this.Holder, true);
+    utils.displayElement(this.Holder, true);
     this.Container.innerHTML += "<p class='" + (isError ? "Error" : "") + "'>" + message + "</p>";
     this.HasErrors = this.HasErrors || isError;
     this.IsEmpty = false;
   }
 
   Clear() {
-    displayElement(this.Holder, false);
+    utils.displayElement(this.Holder, false);
     this.Container.innerHTML = "";
     this.HasErrors = false;
     this.IsEmpty = true;

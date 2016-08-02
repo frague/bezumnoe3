@@ -33,7 +33,7 @@ function InitMenu(div) {
 };
 
 // function OnLoad() {
-//   displayElement(alerts.element, false);
+//   utils.displayElement(alerts.element, false);
 //   co.Init('AlertContainer', 'AlertBlock');
 //   if (window.Pong) {
 //     Ping();

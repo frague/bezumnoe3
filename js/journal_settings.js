@@ -1,3 +1,5 @@
+import {settings} from './settings';
+
 /*
   Journal settings of user menu.
 */
@@ -6,7 +8,7 @@ class JournalSettings extends OptionsBase {
   constructor() {
     super();
     this.fields = ["ALIAS", "REQUESTED_ALIAS", "TITLE", "DESCRIPTION", "IS_PROTECTED", "IS_HIDDEN", "OWN_MARKUP_ALLOWED"];
-    this.ServicePath = servicesPath + "journal.settings.service.php";
+    this.ServicePath = settings.servicesPath + "journal.settings.service.php";
     this.Template = "journal_settings";
     this.ClassName = "JournalSettings";
 

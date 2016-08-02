@@ -1,4 +1,5 @@
-//2.7
+import {settings} from './settings';
+
 /*
 	Admin only functionality.
 	Will be loaded only if server rights checking is == adminRights.
@@ -47,7 +48,7 @@ function deleteUser(id, name, a) {
 };
 
 function deleteUserConfirmed(id, obj) {
-    var req = new Requestor(servicesPath + "user_delete.service.php", obj);
+    var req = new Requestor settings.servicesPath + "user_delete.service.php", obj);
     req.callback = refreshList;
     req.request(["user_id"], [id]);
     obj.inputs["FILTER_BANNED"].delayedRequestor.request();

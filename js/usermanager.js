@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   User Manager admin functionality
 */
@@ -6,7 +9,7 @@ class Userman extends Grid {
   constructor() {
     super();
     this.fields = ["BY_NAME", "BY_ROOM", "FILTER_BANNED", "FILTER_EXPIRED", "FILTER_TODAY", "FILTER_YESTERDAY", "FILTER_REGDATE", "REG_DATE"];
-    this.ServicePath = servicesPath + "users.service.php";
+    this.ServicePath = settings.servicesPath + "users.service.php";
     this.Template = "userman";
     this.ClassName = "Userman";
 
@@ -43,7 +46,7 @@ class Userman extends Grid {
       }
     }
 
-    BindRooms(this.Inputs["BY_ROOM"]);
+    utils.bindRooms(this.Inputs["BY_ROOM"]);
     new DatePicker(this.Inputs["REG_DATE"]);
   }
 };
@@ -71,7 +74,7 @@ class udto extends DTO {
     tr.appendChild(td1);
     if (me.IsAdmin()) {
       td2 = document.createElement("td");
-      cb = CreateBitInput("usr" + this.Id, 0);
+      cb = createBitInput("usr" + this.Id, 0);
       td2.appendChild(cb);
       tr.appendChild(td2);
     } else {
@@ -87,7 +90,7 @@ class udto extends DTO {
 
     var a = document.createElement("a");
     a.Obj = this;
-    a.href = voidLink;
+    a.href = settings.voidLink;
     a.onclick = function() {this.Obj.Select()};
     a.innerHTML = this.MakeTitle();
     
@@ -107,7 +110,7 @@ class udto extends DTO {
 function umDisplayName(userDTO, name, td, obj) {
   var a = document.createElement("a");
   a.innerHTML = name;
-  a.href = voidLink;
+  a.href = settings.voidLink;
   a.onclick = function(){ShowUserMenu(this, userDTO.Id, userDTO.Login, td, obj)};
   a.className = "Closed";
   return a;

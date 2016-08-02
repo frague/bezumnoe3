@@ -1,4 +1,5 @@
-//3.1
+import {utils} from './utils';
+
 /*
     Validation of controls against rules given.
 */
@@ -66,7 +67,7 @@ function Validator(control, rule, message, summarize, on_the_fly) {
     this.ShowInSummary = summarize;
     this.OnTheFly = on_the_fly;
 
-    this.Id = Random(1000, 1);
+    this.Id = utils.random(1000, true);
     this.Enabled = true;
 };
 

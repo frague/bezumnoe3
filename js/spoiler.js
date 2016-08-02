@@ -23,7 +23,7 @@ class Spoiler extends TabBase {
     this.Holder.id = "Spoiler" + this.Id;
 
     let link = document.createElement("a");
-    link.href = voidLink;
+    link.href = settings.voidLink;
     link.className = "Title";
     link.onclick = () => {
       this.Switch();

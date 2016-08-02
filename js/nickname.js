@@ -1,4 +1,6 @@
-//2.7
+import {settings} from './settings';
+import {settings} from './settings';
+
 /*
 	Custom confirm contents.
 */
@@ -34,7 +36,7 @@ Nickname.prototype.CreateButton = function(src, action) {
 	button.className = 'Button';
 	button.style.width = '15px';
 	button.style.height = '15px';
-	button.src = imagesPath + src;
+	button.src = settings.imagesPath + src;
 	return button;
 };
 
@@ -67,7 +69,7 @@ Nickname.prototype.ToString = function(holder) {
 	} else {
 		this.Li.innerHTML = '';
 	}
-	this.Radio = CreateRadio('nickname', ((!me.Nickname && this.Name == me.Login) || (me.Nickname && this.Name == me.Nickname)));
+	this.Radio = createRadio('nickname', ((!me.Nickname && this.Name == me.Login) || (me.Nickname && this.Name == me.Nickname)));
 	this.Radio.RelatedItem = this;
 	eval('this.Radio.onclick = function(){Select(this)}');
 
@@ -108,7 +110,7 @@ ChangeNickname.prototype.CreateControls = function(container) {
 };
 
 ChangeNickname.prototype.requestData = function() {
-	$.get(servicesPath + 'nickname.service.php')
+	$.get settings.servicesPath + 'nickname.service.php')
 		.done(NamesResponse);
 };
 
@@ -185,7 +187,7 @@ function SaveNicknameChanges() {
 	StopEditing(true);
 	nicknameSaving = 1;
 	setTimeout('UnLockSaving()', 10000);
-	$.post(servicesPath + 'nickname.service.php', nicknames.Gather())
+	$.post settings.servicesPath + 'nickname.service.php', nicknames.Gather())
 		.done(SavingResults);
 };
 

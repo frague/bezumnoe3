@@ -1,3 +1,5 @@
+import {utils} from './utils';
+
 function MenuItem(title, action, is_locked) {
   this.Id = _.uniqueId();
   this.Title = title;
@@ -31,7 +33,7 @@ function MenuItemsCollection(shown) {
   Collection.call(this);
   this.Container = document.createElement("ul");
   if (!shown) {
-    displayElement(this.Container, false);
+    utils.displayElement(this.Container, false);
   };
 };
 
@@ -46,7 +48,7 @@ MenuItemsCollection.prototype.Create = function(container) {
 };
 
 MenuItemsCollection.prototype.Display = function(state) {
-  displayElement(this.Container, state);
+  utils.displayElement(this.Container, state);
 };
 
 function DisplaySubmenu(el, state, force) {

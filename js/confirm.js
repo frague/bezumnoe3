@@ -1,9 +1,12 @@
+import $ from 'jquery';
+import {utils} from './utils';
+
 /*
   Displays inline confirmation window
   blocking all content behind and handling callback.
 */
 
-class Confirm {
+export class Confirm {
   constructor() {
     this.Cover = null;
     this.Holder = null;
@@ -19,8 +22,8 @@ class Confirm {
   }
 
   Display(state) {
-    displayElement(this.Holder, state);
-    displayElement(this.Cover, state);
+    utils.displayElement(this.Holder, state);
+    utils.displayElement(this.Cover, state);
   }
 
   SetBodyOverflow(state) {
@@ -57,14 +60,14 @@ class Confirm {
       }
     }
 
-    var index = CheckEmpty(this.ButtonUrlIndex);
+    var index = utils.checkEmpty(this.ButtonUrlIndex);
     var m1 = document.createElement("div");
     m1.className = "ConfirmButtons";
     if (this.AlertType) {
-      m1.appendChild(MakeButton("ConfirmObject.Ok()", "ok_button"+index+".gif"));
+      m1.appendChild(utils.makeButton("ConfirmObject.Ok()", "ok_button"+index+".gif"));
     } else {
-      m1.appendChild(MakeButton("ConfirmObject.Ok()", "yes_button"+index+".gif"));
-      m1.appendChild(MakeButton("ConfirmObject.Cancel()", "no_button"+index+".gif"));
+      m1.appendChild(utils.makeButton("ConfirmObject.Ok()", "yes_button"+index+".gif"));
+      m1.appendChild(utils.makeButton("ConfirmObject.Cancel()", "no_button"+index+".gif"));
     }
 
     this.Holder.appendChild(m1);

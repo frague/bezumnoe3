@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Displaying/managing news sections
 */
@@ -6,7 +9,7 @@ class News extends EditableGrid {
   constructor() {
     super();
     this.fields = ["OWNER_ID", "TITLE", "DESCRIPTION"];
-    this.ServicePath = servicesPath + "news.service.php";
+    this.ServicePath = settings.servicesPath + "news.service.php";
     this.ClassName = "News";
     this.Template = "news";
     this.GridId = "NewsGrid";
@@ -44,15 +47,15 @@ class ndto extends EditableDTO {
 
     var td1 = document.createElement("td");
       var h2 = document.createElement("h2");
-      var a = MakeDiv(this.Title, "a");
+      var a = utils.makeDiv(this.Title, "a");
       a.onclick = function() {ShowNewsRecords(this)};
       a.obj = this;
       h2.appendChild(a);
       td1.appendChild(h2);
-    td1.appendChild(MakeDiv(this.Description));
+    td1.appendChild(utils.makeDiv(this.Description));
     tr.appendChild(td1);
 
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 
@@ -60,14 +63,14 @@ class ndto extends EditableDTO {
     var tr = MakeGridRow(index);
 
     var td1 = document.createElement("td");
-      td1.appendChild(MakeDiv("Название:"));
+      td1.appendChild(utils.makeDiv("Название:"));
 
       this.TitleInput = document.createElement("input");
       this.TitleInput.value = this.Title;
       this.TitleInput.className = "Wide";
       td1.appendChild(this.TitleInput);
 
-      td1.appendChild(MakeDiv("Описание:"));
+      td1.appendChild(utils.makeDiv("Описание:"));
 
       this.DescriptionInput = document.createElement("textarea");
       this.DescriptionInput.innerHTML = this.Description;
@@ -75,7 +78,7 @@ class ndto extends EditableDTO {
       td1.appendChild(this.DescriptionInput);
     tr.appendChild(td1);
 
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   };
 }

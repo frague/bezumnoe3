@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Forum access functionality.
   Allows to manage users access to forums/journals/galleries.
@@ -12,7 +15,7 @@ class ForumAccess extends OptionsBase {
     this.fields = ["WHITE_LIST", "BLACK_LIST", "FRIENDS_LIST"];
     this.Template = "forum_access";
     this.ClassName = "ForumAccess";
-    this.ServicePath = servicesPath + "forum_access.service.php";
+    this.ServicePath = settings.servicesPath + "forum_access.service.php";
 
     this.Forum = new jjdto();
   }
@@ -102,7 +105,7 @@ class fadto extends EditableDTO {
         td1.className = "Bold";
       }
     tr.appendChild(td1);
-    tr.appendChild(this.MakeButtonsCell(1));
+    tr.appendChild(this.utils.makeButtonsCell(1));
     return tr;
   }
 
@@ -122,18 +125,18 @@ class judto extends DTO {
     if (prev_id != this.USER_ID) {
       var li = document.createElement("li");
       li.className = className;
-      li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Дать полный доступ"));
-      li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Дать доступ на чтение/запись"));
-      li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.FRIENDLY_ACCESS + ", this.obj)", "icons/add_magenta.gif", obj, "", "Дать дружественный доступ"));
-      li.appendChild(MakeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Закрыть доступ"));
-      li.appendChild(MakeDiv(this.LOGIN + (this.NICKNAME ? "&nbsp;(" + this.NICKNAME + ")" : ""), "span"));
+      li.appendChild(utils.makeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.FULL_ACCESS + ", this.obj)", "icons/add_gold.gif", obj, "", "Дать полный доступ"));
+      li.appendChild(utils.makeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.READ_ADD_ACCESS + ", this.obj)", "icons/add_white.gif", obj, "", "Дать доступ на чтение/запись"));
+      li.appendChild(utils.makeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.FRIENDLY_ACCESS + ", this.obj)", "icons/add_magenta.gif", obj, "", "Дать дружественный доступ"));
+      li.appendChild(utils.makeButton("AddForumAccess('" + this.USER_ID + "',''," + forumAccess.NO_ACCESS + ", this.obj)", "icons/add_black.gif", obj, "", "Закрыть доступ"));
+      li.appendChild(utils.makeDiv(this.LOGIN + (this.NICKNAME ? "&nbsp;(" + this.NICKNAME + ")" : ""), "span"));
       holder.appendChild(li);
     }
     if (this.JOURNAL_ID) {
       li = document.createElement("li");
       li.className = className + " Journal";
-      li.appendChild(MakeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + forumAccess.FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
-      li.appendChild(MakeDiv("Журнал &laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")", "span"));
+      li.appendChild(utils.makeButton("AddForumAccess('','" + this.JOURNAL_ID + "', " + forumAccess.FRIENDLY_ACCESS + ", this.obj)", "icons/add_green.gif", obj, "", "Добавить дружественный журнал"));
+      li.appendChild(utils.makeDiv("Журнал &laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")", "span"));
       holder.appendChild(li);
     }
   };
@@ -156,7 +159,7 @@ class fjdto extends DTO {
     var td1 = document.createElement("td");
       td1.innerHTML = "&laquo;" + this.TITLE + "&raquo;&nbsp;(" + this.LOGIN + ")";
     tr.appendChild(td1);
-    tr.appendChild(this.MakeButtonsCell(1));
+    tr.appendChild(this.utils.makeButtonsCell(1));
     return tr;
   }
 
@@ -172,7 +175,7 @@ class UserList extends EditableGrid {
     var dt = dtObject;
     this.fields = dt.fields;
 
-    this.ServicePath = servicesPath + "forum_access.service.php";
+    this.ServicePath = settings.servicesPath + "forum_access.service.php";
     this.GridId = id;
     this.Columns = 2;
 
@@ -198,7 +201,7 @@ class UserList extends EditableGrid {
 /* Helper methods */
 
 function AddForumAccess(user_id, target_forum_id, access, obj) {
-  var req = new Requestor(servicesPath + "forum_access.service.php", obj);
+  var req = new Requestor settings.servicesPath + "forum_access.service.php", obj);
   req.Callback = RefreshList;
   req.Request(["go", "FORUM_ID", "TARGET_USER_ID", "TARGET_FORUM_ID", "ACCESS"], ["add", obj.Forum.FORUM_ID, user_id, target_forum_id, access]);
 };
@@ -209,7 +212,7 @@ function RefreshList(sender) {
 
 function GetJournalUsers(input) {
   input.DelayedRequestor.obj.SetTabElementValue("FOUND_USERS", LoadingIndicator);
-  var juRequest = new Requestor(servicesPath + "journal_users.service.php", input.DelayedRequestor.obj);
+  var juRequest = new Requestor settings.servicesPath + "journal_users.service.php", input.DelayedRequestor.obj);
   juRequest.Callback = DrawUsers;
   juRequest.Request(["value"], [input.value]);
 };

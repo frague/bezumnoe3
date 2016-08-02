@@ -21,34 +21,34 @@ var babelify = require('babelify');
 //   if (error) console.error('Error:', error);
 // };
 
-// gulp.task('styles:sass', function () {
-//   return gulp.src('sass/*.sass')
-//     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-//     .pipe(concat('custom.css'))
-//     // .pipe(rev())
-//     .pipe(gulp.dest('css'));
-// });
+gulp.task('styles:sass', function () {
+  return gulp.src('sass/*.sass')
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(concat('custom.css'))
+    // .pipe(rev())
+    .pipe(gulp.dest('css'));
+});
 
-// gulp.task('styles:vendor', function () {
-//   return gulp
-//     .src([
-//       'node_modules/font-awesome/css/font-awesome.min.css'
-//     ])
-//     .pipe(concat('vendor.css'))
-//     // .pipe(rev())
-//     .pipe(gulp.dest('css'));
-// });
+gulp.task('styles:vendor', function () {
+  return gulp
+    .src([
+      'node_modules/font-awesome/css/font-awesome.min.css'
+    ])
+    .pipe(concat('vendor.css'))
+    // .pipe(rev())
+    .pipe(gulp.dest('css'));
+});
 
-// gulp.task('styles:watch', function () {
-//   gulp.watch('./sass/*.sass', [
-//     'styles:sass',
-//     'inject'
-//   ]);
-// });
+gulp.task('styles:watch', function () {
+  gulp.watch('./sass/*.sass', [
+    'styles:sass',
+    'inject'
+  ]);
+});
 
-// gulp.task('styles', function (callback) {
-//   runSequence(['styles:vendor', 'styles:sass'])(callback);
-// });
+gulp.task('styles', function (callback) {
+  runSequence(['styles:vendor', 'styles:sass'])(callback);
+});
 
 // gulp.task('scripts:vendor', function () {
 //   return gulp.src([
@@ -65,7 +65,7 @@ var babelify = require('babelify');
 //     .pipe(gulp.dest('scripts'));
 // });
 
-gulp.task('scripts:custom',  function () {
+gulp.task('scripts',  function () {
   return gulp.src(['js/*.js', 'js1/*.js'])
     .pipe(sourcemaps.init())
     .pipe(babel({
@@ -88,18 +88,17 @@ gulp.task('cleanup', function () {
   return del(['scripts/**/*.js', 'scripts/**/*.js.map', 'css/custom*.css', 'css/vendor*.css']);
 });
 
-// gulp.task('inject', function () {
-//   return gulp.src([
-//     '**/*.php'
-//   ])
-//     .pipe(inject(gulp.src([
-//       'css/vendor*.css',
-//       'css/custom*.css',
-//       'scripts/vendor*.js',
-//       'scripts/custom*.js'
-//     ])))
-//     .pipe(gulp.dest('.'));;
-// });
+gulp.task('inject', function () {
+  return gulp.src([
+    '**/*.php'
+  ])
+    .pipe(inject(gulp.src([
+      'css/vendor*.css',
+      'css/custom*.css',
+      'scripts/build*.js'
+    ])))
+    .pipe(gulp.dest('.'));;
+});
 
 // gulp.task('watch:scripts', function () {
 //   gulp.watch(['js/*', 'js1/*'], ['scripts:custom']);
@@ -107,13 +106,11 @@ gulp.task('cleanup', function () {
 
 // gulp.task('build', runSequence('cleanup', ['scripts', 'styles'], 'inject'));
 
-
-
 function compile(watch) {
   var bundler = watchify(
     browserify({
         // Define the entry point for our application
-        entries: ['js1/prototype.js'],
+        entries: ['js/chat_layout.js'],
         // Debugging is nice
         debug: true,
         // Allow importing from the following extensions
@@ -153,8 +150,8 @@ function watch() {
   return compile(true);
 };
 
-gulp.task('build', function() { return compile(); });
-gulp.task('watch', function() { return watch(); });
+gulp.task('build', function() {return compile()});
+gulp.task('watch', function() {return watch()});
 
 gulp.task('default', ['watch']);
 

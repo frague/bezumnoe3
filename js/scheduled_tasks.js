@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Scheduled Tasks management
 */
@@ -6,7 +9,7 @@ class ScheduledTasks extends EditablePagedGrid {
   constructor() {
     super();
     this.fields = ["SCHEDULED_TASK_ID", "TYPE", "EXECUTION_DATE", "PERIODICITY", "IS_ACTIVE", "inactivated", "status", "unban", "expired_sessions", "ratings"];
-    this.ServicePath = servicesPath + "scheduled_tasks.service.php";
+    this.ServicePath = settings.servicesPath + "scheduled_tasks.service.php";
     this.Template = "scheduled_tasks";
     this.ClassName = "ScheduledTasks";
     this.GridId = "ScheduledTasksGrid";
@@ -57,7 +60,7 @@ class stdto extends EditableDTO {
 
     var td1 = document.createElement("td");
     td1.className = "Centered";
-    td1.appendChild(CreateBooleanImage(this.IsActive));
+    td1.appendChild(createOnOffImage(this.IsActive));
     tr.appendChild(td1);
 
     var td2 = document.createElement("td");
@@ -72,7 +75,7 @@ class stdto extends EditableDTO {
     td4.innerHTML = this.Periodicity;
     tr.appendChild(td4);
 
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 
@@ -82,7 +85,7 @@ class stdto extends EditableDTO {
     // Rights
     var td1 = document.createElement("td");
     td1.className = "Centered";
-    this.IsActiveInput = CreateCheckBox("IsActive", this.IsActive);
+    this.IsActiveInput = createCheckBox("IsActive", this.IsActive);
     td1.appendChild(this.IsActiveInput);
     tr.appendChild(td1);
 
@@ -106,7 +109,7 @@ class stdto extends EditableDTO {
     td4.appendChild(this.PeriodicityInput);
     tr.appendChild(td4);
 
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 }

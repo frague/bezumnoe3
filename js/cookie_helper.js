@@ -1,20 +1,20 @@
+import {settings} from './settings';
+
 /*
   Cookie helper hethods
 */
 
 /* setCookie("foo", "bar", "Mon, 01-Jan-2001 00:00:00 GMT", "/"); */
 
-var SESSION_KEY = "sdjfhk_session";
-
-function setCookie (name, value, expires, path, domain, secure) {
+export function setCookie (name, value, expires, path, domain, secure) {
   document.cookie = name + "=" + escape(value) +
-    ((expires) ? "; expires=" + expires : "") +
-    ((path) ? "; path=" + path : "") +
-    ((domain) ? "; domain=" + domain : "") +
-    ((secure) ? "; secure" : "");
+    (expires ? "; expires=" + expires : "") +
+    (path ? "; path=" + path : "") +
+    (domain ? "; domain=" + domain : "") +
+    (secure ? "; secure" : "");
 };
 
-function getCookie(name) {
+export function getCookie(name) {
   var cookie = " " + document.cookie;
   var search = " " + name + "=";
   var setStr = null;
@@ -34,6 +34,6 @@ function getCookie(name) {
   return(setStr);
 };
 
-function GetCurrentSession() {
-  return getCookie(SESSION_KEY);
+export function GetCurrentSession() {
+  return getCookie(settings.SESSION_KEY);
 };

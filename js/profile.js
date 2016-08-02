@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 //6.8
 /*
 	User profile data & helper methods
@@ -5,7 +8,7 @@
 
 function Profile() {
 	this.fields = new Array("LOGIN", "EMAIL", "NAME", "GENDER", "BIRTHDAY", "CITY", "ICQ", "URL", "PHOTO", "AVATAR", "ABOUT", "REGISTERED", "LAST_VISIT");
-	this.ServicePath = servicesPath + "profile.service.php";
+	this.ServicePath = settings.servicesPath + "profile.service.php";
 	this.Template = "userdata";
 	this.ClassName = "Profile";	// Optimize?
 };
@@ -24,8 +27,8 @@ Profile.prototype.Bind = function() {
 	this.BaseBind();
 
 	/* Bind images */
-	displayElement(this.inputs["liDeletePhoto"], this.PHOTO);
-	displayElement(this.inputs["liDeleteAvatar"], this.AVATAR);
+ utils.displayElement(this.inputs["liDeletePhoto"], this.PHOTO);
+ utils.displayElement(this.inputs["liDeleteAvatar"], this.AVATAR);
 
 	this.BindImage(this.Photo1);
 	this.BindImage(this.Avatar1);
@@ -202,7 +205,7 @@ function restoreInput(el, relatedBlockId) {
 		tab.Profile.DisplayTabElement(relatedBlockId, el.value);
 	}
 	if (!el.value) {
-		el.value = empty_pass;
+		el.value = emptyPass;
 	}
 };
 

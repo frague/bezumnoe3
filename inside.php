@@ -113,16 +113,10 @@
     </div>
 
     <!-- inject:js -->
-    <script src="/scripts/vendor.js"></script>
-    <script src="/scripts/custom.js"></script>
+    <script src="/scripts/build.js"></script>
     <!-- endinject -->
     <script>
-      // CurrentRoomId = '<?php echo $user->User->RoomId ?>';
-      // Session = '<?php echo $user->User->Session ?>';
-      // SessionCheck = '<?php echo $user->User->SessionCheck ?>';
-      // SessionKey = '<?php echo SESSION_KEY ?>';
-
-      initLayout(pages.inside, {
+      initLayout({
         currentRoomId: <?php print $user->User->RoomId ?>,
         session: '<?php print $user->User->Session ?>',
         sessionCheck: '<?php print $user->User->SessionCheck ?>',

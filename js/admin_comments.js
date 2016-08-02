@@ -1,3 +1,5 @@
+import {settings} from './settings';
+
 /*
   List of admin comments to user (ban, rights changes etc.)
 */
@@ -6,7 +8,7 @@ class AdminComments extends PagedGrid {
   constructor() {
     super();
     this.fields = ["ADMIN_COMMENT", "DATE", "SEARCH", "SEVERITY_NORMAL", "SEVERITY_WARNING", "SEVERITY_ERROR"];
-    this.ServicePath = servicesPath + "admin.comments.service.php";
+    this.ServicePath = settings.servicesPath + "admin.comments.service.php";
     this.ClassName = "AdminComments";
     this.Template = "admin_comments";
     this.GridId = "AdminCommentsGrid";

@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Create/edit blog post in separate tab.
 */
@@ -7,7 +10,7 @@ class JournalPost extends OptionsBase {
     super();
     this.fields = new Array("RECORD_ID", "TITLE", "CONTENT", "DATE", "TYPE", "IS_COMMENTABLE", "FORUM_ID");
     this.defaultValues = ["-1", "", "", new Date().ToString(true), "0", "1", ""];
-    this.ServicePath = servicesPath + "journal.post.service.php";
+    this.ServicePath = settings.servicesPath + "journal.post.service.php";
     this.ClassName = "JournalPost";
     this.Template = "journal_post";
 
@@ -95,7 +98,7 @@ class JournalPost extends OptionsBase {
     }
 
     // Radios group rename
-    RenameRadioGroup(this.Inputs["TYPE"]);
+    utils.renameRadioGroup(this.Inputs["TYPE"]);
 
     // DatePicker
     this.Inputs["DATE"].value = new Date().ToString(1);

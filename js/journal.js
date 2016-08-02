@@ -1,3 +1,5 @@
+import {settings} from './settings';
+
 /*
   Journal functionality: Blog templates, messages, settings
 */
@@ -17,7 +19,7 @@ class Journal extends OptionsBase {
   constructor() {
     super();
     this.fields = [];
-    this.ServicePath = servicesPath + "journal.service.php";
+    this.ServicePath = settings.servicesPath + "journal.service.php";
     this.Template = "journal";
     this.ClassName = "Journal";
     this.Forum = "";

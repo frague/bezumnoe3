@@ -1,3 +1,5 @@
+import {utils} from './utils';
+
 /*
   Opens pop-up wakeup windows with messages.
 */
@@ -59,9 +61,9 @@ function PrintWakeups() {
     if (ReceivedWakeups > 0) {
       WakeupsHolder.innerHTML = "<h3>Вейкапы  <span class='Count'>(" + ReceivedWakeups + ")</span>:</h3>";
       wakeups.ToString(WakeupsHolder);
-      displayElement(WakeupsHolder, true);
+      utils.displayElement(WakeupsHolder, true);
     } else {
-      displayElement(WakeupsHolder, false);
+      utils.displayElement(WakeupsHolder, false);
     }
   }
 };

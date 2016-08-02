@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Special statuses management
 */
@@ -6,7 +9,7 @@ class Statuses extends EditableGrid {
   constructor() {
     super();
     this.fields = ["STATUS_ID", "RIGHTS", "COLOR", "TITLE"];
-    this.ServicePath = servicesPath + "statuses.service.php";
+    this.ServicePath = settings.servicesPath + "statuses.service.php";
     this.Template = "statuses";
     this.ClassName = "Statuses";
     this.GridId = "StatusesGrid";
@@ -48,13 +51,13 @@ class sdto extends EditableDTO {
 
     var td2 = document.createElement("td");
         td2.colSpan = 2;
-        var div = MakeDiv("&nbsp;");
+        var div = utils.makeDiv("&nbsp;");
         div.className = "StatusColor";
         div.style.backgroundColor = this.Color;
         td2.appendChild(div);
-        td2.appendChild(MakeDiv(this.Title));
+        td2.appendChild(utils.makeDiv(this.Title));
     tr.appendChild(td2);
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 
@@ -85,7 +88,7 @@ class sdto extends EditableDTO {
       this.TitleInput.className = "Wide";
       td22.appendChild(this.TitleInput);
     tr.appendChild(td22);
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 }

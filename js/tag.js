@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   Forum records tags (labels)
 */
@@ -9,7 +12,7 @@ class Tags extends OptionsBase {
   constructor() {
     super();
     this.fields = [];
-    this.ServicePath = servicesPath + "tags.service.php";
+    this.ServicePath = settings.servicesPath + "tags.service.php";
     this.Template = "tags";
     this.ClassName = "Tags";
 
@@ -62,7 +65,7 @@ class Tags extends OptionsBase {
 
     // Validation
     this.Tab.Validators = new ValidatorsCollection();
-    this.Tab.Validators.Add(new Validator(this.Inputs["SEARCH_TAG"], new MatchPattern(tagPattern), "Тег содержит запрешённые символы&nbsp;(разрешено a-z а-я 0-9 -_)", Random(10000)));
+    this.Tab.Validators.Add(new Validator(this.Inputs["SEARCH_TAG"], new MatchPattern(tagPattern), "Тег содержит запрешённые символы&nbsp;(разрешено a-z а-я 0-9 -_)", utils.random(10000)));
     this.Tab.Validators.Init(this.Inputs["Errors"]);
 
     var req = new DelayedRequestor(this, this.Inputs["SEARCH_TAG"]);
@@ -122,7 +125,7 @@ class tagdto extends DTO {
   ToString(holder, index) {
     holder.appendChild(d.createTextNode((index ? ", " : "") + this.Id));
     var a = document.createElement("a");
-    a.href = voidLink;
+    a.href = settings.voidLink;
     a.className = "CloseSign Small";
     a.obj = this;
     a.onclick = function(){this.obj.obj.DT(this.obj.Id)};

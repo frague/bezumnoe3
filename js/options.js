@@ -1,3 +1,5 @@
+import {utils} from './utils';
+
 /*
   User options UI and helper methods
 */
@@ -61,7 +63,7 @@ export class OptionsBase {
         return s.add(name, el.checked ? 1 : 0).build();
       }
       if (el.className == "Radios") {
-        var value = GetRadioValue(el);
+        var value = utils.getRadioValue(el);
         this[prop] = value;
         return s.add(name, value).build();
       }
@@ -133,7 +135,7 @@ export class OptionsBase {
 
   FindRelatedControls(force) {
     if ((force || !this.inputs) && this.Tab) {
-      this.inputs = IndexElementChildElements(this.Tab.RelatedDiv);
+      this.inputs = utils.indexElementChilds(this.Tab.RelatedDiv);
     }
   }
 
@@ -191,7 +193,7 @@ export class OptionsBase {
       }
 
       if (el.className == "Radios") {
-        SetRadioValue(el, value);
+        utils.setRadioValue(el, value);
       } else {
         el.innerHTML = value;
       }
@@ -201,7 +203,7 @@ export class OptionsBase {
   DisplayTabElement(element, state) {
     var el = this.inputs[element];
     if (el) {
-      displayElement(el, state);
+      utils.displayElement(el, state);
     }
   }
 

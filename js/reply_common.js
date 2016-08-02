@@ -1,3 +1,5 @@
+import {settings} from './settings';
+
 var hiderElement, replyFormElement;
 var isVisible = 0, lastLink;
 var replyErrorElement, replyTitleElement, replyContentElement, replyIsProtected;
@@ -204,7 +206,7 @@ function AddMessage(lnk) {
         params+= MakeParametersPair("CONTENT", replyContentElement.val());
         params+= MakeParametersPair("IS_PROTECTED", replyIsProtected.is('checked') ? 1 : 0);
 
-        sendRequest(servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
+        sendRequest settings.servicesPath + "forum.service.php", ForumMessageAddCallback, params, lastLink);
     }
 };
 
@@ -243,7 +245,7 @@ function ForumDelete(a, id, forum_id) {
     params+= MakeParametersPair("FORUM_ID", forum_id);
     params+= MakeParametersPair("go", "delete");
 
-    sendRequest(servicesPath + "forum.service.php", ForumMessageDelCallback, params, a);
+    sendRequest settings.servicesPath + "forum.service.php", ForumMessageDelCallback, params, a);
 }
 
 // Deletion callback

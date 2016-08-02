@@ -182,8 +182,7 @@
         </div>
     </div>
     <!-- inject:js -->
-    <script src="/scripts/vendor.js"></script>
-    <script src="/scripts/custom.js"></script>
+    <script src="/scripts/build.js"></script>
     <!-- endinject -->
 <?php
 

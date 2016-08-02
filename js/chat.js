@@ -1,15 +1,22 @@
 import $ from 'jquery';
+import {utils} from './utils';
+import {settings} from './settings';
+import {Collection} from './collection';
+import {Confirm} from './confirm';
+import {getCookie} from './cookie_helper';
+import {ParamsBuilder} from './string_helper';
 
-class Chat {
+export class Chat {
   constructor(tabs) {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
     this.me = null;
+    this.options = {};
 
     this.PongImg = $("#pong")[0];
     this.pongImage = new Image();
-    this.pongImage.src = imagesPath + 'pong.gif';
+    this.pongImage.src = settings.imagesPath + 'pong.gif';
 
     this.lastMessageId = null;
     this.newRoomId = 0;
@@ -96,7 +103,7 @@ class Chat {
     if (!this.newRoomTab && this.me && this.me.Rights >= 11) { // Allowed to create rooms
       this.MakeNewRoomSpoiler(container);
     }
-    displayElement(container, this.rooms.Count() < 10);
+    utils.displayElement(container, this.rooms.Count() < 10);
     this.UpdateTopic();
   };
 
@@ -219,7 +226,7 @@ class Chat {
 
   IG(id, state) {
     var s = new ParamsBuilder().add('user_id', id).add('state', state);
-    $.post(servicesPath + 'ignore.service.php', s.build())
+    $.post(settings.servicesPath + 'ignore.service.php', s.build())
       .then(() => this.Ignored);
   };
 
@@ -237,7 +244,7 @@ class Chat {
   // Grant room access
   AG(id, state) {
     var s = ParamsBuilder().add('user_id', id).add('state', state);
-    $.get(servicesPath + 'room_user.service.php', s.build());
+    $.get(settings.servicesPath + 'room_user.service.php', s.build());
   };
 
   /* Pong: Messages, Rooms, Users, Topic */
@@ -336,7 +343,7 @@ class Chat {
         this.newRoomId = null;
       };
 
-      $.post(servicesPath + 'pong.service.php', s.build())
+      $.post(settings.servicesPath + 'pong.service.php', s.build())
         .then((response) => this.pong(response));
 
       this.requestSent = true;
@@ -372,7 +379,7 @@ class Chat {
       .add('type', this.messageType)
       .add('recepients', recepients);
 
-    $.post(servicesPath + 'message.service.php', s.build())
+    $.post(settings.servicesPath + 'message.service.php', s.build())
       .then(() => this.received);
 
     if (!tabs.current.IsPrivate) {

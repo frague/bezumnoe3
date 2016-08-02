@@ -1,4 +1,5 @@
-//5.4
+import {utils} from './utils';
+
 /*
   Represents user entity on client-side.
 */
@@ -158,7 +159,7 @@ function Show(id) {
       return;
     }
   }
-  displayElement(id, true);
+  utils.displayElement(id, true);
   shownElement = id;
 };
 
@@ -167,6 +168,6 @@ function Hide() {
 };
 
 function HideDelayed() {
-  displayElement(shownElement, false);
+  utils.displayElement(shownElement, false);
   shownElement = '';
 };

@@ -1,3 +1,6 @@
+import {utils} from './utils';
+import {settings} from './settings';
+
 /*
   OpenIDs associated with this user
 */
@@ -9,7 +12,7 @@ class OpenIds extends EditableGrid {
     super();
 
     this.fields = ["USER_OPENID_ID", "OPENID_PROVIDER_ID", "LOGIN"];
-    this.ServicePath = servicesPath + "openids.service.php";
+    this.ServicePath = settings.servicesPath + "openids.service.php";
     this.Template = "openids";
     this.ClassName = "OpenId";
     this.GridId = "OpenIdsGrid";
@@ -59,7 +62,7 @@ class oidto extends EditableDTO {
     td2.innerHTML = this.Login;
     tr.appendChild(td2);
 
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 
@@ -86,7 +89,7 @@ class oidto extends EditableDTO {
     td2.appendChild(this.LoginInput);
     tr.appendChild(td2);
 
-    tr.appendChild(this.MakeButtonsCell());
+    tr.appendChild(this.utils.makeButtonsCell());
     return tr;
   }
 }

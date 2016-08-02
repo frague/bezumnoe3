@@ -24,7 +24,7 @@ class Pager {
       page = document.createElement("span");
     } else {
       page = document.createElement("a");
-      page.href = voidLink;
+      page.href = settings.voidLink;
       page.Pager = this;
       page.onclick = function(){this.Pager.SwitchTo(this)};
     }

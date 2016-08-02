@@ -1,3 +1,5 @@
+import {settings} from './settings';
+
 /*
   Represents settings entity on client-side.
 */
@@ -16,7 +18,7 @@ class Settings extends OptionsBase {
     this.Font = font;
 
     this.fields = new Array("LOGIN", "STATUS", "IGNORE_COLORS", "IGNORE_FONT_SIZE", "IGNORE_FONTS", "IGNORE_FONT_STYLE", "RECEIVE_WAKEUPS", "FRAMESET", "ENTER_MESSAGE", "QUIT_MESSAGE", "FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED");
-    this.ServicePath = servicesPath + "settings.service.php";
+    this.ServicePath = settings.servicesPath + "settings.service.php";
     this.Template = "usersettings";
     this.ClassName = "Settings";
   };

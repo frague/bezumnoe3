@@ -1,7 +1,7 @@
-var container = new MyFrame($("#WakeupContainer")[0], 400);
+var container = new FlexFrame($("#WakeupContainer")[0], 400);
 var replyDiv = $("#WakeupReply")[0];
-var reply = new MyFrame(replyDiv, 400);
-var winSize = new MyFrame(window);
+var reply = new FlexFrame(replyDiv, 400);
+var winSize = new FlexFrame(window);
 var replyFormHeight = 75;
 var offset = 0;
 var inputReply = $("#reply")[0];
