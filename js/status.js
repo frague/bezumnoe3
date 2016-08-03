@@ -14,9 +14,9 @@ class Status {
   }
 
   CheckSum() {
-    var cs = CheckSum(this.Rights);
-    cs += CheckSum(this.Title);
-    cs += CheckSum(this.Color);
+    var cs  = this.checkSum(this.Rights);
+    cs + = this.checkSum(this.Title);
+    cs + = this.checkSum(this.Color);
 
     return cs;
   }

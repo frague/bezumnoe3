@@ -19,20 +19,18 @@ export var pages = {
       ['#Status', 660],
       '#AlertContainer'
     ],
-    onResize: function() {
+    onResize() {
       this.frames[5].Replace(-1, -1, this.winSize.width, this.winSize.height);
       // layoutConfigs[configIndex].call(this);
       $('body').removeClass().addClass('Layout' + configIndex);
     },
-    onLoad: function() {
+    onLoad() {
       this.tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
       var chatTab = new Tab(1, "Чат", true);
       this.tabs.Add(chatTab);
       chatTab.switchTo();
       this.tabs.main = chatTab;
-
-      window.chat = new Chat(this.tabs);
-      window.chat.options = this.options;
+      window.chat = new Chat(this.tabs, this);
     }
   },
   info: {
@@ -125,12 +123,12 @@ export var pages = {
 export function initLayout(layout, container, options = {}) {
   var context = {
     winSize: new FlexFrame(container || window),
-    frames: layout.containers.map(function(params) {
+    frames: layout.containers.map((params) => {
       params = _.flatten([params, null, null]);
       return new FlexFrame($(params[0])[0], params[1], params[2]);
     })
   };
-  var onResize = function() {
+  var onResize = () => {
     context.winSize.GetPosAndSize();
     layout.onResize.call(context);
   };

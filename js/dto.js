@@ -4,7 +4,7 @@ import {utils} from './utils';
   Data Transfer Objects
 */
 
-class DTO {
+export class DTO {
   constructor() {
   };
 
@@ -27,7 +27,7 @@ class DTO {
 
 /* Editable DTO */
 
-class EditableDTO extends DTO {
+export class EditableDTO extends DTO {
   constructor() {
     super(arguments)
     this.EditView = false;
@@ -88,7 +88,7 @@ class EditableDTO extends DTO {
     }
   }
 
-  utils.makeButtonsCell(hideEdit) {
+  makeButtonsCell(hideEdit) {
     var td = document.createElement("td");
     td.className = "Middle Centered";
     if (this.EditView) {

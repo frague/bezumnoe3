@@ -58,12 +58,12 @@ class Font extends OptionsBase {
   }
 
   CheckSum() {
-    var cs = CheckSum(this.Color);
-    cs+= CheckSum(this.Size);
-    cs+= CheckSum(this.Face);
-    cs+= CheckSum(this.IsBold);
-    cs+= CheckSum(this.IsItalic);
-    cs+= CheckSum(this.IsUnderlined);
+    var cs  = this.checkSum(this.Color);
+    cs+ = this.checkSum(this.Size);
+    cs+ = this.checkSum(this.Face);
+    cs+ = this.checkSum(this.IsBold);
+    cs+ = this.checkSum(this.IsItalic);
+    cs+ = this.checkSum(this.IsUnderlined);
     return cs;
   }
 }

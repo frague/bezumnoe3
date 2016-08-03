@@ -72,7 +72,7 @@ class udto extends DTO {
     var name = this.MakeTitle();
     td1.appendChild(umDisplayName(this, name, td1, obj));
     tr.appendChild(td1);
-    if (me.IsAdmin()) {
+    if (me.isAdmin()) {
       td2 = document.createElement("td");
       cb = createBitInput("usr" + this.Id, 0);
       td2.appendChild(cb);
@@ -131,7 +131,7 @@ function ShowUserMenu(a, id, login, container, obj) {
   userMenu.Link = a;
   
   var tr = document.createElement("tr");
-  if (me.IsAdmin()) {
+  if (me.isAdmin()) {
     umExtraButtons(tr, id, login, obj);
   };
   userMenu.appendChild(tr);

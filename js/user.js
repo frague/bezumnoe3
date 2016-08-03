@@ -1,13 +1,14 @@
 import {utils} from './utils';
+import {settings} from './settings';
+import {Entity} from './entity';
 
 /*
   Represents user entity on client-side.
 */
 
-var IsIgnoredDefault = "", IgnoresYouDefault = "";
-
-class User {
+export class User extends Entity {
   constructor(id, login, room_id, room_is_permitted, ip, away_message, ban_reason, banned_by, nickname, settings, rights, status_title, status_color, is_ignored, ignores_you) {
+    super();
 
     this.Id = id;
     this.Login = login;
@@ -33,29 +34,16 @@ class User {
   }
 
   CheckSum() {
-    var cs = 0;
-    cs += CheckSum(this.RoomId);
-    cs += CheckSum(this.RoomIsPermitted);
-
-    cs += CheckSum(this.AwayMessage);
-
-    cs += CheckSum(this.BanReason);
-    cs += CheckSum(this.BannedBy);
-
+    var cs = _.sum(_.invoke([
+      this.RoomId, this.RoomIsPermitted, this.AwayMessage, this.BanReason,
+      this.BannedBy, this.Nickname, this.Rights, this.StatusTitle, this.StatusColor
+    ], this.checkSum));
     cs += this.Settings.CheckSum();
-
-    cs += CheckSum(this.Nickname);
-
-    cs += CheckSum(this.Rights);
-    cs += CheckSum(this.StatusTitle);
-    cs += CheckSum(this.StatusColor);
-
     cs += "" + this.IsIgnored + "" + this.IgnoresYou;
-
     return cs;
   }
 
-  IsAdmin() {
+  isAdmin() {
     return this.Rights >= adminRights;
   }
 
@@ -70,28 +58,28 @@ class User {
       s = this.NameToString(name, has_access);
 
     s += '<div class="UserInfo" style="display:none" onmouseover="Show(this);" onclick="HideDelayed();" onmouseout="Hide();" id="_' + this.Id + '">';
-    s += '<ul><li> <a ' + voidHref + ' class="Close">x</a><a ' + voidHref + ' onclick="Info(' + this.Id + ')">Инфо</a>';
+    s += '<ul><li> <a ' + settings.voidHref + ' class="Close">x</a><a ' + settings.voidHref + ' onclick="Info(' + this.Id + ')">Инфо</a>';
 
     if (this.Id != me.Id && me.RoomId == this.RoomId) {
       if (!has_access && me.RoomIsPermitted == 1 && this.RoomIsPermitted == 0) {
-        s += '<li class="Grant"> <a ' + voidHref + ' onclick="AG(' + this.Id + ',1)">Впустить</a>';
+        s += '<li class="Grant"> <a ' + settings.voidHref + ' onclick="AG(' + this.Id + ',1)">Впустить</a>';
       } else if (room.OwnerId == me.Id && this.Id != room.OwnerId) {
-        s += '<li class="Deny"> <a ' + voidHref + ' onclick="AG(' + this.Id + ',0)">Закрыть доступ</a>';
+        s += '<li class="Deny"> <a ' + settings.voidHref + ' onclick="AG(' + this.Id + ',0)">Закрыть доступ</a>';
       }
     }
 
-    s += '<li> <a ' + voidHref + ' onclick="_(\'' + qname + '\')">Обратиться</a>';
-    s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\')">Шёпотом</a>';
-    s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'wakeup\')">Вейкап</a>';
+    s += '<li> <a ' + settings.voidHref + ' onclick="_(\'' + qname + '\')">Обратиться</a>';
+    s += '<li> <a ' + settings.voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\')">Шёпотом</a>';
+    s += '<li> <a ' + settings.voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'wakeup\')">Вейкап</a>';
     if (!me || this.Id != me.Id) {
-      s += '<li> <a ' + voidHref + ' onclick="IG(' + this.Id + ',\'' + this.IsIgnored + '\')">' + (this.IsIgnored ? 'Убрать игнор' : 'В игнор') + '</a>';
+      s += '<li> <a ' + settings.voidHref + ' onclick="IG(' + this.Id + ',\'' + this.IsIgnored + '\')">' + (this.IsIgnored ? 'Убрать игнор' : 'В игнор') + '</a>';
     }
     if (me && me.Rights >= this.Rights) {
-      if (me.IsAdmin() || me.Rights == keeperRights) {
-        s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Выгнать</a>';
+      if (me.isAdmin() || me.Rights == keeperRights) {
+        s += '<li> <a ' + settings.voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Выгнать</a>';
       }
-      if ((me.IsAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.isSuperAdmin()) {
-        s += '<li> <a ' + voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Забанить</a>';
+      if ((me.isAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.isSuperAdmin()) {
+        s += '<li> <a ' + settings.voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Забанить</a>';
         if (this.Login) {
           s += '<li class="Overlined"><span>' + this.Login + '</span>';
           if (this.SessionAddress) {
@@ -127,7 +115,7 @@ class User {
 
     var title = HtmlQuotes(name) + (this.AwayMessage ? " отсутствует  &laquo;" + this.AwayMessage + "&raquo;" : "");
 
-    var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + voidHref + ' onclick="switchVisibility(\'_' + this.Id + '\')" ';
+    var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + settings.voidHref + ' onclick="switchVisibility(\'_' + this.Id + '\')" ';
     s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';
     return s;
   }

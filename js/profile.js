@@ -134,7 +134,7 @@ Profile.prototype.TemplateLoaded = function(req) {
 	oid.ToString(this.inputs["OpenIds"]);
 
 	/* Admin comments spoiler */
-	if (me.IsAdmin()) {
+	if (me.isAdmin()) {
 		var acs = new Spoiler(2, "Комментарии администраторов	&	логи", 0, 0, function(tab) {new AdminComments().loadTemplate(tab, this.USER_ID)});
 		acs.USER_ID = this.USER_ID;
 		acs.ToString(this.inputs["AdminComments"]);

@@ -259,5 +259,51 @@ export var utils = {
     if (dropDownList && opener && opener.rooms) {
       opener.rooms.Gather(dropDownList);
     }
+  }, 
+
+  twoDigits(d) {
+    return d > 9 ? d : '0' + d;
+  },
+
+  stripTags(text) {
+    return text.replace(/\<[\/]{0,1}[a-z]+[^\>]*\>/ig, "");
+  },
+
+  htmlQuotes(text) {
+    return text.replace(/"/g, "&quot;");
+  },
+
+  strongHtmlQuotes(text) {
+    text = text.replace(/&/g, "&amp;");
+    text = this.htmlQuotes(text);
+    text = text.replace(/</g, "&lt;");
+    text = text.replace(/>/g, "&gt;");
+    text = text.replace(/"/g, "&quot;");
+    return text;
+  },
+
+  quotes(text) {
+    return text.replace(/'/g, "\\'").replace(/"/g, "&amp;quot;");
+  },
+
+  slash(text) {
+    return text.replace(/(['"<>])/g, "\\$1");
+  }
+}
+
+export class ParamsBuilder {
+  constructor(prefix) {
+    this.prefix = _.isUndefined(prefix) ? '' : prefix + '&';
+    this.params = {};
+    return this;
+  }
+
+  add(name, value) {
+    this.params[name] = value;
+    return this;
+  }
+
+  build() {
+    return this.prefix + $.param(this.params) + '&';
   }
 }

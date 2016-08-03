@@ -24,13 +24,13 @@ class Settings extends OptionsBase {
   };
 
   CheckSum() {
-    var cs = CheckSum(this.Status);
-    cs += CheckSum(this.IgnoreColors);
-    cs += CheckSum(this.IgnoreSizes);
-    cs += CheckSum(this.IgnoreFonts);
-    cs += CheckSum(this.IgnoreStyles);
-    cs += CheckSum(this.ReceiveWakeups);
-    cs += CheckSum(this.Frameset);
+    var cs  = this.checkSum(this.Status);
+    cs + = this.checkSum(this.IgnoreColors);
+    cs + = this.checkSum(this.IgnoreSizes);
+    cs + = this.checkSum(this.IgnoreFonts);
+    cs + = this.checkSum(this.IgnoreStyles);
+    cs + = this.checkSum(this.ReceiveWakeups);
+    cs + = this.checkSum(this.Frameset);
 
     if (this.Font && this.Font.CheckSum) {
       cs += this.Font.CheckSum();

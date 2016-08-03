@@ -1,12 +1,17 @@
+import _ from 'lodash';
 import {utils} from './utils';
 import {settings} from './settings';
+import {Entity} from './entity';
+import {OptionsBase} from './options';
+import {EditableDTO} from './dto';
 
 /*
   Represents room entity on client-side.
 */
 
-class Room {
+export class Room extends Entity {
   constructor(id, title, topic, topic_lock, topic_author_id, topic_author_name, is_locked, is_by_invitation, owner_id) {
+    super();
 
     this.Id = id;
     this.Title = title;
@@ -30,7 +35,7 @@ class Room {
     if (this.isCurrent) {
       s += "<strong class='" + this.MakeCSS() + "' title='" + this.Title + "'>" + title + "</strong>";
     } else {
-      s += "<a " + voidHref + " onclick=\"ChangeRoom('" + this.Id + "')\" class='" + this.MakeCSS() + "' title='" + this.Title + "'>" + title + "</a>";
+      s += "<a " + settings.voidHref + " onclick=\"ChangeRoom('" + this.Id + "')\" class='" + this.MakeCSS() + "' title='" + this.Title + "'>" + title + "</a>";
     }
 
     var inside = 0;
@@ -79,15 +84,10 @@ class Room {
   }
 
   CheckSum() {
-    var cs = CheckSum(this.OwnerId);
-    cs+= CheckSum(this.Title);
-    cs+= CheckSum(this.Topic);
-    cs+= CheckSum(this.TopicLock);
-    cs+= CheckSum(this.TopicAuthorId);
-    cs+= CheckSum(this.IsLocked);
-    cs+= CheckSum(this.IsInvitationRequired);
-    //DebugLine("Room: " + this.Id + " sum: "+cs);
-    return cs;
+    return _.sum(_.invoke([
+      this.OwnerId, this.Title, this.Topic, this.TopicLock, this.TopicAuthorId,
+      this.IsLocked, this.IsInvitationRequired,
+    ], this.checkSum));
   }
 }
   /* Room DTO class */
@@ -152,9 +152,10 @@ function AddRoom(a) {
 
 /* Room Data Transfer Object */
 
-function rdto(id, title, is_deleted, is_locked) {
-  this.fields = ["Id", "Title", "IsDeleted", "IsLocked", "IsInvitationRequired"];
-  this.Init(arguments);
-};
-
-rdto.prototype = new EditableDTO();
+class rdto extends EditableDTO {
+  constructor(id, title, is_deleted, is_locked) {
+    super(arguments);
+    this.fields = ["Id", "Title", "IsDeleted", "IsLocked", "IsInvitationRequired"];
+    this.Init(arguments);
+  }
+}

@@ -1,18 +1,20 @@
 import $ from 'jquery';
-import {utils} from './utils';
+import {ParamsBuilder, utils} from './utils';
 import {settings} from './settings';
 import {Collection} from './collection';
 import {Confirm} from './confirm';
 import {getCookie} from './cookie_helper';
-import {ParamsBuilder} from './string_helper';
+import {WakeupsCollection} from './wakeups_collection';
+import {User} from './user';
+import {Room} from './room';
 
 export class Chat {
-  constructor(tabs) {
+  constructor(tabs, options) {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
     this.me = null;
-    this.options = {};
+    this.options = options;
 
     this.PongImg = $("#pong")[0];
     this.pongImage = new Image();
@@ -29,6 +31,7 @@ export class Chat {
 
     this.users = new Collection();
     this.rooms = new Collection();
+    this.wakeups = new WakeupsCollection();
   
     this.tiomeoutTimer;
     this.busy = false;
@@ -255,13 +258,12 @@ export class Chat {
     clearTimeout(this.tiomeoutTimer);
     this.PongImg.src = this.pongImage.src;
 
-    wakeups.Clear();
+    this.wakeups.Clear();
 
     _.each(
       _.get(responseText, 'users', []), 
       (userData) => {
         let user = new User(...userData);
-        console.log(user);
         this.users.Add(user);
       }
     );
@@ -269,7 +271,7 @@ export class Chat {
     _.each(
       _.get(responseText, 'rooms', []),
       (roomData) => {
-        let room = new Room(...roomData);
+        var room = new Room(...roomData);
         if (room.Id === this.options.currentRoomId) {
           room.Enter();
         }
@@ -288,7 +290,7 @@ export class Chat {
     // } catch (e) {
     // }
 
-    PrintWakeups();
+    this.wakeups.render();
 
     if (this.me && this.me.Settings.Frameset != configIndex) {
       configIndex = this.me.Settings.Frameset;
@@ -321,17 +323,13 @@ export class Chat {
       /* Rooms */
       _.each(
         this.rooms.Base,
-        function(room, id) {
-          s.add('r' + id, room.CheckSum());
-        }
+        (room, id) => s.add('r' + id, room.CheckSum())
       );
 
       /* Users */
       _.each(
         this.users.Base,
-        function(user, id) {
-          s.add('u' + id, user.CheckSum());
-        }
+        (user, id) => s.add('u' + id, user.CheckSum())
       );
 
       /* Messages */

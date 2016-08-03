@@ -31,7 +31,7 @@ class JournalSettings extends OptionsBase {
 
     this.TemplateBaseLoaded(req);
 
-    if (!me.IsAdmin()) {
+    if (!me.isAdmin()) {
       this.SetTabElementValue("IsHidden", "");
     };
 
