@@ -5,7 +5,7 @@ Handles window resize and update object's properties correspondingly
 
 */
 export class FlexFrame {
-  constructor(obj = {}, minWidth, minHeight) {
+  constructor(obj = window, minWidth, minHeight) {
     this.x = 0;
     this.y = 0;
     this.width = 0;
@@ -14,12 +14,12 @@ export class FlexFrame {
     this.element = obj;
     this.minWidth = minWidth ? parseInt(minWidth) : 0;
     this.minHeight = minHeight ? parseInt(minHeight) : 0;
-    this.GetPosAndSize();
-  };
+    this.getPositionAndSize();
+  }
 
-  GetPosAndSize() {
+  getPositionAndSize() {
     if (this.element === window) {
-      return this.GetWindowSize();
+      return this.getWindowSize();
     }
 
     this.width = parseInt(this.element.clientWidth);
@@ -37,7 +37,7 @@ export class FlexFrame {
     }
   }
 
-  GetWindowSize() {
+  getWindowSize() {
     this.x = 0;
     this.y = 0;
 
@@ -55,10 +55,10 @@ export class FlexFrame {
     if (navigator.appVersion.indexOf("Chrome") > 0) {
       this.height -= 24;
     }
-  };
+  }
 
   Replace(x, y, w, h) {
-    if (this.element == window || !this.element.style) {
+    if (this.element === window || !this.element.style) {
       return;
     }
 
@@ -80,10 +80,10 @@ export class FlexFrame {
       }
       this.element.style.height = h + 'px';
     }
-    this.GetPosAndSize();
-  };
+    this.getPositionAndSize();
+  }
 
-  Info() {
+  info() {
     var s = 'x=' + this.x + ', ';
     s += 'y='+ this.y + ', ';
     s += 'width='+ this.width + ', ';

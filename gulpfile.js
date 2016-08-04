@@ -136,7 +136,7 @@ function compile(watch) {
 
   if (watch) {
       bundler.on('update', function () {
-        console.log('-> bundling...');
+        console.log(new Date(), '-> bundling...');
         rebundle();
     });
 

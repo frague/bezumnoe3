@@ -1,10 +1,9 @@
-//6.0
 /*
     Contains all global script settings, constants, variables and common methods
 */
 
 export var settings = {
-  SESSION_KEY: "sdjfhk_session",
+  SESSION_KEY: 'sdjfhk_session',
 
   debug: 0,
 

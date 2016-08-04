@@ -100,7 +100,7 @@ export class Chat {
   };
 
   PrintRooms() {
-    $('#UsersContainer').html(this.rooms.ToString());
+    this.rooms.render($('#UsersContainer')[0], this.users);
 
     var container = $("#NewRoom")[0];
     if (!this.newRoomTab && this.me && this.me.Rights >= 11) { // Allowed to create rooms

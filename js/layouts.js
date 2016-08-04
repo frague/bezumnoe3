@@ -4,6 +4,7 @@ import {Confirm} from './confirm';
 import {FlexFrame} from './flex_frame';
 import {Tabs, Tab} from './tabs';
 import {Chat} from './chat';
+import {layoutConfigs} from './chat_layout';
 
 var frames;
 var configIndex = 0;
@@ -21,7 +22,7 @@ export var pages = {
     ],
     onResize() {
       this.frames[5].Replace(-1, -1, this.winSize.width, this.winSize.height);
-      // layoutConfigs[configIndex].call(this);
+      layoutConfigs[configIndex].call(this);
       $('body').removeClass().addClass('Layout' + configIndex);
     },
     onLoad() {
@@ -129,7 +130,7 @@ export function initLayout(layout, container, options = {}) {
     })
   };
   var onResize = () => {
-    context.winSize.GetPosAndSize();
+    context.winSize.getPositionAndSize();
     layout.onResize.call(context);
   };
 

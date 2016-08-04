@@ -4,63 +4,64 @@ import {utils} from './utils';
     Validation of controls against rules given.
 */
 
-
-function ValidatorsCollection() {
+class ValidatorsCollection {
+  constructor() {
+    super();
     this.Clear();
-};
+  }
 
-ValidatorsCollection.prototype = new Collection();
-
-ValidatorsCollection.prototype.Init = function(summary_control, summary_text) {
+  Init(summary_control, summary_text) {
     this.Summary = $(getElement(summary_control))[0];
     this.SummaryText = summary_text ? "<h2>" + summary_text + "</h2>" : "";
     this.InitSummary();
 
     for (var id in this.Base) {
-        if (id && this.Base[id].Init) {
-            this.Base[id].Init();
-        }
+      if (id && this.Base[id].Init) {
+        this.Base[id].Init();
+      }
     }
-};
+  }
 
-ValidatorsCollection.prototype.InitSummary = function() {
+  InitSummary() {
     if (this.Summary) {
-        this.Summary.innerHTML = this.SummaryText;
-        doHide(this.Summary);
+      this.Summary.innerHTML = this.SummaryText;
+      doHide(this.Summary);
     }
-};
+  }
 
-ValidatorsCollection.prototype.ShowSummary = function(errors) {
+  ShowSummary(errors) {
     if (this.Summary && errors && errors.length) {
-        this.Summary.innerHTML = this.SummaryText + "<li> " + errors.join("<li> ");
-        doShow(this.Summary);
+      this.Summary.innerHTML = this.SummaryText + "<li> " + errors.join("<li> ");
+      doShow(this.Summary);
     }
-};
+  }
 
-ValidatorsCollection.prototype.AreValid = function() {
+  AreValid() {
     this.InitSummary();
 
     var result = true;
     for (var id in this.Base) {
-        if (id && this.Base[id].Validate) {
-            if (!this.Base[id].Validate(this.Summary)) {
-                result = false;
-            }
+      if (id && this.Base[id].Validate) {
+        if (!this.Base[id].Validate(this.Summary)) {
+          result = false;
         }
+      }
     }
     return result;
-};
+  }
+}
 
 var PageValidators = new ValidatorsCollection();
 
 function ValueHasChanged() {
-    return PageValidators.AreValid();
+  return PageValidators.AreValid();
 };
 
 
 /* --------------- Single Validator --------------- */
 
-function Validator(control, rule, message, summarize, on_the_fly) {
+class Validator {
+  constructor(control, rule, message, summarize, on_the_fly) {
     this.Control = $(getElement(control))[0];
     this.Rule = rule;
     this.Message = message;
@@ -69,90 +70,93 @@ function Validator(control, rule, message, summarize, on_the_fly) {
 
     this.Id = utils.random(1000, true);
     this.Enabled = true;
-};
+  }
 
-Validator.prototype.Init = function() {
+  Init() {
     if (this.OnTheFly) {
-        this.Control.onchange = ValueHasChanged;
+      this.Control.onchange = ValueHasChanged;
     }
 
     this.ErrorContainer = document.createElement("div");
     if (!this.ShowInSummary) {
-        this.Display(false);
-        this.ErrorContainer.innerHTML = this.Message;
+      this.Display(false);
+      this.ErrorContainer.innerHTML = this.Message;
 
-        insertAfter(this.ErrorContainer, this.Control);
+      insertAfter(this.ErrorContainer, this.Control);
     }
-};
+  }
 
-Validator.prototype.Validate = function(summary_control) {
+  Validate(summary_control) {
     if (this.Control && this.Rule.Check(this.Control.value, this.Control)) {
-        this.Display(false);
-        return true;
+      this.Display(false);
+      return true;
     }
     this.Control.focus();
     this.Display(true, summary_control);
     return false;
-};
+  }
 
-Validator.prototype.Display = function(state, summary_control) {
+  Display(state, summary_control) {
     if (summary_control && this.ShowInSummary) {
-        summary_control.innerHTML += "<li>" + this.Message;
-        doShow(summary_control);
+      summary_control.innerHTML += "<li>" + this.Message;
+      doShow(summary_control);
     } else {
-        this.ErrorContainer.className = "Validator" + (state ? "" : " Hidden");
+      this.ErrorContainer.className = "Validator" + (state ? "" : " Hidden");
     }
-};
+  }
+}
 
 /* -------------------- Validation Rules -------------------- */
 // Required Field
 
-function RequiredField() {
-};
-
-RequiredField.prototype.Check = function(value) {
+class RequiredField {
+  Check(value) {
     return (value.length > 0);
-};
-
+  }
+}
 
 // Field Length
 
-function LengthRange(min_length, max_length) {
+class LengthRange {
+  constructor(min_length, max_length) {
     this.MinLength = min_length;
     this.MaxLength = max_length;
-};
+  }
 
-LengthRange.prototype.Check = function(value) {
+  Check(value) {
     var l = value.length;
     return (l >= this.MinLength && l <= this.MaxLength);
-};
+  }
+}
 
 // Equal To
 
-function EqualTo(control) {
+class EqualTo {
+  constructor(control) {
     this.Control = control;
-};
+  }
 
-EqualTo.prototype.Check = function(value) {
+  Check(value) {
     return (this.Control && this.Control.value == value);
-};
+  }
+}
 
 // Match the pattern
 var emailPattern = new RegExp("^[0-9a-zA-Z\!\#\$\'\*\+\-\/\=\?\^_\.\`\{\|\}\~]+\@[0-9a-zA-Z\!\#\$\'\*\+\-\/\=\?\^_\`\{\|\}\~]{2,50}([\.][0-9a-zA-Z\!\#\$\'\*\+\-\/\=\?\^_\`\{\|\}\~]{2,50})+$");
 
-function MatchPattern(pattern) {
+class MatchPattern {
+  constructor(pattern) {
     this.Pattern = pattern;
-};
+  }
 
-MatchPattern.prototype.Check = function(value) {
+  Check(value) {
     return value.match(this.Pattern);
-};
+  }
+}
 
 // Is Checked
-function IsChecked() {
-};
-
-IsChecked.prototype.Check = function(x, control) {
+class IsChecked {
+  Check(x, control) {
     return control.checked;
-};
-
+  }
+}

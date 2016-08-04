@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-//2.6
 /*
   Collection of entities (users, rooms etc.)
 */
@@ -12,21 +11,18 @@ export class Collection {
   }
 
   Get(id) {
-    if (this.Base['_' + id]) {
-      return this.Base['_' + id];
-    }
-    return null;
+    return _.find(this.Base, {Id: '_' + id});
   }
 
-  Add(e) {
-    this.Base['_' + e.Id] = e;
-    this.LastId = e.Id;
+  Add(element) {
+    if (!element.Id) element.Id = _.uniqueId();
+    this.Base['_' + element.Id] = element;
+    this.LastId = element.Id;
   }
 
   BulkAdd(elements) {
-    elements.forEach(function(e) {
-      if (!e.Id) e.Id = _.uniqueId();
-      this.Add(e);
+    elements.forEach((element) => {
+      this.Add(element);
     })
   }
 
@@ -42,16 +38,16 @@ export class Collection {
     return _.size(this.Base);
   }
 
-  invoke(method, holder) {
+  invoke(method, holder, ...params) {
     var index = 0;
     return _.reduce(
       this.Base,
       (result, element) => {
         if (element[method]) {
           if (holder) {
-            element[method](holder, index++);
+            element[method](holder, index++, ...params);
           } else {
-            result += element[method](index++);
+            result += element[method](index++, ...params);
           }
         }
         return result;
@@ -60,15 +56,15 @@ export class Collection {
     );
   }
 
-  ToString(holder) {
-    return this.invoke('ToString', holder);
+  ToString(holder, ...params) {
+    return this.invoke('ToString', holder, ...params);
   }
 
-  Gather(holder) {
-    return this.invoke('Gather', holder);
+  Gather(holder, ...params) {
+    return this.invoke('Gather', holder, ...params);
   }
 
-  render(holder) {
-    return this.invoke('render', holder);
+  render(holder, ...params) {
+    return this.invoke('render', holder, ...params);
   }
 }

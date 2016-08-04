@@ -12,7 +12,7 @@ function AdjustDivs(e) {
         var e = window.event;
     }
 
-    winSize.GetPosAndSize();
+    winSize.getPositionAndSize();
     container.Replace(10, 40, winSize.width - 20, winSize.height - 50 - offset);
     reply.Replace(10, winSize.height - replyFormHeight, winSize.width - 20, replyFormHeight - 10);
 }

@@ -1,59 +1,60 @@
+import _ from 'lodash';
 import {utils} from './utils';
+import {Collection} from './collection';
 
-function MenuItem(title, action, is_locked) {
-  this.Id = _.uniqueId();
-  this.Title = title;
-  this.Action = action;
-  this.IsLocked = is_locked;
-  this.children = new MenuItemsCollection();
-};
-
-MenuItem.prototype.render = function(holder) {
-  var a = document.createElement('a');
-  a.innerHTML = this.Title;
-  if (this.Action) {
-    a.onclick = this.Action;
-  };
-
-  var li = document.createElement("li");
-  li.RelatedItem = this;
-  li.onmouseover = function() {DisplaySubmenu(this, true)};
-  li.onmouseout = function() {DisplaySubmenu(this, false)};
-  li.onclick = li.onmouseout;
-
-  if (this.children.Count() > 0) {
-    this.children.Create(li);
+export class MenuItem {
+  constructor(title, action, is_locked) {
+    this.Id = _.uniqueId();
+    this.title = title;
+    this.action = action;
+    this.isLocked = is_locked;
+    this.children = new MenuItemsCollection();
   }
 
-  li.appendChild(a);
-  holder.appendChild(li);
-};
+  render(holder) {
+    var a = document.createElement('a');
+    a.innerHTML = this.title;
+    if (_.isFunction(this.action)) {
+      a.onclick = this.action;
+    };
 
-function MenuItemsCollection(shown) {
-  Collection.call(this);
-  this.Container = document.createElement("ul");
-  if (!shown) {
-    utils.displayElement(this.Container, false);
-  };
-};
+    var li = document.createElement("li");
+    li.onmouseover = () => this.displaySubmenu(true);
+    li.onmouseout = () => this.displaySubmenu(false);
+    li.onclick = li.onmouseout;
 
-MenuItemsCollection.prototype = new Collection();
+    if (this.children.Count() > 0) {
+      this.children.render(li);
+    }
 
-MenuItemsCollection.prototype.Create = function(container) {
-  this.Container.innerHTML = "";
-  if (this.Count() > 0) {
-    this.render(this.Container);
-    container.appendChild(this.Container);
+    li.appendChild(a);
+    holder.appendChild(li);
   }
-};
-
-MenuItemsCollection.prototype.Display = function(state) {
-  utils.displayElement(this.Container, state);
-};
-
-function DisplaySubmenu(el, state, force) {
-  if (el.RelatedItem && el.RelatedItem.children) {
-    el.RelatedItem.children.Display(state);
-    el.className = state ? "Selected" : "";
+  
+  displaySubmenu(state) {
+    if (this.children) {
+      this.children.display(state);
+    }
   }
-};
+}
+
+export class MenuItemsCollection extends Collection {
+  constructor(shown) {
+    super();
+
+    this.container = document.createElement("ul");
+    utils.displayElement(this.container, shown);
+  }
+
+  render(container) {
+    this.container.innerHTML = '';
+    if (this.Count() > 0) {
+      this.render(this.container);
+      container.appendChild(this.container);
+    }
+  }
+
+  display(state) {
+    utils.displayElement(this.container, state);
+  }
+}
