@@ -1,8 +1,11 @@
+import {OptionsBase} from './options';
+import {Settings} from './user_settings';
+
 /*
   Represents font settings
 */
 
-class Font extends OptionsBase {
+export class Font extends OptionsBase {
   constructor(color, size, face, is_bold, is_italic, is_underlined) {
     super();
 
@@ -13,8 +16,8 @@ class Font extends OptionsBase {
     this.IsItalic = is_italic;
     this.IsUnderlined = is_underlined; 
 
-    this.fields = new Array("FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED");
-    this.properties = new Array("Color", "Size", "Face", "IsBold", "IsItalic", "IsUnderlined");
+    this.fields = ["FONT_COLOR", "FONT_SIZE", "FONT_FACE", "FONT_BOLD", "FONT_ITALIC", "FONT_UNDERLINED"];
+    this.properties = ["Color", "Size", "Face", "IsBold", "IsItalic", "IsUnderlined"];
   }
 
   ToCSS(observer) {
@@ -59,11 +62,11 @@ class Font extends OptionsBase {
 
   CheckSum() {
     var cs  = this.checkSum(this.Color);
-    cs+ = this.checkSum(this.Size);
-    cs+ = this.checkSum(this.Face);
-    cs+ = this.checkSum(this.IsBold);
-    cs+ = this.checkSum(this.IsItalic);
-    cs+ = this.checkSum(this.IsUnderlined);
+    cs += this.checkSum(this.Size);
+    cs += this.checkSum(this.Face);
+    cs += this.checkSum(this.IsBold);
+    cs += this.checkSum(this.IsItalic);
+    cs += this.checkSum(this.IsUnderlined);
     return cs;
   }
 }

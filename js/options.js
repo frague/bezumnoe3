@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import {utils} from './utils';
+import {Entity} from './entity';
 
 /*
   User options UI and helper methods
 */
 
 // Options base class
-export class OptionsBase {
+export class OptionsBase extends Entity {
   constructor() {
+    super();
     this.defaultValues = [];
   }
 

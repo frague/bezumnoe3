@@ -29,7 +29,7 @@ export class Room extends Entity {
     this.isCurrent = true;
   }
 
-  render(container, users) {
+  render(container, index, users, me) {
     var li = document.createElement('li');
     li.ClassName = this.isCurrent ? 'current' : '';
     
@@ -44,24 +44,27 @@ export class Room extends Entity {
       title.className += ' ' + this.MakeCSS();
     }
 
+    li.appendChild(title);
+
     var insideUsers = document.createElement('ul');
-    var roomUsers = _.filter(users.Base, {RoomId: this.Id});
+    var roomUsers = _.filter(users.Base, (user) => user.RoomId == this.Id);
     var awaitingUsers = _.filter(roomUsers, (user) => !user.HasAccessTo(this));
 
     if (_.size(awaitingUsers)) {
       var awaitersLi = document.createElement('li');
       awaitersLi.className = 'awaiting';
-      awaitersLi.innerHTML = _.map(awaitingUsers, (user) => user.ToString(this)).join(', ');
+      awaitersLi.innerHTML = _.map(awaitingUsers, (user) => user.ToString(this, me)).join(', ');
       insideUsers.appendChild(awaitersLi);
     }
 
     _.each(_.without(roomUsers, awaitingUsers), (user) => {
       var li = document.createElement('li');
-      li.innerHTML = user.ToString(this);
+      li.innerHTML = user.ToString(this, me);
       insideUsers.appendChild(li);
     });
 
-    container.appendChild(insideUsers);
+    li.appendChild(insideUsers);
+    container.appendChild(li);
     return;
 
     // var s = "<li class='roomBox" + (this.isCurrent ? " Current" : "") + "'>";

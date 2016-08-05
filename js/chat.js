@@ -7,13 +7,15 @@ import {getCookie} from './cookie_helper';
 import {WakeupsCollection} from './wakeups_collection';
 import {User} from './user';
 import {Room} from './room';
+import {InitMenu} from './init';
 
 export class Chat {
   constructor(tabs, options) {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
-    this.me = null;
+    this.me = {};
+    this.menu = null;
     this.options = options;
 
     this.PongImg = $("#pong")[0];
@@ -100,7 +102,9 @@ export class Chat {
   };
 
   PrintRooms() {
-    this.rooms.render($('#UsersContainer')[0], this.users);
+    var roomsContainer = $('#UsersContainer');
+    roomsContainer.html('');
+    this.rooms.render(roomsContainer[0], this.users, this.me);
 
     var container = $("#NewRoom")[0];
     if (!this.newRoomTab && this.me && this.me.Rights >= 11) { // Allowed to create rooms
@@ -250,71 +254,12 @@ export class Chat {
     $.get(settings.servicesPath + 'room_user.service.php', s.build());
   };
 
-  /* Pong: Messages, Rooms, Users, Topic */
-
-  pong(responseText) {
-    this.busy = false;
-    this.requestSent = false;
-    clearTimeout(this.tiomeoutTimer);
-    this.PongImg.src = this.pongImage.src;
-
-    this.wakeups.Clear();
-
-    _.each(
-      _.get(responseText, 'users', []), 
-      (userData) => {
-        let user = new User(...userData);
-        this.users.Add(user);
-      }
-    );
-
-    _.each(
-      _.get(responseText, 'rooms', []),
-      (roomData) => {
-        var room = new Room(...roomData);
-        if (room.Id === this.options.currentRoomId) {
-          room.Enter();
-        }
-        this.rooms.Add(room);
-      }
-    );
-
-    this.PrintRooms();
-
-    // try {
-    //   eval(responseText);
-    //   if (showRooms) {
-    //     showRooms = 0;
-    //     PrintRooms();
-    //   }
-    // } catch (e) {
-    // }
-
-    this.wakeups.render();
-
-    if (this.me && this.me.Settings.Frameset != configIndex) {
-      configIndex = this.me.Settings.Frameset;
-      _.result(window, 'onResize');
-    }
-
-    if (!this.menu && this.me) {
-      this.menu = InitMenu($("#MenuContainer")[0]);
-    }
-
-    var currentName = $("#CurrentName")[0];
-    if (this.me && currentName) {
-      var oldName = currentName.innerHTML;
-      if ((this.me.Nickname && oldName != this.me.Nickname) || (!this.me.Nickname && currentName.innerHTML != this.me.Nickname)) {
-        currentName.innerHTML = this.me.Nickname ? this.me.Nickname : this.me.Login;
-      }
-    }
-  };
-
   PingTimeout() {
     this.busy = false;
   };
 
   ping(doCheck) {
+    console.log('Ping');
     this.CompareSessions();
     if (!this.busy) {
       var s = new ParamsBuilder();
@@ -348,7 +293,74 @@ export class Chat {
       this.tiomeoutTimer = setTimeout(() => this.PingTimeout, 20000);
       this.busy = true;
     }
-    this.pingTimer = setTimeout(() => this.ping, 10000);
+    this.pingTimer = setTimeout(() => this.ping(), 10000);
+  };
+
+  pong({users, rooms}) {
+    console.log('Pong');
+    this.busy = false;
+    this.requestSent = false;
+    clearTimeout(this.tiomeoutTimer);
+    this.PongImg.src = this.pongImage.src;
+
+    this.wakeups.Clear();
+
+    _.each(
+      users, 
+      (userData) => {
+        var user = new User(...userData);
+        if (user.Id == this.options.myId) {
+          this.me = user;
+        }
+        this.users.Add(user);
+      }
+    );
+
+    _.each(
+      rooms,
+      (roomData) => {
+        var room = new Room(...roomData);
+        if (room.Id === this.options.currentRoomId) {
+          room.Enter();
+        }
+        this.rooms.Add(room);
+      }
+    );
+
+    this.PrintRooms();
+
+    // try {
+    //   eval(responseText);
+    //   if (showRooms) {
+    //     showRooms = 0;
+    //     PrintRooms();
+    //   }
+    // } catch (e) {
+    // }
+
+    this.wakeups.render();
+
+    if (!_.isEmpty(this.me)) {
+      if (this.me.Settings.Frameset != configIndex) {
+        configIndex = this.me.Settings.Frameset;
+        _.result(window, 'onResize');
+      }
+
+      if (!this.menu) {
+        this.menu = InitMenu($("#MenuContainer")[0], this.me);
+      }
+
+      var currentName = $("#CurrentName")[0];
+      if (currentName) {
+        var oldName = currentName.innerHTML;
+        if (
+          (this.me.Nickname && oldName != this.me.Nickname) || 
+          (!this.me.Nickname && currentName.innerHTML != this.me.Nickname)
+        ) {
+          currentName.innerHTML = this.me.Nickname ? this.me.Nickname : this.me.Login;
+        }
+      }
+    }
   };
 
   forcePing(doCheck) {

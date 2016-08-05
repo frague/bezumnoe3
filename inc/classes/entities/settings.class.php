@@ -239,12 +239,12 @@ class Settings extends EntityBase {
 
     function FontToJSON() {
         return array(
-            "color" => $this->FontColor,
-            "size" => $this->FontSize,
-            "face" => $this->FontFace,
-            "bold" => Boolean($this->FontIsBold),
-            "italic" => Boolean($this->FontIsItalic),
-            "underlined" => Boolean($this->FontIsUnderlined)
+            $this->FontColor,
+            $this->FontSize,
+            $this->FontFace,
+            Boolean($this->FontIsBold),
+            Boolean($this->FontIsItalic),
+            Boolean($this->FontIsUnderlined)
         );
     }
 
@@ -254,14 +254,14 @@ class Settings extends EntityBase {
 
     function ToJSON() {
         return array(
-            "status" => $this->Status,
-            "ignore_colors" => Boolean($this->IgnoreColors),
-            "ignore_sizes" => Boolean($this->IgnoreSizes),
-            "ignore_fonts" => Boolean($this->IgnoreFonts),
-            "ignore_styles" => Boolean($this->IgnoreStyles),
-            "open_wakeups" => Boolean($this->ReceiveWakeups),
-            "frameset" => round($this->Frameset),
-            "font" => $this->FontToJSON()
+            $this->Status,
+            Boolean($this->IgnoreColors),
+            Boolean($this->IgnoreSizes),
+            Boolean($this->IgnoreFonts),
+            Boolean($this->IgnoreStyles),
+            Boolean($this->ReceiveWakeups),
+            round($this->Frameset),
+            $this->FontToJSON()
         );
     }
 

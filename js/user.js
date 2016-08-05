@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import {utils} from './utils';
 import {settings} from './settings';
+import {Settings} from './user_settings';
 import {Entity} from './entity';
 
 /*
@@ -7,7 +9,8 @@ import {Entity} from './entity';
 */
 
 export class User extends Entity {
-  constructor(id, login, room_id, room_is_permitted, ip, away_message, ban_reason, banned_by, nickname, settings, rights, status_title, status_color, is_ignored, ignores_you) {
+  constructor(id, login, room_id, room_is_permitted, ip, away_message, ban_reason, banned_by, 
+    nickname, userSettings, rights, status_title, status_color, is_ignored, ignores_you) {
     super();
 
     this.Id = id;
@@ -23,7 +26,7 @@ export class User extends Entity {
 
     this.Nickname = nickname;
 
-    this.Settings = settings;
+    this.Settings = new Settings(...userSettings);
 
     this.Rights = rights;
     this.StatusTitle = status_title;
@@ -51,9 +54,9 @@ export class User extends Entity {
     return this.Rights > adminRights;
   }
 
-  ToString(room) {
+  ToString(room, me) {
     var name = this.Nickname || this.Login,
-      qname = Quotes(name),
+      qname = utils.quotes(name),
       has_access = this.HasAccessTo(room),
       s = this.NameToString(name, has_access);
 
@@ -113,7 +116,7 @@ export class User extends Entity {
       className += " IgnoresMe";
     }
 
-    var title = HtmlQuotes(name) + (this.AwayMessage ? " отсутствует  &laquo;" + this.AwayMessage + "&raquo;" : "");
+    var title = utils.htmlQuotes(name) + (this.AwayMessage ? " отсутствует  &laquo;" + this.AwayMessage + "&raquo;" : "");
 
     var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + settings.voidHref + ' onclick="switchVisibility(\'_' + this.Id + '\')" ';
     s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';
@@ -136,26 +139,26 @@ export class User extends Entity {
 };
 /* Helper methods */
 
-var shownElement;
-var hideTimer;
-function Show(id) {
-  if (shownElement) {
-    if (shownElement != id) {
-      HideDelayed();
-    } else if (hideTimer) {
-      clearTimeout(hideTimer);
-      return;
-    }
-  }
-  utils.displayElement(id, true);
-  shownElement = id;
-};
+// var shownElement;
+// var hideTimer;
+// function Show(id) {
+//   if (shownElement) {
+//     if (shownElement != id) {
+//       HideDelayed();
+//     } else if (hideTimer) {
+//       clearTimeout(hideTimer);
+//       return;
+//     }
+//   }
+//   utils.displayElement(id, true);
+//   shownElement = id;
+// };
 
-function Hide() {
-  hideTimer = setTimeout("HideDelayed()", 1000);
-};
+// function Hide() {
+//   hideTimer = setTimeout("HideDelayed()", 1000);
+// };
 
-function HideDelayed() {
-  utils.displayElement(shownElement, false);
-  shownElement = '';
-};
+// function HideDelayed() {
+//   utils.displayElement(shownElement, false);
+//   shownElement = '';
+// };

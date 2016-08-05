@@ -118,6 +118,7 @@
     <script>
       initLayout({
         currentRoomId: <?php print $user->User->RoomId ?>,
+        myId: <?php print $user->Id ?>,
         session: '<?php print $user->User->Session ?>',
         sessionCheck: '<?php print $user->User->SessionCheck ?>',
         sessionKey: '<?php print SESSION_KEY ?>'

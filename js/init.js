@@ -1,3 +1,4 @@
+import {MenuItem, MenuItemsCollection} from './menu';
 //2.0
 /* 
   Chat properties initialization 
@@ -7,7 +8,7 @@
 // Below values to be updated with 
 // values received from server 
 
-function InitMenu(div) {
+export function InitMenu(div, me) {
   var menu = new MenuItemsCollection(true);
   var main = new MenuItem('Команды');
 
@@ -15,7 +16,7 @@ function InitMenu(div) {
   main.children.Add(new MenuItem('Сменить статус', 'MI(\'status\')'));
   main.children.Add(new MenuItem('Сменить никнейм', window.chat.ChangeName));
 
-  if (me.Rights >= topicRights) {
+  if (me.Rights >= 10) {
     var topic = new MenuItem('Сменить тему', 'MI(\'topic\')');
     if (me.Rights >= adminRights) {
       topic.children.Add(new MenuItem('С блокировкой', 'MI(\'locktopic\')'));
