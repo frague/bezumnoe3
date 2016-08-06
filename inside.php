@@ -109,7 +109,7 @@
         <li> <a href="/gallery/" target="gallery">Фотогалерея</a>
         <li> <a href="javascript:void(0);" onclick="MI('quit')" class="Red">Выход</a>
       </ul>
-      <div id="MenuContainer"></div>
+      <div id="MenuContainer" />
     </div>
 
     <!-- inject:js -->

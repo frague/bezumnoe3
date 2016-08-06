@@ -8,6 +8,7 @@ import {WakeupsCollection} from './wakeups_collection';
 import {User} from './user';
 import {Room} from './room';
 import {InitMenu} from './init';
+import {Spoiler} from './spoiler';
 
 export class Chat {
   constructor(tabs, options) {
@@ -17,6 +18,7 @@ export class Chat {
     this.me = {};
     this.menu = null;
     this.options = options;
+    console.log(this.options);
 
     this.PongImg = $("#pong")[0];
     this.pongImage = new Image();
@@ -46,6 +48,7 @@ export class Chat {
     this.rus = "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ.?,\"ёЁ";
 
     this.confirmation = new Confirm();
+    this.confirmation.Init('AlertContainer', 'AlertBlock');
 
     $('form[name=messageForm]').on('submit', () => this.send);
     this.HistoryGo(0);
@@ -309,6 +312,7 @@ export class Chat {
       users, 
       (userData) => {
         var user = new User(...userData);
+        console.log(user.Id, this.options.myId);
         if (user.Id == this.options.myId) {
           this.me = user;
         }
@@ -320,7 +324,7 @@ export class Chat {
       rooms,
       (roomData) => {
         var room = new Room(...roomData);
-        if (room.Id === this.options.currentRoomId) {
+        if (room.Id == this.options.currentRoomId) {
           room.Enter();
         }
         this.rooms.Add(room);
@@ -329,25 +333,17 @@ export class Chat {
 
     this.PrintRooms();
 
-    // try {
-    //   eval(responseText);
-    //   if (showRooms) {
-    //     showRooms = 0;
-    //     PrintRooms();
-    //   }
-    // } catch (e) {
-    // }
-
     this.wakeups.render();
 
     if (!_.isEmpty(this.me)) {
-      if (this.me.Settings.Frameset != configIndex) {
-        configIndex = this.me.Settings.Frameset;
+      console.log('Me actions');
+      if (this.me.Settings.Frameset != window,configIndex) {
+        window.configIndex = this.me.Settings.Frameset;
         _.result(window, 'onResize');
       }
 
       if (!this.menu) {
-        this.menu = InitMenu($("#MenuContainer")[0], this.me);
+        this.menu = InitMenu($("#MenuContainer")[0], this);
       }
 
       var currentName = $("#CurrentName")[0];

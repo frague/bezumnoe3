@@ -7,9 +7,9 @@ import {Chat} from './chat';
 import {layoutConfigs} from './chat_layout';
 
 var frames;
-var configIndex = 0;
 var co = new Confirm();
 var MainTab;
+window.configIndex = 0;
 export var pages = {
   inside: {
     containers: [
@@ -22,16 +22,16 @@ export var pages = {
     ],
     onResize() {
       this.frames[5].Replace(-1, -1, this.winSize.width, this.winSize.height);
-      layoutConfigs[configIndex].call(this);
-      $('body').removeClass().addClass('Layout' + configIndex);
+      layoutConfigs[window.configIndex].call(this);
+      $('body').removeClass().addClass('Layout' + window.configIndex);
     },
-    onLoad() {
+    onLoad(options) {
       this.tabs = new Tabs($("#Messages")[0], $("#MessagesContainer")[0]);
       var chatTab = new Tab(1, "Чат", true);
       this.tabs.Add(chatTab);
       chatTab.switchTo();
       this.tabs.main = chatTab;
-      window.chat = new Chat(this.tabs, this);
+      window.chat = new Chat(this.tabs, options);
     }
   },
   info: {
@@ -134,15 +134,14 @@ export function initLayout(layout, container, options = {}) {
     layout.onResize.call(context);
   };
 
-  layout.options = options;
-
   $(window).on('resize', onResize);
   onResize();
   if (layout.onLoad) {
      if (!container) {
-        $(window).on('load', layout.onLoad.bind(window));
+        $(window).on('load', layout.onLoad.call(window, options)); 
+        
      } else {
-        layout.onLoad.call(container);
+        layout.onLoad.call(container, options);
      }
   };
 };

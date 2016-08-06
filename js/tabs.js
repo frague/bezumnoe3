@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import {utils} from './utils';
+import {settings} from './settings';
 import {Collection} from './collection';
 
 /*
   Tab class. Entity of Tabs one.
 */
 
-class TabBase {
+export class TabBase {
   initUploadFrame(property) {
     if (!property) {
       property = 'UploadFrame';
@@ -179,7 +180,7 @@ export class Tabs {
       this.Print();
 
       if (tab.onSelect) {
-        tab.RelatedDiv.innerHTML = loadingIndicator;
+        tab.RelatedDiv.innerHTML = settings.loadingIndicator;
         tab.onSelect(tab);
       };
 

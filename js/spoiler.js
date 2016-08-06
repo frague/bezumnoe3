@@ -1,9 +1,12 @@
+import {TabBase} from './tabs';
+import {settings} from './settings';
+
 /*
   Spoiler class.
   Displays/hides logical piece of content on demand.
 */
 
-class Spoiler extends TabBase {
+export class Spoiler extends TabBase {
   constructor(id, title, height, is_opened, on_select) {
     super();
     this.Id = id;
@@ -60,7 +63,7 @@ class Spoiler extends TabBase {
   Switch() {
     this.Display(!this.IsOpened);
     if (this.OnSelect) {
-      this.RelatedDiv.innerHTML = loadingIndicator;
+      this.RelatedDiv.innerHTML = settings.loadingIndicator;
       this.OnSelect(this);
       this.OnSelect = "";
     }

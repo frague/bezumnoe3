@@ -47,11 +47,11 @@ export class User extends Entity {
   }
 
   isAdmin() {
-    return this.Rights >= adminRights;
+    return this.Rights >= settings.adminRights;
   }
 
   isSuperAdmin() {
-    return this.Rights > adminRights;
+    return this.Rights > settings.adminRights;
   }
 
   ToString(room, me) {
@@ -78,10 +78,10 @@ export class User extends Entity {
       s += '<li> <a ' + settings.voidHref + ' onclick="IG(' + this.Id + ',\'' + this.IsIgnored + '\')">' + (this.IsIgnored ? 'Убрать игнор' : 'В игнор') + '</a>';
     }
     if (me && me.Rights >= this.Rights) {
-      if (me.isAdmin() || me.Rights == keeperRights) {
+      if (me.isAdmin() || me.Rights == settingskeeperRights) {
         s += '<li> <a ' + settings.voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'kick\')">Выгнать</a>';
       }
-      if ((me.isAdmin() && me.Rights > this.Rights && this.Rights != keeperRights) || me.isSuperAdmin()) {
+      if ((me.isAdmin() && me.Rights > this.Rights && this.Rights != settings.keeperRights) || me.isSuperAdmin()) {
         s += '<li> <a ' + settings.voidHref + ' onclick="AR(' + this.Id + ',\'' + qname + '\',\'ban\')">Забанить</a>';
         if (this.Login) {
           s += '<li class="Overlined"><span>' + this.Login + '</span>';

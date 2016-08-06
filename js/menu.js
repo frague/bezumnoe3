@@ -49,7 +49,7 @@ export class MenuItemsCollection extends Collection {
   render(container) {
     this.container.innerHTML = '';
     if (this.Count() > 0) {
-      this.render(this.container);
+      super.render(this.container);
       container.appendChild(this.container);
     }
   }

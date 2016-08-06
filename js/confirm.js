@@ -15,10 +15,11 @@ export class Confirm {
   }
 
   Init(coverId, holderId) {
-    this.Cover = $(getElement(coverId))[0];
-    this.Holder = $(getElement(holderId))[0];
+    this.Cover = $(utils.getElement(coverId))[0];
+    this.Holder = $(utils.getElement(holderId))[0];
 
     this.Holder.className = "ConfirmContainer";
+    this.Hide();
   }
 
   Display(state) {
