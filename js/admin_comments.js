@@ -92,7 +92,7 @@ class acdto extends DTO {
 
     var td1 = document.createElement("td");
     td1.className = "Centered";
-    td1.innerHTML = date.Time() + "<br><b>" + this.Login + "</b>";
+    td1.innerHTML = date.time() + "<br><b>" + this.Login + "</b>";
     tr.appendChild(td1);
 
     var td2 = document.createElement("td");

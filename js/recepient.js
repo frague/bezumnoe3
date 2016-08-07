@@ -2,12 +2,12 @@
     Recepient class.
 
 */
-class Recepient {
+export class Recepient {
   constructor(id, title, is_locked) {
     this.Id = id;
     this.Title = title;
     this.IsLocked = is_locked;
-  };
+  }
 
   ToString(index) {
     var s = (index ? ", " : "") + this.Title;

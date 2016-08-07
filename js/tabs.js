@@ -2,12 +2,18 @@ import _ from 'lodash';
 import {utils} from './utils';
 import {settings} from './settings';
 import {Collection} from './collection';
+import {Recepient} from './recepient';
 
 /*
   Tab class. Entity of Tabs one.
 */
 
 export class TabBase {
+  constructor() {
+    this.RelatedDiv = {};
+    this.TopicDiv = {};
+  }
+
   initUploadFrame(property) {
     if (!property) {
       property = 'UploadFrame';
@@ -62,20 +68,24 @@ export class Tab extends TabBase {
     }
   }
 
+  isSelected() {
+    return _.get(this, 'collection.current.Id') === this.Id;
+  }
+
   ToString(index) {
-    var isSelected = _.get(this, 'collection.current.Id') === this.Id;
+    var isSelected = this.isSelected();
     this.DisplayDiv(isSelected);
 
-    var li = document.createElement('li'),
-      title;
+    var li = document.createElement('li');
+
     li.className = (isSelected ? 'Selected ' : '') + (this.UnreadMessages ? 'HasUnread' : '');
     li.alt = this.Alt;
     li.title = this.Alt;
 
-    title = document.createElement('button');
+    var title = document.createElement('button');
     if (!isSelected) {
-      title.onclick = this.switchTo.bind(this);
-      title.onfocus = this.switchTo.bind(this);
+      title.onclick = () => this.switchTo();
+      title.onfocus = () => this.switchTo();
     };
     title.innerHTML = this.Title + (this.UnreadMessages ? (' (' + this.UnreadMessages + ')') : '');
 
@@ -119,7 +129,7 @@ export class Tabs {
     this.TabsContainer = tabsContainer;
     this.ContentContainer = contentContainer;
     this.tabsCollection = new Collection();
-    this.current = null;
+    this.current = {};
     this.history = [];
 
     this.tabsList = document.createElement("ul");
@@ -136,7 +146,7 @@ export class Tabs {
     );
   }
 
-  Add(tab, existing_container) {
+  Add(tab, existingContainer) {
     var topic = document.createElement("div");
     topic.className = "TabTopic";
     this.ContentContainer.appendChild(topic);
@@ -144,12 +154,12 @@ export class Tabs {
     tab.collection = this;
     this.history.push(tab.Id);
 
-    if (!existing_container) {
-      existing_container = document.createElement("div");
-      existing_container.className = "TabContainer";
-      this.ContentContainer.appendChild(existing_container);
+    if (!existingContainer) {
+      existingContainer = document.createElement("div");
+      existingContainer.className = "TabContainer";
+      this.ContentContainer.appendChild(existingContainer);
     }
-    tab.RelatedDiv = existing_container;
+    tab.RelatedDiv = existingContainer;
 
     this.tabsCollection.Add(tab);
     tab.DisplayDiv(false);
@@ -185,6 +195,8 @@ export class Tabs {
       };
 
       _.result(window, 'onResize');
+      
+      tab.DisplayDiv(true);
     }
   }
 };

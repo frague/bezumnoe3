@@ -9,16 +9,18 @@ import {User} from './user';
 import {Room} from './room';
 import {InitMenu} from './init';
 import {Spoiler} from './spoiler';
+import {Message} from './message';
 
 export class Chat {
   constructor(tabs, options) {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
+    this.tabs = tabs;
+    this.options = options;
+
     this.me = {};
     this.menu = null;
-    this.options = options;
-    console.log(this.options);
 
     this.PongImg = $("#pong")[0];
     this.pongImage = new Image();
@@ -262,7 +264,6 @@ export class Chat {
   };
 
   ping(doCheck) {
-    console.log('Ping');
     this.CompareSessions();
     if (!this.busy) {
       var s = new ParamsBuilder();
@@ -299,8 +300,7 @@ export class Chat {
     this.pingTimer = setTimeout(() => this.ping(), 10000);
   };
 
-  pong({users, rooms}) {
-    console.log('Pong');
+  pong({users, rooms, messages}) {
     this.busy = false;
     this.requestSent = false;
     clearTimeout(this.tiomeoutTimer);
@@ -312,7 +312,6 @@ export class Chat {
       users, 
       (userData) => {
         var user = new User(...userData);
-        console.log(user.Id, this.options.myId);
         if (user.Id == this.options.myId) {
           this.me = user;
         }
@@ -331,12 +330,19 @@ export class Chat {
       }
     );
 
+    _.each(
+      messages,
+      (message) => {
+        var msg = new Message(...message);
+        msg.render(this.tabs);
+      }
+    );
+
     this.PrintRooms();
 
     this.wakeups.render();
 
     if (!_.isEmpty(this.me)) {
-      console.log('Me actions');
       if (this.me.Settings.Frameset != window,configIndex) {
         window.configIndex = this.me.Settings.Frameset;
         _.result(window, 'onResize');

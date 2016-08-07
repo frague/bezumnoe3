@@ -11,7 +11,7 @@ export class Collection {
   }
 
   Get(id) {
-    return _.find(this.Base, {Id: '_' + id});
+    return _.get(this.Base, '_' + id, null);
   }
 
   Add(element) {

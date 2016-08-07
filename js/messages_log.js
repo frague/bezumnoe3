@@ -96,7 +96,7 @@ class mdto extends DTO {
     
     var td1 = document.createElement("td");
     td1.className = "Centered";
-    td1.innerHTML = date.Time();
+    td1.innerHTML = date.time();
     tr.appendChild(td1);
 
     var td3 = document.createElement("td");

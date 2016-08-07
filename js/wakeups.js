@@ -78,7 +78,7 @@ class wdto extends DTO {
 
     var td0 = document.createElement("td");
     td0.className = "Centered";
-    td0.innerHTML = date.Time();
+    td0.innerHTML = date.time();
     tr.appendChild(td0);
 
     var td1 = document.createElement("td");
