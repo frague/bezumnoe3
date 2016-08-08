@@ -59,12 +59,12 @@ export class Tab extends TabBase {
     this.onSelect = on_select;
 
     this.UnreadMessages = 0;
-    this.lastMessageId = -1;
+    this.lastMessageId = null;
     this.Alt = '';
 
     this.recepients = new Collection();
     if (this.IsPrivate) {
-      this.recepients.Add(new Recepient(id, title, 1));
+      this.recepients.Add(new Recepient(id, title, true));
     }
   }
 
@@ -108,7 +108,7 @@ export class Tab extends TabBase {
   Clear() {
     this.TopicDiv.innerHTML = '';
     this.RelatedDiv.innerHTML = '';
-    this.lastMessageId = -1;
+    this.lastMessageId = null;
   }
 
   switchTo() {

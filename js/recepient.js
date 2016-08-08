@@ -3,18 +3,23 @@
 
 */
 export class Recepient {
-  constructor(id, title, is_locked) {
+  constructor(id, title, is_locked, deleteHandler) {
     this.Id = id;
-    this.Title = title;
-    this.IsLocked = is_locked;
+    this.title = title;
+    this.isLocked = !!is_locked;
+    this.deleteHandler = deleteHandler;
   }
 
-  ToString(index) {
-    var s = (index ? ", " : "") + this.Title;
-    if (!this.IsLocked) {
-      s += "<a " + voidHref + " onclick='DR(" + this.Id + ")'>&times;</a>";
+  render(container) {
+    var li = document.createElement('li');
+    li.appendChild(document.createTextNode(this.title));
+    if (!this.isLocked) {
+      var closeCross = document.createElement('a');
+      closeCross.innerHTML = '&times;';
+      closeCross.onclick = () => chat.deleteRecepient(this.Id);
+      li.appendChild(closeCross);
     }
-    return s;
+    container.appendChild(li);
   }
 
   Gather(index) {

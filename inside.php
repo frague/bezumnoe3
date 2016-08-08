@@ -73,16 +73,16 @@
     </div>
 
     <div id="MessageForm">
-      <form name="messageForm">
+      <form name="messageForm" onsubmit="chat.send();return false">
       <table>
         <tr>
           <td></td>
           <td id="CurrentName" colspan="2"><?php echo $user->DisplayedName() ?></td></tr>
         <tr>
           <td></td>
-          <td id="RecepientsContainer" colspan="2"></td></tr>
+          <td colspan="2"><ul id="RecepientsContainer" /></td></tr>
         <tr>
-          <td><a href="javascript:void(0)" onclick="MI('me')">me</a></td>
+          <td><a onclick="chat.setMessageType('me')">me</a></td>
           <td width="100%">
             <div id="Smiles"><input id="Message" style="width:100%;" autocomplete="off"></div>
           </td><td>

@@ -10,6 +10,7 @@ import {Room} from './room';
 import {InitMenu} from './init';
 import {Spoiler} from './spoiler';
 import {Message} from './message';
+import {Recepient} from './recepient';
 
 export class Chat {
   constructor(tabs, options) {
@@ -52,7 +53,10 @@ export class Chat {
     this.confirmation = new Confirm();
     this.confirmation.Init('AlertContainer', 'AlertBlock');
 
-    $('form[name=messageForm]').on('submit', () => this.send);
+    // $('form[name=messageForm]').on('submit', () => {
+    //   this.send();
+    //   return false;
+    // });
     this.HistoryGo(0);
     this.ping();
   }
@@ -61,39 +65,39 @@ export class Chat {
     container.innerHTML = line + "\n" + container.innerHTML;
   }
 
-  AM(text, message_id, author_id, author_name, to_user_id, to_user) {
-    message_id = 1 * message_id;
-    var tab = tabs.main;
-    var renewTabs = false;
-    if (to_user_id > 0) {
-      tab = tabs.tabsCollection.Get(to_user_id);
-      if (!tab) {
-        tab = new Tab(to_user_id, to_user, 0, 1);
-        tabs.Add(tab);
-        renewTabs = true;
-      }
-    }
+  // AM(text, message_id, author_id, author_name, to_user_id, to_user) {
+  //   message_id = 1 * message_id;
+  //   var tab = tabs.main;
+  //   var renewTabs = false;
+  //   if (to_user_id > 0) {
+  //     tab = tabs.tabsCollection.Get(to_user_id);
+  //     if (!tab) {
+  //       tab = new Tab(to_user_id, to_user, 0, 1);
+  //       tabs.Add(tab);
+  //       renewTabs = true;
+  //     }
+  //   }
 
-    if (tab && (!message_id || (message_id && tab.lastMessageId < message_id))) {
-      text = Format(text, author_id, author_name);
-      this.AddContainerLine(tab.RelatedDiv, text);
-      if (message_id) {
-        this.lastMessageId = message_id;
-        tab.lastMessageId = message_id;
-      }
-      if (tab.Id != tabs.current.Id) {
-        tab.UnreadMessages++;
-        renewTabs = true;
-      }
-    }
-    if (renewTabs) tabs.Print();
-  };
+  //   if (tab && (!message_id || (message_id && tab.lastMessageId < message_id))) {
+  //     text = Format(text, author_id, author_name);
+  //     this.AddContainerLine(tab.RelatedDiv, text);
+  //     if (message_id) {
+  //       this.lastMessageId = message_id;
+  //       tab.lastMessageId = message_id;
+  //     }
+  //     if (tab.Id != tabs.current.Id) {
+  //       tab.UnreadMessages++;
+  //       renewTabs = true;
+  //     }
+  //   }
+  //   if (renewTabs) tabs.Print();
+  // };
 
   ClearMessages() {
-    if (MainTab) {
-      MainTab.RelatedDiv.innerHTML = "";
+    if (this.tabs.main) {
+      this.tabs.main.RelatedDiv.innerHTML = '';
     }
-  };
+  }
 
   ChangeRoom(id) {
     if (this.rooms && rooms.Get) {
@@ -104,7 +108,7 @@ export class Chat {
         this.PrintRooms();
       }
     }
-  };
+  }
 
   PrintRooms() {
     var roomsContainer = $('#UsersContainer');
@@ -165,76 +169,66 @@ export class Chat {
     document.title = "(" + this.users.Count() + ") " + (author_name ? "\"" : "") + StripTags(text) + (author_name ? "\", " + author_name : "");
   };
 
-  ShowRecepients() {
-    if (tabs.current) {
-      var rec = tabs.current.recepients.ToString();
-      var recepients = $('#RecepientsContainer');
+  showRecepients() {
+    if (this.tabs.current) {
+      var prefix = {
+        'wakeup': 'Wakeup для ',
+        'kick': 'Выгнать ',
+        'ban': 'Забанить ',
+        'me': 'О себе в третьем лице',
+        'status': 'Установить статус',
+        'topic': 'Установить тему',
+        'locktopic': 'Установить и заблокировать тему',
+        'unlocktopic': 'Установить и разблокировать тему',
+        'away': 'Отойти',
+        'quit': 'Выйти из чата'
+      }[this.messageType];
 
-      recepients.html(rec);
-      if (rec) {
-        var prefix;
-        if (tabs.current.Id == tabs.main.Id) {
-          try {
-            prefix = {
-              'wakeup': 'Wakeup для ',
-              'kick': 'Выгнать ',
-              'ban': 'Забанить ',
-              'me': 'О себе в третьем лице',
-              'status': 'Установить статус',
-              'topic': 'Установить тему',
-              'locktopic': 'Установить и заблокировать тему',
-              'unlocktopic': 'Установить и разблокировать тему',
-              'away': 'Отойти',
-              'quit': 'Выйти из чата'
-              }[this.messageType];
-          } catch (e) {
-            prefix = 'Для ';
-          }
+      var recepientsContainer = $('#RecepientsContainer')[0];
+      if (!prefix) {
+        if (!this.tabs.current.recepients.Count()) {
+          this.messageType = null;
+          recepientsContainer.innerHTML = '';
+          return;
         }
-        recepients.html(prefix + rec);
-      } else {
-        this.messageType = '';
+        prefix = 'Для ';
       }
+      recepientsContainer.innerHTML = prefix;
+      this.tabs.current.recepients.render(recepientsContainer);
     }
     $('#Message').focus();
   };
 
-  // Add recepient
-  AR(id, name, type) {
-    if (id == this.me.Id) {
+  addRecepient(id, name, type) {
+    if (id === this.me.Id) {
       return;
     }
-    if (tabs.main) {
+    var mainTab = this.tabs.main;
+    if (mainTab) {
       if (type != this.messageType) {
         this.messageType = type;
-        tabs.main.recepients.Clear();
+        mainTab.recepients.Clear();
       }
       if (id && name) {
-        MainTab.recepients.Add(new Recepient(id, name));
-        if (tabs.current.Id != tabs.main.Id) {
-          tabs.main.switchTo();
+        mainTab.recepients.Add(new Recepient(id, name, false, this.deleteRecepient));
+        if (this.tabs.current.Id !== this.tabs.main.Id) {
+          mainTab.switchTo();
         }
       }
-      this.ShowRecepients();
+      this.showRecepients();
     }
-  };
+  }
 
-  // Delete recepient
-  DR(id) {
-    if (tabs.main) {
-      tabs.main.recepients.Delete(id);
-      this.ShowRecepients();
+  deleteRecepient(id) {
+    if (this.tabs.main) {
+      this.tabs.main.recepients.Delete(id);
+      this.showRecepients();
     }
-  };
+  }
 
-  // Menu item
-  MI(type, id, name) {
-    if (!id) {
-      id = -1;
-      name = " ";
-    }
-    this.AR(id, name, type);
-  };
+  setMessageType(type, id = null, name = null) {
+    this.addRecepient(id, name, type);
+  }
 
   IG(id, state) {
     var s = new ParamsBuilder().add('user_id', id).add('state', state);
@@ -334,6 +328,7 @@ export class Chat {
       messages,
       (message) => {
         var msg = new Message(...message);
+        this.lastMessageId = msg.Id;
         msg.render(this.tabs);
       }
     );
@@ -380,7 +375,7 @@ export class Chat {
   };
 
   send() {
-    var recepients = tabs.current.recepients.Gather();
+    var recepients = this.tabs.current.recepients.Gather();
     var textField = $('#Message');
 
     if (!recepients && !textField.val()) {
@@ -394,10 +389,10 @@ export class Chat {
     $.post(settings.servicesPath + 'message.service.php', s.build())
       .then(() => this.received);
 
-    if (!tabs.current.IsPrivate) {
-      tabs.current.recepients.Clear();
+    if (!this.tabs.current.IsPrivate) {
+      this.tabs.current.recepients.Clear();
       this.messageType = '';
-      this.ShowRecepients();
+      this.showRecepients();
     }
     this.MessagesHistory = _.take(
       _.concat([textField.val()], this.MessagesHistory), 

@@ -10,27 +10,13 @@ export var dateHelper = {
 
   ParseDate(str) {
     var datePat = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})(\s(\d{1,2}):(\d{1,2})){0,1}/;
-    var matchArray = str.match(datePat);
+    var matches = str.match(datePat);
 
-    var date = new Date(); 
-    date.IsEmpty = false;
-    if (matchArray == null) {
-      date.IsEmpty = true;
-      return date;
-    }
+    if (!matches || matches.length < 3) return null;
 
-    var year = matchArray[1];
-    var month = matchArray[3];
-    var day = matchArray[5];
-
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    if (matchArray[6]) {
-      hours = matchArray[7];
-      minutes = matchArray[8];
-    }
-
-    return new Date(year, month - 1, day, hours, minutes, 0);
+    matches[3]--;
+    var date = new Date(...[1, 3, 5, 6, 7, 8].map(index => matches[index])); 
+    return date;
   },
 
   ToString(date, addTime) {
