@@ -87,7 +87,7 @@ export class Tab extends TabBase {
       title.onclick = () => this.switchTo();
       title.onfocus = () => this.switchTo();
     };
-    title.innerHTML = this.Title + (this.UnreadMessages ? (' (' + this.UnreadMessages + ')') : '');
+    title.innerHTML = this.Title + (this.UnreadMessages ? (' (' + this.UnreadMessages + ')') : '') + this.Id;
 
     li.appendChild(title);
     if (!this.IsLocked) {
@@ -140,9 +140,12 @@ export class Tabs {
   Print() {
     var tabsContainer = this.tabsList;
     tabsContainer.innerHTML = '';
-    return _.each(
+    _.each(
       this.tabsCollection.Base,
-      (tab) => tabsContainer.appendChild(tab.ToString())
+      (tab, index) => {
+        console.log(index);
+        tabsContainer.appendChild(tab.ToString());
+      }
     );
   }
 

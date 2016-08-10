@@ -63,12 +63,12 @@ export class Confirm {
 
     var index = utils.checkEmpty(this.ButtonUrlIndex);
     var m1 = document.createElement("div");
-    m1.className = "ConfirmButtons";
+    m1.className = 'ConfirmButtons';
     if (this.AlertType) {
-      m1.appendChild(utils.makeButton("ConfirmObject.Ok()", "ok_button"+index+".gif"));
+      m1.appendChild(utils.makeButton(() => this.Ok(), "ok_button" + index + ".gif"));
     } else {
-      m1.appendChild(utils.makeButton("ConfirmObject.Ok()", "yes_button"+index+".gif"));
-      m1.appendChild(utils.makeButton("ConfirmObject.Cancel()", "no_button"+index+".gif"));
+      m1.appendChild(utils.makeButton(() => this.Ok(), "yes_button" + index + ".gif"));
+      m1.appendChild(utils.makeButton(() => this.Cancel(), "no_button" + index + ".gif"));
     }
 
     this.Holder.appendChild(m1);

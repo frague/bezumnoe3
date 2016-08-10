@@ -148,7 +148,7 @@ class RoomLightweight extends OptionsBase {
       this.Clear();
       this.Bind();
       this.Tab.Display(false);
-      PrintRooms();
+      printRooms();
     }
   }
 

@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {MenuItem, MenuItemsCollection} from './menu';
 import {settings} from './settings';
 
@@ -11,7 +13,7 @@ export function InitMenu(div, chat) {
 
   main.children.Add(new MenuItem('Отойти&nbsp;(Away)', () => chat.setMessageType('away')));
   main.children.Add(new MenuItem('Сменить статус', () => chat.setMessageType('status')));
-  main.children.Add(new MenuItem('Сменить никнейм', chat.ChangeName));
+  main.children.Add(new MenuItem('Сменить никнейм', chat.ChangeName.bind(chat)));
 
   if (chat.me.Rights >= settings.topicRights) {
     var topic = new MenuItem('Сменить тему', () => chat.setMessageType('topic'));
@@ -22,7 +24,7 @@ export function InitMenu(div, chat) {
     main.children.Add(topic);
   }
 
-  main.children.Add(new MenuItem('<b>Меню</b>', 'ShowOptions'));
+  main.children.Add(new MenuItem('<b>Меню</b>', chat.ShowOptions.bind(chat)));
   main.children.Add(new MenuItem('Выход из чата', () => chat.setMessageType('quit')));
 
   menu.Add(main);

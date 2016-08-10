@@ -48,7 +48,7 @@
     <title>Безумное ЧАепиТие у Мартовского Зайца</title>
     <link rel="icon" href="/img/icons/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
-    <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
+    <!--?php include $root."/inc/ui_parts/google_analythics.php"; ?-->
 <!-- inject:css -->
 <link rel="stylesheet" href="/css/vendor.css">
 <link rel="stylesheet" href="/css/custom.css">
@@ -56,7 +56,7 @@
   </head>
 
   <body id="inside">
-    <div id="AlertContainer">
+<!--     <div id="AlertContainer">
       <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
         <tr><td align="center" valign="middle">
           <div id="AlertBlock">
@@ -107,23 +107,25 @@
         <li> <a href="/forum/" target="forum">Форум</a>
         <li> <a href="/journal/" target="journal">Журналы</a>
         <li> <a href="/gallery/" target="gallery">Фотогалерея</a>
-        <li> <a href="javascript:void(0);" onclick="MI('quit')" class="Red">Выход</a>
+        <li> <a href="javascript:void(0);" onclick="chat.setMessageType('quit')" class="Red">Выход</a>
       </ul>
       <div id="MenuContainer" />
     </div>
 
-    <!-- inject:js -->
-    <script src="/scripts/build.js"></script>
-    <!-- endinject -->
-    <script>
-      initLayout({
-        currentRoomId: <?php print $user->User->RoomId ?>,
-        myId: <?php print $user->Id ?>,
-        session: '<?php print $user->User->Session ?>',
-        sessionCheck: '<?php print $user->User->SessionCheck ?>',
-        sessionKey: '<?php print SESSION_KEY ?>'
-      });
-    </script>
-    <script src="/js1/smiles.php"></script>
+ -->
   </body>
+  <!-- inject:js -->
+  <script src="/scripts/build.js"></script>
+  <!-- endinject -->
+  <script>
+    initChat();
+    // initLayout({
+    //   currentRoomId: <?php print $user->User->RoomId ?>,
+    //   myId: <?php print $user->Id ?>,
+    //   session: '<?php print $user->User->Session ?>',
+    //   sessionCheck: '<?php print $user->User->SessionCheck ?>',
+    //   sessionKey: '<?php print SESSION_KEY ?>'
+    // });
+  </script>
+  <script src="/js1/smiles.php"></script>
 </html>

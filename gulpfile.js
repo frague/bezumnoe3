@@ -50,26 +50,12 @@ gulp.task('styles', function (callback) {
   runSequence(['styles:vendor', 'styles:sass'])(callback);
 });
 
-// gulp.task('scripts:vendor', function () {
-//   return gulp.src([
-//       'node_modules/jquery/dist/jquery.min.js',
-//       'node_modules/jqueryui/jquery-ui.min.js',
-//       'node_modules/fittext.js/jquery.fittext.js',
-//       'node_modules/charming/charming.min.js',
-//       'node_modules/lodash/lodash.min.js',
-//       'node_modules/es2015-mixin/lib/index.js',
-//       'node_modules/tinymce/tinymce.min.js'
-//     ])
-//     .pipe(concat('vendor.js'))
-//     // .pipe(rev())
-//     .pipe(gulp.dest('scripts'));
-// });
-
 gulp.task('scripts',  function () {
   return gulp.src(['js/*.js', 'js1/*.js'])
     .pipe(sourcemaps.init())
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['es2015', 'react'],
+      plugins: ['transform-class-properties']
     }).on('error', function(error) {
       gutil.log(error.stack);
       this.end();
@@ -79,10 +65,6 @@ gulp.task('scripts',  function () {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('sources'));
 });
-
-// gulp.task('scripts', function (callback) {
-//   runSequence(['scripts:vendor', 'scripts:custom'])(callback);
-// });
 
 gulp.task('cleanup', function () {
   return del(['scripts/**/*.js', 'scripts/**/*.js.map', 'css/custom*.css', 'css/vendor*.css']);

@@ -1,6 +1,6 @@
-import {initLayout, pages} from './layouts';
+import {initChat} from './layouts';
 
-window.initLayout = (options) => initLayout(pages.inside, window, options);
+window.initChat = () => initChat();
 
 export var layoutConfigs = [
   function() {

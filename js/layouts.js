@@ -6,6 +6,9 @@ import {Tabs, Tab} from './tabs';
 import {Chat} from './chat';
 import {layoutConfigs} from './chat_layout';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 var frames;
 var co = new Confirm();
 var MainTab;
@@ -122,26 +125,49 @@ export var pages = {
 };
 
 export function initLayout(layout, container, options = {}) {
-  var context = {
-    winSize: new FlexFrame(container || window),
-    frames: layout.containers.map((params) => {
-      params = _.flatten([params, null, null]);
-      return new FlexFrame($(params[0])[0], params[1], params[2]);
-    })
-  };
-  var onResize = () => {
-    context.winSize.getPositionAndSize();
-    layout.onResize.call(context);
-  };
+  var frames = _.reduce(
+    layout.containers, 
+    (result, params) => {
+      let [id, width, height] = _.flatten([params, null, null]);
+      result.push(<FlexFrame id={id} width={width} height={height} key={id} />);
+      return result;
+    },
+    [<FlexFrame id='windows' key='windows' />]
+  );
 
-  $(window).on('resize', onResize);
-  onResize();
-  if (layout.onLoad) {
-     if (!container) {
-        $(window).on('load', layout.onLoad.call(window, options)); 
+  return ReactDOM.render(
+    <FlexFrame id='windows' key='window'>{layout.containers}</FlexFrame>,
+    document.getElementById('inside')
+  );
+
+  // var context = {
+  //   winSize: new FlexFrame(container || window),
+  //   frames: layout.containers.map((params) => {
+  //     params = _.flatten([params, null, null]);
+  //     return new FlexFrame($(params[0])[0], params[1], params[2]);
+  //   })
+  // };
+
+  // var onResize = () => {
+  //   context.winSize.getPositionAndSize();
+  //   layout.onResize.call(context);
+  // };
+  // $(window).on('resize', onResize);
+  // onResize();
+
+  // if (layout.onLoad) {
+  //    if (!container) {
+  //       $(window).on('load', layout.onLoad.call(window, options)); 
         
-     } else {
-        layout.onLoad.call(container, options);
-     }
-  };
+  //    } else {
+  //       layout.onLoad.call(container, options);
+  //    }
+  // };
 };
+
+export function initChat() {
+  return ReactDOM.render(
+    (<Chat />),
+    document.getElementById('inside')
+  );
+}

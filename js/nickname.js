@@ -123,8 +123,8 @@ function NamesResponse(responseText) {
     }
     if (NewNickname != '-1') {
       me.Nickname = NewNickname;
-      if (PrintRooms) {
-        PrintRooms();
+      if (printRooms) {
+        printRooms();
       }
     }
     nicknames1.Holder.innerHTML = '';

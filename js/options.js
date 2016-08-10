@@ -290,27 +290,6 @@ export class OptionsBase extends Entity {
   }
 }
 
-/* Helper methods */
-
-function ShowOptions() {
-  var tab = tabs.tabsCollection.Get('Меню');
-  if (!tab) {
-    var menuTab = new Tab('menu', 'Меню');
-    tabs.Add(menuTab);
-    menuTab.switchTo();
-    tabs.Print();
-    $(menuTab.RelatedDiv).load(
-      '/options/menu.php',
-      function() {
-        initLayout(
-          pages.menu,
-          $('#MessagesContainer')[0]
-        );
-        $(menuTab.RelatedDiv).trigger('load');
-      }
-    );
-  }
-};
 
 /* Static content requestor */
 
