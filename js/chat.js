@@ -525,13 +525,13 @@ export var Chat = React.createClass({
 
   render() {
     return (
-      <FlexFrame trackWindow={true}>
-        <FlexFrame id='users' width={0} height={100}>
+      <div>
+        <FlexFrame id='users' topLeft={[0, 30]} bottomRight={[100, 0]}>
           <div id='Wakeups' />
           <ul id='UsersContainer' />
           <div id='NewRoom' />
         </FlexFrame>,
-        <FlexFrame id='messagesForm' width={500}>
+        <FlexFrame id='messagesForm' topLeft={[110, 30]} bottomRight={[0, 100]}>
           <form name='messageForm'>
             <table>
               <tbody>
@@ -573,11 +573,11 @@ export var Chat = React.createClass({
             </table>
           </form>
         </FlexFrame>,
-        <FlexFrame id='messages' width={500} height={100}>
-          <FlexFrame id='messagesContainer' />
+        <FlexFrame id='messages' topLeft={[110, 140]} bottomRight={[0, 0]}>
+          <FlexFrame id='messagesContainer' topLeft={[0, 0]} bottomRight={[0, 0]} />
         </FlexFrame>,
-        <FlexFrame id='status' width={660} />
-      </FlexFrame>
+        <FlexFrame id='status' topLeft={[0, 0]} bottomRight={[0, 20]} />
+      </div>
     );
   }
 });

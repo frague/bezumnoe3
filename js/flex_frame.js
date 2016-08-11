@@ -8,62 +8,33 @@ Handles window resize and update object's properties correspondingly
 
 */
 export var FlexFrame = React.createClass({
-  getInitialState() {
-    return {
-      dimensions: this.getPositionAndSize()
-    };
+  propTypes: {
+    topLeft: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
+    bottomRight: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
   },
-
-  getPositionAndSize() {
-    if (this.props.trackWindow) {
-      return this.getWindowSize();
-    };
-
-    return {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0
-    }
-  },
-
   getWindowSize() {
-    var result = {
-      x: 0,
-      y: 0
-    };
-
     if (self.innerWidth) {
-      result = _.extend(result, {
+      return {
         width: self.innerWidth,
         height: self.innerHeight
-      });
+      };
     } else if (document.documentElement && document.documentElement.clientWidth) {
-      result = _.extend(result, {
+      return {
         width: document.documentElement.clientWidth,
         height: document.documentElement.clientHeight
-      });
+      };
     } else if (document.body) {
-      result = _.extend(result, {
+      return {
         width: document.body.clientWidth,
         height: document.body.clientHeight
-      });
+      };
     };
 
-    return result;
+    throw(new Error('Unable to get viewport dimensions'));
 
     // if (navigator.appVersion.indexOf("Chrome") > 0) {
     //   this.height -= 24;
     // }
-  },
-
-  componentWillMount() {
-    if (this.props.trackWindow) {
-      $(window).resize(() => {
-        console.log('Resized');
-        this.setState(this.getInitialState());
-      });
-    }
   },
 
   // Replace(x, y, w, h) {
@@ -101,15 +72,25 @@ export var FlexFrame = React.createClass({
   // },
 
   makeStyle() {
-    var {x, y, width, height} = this.state.dimensions;
-    return {x, y, width, height};
+    var {width, height} = this.getWindowSize();
+    var result = {};
+    var {topLeft, bottomRight} = this.props;
+    result.top = (topLeft[1] < 0 ? (height - topLeft[1]) : topLeft[1]) + 'px';
+    result.left = (topLeft[0] < 0 ? (width - topLeft[0]) : topLeft[0]) + 'px';
+    if (bottomRight[0] <= 0) {
+      result.right = Math.abs(bottomRight[0]) + 'px';
+    } else {
+      result.width = bottomRight[0] + 'px';
+    };
+    if (bottomRight[1] <= 0) {
+      result.bottom = Math.abs(bottomRight[1]) + 'px';
+    } else {
+      result.height = bottomRight[1] + 'px';
+    };
+    return result;
   },
 
   render() {
-    var {trackWindow, windowDimensions} = this.props;
-    var props = {
-      windowDimensions: trackWindow ? this.state.dimensions : windowDimensions
-    };
     return (
       <div className='flex-frame' style={this.makeStyle()}>
         {this.props.children}
