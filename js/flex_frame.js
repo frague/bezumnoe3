@@ -1,17 +1,17 @@
+// FlexFrame.
+// Frame-like content container, sized and positioned relatively to 
+// the viewport.
+
 import $ from 'jquery';
 import React from 'react';
-import ReactDOM from 'react-dom';
-/*
 
-FlexFrame class
-Handles window resize and update object's properties correspondingly
-
-*/
 export var FlexFrame = React.createClass({
   propTypes: {
-    topLeft: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
-    bottomRight: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
+    // Dimensions format: [x, y, w, h]
+    // For negative values result calculated relatively to the opposite side
+    dimensions: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
   },
+  
   getWindowSize() {
     if (self.innerWidth) {
       return {
@@ -31,61 +31,23 @@ export var FlexFrame = React.createClass({
     };
 
     throw(new Error('Unable to get viewport dimensions'));
-
-    // if (navigator.appVersion.indexOf("Chrome") > 0) {
-    //   this.height -= 24;
-    // }
   },
-
-  // Replace(x, y, w, h) {
-  //   if (this.element === window || !this.element.style) {
-  //     return;
-  //   }
-
-  //   if (x >= 0) {
-  //     this.element.style.left = x +  'px';
-  //   }
-  //   if (y >= 0) {
-  //     this.element.style.top = y +  'px';
-  //   }
-  //   if (w >= 0) {
-  //     if (w < this.minWidth) {
-  //       w = this.minWidth;
-  //     }
-  //     this.element.style.width = w + 'px';
-  //   }
-  //   if (h >= 0) {
-  //     if (h < this.minHeight) {
-  //       h = this.minHeight;
-  //     }
-  //     this.element.style.height = h + 'px';
-  //   }
-  //   this.getPositionAndSize();
-  // },
-
-  // info() {
-  //   var s = 'x=' + this.x + ', ';
-  //   s += 'y='+ this.y + ', ';
-  //   s += 'width='+ this.width + ', ';
-  //   s += 'height='+ this.height;
-  //   return s;
-  // },
 
   makeStyle() {
     var {width, height} = this.getWindowSize();
+    var {dimensions} = this.props;
     var result = {};
-    var {topLeft, bottomRight} = this.props;
-    result.top = (topLeft[1] < 0 ? (height - topLeft[1]) : topLeft[1]) + 'px';
-    result.left = (topLeft[0] < 0 ? (width - topLeft[0]) : topLeft[0]) + 'px';
-    if (bottomRight[0] <= 0) {
-      result.right = Math.abs(bottomRight[0]) + 'px';
+    result.top = (dimensions[1] < 0 ? (height + dimensions[1]) : dimensions[1]) + 'px';
+    result.left = (dimensions[0] < 0 ? (width + dimensions[0]) : dimensions[0]) + 'px';
+    if (dimensions[2] <= 0) {
+      result.right = Math.abs(dimensions[2]) + 'px';
     } else {
-      result.width = bottomRight[0] + 'px';
+      result.width = dimensions[2] + 'px';
     };
-    if (bottomRight[1] <= 0) {
-      result.bottom = Math.abs(bottomRight[1]) + 'px';
+    if (dimensions[3] <= 0) {
+      result.bottom = Math.abs(dimensions[3]) + 'px';
     } else {
-      result.height = bottomRight[1] + 'px';
+      result.height = dimensions[3] + 'px';
     };
     return result;
   },

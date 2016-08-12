@@ -139,35 +139,11 @@ export function initLayout(layout, container, options = {}) {
     <FlexFrame id='windows' key='window'>{layout.containers}</FlexFrame>,
     document.getElementById('inside')
   );
-
-  // var context = {
-  //   winSize: new FlexFrame(container || window),
-  //   frames: layout.containers.map((params) => {
-  //     params = _.flatten([params, null, null]);
-  //     return new FlexFrame($(params[0])[0], params[1], params[2]);
-  //   })
-  // };
-
-  // var onResize = () => {
-  //   context.winSize.getPositionAndSize();
-  //   layout.onResize.call(context);
-  // };
-  // $(window).on('resize', onResize);
-  // onResize();
-
-  // if (layout.onLoad) {
-  //    if (!container) {
-  //       $(window).on('load', layout.onLoad.call(window, options)); 
-        
-  //    } else {
-  //       layout.onLoad.call(container, options);
-  //    }
-  // };
 };
 
 export function initChat() {
   return ReactDOM.render(
     (<Chat />),
-    document.getElementById('inside')
+    document.getElementById('content')
   );
 }

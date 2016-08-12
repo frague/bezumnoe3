@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import {layoutConfigs} from './chat_layout';
+
 import {ParamsBuilder, utils} from './utils';
 import {settings} from './settings';
 import {Collection} from './collection';
@@ -19,6 +21,7 @@ import React from 'react';
 
 export var Chat = React.createClass({
   getInitialState() {
+    return {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
@@ -64,7 +67,7 @@ export var Chat = React.createClass({
     // // });
     // this.HistoryGo(0);
     // this.ping();
-    return {
+      layoutIndex: 1,
       displayedName: '%username%'
     };
   },
@@ -524,14 +527,15 @@ export var Chat = React.createClass({
   // },
 
   render() {
+    var layout = layoutConfigs[this.state.layoutIndex];
     return (
       <div>
-        <FlexFrame id='users' topLeft={[0, 30]} bottomRight={[100, 0]}>
+        <FlexFrame key='users' dimensions={layout.users}>
           <div id='Wakeups' />
           <ul id='UsersContainer' />
           <div id='NewRoom' />
         </FlexFrame>,
-        <FlexFrame id='messagesForm' topLeft={[110, 30]} bottomRight={[0, 100]}>
+        <FlexFrame key='form' dimensions={layout.form}>
           <form name='messageForm'>
             <table>
               <tbody>
@@ -573,10 +577,10 @@ export var Chat = React.createClass({
             </table>
           </form>
         </FlexFrame>,
-        <FlexFrame id='messages' topLeft={[110, 140]} bottomRight={[0, 0]}>
-          <FlexFrame id='messagesContainer' topLeft={[0, 0]} bottomRight={[0, 0]} />
+        <FlexFrame key='messages' dimensions={layout.messages}>
+          <FlexFrame key='messagesContainer' dimensions={[0, 0, 0, 0]} />
         </FlexFrame>,
-        <FlexFrame id='status' topLeft={[0, 0]} bottomRight={[0, 20]} />
+        <FlexFrame key='status' dimensions={layout.status} />
       </div>
     );
   }
