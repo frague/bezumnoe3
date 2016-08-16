@@ -8,7 +8,6 @@ import {Confirm} from './confirm';
 import {getCookie} from './cookie_helper';
 import {WakeupsCollection} from './wakeups_collection';
 import {User} from './user';
-import {Room} from './room';
 import {InitMenu} from './init';
 import {Spoiler} from './spoiler';
 import {Message} from './message';
@@ -17,10 +16,16 @@ import {pages} from './layouts';
 import {Tab} from './tabs';
 
 import {FlexFrame} from './flex_frame';
+import {Room} from './room';
+import models from './models';
 import React from 'react';
 
 export var Chat = React.createClass({
   getInitialState() {
+    this.users = new Collection();
+    this.rooms = new Collection();
+    this.messages = new Collection();
+    this.wakeups = new WakeupsCollection();
     return {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
@@ -44,9 +49,6 @@ export var Chat = React.createClass({
     // this.historySize = 100;
     // this.historyPointer = -1;
 
-    // this.users = new Collection();
-    // this.rooms = new Collection();
-    // this.wakeups = new WakeupsCollection();
   
     // this.tiomeoutTimer;
     // this.busy = false;
@@ -67,9 +69,19 @@ export var Chat = React.createClass({
     // // });
     // this.HistoryGo(0);
     // this.ping();
+      me: null,
+      users: [],
+      rooms: [],
+      messages: [],
+      wakeups: [],
+
       layoutIndex: 1,
       displayedName: '%username%'
     };
+  },
+
+  componentWillMount() {
+    this.ping();
   },
 
   AddContainerLine(container, line) {
@@ -274,123 +286,110 @@ export var Chat = React.createClass({
   //   this.busy = false;
   // },
 
-  // ping(doCheck) {
-  //   this.CompareSessions();
-  //   if (!this.busy) {
-  //     var s = new ParamsBuilder();
-  //     if (doCheck) s.add('SESSION_CHECK', this.options.sessionCheck);
+  ping(doCheck) {
+    if (!this.busy) {
+      var s = new ParamsBuilder();
+      if (doCheck) s.add('SESSION_CHECK', this.options.sessionCheck);
 
-  //     /* Rooms */
-  //     _.each(
-  //       this.rooms.Base,
-  //       (room, id) => s.add('r' + id, room.CheckSum())
-  //     );
+      // _.each(
+      //   this.state.rooms.Base,
+      //   (room, id) => s.add('r' + id, room.CheckSum())
+      // );
 
-  //     /* Users */
-  //     _.each(
-  //       this.users.Base,
-  //       (user, id) => s.add('u' + id, user.CheckSum())
-  //     );
+      // _.each(
+      //   this.state.users.Base,
+      //   (user, id) => s.add('u' + id, user.CheckSum())
+      // );
 
-  //     /* Messages */
-  //     s.add('last_id', this.lastMessageId);
+      /* Messages */
+      s.add('last_id', this.state.messages.LastId);
 
-  //     /* Move to room */
-  //     if (this.newRoomId) {
-  //       s.add('room_id', this.newRoomId);
-  //       this.newRoomId = null;
-  //     };
+      /* Move to room */
+      if (this.state.newRoomId) {
+        s.add('room_id', this.state.newRoomId);
+        this.state.newRoomId = null;
+      };
 
-  //     $.post(settings.servicesPath + 'pong.service.php', s.build())
-  //       .then((response) => this.pong(response));
+      $.post(settings.servicesPath + 'pong.service.php', s.build())
+        .then((response) => this.pong(response))
+        .fail((jqXHR) => {
+          if (jqXHR.status !== 408) {
+            this.quit();
+          }
+        });
 
-  //     this.requestSent = true;
-  //     this.tiomeoutTimer = setTimeout(() => this.PingTimeout, 20000);
-  //     this.busy = true;
-  //   }
-  //   this.pingTimer = setTimeout(() => this.ping(), 10000);
-  // },
+      this.state.requestSent = true;
+      this.tiomeoutTimer = setTimeout(() => this.PingTimeout, 20000);
+      this.state.busy = true;
+    }
+    this.pingTimer = setTimeout(() => this.ping(), 10000);
+  },
 
-  // pong({users, rooms, messages}) {
-  //   this.busy = false;
-  //   this.requestSent = false;
-  //   clearTimeout(this.tiomeoutTimer);
-  //   this.PongImg.src = this.pongImage.src;
+  pong({myId, users, rooms, messages}) {
+    this.state.busy = false;
+    this.state.requestSent = false;
+    clearTimeout(this.tiomeoutTimer);
+    // this.PongImg.src = this.pongImage.src;
 
-  //   this.wakeups.Clear();
+    // this.wakeups.Clear();
 
-  //   _.each(
-  //     users, 
-  //     (userData) => {
-  //       var user = new User(...userData);
-  //       if (user.Id == this.options.myId) {
-  //         this.me = user;
-  //       }
-  //       this.users.Add(user);
-  //     }
-  //   );
+    _.each(
+      users, 
+      (userData) => {
+        var user = new models.UserModel(...userData);
+        if (user.id == myId) {
+          this.state.me = user;
+        }
+        this.users.add(user);
+      }
+    );
 
-  //   _.each(
-  //     rooms,
-  //     (roomData) => {
-  //       var room = new Room(...roomData);
-  //       if (room.Id == this.options.currentRoomId) {
-  //         room.Enter();
-  //       }
-  //       this.rooms.Add(room);
-  //     }
-  //   );
+    _.each(
+      rooms,
+      (roomData) => {
+        var room = new models.RoomModel(...roomData);
+        if (this.state.me && room.id === this.state.me.roomId) {
+          room.enter();
+        }
+        this.rooms.add(room);
+      }
+    );
 
-  //   var renewTabs = _.reduce(
-  //     messages,
-  //     (result, message) => {
-  //       var msg = new Message(...message);
-  //       this.lastMessageId = msg.Id;
-  //       return msg.render(this.tabs) || result;
-  //     }, 
-  //     false
-  //   );
+    _.each(
+      messages,
+      (message) => {
+        var msg = new models.MessageModel(...message);
+        this.messages.add(msg);
+      }
+    );
 
-  //   // if (renewTabs) this.tabs.Print();
+    this.setState({
+      users: this.users.base,
+      rooms: this.rooms.base,
+      messages: this.messages.base
+    });
 
-  //   this.printRooms();
+    console.log('pong');
 
-  //   this.wakeups.render();
+    // this.wakeups.render();
 
-  //   if (!_.isEmpty(this.me)) {
-  //     if (this.me.Settings.Frameset != window,configIndex) {
-  //       window.configIndex = this.me.Settings.Frameset;
-  //       _.result(window, 'onResize');
-  //     }
+    if (!_.isEmpty(this.state.me)) {
+      if (this.state.me.settings.Frameset != window,configIndex) {
+        this.state.layoutIndex = this.state.me.settings.Frameset;
+      }
 
-  //     if (!this.menu) {
-  //       this.menu = InitMenu($("#MenuContainer")[0], this);
-  //     }
-
-  //     var currentName = $("#CurrentName")[0];
-  //     if (currentName) {
-  //       var oldName = currentName.innerHTML;
-  //       if (
-  //         (this.me.Nickname && oldName != this.me.Nickname) || 
-  //         (!this.me.Nickname && currentName.innerHTML != this.me.Nickname)
-  //       ) {
-  //         currentName.innerHTML = this.me.Nickname ? this.me.Nickname : this.me.Login;
-  //       }
-  //     }
-  //   }
-  // },
+      if (!this.menu) {
+        // this.menu = InitMenu($("#MenuContainer")[0], this);
+      }
+      this.state.currentName = this.state.me.Nickname ? this.state.me.Nickname : this.state.me.Login;
+    }
+  },
 
   // forcePing(doCheck) {
   //   if (!this.requestSent) {
   //     this.busy = false;
   //     clearTimeout(this.pingTimer);
   //     this.ping(doCheck);
-  //   }
-  // },
-
-  // CompareSessions() {
-  //   if (getCookie(this.options.sessionKey) != this.options.session) {
-  //     this.Quit();
   //   }
   // },
 
@@ -464,16 +463,16 @@ export var Chat = React.createClass({
   //   textField.val(out);
   // },
 
-  // StopPings() {
-  //   clearTimeout(this.pingTimer);
-  //   clearTimeout(this.tiomeoutTimer);
-  // },
+  stopPings() {
+    clearTimeout(this.pingTimer);
+    clearTimeout(this.tiomeoutTimer);
+  },
 
-  // Quit() {
-  //   this.StopPings();
-  //   this.confirmation.AlertType = true;
-  //   this.confirmation.Show("./", "Сессия завершена", "Ваша сессия в чате завершена. Повторите авторизацию для повторного входа в чат.", "", true);
-  // },
+  quit() {
+    this.stopPings();
+    // this.confirmation.AlertType = true;
+    // this.confirmation.Show("./", "Сессия завершена", "Ваша сессия в чате завершена. Повторите авторизацию для повторного входа в чат.", "", true);
+  },
 
   // Kicked(reason) {
   //   this.StopPings();
@@ -528,11 +527,20 @@ export var Chat = React.createClass({
 
   render() {
     var layout = layoutConfigs[this.state.layoutIndex];
+    console.log('render');
     return (
-      <div>
+      <div>{this.state.a}
         <FlexFrame key='users' dimensions={layout.users}>
           <div id='Wakeups' />
-          <ul id='UsersContainer' />
+          <ul id='UsersContainer'>
+            {_.map(
+              this.state.rooms, 
+              (room) => {
+                console.log(room);
+                return <Room key={room.id} {...room.data} users={this.state.users} />
+              }
+            )}
+          </ul>
           <div id='NewRoom' />
         </FlexFrame>,
         <FlexFrame key='form' dimensions={layout.form}>
@@ -578,7 +586,9 @@ export var Chat = React.createClass({
           </form>
         </FlexFrame>,
         <FlexFrame key='messages' dimensions={layout.messages}>
-          <FlexFrame key='messagesContainer' dimensions={[0, 0, 0, 0]} />
+          <FlexFrame key='messagesContainer' dimensions={[0, 0, 0, 0]}>
+            {_.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>)}
+          </FlexFrame>
         </FlexFrame>,
         <FlexFrame key='status' dimensions={layout.status} />
       </div>

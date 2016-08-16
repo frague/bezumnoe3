@@ -6,42 +6,42 @@ import _ from 'lodash';
 
 export class Collection {
   constructor() {
-    this.Base = {};
-    this.LastId = null;
+    this.base = {};
+    this.lastId = null;
   }
 
-  Get(id) {
-    return _.get(this.Base, '_' + id, null);
+  get(id) {
+    return _.get(this.base, '_' + id, null);
   }
 
-  Add(element) {
-    if (!element.Id) element.Id = _.uniqueId();
-    this.Base['_' + element.Id] = element;
-    this.LastId = element.Id;
+  add(element) {
+    if (!element.id) element.id = _.uniqueId();
+    this.base['_' + element.id] = element;
+    this.lastId = element.id;
   }
 
-  BulkAdd(elements) {
+  bulkAdd(elements) {
     elements.forEach((element) => {
-      this.Add(element);
+      this.add(element);
     })
   }
 
-  Delete(id) {
-    if (this.Base['_' + id]) delete this.Base['_' + id];
+  delete(id) {
+    if (this.base['_' + id]) delete this.base['_' + id];
   }
 
-  Clear() {
-    this.Base = {};
+  clear() {
+    this.base = {};
   }
 
-  Count() {
-    return _.size(this.Base);
+  count() {
+    return _.size(this.base);
   }
 
   invoke(method, holder, ...params) {
     var index = 0;
     return _.reduce(
-      this.Base,
+      this.base,
       (result, element) => {
         if (element[method]) {
           if (holder) {
@@ -56,11 +56,11 @@ export class Collection {
     );
   }
 
-  ToString(holder, ...params) {
+  toString(holder, ...params) {
     return this.invoke('ToString', holder, ...params);
   }
 
-  Gather(holder, ...params) {
+  gather(holder, ...params) {
     return this.invoke('Gather', holder, ...params);
   }
 

@@ -5,6 +5,7 @@
   $sessionCheck = LookInRequest(User::SESSION_CHECK);
 
   $result = array();
+  $result["myId"] = $user->Id;
   $quitResponse = json_encode(array("quit" => TRUE));
 
   if (!$user || $user->IsEmpty()) {

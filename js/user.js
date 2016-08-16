@@ -4,37 +4,37 @@ import {settings} from './settings';
 import {Settings} from './user_settings';
 import {Entity} from './entity';
 
+import React from 'react';
 /*
   Represents user entity on client-side.
 */
 
-export class User extends Entity {
-  constructor(id, login, room_id, room_is_permitted, ip, away_message, ban_reason, banned_by, 
-    nickname, userSettings, rights, status_title, status_color, is_ignored, ignores_you) {
-    super();
+export var User = React.createClass({
+  // constructor(id, login, room_id, room_is_permitted, ip, away_message, ban_reason, banned_by, 
+  //   nickname, userSettings, rights, status_title, status_color, is_ignored, ignores_you) {
 
-    this.Id = id;
-    this.Login = login;
-    this.RoomId = room_id;
-    this.RoomIsPermitted = room_is_permitted;
+  //   this.Id = id;
+  //   this.Login = login;
+  //   this.RoomId = room_id;
+  //   this.RoomIsPermitted = room_is_permitted;
 
-    this.SessionAddress = ip;
-    this.AwayMessage = away_message;
+  //   this.SessionAddress = ip;
+  //   this.AwayMessage = away_message;
 
-    this.BanReason = ban_reason;
-    this.BannedBy = banned_by;
+  //   this.BanReason = ban_reason;
+  //   this.BannedBy = banned_by;
 
-    this.Nickname = nickname;
+  //   this.Nickname = nickname;
 
-    this.Settings = new Settings(...userSettings);
+  //   this.Settings = new Settings(...userSettings);
 
-    this.Rights = rights;
-    this.StatusTitle = status_title;
-    this.StatusColor = status_color;
+  //   this.Rights = rights;
+  //   this.StatusTitle = status_title;
+  //   this.StatusColor = status_color;
 
-    this.IsIgnored = !!is_ignored;
-    this.IgnoresYou = !!ignores_you;
-  }
+  //   this.IsIgnored = !!is_ignored;
+  //   this.IgnoresYou = !!ignores_you;
+  // },
 
   CheckSum() {
     var cs = _.sum(_.invoke([
@@ -44,15 +44,15 @@ export class User extends Entity {
     cs += this.Settings.CheckSum();
     cs += "" + this.IsIgnored + "" + this.IgnoresYou;
     return cs;
-  }
+  },
 
   isAdmin() {
     return this.Rights >= settings.adminRights;
-  }
+  },
 
   isSuperAdmin() {
     return this.Rights > settings.adminRights;
-  }
+  },
 
   ToString(room, me) {
     var name = this.Nickname || this.Login,
@@ -94,7 +94,7 @@ export class User extends Entity {
     s += '</ul></div>';
 
     return s;
-  }
+  },
 
   NameToString(name, has_access) {
     var color = this.StatusColor;
@@ -121,11 +121,11 @@ export class User extends Entity {
     var s = '<li><span' + (this.IsIgnored ? ' class="Ignored"' : '') + '><a ' + settings.voidHref + ' onclick="switchVisibility(\'_' + this.Id + '\')" ';
     s += ' ' + (cl ? ' style="color:' + color + '"' : '') + ' class="' + className + '" alt="' + title + '" title="' + title + '">' + name + '</a></span><br>';
     return s;
-  }
+  },
 
   DisplayedName() {
     return this.Nickname ? this.Nickname : this.Login;
-  }
+  },
 
   HasAccessTo(room) {
     if (!room.IsInvitationRequired || room.OwnerId == this.Id) {
@@ -135,8 +135,13 @@ export class User extends Entity {
       return true;
     }
     return false;
+  },
+
+  render() {
+    return <a>{this.props.login}</a>;
   }
-};
+
+});
 /* Helper methods */
 
 // var shownElement;

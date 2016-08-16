@@ -5,31 +5,41 @@ import {Entity} from './entity';
 import {OptionsBase} from './options';
 import {EditableDTO} from './dto';
 
+import React from 'react';
+import {User} from './user';
 /*
   Represents room entity on client-side.
 */
 
-export class Room extends Entity {
-  constructor(id, title, topic, topic_lock, topic_author_id, topic_author_name, is_locked, is_by_invitation, owner_id) {
-    super();
+export var Room = React.createClass({
+  getInitialState() {
+    return {
+      isCurrent: false
+    }
+  },
 
-    this.Id = id;
-    this.Title = title;
-    this.Topic = topic;
-    this.TopicLock = topic_lock;
-    this.TopicAuthorId = topic_author_id;
-    this.TopicAuthorName = topic_author_name;
-    this.IsLocked = is_locked;
-    this.IsInvitationRequired = is_by_invitation;
-    this.OwnerId = owner_id;
-    this.isCurrent = false;
-  }
-
-  Enter() {
+  enter() {
     this.isCurrent = true;
-  }
+  },
 
-  render(container, index, users, me) {
+  render() {
+    var {isCurrent} = this.state;
+    var {id, title, me, users} = this.props;
+    var roomUsers = _.filter(users, (user) => user.roomId == id);
+
+    console.log('Room', this.props);
+    return (
+      <ul className={this.state.isCurrent && 'current'}>
+        <a onClick={this.enter()}>
+          {title}
+          <sup>{roomUsers.length}</sup>
+        </a>
+        <ul>
+          {roomUsers.map((user) => <li key={user.id}><User {...user.data} /></li>)}
+        </ul>
+      </ul>
+    );
+
     var li = document.createElement('li');
     li.ClassName = this.isCurrent ? 'current' : '';
     
@@ -99,7 +109,7 @@ export class Room extends Entity {
     // t += "</ul></li>";
     // s = s + (inside ? ("&nbsp;<span class='Count'>(" + inside + ")</span>") : "") + (inside || requestors ? t : "");
     // return s;
-  }
+  },
 
   Gather(sel) {
 
@@ -113,14 +123,14 @@ export class Room extends Entity {
     } catch (ex) {
       sel.add(opt); // IE only
     }
-  }
+  },
 
   MakeCSS() {
     var cl = (this.IsInvitationRequired ? "Private" : "Usual");
     cl += (this.isCurrent ? " Current" : "");
     cl += (this.IsLocked ? " Locked " : "");
     return cl;
-  }
+  },
 
   CheckSum() {
     return _.sum(_.invoke([
@@ -128,73 +138,74 @@ export class Room extends Entity {
       this.IsLocked, this.IsInvitationRequired,
     ], this.checkSum));
   }
-}
-  /* Room DTO class */
-class RoomLightweight extends OptionsBase {
-  constructor() {
-    super();
+});
 
-    this.fields = new Array("NEW_ROOM", "IS_PRIVATE", "IS_LOCKED");
-    this.ServicePath = settings.servicesPath + "room.service.php";
-    this.Template = "add_room";
-    this.ClassName = "AddRoom";
-  }
+//   /* Room DTO class */
+// class RoomLightweight extends OptionsBase {
+//   constructor() {
+//     super();
 
-  requestCallback(responseText) {
-    if (responseText) {
-      this.SetRoomStatus(responseText);
-    } else {
-      this.SetRoomStatus("");
-      this.Clear();
-      this.Bind();
-      this.Tab.Display(false);
-      printRooms();
-    }
-  }
+//     this.fields = new Array("NEW_ROOM", "IS_PRIVATE", "IS_LOCKED");
+//     this.ServicePath = settings.servicesPath + "room.service.php";
+//     this.Template = "add_room";
+//     this.ClassName = "AddRoom";
+//   }
 
-  request(params, callback) {};
+//   requestCallback(responseText) {
+//     if (responseText) {
+//       this.SetRoomStatus(responseText);
+//     } else {
+//       this.SetRoomStatus("");
+//       this.Clear();
+//       this.Bind();
+//       this.Tab.Display(false);
+//       printRooms();
+//     }
+//   }
 
-  Save(callback) {
-    var params = this.Gather();
-    if (this.NEW_ROOM) {
-      this.BaseRequest(params, callback);
-    } else {
-      this.SetRoomStatus("Введите название");
-    }
-  }
+//   request(params, callback) {};
 
-  SetRoomStatus(text) {
-    this.FindRelatedControls();
-    var st = this.inputs["RoomStatus"];
-    if (st) {
-      st.innerHTML = text;
-    }
-  }
+//   Save(callback) {
+//     var params = this.Gather();
+//     if (this.NEW_ROOM) {
+//       this.BaseRequest(params, callback);
+//     } else {
+//       this.SetRoomStatus("Введите название");
+//     }
+//   }
 
-  TemplateLoaded(req) {
-    this.TemplateBaseLoaded(req);
+//   SetRoomStatus(text) {
+//     this.FindRelatedControls();
+//     var st = this.inputs["RoomStatus"];
+//     if (st) {
+//       st.innerHTML = text;
+//     }
+//   }
 
-    utils.displayElement("AdminOnly", me && me.Rights >= adminRights);
+//   TemplateLoaded(req) {
+//     this.TemplateBaseLoaded(req);
 
-    this.AssignTabTo("linkAdd");
-    BindEnterTo(this.inputs["NEW_ROOM"], this.inputs["linkAdd"]);
-  }
-}
+//     utils.displayElement("AdminOnly", me && me.Rights >= adminRights);
 
-/* Room lightweight link actions */
+//     this.AssignTabTo("linkAdd");
+//     BindEnterTo(this.inputs["NEW_ROOM"], this.inputs["linkAdd"]);
+//   }
+// });
 
-function AddRoom(a) {
-  if (a.Tab) {
-    a.Tab.AddRoom.Save();
-  }
-};
+// /* Room lightweight link actions */
 
-/* Room Data Transfer Object */
+// function AddRoom(a) {
+//   if (a.Tab) {
+//     a.Tab.AddRoom.Save();
+//   }
+// };
 
-class rdto extends EditableDTO {
-  constructor(id, title, is_deleted, is_locked) {
-    super(arguments);
-    this.fields = ["Id", "Title", "IsDeleted", "IsLocked", "IsInvitationRequired"];
-    this.Init(arguments);
-  }
-}
+// /* Room Data Transfer Object */
+
+// class rdto extends EditableDTO {
+//   constructor(id, title, is_deleted, is_locked) {
+//     super(arguments);
+//     this.fields = ["Id", "Title", "IsDeleted", "IsLocked", "IsInvitationRequired"];
+//     this.Init(arguments);
+//   }
+// }
