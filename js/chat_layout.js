@@ -7,13 +7,13 @@ export var layoutConfigs = [
     status: [0, 0, 0, 30],
     users: [0, 40, 200, 0],
     form: [210, 40, 0, 100],
-    messages: [210, 150, 0, 0]
+    messages: [210, 160, 0, 0]
   },
   {
     status: [0, 0, 0, 30],
     users: [-200, 40, 0, 0],
     form: [0, 40, -210, 100],
-    messages: [0, 150, -210, 0]
+    messages: [0, 160, -210, 0]
   }
 ];
 

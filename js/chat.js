@@ -22,10 +22,14 @@ import React from 'react';
 
 export var Chat = React.createClass({
   getInitialState() {
+    this.history = [];
+    this.historyPointer = 0;
+
     this.users = new Collection();
     this.rooms = new Collection();
     this.messages = new Collection();
     this.wakeups = new WakeupsCollection();
+    this.newRoomId = null;
     return {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
@@ -33,7 +37,6 @@ export var Chat = React.createClass({
     // this.tabs = tabs;
     // this.options = options;
 
-    // this.me = {};
     // this.menu = null;
 
     // this.PongImg = $("#pong")[0];
@@ -44,7 +47,6 @@ export var Chat = React.createClass({
     // this.newRoomId = 0;
     // this.pingTimer = null;
 
-    // this.MessagesHistory = [];
     // this.historyContainer = $("#History")[0];
     // this.historySize = 100;
     // this.historyPointer = -1;
@@ -74,6 +76,7 @@ export var Chat = React.createClass({
       rooms: [],
       messages: [],
       wakeups: [],
+      currentRoomId: null,
 
       layoutIndex: 1,
       displayedName: '%username%'
@@ -146,11 +149,11 @@ export var Chat = React.createClass({
   //   this.UpdateTopic();
   // },
 
-  // MoveToRoom(id) {
-  //   MainTab.Clear();
-  //   this.newRoomId = id;
-  //   this.forcePing();
-  // },
+  moveToRoom(id) {
+    // MainTab.Clear();
+    this.newRoomId = id;
+    this.forcePing();
+  },
 
   // MakeNewRoomSpoiler(container) {
   //   this.newRoomTab = new Spoiler(
@@ -346,21 +349,12 @@ export var Chat = React.createClass({
 
     _.each(
       rooms,
-      (roomData) => {
-        var room = new models.RoomModel(...roomData);
-        if (this.state.me && room.id === this.state.me.roomId) {
-          room.enter();
-        }
-        this.rooms.add(room);
-      }
+      (roomData) => this.rooms.add(new models.RoomModel(...roomData))
     );
 
     _.each(
       messages,
-      (message) => {
-        var msg = new models.MessageModel(...message);
-        this.messages.add(msg);
-      }
+      (message) => this.messages.add(new models.MessageModel(...message))
     );
 
     this.setState({
@@ -368,8 +362,6 @@ export var Chat = React.createClass({
       rooms: this.rooms.base,
       messages: this.messages.base
     });
-
-    console.log('pong');
 
     // this.wakeups.render();
 
@@ -385,41 +377,41 @@ export var Chat = React.createClass({
     }
   },
 
-  // forcePing(doCheck) {
-  //   if (!this.requestSent) {
-  //     this.busy = false;
-  //     clearTimeout(this.pingTimer);
-  //     this.ping(doCheck);
-  //   }
-  // },
+  forcePing(doCheck) {
+    if (!this.requestSent) {
+      this.busy = false;
+      clearTimeout(this.pingTimer);
+      this.ping(doCheck);
+    }
+  },
 
-  // send() {
-  //   var recepients = this.tabs.current.recepients.Gather();
-  //   var textField = $('#Message');
+  send() {
+    var recepients = this.tabs.current.recepients.Gather();
+    var textField = $('#Message');
 
-  //   if (!recepients && !textField.val()) {
-  //     return;
-  //   }
-  //   var s = new ParamsBuilder()
-  //     .add('message', textField.val())
-  //     .add('type', this.messageType)
-  //     .add('recepients', recepients);
+    if (!recepients && !textField.val()) {
+      return;
+    }
+    var s = new ParamsBuilder()
+      .add('message', textField.val())
+      .add('type', this.messageType)
+      .add('recepients', recepients);
 
-  //   $.post(settings.servicesPath + 'message.service.php', s.build())
-  //     .then(() => this.received);
+    $.post(settings.servicesPath + 'message.service.php', s.build())
+      .then(() => this.received);
 
-  //   if (!this.tabs.current.IsPrivate) {
-  //     this.tabs.current.recepients.Clear();
-  //     this.messageType = '';
-  //     this.showRecepients();
-  //   }
-  //   this.MessagesHistory = _.take(
-  //     _.concat([textField.val()], this.MessagesHistory), 
-  //     this.historySize
-  //   );
-  //   this.HistoryGo(-1);
-  //   textField.val('');
-  // },
+    if (!this.tabs.current.IsPrivate) {
+      this.tabs.current.recepients.Clear();
+      this.messageType = '';
+      this.showRecepients();
+    }
+    this.MessagesHistory = _.take(
+      _.concat([textField.val()], this.MessagesHistory), 
+      this.historySize
+    );
+    this.HistoryGo(-1);
+    textField.val('');
+  },
   
   // received(req) {
   //   console.log('Attempting to eval', req.responseText);
@@ -527,69 +519,60 @@ export var Chat = React.createClass({
 
   render() {
     var layout = layoutConfigs[this.state.layoutIndex];
-    console.log('render');
+    var {me} = this.state;
     return (
-      <div>{this.state.a}
+      <div>
         <FlexFrame key='users' dimensions={layout.users}>
-          <div id='Wakeups' />
-          <ul id='UsersContainer'>
+          <div id='wakeups' />
+          <ul id='users-container'>
             {_.map(
               this.state.rooms, 
-              (room) => {
-                console.log(room);
-                return <Room key={room.id} {...room.data} users={this.state.users} />
-              }
+              (room) => <Room 
+                  key={room.id} 
+                  users={this.state.users} 
+                  me={this.state.me}
+                  moveToRoom={this.moveToRoom}
+                  {...room.data}
+                  />
+              
             )}
           </ul>
           <div id='NewRoom' />
-        </FlexFrame>,
-        <FlexFrame key='form' dimensions={layout.form}>
-          <form name='messageForm'>
-            <table>
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td id='CurrentName' colSpan={2}>{this.state.displayedName}</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td colSpan={2}>
-                    <ul id='RecepientsContainer' />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a onClick={this.setMessageType('me')}>me</a>
-                  </td>
-                  <td width='100%'>
-                    <div id='Smiles'>
-                      <input id='Message' autoComplete='off' />
-                    </div>
-                  </td><td>
-                    <input type='image' alt='Отправить сообщение' src='/img/send_button.gif' />
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td className='ServiceLinks'>
-                    <a onClick={this.SwitchSmiles()}>:)</a>
-                    <a onClick={this.Translit()}>qwe&harr;йцу</a>
-                    <a onClick={this.HistoryGo()}>&times;</a>
-                    <a onClick={this.HistoryGo(1)}>&laquo;</a>
-                    <span id='History'>История сообщений (0/0)</span>
-                    <a onClick={this.HistoryGo(-1)}>&raquo;</a>
-                    </td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </form>
-        </FlexFrame>,
+        </FlexFrame>
+        <FlexFrame key='form' className='messages-form' dimensions={layout.form}>
+          <h6>{me ? me.login : '%username%'}</h6>
+          <ul id='RecepientsContainer' />
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <a onClick={() => this.setMessageType('me')}>me</a>
+                </td>
+                <td>
+                  <input id='message' autoComplete='off' />
+                </td>
+                <td>
+                  <button onClick={this.send}>Отправить</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className='ServiceLinks'>
+            <a onClick={this.SwitchSmiles()}>:)</a>
+            <a onClick={this.Translit()}>qwe&harr;йцу</a>
+            <a onClick={this.HistoryGo()}>&times;</a>
+            <a onClick={this.HistoryGo(1)}>&laquo;</a>
+            <span id='History'>
+              История сообщений ({this.historyPointer}/{this.history.length})
+            </span>
+            <a onClick={this.HistoryGo(-1)}>&raquo;</a>
+          </div>
+        </FlexFrame>
         <FlexFrame key='messages' dimensions={layout.messages}>
           <FlexFrame key='messagesContainer' dimensions={[0, 0, 0, 0]}>
             {_.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>)}
           </FlexFrame>
-        </FlexFrame>,
+        </FlexFrame>
         <FlexFrame key='status' dimensions={layout.status} />
       </div>
     );

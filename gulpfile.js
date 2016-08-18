@@ -41,8 +41,8 @@ gulp.task('styles:vendor', function () {
 
 gulp.task('styles:watch', function () {
   gulp.watch('./sass/*.sass', [
-    'styles:sass',
-    'inject'
+    'styles:sass'
+    // 'inject'
   ]);
 });
 

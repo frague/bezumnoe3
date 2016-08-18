@@ -118,15 +118,5 @@
   <!-- inject:js -->
   <script src="/scripts/build.js"></script>
   <!-- endinject -->
-  <script>
-    initChat();
-    // initLayout({
-    //   currentRoomId: <?php print $user->User->RoomId ?>,
-    //   myId: <?php print $user->Id ?>,
-    //   session: '<?php print $user->User->Session ?>',
-    //   sessionCheck: '<?php print $user->User->SessionCheck ?>',
-    //   sessionKey: '<?php print SESSION_KEY ?>'
-    // });
-  </script>
-  <script src="/js1/smiles.php"></script>
+  <script>initChat()</script>
 </html>

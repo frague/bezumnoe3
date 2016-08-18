@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import {utils} from './utils';
 import {settings} from './settings';
 import {Entity} from './entity';
 import {OptionsBase} from './options';
@@ -7,30 +6,24 @@ import {EditableDTO} from './dto';
 
 import React from 'react';
 import {User} from './user';
+import {utils} from './utils';
+
 /*
   Represents room entity on client-side.
 */
 
 export var Room = React.createClass({
-  getInitialState() {
-    return {
-      isCurrent: false
-    }
-  },
-
-  enter() {
-    this.isCurrent = true;
+  propTypes: {
+    moveToRoom: React.PropTypes.func
   },
 
   render() {
-    var {isCurrent} = this.state;
-    var {id, title, me, users} = this.props;
+    var {id, title, me, users, moveToRoom} = this.props;
     var roomUsers = _.filter(users, (user) => user.roomId == id);
 
-    console.log('Room', this.props);
     return (
-      <ul className={this.state.isCurrent && 'current'}>
-        <a onClick={this.enter()}>
+      <ul className={utils.classNames({current: me && me.roomId == id})}>
+        <a onClick={() => moveToRoom(id)}>
           {title}
           <sup>{roomUsers.length}</sup>
         </a>
@@ -39,76 +32,6 @@ export var Room = React.createClass({
         </ul>
       </ul>
     );
-
-    var li = document.createElement('li');
-    li.ClassName = this.isCurrent ? 'current' : '';
-    
-    var title = document.createElement(this.isCurrent ? 'div' : 'a');
-    title.innerHTML = this.Title.substr(-16);
-    if (this.Title.length > 16) {
-      title.className = 'long';
-    }
-    if (this.isCurrent) {
-      title.onclick = () => this.ChangeRoom(this.Id);
-      title.alt = title.title = this.Title;
-      title.className += ' ' + this.MakeCSS();
-    }
-
-    li.appendChild(title);
-
-    var insideUsers = document.createElement('ul');
-    var roomUsers = _.filter(users.Base, (user) => user.RoomId == this.Id);
-    var awaitingUsers = _.filter(roomUsers, (user) => !user.HasAccessTo(this));
-
-    if (_.size(awaitingUsers)) {
-      var awaitersLi = document.createElement('li');
-      awaitersLi.className = 'awaiting';
-      awaitersLi.innerHTML = _.map(awaitingUsers, (user) => user.ToString(this, me)).join(', ');
-      insideUsers.appendChild(awaitersLi);
-    }
-
-    _.each(_.without(roomUsers, awaitingUsers), (user) => {
-      var li = document.createElement('li');
-      li.innerHTML = user.ToString(this, me);
-      insideUsers.appendChild(li);
-    });
-
-    li.appendChild(insideUsers);
-    container.appendChild(li);
-    return;
-
-    // var s = "<li class='roomBox" + (this.isCurrent ? " Current" : "") + "'>";
-    // var title = this.Title.length < 16 ? this.Title : this.Title.substr(0, 16) + "...";
-    // if (this.isCurrent) {
-    //   s += "<strong class='" + this.MakeCSS() + "' title='" + this.Title + "'>" + title + "</strong>";
-    // } else {
-    //   s += "<a " + settings.voidHref + " onclick=\"ChangeRoom('" + this.Id + "')\" class='" + this.MakeCSS() + "' title='" + this.Title + "'>" + title + "</a>";
-    // }
-
-
-
-    // var inside = 0;
-    // var t = '<ul class=\"Users\">';
-    // var requestors = "";
-
-    // for (var id in users.Base) {
-    //   var user = users.Base[id];
-    //   if (user && user.RoomId == this.Id) {
-    //     var str = user.ToString(this);
-    //     if (user.HasAccessTo(this) || me.RoomId != this.Id) {
-    //       t += str;
-    //       inside++;
-    //     } else {
-    //       requestors += str;
-    //     }
-    //   }
-    // }
-    // if (requestors) {
-    //   t += "<div class=\"Requestors\">Ожидают допуска:</div>" + requestors;
-    // }
-    // t += "</ul></li>";
-    // s = s + (inside ? ("&nbsp;<span class='Count'>(" + inside + ")</span>") : "") + (inside || requestors ? t : "");
-    // return s;
   },
 
   Gather(sel) {

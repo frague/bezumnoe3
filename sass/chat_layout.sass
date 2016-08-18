@@ -11,6 +11,7 @@ body#inside
   a
     color: orangered
     cursor: hand;
+    cursor: pointer;
 
     img
       border: 0
@@ -21,7 +22,47 @@ body#inside
   div.flex-frame
     border: solid 2px orange
     position: absolute
-    overflow: auto;
+    overflow: auto
+    background-color: #000
+
+  ul#users-container
+    padding: 0
+    margin: 4px
+    width: 120px
+
+    ul
+      margin-bottom: 10px
+
+      li
+        margin-left: 4px;
+
+      & > a
+        color: white
+        font-weight: 800
+
+        sup
+          margin-left: 4px;
+          font-weight: 200;
+
+      &.current > a
+        color: orange
+        cursor: default
+
+  .messages-form
+    padding: 5px 10px
+
+    table
+      width: 100%
+
+      td:nth-child(2)
+        width: 100%
+        padding-right: 20px
+
+      input
+        width: 100%
+
+
+
 
   #Messages
     position: absolute
@@ -45,10 +86,6 @@ body#inside
     width: 150px
     overflow-x: hidden
 
-  #UsersContainer
-    padding: 0
-    margin: 4px
-    width: 120px
 
   #RecepientsContainer,
   #History

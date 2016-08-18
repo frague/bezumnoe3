@@ -3,6 +3,10 @@ import _ from 'lodash';
 import settings from './settings';
 
 export var utils = {
+  classNames(names) {
+    return _.compact(_.map(names, (isOn, className) => !!isOn && className)).join(' ');
+  },
+
   getElement(element) {
     if (element && (element.nodeType || element.jquery)) {
       return element;

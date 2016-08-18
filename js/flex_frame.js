@@ -11,6 +11,24 @@ export var FlexFrame = React.createClass({
     // For negative values result calculated relatively to the opposite side
     dimensions: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
   },
+
+  getInitialState() {
+    return this.getWindowSize();
+  },
+
+  getDefaultProps() {
+    return {
+      className: ''
+    }
+  },
+
+  componentDidMount() {
+    $(window).resize(() => this.setState(this.getWindowSize()));
+  },
+
+  componentWillUnmount() {
+    $(window).off('resize');
+  },
   
   getWindowSize() {
     if (self.innerWidth) {
@@ -34,7 +52,7 @@ export var FlexFrame = React.createClass({
   },
 
   makeStyle() {
-    var {width, height} = this.getWindowSize();
+    var {width, height} = this.state;
     var {dimensions} = this.props;
     var result = {};
     result.top = (dimensions[1] < 0 ? (height + dimensions[1]) : dimensions[1]) + 'px';
@@ -54,7 +72,7 @@ export var FlexFrame = React.createClass({
 
   render() {
     return (
-      <div className='flex-frame' style={this.makeStyle()}>
+      <div className={'flex-frame ' + this.props.className} style={this.makeStyle()}>
         {this.props.children}
       </div>
     );
