@@ -6,9 +6,9 @@ import {settings} from './settings';
   Displays/hides logical piece of content on demand.
 */
 
-export class Spoiler extends TabBase {
+export class Spoiler {
   constructor(id, title, height, is_opened, on_select) {
-    super();
+    // super();
     this.Id = id;
     this.Title = title;
     this.Height = height;

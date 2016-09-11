@@ -1,208 +1,201 @@
 import _ from 'lodash';
-import {utils} from './utils';
 import {settings} from './settings';
 import {Collection} from './collection';
 import {Recepient} from './recepient';
+import {FlexFrame} from './flex_frame';
 
+import React from 'react';
+import {utils} from './utils';
 /*
   Tab class. Entity of Tabs one.
 */
 
-export class TabBase {
-  constructor() {
-    this.RelatedDiv = {};
-    this.TopicDiv = {};
-  }
+// export class TabBase {
+//   constructor() {
+//     this.RelatedDiv = {};
+//     this.TopicDiv = {};
+//   }
 
-  initUploadFrame(property) {
-    if (!property) {
-      property = 'UploadFrame';
+//   initUploadFrame(property) {
+//     if (!property) {
+//       property = 'UploadFrame';
+//     }
+//     if (!this[property]) {
+//       this[property] = createElement('iframe', 'UploadFrame' + _.random(10, 99));
+//       this[property].className = 'UploadFrame';
+//       if (this.RelatedDiv) {
+//         this.RelatedDiv.appendChild(this[property]);
+//       }
+//     }
+//   }
+
+//   // obj - object to be assigned as a.obj (Tab by default) 
+//   AddSubmitButton(method, holder, obj) {
+//     var m1 = document.createElement("div");
+//     m1.className = "ConfirmButtons";
+//     this.SubmitButton = utils.makeButton(method, "ok_button.gif", obj || this, "", "Сохранить изменения");
+//     m1.appendChild(this.SubmitButton);
+//     this[holder || "RelatedDiv"].appendChild(m1);
+//   }
+
+//   // Tab object reaction by outside call 
+//   React(value) {
+//     if (this.Reactor) {
+//       this.Reactor.React(value);
+//     }
+//   }
+
+//   // Sets additional className to RelatedDiv 
+//   SetAdditionalClass(className) {
+//     this.RelatedDiv.className = "TabContainer" + (className ? " " + className : "");
+//   }
+// }
+export var Tab = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+    render: React.PropTypes.func.isRequired,
+    activate: React.PropTypes.func
+  },
+
+  activate() {
+    if (this.props.activate) {
+      this.props.activate(this);
     }
-    if (!this[property]) {
-      this[property] = createElement('iframe', 'UploadFrame' + _.random(10, 99));
-      this[property].className = 'UploadFrame';
-      if (this.RelatedDiv) {
-        this.RelatedDiv.appendChild(this[property]);
+  },
+
+  renderContent() {
+    return this.props.render();
+  },
+
+  render(isActive = false) {
+    return <li key={this.props.name} className={utils.classNames({active: isActive})}>
+      {isActive ? 
+        this.props.name 
+      :
+        <a onClick={() => this.activate()}>
+          {this.props.name}
+        </a>
       }
-    }
+    </li>
   }
+});
 
-  // obj - object to be assigned as a.obj (Tab by default) 
-  AddSubmitButton(method, holder, obj) {
-    var m1 = document.createElement("div");
-    m1.className = "ConfirmButtons";
-    this.SubmitButton = utils.makeButton(method, "ok_button.gif", obj || this, "", "Сохранить изменения");
-    m1.appendChild(this.SubmitButton);
-    this[holder || "RelatedDiv"].appendChild(m1);
-  }
-
-  // Tab object reaction by outside call 
-  React(value) {
-    if (this.Reactor) {
-      this.Reactor.React(value);
-    }
-  }
-
-  // Sets additional className to RelatedDiv 
-  SetAdditionalClass(className) {
-    this.RelatedDiv.className = "TabContainer" + (className ? " " + className : "");
-  }
-}
-
-export class Tab extends TabBase {
-  constructor(id, title, is_locked, is_private, on_select) {
-    super();
-    this.Id = id;
-    this.Title = title;
-    this.IsLocked = is_locked;
-    this.IsPrivate = is_private;
-    this.onSelect = on_select;
-
-    this.UnreadMessages = 0;
-    this.lastMessageId = null;
-    this.Alt = '';
-
-    this.recepients = new Collection();
-    if (this.IsPrivate) {
-      this.recepients.Add(new Recepient(id, title, true));
-    }
-  }
-
-  isSelected() {
-    return _.get(this, 'collection.current.Id') === this.Id;
-  }
-
-  ToString(index) {
-    var isSelected = this.isSelected();
-    this.DisplayDiv(isSelected);
-
-    var li = document.createElement('li');
-
-    li.className = (isSelected ? 'Selected ' : '') + (this.UnreadMessages ? 'HasUnread' : '');
-    li.alt = this.Alt;
-    li.title = this.Alt;
-
-    var title = document.createElement('button');
-    if (!isSelected) {
-      title.onclick = () => this.switchTo();
-      title.onfocus = () => this.switchTo();
-    };
-    title.innerHTML = this.Title + (this.UnreadMessages ? (' (' + this.UnreadMessages + ')') : '') + this.Id;
-
-    li.appendChild(title);
-    if (!this.IsLocked) {
-      var close = document.createElement('button');
-      close.className = 'CloseSign';
-      close.onclick = this.close.bind(this);
-      close.innerHTML = '&times;';
-      li.appendChild(close);
-    };
-    return li;
-  }
-
-  DisplayDiv(state) {
-    utils.displayElement(this.RelatedDiv, state);
-    utils.displayElement(this.TopicDiv, state);
-  }
-
-  Clear() {
-    this.TopicDiv.innerHTML = '';
-    this.RelatedDiv.innerHTML = '';
-    this.lastMessageId = null;
-  }
-
-  switchTo() {
-    if (this.collection) this.collection.switchTo(this.Id);
-  }
-
-  close() {
-    if (this.collection) this.collection.Delete(this.Id);
-  }
-}
 
 /*
   Tabs collection class.
 */
 
-export class Tabs {
-  constructor(tabsContainer, contentContainer) {
-    this.TabsContainer = tabsContainer;
-    this.ContentContainer = contentContainer;
-    this.tabsCollection = new Collection();
-    this.current = {};
-    this.history = [];
-
-    this.tabsList = document.createElement("ul");
-    this.tabsList.className = "Tabs";
-    this.TabsContainer.appendChild(this.tabsList);
-  }
-
-  Print() {
-    var tabsContainer = this.tabsList;
-    tabsContainer.innerHTML = '';
-    _.each(
-      this.tabsCollection.Base,
-      (tab, index) => {
-        console.log(index);
-        tabsContainer.appendChild(tab.ToString());
-      }
-    );
-  }
-
-  Add(tab, existingContainer) {
-    var topic = document.createElement("div");
-    topic.className = "TabTopic";
-    this.ContentContainer.appendChild(topic);
-    tab.TopicDiv = topic;
-    tab.collection = this;
-    this.history.push(tab.Id);
-
-    if (!existingContainer) {
-      existingContainer = document.createElement("div");
-      existingContainer.className = "TabContainer";
-      this.ContentContainer.appendChild(existingContainer);
+export var Tabs = React.createClass({
+  getInitialState() {
+    return {
+      tabs: [],
+      activeTab: null
     }
-    tab.RelatedDiv = existingContainer;
+  },
 
-    this.tabsCollection.Add(tab);
-    tab.DisplayDiv(false);
-  }
+  activate(tab) {
+    this.setState({activeTab: tab});
+  },
 
-  Delete(id) {
-    var tab = this.tabsCollection.Get(id);
-    if (tab) {
-      this.ContentContainer.removeChild(tab.TopicDiv);
-      this.ContentContainer.removeChild(tab.RelatedDiv);
-      this.tabsCollection.Delete(id);
-
-      _.pull(this.history, id);
-      if (this.current.Id == id) this.switchTo(this.history.pop());
-      this.Print();
+  add(name, render, switchToIt = true) {
+    var tab = new Tab({name, render, activate: this.activate});
+    this.state.tabs.push(tab);
+    if (switchToIt) {
+      this.activate(tab);
     }
+  },
+
+  render() {
+    return <div className='tabs'>
+      <FlexFrame key='tab-content' dimensions={[0, 0, 0, -20]}>
+        {this.state.activeTab && this.state.activeTab.renderContent()}
+      </FlexFrame>
+      <ul className='tab-names'>
+        {_.map(
+          this.state.tabs, 
+          (tab, index) => tab.render(tab.props.name === this.state.activeTab.props.name)
+        )}
+      </ul>
+    </div>;
   }
+  // constructor(tabsContainer, contentContainer) {
+  //   this.TabsContainer = tabsContainer;
+  //   this.ContentContainer = contentContainer;
+  //   this.tabsCollection = new Collection();
+  //   this.current = {};
+  //   this.history = [];
 
-  switchTo(id) {
-    var tab = this.tabsCollection.Get(id);
-    if (tab) {
-      if (_.last(this.history) === id) this.history.push(id);
-      this.current = tab;
-      tab.UnreadMessages = 0;
+  //   this.tabsList = document.createElement("ul");
+  //   this.tabsList.className = "Tabs";
+  //   this.TabsContainer.appendChild(this.tabsList);
+  // }
 
-      //recepients = tab.recepients;
-      _.result(window, 'ShowRecepients');
-      this.Print();
+  // Print() {
+  //   var tabsContainer = this.tabsList;
+  //   tabsContainer.innerHTML = '';
+  //   _.each(
+  //     this.tabsCollection.Base,
+  //     (tab, index) => {
+  //       console.log(index);
+  //       tabsContainer.appendChild(tab.ToString());
+  //     }
+  //   );
+  // }
 
-      if (tab.onSelect) {
-        tab.RelatedDiv.innerHTML = settings.loadingIndicator;
-        tab.onSelect(tab);
-      };
+  // Add(tab, existingContainer) {
+  //   var topic = document.createElement("div");
+  //   topic.className = "TabTopic";
+  //   this.ContentContainer.appendChild(topic);
+  //   tab.TopicDiv = topic;
+  //   tab.collection = this;
+  //   this.history.push(tab.Id);
 
-      _.result(window, 'onResize');
+  //   if (!existingContainer) {
+  //     existingContainer = document.createElement("div");
+  //     existingContainer.className = "TabContainer";
+  //     this.ContentContainer.appendChild(existingContainer);
+  //   }
+  //   tab.RelatedDiv = existingContainer;
+
+  //   this.tabsCollection.Add(tab);
+  //   tab.DisplayDiv(false);
+  // }
+
+  // Delete(id) {
+  //   var tab = this.tabsCollection.Get(id);
+  //   if (tab) {
+  //     this.ContentContainer.removeChild(tab.TopicDiv);
+  //     this.ContentContainer.removeChild(tab.RelatedDiv);
+  //     this.tabsCollection.Delete(id);
+
+  //     _.pull(this.history, id);
+  //     if (this.current.Id == id) this.switchTo(this.history.pop());
+  //     this.Print();
+  //   }
+  // }
+
+  // switchTo(id) {
+  //   var tab = this.tabsCollection.Get(id);
+  //   if (tab) {
+  //     if (_.last(this.history) === id) this.history.push(id);
+  //     this.current = tab;
+  //     tab.UnreadMessages = 0;
+
+  //     //recepients = tab.recepients;
+  //     _.result(window, 'ShowRecepients');
+  //     this.Print();
+
+  //     if (tab.onSelect) {
+  //       tab.RelatedDiv.innerHTML = settings.loadingIndicator;
+  //       tab.onSelect(tab);
+  //     };
+
+  //     _.result(window, 'onResize');
       
-      tab.DisplayDiv(true);
-    }
-  }
-};
+  //     tab.DisplayDiv(true);
+  //   }
+  // }
+});
 
 
 /* Service functions */

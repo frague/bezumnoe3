@@ -13,14 +13,16 @@ import {Spoiler} from './spoiler';
 import {Message} from './message';
 import {Recepient} from './recepient';
 import {pages} from './layouts';
-import {Tab} from './tabs';
 
+import React from 'react';
+import models from './models';
 import {FlexFrame} from './flex_frame';
 import {Room} from './room';
-import models from './models';
-import React from 'react';
+import {Tab, Tabs} from './tabs';
 
 export var Chat = React.createClass({
+  tabs: null,
+
   getInitialState() {
     this.history = [];
     this.historyPointer = 0;
@@ -29,12 +31,14 @@ export var Chat = React.createClass({
     this.rooms = new Collection();
     this.messages = new Collection();
     this.wakeups = new WakeupsCollection();
+ 
     this.newRoomId = null;
+ 
+
     return {
     // var Topic = $("#TopicContainer")[0];
     // var Status = $("#Status")[0];
     
-    // this.tabs = tabs;
     // this.options = options;
 
     // this.menu = null;
@@ -83,7 +87,18 @@ export var Chat = React.createClass({
     };
   },
 
-  componentWillMount() {
+  componentDidMount() {
+    this.tabs.add(
+      'Чат',
+      () => 
+        _.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>)
+    );
+    this.tabs.add(
+      'A-lines',
+      () => 
+        _.map(_.range(100), (n) => <p key={n}>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>),
+      false
+    );
     this.ping();
   },
 
@@ -520,6 +535,7 @@ export var Chat = React.createClass({
   render() {
     var layout = layoutConfigs[this.state.layoutIndex];
     var {me} = this.state;
+    // var domNode = React.findDOMNode(this);
     return (
       <div>
         <FlexFrame key='users' dimensions={layout.users}>
@@ -569,9 +585,7 @@ export var Chat = React.createClass({
           </div>
         </FlexFrame>
         <FlexFrame key='messages' dimensions={layout.messages}>
-          <FlexFrame key='messagesContainer' dimensions={[0, 0, 0, 0]}>
-            {_.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>)}
-          </FlexFrame>
+          <Tabs ref={(component) => this.tabs = component}></Tabs>
         </FlexFrame>
         <FlexFrame key='status' dimensions={layout.status} />
       </div>
