@@ -51,6 +51,17 @@ body#inside
   .messages-form
     padding: 5px 10px
 
+    ul.recepients
+      li 
+        display: inline-block
+        list-style: none
+        padding-right: 4px
+
+        &:nth-child(n + 2)::after
+          content: ', '
+        &:last-child::after
+          content: ''
+
     table
       width: 100%
 
@@ -109,19 +120,6 @@ body#inside
     width: 150px
     overflow-x: hidden
 
-
-  #RecepientsContainer,
-  #History
-    font-size: 7pt
-
-
-  #RecepientsContainer a
-    font-family: arial
-    position: relative
-    top: -4px
-    color: red
-    text-decoration: none
-    margin-left: 2px
 
 
   #MessagesContainer,

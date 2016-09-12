@@ -5,9 +5,10 @@ import _ from 'lodash';
 */
 
 export class Collection {
-  constructor() {
+  constructor(initialElements = []) {
     this.base = {};
     this.lastId = null;
+    this.bulkAdd(initialElements);
   }
 
   get(id) {
@@ -15,19 +16,22 @@ export class Collection {
   }
 
   add(element) {
-    if (!element.id) element.id = _.uniqueId();
-    this.base['_' + element.id] = element;
-    this.lastId = element.id;
+    let id = element.id || element.props.id;
+    if (!id) id = _.uniqueId();
+    this.base['_' + id] = element;
+    this.lastId = id;
   }
 
   bulkAdd(elements) {
-    elements.forEach((element) => {
+    _.each(elements, (element) => {
       this.add(element);
     })
   }
 
   delete(id) {
-    if (this.base['_' + id]) delete this.base['_' + id];
+    if (this.base['_' + id]) {
+      delete this.base['_' + id];
+    }
   }
 
   clear() {
@@ -64,7 +68,7 @@ export class Collection {
     return this.invoke('Gather', holder, ...params);
   }
 
-  render(holder, ...params) {
-    return this.invoke('render', holder, ...params);
+  render() {
+    return _.map(this.base, (element) => element.render());
   }
 }

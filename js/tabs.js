@@ -29,32 +29,32 @@ import {utils} from './utils';
 //     }
 //   }
 
-//   // obj - object to be assigned as a.obj (Tab by default) 
-//   AddSubmitButton(method, holder, obj) {
-//     var m1 = document.createElement("div");
-//     m1.className = "ConfirmButtons";
-//     this.SubmitButton = utils.makeButton(method, "ok_button.gif", obj || this, "", "Сохранить изменения");
-//     m1.appendChild(this.SubmitButton);
-//     this[holder || "RelatedDiv"].appendChild(m1);
-//   }
-
-//   // Tab object reaction by outside call 
-//   React(value) {
-//     if (this.Reactor) {
-//       this.Reactor.React(value);
-//     }
-//   }
-
-//   // Sets additional className to RelatedDiv 
-//   SetAdditionalClass(className) {
-//     this.RelatedDiv.className = "TabContainer" + (className ? " " + className : "");
-//   }
-// }
 export var Tab = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     render: React.PropTypes.func.isRequired,
-    activate: React.PropTypes.func
+    activate: React.PropTypes.func,
+    isPrivate: React.PropTypes.bool
+  },
+
+  getInitialState() {
+    return {
+      recepients: new Collection()
+    };
+  },
+
+  getRecepients() {
+    return this.state.recepients;
+  },
+
+  addRecepient(id, name, isLocked = false) {
+    this.state.recepients.add(
+      new Recepient({id, name, isLocked, deleteHandler: this.removeRecepient})
+    );
+  },
+
+  removeRecepient(id) {
+    this.state.recepients.delete(id);
   },
 
   activate() {
@@ -86,6 +86,10 @@ export var Tab = React.createClass({
 */
 
 export var Tabs = React.createClass({
+  propTypes: {
+    setActiveTab: React.PropTypes.func.isRequired
+  },
+
   getInitialState() {
     return {
       tabs: [],
@@ -95,17 +99,26 @@ export var Tabs = React.createClass({
 
   activate(tab) {
     this.setState({activeTab: tab});
+    this.props.setActiveTab(tab);
   },
 
-  add(name, render, switchToIt = true) {
-    var tab = new Tab({name, render, activate: this.activate});
+  add(parameters) {
+    var tab = new Tab(
+      _.extend({activate: this.activate}, parameters)
+    );
     this.state.tabs.push(tab);
-    if (switchToIt) {
+    if (parameters.switchToIt !== false) {
       this.activate(tab);
     }
+    return tab;
+  },
+
+  getActiveTab() {
+    return this.state.activeTab;
   },
 
   render() {
+    let activeTabName = this.state.activeTab && this.state.activeTab.props.name;
     return <div className='tabs'>
       <FlexFrame key='tab-content' dimensions={[0, 0, 0, -20]}>
         {this.state.activeTab && this.state.activeTab.renderContent()}
@@ -113,7 +126,7 @@ export var Tabs = React.createClass({
       <ul className='tab-names'>
         {_.map(
           this.state.tabs, 
-          (tab, index) => tab.render(tab.props.name === this.state.activeTab.props.name)
+          (tab, index) => tab.render(tab.props.name === activeTabName)
         )}
       </ul>
     </div>;

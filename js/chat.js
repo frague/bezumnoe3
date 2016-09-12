@@ -33,7 +33,7 @@ export var Chat = React.createClass({
     this.wakeups = new WakeupsCollection();
  
     this.newRoomId = null;
- 
+    this.messageType = null;
 
     return {
     // var Topic = $("#TopicContainer")[0];
@@ -80,7 +80,7 @@ export var Chat = React.createClass({
       rooms: [],
       messages: [],
       wakeups: [],
-      currentRoomId: null,
+      currentTab: null,
 
       layoutIndex: 1,
       displayedName: '%username%'
@@ -88,17 +88,23 @@ export var Chat = React.createClass({
   },
 
   componentDidMount() {
-    this.tabs.add(
-      'Чат',
-      () => 
-        _.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>)
-    );
-    this.tabs.add(
-      'A-lines',
-      () => 
+    this.tabs.add({
+      name: 'Чат',
+      render: () => 
+        _.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>),
+      isPrivate: false
+    });
+
+    let aLines = this.tabs.add({
+      name: 'A-lines',
+      render: () => 
         _.map(_.range(100), (n) => <p key={n}>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>),
-      false
-    );
+      switchToIt: false
+    });
+    aLines.addRecepient('a6452767', 'Vasya');
+    aLines.addRecepient('a1124430', 'Petya');
+    aLines.addRecepient('a9807098', 'Fedya');
+
     this.ping();
   },
 
@@ -210,36 +216,6 @@ export var Chat = React.createClass({
   //   document.title = "(" + this.users.Count() + ") " + (author_name ? "\"" : "") + StripTags(text) + (author_name ? "\", " + author_name : "");
   // },
 
-  // showRecepients() {
-  //   if (this.tabs.current) {
-  //     var prefix = {
-  //       'wakeup': 'Wakeup для ',
-  //       'kick': 'Выгнать ',
-  //       'ban': 'Забанить ',
-  //       'me': 'О себе в третьем лице',
-  //       'status': 'Установить статус',
-  //       'topic': 'Установить тему',
-  //       'locktopic': 'Установить и заблокировать тему',
-  //       'unlocktopic': 'Установить и разблокировать тему',
-  //       'away': 'Отойти',
-  //       'quit': 'Выйти из чата'
-  //     }[this.messageType];
-
-  //     var recepientsContainer = $('#RecepientsContainer')[0];
-  //     if (!prefix) {
-  //       if (!this.tabs.current.recepients.Count()) {
-  //         this.messageType = null;
-  //         recepientsContainer.innerHTML = '';
-  //         return;
-  //       }
-  //       prefix = 'Для ';
-  //     }
-  //     recepientsContainer.innerHTML = prefix;
-  //     this.tabs.current.recepients.render(recepientsContainer);
-  //   }
-  //   $('#Message').focus();
-  // },
-
   // addRecepient(id, name, type) {
   //   if (id === this.me.Id) {
   //     return;
@@ -256,14 +232,14 @@ export var Chat = React.createClass({
   //         mainTab.switchTo();
   //       }
   //     }
-  //     this.showRecepients();
+  //     this.renderRecepients();
   //   }
   // },
 
   // deleteRecepient(id) {
   //   if (this.tabs.main) {
   //     this.tabs.main.recepients.Delete(id);
-  //     this.showRecepients();
+  //     this.renderRecepients();
   //   }
   // },
 
@@ -401,7 +377,8 @@ export var Chat = React.createClass({
   },
 
   send() {
-    var recepients = this.tabs.current.recepients.Gather();
+    let activeTab = this.tabs.getActiveTab();
+    var recepients = activeTab.recepients.Gather();
     var textField = $('#Message');
 
     if (!recepients && !textField.val()) {
@@ -415,10 +392,9 @@ export var Chat = React.createClass({
     $.post(settings.servicesPath + 'message.service.php', s.build())
       .then(() => this.received);
 
-    if (!this.tabs.current.IsPrivate) {
-      this.tabs.current.recepients.Clear();
-      this.messageType = '';
-      this.showRecepients();
+    if (!activeTab.props.isPrivate) {
+      activeTab.recepients.Clear();
+      this.messageType = null;
     }
     this.MessagesHistory = _.take(
       _.concat([textField.val()], this.MessagesHistory), 
@@ -532,10 +508,49 @@ export var Chat = React.createClass({
   //   }
   // },
 
+  setActiveTab(tab) {
+    this.setState({activeTab: tab});
+  },
+
+  renderRecepients() {
+    let activeTab = this.state.activeTab;
+    if (!activeTab) {
+      return null;
+    }
+
+    let recepients = activeTab.getRecepients();
+    console.log(recepients.base);
+
+    let prefix = {
+      'wakeup': 'Wakeup для ',
+      'kick': 'Выгнать ',
+      'ban': 'Забанить ',
+      'me': 'О себе в третьем лице',
+      'status': 'Установить статус',
+      'topic': 'Установить тему',
+      'locktopic': 'Установить и заблокировать тему',
+      'unlocktopic': 'Установить и разблокировать тему',
+      'away': 'Отойти',
+      'quit': 'Выйти из чата'
+    }[this.messageType];
+
+    if (!prefix) {
+      if (!recepients.count()) {
+        this.messageType = null;
+        return null;
+      } else {
+        prefix = 'Для';
+      }
+    }
+    return <ul className='recepients'>
+      <li key='prefix'>{prefix}</li>
+      {recepients.render()}
+    </ul>;
+  },
+
   render() {
     var layout = layoutConfigs[this.state.layoutIndex];
     var {me} = this.state;
-    // var domNode = React.findDOMNode(this);
     return (
       <div>
         <FlexFrame key='users' dimensions={layout.users}>
@@ -549,15 +564,14 @@ export var Chat = React.createClass({
                   me={this.state.me}
                   moveToRoom={this.moveToRoom}
                   {...room.data}
-                  />
-              
+                />
             )}
           </ul>
           <div id='NewRoom' />
         </FlexFrame>
         <FlexFrame key='form' className='messages-form' dimensions={layout.form}>
           <h6>{me ? me.login : '%username%'}</h6>
-          <ul id='RecepientsContainer' />
+          {this.renderRecepients()}
           <table>
             <tbody>
               <tr>
@@ -568,7 +582,7 @@ export var Chat = React.createClass({
                   <input id='message' autoComplete='off' />
                 </td>
                 <td>
-                  <button onClick={this.send}>Отправить</button>
+                  <button onClick={() => this.send()}>Отправить</button>
                 </td>
               </tr>
             </tbody>
@@ -585,7 +599,10 @@ export var Chat = React.createClass({
           </div>
         </FlexFrame>
         <FlexFrame key='messages' dimensions={layout.messages}>
-          <Tabs ref={(component) => this.tabs = component}></Tabs>
+          <Tabs 
+            ref={(component) => this.tabs = component}
+            setActiveTab={this.setActiveTab}
+          />
         </FlexFrame>
         <FlexFrame key='status' dimensions={layout.status} />
       </div>
