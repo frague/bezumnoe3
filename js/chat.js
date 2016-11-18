@@ -91,7 +91,9 @@ export var Chat = React.createClass({
     this.tabs.add({
       name: 'Чат',
       render: () => 
-        _.map(this.state.messages, (message) => <p key={message.id}>{message.text}</p>),
+        _.map(
+          this.state.messages, 
+          (message, index) => <Message key={index} {...message} />),
       isPrivate: false
     });
 
@@ -296,7 +298,7 @@ export var Chat = React.createClass({
       // );
 
       /* Messages */
-      s.add('last_id', this.state.messages.LastId);
+      s.add('last_id', this.messages.lastId);
 
       /* Move to room */
       if (this.state.newRoomId) {
@@ -344,7 +346,7 @@ export var Chat = React.createClass({
     );
 
     _.each(
-      messages,
+      _.reverse(messages),
       (message) => this.messages.add(new models.MessageModel(...message))
     );
 
@@ -378,8 +380,8 @@ export var Chat = React.createClass({
 
   send() {
     let activeTab = this.tabs.getActiveTab();
-    var recepients = activeTab.recepients.Gather();
-    var textField = $('#Message');
+    var recepients = activeTab.getRecepients();
+    var textField = $('#message');
 
     if (!recepients && !textField.val()) {
       return;
@@ -393,7 +395,7 @@ export var Chat = React.createClass({
       .then(() => this.received);
 
     if (!activeTab.props.isPrivate) {
-      activeTab.recepients.Clear();
+      recepients.clear();
       this.messageType = null;
     }
     this.MessagesHistory = _.take(
