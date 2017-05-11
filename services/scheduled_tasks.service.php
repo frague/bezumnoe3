@@ -44,8 +44,14 @@
 
 	$types = array(
 		ScheduledTask::TYPE_INACTIVATED,
-		ScheduledTask::TYPE_STATUS, ScheduledTask::TYPE_UNBAN, ScheduledTask::TYPE_EXPIRED_SESSIONS, ScheduledTask::TYPE_RATINGS,
-		ScheduledTask::TYPE_YTKA_BOT, ScheduledTask::TYPE_VICTORINA_BOT, ScheduledTask::TYPE_LINGVIST_BOT
+		ScheduledTask::TYPE_STATUS, 
+		ScheduledTask::TYPE_UNBAN, 
+		ScheduledTask::TYPE_EXPIRED_SESSIONS, 
+		ScheduledTask::TYPE_RATINGS,
+		ScheduledTask::TYPE_YTKA_BOT, 
+		ScheduledTask::TYPE_VICTORINA_BOT, 
+		ScheduledTask::TYPE_LINGVIST_BOT, 
+		ScheduledTask::TYPE_TELEGRAM_BOT
 	);
 	$condition = "";
 	for ($i = 0; $i < sizeof($types); $i++) {

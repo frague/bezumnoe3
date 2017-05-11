@@ -180,10 +180,6 @@
 
                 <div style="clear: both;" class="Divider Horizontal"><span></span></div>
 
-                <?php include $root."inc/ui_parts/rle_banner.php"; ?>
-
-                <div class="Divider Horizontal Alternative"><span></span></div>
-
                 <div class="footer">
                     <p>Первая версия сайта была запущена 19 октября 1999 года
                     <p>&copy; Дизайн и разработка сайта - <a href="mailto:me@bezumnoe.ru">Николай Богданов</a>

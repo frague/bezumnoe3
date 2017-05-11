@@ -122,8 +122,6 @@
                 <script src="/js1/template_layout.js"></script>
             <footer>
                 <div style="clear: both;" class="Divider Horizontal"><span></span></div>
-                <?php include $root."inc/ui_parts/rle_banner.php"; ?>
-                <div style="clear: both;" class="Divider Horizontal Alternative"><span></span></div>
 <?php
 
         include "footer.php";

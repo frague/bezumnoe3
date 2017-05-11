@@ -47,6 +47,9 @@
 				case ScheduledTask::TYPE_LINGVIST_BOT:
 					$bot = new LingvistBotScheduledTask($botUserId, $roomId);
 					break;
+				case ScheduledTask::TYPE_TELEGRAM_BOT:
+					$bot = new TelegramBotScheduledTask($botUserId, $roomId);
+					break;
 				default:
 					exit();
 			}

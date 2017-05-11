@@ -21,6 +21,7 @@
             <input type="checkbox" id="ytka" name="ytka" checked> <label for="ytka">Бот: YTKA</label><br />
             <input type="checkbox" id="victorina" name="victorina" checked> <label for="victorina">Бот: BUKTOPUHA</label><br />
             <input type="checkbox" id="lingvist" name="lingvist" checked> <label for="lingvist">Бот: Lingvist</label><br />
+            <input type="checkbox" id="telegram" name="telegram" checked> <label for="telegram">Бот: Telegram</label><br />
             </td></tr></table>
 
 <ul class="Links">

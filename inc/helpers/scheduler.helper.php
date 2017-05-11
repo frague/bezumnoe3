@@ -55,8 +55,7 @@
 
             if ($action) {
                 try {
-                    print $st->Type;
-                    $action->ExecuteByMessage($message);
+                    print $st->Type." -> ".$action->ExecuteByMessage($message)." ";
                 } catch (Exception $e) {
                     //SaveLog("Ошибка исполнения задачи по расписанию: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
                     //TODO: Disable this task?

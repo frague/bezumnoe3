@@ -22,7 +22,7 @@
             // Sorry for the stubs in urls (((
 
             $url = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-            $url = preg_replace("/\/comments$/", "", $url);
+      $url = preg_replace("/\/comments.*$/", "", $url);
 
             $tags = "";
             foreach ($this->Tags as $tag) {
@@ -61,11 +61,12 @@
     // Facebook like button
     class FacebookLikeButton extends LikeButton {
         public static function getHeadContent() {
-            return "<script>(function(d, s, id) {
+      return "<div id=\"fb-root\"></div>
+<script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
+  if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = \"//connect.facebook.net/en_US/all.js#xfbml=1\";
+  js.src = \"//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.8&appId=140609669351753\";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 ";
@@ -73,7 +74,7 @@
 
         function getButtonContent() {
             return "<div id=\"fb-root\"></div>
-<div class=\"fb-like\" data-send=\"false\" data-layout=\"button_count\" data-width=\"100\" data-show-faces=\"true\" data-action=\"recommend\"></div>";
+<div class=\"fb-like\" data-layout=\"button_count\" data-action=\"recommend\" data-size=\"small\" data-show-faces=\"true\" data-share=\"false\"></div>";
         }
 
         function getMetadata() {
@@ -109,10 +110,10 @@
     // Google +1 button
     class GooglePlusButton extends LikeButton {
         public static function getHeadContent() {
-            return "<script type=\"text/javascript\" src=\"https://apis.google.com/js/plusone.js\">{lang: 'ru'}</script>\n";
+      return "<script type=\"text/javascript\" src=\"https://apis.google.com/js/platform.js\">{lang: 'ru'}</script>\n";
         }
         function getButtonContent() {
-            return "<g:plusone size=\"medium\"></g:plusone>";
+      return "<div class=\"g-plusone\" data-size=\"medium\"></div>";
         }
 
         function getMetadata() {

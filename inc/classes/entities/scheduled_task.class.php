@@ -22,6 +22,7 @@ class ScheduledTask extends EntityBase {
     const TYPE_YTKA_BOT         = "ytka";
     const TYPE_VICTORINA_BOT    = "victorina";
     const TYPE_LINGVIST_BOT     = "lingvist";
+    const TYPE_TELEGRAM_BOT     = "telegram";
     
     const SCHEDULER_LOGIN = "по расписанию";
     const HANGED_TIMEOUT = "00:10:00";      // 10 minutes to recover
@@ -37,7 +38,7 @@ class ScheduledTask extends EntityBase {
     var $TransactionGuid;
     var $IsActive;
 
-    var $Bots = array(self::TYPE_YTKA_BOT, self::TYPE_VICTORINA_BOT, self::TYPE_LINGVIST_BOT);
+    var $Bots = array(self::TYPE_YTKA_BOT, self::TYPE_VICTORINA_BOT, self::TYPE_LINGVIST_BOT, self::TYPE_TELEGRAM_BOT);
 
     function ScheduledTask() {
         $this->table = self::table;
@@ -130,6 +131,7 @@ class ScheduledTask extends EntityBase {
                 case self::TYPE_YTKA_BOT:           return new YtkaBotAction($this);
                 case self::TYPE_VICTORINA_BOT:      return new VictorinaBotAction($this);
                 case self::TYPE_LINGVIST_BOT:       return new LingvistBotAction($this);
+                case self::TYPE_TELEGRAM_BOT:       return new TelegramBotAction($this);
             }
         }
         return 0;
@@ -336,6 +338,12 @@ class VictorinaBotScheduledTask extends Bot {
 class LingvistBotScheduledTask extends Bot {
     function LingvistBotScheduledTask($userId = -1, $roomId = -1) {
         parent::__construct(ScheduledTask::TYPE_LINGVIST_BOT, $userId, $roomId);
+    }
+}
+
+class TelegramBotScheduledTask extends Bot {
+    function TelegramBotScheduledTask($userId = -1, $roomId = -1) {
+        parent::__construct(ScheduledTask::TYPE_TELEGRAM_BOT, $userId, $roomId);
     }
 }
 
@@ -642,6 +650,35 @@ class LingvistBotAction extends BotBaseAction {
     }
 
     function ExecuteByMessage($message) {
+        return true;
+    }
+}
+
+// Telegram bot actions
+class TelegramBotAction extends BotBaseAction {
+    function ExecuteByTimer() {
+        return true;
+    }
+    
+    function ExecuteByMessage($message) {
+      global $db;
+
+        if (!$message->IsPrivate()) {
+            try {
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, "http://bzmn.herokuapp.com/push");
+                curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($_SERVER));
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_TIMEOUT, 1);
+                // curl_exec($curl);
+                curl_close($curl);
+            }
+            catch (Exception $e) {
+                print $e;
+            }
+        }
         return true;
     }
 }
