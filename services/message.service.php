@@ -178,6 +178,7 @@
 				}
 				$msg->Save();
 				if ($triggerBots) {
+					$msg->UserName = $user->DisplayedName();
 					TriggerBotsByMessage($msg);
 				}
 			}
