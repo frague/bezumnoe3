@@ -22,6 +22,7 @@ class Profile extends EntityBase {
 	const GENERATION = "GENERATION";
 	const RATING = "RATING";
 	const LAST_RATING = "LAST_RATING";
+	const TELEGRAM_ID = "TELEGRAM_ID";
 
 	// Properties
 	var $UserId;
@@ -41,6 +42,7 @@ class Profile extends EntityBase {
 	var $Generation;
 	var $Rating;
 	var $LastRating;
+	var $TelegramId;
 
 	var $FieldsNames = array(
 		"Имя",
@@ -77,6 +79,7 @@ class Profile extends EntityBase {
 		$this->Generation = "";
 		$this->Rating = 0;
 		$this->LastRating = 0;
+		$this->TelegramId = "";
 	}
 
 	function FillFromResult($result) {
@@ -98,6 +101,7 @@ class Profile extends EntityBase {
 		$this->Generation = $result->Get(self::GENERATION);
 		$this->Rating = $result->Get(self::RATING);
 		$this->LastRating = $result->Get(self::LAST_RATING);
+		$this->TelegramId = $result->Get(self::TELEGRAM_ID);
 	}
 
 	function FillFromHash($hash) {
@@ -130,6 +134,7 @@ class Profile extends EntityBase {
 		$s.= "<li>".self::GENERATION.": ".$this->Generation."</li>\n";
 		$s.= "<li>".self::RATING.": ".$this->Rating."</li>\n";
 		$s.= "<li>".self::LAST_RATING.": ".$this->LastRating."</li>\n";
+		$s.= "<li>".self::TELEGRAM_ID.": ".$this->TelegramId."</li>\n";
 		if ($this->IsEmpty()) {
 			$s.= "<li> <b>Profile is not saved!</b>";
 		}
@@ -172,7 +177,8 @@ JsQuote($this->Photo)."\", \"".
 JsQuote($this->Avatar)."\", \"".
 JsQuote($this->About)."\",  \"".
 JsQuote($this->Registered)."\",  \"".
-JsQuote($this->LastVisit)."\"]";
+JsQuote($this->LastVisit)."\", \"".
+JsQuote($this->TelegramId)."\"]";
 		return $s;
 	}
 
@@ -244,7 +250,8 @@ JsQuote($this->LastVisit)."\"]";
 	t1.".self::LAST_VISIT.",
 	t1.".self::GENERATION.",
 	t1.".self::RATING.",
-	t1.".self::LAST_RATING."
+	t1.".self::LAST_RATING.",
+	t1.".self::TELEGRAM_ID."
 FROM 
 	".$this->table." AS t1 
 WHERE
@@ -299,7 +306,8 @@ WHERE
 ".self::LAST_VISIT.",
 ".self::GENERATION.",
 ".self::RATING.",
-".self::LAST_RATING."
+".self::LAST_RATING.",
+".self::TELEGRAM_ID."
 )
 VALUES
 ('".SqlQuote($this->UserId)."', 
@@ -318,7 +326,8 @@ VALUES
 '".SqlQuote($this->LastVisit)."',
 ".(strlen($this->Generation) > 0 ? $this->Generation : "NULL").",
 ".round($this->Rating).",
-".round($this->LastRating)."
+".round($this->LastRating).",
+".round($this->TelegramId)."
 )";
 	}
 
@@ -340,7 +349,8 @@ VALUES
 ".self::LAST_VISIT."='".SqlQuote($this->LastVisit)."', 
 ".self::GENERATION."=".(strlen($this->Generation) > 0 ? $this->Generation : "NULL").",
 ".self::RATING."=".round($this->Rating).",
-".self::LAST_RATING."=".round($this->LastRating)."
+".self::LAST_RATING."=".round($this->LastRating).",
+".self::TELEGRAM_ID."=".SqlQuote($this->TelegramId)."
 WHERE 
 	".self::PROFILE_ID."=".SqlQuote($this->Id);
 		return $result;

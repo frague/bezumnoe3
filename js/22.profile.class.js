@@ -4,7 +4,11 @@
 */
 
 function Profile() {
-	this.fields = new Array("LOGIN", "EMAIL", "NAME", "GENDER", "BIRTHDAY", "CITY", "ICQ", "URL", "PHOTO", "AVATAR", "ABOUT", "REGISTERED", "LAST_VISIT");
+	this.fields = [
+		"LOGIN", "EMAIL", "NAME", "GENDER", "BIRTHDAY", "CITY", 
+    "ICQ", "URL", "PHOTO", "AVATAR", "ABOUT", "REGISTERED", "LAST_VISIT",
+    "TELEGRAM_ID"
+	];
 	this.ServicePath = servicesPath + "profile.service.php";
 	this.Template = "userdata";
 	this.ClassName = "Profile";	// Optimize?
