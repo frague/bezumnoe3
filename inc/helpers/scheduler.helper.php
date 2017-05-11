@@ -41,8 +41,6 @@
         $st = new ScheduledTask();
         $q = $st->GetActiveBots();
 
-        print "/*";
-
         for ($i = 0; $i < $q->NumRows(); $i++) {
             $q->NextResult();
             $st->FillFromResult($q);
@@ -55,14 +53,13 @@
 
             if ($action) {
                 try {
-                    print $st->Type." -> ".$action->ExecuteByMessage($message)." ";
+                    $action->ExecuteByMessage($message);
                 } catch (Exception $e) {
                     //SaveLog("Ошибка исполнения задачи по расписанию: ".$e->getMessage(), -1, ScheduledTask::SCHEDULER_LOGIN);
                     //TODO: Disable this task?
                 }
             }
         }
-        print "*/";
     }
 
 ?>
