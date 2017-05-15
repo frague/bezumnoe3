@@ -43,7 +43,7 @@ class Message extends EntityBase {
     }
 
     function IsPrivate() {
-        return $this->ToUserId > 0;
+        return $this->ToUserId > 0 && $this->UserId != $this->ToUserId;
     }
 
     function IsVisibleTo($user) {
