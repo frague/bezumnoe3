@@ -120,6 +120,7 @@
 			switch ($type) {
 				case "me":
 					$msg = new MeMessage($message, $user->User);
+					$triggerBots = true;
 					break;
 				case "locktopic":
 				case "unlocktopic":
@@ -139,6 +140,7 @@
 								$room->Topic = OuterLinks(MakeLinks($message, true));
 								$room->TopicAuthorId = $user->User->Id;
 								$msg = new SystemMessage(Clickable($user->DisplayedName())." меняет тему на &laquo;".$message."&raquo;.", $user->User->RoomId);
+								$triggerBots = true;
 							}
 							$room->Save();
 						} else {
