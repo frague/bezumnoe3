@@ -22,8 +22,6 @@
 
 	$userId = (int) $_POST["user_id"];
 
-	// print json_encode(array("user" => $user, "id" => $userId));
-
 	if ($message) {
 		if ($userId) {
 			$profile = new Profile();
