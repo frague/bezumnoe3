@@ -129,7 +129,7 @@ class Message extends EntityBase {
                         $timeAdd = " Red";
                         break;
                     case -100:
-                        return "<p class='Telegram'>".$text."</p>";
+                        return "<p class='Telegram'><i></i>".$text."</p>";
                 } 
                 return "<p class='System'><span class='Time".$timeAdd."'>".$moment."</span> ".$text."</p>";
             }

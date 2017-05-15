@@ -209,10 +209,13 @@ p.NewDay {
     color: #FFC6A2; }
 
 p.Telegram {
-  color: #0293FA;
-  background: url(/img/icons/telegram-logo.png) no-repeat;
-  padding-left: 16px;
-  background-size: contain; }
+  color: #0293FA; }
+  p.Telegram i {
+    background: url(/img/icons/telegram-logo.png) no-repeat;
+    background-size: contain;
+    width: 16px;
+    height: 12px;
+    display: inline-block; }
 
 p strong {
   font-weight: normal;
