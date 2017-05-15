@@ -79,7 +79,7 @@ class Profile extends EntityBase {
 		$this->Generation = "";
 		$this->Rating = 0;
 		$this->LastRating = 0;
-		$this->TelegramId = "";
+		$this->TelegramId = 0;
 	}
 
 	function FillFromResult($result) {
@@ -201,7 +201,6 @@ JsQuote($this->TelegramId)."\"]";
 			$this->ReadPhotosExpression().($limit ? " LIMIT ".$limit : "")
 		);
 	}
-
 
 	function DeleteByUserId($id = 0) {
 	 global $db;
