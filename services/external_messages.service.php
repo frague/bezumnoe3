@@ -22,18 +22,19 @@
 
 	$userId = (int) $_POST["user_id"];
 
-	print json_encode(array("user" => $user, "id" => $userId));
+	// print json_encode(array("user" => $user, "id" => $userId));
 
 	if ($message) {
 		if ($userId) {
 			$profile = new Profile();
-			$profile->GetByCondition(Profile::TELEGRAM_ID."=".$userId);
+			$profile->FillByCondition(Profile::TELEGRAM_ID."=".$userId);
+
 			if (!$profile->IsEmpty()) {
 				$user = new User();
 				$user->Id = $profile->UserId;
 				$user->RoomId = $room->Id;
 
-				$msg = new Message($message, $user->User);
+				$msg = new Message($message, $user);
 				$msg->Save();
 				die;
 			}
