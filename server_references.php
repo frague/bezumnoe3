@@ -45,6 +45,7 @@
     require_once $root."inc/classes/entities/openid_provider.class.php";
     require_once $root."inc/classes/entities/user_openid.class.php";
     require_once $root."inc/classes/entities/dictionary.class.php";
+    require_once $root."inc/classes/entities/telegram.class.php";
 
     /* Service classes */
     require_once $root."inc/classes/sql.class.php";

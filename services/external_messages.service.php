@@ -13,7 +13,7 @@
 		return;
 	}
 
-	print "/* ".$_SERVER["HTTP_X_FORWARDED_FOR"]." */";
+	// print "/* ".$_SERVER["HTTP_X_FORWARDED_FOR"]." */";
 
 	$message = str_replace("<", "&lt;", $_POST["message"]);
 	$message = str_replace(">", "&gt;", $message);
