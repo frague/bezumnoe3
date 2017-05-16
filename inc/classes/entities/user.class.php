@@ -493,7 +493,8 @@ WHERE ".self::USER_ID."=".SqlQuote($this->Id);
         return "SELECT
     t1.".self::USER_ID.",
     COALESCE(t2.".Nickname::TITLE.",t1.".self::LOGIN.") AS ".self::LOGIN.",
-    t1.".self::ROOM_ID."
+    t1.".self::ROOM_ID.",
+    t1.".self::SESSION."
 FROM ".$this->table." t1
     LEFT JOIN ".Nickname::table." t2 ON (t2.".Nickname::USER_ID."=t1.".self::USER_ID." AND t2.".Nickname::IS_SELECTED."=1)
 WHERE
