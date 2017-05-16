@@ -135,9 +135,9 @@ class User extends EntityBase {
         $this->AwayTime = "";
     }
 
-    function CreateSession() {
-        $this->Session = MakeGuid($this->sessionKeyLength);
-        $this->SessionCheck = MakeGuid($this->sessionKeyLength);
+    function CreateSession($prefix = "") {
+        $this->Session = $prefix.MakeGuid($this->sessionKeyLength);
+        $this->SessionCheck = $prefix.MakeGuid($this->sessionKeyLength);
 
         $this->SessionAddress = GetRequestAddress();
         $this->TouchSession();
@@ -150,7 +150,6 @@ class User extends EntityBase {
     function TouchSession() {
         if ($this->Session) {
             $this->SessionPong = "SYSDATE()";
-//            $this->SessionPong = NowDateTime();
         }
     }
 

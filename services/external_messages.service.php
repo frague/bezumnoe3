@@ -28,9 +28,13 @@
 			$profile->FillByCondition(Profile::TELEGRAM_ID."=".$userId);
 
 			if (!$profile->IsEmpty()) {
-				$user = new User();
-				$user->Id = $profile->UserId;
+				$user = new User($profile->UserId);
+				$user->Retrieve();
 				$user->RoomId = $room->Id;
+				if (!$user->SessionPong) {
+					$user->CreateSession("telegram");
+				}
+				$user->Save();
 
 				$msg = new Message($message, $user);
 				$msg->Save();

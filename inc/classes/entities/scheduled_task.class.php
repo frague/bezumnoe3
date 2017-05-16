@@ -438,7 +438,10 @@ class ExpiredSessionsAction extends BaseAction {
         for ($i = 0; $i < $q->NumRows(); $i++) {
             $q->NextResult();
             $roomId = $q->Get(User::ROOM_ID);
-            $u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
+            $session = $q->Get(User::SESSION);
+            if (!preg_match("^telegram[0-9A-Z]+$", $session)) {
+                $u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
+            }
         }
         
         // Left user sessions, but remove room information
