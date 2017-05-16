@@ -439,7 +439,7 @@ class ExpiredSessionsAction extends BaseAction {
             $q->NextResult();
             $roomId = $q->Get(User::ROOM_ID);
             $session = $q->Get(User::SESSION);
-            if (!preg_match("^telegram[0-9A-Z]+$", $session)) {
+            if (!preg_match("/^telegram[0-9A-Z]+$/", $session)) {
                 $u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
             }
         }
