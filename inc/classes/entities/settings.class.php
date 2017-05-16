@@ -105,7 +105,7 @@ class Settings extends EntityBase {
         $cs += CheckSum(Boolean($this->ReceiveWakeups));
         $cs += CheckSum($this->Frameset);
         $cs += $this->FontCheckSum();
-        DebugLine("Settings sum: ".$cs);
+        // DebugLine("Settings sum: ".$cs);
         return $cs;
     }
 

@@ -35,14 +35,14 @@ OptionsBase.prototype.TemplateLoaded = function(req) {  // To be overriden
 OptionsBase.prototype.TemplateBaseLoaded = function(req) {
     text = req;
     if (req) {
-        DebugLine("Template " + this.Template + " caching");
+        // DebugLine("Template " + this.Template + " caching");
         text = req;
         KeepRequestedContent(this.Template, text);
     }
-    DebugLine("Template publishing");
+    // DebugLine("Template publishing");
     this.Tab.RelatedDiv.innerHTML = text;
     this.Tab.InitUploadFrame();
-    DebugLine("Data request");
+    // DebugLine("Data request");
     this.Request();
 };
 
