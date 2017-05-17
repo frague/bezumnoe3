@@ -305,3 +305,13 @@ ul.BottomNav li.First a {
     -webkit-border-radius: 2px;
 }
 
+.telegram-auth {
+    text-align: center
+}
+
+.telegram-auth input {
+    width: 150px
+}
+
+
+
