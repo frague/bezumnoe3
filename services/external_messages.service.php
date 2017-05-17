@@ -22,6 +22,11 @@
 
 	$userId = (int) $_POST["user_id"];
 
+	$command = preg_replace("/\/([a-z]+)( |$).*$/i", "$1", $message);
+	if ($command) {
+		$message = preg_replace("/\/".$command."\s*/", "", $message);
+	}
+
 	if ($message) {
 		if ($userId) {
 			$profile = new Profile();
@@ -35,6 +40,8 @@
 					$user->CreateSession("telegram");
 				}
 				$user->Save();
+
+				print "Command: ".$command.", ".$message;
 
 				$msg = new Message($message, $user);
 				$msg->Save();
