@@ -165,6 +165,7 @@
 					$msg = new QuitMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $user->User->RoomId);
 					$user->User->GoOffline();
 					$user->User->Save();
+					$triggerBots = true;
 					break;
 				default:
 					$msg = new Message($message, $user->User);
