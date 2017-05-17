@@ -216,6 +216,8 @@ p.Telegram {
     width: 16px;
     height: 12px;
     display: inline-block; }
+  p.Telegram .me {
+    font-variant: italic; }
 
 p strong {
   font-weight: normal;

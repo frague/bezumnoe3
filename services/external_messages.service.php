@@ -22,10 +22,13 @@
 
 	$userId = (int) $_POST["user_id"];
 
-	$command = preg_replace("/\/([a-z]+)( |$).*$/i", "$1", $message);
-	if ($command) {
+	preg_match_all("/^\/([a-z]+)/", $message, $commands, PREG_PATTERN_ORDER);
+	if (sizeof($commands)) {
+		$command = $commands[1][0];
 		$message = preg_replace("/\/".$command."\s*/", "", $message);
 	}
+
+	// print $command." - ".$message;
 
 	if ($message) {
 		if ($userId) {
@@ -41,15 +44,19 @@
 				}
 				$user->Save();
 
-				print "Command: ".$command.", ".$message;
-
-				$msg = new Message($message, $user);
+				switch ($command) {
+					case "me":
+						$msg = new MeMessage($message, $user);
+						break;
+					default:
+						$msg = new Message($message, $user);
+				}
 				$msg->Save();
 				die;
 			}
 		}
 
-		$msg = new TelegramMessage($user, $message, $room->Id);
+		$msg = new TelegramMessage($user, $message, $room->Id, $command == 'me');
 		$msg->Save();
 	}
 

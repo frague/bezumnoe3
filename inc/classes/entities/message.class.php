@@ -129,7 +129,12 @@ class Message extends EntityBase {
                         $timeAdd = " Red";
                         break;
                     case -100:
-                        return "<p class='Telegram'><i></i>".$text."</p>";
+                        $me = "";
+                        if (preg_match("/\/me /", $text)) {
+                            $me = " me";
+                            $text = preg_replace("/^\/me\s*/", "", $text);
+                        }
+                        return "<p class='Telegram".$me."'><i></i>".$text."</p>";
                 } 
                 return "<p class='System'><span class='Time".$timeAdd."'>".$moment."</span> ".$text."</p>";
             }
@@ -325,8 +330,13 @@ class MessageNotification extends SystemMessage {
 /* Telegram message */
 
 class TelegramMessage extends Message {
-    function TelegramMessage($name, $text, $roomId) {
-        parent::__construct($name.": ".$text, "");
+    function TelegramMessage($name, $text, $roomId, $isMe) {
+        if ($isMe) {
+            $message = "/me ".$name." ".$text;
+        } else {
+            $message = $name.": ".$text;
+        }
+        parent::__construct($message, "");
         $this->UserId = -100;
         $this->RoomId = $roomId;
     }
