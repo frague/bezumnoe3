@@ -29,12 +29,12 @@
     <li>Эмулировать ваше присутствие в чате при публикации сообщений в telegram
     <li>Из telegram давать боту команды для выполнения различных действий в чате (смена темы, кик, бан) в зависимости от уровня доступа (пока не реализовано)
 </ol>
-<p>Необходимо авторизоваться в чате:</p>
+<p>Для продолжения необходимо авторизоваться в чате:</p>
 <form method="POST" class="telegram-auth">
     <input type="hidden" name="AUTH" id="AUTH" value="1" />
     <label for="<?php echo LOGIN_KEY ?>">Логин</label>
-    <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" type="text" placeholder="Логин" />
-    <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
+    <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" type="text" placeholder="Логин" />, 
+    <label for="<?php echo PASSWORD_KEY ?>">пароль</label>
     <input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password" placeholder="Пароль" />
     <button type="submit">Авторизоваться</button>
 </form>
