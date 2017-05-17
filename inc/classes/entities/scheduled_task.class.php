@@ -451,6 +451,7 @@ class ExpiredSessionsAction extends BaseAction {
             while (list($roomId,$users) = each($u)) {
                 $message = new QuitMessage($users.(ereg(", ", $users) ? " покидают" : " покидает")." чат. ", $roomId);
                 $message->Save();
+                TriggerBotsByMessage($message);
             }
         }
         return true;
