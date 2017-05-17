@@ -4,9 +4,9 @@
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";
 
-    $p = new Page("Изменение забытого пароля", "", "", true);
-    $p->AddCss("register.css");
-    $p->PrintHeader();
+    $page = new Page("Изменение забытого пароля", "", "", true);
+    $page->AddCss("register.css");
+    $page->PrintHeader();
 
     require_once $root."references.php";
 
@@ -72,15 +72,20 @@
                     // Write registration Log
                     LogRegistration($newborn->Id, $login);
 
-                    SendMail($email, "Восстановление пароля в чате \"Безумное ЧАепиТие у Мартовского Зайца\"", "Здравствуйте.
+                    try {
+                        SendMail($email, "Восстановление пароля в чате \"Безумное ЧАепиТие у Мартовского Зайца\"", "Здравствуйте.
 
-Вы, или кто-то с указанием вашего e-mail адреса, запросили временный доступ к чату \"Безумное ЧАепиТие у Мартовского Зайца\" (http://www.bezumnoe.ru) под ником \"".$login."\" для изменения пароля.
+Вы, или кто-то с указанием вашего email адреса, запросили временный доступ к чату \"Безумное ЧАепиТие у Мартовского Зайца\" (http://www.bezumnoe.ru) под ником \"".$login."\" для изменения пароля.
 Для авторизации в чате пройдите по ссылке http://www.bezumnoe.ru/?f=".$u->LoginGuid.". После входа в чат не забудьте сменить пароль.
 
 Если же вы получили это письмо по ошибке - просто проигнорируйте это сообщение.
 
  С уважением,
  администрация чата.");
+                        
+                    } catch (Exception $e) {
+                        $errors[] = "Не удалось отправить email.";
+                    }
                 }
             }
         }
@@ -96,7 +101,7 @@
 <br /><br /><br /><br /><br /><br /><br /><br />
 
 <?php
-            $p->PrintFooter();
+            $page->PrintFooter();
             die;
         }
     }
@@ -153,6 +158,6 @@
 </script>
 <?php
 
-    $p->PrintFooter();
+    $page->PrintFooter();
 
 ?>
