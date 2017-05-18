@@ -34,12 +34,12 @@ abstract class DictionaryItem extends EntityBase {
             return false;
         }
 
-        $this->FillByCondition("1=1 ORDER BY ".self::RANDOM_INDEX." ASC, ".$this->FrequencyFieldName." ASC LIMIT ".mt_rand(0, 10).", 1");
+        $this->FillByCondition("1=1 ORDER BY RAND LIMIT 1");
         // Touch filled item
         if (!$this->IsEmpty()) {
             $db->Query("UPDATE ".$this->table."
                 SET ".$this->FrequencyFieldName."=".$this->FrequencyFieldName."+1,
-                ".self::RANDOM_INDEX."=".mt_rand(0, $this->Size)."
+                ".self::RANDOM_INDEX."=".rand(0, $this->Size)."
                 WHERE ".$this->IdentityName."=".$this->Id);
         }
 
