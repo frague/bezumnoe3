@@ -34,7 +34,7 @@ abstract class DictionaryItem extends EntityBase {
             return false;
         }
 
-        $this->FillByCondition("1=1 ORDER BY RAND LIMIT 1");
+        $this->FillByCondition("1=1 ORDER BY RAND() LIMIT 1");
         // Touch filled item
         if (!$this->IsEmpty()) {
             $db->Query("UPDATE ".$this->table."
