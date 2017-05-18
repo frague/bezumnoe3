@@ -1,4 +1,4 @@
-<?
+<?php
 
 	$root = "../";
 	require_once $root."server_references.php";
@@ -30,9 +30,8 @@
 		}
 	}
 
-	// print $command." - ".$message;
-
 	if ($message) {
+		$msg = new TelegramMessage($user, $message, $room->Id, $command == 'me');
 		if ($userId) {
 			$profile = new Profile();
 			$profile->FillByCondition(Profile::TELEGRAM_ID."=".$userId);
@@ -53,13 +52,11 @@
 					default:
 						$msg = new Message($message, $user);
 				}
-				$msg->Save();
-				die;
 			}
 		}
-
-		$msg = new TelegramMessage($user, $message, $room->Id, $command == 'me');
 		$msg->Save();
+		$msg->FromTelegram = True;
+		TriggerBotsByMessage($msg);
 	}
 
 ?>

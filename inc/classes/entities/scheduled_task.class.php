@@ -596,7 +596,7 @@ class YtkaBotAction extends BotBaseAction {
     function ExecuteByMessage($message) {
       global $db;
 
-        if ($this->Init() && !$message->IsPrivate()) {
+        if ($this->Init() && !$message->IsPrivate() && !$message->FromYtka) {
             $myName = $this->user->DisplayedName();
             if (mb_strpos($message->Text, $myName) !== false) {
                 $item = new YtkaDictionaryItem();
@@ -604,10 +604,14 @@ class YtkaBotAction extends BotBaseAction {
                 // Reply
                 $item->PickRandom();
                 $u = new User();
-                $authorName = $u->GetUserCurrentName($message->UserId);
-                $m = new Message(str_replace("%name", $authorName, $item->Content), $this->user->User);
-                $m->RoomId = $message->RoomId;
-                $m->Save();
+                $authorName = $u->GetUserCurrentName($message->UserId) OR "ты";
+                $ytkaName = $u->GetUserCurrentName($this->user->Id) OR "YTKA";
+                $msg = new Message(str_replace("%name", $authorName, $item->Content), $this->user->User);
+                $msg->RoomId = $message->RoomId;
+                $msg->UserName = $ytkaName;
+                $msg->Save();
+                $msg->FromYtka = True;
+                TriggerBotsByMessage($msg);
 
                 // Store new item in the dictionary
                 $item->Clear();
@@ -667,7 +671,7 @@ class TelegramBotAction extends BotBaseAction {
     function ExecuteByMessage($message) {
       global $db;
 
-        if (!$message->IsPrivate()) {
+        if (!$message->IsPrivate() && !$message->FromTelegram) {
             try {
                 $data = json_encode($message->ToJSON());
 
