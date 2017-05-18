@@ -25,7 +25,9 @@
 	preg_match_all("/^\/([a-z]+)/", $message, $commands, PREG_PATTERN_ORDER);
 	if (sizeof($commands)) {
 		$command = $commands[1][0];
-		$message = preg_replace("/\/".$command."\s*/", "", $message);
+		if ($command) {
+			$message = preg_replace("/^\/".$command."\s*/", "", $message);
+		}
 	}
 
 	// print $command." - ".$message;
