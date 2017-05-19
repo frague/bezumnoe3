@@ -116,7 +116,7 @@ class ScheduledTask extends EntityBase {
 
     // Returns active bots
     function GetActiveBots() {
-        return $this->GetByCondition("t1.".self::TYPE." IN ('".join("', '", $this->Bots)."') AND t1.".self::IS_ACTIVE."=1");
+        return $this->GetByCondition("t1.".self::TYPE." IN ('".join("', '", $this->Bots)."') AND t1.".self::IS_ACTIVE."=1 ORDER BY ".self::SCHEDULED_TASK_ID." DESC");
     }
 
     // Returns Action by given task type
@@ -603,6 +603,7 @@ class YtkaBotAction extends BotBaseAction {
 
                 // Reply
                 $item->PickRandom();
+                
                 $u = new User();
                 $authorName = $u->GetUserCurrentName($message->UserId) OR "ты";
                 $ytkaName = $u->GetUserCurrentName($this->user->Id) OR "YTKA";

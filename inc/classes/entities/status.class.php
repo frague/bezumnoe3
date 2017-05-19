@@ -95,6 +95,10 @@ class Status extends EntityBase {
 		return $this->FillByCondition("t1.".self::RIGHTS."=".round($rights)." AND t1.".self::IS_SPECIAL."=0");
 	}
 
+	function GetByTelegramId($telegram_id) {
+		return $this->FillByCondition("t1.".Profile::TELEGRAM_ID."=".round($telegram_id), $this->GetByTelegramExpression());
+	}
+
 	function GetNewbie() {
 		return $this->GetStandardStatus(self::RIGHTS_NEWBIE);
 	}
@@ -202,6 +206,19 @@ WHERE
 
 	function DeleteExpression() {
 		return "DELETE FROM ".$this->table." WHERE ".self::STATUS_ID."=".SqlQuote($this->Id);
+	}
+
+	function GetByTelegramExpression() {
+		return "SELECT 
+	t3.".self::RIGHTS."
+FROM 
+	".Profile::table." AS t1
+	LEFT JOIN ".User::table." AS t2
+        ON t2.".User::USER_ID."=t1.".Profile::USER_ID."
+	LEFT JOIN ".$this->table." AS t3
+		ON t3.".self::STATUS_ID."=t2.".User::STATUS_ID."
+WHERE
+	##CONDITION##";
 	}
 }
 
