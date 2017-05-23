@@ -331,6 +331,7 @@ class MessageNotification extends SystemMessage {
 
 class TelegramMessage extends Message {
     function TelegramMessage($name, $text, $roomId, $isMe) {
+        $name = "<a>".$name."</a>";
         if ($isMe) {
             $message = "/me ".$name." ".$text;
         } else {

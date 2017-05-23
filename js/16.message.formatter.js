@@ -40,5 +40,6 @@ function Format(text, person_id, person_name) {
     text = text.replace("#info#", MakeInfoLink(person_id, person_name));
     text = text.replace("#pvt#", MakePrivateLink(person_id, person_name));
     text = text.replace("#add#", MakeLink(person_name));
+    text = text.replace("/<a>([^<]*)<\/a>/g", MakeLink);
     return MakeSmiles(text);
 };
