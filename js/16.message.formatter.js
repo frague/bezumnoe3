@@ -15,6 +15,10 @@ function MakeLink(name) {
     return "<a " + voidHref + " onclick=\"__(this)\">" + StrongHtmlQuotes(name) + "</a>";
 };
 
+function MakeLinkAlt(match, name) {
+    return MakeLink(name);
+};
+
 function MakeInfoLink(id, name) {
     return "<a " + voidHref + " onclick=\"Info('" + id + "')\">" + StrongHtmlQuotes(name) + "</a>";
 };
@@ -40,6 +44,6 @@ function Format(text, person_id, person_name) {
     text = text.replace("#info#", MakeInfoLink(person_id, person_name));
     text = text.replace("#pvt#", MakePrivateLink(person_id, person_name));
     text = text.replace("#add#", MakeLink(person_name));
-    text = text.replace("/<a>([^<]*)<\/a>/g", MakeLink);
+    text = text.replace(/<a>([^<]*)<\/a>/gi, MakeLinkAlt);
     return MakeSmiles(text);
 };

@@ -134,7 +134,7 @@ class Message extends EntityBase {
                             $me = " me";
                             $text = preg_replace("/^\/me\s*/", "", $text);
                         }
-                        return "<p class='Telegram".$me."'><i></i>".$text."</p>";
+                        return "<p class='Telegram".$me."'>".$text."</p>";
                 } 
                 return "<p class='System'><span class='Time".$timeAdd."'>".$moment."</span> ".$text."</p>";
             }
