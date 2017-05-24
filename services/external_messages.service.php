@@ -22,7 +22,7 @@
 
 	$userId = (int) $_POST["user_id"];
 
-	preg_match_all("/^\/([a-z]+)/", $message, $commands, PREG_PATTERN_ORDER);
+	preg_match_all("/^\/([a-z_]+)/", $message, $commands, PREG_PATTERN_ORDER);
 	if (sizeof($commands)) {
 		$command = $commands[1][0];
 		if ($command) {
