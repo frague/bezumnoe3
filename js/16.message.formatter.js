@@ -11,7 +11,7 @@ function MakePrivateLink(id, name) {
     return s;
 };
 
-function MakeLink(void, name) {
+function MakeLink(empty, name) {
     return "<a " + voidHref + " onclick=\"__(this)\">" + StrongHtmlQuotes(name) + "</a>";
 };
 
