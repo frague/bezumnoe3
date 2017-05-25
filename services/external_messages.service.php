@@ -39,9 +39,11 @@
 			if (!$profile->IsEmpty()) {
 				$user = new User($profile->UserId);
 				$user->Retrieve();
-				$user->RoomId = $room->Id;
 				if (!$user->SessionPong) {
 					$user->CreateSession("telegram");
+					$user->RoomId = $room->Id;
+				} else {
+					$user->TouchSession();
 				}
 				$user->Save();
 
