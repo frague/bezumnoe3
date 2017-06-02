@@ -17,7 +17,7 @@
 		echo AddJsAlert("Журнал не найден.", 1);
 		exit;
 	}
-	
+
 	if ($forum->IsEmpty()) {
 		echo AddJsAlert("Указанный форум/журнал не найден!", 1);
 		exit;
@@ -69,7 +69,7 @@
 
 			$friend = new User($targetUserId);
 			$friend->Retrieve();
-		
+
 			if (!$friend->IsEmpty()) {
 				$forumUser = new ForumUser($friend->Id, $forum->Id);
 				$forumUser->Access = $accessType;

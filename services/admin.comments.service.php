@@ -16,7 +16,7 @@
 			die;
 		}
 
-		if ($u->Status->Rights <= $user->StatusRights) { 
+		if ($u->Status->Rights <= $user->StatusRights) {
 			echo JsAlert("Недостаточно прав для просмотра!", 1);
 			die;
 		}
@@ -50,7 +50,7 @@
 	}
 
 	/* --- */
-	
+
 
 	echo "this.data=[";
 	if ($user_id) {

@@ -79,6 +79,9 @@
 
 <div id="OpenIds"></div>
 
+<h4>Интеграция с Telegram:</h4>
+<input name="TELEGRAM_ID" id="TELEGRAM_ID" maxlength="20" class="Wide" readonly />
+
 <ul class="Links">
     <li> <a href="javascript:void(0)" onclick="ReRequestData(this)" id="linkRefresh" class="Refresh">Обновить данные с сервера</a>
     <li id="liDeletePhoto"> <a href="javascript:void(0)" onclick="DeletePhoto(this)" id="linkDeletePhoto" class="Delete">Удалить фотографию</a>

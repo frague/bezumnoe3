@@ -12,6 +12,7 @@
     <input type="radio" name="BOT_TYPE" id="TYPE_YTKA" value="ytka" checked> <label for="TYPE_YTKA"><b>YTKA</b> &mdash; простой автоответчик</label><br />
     <input type="radio" name="BOT_TYPE" id="TYPE_VICTORINA" value="victorina"> <label for="TYPE_VICTORINA"><b>BUKTOPUHA</b> &mdash; вопросы/ответы</label><br />
     <input type="radio" name="BOT_TYPE" id="TYPE_LINGVIST" value="lingvist"> <label for="TYPE_LINGVIST"><b>Lingvist</b> &mdash; контроль за соблюдением правил</label><br /></div>
+    <input type="radio" name="BOT_TYPE" id="TYPE_TELEGRAM" value="telegram"> <label for="TYPE_TELEGRAM"><b>Telegram</b> &mdash; иyтеграция с Telegram</label><br /></div>
 
 
 <table class="Wide" cellpadding="4">

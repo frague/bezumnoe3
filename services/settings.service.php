@@ -6,9 +6,9 @@
 	if (!$user_id || !$user || $user->IsEmpty()) {
 		exit();	// TODO: Implement client functionality
 	}
-	
+
 	$tabId = LookInRequest("tab_id");
-	
+
 	if ($user_id == $user->User->Id || $user->IsAdmin()) {
 		if ($user_id == $user->User->Id) {
 			$targetUser = $user->User;

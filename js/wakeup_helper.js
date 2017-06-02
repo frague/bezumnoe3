@@ -30,7 +30,7 @@ function ShowWakeup(id, remove) {
 
 function PrintWakeups() {
 	if (!WakeupsHolder) {
-		WakeupsHolder = $("#Wakeups");
+		WakeupsHolder = $("#Wakeups")[0];
 	}
 	if (WakeupsHolder) {
 		ReceivedWakeups = wakeups.Count();

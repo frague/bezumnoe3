@@ -16,8 +16,8 @@
 
 	$value = "";
 	$limit = 0;
-    $expression = $u->FindUserExpression();
-	
+	$expression = $u->FindUserExpression();
+
 	switch ($type) {
 		case "BY_ROOM":
 			$room_id = round(LookInRequest("BY_ROOM"));
@@ -45,9 +45,9 @@
 			continue;
 		}
 		switch ($filter) {
-            case "FILTER_REGDATE":
+			case "FILTER_REGDATE":
                 $condition .= " AND t3.".Profile::REGISTERED." LIKE '".SqlQuote(trim(substr(LookInRequest("REG_DATE"), 0, 10)))."%'";
-                break;
+				break;
 			case "FILTER_BANNED":
 				$condition .= " AND t1.".User::BANNED_BY." IS NOT NULL";
 				break;
@@ -79,7 +79,7 @@
 		}
 	}
 	$result .= "this.data=[";
-	
+
 	for ($i = 0; $i < $rows; $i++) {
 		$q->NextResult();
 
@@ -89,7 +89,7 @@
 		$result .= ($i > 0 ? "," : "")."new udto(".$q->Get(User::USER_ID).",'".JsQuote($login)."','".JsQuote($nick)."')";
 	}
 	$result .= "];";
-    $q->Release();
+	$q->Release();
 
 	echo $result;
 

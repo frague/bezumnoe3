@@ -21,7 +21,7 @@
 	$expression = $u->FindUserWithJournalsExpression();
 	$condition = "t1.".User::LOGIN." LIKE '%".$value."%' OR t2.".Nickname::TITLE." LIKE '%".$value."%'";
 	$limit = 20;
-	
+
 	$q = $u->GetByCondition($condition, $expression.($limit ? " LIMIT ".($limit + 1) : ""));
 	$rows = $q->NumRows();
 	$result = "";

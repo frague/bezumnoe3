@@ -12,32 +12,32 @@
 	function GetUserStatus($id) {
 	  global $db, $targetUser;
 
-	  	$targetUser = new User($id);
-	  	$targetUser->Retrieve();
-	  	if ($targetUser->IsEmpty()) {
-	  		return false;
-	  	}
-	  	$status = new Status($targetUser->StatusId);
-	  	$status->Retrieve();
-	  	if (!$status->IsEmpty()) {
-	  		return $status;
-	  	}
-	  	return false;
+		  $targetUser = new User($id);
+		  $targetUser->Retrieve();
+		  if ($targetUser->IsEmpty()) {
+			  return false;
+		  }
+		  $status = new Status($targetUser->StatusId);
+		  $status->Retrieve();
+		  if (!$status->IsEmpty()) {
+			  return $status;
+		  }
+		  return false;
 	}
 
 	$triggerBots = false;
-	
+
 	$command = "";
 	function CommandsProcessor($c) {
 	  global $command;
-	    $command = $c;
+		$command = $c;
 	}
 
 	$room = new Room($user->User->RoomId);
 	$room->Retrieve();
 	if (!$room->IsEmpty()) {
 		if ($room->IsInvitationRequired && !$user->IsAdmin() && !$user->User->RoomIsPermitted) {
-		    echo "MessageForbiddenAlert();";
+			echo "MessageForbiddenAlert();";
 			exit;
 		}
 	}
@@ -45,7 +45,7 @@
 	$message = str_replace("<", "&lt;", $_POST["message"]);
 	$message = str_replace(">", "&gt;", $message);
 	$message = substr($message, 0, 1024);
-	$recepients = mb_ereg_replace("[^0-9,\-]", "", $_POST["recepients"]);
+	$recepients = preg_replace("/[^0-9,\-]/", "", $_POST["recepients"]);
 	if ($recepients == "-1") {
 		$recepients = "";
 	}
@@ -76,10 +76,10 @@
 								KickRating($targetUser->Id);
 							} else {
 								$msg = new PrivateSystemMessage("Невозможно выгнать пользователя <b>".$n."</b>!", $user->User->RoomId, $user->User->Id);
-						   	}
+							   }
 							$msg->Save();
 						} else {
-						
+
 						}
 						break;
 					case "ban":
@@ -120,6 +120,7 @@
 			switch ($type) {
 				case "me":
 					$msg = new MeMessage($message, $user->User);
+					$triggerBots = true;
 					break;
 				case "locktopic":
 				case "unlocktopic":
@@ -139,6 +140,7 @@
 								$room->Topic = OuterLinks(MakeLinks($message, true));
 								$room->TopicAuthorId = $user->User->Id;
 								$msg = new SystemMessage(Clickable($user->DisplayedName())." меняет тему на &laquo;".$message."&raquo;.", $user->User->RoomId);
+								$triggerBots = true;
 							}
 							$room->Save();
 						} else {
@@ -163,6 +165,7 @@
 					$msg = new QuitMessage(str_replace("%name", Clickable($user->DisplayedName()), $text), $user->User->RoomId);
 					$user->User->GoOffline();
 					$user->User->Save();
+					$triggerBots = true;
 					break;
 				default:
 					$msg = new Message($message, $user->User);
@@ -178,6 +181,7 @@
 				}
 				$msg->Save();
 				if ($triggerBots) {
+					$msg->UserName = $user->DisplayedName();
 					TriggerBotsByMessage($msg);
 				}
 			}

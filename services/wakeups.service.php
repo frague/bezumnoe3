@@ -12,7 +12,7 @@
 	$condition = MakeSearchCriteria(
 		LookInRequest("DATE"), Wakeup::DATE, LookInRequest("SEARCH"), $wakeup->SearchTemplate
 	);
-	
+
 	/* Incoming/Outgoing filter */
 
 	$isIncoming = $_POST["IS_INCOMING"];
@@ -24,7 +24,7 @@
 	$directionCondition = "";
 	if ($isIncoming) {
 		$directionCondition = "t1.".Wakeup::TO_USER_ID."=".$user->User->Id;
-	} 
+	}
 	if ($isOutgoing) {
 		$directionCondition .= ($directionCondition ? " OR " : "")."t1.".Wakeup::FROM_USER_ID."=".$user->User->Id;
 	}
@@ -33,10 +33,10 @@
 	}
 
 	/* --- */
-	
+
 	$q = $wakeup->GetForUser($user->User->Id, $from, $amount, $condition);
 	$total = $q->NumRows();
-	
+
 	echo "this.data=[";
 	for ($i = 0; $i < $total; $i++) {
 		$q->NextResult();

@@ -27,8 +27,8 @@
 
 	$type = LookInRequest("IS_PROTECTED") ? ForumRecord::TYPE_PROTECTED : ForumRecord::TYPE_PUBLIC;
 
-	
-	
+
+
 	if (!$forum_id) {
 			$error .= "Не указан форум!<br>";
 	} else if (!$user->IsEmpty()) {
@@ -89,11 +89,11 @@
 									".ForumRecord::FORUM_ID."=".$forum->Id,
 									$oldRecord->HideThreadExpression($state)
 								);
-								
+
 								// Update actual & deleted answers count (review)
 								$oldRecord->UpdateAnswersCount();
 
-  								$forum->CountRecords();
+								  $forum->CountRecords();
 								echo "className='".($state ? "Hidden" : "")."';";
 							}
 						} else {
@@ -114,8 +114,8 @@
 
 					if (!$error) {
 						if (!$title) {
-							$title = $oldRecord->IsEmpty() ? 
-								"Без названия" : 
+							$title = $oldRecord->IsEmpty() ?
+								"Без названия" :
 								(preg_match("/^Re: /", $oldRecord->Title) ? "" : "Re: ").$oldRecord->Title;
 						}
 
@@ -136,7 +136,7 @@
 							} else {
 								$q = $newRecord->GetAdditionalUserInfo();
 								$q->NextResult();
-	
+
 								$avatar = $q->Get(Profile::AVATAR);
 								$alias = $q->Get(JournalSettings::ALIAS);
 								$lastMessageDate = $q->Get(JournalSettings::LAST_MESSAGE_DATE);
@@ -159,14 +159,14 @@
 								$notify->Save();
 							}
 
-  							$forum->CountRecords();
+							  $forum->CountRecords();
 						} else {
 							$error .= "Ошибка при сохранении сообщения!<br>";
 						}
 					}
 			}
 		}
-   	}
+	   }
 	echo "error='".JsQuote($error)."';";
 	echo "logged_user='".JsQuote($user->User->Login)."';";
 ?>

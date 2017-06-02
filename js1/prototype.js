@@ -238,8 +238,8 @@ function Pong(responseText) {
             PrintRooms();
         }
     } catch (e) {
-        DebugLine(e.description);
-        DebugLine(responseText);
+        // DebugLine(e.description);
+        // DebugLine(responseText);
     }
 
     PrintWakeups();

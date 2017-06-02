@@ -46,7 +46,7 @@
 	$filter = AddTypeCondition(Room::IS_INVITATION_REQUIRED, "by_invitation", 1, $filter, "AND");
 
 	print "/* $filter */";
-	
+
 	echo "this.data=[";
 	$q = $room->GetByCondition($filter, $room->ListRoomsExpression());
 

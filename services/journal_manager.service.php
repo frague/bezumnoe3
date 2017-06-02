@@ -8,7 +8,7 @@
 	}
 
 
-	
+
 	/* Check if user has at least 1 journal */
 
 	$fu = new ForumUser();
@@ -25,12 +25,12 @@
 			$journal->Title = $user->User->Login;
 			$journal->Description = "Персональный журнал";
 
-		    $journal->LinkedId = $user->User->Id;
+			$journal->LinkedId = $user->User->Id;
 			$journal->Save();
-		
+
 			$settings = new JournalSettings();
 			$settings->ForumId = $journal->Id;
-		    $settings->Alias = MakeGuid(10);
+			$settings->Alias = MakeGuid(10);
 
 			$template = new JournalTemplate();
 			$skin = new JournalSkin();
@@ -42,7 +42,7 @@
 			$template->ForumId = $journal->Id;
 			$template->Id = -1;
 			$template->Save();
-			
+
 			echo JsAlert("Ваш персональный журнал успешно создан!");
 			SaveLog("Создан персональный журнал.", $user->User->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 

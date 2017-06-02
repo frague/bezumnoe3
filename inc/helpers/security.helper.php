@@ -7,7 +7,7 @@
     define("REFERER_KEY", "referer");
     define("SESSION_KEY", "sdjfhk_session");
     define("LOGIN_GUID_KEY", "f");
-    
+
     function getServerKey($key) {
         if (isset($_SERVER[$key])) {
             return $_SERVER[$key];
@@ -25,7 +25,7 @@
         }
         return "";
     }
-    
+
     function SessionIsAlive($sessionPongTime) {
       global $SessionLifetime;
 
@@ -45,16 +45,16 @@
             setcookie(SESSION_KEY, $user->Session, 0, "/", "localhost");
         }
     }
-    
+
     function GetUserByOpenId($openIdUrl) {
       global $db;
-        
+
         $openIdUrl = trim(substr($openIdUrl, 0, 1024));
         if (!$openIdUrl) {
             return 0;
         }
 
-        $q = $db->Query("SELECT t1.".UserOpenId::USER_ID." 
+        $q = $db->Query("SELECT t1.".UserOpenId::USER_ID."
 FROM ".UserOpenId::table." AS t1
 JOIN ".OpenIdProvider::table." AS t2 ON t2.".OpenIdProvider::OPENID_PROVIDER_ID." = t1.".UserOpenId::OPENID_PROVIDER_ID."
 WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($openIdUrl)."'");
@@ -71,7 +71,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         // Check forbidden ip/host
         $addrBan = new BannedAddress();
         if (AddressIsBanned(new Bans(1,0,0))) {
-            DebugLine("Address is banned!");
+            // DebugLine("Address is banned!");
             $user->User->ClearSession();
             $user->User->Save();
             $user->Clear();
@@ -89,15 +89,15 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         }
     }
 
-    
+
     function GetAuthorizedUser($doPong = false, $debug = false) {
       global $db;
 
         if (!$db) {
-            DebugLine("No DB connection available!");
+            // DebugLine("No DB connection available!");
             return new UserComplete();
         }
-        
+
         $authType = LookInRequest("AUTH");
         $login = LookInRequest(LOGIN_KEY);
         $password = LookInRequest(PASSWORD_KEY);
@@ -119,7 +119,6 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
                             if ($doPong) {
                                 DoPong($user);
                             }
-                            // echo "<!-- ".$user."-->";
                         }
                     }
                 }
@@ -136,13 +135,14 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
                         DoPong($user);
                     }
                     return $user;
-                }   
+                }
 
                 # Session ID exists
                 if ($session && !$login && !$password) {
                     $user->GetBySession($session, GetRequestAddress(), $sessionCheck);
                 } else {
-                    DebugLine("No session ID found!");
+                    // DebugLine($_COOKIE[SESSION_KEY]."-");
+                    // DebugLine("No session ID found!");
                 }
                 break;
         }
@@ -168,7 +168,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
         return ($access->IsFull() ? ($access->IsModerator() ? 2 : 1) : 0);
     }
 
-    
+
     /* Net Address functionality */
 
     class NetAddress {
@@ -209,7 +209,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 </ul>";
         }
     }
-    
+
     function GetRequestAddress() {
         $addr = new NetAddress();
         return $addr->ToString();
@@ -219,7 +219,7 @@ WHERE REPLACE(t2.URL, \"##LOGIN##\", t1.".UserOpenId::LOGIN.") = '".SqlQuote($op
 //      echo "/* $address $pattern */\n";
         return ($address && preg_match($pattern, $address));
     }
-    
+
     function AddressIsBanned($bans = "") {
         $addr = new NetAddress();
         $ban = new BannedAddress();

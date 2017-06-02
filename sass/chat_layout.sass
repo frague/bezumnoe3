@@ -14,495 +14,517 @@ body#inside
             border: 0
 
     a.Link, span.imageLink a
-        color: white
+    color: white
 
-    #Messages
-        position: absolute
-        padding: 0
-        border: 0
+#Messages
+    position: absolute
+    padding: 0
+    border: 0
 
-    #Users,
-    #MessageForm,
-    #Status
-        position: absolute
-        border: solid 1px #404040
-        padding: 0
-        background-color: #111111
+#Users,
+#MessageForm,
+#Status
+    position: absolute
+    border: solid 1px #404040
+    padding: 0
+    background-color: #111111
 
-        border-radius: 4px
-        -moz-border-radius: 4px
-        -webkit-border-radius: 4px
+    border-radius: 4px
+    -moz-border-radius: 4px
+    -webkit-border-radius: 4px
 
-    #Users
-        top: 10px
-        width: 150px
-        overflow-x: hidden
+#Users
+    top: 10px
+    width: 150px
+    overflow-x: hidden
 
-    #UsersContainer
-        padding: 0
-        margin: 4px
-        width: 120px
+#UsersContainer
+    padding: 0
+    margin: 4px
+    width: 120px
 
-    #RecepientsContainer,
-    #History
-        font-size: 7pt
-
-
-    #RecepientsContainer a
-        font-family: arial
-        position: relative
-        top: -4px
-        color: red
-        text-decoration: none
-        margin-left: 2px
+#RecepientsContainer,
+#History
+    font-size: 7pt
 
 
-    #MessagesContainer,
-    #Status
-        border: solid 1px #404040
-        padding: 0
+#RecepientsContainer a
+    font-family: arial
+    position: relative
+    top: -4px
+    color: red
+    text-decoration: none
+    margin-left: 2px
+
+
+#MessagesContainer,
+#Status
+    border: solid 1px #404040
+    padding: 0
+    margin: 0
+    background-color: #111111
+
+
+#MessagesContainer
+    overflow: auto
+    padding: 4px
+    color: #808080
+
+    border-radius: 4px
+    -moz-border-radius: 4px
+    -webkit-border-radius: 4px
+    p a
+        color: inherit !important
+
+#AlertContainer
+    position: absolute
+    z-index: 200
+    padding: 0
+    margin: 0
+    border: 0
+    background-image: url(/img/dot.gif)
+
+#NewRoom,
+#NEW_ROOM
+    font-size: 80%
+
+#NEW_ROOM
+    width: 90px
+    margin-bottom: 8px
+
+#NewRoom
+    width: 120px
+    margin: 8px 0 2px 15px
+
+#NewRoom #linkAdd
+    display: block
+    float: right
+    width: 16px
+    height: 16px
+    background: url(/img/icons/add_to.gif) no-repeat
+
+#NewRoom #AdminOnly
+    color: #FB5C27
+
+#RoomStatus
+    text-align: center
+    color: red
+
+#Wakeups
+    width: 120px
+    background-color: #181818
+    border: solid 1px #404040
+    padding: 4px
+    margin: 4px 16px 4px 4px
+    font-size: 7.5pt
+
+    h3
+        padding: 0 0 0 32px
         margin: 0
-        background-color: #111111
+        background: url(/img/bell.gif) no-repeat
+        height: 21px
+        font-size: 10pt
 
+#pong
+    height: 20px
+    width: 20px
+    float: right
+    margin: 4px
 
-    #MessagesContainer
-        overflow: auto
-        padding: 4px
-        color: #808080
+p
+    padding: 0
+    margin: 0
 
-        border-radius: 4px
-        -moz-border-radius: 4px
-        -webkit-border-radius: 4px
-        p a
-            color: inherit !important
+ul.Users
+    padding: 0 0 6px 14px
+    margin: 0
+    border: 0
 
-    #AlertContainer
-        position: absolute
-        z-index: 200
-        padding: 0
-        margin: 0
-        border: 0
-        background-image: url(/img/dot.gif)
+    li
+        list-style: none
+        font-family: 'Arial Narrow',arial
+        font-size: 9pt
 
-    #NewRoom,
-    #NEW_ROOM
-        font-size: 80%
+div.requestors
+    font-size: 7pt
+    padding-top: 10px
+    border-bottom: solid 1px #404040
+    color: #505050
+    text-align: right
 
-    #NEW_ROOM
-        width: 90px
-        margin-bottom: 8px
+.roomBox span.Count,
+#Wakeups span.Count
+    position: relative
+    top: -2px
+    font-size: 60%
 
-    #NewRoom
-        width: 120px
-        margin: 8px 0 2px 15px
-
-    #NewRoom #linkAdd
-        display: block
-        float: right
-        width: 16px
-        height: 16px
-        background: url(/img/icons/add_to.gif) no-repeat
-
-    #NewRoom #AdminOnly
-        color: #FB5C27
-
-    #RoomStatus
-        text-align: center
-        color: red
-
-    #Wakeups
-        width: 120px
-        background-color: #181818
-        border: solid 1px #404040
-        padding: 4px
-        margin: 4px 16px 4px 4px
-        font-size: 7.5pt
-
-        h3
-            padding: 0 0 0 32px
-            margin: 0
-            background: url(/img/bell.gif) no-repeat
-            height: 21px
-            font-size: 10pt
-
-    #pong
-        height: 20px
-        width: 20px
-        float: right
-        margin: 4px
-
-    p
-        padding: 0
-        margin: 0
-
-    ul.Users
-        padding: 0 0 6px 14px
-        margin: 0
-        border: 0
-
-        li
-            list-style: none
-            font-family: 'Arial Narrow',arial
-            font-size: 9pt
-
-    div.requestors
-        font-size: 7pt
-        padding-top: 10px
-        border-bottom: solid 1px #404040
-        color: #505050
-        text-align: right
-
-    .roomBox span.Count,
-    #Wakeups span.Count
-        position: relative
-        top: -2px
-        font-size: 60%
-
-    .roomBox
-        .Usual, .Private, .Admin
-            font-size: 10pt
-            font-weight: bold
-
-        &.Current strong
-            border-bottom: dashed 1px #C42600
-
-        .Usual
-            color: gold
-
-        .Locked
-            padding-left: 10px
-            background: url(/img/icons/lock.gif) no-repeat
-
-        .Private
-            color: #C0F256
-            padding-left: 10px
-            background: url(/img/icons/dude.gif) no-repeat
-
-        .Admin
-            color: #FD7C3E
-            padding-left: 16px
-            background: url(/img/icons/stop.gif) no-repeat
-
-    // Messages
-    p.me
-        font-style: italic
-
-    p.System
-        font-family: 'arial narrow',arial
-        color: white
-
-        span.Time
-            font-size: 60%
-            font-weight: bold
-            background-color: #E9AA50
-            color: black
-            padding: 0 2px
-            margin: 0 2px
-
-            &.Green
-                background: url(/img/enter_bg.gif) no-repeat right center
-                padding: 0 4px 0 2px
-                margin: 0 0 0 2px
-
-            &.Red
-                background: url(/img/quit_bg.gif) no-repeat left center
-                padding: 0 2px 0 4px
-                margin: 0 2px 0 0
-
-    p.SystemPrivate
-        font-family: 'arial narrow',arial
-        color: #FF968E
-
-        span.Time
-            font-size: 60%
-            font-weight: bold
-            background-color: #D20000
-            color: black
-            padding: 0 2px 0 2px
-
-    p.Private a
-        color: #A80F89
+.roomBox
+    .Usual, .Private, .Admin
+        font-size: 10pt
         font-weight: bold
 
-    p strong
-        font-weight: normal
-        color: white
-        background-color: #404040
+    &.Current strong
+        border-bottom: dashed 1px #C42600
+
+    .Usual
+        color: gold
+
+    .Locked
+        padding-left: 10px
+        background: url(/img/icons/lock.gif) no-repeat
+
+    .Private
+        color: #C0F256
+        padding-left: 10px
+        background: url(/img/icons/dude.gif) no-repeat
+
+    .Admin
+        color: #FD7C3E
+        padding-left: 16px
+        background: url(/img/icons/stop.gif) no-repeat
+
+// Messages
+p.me
+    font-style: italic
+
+p.System
+    font-family: 'arial narrow',arial
+    color: white
+
+    span.Time
+        font-size: 60%
+        font-weight: bold
+        background-color: #E9AA50
+        color: black
+        padding: 0 2px
+        margin: 0 2px
+
+        &.Green
+            background: url(/img/enter_bg.gif) no-repeat right center
+            padding: 0 4px 0 2px
+            margin: 0 0 0 2px
+
+        &.Red
+            background: url(/img/quit_bg.gif) no-repeat left center
+            padding: 0 2px 0 4px
+            margin: 0 2px 0 0
+
+p.SystemPrivate
+    font-family: 'arial narrow',arial
+    color: #FF968E
+
+    span.Time
+        font-size: 60%
+        font-weight: bold
+        background-color: #D20000
+        color: black
         padding: 0 2px 0 2px
 
-    // User Statuses
-    .Users a
-        &.Away
-            color: #808080
-            font-style: italic
+p.Private a
+    color: #A80F89
+    font-weight: bold
 
-        &.Banned
-            color: red
+p.NewDay
+    margin-top: 10px
+    padding: 4px 0
+    text-align: right
+    border-top: solid 1px #222
+    span
+        display: inline-block
+        font-family: 'arial narrow',arial
+        font-size: 70%
+        color: #FFC6A2
 
-        &.IgnoresMe
-            border-left: solid 2px red
-            padding-left: 2px
+p.Telegram
+    color: #0293FA
+    i
+        background: url(/img/icons/telegram-logo.png) no-repeat
+        background-size: contain
+        width: 16px
+        height: 12px
+        display: inline-block
+    .me
+        font-variant: italic
 
-        &.requestor
-            padding-left: 12px
-            background: url(/img/flash_point.gif) no-repeat
+p strong
+    font-weight: normal
+    color: white
+    background-color: #404040
+    padding: 0 2px 0 2px
 
-        span.Ignored
-            text-decoration: line-through
-            color: red
+// User Statuses
+.Users a
+    &.Away
+        color: #808080
+        font-style: italic
 
-    // Menu
-    #MenuContainer
-        height: 8px
-        margin: 4px 0 0 4px
+    &.Banned
+        color: red
+
+    &.IgnoresMe
+        border-left: solid 2px red
+        padding-left: 2px
+
+    &.requestor
+        padding-left: 12px
+        background: url(/img/flash_point.gif) no-repeat
+
+    span.Ignored
+        text-decoration: line-through
+        color: red
+
+// Menu
+#MenuContainer
+    height: 8px
+    margin: 4px 0 0 4px
 
 
-        ul, li
-            z-index: 150
-            padding: 0
-            margin: 0
-            border: 0
+    ul, li
+        z-index: 150
+        padding: 0
+        margin: 0
+        border: 0
 
-        ul
-            border: solid 1px #404040
-            position: absolute
-
-            li
-                position: relative
-                width: 100px
-                height: 16px
-                list-style: none
-                display: block
-                font: 8pt 'Arial'
-                background-color: white
-
-                &.Selected
-                    background-color: orange
-
-                a
-                    display: block
-                    padding: 0 0 0 4px
-                    margin: 0
-                    color: black
-
-                ul
-                    left: 100px
-                    top: -1px
-
-    // User Menu Container
-    .UserInfo
-        position: absolute
-        width: 100px
-        padding: 0px
-        margin-top: 4px
-        color: black
-        background-color: white
+    ul
         border: solid 1px #404040
-        overflow: hidden
-
-        ul
-            padding: 0
-            margin: 0
-
-            li
-                display: block
-                list-style: none
-                font: 8pt 'Arial'
-
-                a, span
-                    display: block
-                    padding: 0 0 0 4px
-                    height: 16px
-                    color: black
-
-                a:hover
-                    background-color: orange
-
-                &.IP
-                    font-size: 6pt
-                    padding-left: 4px
-
-                &.Grant
-                    background-color: #D8FF2B
-
-                &.Deny
-                    background-color: #FFC6A2
-
-    .Overlined
-        border-top: dotted 1px #808080
-
-    a.UnlockLink
-        font-size: 7pt
-        color: red
-        display: block
-        float: right
-        padding-right: 2px
-        text-decoration: none
-
-
-    // Change Nickname list
-    .NamesList
-        text-align: left
-        list-style: none
-        padding: 0
-        margin: 0
-
-        li
-            padding-left: 20px
-
-        span
-            padding-left: 6px
-
-        .NewNick
-            font-size: 10pt
-            width: 250px
-            padding: 0
-            margin: 0
-            margin-right: 6px
-
-
-    div.Status
-        padding-top: 20px
-        color: lime
-
-        li
-            margin-left: 40px
-            text-align: left
-            list-style: square
-            color: red
-
-    // Additional Alerts
-    div.Achtung
-        background-color: white
-        color: red
-        background-image: url(/img/warning_bg.gif)
-        padding: 10px 0 10px 0
-        margin: 10px
-
-        span
-            display: block
-            background-color: white
-            padding: 20px
-            color: #ed450a
-            font-weight: bold
-            text-align: center
-
-    // Panels
-
-    .PanelLeft,
-    .PanelRight
-        height: 100%
-        top: 0
-        left: 0
-        margin: 0
-        padding: 0
-        border: 0
-
-    a.PanelLeft,
-    a.PanelRight
-        display: block
-        width: 10px
-        height: 100%
-        padding: 0
-        border: 0
-        margin: 0
-
-    a.PanelLeft
-        float: right
-
-    a.PanelRight
-        float: left
-
-    a.PanelLeft.Closed,
-    a.PanelRight.Opened
-        background: url(/img/icons/right_horiz.gif) no-repeat 0 50%
-
-    a.PanelRight.Closed,
-    a.PanelLeft.Opened
-        background: url(/img/icons/left_horiz.gif) no-repeat 0 50%
-
-
-    // Panels
-
-    ul.Kicked
-        margin: 0
-        padding: 0
-        list-style-type: none
-
-    ul.StatusLinks
-        list-style: none
-        margin: 0 0 0 150px
-        padding: 6px 0 0 0
         position: absolute
 
         li
-            display: inline
-            margin-right: 10px
+            position: relative
+            width: 100px
+            height: 16px
+            list-style: none
+            display: block
+            font: 8pt 'Arial'
+            background-color: white
+
+            &.Selected
+                background-color: orange
 
             a
-                color: gold
+                display: block
+                padding: 0 0 0 4px
+                margin: 0
+                color: black
 
-                &.Red
-                    color: red
+            ul
+                left: 100px
+                top: -1px
+
+// User Menu Container
+.UserInfo
+    position: absolute
+    width: 100px
+    padding: 0px
+    margin-top: 4px
+    color: black
+    background-color: white
+    border: solid 1px #404040
+    overflow: hidden
+
+    ul
+        padding: 0
+        margin: 0
+
+        li
+            display: block
+            list-style: none
+            font: 8pt 'Arial'
+
+            a, span
+                display: block
+                padding: 0 0 0 4px
+                height: 16px
+                color: black
+
+            a:hover
+                background-color: orange
+
+            &.IP
+                font-size: 6pt
+                padding-left: 4px
+
+            &.Grant
+                background-color: #D8FF2B
+
+            &.Deny
+                background-color: #FFC6A2
+
+.Overlined
+    border-top: dotted 1px #808080
+
+a.UnlockLink
+    font-size: 7pt
+    color: red
+    display: block
+    float: right
+    padding-right: 2px
+    text-decoration: none
 
 
-    .ServiceLinks
-        text-align: right
+// Change Nickname list
+.NamesList
+    text-align: left
+    list-style: none
+    padding: 0
+    margin: 0
+
+    li
+        padding-left: 20px
+
+    span
+        padding-left: 6px
+
+    .NewNick
+        font-size: 10pt
+        width: 250px
+        padding: 0
+        margin: 0
+        margin-right: 6px
+
+
+div.Status
+    padding-top: 20px
+    color: lime
+
+    li
+        margin-left: 40px
+        text-align: left
+        list-style: square
+        color: red
+
+// Additional Alerts
+div.Achtung
+    background-color: white
+    color: red
+    background-image: url(/img/warning_bg.gif)
+    padding: 10px 0 10px 0
+    margin: 10px
+
+    span
+        display: block
+        background-color: white
+        padding: 20px
+        color: #ed450a
+        font-weight: bold
+        text-align: center
+
+// Panels
+
+.PanelLeft,
+.PanelRight
+    height: 100%
+    top: 0
+    left: 0
+    margin: 0
+    padding: 0
+    border: 0
+
+a.PanelLeft,
+a.PanelRight
+    display: block
+    width: 10px
+    height: 100%
+    padding: 0
+    border: 0
+    margin: 0
+
+a.PanelLeft
+    float: right
+
+a.PanelRight
+    float: left
+
+a.PanelLeft.Closed,
+a.PanelRight.Opened
+    background: url(/img/icons/right_horiz.gif) no-repeat 0 50%
+
+a.PanelRight.Closed,
+a.PanelLeft.Opened
+    background: url(/img/icons/left_horiz.gif) no-repeat 0 50%
+
+
+// Panels
+
+ul.Kicked
+    margin: 0
+    padding: 0
+    list-style-type: none
+
+ul.StatusLinks
+    list-style: none
+    margin: 0 0 0 150px
+    padding: 6px 0 0 0
+    position: absolute
+
+    li
+        display: inline
+        margin-right: 10px
 
         a
-            margin: 0 4px
+            color: gold
+
+            &.Red
+                color: red
 
 
-    #Smiles div
-        display: none
-        position: absolute
+.ServiceLinks
+    text-align: right
 
-        img
-            padding: 2px
+    a
+        margin: 0 4px
 
-    #Smiles.On div
-        display: block
+
+#Smiles div
+    display: none
+    position: absolute
+
+    img
+        padding: 2px
+
+#Smiles.On div
+    display: block
+    padding: 4px
+    position: relative
+    height: 100px
+    border: solid 1px #808080
+    background-color: #111111
+    overflow-y: scroll
+    left: 0
+
+.Layout0 #Smiles.On div, .Layout1 #Smiles.On div
+    top: 0
+
+.Layout2 #Smiles.On div, .Layout3 #Smiles.On div
+    position: absolute
+    bottom: 80px
+    left: 30px
+    width: 85%
+
+
+// Confirmations & Alerts
+
+.ConfirmContainer
+    width: 400px
+    background-color: #101010
+    border: solid 1px #404040
+
+    h1
+        font-size: 16pt
+        background-color: #202020
         padding: 4px
-        position: relative
-        height: 100px
-        border: solid 1px #808080
-        background-color: #111111
-        overflow-y: scroll
-        left: 0
+        margin: 0 0 10px 0
 
-    .Layout0 #Smiles.On div, .Layout1 #Smiles.On div
-        top: 0
+    h4
+        font-size: 12pt
+        padding: 4px
+        margin: 0
+        color: red
 
-    .Layout2 #Smiles.On div, .Layout3 #Smiles.On div
-        position: absolute
-        bottom: 80px
-        left: 30px
-        width: 85%
-
-
-    // Confirmations & Alerts
-
-    .ConfirmContainer
-        width: 400px
-        background-color: #101010
-        border: solid 1px #404040
-
-        h1
-            font-size: 16pt
-            background-color: #202020
-            padding: 4px
-            margin: 0 0 10px 0
-
-        h4
-            font-size: 12pt
-            padding: 4px
-            margin: 0
-            color: red
-
-        div
-            padding: 0 8px 0 8px
-            margin-bottom: 10px
-            font-size: 10pt
+    div
+        padding: 0 8px 0 8px
+        margin-bottom: 10px
+        font-size: 10pt
 
     // Options
     #OptionsContainer

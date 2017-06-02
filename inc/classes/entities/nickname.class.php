@@ -74,7 +74,7 @@ class Nickname extends EntityBase {
 		return $this->GetByCondition("t1.".self::USER_ID."=".SqlQuote($userId)." ORDER BY t1.".self::NICKNAME_ID." ASC");
 	}
 
-	function Save($by_query = "") {
+	function Save() {
 	 global $db;
 		if ($this->IsConnected()) {
 			// Check duplicates

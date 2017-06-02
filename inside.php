@@ -35,6 +35,8 @@
         $message->Save();
         $user->User->RoomId = $room->Id;
         $user->User->Save();
+
+        TriggerBotsByMessage($message);
     }
 
     $user->User->TouchSession();

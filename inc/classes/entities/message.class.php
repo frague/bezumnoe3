@@ -43,7 +43,7 @@ class Message extends EntityBase {
     }
 
     function IsPrivate() {
-        return $this->ToUserId > 0;
+        return $this->ToUserId > 0 && $this->UserId != $this->ToUserId;
     }
 
     function IsVisibleTo($user) {
@@ -128,7 +128,21 @@ class Message extends EntityBase {
             if ($this->ToUserId > 0) {
                 return "<p class='SystemPrivate'><span class='Time'>".$moment."</span> ".$text."</p>";
             } else {
-                $timeAdd = $this->UserId == -2 ? " Green" : ($this->UserId == -3 ? " Red" : "");
+                switch ($this->UserId) {
+                    case -2:
+                        $timeAdd = " Green";
+                        break;
+                    case -3:
+                        $timeAdd = " Red";
+                        break;
+                    case -100:
+                        $me = "";
+                        if (preg_match("/\/me /", $text)) {
+                            $me = " me";
+                            $text = preg_replace("/^\/me\s*/", "", $text);
+                        }
+                        return "<p class='Telegram".$me."'><i></i>".$text."</p>";
+                } 
                 return "<p class='System'><span class='Time".$timeAdd."'>".$moment."</span> ".$text."</p>";
             }
         } else {
@@ -254,11 +268,7 @@ WHERE
     }
 }
 
-/*  ========================================================
-
-    /ME MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* /me message */
 
 class MeMessage extends Message {
     function MeMessage($text, $user) {
@@ -267,11 +277,7 @@ class MeMessage extends Message {
     }
 }
 
-/*  ========================================================
-
-    PRIVATE MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* Private message to some other user */
 
 class PrivateMessage extends Message {
     function PrivateMessage($text, $user, $toUserId) {
@@ -281,11 +287,7 @@ class PrivateMessage extends Message {
     }
 }
 
-/*  ========================================================
-
-    SYSTEM MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* System message */
 
 class SystemMessage extends Message {
     function SystemMessage($text, $roomId) {
@@ -294,11 +296,7 @@ class SystemMessage extends Message {
     }
 }
 
-/*  ========================================================
-
-    ENTER MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* Chat entering message */
 
 class EnterMessage extends SystemMessage {
     function EnterMessage($text, $roomId) {
@@ -307,11 +305,7 @@ class EnterMessage extends SystemMessage {
     }
 }
 
-/*  ========================================================
-
-    QUIT MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* Chat quiting message */
 
 class QuitMessage extends SystemMessage {
     function QuitMessage($text, $roomId) {
@@ -320,11 +314,7 @@ class QuitMessage extends SystemMessage {
     }
 }
 
-/*  ========================================================
-
-    PRIVATE SYSTEM MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* Private system message */
 
 class PrivateSystemMessage extends Message {
     function PrivateSystemMessage($text, $roomId, $toUserId) {
@@ -334,11 +324,7 @@ class PrivateSystemMessage extends Message {
     }
 }
 
-/*  ========================================================
-
-    MESSAGE NOTIFICATION MESSAGE DERIVED CLASS
-
-    ========================================================*/
+/* Message notification */
 
 class MessageNotification extends SystemMessage {
     function MessageNotification($forum, $message, $alias = "") {
@@ -348,5 +334,20 @@ class MessageNotification extends SystemMessage {
     }
 }
 
+/* Telegram message */
+
+class TelegramMessage extends Message {
+    function TelegramMessage($name, $text, $roomId, $isMe) {
+        $name = "<a>".$name."</a>";
+        if ($isMe) {
+            $message = "/me ".$name." ".$text;
+        } else {
+            $message = $name.": ".$text;
+        }
+        parent::__construct($message, "");
+        $this->UserId = -100;
+        $this->RoomId = $roomId;
+    }
+}
 
 ?>

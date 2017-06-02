@@ -10,7 +10,7 @@
 
 	$text = trim(substr(UTF8toWin1251($_POST["message"]), 0, 1024));
 	$message_id = round($_POST["reply_to"]);
-	
+
 	if ($message_id) {
 		if ($text) {
 			$wakeup = new Wakeup();

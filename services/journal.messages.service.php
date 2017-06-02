@@ -52,10 +52,7 @@ JsQuote($q->Get(User::LOGIN))."\")";
 
 	// Search conditions
 	$record = new ForumRecordBase();
-	$search = LookInRequest("SEARCH");
-	$condition = MakeSearchCriteria(
-		LookInRequest("DATE"), ForumRecordBase::DATE, $search, $record->SearchTemplate
-	);
+	$condition = MakeSearchCriteria("DATE", ForumRecordBase::DATE, "SEARCH", $record->SearchTemplate);
 
 	$q = $record->GetForumThreads($forum->Id, $access, $from, $amount, $condition, true);
 	$result = "this.data=[";

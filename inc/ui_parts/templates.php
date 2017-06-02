@@ -13,7 +13,7 @@
         var $scripts = array();
         var $buttons = array();
 
-        function Page($title, $meta = "", $header_title = "", $no_jquery = false, $css = "", $scripts = "", $rss = "") {
+        function Page($title, $meta = "", $header_title = "", $no_jquery = false) {
             $this->no_jquery = $no_jquery;
             $this->title = $title;
             $this->header_title = $header_title;
@@ -21,7 +21,7 @@
             
             $this->AddCss($css);
 
-            $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "modernizr.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
+            $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
             $this->AddJs("reply_common.js");
             $this->AddJs($scripts);
 
@@ -64,6 +64,7 @@
                 print $prefix.$i."\n";
             }
         }
+        
 
         function PrintHeader() {
           global $user, $root;

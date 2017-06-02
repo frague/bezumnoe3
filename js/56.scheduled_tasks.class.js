@@ -4,7 +4,7 @@
 */
 
 function ScheduledTasks() {
-    this.fields = ["SCHEDULED_TASK_ID", "TYPE", "EXECUTION_DATE", "PERIODICITY", "IS_ACTIVE", "inactivated", "status", "unban", "expired_sessions", "ratings"];
+    this.fields = ["SCHEDULED_TASK_ID", "TYPE", "EXECUTION_DATE", "PERIODICITY", "IS_ACTIVE", "inactivated", "status", "unban", "expired_sessions", "ratings", "ytka", "lyngvist", "buktopuha", "telegram"];
     this.ServicePath = servicesPath + "scheduled_tasks.service.php";
     this.Template = "scheduled_tasks";
     this.ClassName = "ScheduledTasks";
@@ -32,11 +32,11 @@ ScheduledTasks.prototype.TemplateLoaded = function(req) {
     this.GroupSelfAssign(["RefreshScheduledTasks"]);
 
     // System log checkboxes
-    BindEnterTo(this.Inputs["status"], this.Inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.Inputs["unban"], this.Inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.Inputs["expired_sessions"], this.Inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.Inputs["ratings"], this.Inputs["RefreshScheduledTasks"]);
-    BindEnterTo(this.Inputs["inactivated"], this.Inputs["RefreshScheduledTasks"]);
+    var inputs = this.Inputs;
+    var submitter = this.Inputs["RefreshScheduledTasks"];
+    ["status", "unban", "expired_sessions", "ratings", "inactivated", "ytka", "lyngvist", "buktopuha", "telegram"].forEach(
+        function(field) {BindEnterTo(inputs[field], submitter)}
+    );
 };
 
 /* Status Data Transfer Object */

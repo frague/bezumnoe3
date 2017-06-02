@@ -7,14 +7,14 @@
 
 function OptionsBase() {
     this.defaultValues = [];
-}
+};
 
 // Loading Template
 OptionsBase.prototype.loadTemplate = function (tab, user_id, login) {    // To be overriden
     this.LoadBaseTemplate(tab, user_id, login);
 };
 
-OptionsBase.prototype.LoadBaseTemplate = function (tab, user_id, login) {
+OptionsBase.prototype.LoadBaseTemplate = function(tab, user_id, login) {
     this.USER_ID = Math.round(user_id);
     this.LOGIN = login;
 
@@ -28,11 +28,11 @@ OptionsBase.prototype.LoadBaseTemplate = function (tab, user_id, login) {
 };
 
 // Template Callbacks
-OptionsBase.prototype.TemplateLoaded = function (req) {  // To be overriden
+OptionsBase.prototype.TemplateLoaded = function(req) {  // To be overriden
     this.TemplateBaseLoaded(req);
 };
 
-OptionsBase.prototype.TemplateBaseLoaded = function (req) {
+OptionsBase.prototype.TemplateBaseLoaded = function(req) {
     var text = req || '';
     if (req) KeepRequestedContent(this.Template, text);
     this.Tab.RelatedDiv.innerHTML = text;
@@ -144,9 +144,9 @@ OptionsBase.prototype.BindFields = function(fields) {
         fields,
         function(field) {
             console.log(field, this[field]);
-            var value = this[field];
+        var value = this[field];
             if (_.isUndefined(value)) return;
-            this.SetTabElementValue(field, value);
+        this.SetTabElementValue(field, value);
         },
         this
     )

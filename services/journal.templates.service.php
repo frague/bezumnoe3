@@ -26,7 +26,7 @@
 		echo JsAlert("Нет доступа к настройкам журнала!", 1);
 		exit;
 	}
-	
+
 	$settings = new JournalSettings();
 	$settings->GetByForumId($journal->Id);
 
@@ -40,7 +40,7 @@
 			if ($template->IsEmpty()) {
 				$template->ForumId = $journal->Id;
 			}
-			
+
 			if ($settings->OwnMarkupAllowed) {
 				$template->Title = UTF8toWin1251($_POST[JournalTemplate::TITLE]);
 				$template->Body = UTF8toWin1251($_POST[JournalTemplate::BODY]);
@@ -55,7 +55,7 @@
 
 			echo JsAlert("Настройки шаблона сохранены.");
 			break;
-	}	
+	}
 	// Getting default skin
 	$skin = new JournalSkin();
 	$defaultTemplateId = $skin->GetDefaultTemplateId();

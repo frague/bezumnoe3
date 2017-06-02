@@ -37,21 +37,18 @@
             $profile = new Profile();
             $profile->GetByUserId($person->User->Id);
 
-//          echo $profile;
-//          echo $person->User->Id;
-
             InfoRating($person->User->Id);
         }
     }
 
-    require_once $root."references.php"; 
+    require_once $root."references.php";
 
 
 /* Functions */
 
     function ProfileLine($label, $value, $emptyValue = "") {
         if ($value || $emptyValue) {
-            echo "<div class='InfoSection'><label>".$label.":</label>".nl2br($value ? $value : $emptyValue)."</div>";
+            echo "<section><h6>".$label."</h6>".nl2br($value ? $value : $emptyValue)."</section>";
         }
     }
 
@@ -65,12 +62,12 @@
     <body>
         <div id="InfoContainer">
             <div id="InfoContent">
-                <?php 
+                <?php
                     if (!$error) {
                 ?>
                 <h1><?php echo $person->User->Login ?></h1>
                 <div id="Info" class="TabContainer">
-                    <div class="Small">В чате с <strong><?php echo PrintableDate($profile->Registered) ?></strong>, последний раз <strong><?php echo PrintableDate($profile->LastVisit) ?></strong></div>
+                    <h6>В чате с <?php echo PrintableDate($profile->Registered) ?>. Последнее посещение <? echo PrintableDate($profile->LastVisit) ?></h6>
         <?php
 
                 echo ProfilePhoto($profile, $person->User->Login);
@@ -86,7 +83,6 @@
                 ProfileLine("Пол", ($gender == "m" ? "мужской" : ($gender == "f" ? "женский" : "не определён")));
                 ProfileLine("Дата рождения", BirthdayDate($profile->Birthday));
                 ProfileLine("Место жительства", $profile->City);
-                ProfileLine("ICQ", (preg_match("/^[0-9]+$/", $profile->Icq) ? "<img src='http://status.icq.com/online.gif?icq=".preg_replace("[^0-9]", "", $profile->Icq)."&img=26' width='13' height='13'> " : "").$profile->Icq);
                 ProfileLine("Адрес в интернете", OuterLinks(MakeLinks($profile->Url)));
 
                 // Owned journal(s)
@@ -126,7 +122,7 @@
             }
 
         ?>
-        
+
                 </div>
             </div>
         </div>

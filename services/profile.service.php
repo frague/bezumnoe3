@@ -10,7 +10,7 @@
 	if (!$user || $user->IsEmpty() || !$user_id) {
 		exit;
 	}
-	
+
 	$tabId = LookInRequest("tab_id");
 	$photo = getValue($_FILES, "PHOTO1");
 
@@ -91,13 +91,13 @@
 							$response .= AddJsAlert("Фотография обновлена.");
 							SaveLog("Новое фото.", $targetUser->Id, $user->User->Login, AdminComment::SEVERITY_WARNING);
 						}
-							
+
 						// Image resizing
 						$image = new SimpleImage();
 						$image->Load($pathToImage);
-							
+
 //						$response .= AddJsAlert("Width=".."Height=");
-						
+
 						$hasChanged = false;
 						if ($image->GetWidth() > $maxWidth) {
 							$image->ResizeToWidth($maxWidth);
@@ -130,7 +130,7 @@
 						$response .= JsAlert($pass_result, 1);
 					}
 				}
-					
+
 				/* Admin's functionality (Ban & Status) */
 				if (!$ownProfile && $user->IsAdmin()) {
 					$targetStatus = new Status($targetUser->StatusId);
@@ -186,8 +186,8 @@
 				$oldProfile = $profile->GetFieldset();
 				$profile->FillFromHash($_POST);
 				$profile->Save();
-					
-				// Write to log 
+
+				// Write to log
 				LogProfileChanges($targetUser->Id, $profile, $oldProfile, $user->User->Login);
 
 				$response .= JsAlert("Профиль успешно сохранён.");

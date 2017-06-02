@@ -4,6 +4,8 @@ php_flag display_errors off
 DirectoryIndex index.html index.htm index.php default.php index.phtml default.phtml
 Options -Indexes
 
+AddDefaultCharset UTF-8
+
 #Errors
 
 ErrorDocument 404 /404.html
@@ -175,3 +177,6 @@ RewriteRule ^rating.html$ rating [R=301,L]
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule . /index.php [L]
+
+# Telegram
+RewriteRule ^t/([A-Z0-9]+)$ t/index.php?uuid=$1 [L]

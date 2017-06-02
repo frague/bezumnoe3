@@ -6,7 +6,7 @@
 
 		$journal->Title = trim(UTF8toWin1251($_POST[Journal::TITLE]));
 		$journal->IsProtected = Boolean($_POST[Journal::IS_PROTECTED]);
-		
+
 		if ($user->IsAdmin()) {
 			$journal->IsHidden = Boolean($_POST[Journal::IS_HIDDEN]);
 		}
@@ -23,44 +23,44 @@
 	}
 
 	if (!$forum_id && $go == "save") {	// New journal
-	    $journal = new Journal();
-	    $journal->GetByUserId($user->User->Id);
-	    if (!$journal->IsEmpty()) {
+		$journal = new Journal();
+		$journal->GetByUserId($user->User->Id);
+		if (!$journal->IsEmpty()) {
 			echo JsAlert("У вас уже есть журнал!", 1);
-		 	exit;
-	    }
-	    
-	    $error = "";
+			 exit;
+		}
 
-	    $alias = $_POST["REQUESTED_ALIAS"];
-	    if (!$alias) {
+		$error = "";
+
+		$alias = $_POST["REQUESTED_ALIAS"];
+		if (!$alias) {
 			$error = "При создании журнала необходимо указать алиас!<br>";
-	    }
+		}
 	    if (!preg_match("/^[a-z0-9_.]+$/i", $alias)) {
 			$error .= "Алиас должен состоять из символов латинского алфавита, цифр и знаков '.' и '_'!<br>";
-	    }
+		}
 
 		$settings = new JournalSettings();
 		if ($alias) {
-		    $settings->GetByAlias($alias);
-		    if (!$settings->IsEmpty()) {
+			$settings->GetByAlias($alias);
+			if (!$settings->IsEmpty()) {
 				$error .= "Журнал с алиасом &laquo;".$alias."&raquo;! уже существует!<br>";
-	    	}
-	    }
+			}
+		}
 
-	    FillForumData($journal);
+		FillForumData($journal);
 
-	    if ($error) {
+		if ($error) {
 			echo "this.data=".$settings->ToJs($journal->Title, $journal->Description).";";
 			echo JsAlert($error, 1);
 			exit;
-	    }
+		}
 
-	    $journal->LinkedId = $user->User->Id;
+		$journal->LinkedId = $user->User->Id;
 		$journal->Save();
-		
+
 		$settings->ForumId = $journal->Id;
-	    $settings->Alias = $alias;
+		$settings->Alias = $alias;
 
 		$template = new JournalTemplate();
 		$skin = new JournalSkin();
@@ -74,7 +74,7 @@
 		$template->Save();
 
 		echo JsAlert("Создан новый журнал!", 1);	// TODO: Write log
-	 	exit;
+		 exit;
 	}
 
 	$journal = new ForumBase($forum_id);
@@ -124,7 +124,7 @@
 				echo JsAlert("Настройки журнала сохранены.");
 			}
 		}
-	}	
+	}
 
 	echo "this.data=".$settings->ToJs($journal->Title, $journal->Description, $journal->IsProtected, $journal->IsHidden).";";
 	echo "this.type='".$journal->Type."';";

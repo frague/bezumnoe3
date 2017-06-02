@@ -22,6 +22,7 @@ class ScheduledTask extends EntityBase {
     const TYPE_YTKA_BOT         = "ytka";
     const TYPE_VICTORINA_BOT    = "victorina";
     const TYPE_LINGVIST_BOT     = "lingvist";
+    const TYPE_TELEGRAM_BOT     = "telegram";
     
     const SCHEDULER_LOGIN = "по расписанию";
     const HANGED_TIMEOUT = "00:10:00";      // 10 minutes to recover
@@ -37,7 +38,7 @@ class ScheduledTask extends EntityBase {
     var $TransactionGuid;
     var $IsActive;
 
-    var $Bots = array(self::TYPE_YTKA_BOT, self::TYPE_VICTORINA_BOT, self::TYPE_LINGVIST_BOT);
+    var $Bots = array(self::TYPE_YTKA_BOT, self::TYPE_VICTORINA_BOT, self::TYPE_LINGVIST_BOT, self::TYPE_TELEGRAM_BOT);
 
     function ScheduledTask() {
         $this->table = self::table;
@@ -115,7 +116,7 @@ class ScheduledTask extends EntityBase {
 
     // Returns active bots
     function GetActiveBots() {
-        return $this->GetByCondition("t1.".self::TYPE." IN ('".join("', '", $this->Bots)."') AND t1.".self::IS_ACTIVE."=1");
+        return $this->GetByCondition("t1.".self::TYPE." IN ('".join("', '", $this->Bots)."') AND t1.".self::IS_ACTIVE."=1 ORDER BY ".self::SCHEDULED_TASK_ID." DESC");
     }
 
     // Returns Action by given task type
@@ -130,6 +131,7 @@ class ScheduledTask extends EntityBase {
                 case self::TYPE_YTKA_BOT:           return new YtkaBotAction($this);
                 case self::TYPE_VICTORINA_BOT:      return new VictorinaBotAction($this);
                 case self::TYPE_LINGVIST_BOT:       return new LingvistBotAction($this);
+                case self::TYPE_TELEGRAM_BOT:       return new TelegramBotAction($this);
             }
         }
         return 0;
@@ -339,6 +341,12 @@ class LingvistBotScheduledTask extends Bot {
     }
 }
 
+class TelegramBotScheduledTask extends Bot {
+    function TelegramBotScheduledTask($userId = -1, $roomId = -1) {
+        parent::__construct(ScheduledTask::TYPE_TELEGRAM_BOT, $userId, $roomId);
+    }
+}
+
 
 /* ------------------ Actions ------------------ */
 
@@ -430,7 +438,10 @@ class ExpiredSessionsAction extends BaseAction {
         for ($i = 0; $i < $q->NumRows(); $i++) {
             $q->NextResult();
             $roomId = $q->Get(User::ROOM_ID);
-            $u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
+            $session = $q->Get(User::SESSION);
+            if (!preg_match("/^telegram[0-9A-Z]+$/", $session)) {
+                $u[$roomId] .= ($u[$roomId] ? ", " : "").$q->Get(User::LOGIN);
+            }
         }
         
         // Left user sessions, but remove room information
@@ -440,6 +451,7 @@ class ExpiredSessionsAction extends BaseAction {
             while (list($roomId,$users) = each($u)) {
                 $message = new QuitMessage($users.(preg_match("/, /", $users) ? " покидают" : " покидает")." чат. ", $roomId);
                 $message->Save();
+                TriggerBotsByMessage($message);
             }
         }
         return true;
@@ -584,18 +596,23 @@ class YtkaBotAction extends BotBaseAction {
     function ExecuteByMessage($message) {
       global $db;
 
-        if ($this->Init() && !$message->IsPrivate()) {
+        if ($this->Init() && !$message->IsPrivate() && !$message->FromYtka) {
             $myName = $this->user->DisplayedName();
             if (mb_strpos($message->Text, $myName) !== false) {
                 $item = new YtkaDictionaryItem();
 
                 // Reply
                 $item->PickRandom();
+                
                 $u = new User();
-                $authorName = $u->GetUserCurrentName($message->UserId);
-                $m = new Message(str_replace("%name", $authorName, $item->Content), $this->user->User);
-                $m->RoomId = $message->RoomId;
-                $m->Save();
+                $authorName = $u->GetUserCurrentName($message->UserId) OR "ты";
+                $ytkaName = $u->GetUserCurrentName($this->user->Id) OR "YTKA";
+                $msg = new Message(str_replace("%name", $authorName, $item->Content), $this->user->User);
+                $msg->RoomId = $message->RoomId;
+                $msg->UserName = $ytkaName;
+                $msg->Save();
+                $msg->FromYtka = True;
+                TriggerBotsByMessage($msg);
 
                 // Store new item in the dictionary
                 $item->Clear();
@@ -642,6 +659,42 @@ class LingvistBotAction extends BotBaseAction {
     }
 
     function ExecuteByMessage($message) {
+        return true;
+    }
+}
+
+// Telegram bot actions
+class TelegramBotAction extends BotBaseAction {
+    function ExecuteByTimer() {
+        return true;
+    }
+    
+    function ExecuteByMessage($message) {
+      global $db;
+
+        if (!$message->IsPrivate() && !$message->FromTelegram) {
+            try {
+                $data = json_encode($message->ToJSON());
+
+                $curl = curl_init();
+                curl_setopt($curl, CURLOPT_URL, "http://bzmn.herokuapp.com/push");
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+                curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                    "Content-Type: application/json", 
+                    "Content-Length: ".strlen($data))
+                );
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_TIMEOUT, 1);
+                curl_exec($curl);
+                curl_close($curl);
+            }
+            catch (Exception $e) {
+                print $e;
+            }
+        }
         return true;
     }
 }
