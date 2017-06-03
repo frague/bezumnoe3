@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Basic {
     var $Errors = array();
     var $ErrMsg = "Ошибки:";

@@ -1,5 +1,4 @@
-<?
-
+<?php 
 abstract class EntityBase {
     // Fields
     var $table = "";
@@ -33,7 +32,7 @@ abstract class EntityBase {
     // SQL methods
     function IsConnected() {
      global $db;
-        return $db != 0;
+        return isset($db);
     }
 
     function Retrieve() {

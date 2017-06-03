@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Tag extends EntityBase {
     // Constants
     const table = "tags";

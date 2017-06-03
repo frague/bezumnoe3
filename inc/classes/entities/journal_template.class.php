@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class JournalTemplate extends EntityBase {
     // Constants
     const table = "journal_templates";

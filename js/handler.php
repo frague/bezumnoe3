@@ -45,13 +45,13 @@
 
     for ($i = 0; $i < sizeof($files); $i++) {
         $file = $files[$i];
-        if (eregi("^00\.super", $file) && !$isSuperAdmin) {
+        if (preg_match("/^00\.super/i", $file) && !$isSuperAdmin) {
             continue;
         }
-        if (eregi("^00\.admin", $file) && !$isAdmin) {
+        if (preg_match("/^00\.admin/i", $file) && !$isAdmin) {
             continue;
         }
-        if (eregi("^[0-9]+\..+\.js$", $file)) {
+        if (preg_match("/^[0-9]+\..+\.js$/i", $file)) {
             if ($version) {
                 // Passing javascripts content
                 $s = file_get_contents($local_root.$file);

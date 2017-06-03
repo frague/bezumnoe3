@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Room extends EntityBase {
     // Constants
     const table = "rooms";

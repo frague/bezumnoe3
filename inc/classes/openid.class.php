@@ -1,5 +1,4 @@
-<?
-/*
+<?php /*
     FREE TO USE
         Under License: GPLv3
     Simple OpenID PHP Class

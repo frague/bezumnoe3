@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Registry extends EntityBase implements ArrayAccess {
     // Constants
     const table = "registry";

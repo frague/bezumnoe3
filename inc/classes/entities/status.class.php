@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Status extends EntityBase {
 	// Constants
 	const table = "statuses";

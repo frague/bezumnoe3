@@ -1,5 +1,4 @@
-<?
-
+<?php 
 	require_once "base.service.php";
 
 	$user = GetAuthorizedUser(true);

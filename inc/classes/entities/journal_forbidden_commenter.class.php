@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class JournalForbiddenCommenter extends EntityBase {
 	// Constants
 	const table = "journal_forbidden_commenters";

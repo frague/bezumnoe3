@@ -4,8 +4,7 @@
         <link rel="stylesheet" type="text/css" href="/css/menu_layout.css">
         <script src="/js1/jquery/jquery.js"></script>
         <script src="/js1/jquery/jquery-ui.js"></script>
-        <?
-
+        <?php 
     $root = "../";
     require_once $root."server_references.php";
 
@@ -28,12 +27,10 @@
 
         <div id="OptionsContainer">
             <div id="OptionsContent">
-        <?
-            if ($user->IsEmpty()) {
+        <?php             if ($user->IsEmpty()) {
         ?>
                 <div class="Error">Пользователь не авторизован!</div>
-        <?
-            } else {
+        <?php             } else {
                 echo "<h1>Меню пользователя ".$user->User->Login."</h1>";
             }
         ?>

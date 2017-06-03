@@ -1,5 +1,4 @@
-<?
-    require_once "base.service.php";
+<?php     require_once "base.service.php";
 
     header("Content-type: application/json");
 

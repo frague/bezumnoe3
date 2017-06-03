@@ -133,7 +133,7 @@
                         <form method="POST" class="auth_form">
                             <input type="hidden" name="AUTH" id="AUTH" value="1" />
                             <label for="<?php echo LOGIN_KEY ?>">Логин</label>
-                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" value="<? echo $_POST[LOGIN_KEY] ?>" type="text" placeholder="Логин" />
+                            <input name="<?php echo LOGIN_KEY ?>" id="<?php echo LOGIN_KEY ?>" value="<?php echo lookInRequest(LOGIN_KEY) ?>" type="text" placeholder="Логин" />
                             <label for="<?php echo PASSWORD_KEY ?>">Пароль</label>
                             <input name="<?php echo PASSWORD_KEY ?>" id="<?php echo PASSWORD_KEY ?>" value="" size="10" type="password" placeholder="Пароль" />
                             <input src="/img/t/auth.gif" width="90" height="30" alt="Авторизоваться в чате" type="image" />
@@ -148,7 +148,7 @@
             <b>".$user->User->Login."</b><br>
             и можете <a href='/inside.php'>войти</a> в чат.</div>";
     } else {
-        if ($_POST[LOGIN_KEY]) {
+        if (lookInRequest(LOGIN_KEY)) {
             echo "<div class='Error'>Ошибка авторизации!</div>";
         }
     }

@@ -1,5 +1,4 @@
-<?
-    require "menu_base.php";
+<?php     require "menu_base.php";
 
 ?>
 <h2>Сообщение: <span id="TITLE1"></span></h2>

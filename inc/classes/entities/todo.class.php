@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class TODO extends EntityBase {
     // Constants
     const table = "todo";

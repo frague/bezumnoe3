@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Settings extends EntityBase {
     // Constants
     const table = "settings";
@@ -226,7 +225,7 @@ class Settings extends EntityBase {
     function ToCSS() {
         $s = "";
         if ($this->FontFace) {$s .= "font-family:'".$this->FontFace."';";}
-        if ($this->FontColor) {$s .= "color:".(eregi("^[a-f0-9]{1,6}$", $this->FontColor) ? "#" : "").$this->FontColor.";";}
+        if ($this->FontColor) {$s .= "color:".(preg_match("/^[a-f0-9]{1,6}$/i", $this->FontColor) ? "#" : "").$this->FontColor.";";}
         if ($this->FontSize) {$s .= "font-size:".(8 + $this->FontSize)."pt;";}
         if ($this->FontIsBold) {$s .= "font-weight:bold;";}
         if ($this->FontIsItalic) {$s .= "font-style:italic;";}

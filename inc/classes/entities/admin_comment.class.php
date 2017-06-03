@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class AdminComment extends EntityBase {
     // Constants
     const table = "admin_comments";

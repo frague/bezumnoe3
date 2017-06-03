@@ -67,7 +67,7 @@
 
         echo "<ul class='random'>";
         while (list($k, $comment) = each($comments)) {
-            echo "<li>".$comment->ToLink(100, $rec->Id, $alias).", ".$comment->Author;
+            echo "<li>".$comment->ToLink(100, $alias, $rec->Id).", ".$comment->Author;
         }
         echo "</ul></li>";
     }

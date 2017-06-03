@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class NewsRecord extends EntityBase {
     // Constants
     const table = "news_records";

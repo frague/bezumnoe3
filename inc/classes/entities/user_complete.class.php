@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class UserComplete extends EntityBase {
 
     // Properties

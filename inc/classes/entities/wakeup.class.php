@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Wakeup extends EntityBase {
     // Constants
     const table = "wakeups";

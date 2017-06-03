@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Profile extends EntityBase {
 	// Constants
 	const table = "profiles";

@@ -1,5 +1,4 @@
-<?
-	require_once "base.service.php";
+<?php 	require_once "base.service.php";
 
 	// Decode L&P
 	//	$_POST[LOGIN_KEY] = UTF8toWin1251($_POST[LOGIN_KEY]);

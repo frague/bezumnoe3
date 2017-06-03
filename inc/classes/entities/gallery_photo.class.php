@@ -1,14 +1,13 @@
-<?
-
+<?php 
 class GalleryPhoto extends JournalRecord {
 
     var $RecordType = Forum::TYPE_GALLERY;
 
-    function ToLink() {
+    function ToLink($trimBy = 0, $alias = "") {
         return self::MakeLink($this->ForumId, $this->Id);
     }
 
-    function GetImageUrl($galleryFile, $isThumb = true) {
+    function GetImageUrl($galleryFile = "", $isThumb = true) {
       global $SiteHost, $PathToGalleries;
         return "http://".$SiteHost.$PathToGalleries.$galleryFile.($isThumb ? "/thumbs/" : "/").$this->Content;
     }
@@ -35,7 +34,7 @@ class GalleryPhoto extends JournalRecord {
         return $result;
     }
 
-    function ToPrint($galleryFile, $isThumb = true) {
+    function ToPrint($galleryFile = "", $isThumb = true) {
       global $root, $PathToGalleries, $ServerPathToGalleries;
 
 //      $result = $this->ToGalleryPreview($galleryFile, $isThumb);

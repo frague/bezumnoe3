@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class TreeNode extends EntityBase {
     // Constants
     const table = "tree";

@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class JournalRecord extends ForumRecordBase {
 
     var $RecordType = Forum::TYPE_JOURNAL;
@@ -96,12 +95,14 @@ class JournalRecord extends ForumRecordBase {
             $this->AccessExpression($userId, "t5", "t4")." AND ".
             $condition.
             " LIMIT ".($from ? $from."," : "").$limit,
-            $this->MixedJournalsPostsExpression()
+            $this->MixedJournalsPostsExpression($userId)
         );
     }
 
     // Gets journal topics by condition
     function GetMixedJournalsTopics($userId, $from = 0, $limit, $condition = "", $order_by_date = True) {
+        global $forumId;
+        
         $forumId = round($forumId);
         return $this->GetMixedJournalsRecords(
             $userId,
@@ -163,7 +164,7 @@ WHERE
     }
 
     // Journal posts from different journals with access expression
-    function MixedJournalsPostsExpression() {
+    function MixedJournalsPostsExpression($userId) {
         $userId = round($userId);
 
         $result = str_replace(

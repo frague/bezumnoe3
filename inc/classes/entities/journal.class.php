@@ -17,7 +17,7 @@ class Journal extends ForumBase {
 		return "/journal/";
 	}
 
-	function GetLink($alias, $recordId = 0, $setTarget = true) {
+	function GetLink($alias = "", $recordId = 0, $setTarget = true) {
 		if ($this->IsEmpty() || !$alias) {
 			return;
 		}

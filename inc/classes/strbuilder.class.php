@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class StrBuilder {
     var $Text;
 

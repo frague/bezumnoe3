@@ -19,13 +19,13 @@
             $this->header_title = $header_title;
             $this->meta = $meta ? $meta : "Старейший саратовский чат. Интересное общение, знакомства, персональные журналы (блоги)";
             
-            $this->AddCss($css);
+            // $this->AddCss($css);
 
             $this->AddJs(array("jquery/jquery.js", "jquery/jquery-ui.js", "jquery/jquery.lettering-0.6.1.min.js", "common.js"));
             $this->AddJs("reply_common.js");
-            $this->AddJs($scripts);
+            // $this->AddJs($scripts);
 
-            $this->SetRss($rss);
+            // $this->SetRss($rss);
         }
         
         function SetRss($url) {

@@ -1,6 +1,5 @@
-<?
-
-    define(allowedTags, "<strike><pre><br><object><param><a><b><em><u><body><blockquote><center><div><font><h1><h2><h3><h4><h5><h6><head><html><hr><i><img><li><meta><ol><p><span><strong><style><table><tr><td><th><colgroup><col><ul><sub><sup>");
+<?php 
+    define("allowedTags", "<strike><pre><br><object><param><a><b><em><u><body><blockquote><center><div><font><h1><h2><h3><h4><h5><h6><head><html><hr><i><img><li><meta><ol><p><span><strong><style><table><tr><td><th><colgroup><col><ul><sub><sup>");
 
     $chars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
@@ -79,7 +78,8 @@
     }
 
     function SqlQuote($source) {
-        return mysql_real_escape_string($source);
+        global $db;
+        return mysqli_real_escape_string($db->link, $source);
     }
 
     function SqlFnQuote($source) {
@@ -228,7 +228,7 @@
     function OuterLink($url, $proto, $btw) {
         $allowedHosts = array("bezumnoe.ru", "www.bezumnoe.ru");
         for ($i = 0; $i < sizeof($allowedHosts); $i++) {
-            if (eregi(str_replace(".", "\.", $allowedHosts[$i]), $url)) {
+            if (preg_match("/".str_replace(".", "\.", $allowedHosts[$i])."/i", $url)) {
                 return "<a ".$btw." href='".$proto."://".$url."'";
             }
         }

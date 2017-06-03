@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class JournalSettings extends EntityBase {
     // Constants
     const table = "journal_settings";
@@ -182,6 +181,7 @@ WHERE",
 
     function MakeHref($alias, $recordId = 0) {
         $recordId = round($recordId);
+        $tail = "";
         if ($recordId > 0) {
             $tail = "/post".$recordId;
         }
@@ -194,14 +194,17 @@ WHERE",
         }
 
         $css = "";
+        $id = 0;
         if ($record && !$record->IsEmpty()) {
             $make = $record->MakeCss();
             if ($make) {
                 $css = " class='".$make."'";
             }
+            $id = $record->Id;
         }
 
-        return "<a".$css.($target ? " target='".$target."'" : "")." href='".self::MakeHref($alias, $record->Id)."'>".$text."</a>";
+
+        return "<a".$css.($target ? " target='".$target."'" : "")." href='".self::MakeHref($alias, $id)."'>".$text."</a>";
     }
     
 }

@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Rating extends EntityBase {
     // Constants
     const table = "ratings";
@@ -65,7 +64,7 @@ class Rating extends EntityBase {
 
     // SQL
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
 
         if ($this->IsConnected() && $this->Ip) {

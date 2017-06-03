@@ -1,5 +1,4 @@
-<?
-
+<?php 
 	$response = "";
 	$postResponse = "";
 	require_once "base.service.php";

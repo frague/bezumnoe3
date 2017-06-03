@@ -1,11 +1,9 @@
-<?
-    require "menu_base.php";
+<?php     require "menu_base.php";
 
 ?>
 
 <h4>Внешний вид журнала (скин):</h4>
-<div id="SKIN_TEMPLATE_ID" name="SKIN_TEMPLATE_ID" class="Radios"><?
-
+<div id="SKIN_TEMPLATE_ID" name="SKIN_TEMPLATE_ID" class="Radios"><?php 
         $skin = new JournalSkin();
         echo $skin->ToHtml("/img/journals", "DoShow('templates')");
 

@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class News extends EntityBase {
     // Constants
     const table = "news";
@@ -66,7 +65,7 @@ class News extends EntityBase {
     }
 
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if (!$this->IsConnected()) {
             return false;

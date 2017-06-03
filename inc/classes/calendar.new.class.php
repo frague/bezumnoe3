@@ -1,5 +1,4 @@
-<?
-require_once "basic.class.php";
+<?php require_once "basic.class.php";
 
 class Calendar extends Basic {
     var $Days = array();

@@ -1,15 +1,14 @@
-<?
-
+<?php 
 class GalleryComment extends JournalComment {
 
     var $RecordType = Forum::TYPE_GALLERY;
 
-    function ToLink($trimBy = 0, $recordId = 0) {
+    function ToLink($trimBy = 0, $recordId = 0, $alias = "") {
         $content = $trimBy ? TrimBy($this->Content, $trimBy) : $this->Content;
         return GalleryPhoto::MakeLink($this->ForumId, $recordId ? $recordId : $this->Id, $this->Id).$content."</a>";
     }
 
-    function ToJs() {
+    function ToJs($mark = "") {
         $title = strip_tags($this->Title);
         $content = substr(strip_tags($this->Content), 0, 2048);
 

@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class TelegramId extends EntityBase {
     // Constants
     const table = "telegram_ids";

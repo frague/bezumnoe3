@@ -1,5 +1,4 @@
-<?
-
+<?php 
     $root = "./";
     require_once $root."server_references.php";
 
@@ -80,7 +79,7 @@
             <table>
                 <tr>
                     <td></td>
-                    <td id="CurrentName" colspan="2"><? echo $user->DisplayedName() ?></td></tr>
+                    <td id="CurrentName" colspan="2"><?php echo $user->DisplayedName() ?></td></tr>
                 <tr>
                     <td></td>
                     <td id="RecepientsContainer" colspan="2"></td></tr>

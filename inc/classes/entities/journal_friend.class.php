@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class JournalFriend extends EntityBase {
     // Constants
     const table = "journal_relations";
@@ -75,7 +74,7 @@ JsQuote($this->FriendlyForumId)."\")";
 
     // SQL
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicates

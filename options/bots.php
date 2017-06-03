@@ -1,5 +1,4 @@
-<?
-    require "menu_base.php";
+<?php     require "menu_base.php";
 
     if ($user->IsEmpty() || !$user->IsSuperAdmin()) {
         exit();

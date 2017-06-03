@@ -1,7 +1,5 @@
 <?php
-
-//  echo $ServerPathToPhotos;
-
+    global $someoneIsLogged;
 
     $userId = $someoneIsLogged ? $user->User->Id : -1;
     $comment = new GalleryComment();
@@ -19,7 +17,7 @@
 
         $r = substr($comment->Index, 0, 4)."_".$comment->ForumId;
 
-        if (!$sorted[$r]) {
+        if (!isset($sorted[$r])) {
             $sorted[$r] = array();
         }
         array_push($sorted[$r], $comment);

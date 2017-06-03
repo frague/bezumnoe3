@@ -1,5 +1,4 @@
-<?
-    // Base methods
+<?php     // Base methods
 
     function SaveLog($content, $userId = -1, $adminLogin = "", $severity = AdminComment::SEVERITY_NORMAL) {
         $comment = new AdminComment();

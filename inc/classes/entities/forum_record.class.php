@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class ForumRecord extends ForumRecordBase {
 
     /* Printing methods */

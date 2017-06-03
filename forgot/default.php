@@ -1,5 +1,4 @@
-<?
-
+<?php 
     $root = "../";
     require_once $root."server_references.php";
     require $root."inc/ui_parts/templates.php";

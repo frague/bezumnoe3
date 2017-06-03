@@ -1,5 +1,4 @@
-<?
-    // Time ranges
+<?php     // Time ranges
     $RangeMinute = 60;
     $RangeHour = 60 * $RangeMinute;
     $RangeDay = 24 * $RangeHour;

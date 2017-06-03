@@ -174,11 +174,11 @@ class BannedAddress extends EntityBase {
         $ipPart = "(2(5[0-5]|[0-4][0-9])|[0-1]{0,1}[0-9]{1,2}|\*)";
 
         if ($this->Type == "ip") {
-            if (!ereg("^".$ipPart."\.".$ipPart."\.".$ipPart."\.".$ipPart."$", $this->Content)) {
+            if (!preg_match("/^".$ipPart."\.".$ipPart."\.".$ipPart."\.".$ipPart."$/", $this->Content)) {
                 $errors .= "Неверный формат IP-адреса - ".$this->Content."!<br>";
             }
         } else {
-            if (!eregi("^[\.0-9a-z\_\*\-]+$", $this->Content)) {
+            if (!preg_match("/^[\.0-9a-z\_\*\-]+$/i", $this->Content)) {
                 $errors .= "Неверный формат хоста - ".$this->Content."!<br>";
             }
         }

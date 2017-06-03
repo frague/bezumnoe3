@@ -13,11 +13,11 @@
     $root = "./";
     require_once $root."server_references.php";
 
-    $user = GetAuthorizedUser($dbMain, true);
+    $user = GetAuthorizedUser(true);
     $error = "";
 
-    $user_id = round($_GET["id"]);
-    $user_uid = $_GET["uid"];
+    $user_id = round(lookInRequest("id"));
+    $user_uid = lookInRequest("uid");
 
     if (!$user_id && !$user_uid)  {
         $error = "Не задан ID пользователя.";
@@ -55,7 +55,7 @@
 /* Functions */
 
 
-    ?>      <title><? echo $error ? "Ошибка" : $person->User->Login ?> - Пользователи Безумное.Ру</title>
+    ?>      <title><?php echo $error ? "Ошибка" : $person->User->Login ?> - Пользователи Безумное.Ру</title>
         <?php include $root."/inc/ui_parts/google_analythics.php"; ?>
     </head>
 
@@ -67,7 +67,7 @@
                 ?>
                 <h1><?php echo $person->User->Login ?></h1>
                 <div id="Info" class="TabContainer">
-                    <h6>В чате с <?php echo PrintableDate($profile->Registered) ?>. Последнее посещение <? echo PrintableDate($profile->LastVisit) ?></h6>
+                    <h6>В чате с <?php echo PrintableDate($profile->Registered) ?>. Последнее посещение <?php echo PrintableDate($profile->LastVisit) ?></h6>
         <?php
 
                 echo ProfilePhoto($profile, $person->User->Login);

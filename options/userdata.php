@@ -1,5 +1,4 @@
-<?
-    require "menu_base.php";
+<?php     require "menu_base.php";
 
 ?>
 
@@ -88,8 +87,7 @@
     <li id="liDeleteAvatar"> <a href="javascript:void(0)" onclick="DeleteAvatar(this)" id="linkDeleteAvatar" class="Delete">Удалить аватар</a>
 </ul>
 
-<?
-    if (!$user->IsEmpty() && $user->IsAdmin()) {
+<?php     if (!$user->IsEmpty() && $user->IsAdmin()) {
 ?><div id="AdminSection">
     <h2>Административная часть:</h2>
 
@@ -98,8 +96,7 @@
             <td width="50%">
 
     <h4>Права/статус:</h4>
-    <select id="STATUS_ID" name="STATUS_ID" class="Wide"><?
-    $status = new Status();
+    <select id="STATUS_ID" name="STATUS_ID" class="Wide"><?php     $status = new Status();
     echo $status->ToSelect(Status::STATUS_ID, $user);
 ?></select>
 
@@ -128,7 +125,6 @@
 
     <div id="AdminComments"></div>
 
-</div><?
-    }
+</div><?php     }
 ?>
 <br><br>

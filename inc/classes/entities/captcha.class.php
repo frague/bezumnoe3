@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Captcha extends EntityBase {
     // Constants
     const table = "captchas";

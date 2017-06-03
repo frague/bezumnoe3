@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class ForumRecordBase extends EntityBase {
     // Constants
     const table = "forum_records";

@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class OpenIdProvider extends EntityBase {
     // Constants
     const table = "openid_providers";

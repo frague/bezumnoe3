@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class Forum extends ForumBase {
 
     function Clear() {

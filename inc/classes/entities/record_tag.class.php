@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class RecordTag extends EntityBase {
     // Constants
     const table = "forum_records_tags";
@@ -80,7 +79,7 @@ class RecordTag extends EntityBase {
     }
 
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicate

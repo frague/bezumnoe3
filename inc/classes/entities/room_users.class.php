@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class RoomUser extends EntityBase {
     // Constants
     const table = "room_users";
@@ -41,7 +40,7 @@ class RoomUser extends EntityBase {
         return $this->GetByCondition("t2.".User::ROOM_ID."<>-1", $this->ReadForOnlineUsersExpression($user_id));
     }
 
-    function Save() {
+    function Save($by_query = "") {
      global $db;
         if ($this->IsConnected() && $this->IsFull()) {
             // Check duplicates

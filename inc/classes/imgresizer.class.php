@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class ImgResizer
 {
     var $imageQuality = 75;

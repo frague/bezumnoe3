@@ -1,5 +1,4 @@
-<?
-
+<?php 
     define("LOGIN_KEY", "login");
     define("PASSWORD_KEY", "password");
     define("OPENID_LOGIN_KEY", "openid_login");
@@ -9,13 +8,14 @@
     define("LOGIN_GUID_KEY", "f");
 
     function LookInRequest($keyName) {
-        if ($_POST[$keyName] != "") {
+        if (isset($_POST[$keyName])) {
             return $_POST[$keyName];
-        } elseif ($_GET[$keyName] != "") {
+        } elseif (isset($_GET[$keyName])) {
             return $_GET[$keyName];
-        } else {
+        } elseif (isset($_COOKIE[$keyName])) {
             return $_COOKIE[$keyName];
         }
+        return "";
     }
 
     function SessionIsAlive($sessionPongTime) {

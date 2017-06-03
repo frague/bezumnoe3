@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class JournalSkin extends EntityBase {
 	// Constants
 	const table = "journal_skins";
@@ -111,7 +110,7 @@ class JournalSkin extends EntityBase {
 	}
 
 	// SQL
-	function Save() {
+	function Save($by_query = "") {
 	 global $db;
 		if (!$this->IsConnected()) {
 			return false;

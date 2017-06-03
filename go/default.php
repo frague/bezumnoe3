@@ -1,5 +1,4 @@
-<?
-    $url = $_GET["url"];
+<?php     $url = $_GET["url"];
     $proto = $_GET["proto"];
 
     if (!$url) {

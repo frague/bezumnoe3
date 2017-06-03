@@ -114,8 +114,7 @@
         <li> к журналу <?php echo $journal->GetLink($alias, 0, false) ?>
     </ul>
 
-<?
-    if (!$record->IsCommentable) {
+<?php     if (!$record->IsCommentable) {
         $p->PrintFooter();
         die();
     }

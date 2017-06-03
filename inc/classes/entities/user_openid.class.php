@@ -1,5 +1,4 @@
-<?
-
+<?php 
 class UserOpenId extends EntityBase {
     // Constants
     const table = "user_open_ids";

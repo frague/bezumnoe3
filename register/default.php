@@ -1,5 +1,4 @@
-<?
-
+<?php 
     function get_sequence() {
         $result = "";
         for ($i = 0; $i < rand(2, 5); $i++) {
@@ -41,15 +40,15 @@
 #   $errors[] = "Регистрация временно закрыта";
 
     $doSave = LookInRequest("DO_SAVE");
+    $login = trim(LookInRequest("LOGIN"));
+    $email = trim(LookInRequest("E-MAIL"));
+    $full_name = trim(LookInRequest("FULL_NAME"));
+    $gender = trim(LookInRequest("GENDER"));
+    $location = trim(LookInRequest("LOCATION"));
     if ($doSave) {
-        $login = trim(LookInRequest("LOGIN"));
         $password = LookInRequest("PASSWORD");
         $confirmPassword = LookInRequest("PASSWORD_CONFIRM");
-        $email = trim(LookInRequest("E-MAIL"));
         $accept = trim(LookInRequest("ACCEPT"));
-        $full_name = trim(LookInRequest("FULL_NAME"));
-        $gender = trim(LookInRequest("GENDER"));
-        $location = trim(LookInRequest("LOCATION"));
         $answer = trim(LookInRequest("ANSWER"));
 
         $is_human = !trim(LookInRequest("HUMAN"));

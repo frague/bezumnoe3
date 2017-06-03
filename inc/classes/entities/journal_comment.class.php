@@ -1,15 +1,14 @@
-<?
-
+<?php 
 class JournalComment extends JournalRecord {
 
     var $RecordType = Forum::TYPE_JOURNAL;
 
-    function ToLink($trimBy = 0, $recordId, $alias) {
+    function ToLink($trimBy = 0, $alias = "", $recordId = 0) {
         $content = $trimBy ? TrimBy($this->Content, $trimBy) : $this->Content;
         return self::MakeLink($recordId, $alias, $this->Id, $content, $this->Type == self::TYPE_PROTECTED);
     }
 
-    function ToJs() {
+    function ToJs($mark = "") {
         $title = strip_tags($this->Title);
         $content = substr(strip_tags($this->Content), 0, 2048);
 

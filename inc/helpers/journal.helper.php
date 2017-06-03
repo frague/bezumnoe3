@@ -1,5 +1,4 @@
-<?
-
+<?php 
     // Constants
     $messageChunk = "##MESSAGE##";
 
@@ -40,7 +39,7 @@
 
         $tag = strtolower($tag);
         
-        if (!eregi("^(li|p|link|img|area)$", $tag)) {
+        if (!preg_match("/^(li|p|link|img|area)$/i", $tag)) {
             if ($order != "/") {
                 $tagsStack[$tag]++;
             } else {
@@ -219,9 +218,7 @@
         $messageText = FormatMessage($message, $template->Message, $settings->Alias, $record_id > 0);
 
         $position = strpos($bodyText, $messageChunk);
-        if ($position === 0) {
-            break;
-        } else {
+        if ($position !== 0) {
             $bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
         }
     }
