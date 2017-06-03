@@ -119,7 +119,10 @@ function compile(watch) {
   if (watch) {
       bundler.on('update', function () {
         console.log(new Date(), '-> bundling...');
-        rebundle();
+        rebundle()
+          .on('end', function() {
+            console.log('     completed!')
+          });
     });
 
     rebundle()

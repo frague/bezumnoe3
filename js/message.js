@@ -9,17 +9,35 @@ export var Message = React.createClass({
     let isSystem = !this.props.userId;
     let isSelf = this.props.userId === this.props.toUserId;
     return {
-      ['u' + this.props.userId]: true,
+      ['u' + this.props.userId]: !isSystem,
       'system': isSystem,
       'private': !isSystem && !isSelf && this.props.toUserId > 0,
       'self': !isSystem && isSelf
     };
   },
 
+  addName() {
+    return this.props.addName(this.props.userName);
+  },
+
+  wrapNames() {
+    let text = (this.props.userId > 0
+    ? 
+      '<>' + this.props.userId + '>' + this.props.userName + '<>: ' 
+    : 
+      '') + this.props.text;
+    return text.split('<>').map((chunk, index) => {
+      let [id, name] = chunk.split('>');
+      if (!id || !name) {
+        return chunk;
+      }
+      return <a key={index} onClick={this.addName}>{name}</a>;
+    });
+  },
+
   render() {
-    console.log(this.props);
     return <p className={utils.classNames(this.getClassName())}>
-      <a>{this.props.userName}</a>: {this.props.text}
+      {this.wrapNames()}
     </p>;
   }
 });

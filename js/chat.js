@@ -93,7 +93,7 @@ export var Chat = React.createClass({
       render: () => 
         _.map(
           this.state.messages, 
-          (message, index) => <Message key={index} {...message} />),
+          (message, index) => <Message key={index} {...message} addName={this.addName} />),
       isPrivate: false
     });
 
@@ -282,6 +282,10 @@ export var Chat = React.createClass({
   //   this.busy = false;
   // },
 
+  addName(name) {
+    console.log('Name', name);
+  },
+
   ping(doCheck) {
     if (!this.busy) {
       var s = new ParamsBuilder();
@@ -301,9 +305,9 @@ export var Chat = React.createClass({
       s.add('last_id', this.messages.lastId);
 
       /* Move to room */
-      if (this.state.newRoomId) {
-        s.add('room_id', this.state.newRoomId);
-        this.state.newRoomId = null;
+      if (this.newRoomId) {
+        s.add('room_id', this.newRoomId);
+        this.newRoomId = null;
       };
 
       $.post(settings.servicesPath + 'pong.service.php', s.build())
@@ -521,7 +525,6 @@ export var Chat = React.createClass({
     }
 
     let recepients = activeTab.getRecepients();
-    console.log(recepients.base);
 
     let prefix = {
       'wakeup': 'Wakeup для ',
