@@ -6,8 +6,8 @@
 	$mr = 0;
 	$tr = 0;
 
-	$meTelegramId = $_GET["mtid"];
-	$targetTelegramId = $_GET["ttid"];
+	$meTelegramId = $_POST["mtid"];
+	$targetTelegramId = $_POST["ttid"];
 	$digitsOnly = "/^\d+$/";
 
 	$result = array();
