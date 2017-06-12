@@ -1,5 +1,5 @@
 <?php
-    global $someoneIsLogged;
+    global $someoneIsLogged, $shownComments;
 
     $userId = $someoneIsLogged ? $user->User->Id : -1;
     $comment = new GalleryComment();

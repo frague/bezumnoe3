@@ -18,7 +18,7 @@
 
         $r = substr($comment->Index, 0, 4)."_".$comment->ForumId;
 
-        if (!$sorted[$r]) {
+        if (!isset($sorted[$r])) {
             $sorted[$r] = array();
         }
         array_push($sorted[$r], $comment);

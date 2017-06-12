@@ -9,7 +9,6 @@
     $perPage = $cols * $row;
     $show_from = round(LookInRequest("from"));
     $galleryId = round(LookInRequest(Gallery::ID_PARAM));
-    $from = round($_GET["from"]);
     $lastModified = "";
 
     if (!$galleryId) {
@@ -33,12 +32,12 @@
     $meta_description = "Фотогалерея '".MetaContent($gallery->Title)."'";
 
     $photo = new GalleryPhoto();
-    $q = $photo->GetForumThreads($gallery->Id, $user, $from * $perPage, $perPage);
+    $q = $photo->GetForumThreads($gallery->Id, $access, $show_from * $perPage, $perPage);
 
     $c = 0;
     $amount = $q->NumRows();
 
-    $result.= "<table class='preview'>";
+    $result = "<table class='preview'>";
     while ($c < $amount) {
         $result.= "<tr>";
         for ($i = 0; $i < $row; $i++) {
@@ -61,7 +60,7 @@
     $q->Release();
 
     $threads = $photo->GetForumThreadsCount($gallery->Id, $access);
-    $pager = new Pager($threads, $perPage, $from, $gallery->BasePath());
+    $pager = new Pager($threads, $perPage, $show_from, $gallery->BasePath());
     $result.= $pager;
 
     // Printing

@@ -10,14 +10,16 @@
 
     session_cache_limiter("private_no_expire");
 
+    global $root;
+
     $isAdmin = false;
     $isSuperAdmin = false;
-    $version = $_GET["ver"];
+    $version = isset($_GET["ver"]) ? $_GET["ver"] : false;
     if ($version) {
 
         require_once "../server_references.php";
 
-        $user = GetAuthorizedUser($dbMain, true);
+        $user = GetAuthorizedUser($db, true);
 
         if ($user->IsAdmin()) {
             $isAdmin = true;

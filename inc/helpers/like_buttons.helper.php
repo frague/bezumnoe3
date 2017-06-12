@@ -1,9 +1,13 @@
 <?php
     require_once $root."inc/classes/like_buttons.class.php";
 
+    $like_buttons_classes = array(VkLikeButton::class, TwitterLikeButton::class, GooglePlusButton::class, FacebookLikeButton::class);
+
     function GetHeadIncludes() {
+        global $like_buttons_classes;
+
         $result = "";
-        foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
+        foreach ($like_buttons_classes as $b) {
             $button = new $b();
             $result .= $button->getHeadContent()."\n";
         }
@@ -24,8 +28,10 @@
     }
 
     function FillButtonObjects($title = "", $description = "", $url = "", $image = "", $site_name = "", $tags = "") {
+        global $like_buttons_classes;
+        
         $result = array();
-        foreach (array(VkLikeButton, TwitterLikeButton, GooglePlusButton, FacebookLikeButton) as $b) {
+        foreach ($like_buttons_classes as $b) {
             array_push($result, new $b($title, $description, $url, $image, $site_name, $tags));
 
         }

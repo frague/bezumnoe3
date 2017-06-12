@@ -10,7 +10,7 @@
 
     $alias = substr(LookInRequest(JournalSettings::PARAMETER), 0, 20);
     $record_id = round(LookInRequest(JournalRecord::ID_PARAM));
-    $from = round($_GET["from"]);
+    $from = round(LookInRequest("from"));
 
     // No record ID specified
     if ($record_id <= 0) {
@@ -83,7 +83,7 @@
     $postAccess = ($access >= Journal::FRIENDLY_ACCESS);
 
     $record->Content = RenderPostsLinks(ReplaceLinks($record->Content, $record->Id, $alias));
-    echo $record->ToPrint($author);
+    echo $record->ToPrint($record->Author);
 
     if (!$record->IsCommentable) {
         echo "<div class='ErrorHolder'><h2>Ошибка</h2>Комментарии к данному сообщению отключены.</div>";
@@ -163,7 +163,7 @@
             $l = $lines[$i];
             $record = $l["record"];
             $record->Level = $record->Level - $min_level;
-            echo $record->ToExtendedString($level, $l["avatar"], ($l["lastMessageDate"] ? $l["alias"] : ""), $user, $yesterday);
+            echo $record->ToExtendedString($level, $l["avatar"], (isset($l["lastMessageDate"]) ? $l["alias"] : ""), $user, $yesterday);
             $level = $record->Level;
         }
 

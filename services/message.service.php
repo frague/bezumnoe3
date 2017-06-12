@@ -48,7 +48,7 @@
 	if ($recepients == "-1") {
 		$recepients = "";
 	}
-	$recs = split(",", substr($recepients, 0, 1024));
+	$recs = explode(",", substr($recepients, 0, 1024));
 	$type = ereg_replace("[^a-z]", "", substr(strtolower($_POST["type"]), 0, 50));
 
 	if ($message || $type == "away" || $type == "quit" || $type == "kick" || $type == "ban" || strpos($type, "topic") !== 0) {

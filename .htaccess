@@ -180,3 +180,6 @@ RewriteRule ^rating.html$ rating [R=301,L]
 
 # Telegram
 RewriteRule ^t/([A-Z0-9]+)$ t/index.php?uuid=$1 [L]
+
+RewriteRule .* - [E=HTTP_IF_NONE_MATCH:%{HTTP:If-None-Match}]
+RewriteRule .* - [E=HTTP_X_FORWARDED_FOR:%{HTTP:X-Forwarded-For}]

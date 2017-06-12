@@ -38,6 +38,9 @@
       global $tagsStack;
 
         $tag = strtolower($tag);
+        if (!isset($tagsStack[$tag])) {
+            $tagsStack[$tag] = array();
+        }
         
         if (!preg_match("/^(li|p|link|img|area)$/i", $tag)) {
             if ($order != "/") {
@@ -53,7 +56,13 @@
 
     // Collect opened tags in stack
     function CloseTags($text) {
-        $text = preg_replace("/<(\/?)([a-z0-9]+)(>| )/ie", "TagStack('\\2','\\1','\\3')", $text);
+        $text = preg_replace_callback(
+            "/<(\/?)([a-z0-9]+)(>| )/i",
+            function($matches) {
+                return TagStack($matches[2], $matches[1], $matches[3]); 
+            },
+            $text
+        );
         return $text;
     }
 

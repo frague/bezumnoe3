@@ -39,7 +39,7 @@
     $messagesPerPage = 20;
     $level = 0;
 
-    $answers = $record->AnswersCount - ($forumAccess ? 0 : $record->DeletedCount);
+    $answers = $record->AnswersCount - ($access ? 0 : $record->DeletedCount);
     // $forumId, $access, $index, $from, $amount
     $q = $record->GetByIndex(
         $record->ForumId,
@@ -49,7 +49,7 @@
         $messagesPerPage);
 
 //  $result = ($forum->IsProtected ? "" : "<style>#IsProtected {display:none;}</style>");
-    $result.= "<ul class='thread'>";
+    $result = "<ul class='thread'>";
     for ($i = 0; $i < $q->NumRows(); $i++) {
         $q->NextResult();
 

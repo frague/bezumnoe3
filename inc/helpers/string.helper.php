@@ -216,13 +216,23 @@
     }
 
     function MakeUrls($source) {
-        return preg_replace("/(=?\'?\"?)([a-z0-9_\.()~\-]+@[a-z0-9\-]+(\.[a-z0-9~\-_\!]+)+)/ie","MakeLink('\\2','\\1')", $source);
+        return preg_replace_callback(
+            "/(=?\'?\"?)([a-z0-9_\.()~\-]+@[a-z0-9\-]+(\.[a-z0-9~\-_\!]+)+)/i",
+            function($matches) {
+                return MakeLink($matches[2], $matches[1]); 
+            }, 
+            $source
+        );
     }
 
     function MakeLinks($a, $imagesMode = false) {
-        $a = MakeUrls($a);
-        $a = preg_replace("/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;,]+)+)/ie","MakeLink('\\3','\\1',\$imagesMode)", $a);
-        return $a;
+        return preg_replace_callback(
+            "/((image:url\()?=?\'?\"?)((ftp:\/\/|http:\/\/|shttp:\/\/|https:\/\/)[a-z0-9_\.\(\)~\-]+(\.[a-z0-9~\-\/%#@&\+_\?=\[\]:;,]+)+)/i",
+            function($matches) use ($imagesMode) {
+                return MakeLink($matches[3], $matches[1], $imagesMode);
+            },
+            MakeUrls($a)
+        );
     }
 
     function OuterLink($url, $proto, $btw) {
@@ -238,9 +248,13 @@
     }
 
     function OuterLinks($a) {
-        $linkExp = "/<a ([^>]*)href=[\'\"]{0,1}((http|shttp|ftp|https)):\/\/([^\ \'\">]+)[\'\"]?/ie";
-        $a = preg_replace($linkExp, "OuterLink(\"$4\",\"$2\", \"$1\")", $a);
-        return $a;
+        return preg_replace_callback(
+            "/<a ([^>]*)href=[\'\"]{0,1}((http|shttp|ftp|https)):\/\/([^\ \'\">]+)[\'\"]?/i", 
+            function($matches) {
+                return OuterLink($matches[4], $matches[2], $matches[1]);
+            },
+            $a
+        );
     }
 
     /* -------------------- Making Links -------------------- */
@@ -260,7 +274,7 @@
     }
 
     function MakeSqlSearchRequest($request, $template) {
-        $words = split(" ", ValidateSearchRequest($request));
+        $words = explode(" ", ValidateSearchRequest($request));
         $result = "";
         for ($i = 0; $i < sizeof($words); $i++) {
             if ($i == 1) {
@@ -274,7 +288,7 @@
     /* --------------------- Making quotes ------------------- */
 
     function UpdateQuotation($fromLevel, $toLevel) {
-        $resul = "";
+        $result = "";
         for ($i = 0; $i < abs($fromLevel - $toLevel); $i++) {
             $result .= ($fromLevel > $toLevel) ? "</cite>" : "<cite>";
         }
@@ -286,7 +300,7 @@
         $lastLevel = 0;
         $text = str_replace("\r", "", $text);
 
-        $lines = split("\n", $text);
+        $lines = explode("\n", $text);
         for ($i = 0; $i < sizeof($lines); $i++) {
             $line = $lines[$i];
             if (preg_match("/^((&gt;|>)+)/", $line, $matches)) {
@@ -323,13 +337,15 @@
         $variants = $counting[$word];
         $result = $word;
         if ($variants) {
-            list($two, $many) = split("\|", $variants);
+            list($two, $many) = explode("|", $variants, 2);
             $lastDigit = round(substr($amount, -1));
             $last2Digits = round(substr($amount, -2));
 
             $result = $many;
             if ($lastDigit == 1 && $last2Digits != 11) {$result = $word;}
-            if ($lastDigit >= 2 && $lastDigit <= 4 && ($last2Digits < 12 || $last2Digits > 14)) {$result = $two;}
+            if ($lastDigit >= 2 && $lastDigit <= 4 && ($last2Digits < 12 || $last2Digits > 14)) {
+                $result = $two;
+            }
         }
         return ($amount ? $amount : $null)." ".$result;
     }
@@ -338,7 +354,7 @@
         if (!$text || !$pattern) {
             return "";
         }
-        $words = split("[   ]", $text);
+        $words = explode("[   ]", $text);
         $result = "";
         for ($i = 0; $i < sizeof($words); $i++) {
             $word = $words[$i];

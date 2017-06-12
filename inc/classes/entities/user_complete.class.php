@@ -84,7 +84,7 @@ class UserComplete extends EntityBase {
 
     function GetByPassword($login, $password) {
         if ($login && $password) {
-            $this->FillByCondition("t1.".User::LOGIN."='".SqlQuote($login)."' AND t1.".User::PASSWORD."='".SqlQuote(Encode($password))."' AND t1.".User::GUID." NOT LIKE '\\_%'", $this->db);
+            $this->FillByCondition("t1.".User::LOGIN."='".SqlQuote($login)."' AND t1.".User::PASSWORD."='".SqlQuote(Encode($password))."' AND t1.".User::GUID." NOT LIKE '\\_%'");
         } else {
             $this->Clear();
         }

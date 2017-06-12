@@ -37,7 +37,7 @@
     }
 
     $p->PrintHeader();
-    $result.= $forum->ToPrint("forum.php");
+    $result = $forum->ToPrint("forum.php");
     $threadsPerPage = 20;
 
     $record = new ForumRecord();

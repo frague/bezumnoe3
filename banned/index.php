@@ -16,9 +16,10 @@
 На этой странице собраны все нарушители чата, отбывающие наказание в виде бана.
 
 <h2>Нарушители:</h2>
-<?php include $root."inc/ui_parts/banned.php"; ?>
 
-<?php
+<?php 
 
-    $p->PrintFooter();
+  include $root."inc/ui_parts/banned.php";
+  $p->PrintFooter();
+
 ?>

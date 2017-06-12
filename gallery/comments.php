@@ -8,7 +8,7 @@
     $messagesPerPage = 20;
 
     $record_id = round(LookInRequest(GalleryPhoto::ID_PARAM));
-    $from = round($_GET["from"]);
+    $from = round(LookInRequest("from"));
 
     if ($record_id <= 0) {
         DieWith404();
@@ -25,6 +25,16 @@
     $gallery->Retrieve();
     if ($gallery->IsEmpty()) {
         DieWith404();
+    }
+
+    $access = 1 - $gallery->IsProtected;
+    if ($someoneIsLogged) {
+        $access = $gallery->GetAccess($user->User->Id);
+    }
+
+    if ($access == Gallery::NO_ACCESS || $gallery->IsHidden) {
+        ErrorPage("У вас нет доступа к данной фотогалерее.", "Права доступа к галерее ограничены владельцем.");
+        die;
     }
 
     $meta_description = MetaContent("Фотогалерея \"".$gallery->Title."\": ".$record->Title);
@@ -58,7 +68,7 @@
         $comment = new GalleryComment();
         $q = $comment->GetByIndex(
             $record->ForumId,
-            $user,
+            $access,
             $record->Index."_",
             $from * $messagesPerPage,
             $messagesPerPage,

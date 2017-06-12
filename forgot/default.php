@@ -9,9 +9,6 @@
 
     require_once $root."references.php";
 
-
-
-
     $errors = array();
 
     $doSave = LookInRequest("DO_SAVE");

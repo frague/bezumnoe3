@@ -101,7 +101,7 @@
     function BirthdayDate($d) {
       global $MonthsNamesForDate, $MonthsNames;
 
-        $parts = split("-", $d);
+        $parts = explode("-", $d);
         if (sizeof($parts) != 3) {
             return $d;
         }
