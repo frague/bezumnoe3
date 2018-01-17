@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /js
-Disallow: /options
-Disallow: /migration
-Disallow: /services
-Allow: /
-Disallow: /proofs
