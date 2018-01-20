@@ -1,0 +1,121 @@
+@charset "utf-8";
+/* CSS Document */
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	background: #ffffff;
+	font:11pt normal Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+
+img {
+	border: 0;
+}
+
+a {color: #007dc2;
+text-decoration:underline;
+}
+
+a:hover {color: #007dc2;
+text-decoration:none;
+}
+
+.header,
+.main,
+.footer {
+	width: 860px;
+}
+
+/* HEADER */
+
+.header {
+	margin: 35px auto;
+	height: 105px;
+	background: transparent url(../logo.png) center right no-repeat;
+	position: relative;
+}
+
+.htext {
+	color: #2c77bc;
+	font-size: 24pt;
+	font-weight: bold;	
+	line-height: 22pt;
+	position: absolute;
+	bottom:2px;
+	left:0px;
+}
+
+.himg {
+	float: left;
+	margin-left:315pt;
+}
+
+/* MAIN */
+
+.main {
+	margin: 0 auto;
+}
+
+.page {
+	float:left;
+}
+
+.banner {
+float: right;
+width: 220px !important;
+height: 400 px !important;
+}
+
+p {
+	margin-bottom: 25px;
+}
+
+ul {
+	list-style:disc;
+	list-style-position:outside;
+	margin-left: 25px;
+}
+
+li {
+	margin-bottom: 15px;
+}
+
+.return_link {
+padding: 0 25px 0 0;
+background: transparent url(../btn_return.png) no-repeat right center;
+}
+
+
+.search {
+		padding: 15px 20px 15px 0;
+	margin-bottom:10px;
+	position: relative;
+}
+
+.search_box .searchbutton {
+color: #333333;
+position: absolute;
+right: 70px;
+top: 37px;
+}
+
+.search_box .text {
+	width: 560px;
+	padding: 2px;
+	margin-top: 5px;
+	border: 1px solid #999999;
+}
+
+.adv {
+	border-top: 1px solid #f1f1f1;
+}
+
+.adv .title {
+	color: #c2c2c2;
+	font-size: 80%;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}

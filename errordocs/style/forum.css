@@ -1,0 +1,14 @@
+td {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 84%; color: #23404F;}
+.tit {color:#FFFFFF; font-weight: bold; margin-left:10px; margin-right:10px; margin-top: 4px; margin-bottom: 4px}
+.tit2 {font-size: 120%; color:#000000; font-weight: bold; margin-left: 10px; margin-top: 5px; margin-bottom: 5px}
+a:link {color: #007DC2}
+a:visited {color: #007DC2}
+.link1 { font-size: 85%; color: #007DC2; }
+a:link.link1 { color: #007DC2; }
+a:visited.link1 { color: #007DC2; }
+.m_all { margin-left:12px; margin-right:12px; margin-top: 5px; margin-bottom: 5px; }
+.m_link1 { margin-left: 25px; margin-top: 10px; margin-bottom: 10px; }
+.small { font-size: 85%; color: #666666; }
+.color { color: #666666; }
+.nickname { font-size: 100%; color:#000000; font-weight: bold; margin-left: 10px; margin-top: 5px; margin-bottom: 2px; }
+

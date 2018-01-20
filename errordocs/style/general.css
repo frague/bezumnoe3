@@ -1,0 +1,45 @@
+* {margin:0;padding:0;}
+body { background-color:#ffffff }
+td {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 84%; color: #23404F;}
+h1 { font-size: 162%; margin-bottom: 20px; margin-top: 30px; font-weight: 100; }
+h2 { font-size: 140%; margin-bottom: 15px; margin-top: 20px; font-weight: 100; color:#F7971D; }
+a:link { color: #007DC2; }
+a:visited {	color: #606060; }
+a:hover	{ color: #D07D00; }
+.small { font-size: 85%; }
+.panel { color: #007DC2; }
+a:link.panel { color: #007DC2; }
+a:visited.panel { color: #007DC2; }
+.panelact { color: #f79622; }
+.subpanel { font-size: 85%; color: #007DC2; }
+a:link.subpanel { color: #007DC2; }
+a:visited.subpanel { color: #007DC2; }
+.subpanelact { font-size: 85%; color: #f79622; font-weight:bold; }
+a:link.subpanelact { color: #f79622; }
+a:visited.subpanelact { color: #f79622; }
+.reg { font-size: 120%; color: #F7971D; font-weight: bold;}
+a:link.reg { color: #f74f22; }
+a:visited.reg { color: #f74f22; }
+.qw { font-size: 120%; font-weight: bold; color: #007DC2;}
+a:link.qw { font-size: 120%; font-weight: bold;}
+.small_or { font-size: 85%; color: #F7971D; }
+.big { font-size: 380%; font-weight:100; color: #666666; }
+.slog { font-size: 138%; color: #687880; }
+.licont1 { font-size: 120%; color: #F7971D; font-weight: bold; margin-top: 20px; margin-bottom: -5px; }
+.li { margin-bottom: 7px; list-style-type: disc; }
+.ul { margin-top: 20px }
+.termstit { font-size: 128%; }
+li { list-style-type:disc; }
+.titfaq { font-size: 128%; }
+.sup1 { margin-bottom: 10px }
+.sup2 { margin-bottom: 6px; margin-top: 22px; }
+.subul { margin-top: 8px; margin-bottom: 8px; }
+.list1 { margin-bottom: 3px; }
+.li1 { color: #007dc2; }
+.info { font-size: 85%; }
+.code { font-size: 120%; }
+pre { margin-bottom: 1px; margin-top: 1px; }
+.tree { font-size: 90%; color: #007DC2; }
+a:link.tree { color: #007DC2; }
+a:visited.tree { color: #007DC2; }
+.mar { margin-top: 7px; margin-bottom: 7px; margin-left: 7px; margin-right: 7px; }

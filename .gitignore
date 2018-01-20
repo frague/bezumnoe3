@@ -1,5 +1,6 @@
-.sass-cache
-.DS_Store
+stats
+logs
+php
+ftpsync.settings
 node_modules
 
-ftpsync.settings
