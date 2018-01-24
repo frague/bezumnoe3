@@ -1,6 +1,5 @@
 #!/usr/local/bin/python
-from flask import Flask, request
+import requests
 
-app = Flask('daemon')
-
-app.run('0.0.0.0', 4201)
+r = requests.get("http://0.0.0.0:5000")
+print r.content
