@@ -1,5 +1,11 @@
 #!/usr/local/bin/python
 import requests
 
-r = requests.get("http://0.0.0.0:5000")
-print r.content
+print "Content-type: text/html\n\n"
+
+try:
+  r = requests.get("http://localhost:5000/")
+except Exception as e:
+  print e
+else:
+  print r.content
