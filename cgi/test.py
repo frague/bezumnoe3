@@ -1,11 +1,13 @@
-#!/usr/local/bin/python
-import requests
+from flask import Flask
+app = Flask(__name__)
+counter = 0
 
-print "Content-type: text/html\n\n"
+@app.route('/api')
+def increase():
+  global counter
 
-try:
-  r = requests.get("http://localhost:5000/")
-except Exception as e:
-  print e
-else:
-  print r.content
+  counter += 1
+  return str(counter)
+
+#if __name__ == '__main__':
+#  app.run()
