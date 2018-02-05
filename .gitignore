@@ -4,3 +4,4 @@ php
 ftpsync.settings
 node_modules
 
+.git-ftp.log
