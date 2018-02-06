@@ -1,0 +1,22 @@
+from shared.db import db
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(50))
+    room_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
+    session = db.Column(db.String(50))
+    session_pong = db.Column(db.DateTime)
+    session_check = db.Column(db.String(50))
+    session_address = db.Column(db.String(50))
+    away_message = db.Column(db.String(250))
+    away_time = db.Column(db.DateTime)
+    kick_messages = db.Column(db.String(250))
+    banned_till = db.Column(db.DateTime)
+    ban_reason = db.Column(db.String(250))
+    banned_by_id = db.Column(db.Integer)
+    guid = db.Column(db.String(50))
+    login_guid = db.Column(db.String(50), nullable=False)
+    checksum = db.Column(db.Integer)
+    is_deleted = db.Column(db.Boolean)

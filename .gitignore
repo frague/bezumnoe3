@@ -5,3 +5,4 @@ ftpsync.settings
 node_modules
 
 .git-ftp.log
+.DS_Store
