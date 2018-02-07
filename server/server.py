@@ -3,12 +3,14 @@ from models.user import User
 from shared.db import db
 
 from api.authenticate import authenticate
+from api.health import health
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://frague_mysql:+MU7qAqh@frague.mysql/frague_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.register_blueprint(authenticate)
+app.register_blueprint(health)
 
 db.init_app(app)
 
