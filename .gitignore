@@ -6,3 +6,4 @@ node_modules
 
 .git-ftp.log
 .DS_Store
+*.pyc
