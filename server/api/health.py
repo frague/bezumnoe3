@@ -1,8 +1,6 @@
-from flask import Blueprint, abort
-from shared.config import api_prefix
+from flask.views import MethodView
 
-health = Blueprint('health', __name__)
+class StatusAPI(MethodView):
 
-@health.route('%sstatus' % api_prefix, methods=['GET'])
-def api_health():
-	print 'OK'
+    def get(self):
+    	return 'OK'
