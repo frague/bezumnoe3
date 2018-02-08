@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask_restplus import Api, Resource, fields, apidoc
+from flask_restplus import Api
 
 from health import api as ns_health
 
@@ -8,7 +8,3 @@ api = Api(blueprint, version='1.0', title='API', description='bezumnoe.ru public
 
 for ns in [ns_health]:
     api.add_namespace(ns)
-
-@api.documentation
-def swagger_ui():
-    return apidoc.ui_for(api)
