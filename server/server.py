@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from api import api
+from api import blueprint as api
 from shared.db import db
 
 from models.user import User
@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 print(mysql_host)
 
 db.init_app(app)
-api.init_app(app)
+app.register_blueprint(api)
 
 with app.app_context():
     try:
