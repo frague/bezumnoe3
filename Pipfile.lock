@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "54ba034e491b85b799315fe088379c0e8527b7fb3e8a9360fd76efde0229370f"
+            "sha256": "879b2e740e9f636f5c6f8fb98ee3a24f72746160ffd0758682fb041e19df7efd"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -9,12 +9,12 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "4.4.0-101-generic",
-            "platform_system": "Linux",
-            "platform_version": "#124-Ubuntu SMP Fri Nov 10 18:29:59 UTC 2017",
-            "python_full_version": "2.7.12",
+            "platform_release": "17.4.0",
+            "platform_system": "Darwin",
+            "platform_version": "Darwin Kernel Version 17.4.0: Sun Dec 17 09:19:54 PST 2017; root:xnu-4570.41.2~1/RELEASE_X86_64",
+            "python_full_version": "2.7.13",
             "python_version": "2.7",
-            "sys_platform": "linux2"
+            "sys_platform": "darwin"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -54,13 +54,12 @@
             ],
             "version": "==0.10.1"
         },
-        "functools32": {
+        "flask-sqlalchemy": {
             "hashes": [
-                "sha256:f6253dfbe0538ad2e387bd8fdfd9293c925d63553f5813c4e587745416501e6d",
-                "sha256:89d824aa6c358c421a234d7f9ee0bd75933a67c29588ce50aaa3acdf4d403fa0"
+                "sha256:3bc0fac969dd8c0ace01b32060f0c729565293302f0c4269beed154b46bec50b",
+                "sha256:5971b9852b5888655f11db634e87725a9031e170f37c0ce7851cf83497f56e53"
             ],
-            "markers": "python_version == '2.7'",
-            "version": "==3.2.3.post2"
+            "version": "==2.3.2"
         },
         "itsdangerous": {
             "hashes": [

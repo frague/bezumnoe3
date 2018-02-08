@@ -1,6 +1,9 @@
-from flask.views import MethodView
+from flask_restplus import Namespace, Resource, fields
 
-class StatusAPI(MethodView):
+api = Namespace('health', description='Health statistics')
 
+@api.route('/status')
+class HealthAPI(Resource):
+    @api.doc('get_status')
     def get(self):
     	return 'OK'

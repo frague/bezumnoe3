@@ -1,31 +1,35 @@
-#!/usr/local/bin/python
-# coding: utf-8
-
+import os
 from flask import Flask
-from models.user import User
+from api import api
 from shared.db import db
-from shared.config import api_prefix
 
-from api.authenticate import AuthenticateAPI
-from api.health import StatusAPI
+from models.user import User
+
+mysql_host = os.environ.get('mysql_host', 'localhost')
+mysql_user = os.environ.get('mysql_user', 'root')
+mysql_pass = os.environ.get('mysql_pass')
+mysql_db_name = os.environ.get('mysql_db_name', 'db')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://frague_mysql:+MU7qAqh@frague.mysql/frague_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://%s:%s@%s/%s' % (mysql_user, mysql_pass, mysql_host, mysql_db_name)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['SQLALCHEMY_ECHO'] = True
 
-app.add_url_rule('%s/status' % api_prefix, view_func=StatusAPI.as_view('status'))
-app.add_url_rule('%s/authenticate' % api_prefix, view_func=AuthenticateAPI.as_view('authenticate'))
+print(mysql_host)
 
 db.init_app(app)
+api.init_app(app)
 
 with app.app_context():
-    db.engine.execute('SET NAMES utf8')
-    db.engine.execute('SET character_set_connection=utf8')
+    try:
+        db.engine.execute('SET NAMES utf8')
+        db.engine.execute('SET character_set_connection=utf8')
 
-    query = User.query.options()
-    for user in query:
-        print user.login, user.id
+        query = User.query.options()
+        for user in query:
+            print user.login, user.id
+    except Exception:
+        print("Unable to connect to the database")
 
 
 if __name__ == '__main__':
