@@ -1,4 +1,4 @@
-from flask_restplus import Namespace, Resource, fields
+from flask_restplus import Namespace, Resource
 
 api = Namespace('health', description='Health statistics')
 

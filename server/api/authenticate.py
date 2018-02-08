@@ -1,12 +1,22 @@
 from flask import abort
-from flask.views import MethodView
-from shared.utils import get_post
+from webargs import fields
+from webargs.flaskparser import use_args
+from flask_restplus import Namespace, Resource
 
-class AuthenticateAPI(MethodView):
+api = Namespace('authentication', description='User authentication')
 
-    def post(self):
-        login = get_post('login')
-        password = get_post('password')
+login_args = {
+    'login': fields.Str(required=True),
+    'password': fields.Str(required=True)
+}
+
+@api.route('/')
+class AuthenticateAPI(Resource):
+    @api.doc('authenticate_user')
+    @use_args(login_args)
+    def post(self, args):
+        login = args['login']
+        password = args['password']
         if login is None or password is None:
-            abort(404)
+            return abort(404)
         return 'Aaaa!'
