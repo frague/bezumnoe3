@@ -25,7 +25,7 @@ class AuthenticateAPI(Resource):
     @api.expect(login_fields)
     @api.response(200, 'Success')
     @api.response(403, 'Not authenticated')
-    @use_args(post_args, locations=('form', ))
+    @use_args(post_args, locations=('json', ))
     def post(self, form, cookies):
         login = form['login']
         password = form['password']
