@@ -22,7 +22,6 @@ post_args = {
 
 @api.route('/')
 class AuthenticateAPI(Resource):
-    @api.doc('Log in')
     @api.expect(login_fields)
     @api.response(200, 'Success')
     @api.response(404, 'Authentication data not found')
@@ -56,7 +55,6 @@ class AuthenticateAPI(Resource):
 
     @api.response(200, 'Success')
     @api.response(404, 'Authentication data not found')
-    @api.doc('Log out')
     def delete(self):
         bzmn = session.get('bzmn', None)
         if bzmn is None:
