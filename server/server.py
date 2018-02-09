@@ -1,4 +1,5 @@
 import os
+import uuid
 from flask import Flask
 from api import blueprint as api
 from shared.db import db
@@ -11,6 +12,7 @@ mysql_pass = os.environ.get('mysql_pass')
 mysql_db_name = os.environ.get('mysql_db_name', 'db')
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('secret_key', uuid.uuid4().hex)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://%s:%s@%s/%s' % (mysql_user, mysql_pass, mysql_host, mysql_db_name)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['SQLALCHEMY_ECHO'] = True

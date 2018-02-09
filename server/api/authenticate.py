@@ -16,27 +16,22 @@ login_fields = api.model('User', {
 })
 
 post_args = {
-    'login': parse_fields.Str(required=True),
-    'password': parse_fields.Str(required=True)
+    'login': parse_fields.Str(missing=None),
+    'password': parse_fields.Str(missing=None)
 }
 
 @api.route('/')
 class AuthenticateAPI(Resource):
     @api.expect(login_fields)
     @api.response(200, 'Success')
-    @api.response(403, 'Not authenticated')
+    @api.response(404, 'Authentication data not found')
     @use_args(post_args, locations=('json', ))
     def post(self, form):
         login = form['login']
         password = form['password']
-        bzmn = session['bzmn']
+        bzmn = session.get('bzmn', None)
 
-        if bzmn is not None:
-            # Authentication via session token
-            print('Auth via session: %s' % (bzmn, ))
-            logged_user = User.query.filter_by(session=bzmn).first_or_404()
-
-        elif login is not None and password is not None:
+        if login is not None and password is not None:
             # Authenticate via login & password
             password = hashlib.md5(password).hexdigest()
             print('Auth via login & password: %s:%s' % (login, password))
@@ -44,11 +39,16 @@ class AuthenticateAPI(Resource):
             logged_user.session = uuid.uuid4().hex
             session['bzmn'] = logged_user.session
 
+        elif bzmn is not None:
+            # Authentication via session token
+            print('Auth via session: %s' % (bzmn, ))
+            logged_user = User.query.filter_by(session=bzmn).first_or_404()
+
         else:
             # Not found
-            return abort(400)
+            return abort(404)
 
-        logged_user.session_pong = datetime.datetime.now().isoformat(' ')
+        logged_user.session_pong = datetime.now().isoformat(' ')
         db.session.add(logged_user)
         db.session.commit()
 
