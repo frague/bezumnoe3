@@ -2,21 +2,27 @@ from flask import abort
 from webargs import fields
 from webargs.flaskparser import use_args
 from flask_restplus import Namespace, Resource
+from models.user import User
 
 api = Namespace('authentication', description='User authentication')
 
-login_args = {
-    'login': fields.Str(required=True),
-    'password': fields.Str(required=True)
-}
+login_fields = api.model('', {
+    'login': fields.String(required=True),
+    'password': fields.String(required=True)
+})
 
 @api.route('/')
 class AuthenticateAPI(Resource):
-    @api.doc('authenticate_user')
-    @use_args(login_args)
+    @api.expect(login_fields)
+    @api.response(200, 'Success')
+    @api.response(403, 'Not authenticated')
+    @use_args(login_fields)
     def post(self, args):
         login = args['login']
         password = args['password']
         if login is None or password is None:
             return abort(404)
-        return 'Aaaa!'
+        logged_user = User.query.filter_by(login=login, password=password).first()
+        if logged_user is None:
+            return abort(400)
+        return logged_user.id
