@@ -26,7 +26,7 @@ class AuthenticateAPI(Resource):
     @api.response(200, 'Success')
     @api.response(403, 'Not authenticated')
     @use_args(post_args, locations=('json', ))
-    def post(self, form, cookies):
+    def post(self, form):
         login = form['login']
         password = form['password']
         bzmn = session['bzmn']
