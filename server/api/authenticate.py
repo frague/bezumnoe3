@@ -1,5 +1,5 @@
 from flask import abort
-from webargs import fields
+from webargs import fields as parse_fields
 from webargs.flaskparser import use_args
 from flask_restplus import Namespace, Resource
 from models.user import User
@@ -11,12 +11,17 @@ login_fields = api.model('', {
     'password': fields.String(required=True)
 })
 
+login_parse_fields = api.model('', {
+    'login': parse_fields.Str(required=True),
+    'password': parse_fields.Str(required=True)
+})
+
 @api.route('/')
 class AuthenticateAPI(Resource):
     @api.expect(login_fields)
     @api.response(200, 'Success')
     @api.response(403, 'Not authenticated')
-    @use_args(login_fields)
+    @use_args(login_parse_fields)
     def post(self, args):
         login = args['login']
         password = args['password']
