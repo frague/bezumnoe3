@@ -22,6 +22,7 @@ post_args = {
 
 @api.route('/')
 class AuthenticateAPI(Resource):
+    @api.doc('Log in')
     @api.expect(login_fields)
     @api.response(200, 'Success')
     @api.response(404, 'Authentication data not found')
@@ -51,5 +52,13 @@ class AuthenticateAPI(Resource):
         logged_user.session_pong = datetime.now().isoformat(' ')
         db.session.add(logged_user)
         db.session.commit()
-
         return logged_user.id
+
+    @api.response(200, 'Success')
+    @api.response(404, 'Authentication data not found')
+    @api.doc('Log out')
+    def delete(self):
+        bzmn = session.get('bzmn', None)
+        if bzmn is None:
+            abort(404)
+        session.pop('bzmn', None)
