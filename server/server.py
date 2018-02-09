@@ -25,9 +25,9 @@ with app.app_context():
         db.engine.execute('SET NAMES utf8')
         db.engine.execute('SET character_set_connection=utf8')
 
-        query = User.query.options()
-        for user in query:
-            print user.login, user.id
+        #query = User.query.options()
+        #for user in query:
+        #    print user.login, user.id
     except Exception:
         print("Unable to connect to the database")
 

@@ -1,9 +1,11 @@
 import hashlib
+import uuid
 from flask import abort
 from webargs import fields as parse_fields
 from webargs.flaskparser import use_args
 from flask_restplus import Namespace, Resource, fields
 from models.user import User
+from shared.db import db
 
 api = Namespace('authentication', description='User authentication')
 
@@ -28,9 +30,13 @@ class AuthenticateAPI(Resource):
         password = args['password']
         if login is None or password is None:
             return abort(404)
+
 	password = hashlib.md5(password).hexdigest()
         print('%s:%s' % (login, password))
-        logged_user = User.query.filter_by(login=login, password=password).first()
-        if logged_user is None:
-            return abort(400)
+        logged_user = User.query.filter_by(login=login, password=password).first_or_404()
+
+        logged_user.session = uuid.uuid4().hex
+        db.session.add(logged_user)
+        db.session.commit()
+
         return logged_user.id
