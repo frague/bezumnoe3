@@ -20,6 +20,19 @@ post_args = {
     'password': parse_fields.Str(missing=None)
 }
 
+def authenticated(api_method):
+    def func_wrapper(*args, **kwargs):
+        bzmn = session.get('bzmn', None)
+        # Authentication via session token
+        if bzmn is None:
+            return abort(404)
+        else:
+            print('Auth via session: %s' % (bzmn, ))
+            logged_user = User.query.filter_by(session=bzmn).first_or_404()
+            return api_method(*args, **kwargs)
+    return func_wrapper
+
+
 @api.route('/')
 class AuthenticateAPI(Resource):
     @api.expect(login_fields)
@@ -53,10 +66,9 @@ class AuthenticateAPI(Resource):
         db.session.commit()
         return logged_user.id
 
+
+    @authenticated
     @api.response(200, 'Success')
     @api.response(404, 'Authentication data not found')
     def delete(self):
-        bzmn = session.get('bzmn', None)
-        if bzmn is None:
-            abort(404)
         session.pop('bzmn', None)
