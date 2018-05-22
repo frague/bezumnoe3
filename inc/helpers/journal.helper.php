@@ -7,7 +7,7 @@
 
     function ReplaceLinks($text, $messageId, $alias) {
         return str_replace(
-            "##LINK##", 
+            "##LINK##",
             JournalSettings::MakeHref($alias, $messageId),
             $text);
     }
@@ -143,6 +143,7 @@
         $result = str_replace("##DATE##", "<time datetime=\"".$textualDate."\" pubdate>".$fullDate."</time>", $result);
         $result = str_replace("##DAY##", $day, $result);
         $result = str_replace("##MONTH##", $month, $result);
+        $result = str_replace("##MONTHNAME##", $MonthsNames[$month], $result);
         $result = str_replace("##YEAR##", $year, $result);
         $result = str_replace("##TIME##", "<time datetime=\"".$textualDate."\" pubdate>".$messageTime."</time>", $result);
         $result = str_replace("##AUTHOR##", "<author>".$message->Author."</author>", $result);
@@ -227,7 +228,7 @@
             $bodyText = substr_replace($bodyText, $messageText, $position, strlen($messageChunk));
         }
     }
-    
+
     // Makes journal link
     function MakeJournalLink($alias, $text, $page = 0, $year = 0, $month = 0, $day = 0, $tag = "", $forFriends = 0) {
 
@@ -262,9 +263,9 @@
             $pages = ceil($totalRecords / $showMessages);
             for ($i = 0; $i < $pages; $i++) {
                 $result .= ($i ? " | " : "").
-                    ($currentPage == $i * $showMessages ? 
-                    "<b>".($i+1)."</b>" : 
-                    ($datesCondition ? 
+                    ($currentPage == $i * $showMessages ?
+                    "<b>".($i+1)."</b>" :
+                    ($datesCondition ?
                         MakeJournalLink($alias, $i+1, $i, $year, $month, $day, "", $forFriends) :
                         MakeJournalLink($alias, $i+1, $i, 0, 0, 0, $tag, $forFriends))
                         );
