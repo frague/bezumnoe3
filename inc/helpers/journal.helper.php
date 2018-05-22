@@ -148,6 +148,7 @@
         $result = str_replace("##TIME##", "<time datetime=\"".$textualDate."\" pubdate>".$messageTime."</time>", $result);
         $result = str_replace("##AUTHOR##", "<author>".$message->Author."</author>", $result);
 
+        $kind = "";
         switch ($message->Type) {
             case 2:
                 $kind = "private";
@@ -174,6 +175,8 @@
                 $userUrlName,
                 0,
                 $commentsCount);
+        } else {
+            $commentsCount = "a";
         }
         $result = str_replace("##COMMENTS##", $comments, $result);
         $result = str_replace("##COMMENTSN##", $commentsN, $result);
