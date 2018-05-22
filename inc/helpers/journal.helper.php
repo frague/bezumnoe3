@@ -3,7 +3,6 @@
     // Constants
     $messageChunk = "##MESSAGE##";
 
-    
     /* Service methods */
 
     function ReplaceLinks($text, $messageId, $alias) {
@@ -19,7 +18,7 @@
         $caption = str_replace("\\\"", "&quot;", $caption);
         return "<span class='cutlink'>(<a href='##LINK###cut".$cutCount++."'>".($caption ? $caption : "Подробнее")."</a>)</span>";
     }
-    
+
     $cutCount = 1;
     function MakeCutLink($text) {
       global $cutCount;
@@ -39,7 +38,7 @@
       global $tagsStack;
 
         $tag = strtolower($tag);
-        
+
         if (!eregi("^(li|p|link|img|area)$", $tag)) {
             if ($order != "/") {
                 $tagsStack[$tag]++;
@@ -140,7 +139,7 @@
         $messageTime = date("H:i", $msgTime);
 
         $textualDate = date("c", $msgTime);
-        
+
         $result = str_replace("##DATE##", "<time datetime=\"".$textualDate."\" pubdate>".$fullDate."</time>", $result);
         $result = str_replace("##DAY##", $day, $result);
         $result = str_replace("##MONTH##", $month, $result);
@@ -165,18 +164,19 @@
         $commentsCount = $message->AnswersCount - $message->DeletedCount;
         if ($message->IsCommentable) {
             $comments = JournalComment::MakeLink(
-                $message->Id, 
+                $message->Id,
                 $userUrlName,
-                0, 
+                0,
                 Countable("комментарий", $commentsCount, "нет"));
             $commentsN = JournalComment::MakeLink(
-                $message->Id, 
+                $message->Id,
                 $userUrlName,
-                0, 
+                0,
                 $commentsCount);
         }
         $result = str_replace("##COMMENTS##", $comments, $result);
         $result = str_replace("##COMMENTSN##", $commentsN, $result);
+        $result = str_replace("##COMMENTSCOUNT##", $commentsCount, $result);
 
         // Last comment date
         $lastCommentTime = "";
@@ -185,17 +185,18 @@
         }
         $result = str_replace("##LASTCOMMENTDATE##", $lastCommentTime, $result);
 
-        // Cut      
+        // Cut
         $content = FormatMessageBody($message, $userUrlName, $isSingleMessage);
         $result = str_replace("##BODY##", Smartnl2br($content), $result);
-        
+
         // Tags List
+        $tagsCount = 0;
         if (strpos($result, "##TAGS##") !== false) {
             $tag = new Tag();
             $q = $tag->GetByRecordId($message->Id);
             $tags = "";
-            $labels = $q->NumRows();
-            for ($i = 0; $i < $labels; $i++) {
+            $tagsCount = $q->NumRows();
+            for ($i = 0; $i < $tagsCount; $i++) {
                 $q->NextResult();
                 $tag->FillFromResult($q);
                 $tags .= $tag->ToPrint($i, $userUrlName);
@@ -203,10 +204,11 @@
             }
             $result = str_replace("##TAGS##", $tags, $result);
         }
+        $result = str_replace("##TAGSCOUNT##", $tagsCount, $result);
 
         // Link
         $result = ReplaceLinks($result, $message->Id, $userUrlName);
-        
+
         return $result;
     }
 
