@@ -1,6 +1,6 @@
 import os
 import uuid
-from flask import Flask
+from flask import Flask, send_from_directory
 from api import blueprint as api
 from shared.db import db
 
@@ -33,9 +33,9 @@ with app.app_context():
     except Exception:
         print("Unable to connect to the database")
 
-@app.route('/')
-def index():
-    return 'Hey yo!'
+@app.route('/<path:path>')
+def index(path):
+    return send_from_directory('../client/dist/client', path OR 'index.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000)
