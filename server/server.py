@@ -33,6 +33,9 @@ with app.app_context():
     except Exception:
         print("Unable to connect to the database")
 
+@app.route('/')
+def index():
+    return 'Hey yo!'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000)
