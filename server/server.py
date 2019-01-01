@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('secret_key', uuid.uuid4().hex)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://%s:%s@%s/%s' % (mysql_user, mysql_pass, mysql_host, mysql_db_name)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 #app.config['SQLALCHEMY_ECHO'] = True
 
 print(mysql_host)
@@ -33,9 +34,10 @@ with app.app_context():
     except Exception:
         print("Unable to connect to the database")
 
+@app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
 def index(path):
-    return send_from_directory('../client/dist/client', path or 'index.html')
+    return send_from_directory('../client/dist/client', path)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000)
