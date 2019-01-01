@@ -35,7 +35,7 @@ with app.app_context():
 
 @app.route('/<path:path>')
 def index(path):
-    return send_from_directory('../client/dist/client', path OR 'index.html')
+    return send_from_directory('../client/dist/client', path or 'index.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9000)
