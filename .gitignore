@@ -2,7 +2,7 @@ stats
 logs
 php
 ftpsync.settings
-node_modules
+client/node_modules
 
 .git-ftp.log
 .DS_Store
