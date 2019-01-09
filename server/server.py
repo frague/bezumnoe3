@@ -1,6 +1,7 @@
 import os
 import uuid
 from flask import Flask, send_from_directory
+from waitress import serve
 from api import blueprint as api
 from shared.db import db
 
@@ -40,4 +41,5 @@ def index(path):
     return send_from_directory('../client/dist/client', path)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9000)
+    #app.run(host='0.0.0.0', port=9000)
+    serve(app, host='0.0.0.0', port=9000)
