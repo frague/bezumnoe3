@@ -7,4 +7,4 @@ api = Namespace('health', description='Health statistics')
 class HealthAPI(Resource):
     @api.doc('get_status')
     def get(self):
-        return send_from_directory('../../', 'status.txt');
+        return send_from_directory('../', 'status.txt');
