@@ -19,21 +19,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #app.config['SQLALCHEMY_ECHO'] = True
 
-print(mysql_host)
-
 db.init_app(app)
 app.register_blueprint(api)
 
+mysql_status = ''
 with app.app_context():
     try:
         db.engine.execute('SET NAMES utf8')
         db.engine.execute('SET character_set_connection=utf8')
-
+        mysql_status = '* Connection to DB: OK'
         #query = UserModel.query.options()
         #for user in query:
         #    print user.login, user.id
     except Exception:
         print("Unable to connect to the database")
+        mysql_status = '* Connection to DB: Failure'
+
+with open('status.txt', 'a') as myfile:
+    myfile.write(mysql_status)
 
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')

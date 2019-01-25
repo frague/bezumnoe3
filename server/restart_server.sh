@@ -8,12 +8,12 @@ if [ -z "$PIDS" ]; then
 else
   for PID in $PIDS; do
     kill -9 $PID
-    echo "* Shutting down the server: $PID" >> status.txt
+    echo "* Shutting down running server PID $PID" >> status.txt
   done
 fi
 
 source ~/.bashrc
 source activate bzmn
-echo "* Launching the fresh server instance" >> status.txt
+echo "* Launching fresh server instance..." >> status.txt
 pipenv install
 pipenv run python server.py > /dev/null 2>&1 & disown
