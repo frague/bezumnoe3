@@ -1,6 +1,6 @@
 from shared.db import db
 
-class UserModel(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50))

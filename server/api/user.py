@@ -2,13 +2,13 @@ from flask import abort, session
 from webargs import fields as parse_fields
 from webargs.flaskparser import use_args
 from flask_restplus import Namespace, Resource, fields
-from models.user import UserModel
+from models.user import User
 from shared.db import db
 from api.authenticate import authenticated
 
 api = Namespace('user', description='User api')
 
-register_fields = api.model('UserModel', {
+register_fields = api.model('User', {
     'login': fields.String(required=True),
     'password': fields.String(required=True)
 })
@@ -29,7 +29,7 @@ class Users(Resource):
     def get():
         pass
 
-login_fields = api.model('UserModel', {
+login_fields = api.model('User', {
     'login': fields.String(required=True),
     'password': fields.String(required=True)
 })

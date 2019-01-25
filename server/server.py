@@ -5,7 +5,7 @@ from waitress import serve
 from api import blueprint as api
 from shared.db import db
 
-from models.user import UserModel
+from models.user import User
 
 mysql_host = os.environ.get('mysql_host', 'localhost')
 mysql_user = os.environ.get('mysql_user', 'root')
@@ -28,7 +28,7 @@ with app.app_context():
         db.engine.execute('SET NAMES utf8')
         db.engine.execute('SET character_set_connection=utf8')
         mysql_status = '* Connection to DB: OK'
-        #query = UserModel.query.options()
+        #query = User.query.options()
         #for user in query:
         #    print user.login, user.id
     except Exception:
