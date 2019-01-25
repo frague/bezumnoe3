@@ -4,7 +4,7 @@ from webargs.flaskparser import use_args
 from flask_restplus import Namespace, Resource, fields
 from models.user import UserModel
 from shared.db import db
-from authenticate import authenticated
+from api.authenticate import authenticated
 
 api = Namespace('user', description='User api')
 

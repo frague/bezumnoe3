@@ -1,9 +1,9 @@
 from flask import Blueprint, url_for
 from flask_restplus import Api
 
-from health import api as ns_health
-from user import api as ns_user
-from authenticate import api as ns_auth
+from api.health import api as ns_health
+from api.user  import api as ns_user
+from api.authenticate import api as ns_auth
 
 version = '1.0'
 blueprint = Blueprint('api', __name__, url_prefix='/api/%s' % version)
