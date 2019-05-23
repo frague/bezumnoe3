@@ -32,11 +32,11 @@ with app.app_context():
         #for user in query:
         #    print user.login, user.id
     except Exception:
-        print("Unable to connect to the database")
+        print('Unable to connect to the database')
         mysql_status = '* Connection to DB: Failure'
 
 with open('status.txt', 'a') as myfile:
-    myfile.write(mysql_status)
+    myfile.write(mysql_status.'\n')
 
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
