@@ -96,6 +96,11 @@ ul {
     padding-bottom: 10px;
 }
 
+.Main p img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* Dividers */
 
 .Divider.Horizontal {
